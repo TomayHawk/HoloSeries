@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://dlxkifgl6lq80"]
+
+[ext_resource type="Script" path="res://scripts/npc_kobo.gd" id="1_vvi7b"]
+[ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/Nousagi.png" id="2_406lm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y10wm"]
+atlas = ExtResource("2_406lm")
+region = Rect2(0, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4gj0e"]
+atlas = ExtResource("2_406lm")
+region = Rect2(32, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07rst"]
+atlas = ExtResource("2_406lm")
+region = Rect2(64, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hh3mi"]
+atlas = ExtResource("2_406lm")
+region = Rect2(96, 0, 32, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0s1ce"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y10wm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4gj0e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_07rst")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hh3mi")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v1dxh"]
+size = Vector2(22, 8.25)
+
+[node name="NpcKobo" type="StaticBody2D"]
+y_sort_enabled = true
+position = Vector2(-50, -50)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_vvi7b")
+
+[node name="Animation" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_0s1ce")
+animation = &"idle"
+autoplay = "idle"
+offset = Vector2(0, 4)
+
+[node name="CollisionHitBox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 21.125)
+shape = SubResource("RectangleShape2D_v1dxh")

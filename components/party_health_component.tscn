@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://7k2ggxkhlakw"]
+
+[ext_resource type="Script" path="res://scripts/party_health_component.gd" id="1_tp35i"]
+
+[node name="PartyHealthComponent" type="Node"]
+script = ExtResource("1_tp35i")
+
+[node name="NaturalRegeneration" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="DeathTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="NaturalRegeneration" to="." method="_on_natural_regeneration_timeout"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]

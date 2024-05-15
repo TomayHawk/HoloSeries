@@ -1,0 +1,322 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgwg615uwmnap"]
+
+[ext_resource type="Script" path="res://scripts/combat_UI.gd" id="1_cmxe7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhv31"]
+bg_color = Color(0.235294, 0.235294, 0.235294, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05wxr"]
+bg_color = Color(0.235294, 0.235294, 0.235294, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+
+[node name="CombatUI" type="CanvasLayer"]
+script = ExtResource("1_cmxe7")
+
+[node name="CombatOptions" type="MarginContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_right = 128.0
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="CombatOptions"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rhv31")
+
+[node name="MarginContainer" type="MarginContainer" parent="CombatOptions"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CombatOptions/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Button" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Attack"
+
+[node name="Button2" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Skills"
+
+[node name="Button3" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "White Magic"
+
+[node name="Button4" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Black Magic"
+
+[node name="Button5" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Items"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CombatOptions/MarginContainer"]
+visible = false
+layout_mode = 2
+
+[node name="VScrollBar" type="VScrollBar" parent="CombatOptions/MarginContainer/ScrollContainer"]
+visible = false
+layout_mode = 2
+
+[node name="CharacterInfos" type="MarginContainer" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -328.0
+offset_top = -128.0
+offset_right = -24.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="CharacterInfos"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_05wxr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CharacterInfos"]
+layout_mode = 2
+
+[node name="Character1" type="MarginContainer" parent="CharacterInfos/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterInfos/VBoxContainer/Character1"]
+clip_contents = true
+layout_mode = 2
+
+[node name="CharacterName1" type="Label" parent="CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Character"
+vertical_alignment = 1
+
+[node name="Health" type="Label" parent="CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "HP"
+
+[node name="MarginContainer" type="MarginContainer" parent="CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_constants/margin_right = 8
+
+[node name="HealthAmount" type="Label" parent="CharacterInfos/VBoxContainer/Character1/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 8
+text = "#####"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MP" type="Label" parent="CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "MP"
+vertical_alignment = 1
+
+[node name="MPPoint" type="Label" parent="CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "####"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Character2" type="MarginContainer" parent="CharacterInfos/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterInfos/VBoxContainer/Character2"]
+clip_contents = true
+layout_mode = 2
+
+[node name="CharacterName2" type="Label" parent="CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Character"
+
+[node name="Health" type="Label" parent="CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "HP"
+
+[node name="HealthAmount" type="Label" parent="CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "#####"
+
+[node name="MP" type="Label" parent="CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "MP"
+
+[node name="MPPoint" type="Label" parent="CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "####"
+
+[node name="Character3" type="MarginContainer" parent="CharacterInfos/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterInfos/VBoxContainer/Character3"]
+clip_contents = true
+layout_mode = 2
+
+[node name="CharacterName3" type="Label" parent="CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Character"
+
+[node name="Health" type="Label" parent="CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "HP"
+
+[node name="HealthAmount" type="Label" parent="CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "#####"
+
+[node name="MP" type="Label" parent="CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "MP"
+
+[node name="MPPoint" type="Label" parent="CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "####"
+
+[node name="Character4" type="MarginContainer" parent="CharacterInfos/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterInfos/VBoxContainer/Character4"]
+clip_contents = true
+layout_mode = 2
+
+[node name="CharacterName4" type="Label" parent="CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Character"
+
+[node name="Health" type="Label" parent="CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "HP"
+
+[node name="HealthAmount" type="Label" parent="CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "#####"
+
+[node name="MP" type="Label" parent="CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "MP"
+
+[node name="MPPoint" type="Label" parent="CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "####"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_left = 952.0
+offset_top = 592.0
+offset_right = 1224.0
+offset_bottom = 704.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="MarginContainer"]
+layout_mode = 2
+rounded = true
+
+[node name="Options" type="MarginContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -94.0
+offset_bottom = 20.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 8
+
+[node name="Panel" type="Panel" parent="Options"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rhv31")
+
+[node name="MarginContainer2" type="MarginContainer" parent="Options"]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Options/MarginContainer2"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_constants/separation = 1
+
+[node name="Button" type="Button" parent="Options/MarginContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="Button2" type="Button" parent="Options/MarginContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+
+[node name="Button3" type="Button" parent="Options/MarginContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2

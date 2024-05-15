@@ -1,0 +1,149 @@
+[gd_scene load_steps=3 format=3 uid="uid://810cm81280q3"]
+
+[ext_resource type="Script" path="res://scripts/main_menu_options.gd" id="1_tgs5c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j2h6w"]
+bg_color = Color(0.0313726, 0.678431, 0.72549, 1)
+
+[node name="MainMenu" type="Node2D"]
+
+[node name="MainMenuOptions" type="CanvasLayer" parent="."]
+script = ExtResource("1_tgs5c")
+
+[node name="MenuMargin" type="MarginContainer" parent="MainMenuOptions"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -51.0
+offset_top = -177.0
+offset_right = 51.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 32
+
+[node name="Panel" type="Panel" parent="MainMenuOptions/MenuMargin"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_j2h6w")
+
+[node name="OptionsMargin" type="MarginContainer" parent="MainMenuOptions/MenuMargin"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuOptions/MenuMargin/OptionsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="PlayButton" type="Button" parent="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "NG/Continue"
+
+[node name="MultiplayerButton" type="Button" parent="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Multiplayer"
+
+[node name="SavesButton" type="Button" parent="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Saves"
+
+[node name="MiniGamesButton" type="Button" parent="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Mini Games"
+
+[node name="AchievementsButton" type="Button" parent="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Achievements"
+
+[node name="LeaderboardsButton" type="Button" parent="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Leaderboards"
+
+[node name="SettingsButton" type="Button" parent="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Settings"
+
+[node name="SavesMargin" type="MarginContainer" parent="MainMenuOptions"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 32
+
+[node name="Panel" type="Panel" parent="MainMenuOptions/SavesMargin"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_j2h6w")
+
+[node name="OptionsMargin" type="MarginContainer" parent="MainMenuOptions/SavesMargin"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuOptions/SavesMargin/OptionsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="FirstSaveButton" type="Button" parent="MainMenuOptions/SavesMargin/OptionsMargin/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "First Save"
+
+[node name="SecondSaveButton" type="Button" parent="MainMenuOptions/SavesMargin/OptionsMargin/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Second Save"
+
+[node name="ThirdSaveButton" type="Button" parent="MainMenuOptions/SavesMargin/OptionsMargin/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Third Save"
+
+[node name="OptionsMargin" type="MarginContainer" parent="MainMenuOptions/SavesMargin/OptionsMargin"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenuOptions/SavesMargin/OptionsMargin/OptionsMargin"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="ContinueButton" type="Button" parent="MainMenuOptions/SavesMargin/OptionsMargin/OptionsMargin/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Continue"
+
+[node name="EditButton" type="Button" parent="MainMenuOptions/SavesMargin/OptionsMargin/OptionsMargin/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Edit"
+
+[node name="NewGameButton" type="Button" parent="MainMenuOptions/SavesMargin/OptionsMargin/OptionsMargin/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "New Game"
+
+[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/PlayButton" to="MainMenuOptions" method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/MultiplayerButton" to="MainMenuOptions" method="_on_multiplayer_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/SavesButton" to="MainMenuOptions" method="_on_saves_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/MiniGamesButton" to="MainMenuOptions" method="_on_mini_games_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/AchievementsButton" to="MainMenuOptions" method="_on_achievements_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/LeaderboardsButton" to="MainMenuOptions" method="_on_leaderboards_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/SettingsButton" to="MainMenuOptions" method="_on_settings_button_pressed"]
