@@ -1,0 +1,141 @@
+[gd_scene load_steps=16 format=3 uid="uid://cavwjdaqys1r6"]
+
+[ext_resource type="PackedScene" uid="uid://p1ykej18ur03" path="res://entities/npcs/npc_korone.tscn" id="1_2yygs"]
+[ext_resource type="Script" path="res://scripts/scenes/dungeon_scene_1.gd" id="1_qkpt5"]
+[ext_resource type="PackedScene" uid="uid://cm2tllrvhawlt" path="res://entities/npcs/npc_fubuki.tscn" id="2_26t7h"]
+[ext_resource type="Texture2D" uid="uid://c5bvpekwpv6rw" path="res://art/tileSets/plains.png" id="2_rk1nv"]
+[ext_resource type="PackedScene" uid="uid://bqqgl42tyhde6" path="res://entities/npcs/npc_subaru.tscn" id="3_rso7h"]
+[ext_resource type="PackedScene" uid="uid://cqxp404joem6o" path="res://entities/npcs/npc_mio.tscn" id="4_4xut7"]
+[ext_resource type="PackedScene" uid="uid://df670r6ewbkov" path="res://entities/npcs/npc_kaela.tscn" id="5_fkm4l"]
+[ext_resource type="PackedScene" uid="uid://2elxv48r0bg" path="res://entities/npcs/npc_aqua.tscn" id="6_pbrqa"]
+[ext_resource type="PackedScene" uid="uid://ccabvyelh3kei" path="res://entities/npcs/npc_shion.tscn" id="7_ivfy0"]
+[ext_resource type="PackedScene" uid="uid://dlmb25heo0fti" path="res://entities/player.tscn" id="10_rpbdl"]
+[ext_resource type="PackedScene" uid="uid://cgwg615uwmnap" path="res://user_interfaces/combat_UI.tscn" id="11_wnd54"]
+[ext_resource type="PackedScene" uid="uid://bfgttyngrxknk" path="res://user_interfaces/text_box.tscn" id="12_oq1h2"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sa4e7"]
+texture = ExtResource("2_rk1nv")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+0:9/0 = 0
+1:9/0 = 0
+2:9/0 = 0
+3:9/0 = 0
+4:9/0 = 0
+5:9/0 = 0
+0:10/0 = 0
+1:10/0 = 0
+2:10/0 = 0
+3:10/0 = 0
+4:10/0 = 0
+5:10/0 = 0
+0:11/0 = 0
+1:11/0 = 0
+2:11/0 = 0
+3:11/0 = 0
+4:11/0 = 0
+5:11/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_0pson"]
+sources/0 = SubResource("TileSetAtlasSource_sa4e7")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qojuv"]
+size = Vector2(128, 16)
+
+[node name="DungeonScene1" type="Node2D"]
+script = ExtResource("1_qkpt5")
+
+[node name="DungeonMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_0pson")
+format = 2
+layer_0/tile_data = PackedInt32Array(-196616, 131072, 1, -131080, 131072, 1, -65544, 131072, 1, -8, 131072, 1, 65528, 131072, 1, 131064, 131072, 1, 196600, 131072, 1, 262136, 131072, 1, -196615, 131072, 1, -131079, 131072, 1, -65543, 131072, 1, -7, 131072, 1, 65529, 131072, 1, 131065, 131072, 1, 196601, 131072, 1, 262137, 131072, 1, -196614, 131072, 1, -131078, 131072, 1, -65542, 131072, 1, -6, 131072, 1, 65530, 131072, 1, 131066, 131072, 1, 196602, 131072, 1, 262138, 131072, 1, -196613, 131072, 1, -131077, 131072, 1, -65541, 131072, 1, -5, 131072, 1, 65531, 131072, 1, 131067, 131072, 1, 196603, 131072, 1, 262139, 131072, 1, -196612, 131072, 1, -131076, 131072, 1, -65540, 131072, 1, -4, 131072, 1, 65532, 131072, 1, 131068, 131072, 1, 196604, 131072, 1, 262140, 131072, 1, -196611, 131072, 1, -131075, 131072, 1, -65539, 131072, 1, -3, 131072, 1, 65533, 131072, 1, 131069, 131072, 1, 196605, 131072, 1, 262141, 131072, 1, -196610, 131072, 1, -131074, 131072, 1, -65538, 131072, 1, -2, 131072, 1, 65534, 131072, 1, 131070, 131072, 1, 196606, 131072, 1, 262142, 131072, 1, -196609, 131072, 1, -131073, 131072, 1, -65537, 131072, 1, -1, 131072, 1, 65535, 131072, 1, 131071, 131072, 1, 196607, 131072, 1, 262143, 131072, 1, -262144, 131072, 1, -196608, 131072, 1, -131072, 131072, 1, -65536, 131072, 1, 0, 131072, 1, 65536, 131072, 1, 131072, 131072, 1, 196608, 131072, 1, -262143, 131072, 1, -196607, 131072, 1, -131071, 131072, 1, -65535, 131072, 1, 1, 131072, 1, 65537, 131072, 1, 131073, 131072, 1, 196609, 131072, 1, -262142, 131072, 1, -196606, 131072, 1, -131070, 131072, 1, -65534, 131072, 1, 2, 131072, 1, 65538, 131072, 1, 131074, 131072, 1, 196610, 131072, 1, -262141, 131072, 1, -196605, 131072, 1, -131069, 131072, 1, -65533, 131072, 1, 3, 131072, 1, 65539, 131072, 1, 131075, 131072, 1, 196611, 131072, 1, -262140, 131072, 1, -196604, 131072, 1, -131068, 131072, 1, -65532, 131072, 1, 4, 131072, 1, 65540, 131072, 1, 131076, 131072, 1, 196612, 131072, 1, -262139, 131072, 1, -196603, 131072, 1, -131067, 131072, 1, -65531, 131072, 1, 5, 131072, 1, 65541, 131072, 1, 131077, 131072, 1, 196613, 131072, 1, -262138, 131072, 1, -196602, 131072, 1, -131066, 131072, 1, -65530, 131072, 1, 6, 131072, 1, 65542, 131072, 1, 131078, 131072, 1, 196614, 131072, 1, -262137, 131072, 1, -196601, 131072, 1, -131065, 131072, 1, -65529, 131072, 1, 7, 131072, 1, 65543, 131072, 1, 131079, 131072, 1, 196615, 131072, 1)
+
+[node name="NavigationMap" type="TileMap" parent="."]
+format = 2
+
+[node name="WorldScene2Transit" type="Area2D" parent="."]
+position = Vector2(0, 72)
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldScene2Transit"]
+shape = SubResource("RectangleShape2D_qojuv")
+
+[node name="NpcKorone" parent="." instance=ExtResource("1_2yygs")]
+position = Vector2(-120, 0)
+
+[node name="NpcFubuki" parent="." instance=ExtResource("2_26t7h")]
+position = Vector2(-80, -64)
+
+[node name="NpcSubaru" parent="." instance=ExtResource("3_rso7h")]
+position = Vector2(-40, 0)
+
+[node name="NpcMio" parent="." instance=ExtResource("4_4xut7")]
+position = Vector2(0, -64)
+
+[node name="NpcKaela" parent="." instance=ExtResource("5_fkm4l")]
+position = Vector2(40, 0)
+
+[node name="NpcAqua" parent="." instance=ExtResource("6_pbrqa")]
+position = Vector2(80, -64)
+
+[node name="NpcShion" parent="." instance=ExtResource("7_ivfy0")]
+position = Vector2(120, 0)
+
+[node name="Player" parent="." instance=ExtResource("10_rpbdl")]
+position = Vector2(0, 53)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="CombatUI" parent="." instance=ExtResource("11_wnd54")]
+
+[node name="TextBox" parent="." instance=ExtResource("12_oq1h2")]
+
+[connection signal="body_entered" from="WorldScene2Transit" to="." method="_on_world_scene_2_transit_body_entered"]

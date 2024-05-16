@@ -1,13 +1,18 @@
-[gd_scene load_steps=28 format=3 uid="uid://du2d3fhraj8fe"]
+[gd_scene load_steps=29 format=3 uid="uid://du2d3fhraj8fe"]
 
-[ext_resource type="Script" path="res://scripts/nousagi.gd" id="1_y8f3b"]
+[ext_resource type="Script" path="res://scripts/entities/regular_enemies/nousagi.gd" id="1_y8f3b"]
 [ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/Nousagi.png" id="2_jbpax"]
 [ext_resource type="PackedScene" uid="uid://b7o2cmo4lhoma" path="res://components/enemies_health_component.tscn" id="3_dv8ha"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sw4lu"]
+size = Vector2(22, 8.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_voh6m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2uydh"]
 size = Vector2(22, 17)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t045a"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_spcl6"]
 atlas = ExtResource("2_jbpax")
@@ -123,10 +128,13 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jgjde")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jgjde")
 }],
 "loop": true,
 "name": &"death",
-"speed": 6.0
+"speed": 9.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -172,9 +180,6 @@ animations = [{
 "speed": 6.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_sw4lu"]
-size = Vector2(22, 8.5)
-
 [node name="Nousagi" type="CharacterBody2D"]
 position = Vector2(0, -125)
 collision_layer = 64
@@ -183,8 +188,11 @@ motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_y8f3b")
 
+[node name="CollisionHitBox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_sw4lu")
+
 [node name="DetectionArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 
 [node name="DetectionShape" type="CollisionShape2D" parent="DetectionArea"]
@@ -200,16 +208,18 @@ collision_mask = 0
 position = Vector2(1, -1)
 shape = SubResource("RectangleShape2D_2uydh")
 
+[node name="AttackArea" type="Area2D" parent="."]
+
+[node name="AttackAreaShape" type="CollisionShape2D" parent="AttackArea"]
+scale = Vector2(3.5, 3.5)
+shape = SubResource("CircleShape2D_t045a")
+
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -17)
 sprite_frames = SubResource("SpriteFrames_7htyj")
-animation = &"attack"
+animation = &"death"
 autoplay = "idle"
 offset = Vector2(0, 4)
-
-[node name="CollisionHitBox" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
-shape = SubResource("RectangleShape2D_sw4lu")
 
 [node name="AttackCooldown" type="Timer" parent="."]
 one_shot = true
@@ -243,6 +253,8 @@ wait_time = 10.0
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="NavigationTimer" to="." method="_on_navigation_timer_timeout"]
 [connection signal="timeout" from="KnockbackTimer" to="." method="_on_knockback_timer_timeout"]

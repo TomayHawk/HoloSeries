@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://df670r6ewbkov"]
+
+[ext_resource type="Script" path="res://scripts/entities/npcs/npc_kaela.gd" id="1_txwkh"]
+[ext_resource type="Texture2D" uid="uid://uol36pddvrtw" path="res://art/characters/player.png" id="2_m3btu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vji6d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hkabk"]
+atlas = ExtResource("2_m3btu")
+region = Rect2(0, 336, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aewpb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hkabk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="NpcKaela" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_txwkh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_vji6d")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_aewpb")

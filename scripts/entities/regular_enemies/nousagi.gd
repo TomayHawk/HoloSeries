@@ -59,6 +59,7 @@ func _physics_process(_delta):
 				attack_ready = false
 			elif current_animation == "walk":
 				velocity = move_direction * speed
+		if player_in_attack_area: velocity = Vector2(0, 0)
 	
 	if dying:
 		$Animation.play("death")

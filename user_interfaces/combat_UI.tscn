@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cgwg615uwmnap"]
 
-[ext_resource type="Script" path="res://scripts/combat_UI.gd" id="1_cmxe7"]
+[ext_resource type="Script" path="res://scripts/user_interfaces/combat_UI.gd" id="1_cmxe7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhv31"]
 bg_color = Color(0.235294, 0.235294, 0.235294, 1)

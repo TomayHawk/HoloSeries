@@ -1,6 +1,6 @@
 [gd_scene load_steps=59 format=3 uid="uid://dlmb25heo0fti"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_x0p8x"]
+[ext_resource type="Script" path="res://scripts/entities/player.gd" id="1_uy6yo"]
 [ext_resource type="Texture2D" uid="uid://uol36pddvrtw" path="res://art/characters/player.png" id="2_6smg7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
@@ -428,7 +428,7 @@ size = Vector2(10, 10)
 y_sort_enabled = true
 scale = Vector2(2, 2)
 collision_mask = 79
-script = ExtResource("1_x0p8x")
+script = ExtResource("1_uy6yo")
 
 [node name="CollisionHitBox" type="CollisionShape2D" parent="."]
 visible = false
@@ -447,11 +447,10 @@ shape = SubResource("RectangleShape2D_fbnw6")
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_qsfsi")
-animation = &"death"
+animation = &"front_idle"
 offset = Vector2(0, -14)
 
 [node name="NpcDetectionArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 2
 

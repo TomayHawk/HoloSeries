@@ -1,22 +1,22 @@
 [gd_scene load_steps=9 format=3 uid="uid://dlxkifgl6lq80"]
 
-[ext_resource type="Script" path="res://scripts/npc_kobo.gd" id="1_vvi7b"]
-[ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/Nousagi.png" id="2_406lm"]
+[ext_resource type="Script" path="res://scripts/entities/npcs/npc_kobo.gd" id="1_hn0bh"]
+[ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/Nousagi.png" id="2_1ia7d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y10wm"]
-atlas = ExtResource("2_406lm")
+atlas = ExtResource("2_1ia7d")
 region = Rect2(0, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4gj0e"]
-atlas = ExtResource("2_406lm")
+atlas = ExtResource("2_1ia7d")
 region = Rect2(32, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_07rst"]
-atlas = ExtResource("2_406lm")
+atlas = ExtResource("2_1ia7d")
 region = Rect2(64, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hh3mi"]
-atlas = ExtResource("2_406lm")
+atlas = ExtResource("2_1ia7d")
 region = Rect2(96, 0, 32, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0s1ce"]
@@ -47,7 +47,7 @@ y_sort_enabled = true
 position = Vector2(-50, -50)
 collision_layer = 2
 collision_mask = 0
-script = ExtResource("1_vvi7b")
+script = ExtResource("1_hn0bh")
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
