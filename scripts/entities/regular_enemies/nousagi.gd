@@ -51,7 +51,7 @@ func _physics_process(_delta):
 		elif current_frame == 3:
 			if current_animation == "attack":
 				if player_in_attack_area&&player != null:
-					PartyHealthComponent.take_damage(0, 1)
+					PartyHealthComponent.take_damage(0, 10)
 					player_direction = (player.position - position).normalized()
 					$Animation.flip_h = player_direction.x < 0
 				$AttackCooldown.set_wait_time(randf_range(1, 3))
@@ -118,7 +118,8 @@ func _on_navigation_timer_timeout():
 	if player != null: nav_agent.target_position = player.position
 
 func _on_summon_nousagi_timer_timeout():
-	var i = randi() % 10 - 7
+	var i = randi() % 3
+	# var i = randi() % 10 - 7
 	while i > 0:
 		nousagi_instance = nousagi_load.instantiate()
 		get_parent().add_child(nousagi_instance)

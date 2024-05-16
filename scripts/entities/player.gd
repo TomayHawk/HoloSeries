@@ -88,7 +88,6 @@ func attack():
 	$AttackShape.force_shapecast_update()
 	if $AttackShape.is_colliding():
 		enemy_body = $AttackShape.get_collider(0).get_parent()
-		print(enemy_body)
 		enemy_body.take_damage(20)
 
 func _on_npc_detection_area_body_entered(body):

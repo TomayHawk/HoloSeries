@@ -26,7 +26,7 @@ PartyHealthComponent="*res://components/party_health_component.tscn"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
-window/stretch/scale=2.0
+window/stretch/scale=1.5
 
 [editor]
 

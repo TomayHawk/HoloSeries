@@ -705,6 +705,7 @@ limit_top = -288
 position_smoothing_speed = 1.0
 
 [node name="Enemies" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Nousagi" parent="Enemies" instance=ExtResource("9_tem7v")]
 

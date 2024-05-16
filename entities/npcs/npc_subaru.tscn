@@ -29,4 +29,5 @@ script = ExtResource("1_8eps8")
 shape = SubResource("RectangleShape2D_o1iqo")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_4kpf4")

@@ -49,6 +49,7 @@ sources/0 = SubResource("TileSetAtlasSource_abh37")
 size = Vector2(128, 16)
 
 [node name="WorldScene2" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_t7xfg")
 
 [node name="NavigationMap" type="TileMap" parent="."]

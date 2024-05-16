@@ -16,6 +16,59 @@ border_color = Color(0, 0, 0, 1)
 [node name="CombatUI" type="CanvasLayer"]
 script = ExtResource("1_cmxe7")
 
+[node name="CombatOptions2" type="MarginContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_right = 230.0
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 134
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="CombatOptions2"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rhv31")
+
+[node name="MarginContainer" type="MarginContainer" parent="CombatOptions2"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CombatOptions2/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Potion" type="Button" parent="CombatOptions2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Potion"
+
+[node name="Item1" type="Button" parent="CombatOptions2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Item1"
+
+[node name="Item2" type="Button" parent="CombatOptions2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Item2"
+
+[node name="Item3" type="Button" parent="CombatOptions2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Item3"
+
+[node name="Item4" type="Button" parent="CombatOptions2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Item4"
+
 [node name="CombatOptions" type="MarginContainer" parent="."]
 anchors_preset = 2
 anchor_top = 1.0
@@ -44,27 +97,27 @@ clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Button" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
+[node name="Attack" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Attack"
 
-[node name="Button2" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
+[node name="Skills" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Skills"
 
-[node name="Button3" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
+[node name="White Magic" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "White Magic"
 
-[node name="Button4" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
+[node name="Black Magic" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Black Magic"
 
-[node name="Button5" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
+[node name="Items" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Items"
@@ -320,3 +373,20 @@ layout_mode = 2
 [node name="Button3" type="Button" parent="Options/MarginContainer2/HBoxContainer"]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
+
+[connection signal="pressed" from="CombatOptions2/MarginContainer/VBoxContainer/Potion" to="." method="_on_potion_pressed"]
+[connection signal="button_down" from="CombatOptions/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_button_down"]
+[connection signal="button_up" from="CombatOptions/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_button_up"]
+[connection signal="pressed" from="CombatOptions/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
+[connection signal="button_down" from="CombatOptions/MarginContainer/VBoxContainer/Skills" to="." method="_on_skills_button_down"]
+[connection signal="button_up" from="CombatOptions/MarginContainer/VBoxContainer/Skills" to="." method="_on_skills_button_up"]
+[connection signal="pressed" from="CombatOptions/MarginContainer/VBoxContainer/Skills" to="." method="_on_skills_pressed"]
+[connection signal="button_down" from="CombatOptions/MarginContainer/VBoxContainer/White Magic" to="." method="_on_white_magic_button_down"]
+[connection signal="button_up" from="CombatOptions/MarginContainer/VBoxContainer/White Magic" to="." method="_on_white_magic_button_up"]
+[connection signal="pressed" from="CombatOptions/MarginContainer/VBoxContainer/White Magic" to="." method="_on_white_magic_pressed"]
+[connection signal="button_down" from="CombatOptions/MarginContainer/VBoxContainer/Black Magic" to="." method="_on_black_magic_button_down"]
+[connection signal="button_up" from="CombatOptions/MarginContainer/VBoxContainer/Black Magic" to="." method="_on_black_magic_button_up"]
+[connection signal="pressed" from="CombatOptions/MarginContainer/VBoxContainer/Black Magic" to="." method="_on_black_magic_pressed"]
+[connection signal="button_down" from="CombatOptions/MarginContainer/VBoxContainer/Items" to="." method="_on_items_button_down"]
+[connection signal="button_up" from="CombatOptions/MarginContainer/VBoxContainer/Items" to="." method="_on_items_button_up"]
+[connection signal="pressed" from="CombatOptions/MarginContainer/VBoxContainer/Items" to="." method="_on_items_pressed"]

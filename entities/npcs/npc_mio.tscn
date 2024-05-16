@@ -21,6 +21,7 @@ animations = [{
 }]
 
 [node name="NpcMio" type="StaticBody2D"]
+y_sort_enabled = true
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_5y147")
@@ -29,4 +30,5 @@ script = ExtResource("1_5y147")
 shape = SubResource("RectangleShape2D_r1b16")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_foiwn")

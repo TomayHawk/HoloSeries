@@ -51,11 +51,14 @@ script = ExtResource("1_hn0bh")
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
+position = Vector2(0, -1)
+scale = Vector2(1, 0.979167)
 sprite_frames = SubResource("SpriteFrames_0s1ce")
 animation = &"idle"
 autoplay = "idle"
-offset = Vector2(0, 4)
+offset = Vector2(0, -10.5)
 
 [node name="CollisionHitBox" type="CollisionShape2D" parent="."]
-position = Vector2(0, 21.125)
+y_sort_enabled = true
+position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_v1dxh")

@@ -21,6 +21,7 @@ animations = [{
 }]
 
 [node name="NpcKaela" type="StaticBody2D"]
+y_sort_enabled = true
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_txwkh")
@@ -29,4 +30,5 @@ script = ExtResource("1_txwkh")
 shape = SubResource("RectangleShape2D_vji6d")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_aewpb")
