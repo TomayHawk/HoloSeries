@@ -35,7 +35,7 @@ func _physics_process(_delta):
 
 	if current_frame != last_frame:
 		if current_frame == 0:
-			if !PartyHealthComponent.alive[0]:
+			if !PartyStatsComponent.alive[0]:
 				player = null
 				player_in_area = false
 				player_in_attack_area = false
@@ -51,7 +51,7 @@ func _physics_process(_delta):
 		elif current_frame == 3:
 			if current_animation == "attack":
 				if player_in_attack_area&&player != null:
-					PartyHealthComponent.take_damage(0, 10)
+					PartyStatsComponent.take_damage(0, 10)
 					player_direction = (player.position - position).normalized()
 					$Animation.flip_h = player_direction.x < 0
 				$AttackCooldown.set_wait_time(randf_range(1, 3))
@@ -86,7 +86,7 @@ func take_damage(damage):
 	$KnockbackTimer.start()
 
 func _on_detection_area_body_entered(body):
-	if PartyHealthComponent.health[0] > 0:
+	if PartyStatsComponent.health[0] > 0:
 		player = body
 		player_in_area = true
 		if !GlobalSettings.in_combat: GlobalSettings.in_combat = true
@@ -100,7 +100,7 @@ func _on_detection_area_body_exited(_body):
 	$SummonNousagiTimer.stop()
 
 func _on_attack_area_body_entered(_body):
-	if PartyHealthComponent.health[0] > 0:
+	if PartyStatsComponent.health[0] > 0:
 		player_in_attack_area = true
 
 func _on_attack_area_body_exited(_body):
@@ -118,7 +118,8 @@ func _on_navigation_timer_timeout():
 	if player != null: nav_agent.target_position = player.position
 
 func _on_summon_nousagi_timer_timeout():
-	var i = randi() % 3
+	var i = 3
+	#var i = randi() % 3
 	# var i = randi() % 10 - 7
 	while i > 0:
 		nousagi_instance = nousagi_load.instantiate()

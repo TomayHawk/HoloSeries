@@ -454,7 +454,7 @@ collision_mask = 2
 
 [node name="NpcDetectionShape" type="CollisionShape2D" parent="NpcDetectionArea"]
 position = Vector2(0.5, -6)
-scale = Vector2(2, 2)
+scale = Vector2(1.9952, 2)
 shape = SubResource("CircleShape2D_swviq")
 
 [node name="AttackCooldown" type="Timer" parent="."]
@@ -472,14 +472,30 @@ collide_with_bodies = false
 modulate = Color(0.784314, 0.647059, 0.00784314, 1)
 z_index = 1
 offset_left = -6.0
-offset_top = -20.0
+offset_top = -18.5
 offset_right = 124.0
-offset_bottom = 1.0
+offset_bottom = 2.5
 scale = Vector2(0.1, 0.1)
 theme_override_font_sizes/font_size = 8
 max_value = 200.0
 show_percentage = false
 
+[node name="StaminaBar" type="ProgressBar" parent="."]
+modulate = Color(0.784314, 0.647059, 0.00784314, 1)
+z_index = 1
+offset_left = -6.0
+offset_top = 5.5
+offset_right = 124.0
+offset_bottom = 15.5
+scale = Vector2(0.1, 0.1)
+theme_override_font_sizes/font_size = 8
+max_value = 200.0
+show_percentage = false
+
+[node name="DashCooldown" type="Timer" parent="."]
+wait_time = 0.2
+
 [connection signal="body_entered" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_entered"]
 [connection signal="body_exited" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_exited"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
+[connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]

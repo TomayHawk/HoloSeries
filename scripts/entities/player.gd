@@ -1,6 +1,8 @@
 extends CharacterBody2D
 
 @export var speed = 150
+@export var dash_speed = 500
+@export var sprint_multiplier = 1.5
 
 @onready var CombatUI = get_parent().get_node("CombatUI")
 
@@ -13,17 +15,36 @@ var attack_ready = true
 var attack_direction = Vector2.ZERO
 var enemy_body
 
+var dash_ready = true
+var sprinting = false
+
 func _ready():
 	$Animation.play("front_idle")
-	PartyHealthComponent.update_players()
+	PartyStatsComponent.update_players()
 
 func _physics_process(_delta):
 	if attack_ready&&Input.is_action_just_pressed("attack"): attack()
+	if !PartyStatsComponent.stamina_slow_recovery:
+		if dash_ready&&Input.is_action_just_pressed("dash"):
+			PartyStatsComponent.stamina[0] -= 35
+			dash()
+		elif Input.is_action_pressed("dash")&&PartyStatsComponent.stamina[0] > 0:
+			PartyStatsComponent.stamina[0] -= 0.7
+			sprinting = true
+		else: sprinting = false
+	else: sprinting = false
+	movement_input()
+	move_and_slide()
+	PartyStatsComponent.health_bar_update(0)
+	CombatUI.health_UI_update(0)
 
-	#8-way movement inputs
-	##### optimized (temporarily)
+#8-way movement inputs
+##### optimized (temporarily)
+func movement_input():
 	input_direction = Input.get_vector("left", "right", "up", "down")
 	velocity = input_direction * speed
+	if sprinting:
+		velocity *= sprint_multiplier
 
 	if input_direction != Vector2.ZERO:
 		last_input_direction = input_direction
@@ -33,7 +54,7 @@ func _physics_process(_delta):
 
 	if !attack_ready:
 		if input_active:
-			velocity /= 2
+			velocity /= 1.25
 			if abs(attack_direction.x) >= abs(attack_direction.y):
 				##### need to combine walk
 				$Animation.play("side_attack")
@@ -70,10 +91,12 @@ func _physics_process(_delta):
 				$Animation.play("front_idle")
 			else:
 				$Animation.play("back_idle")
-	
-	move_and_slide()
-	PartyHealthComponent.health_bar_update(0)
-	CombatUI.health_UI_update(0)
+
+	if !dash_ready:
+		if input_direction != Vector2.ZERO:
+			velocity = input_direction * (195 + dash_speed * (1 - (0.2 - $DashCooldown.get_time_left()) / 0.2))
+		else:
+			velocity = last_input_direction * dash_speed * (1 - (0.2 - $DashCooldown.get_time_left()) / 0.2)
 
 func player():
 	pass
@@ -88,7 +111,13 @@ func attack():
 	$AttackShape.force_shapecast_update()
 	if $AttackShape.is_colliding():
 		enemy_body = $AttackShape.get_collider(0).get_parent()
-		enemy_body.take_damage(20)
+		if !dash_ready: enemy_body.take_damage(50)
+		else: enemy_body.take_damage(20)
+
+func dash():
+	dash_ready = false
+	$DashCooldown.set_wait_time(0.2)
+	$DashCooldown.start()
 
 func _on_npc_detection_area_body_entered(body):
 	body.area_status(true)
@@ -98,3 +127,6 @@ func _on_npc_detection_area_body_exited(body):
 
 func _on_attack_cooldown_timeout():
 	attack_ready = true
+
+func _on_dash_cooldown_timeout():
+	dash_ready = true

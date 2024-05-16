@@ -39,32 +39,95 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CombatOptions2/MarginContainer"]
+[node name="SkillsVBoxContainer" type="VBoxContainer" parent="CombatOptions2/MarginContainer"]
+visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Potion" type="Button" parent="CombatOptions2/MarginContainer/VBoxContainer"]
+[node name="Item2" type="Button" parent="CombatOptions2/MarginContainer/SkillsVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Life Drain"
+
+[node name="Item3" type="Button" parent="CombatOptions2/MarginContainer/SkillsVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Mana Drain"
+
+[node name="Item4" type="Button" parent="CombatOptions2/MarginContainer/SkillsVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Taunt"
+
+[node name="WhiteVBoxContainer" type="VBoxContainer" parent="CombatOptions2/MarginContainer"]
+visible = false
+clip_contents = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Item2" type="Button" parent="CombatOptions2/MarginContainer/WhiteVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Heal"
+
+[node name="Item3" type="Button" parent="CombatOptions2/MarginContainer/WhiteVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Protect"
+
+[node name="Item4" type="Button" parent="CombatOptions2/MarginContainer/WhiteVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Haste"
+
+[node name="BlackVBoxContainer" type="VBoxContainer" parent="CombatOptions2/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Item2" type="Button" parent="CombatOptions2/MarginContainer/BlackVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Fire"
+
+[node name="Item3" type="Button" parent="CombatOptions2/MarginContainer/BlackVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Poison"
+
+[node name="Item4" type="Button" parent="CombatOptions2/MarginContainer/BlackVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Slowness"
+
+[node name="ItemsVBoxContainer" type="VBoxContainer" parent="CombatOptions2/MarginContainer"]
+visible = false
+clip_contents = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Potion" type="Button" parent="CombatOptions2/MarginContainer/ItemsVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Potion"
 
-[node name="Item1" type="Button" parent="CombatOptions2/MarginContainer/VBoxContainer"]
+[node name="XPotion" type="Button" parent="CombatOptions2/MarginContainer/ItemsVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
-text = "Item1"
+text = "X-Potion"
 
-[node name="Item2" type="Button" parent="CombatOptions2/MarginContainer/VBoxContainer"]
+[node name="Item2" type="Button" parent="CombatOptions2/MarginContainer/ItemsVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Item2"
 
-[node name="Item3" type="Button" parent="CombatOptions2/MarginContainer/VBoxContainer"]
+[node name="Item3" type="Button" parent="CombatOptions2/MarginContainer/ItemsVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Item3"
 
-[node name="Item4" type="Button" parent="CombatOptions2/MarginContainer/VBoxContainer"]
+[node name="Item4" type="Button" parent="CombatOptions2/MarginContainer/ItemsVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Item4"
@@ -374,7 +437,8 @@ layout_mode = 2
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 
-[connection signal="pressed" from="CombatOptions2/MarginContainer/VBoxContainer/Potion" to="." method="_on_potion_pressed"]
+[connection signal="pressed" from="CombatOptions2/MarginContainer/ItemsVBoxContainer/Potion" to="." method="_on_potion_pressed"]
+[connection signal="pressed" from="CombatOptions2/MarginContainer/ItemsVBoxContainer/XPotion" to="." method="_on_x_potion_pressed"]
 [connection signal="button_down" from="CombatOptions/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_button_down"]
 [connection signal="button_up" from="CombatOptions/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_button_up"]
 [connection signal="pressed" from="CombatOptions/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]

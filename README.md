@@ -1,4 +1,2 @@
 # HoloSeries
  
-# potato
-###### ABC
