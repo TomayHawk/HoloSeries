@@ -459,10 +459,10 @@ position = Vector2(0.5, -6)
 scale = Vector2(1.9952, 2)
 shape = SubResource("CircleShape2D_swviq")
 
-[node name="AllyDetectionArea" type="Area2D" parent="."]
+[node name="EntitiesDetectionArea" type="Area2D" parent="."]
 collision_layer = 0
 
-[node name="AllyDetectionShape" type="CollisionShape2D" parent="AllyDetectionArea"]
+[node name="EntitiesDetectionShape" type="CollisionShape2D" parent="EntitiesDetectionArea"]
 position = Vector2(0.5, -6.5)
 scale = Vector2(10, 10)
 shape = SubResource("CircleShape2D_c1evc")
@@ -472,7 +472,7 @@ collision_layer = 0
 
 [node name="InnerAllyShape" type="CollisionShape2D" parent="InnerAllyArea"]
 position = Vector2(0.5, -6.5)
-scale = Vector2(10, 10)
+scale = Vector2(4, 4)
 shape = SubResource("CircleShape2D_c1evc")
 
 [node name="AttackCooldown" type="Timer" parent="."]
@@ -513,9 +513,14 @@ show_percentage = false
 [node name="DashCooldown" type="Timer" parent="."]
 wait_time = 0.2
 
+[node name="DirectionCooldown" type="Timer" parent="."]
+
+[node name="PauseTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="body_entered" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_entered"]
 [connection signal="body_exited" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_exited"]
-[connection signal="body_exited" from="AllyDetectionArea" to="." method="_on_ally_detection_area_body_exited"]
+[connection signal="body_exited" from="EntitiesDetectionArea" to="." method="_on_entities_detection_area_body_exited"]
 [connection signal="body_entered" from="InnerAllyArea" to="." method="_on_inner_ally_area_body_entered"]
 [connection signal="body_exited" from="InnerAllyArea" to="." method="_on_inner_ally_area_body_exited"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]

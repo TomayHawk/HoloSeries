@@ -55,10 +55,10 @@ func display_text():
 	label.visible_characters = 0
 	#update player animation in case not "idle"
 	for i in GlobalSettings.active_players:
-		if GlobalSettings.players[i].last_input_direction.x != 0:
+		if GlobalSettings.players[i].last_move_direction.x != 0:
 			player_anim_node[i].play("side_idle")
-			player_anim_node[i].flip_h = GlobalSettings.players[i].last_input_direction.x < 0
-		elif GlobalSettings.players[i].last_input_direction.y > 0:
+			player_anim_node[i].flip_h = GlobalSettings.players[i].last_move_direction.x < 0
+		elif GlobalSettings.players[i].last_move_direction.y > 0:
 			player_anim_node[i].play("front_idle")
 		else:
 			player_anim_node[i].play("back_idle")

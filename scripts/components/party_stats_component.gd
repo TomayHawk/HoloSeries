@@ -12,12 +12,12 @@ var stamina_bar = [null, null, null, null]
 var CombatUI
 
 var bar_percentage = 1.0
-var stamina_slow_recovery = false
+var stamina_slow_recovery = [false, false, false, false]
 
 func _physics_process(_delta):
 	for i in GlobalSettings.active_players:
 		if stamina[i] < max_stamina[i]:
-			if stamina_slow_recovery:
+			if stamina_slow_recovery[i]:
 				stamina_bar_slow_update(i)
 			else:
 				stamina_bar_update(i)
@@ -68,7 +68,7 @@ func stamina_bar_update(player):
 		stamina[player] = max_stamina[player]
 	elif stamina[player] <= 0:
 		stamina[player] = 0
-		stamina_slow_recovery = true
+		stamina_slow_recovery[player] = true
 		stamina_bar[player].modulate = "a93430"
 	else:
 		stamina_bar[player].visible = true
@@ -79,7 +79,7 @@ func stamina_bar_slow_update(player):
 	stamina[player] += 0.25
 	if stamina[player] >= max_stamina[player]:
 		stamina_bar[player].modulate = "c8a502"
-		stamina_slow_recovery = false
+		stamina_slow_recovery[player] = false
 	stamina_bar[player].value = stamina[player]
 
 func take_damage(player, amount):

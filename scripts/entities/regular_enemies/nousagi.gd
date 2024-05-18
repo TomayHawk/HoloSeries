@@ -58,7 +58,7 @@ func _physics_process(_delta):
 		elif current_frame == 3:
 			if current_animation == "attack":
 				if players_exist_in_attack_area&&detected_players[target_player] != null:
-					PartyStatsComponent.take_damage(0, 10)
+					PartyStatsComponent.take_damage(target_player, 10)
 					player_direction = (detected_players[target_player].position - position).normalized()
 					$Animation.flip_h = player_direction.x < 0
 				$AttackCooldown.set_wait_time(randf_range(1, 3))
@@ -117,6 +117,8 @@ func _on_detection_area_body_entered(body):
 		GlobalSettings.in_combat = true
 		$SummonNousagiTimer.set_wait_time(randf_range(15, 20))
 		$SummonNousagiTimer.start()
+	#improve
+	GlobalSettings.enemies_in_combat[0] = get_child(0).get_parent()
 
 func _on_detection_area_body_exited(body):
 	for i in 4: if body == GlobalSettings.players[i]:
@@ -128,6 +130,9 @@ func _on_detection_area_body_exited(body):
 			players_exist_in_area = true
 			GlobalSettings.in_combat = true
 		$SummonNousagiTimer.stop()
+	#change this
+	GlobalSettings.enemies_in_combat[0] = null
+	if GlobalSettings.enemies_in_combat[0] == null: GlobalSettings.in_combat = false
 
 func _on_attack_area_body_entered(body):
 	for i in 4: if body == detected_players[i]&&PartyStatsComponent.health[i] > 0:
