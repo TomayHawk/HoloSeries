@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cavwjdaqys1r6"]
+[gd_scene load_steps=17 format=3 uid="uid://cavwjdaqys1r6"]
 
 [ext_resource type="PackedScene" uid="uid://p1ykej18ur03" path="res://entities/npcs/npc_korone.tscn" id="1_2yygs"]
 [ext_resource type="Script" path="res://scripts/scenes/dungeon_scene_1.gd" id="1_qkpt5"]
@@ -9,7 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://df670r6ewbkov" path="res://entities/npcs/npc_kaela.tscn" id="5_fkm4l"]
 [ext_resource type="PackedScene" uid="uid://2elxv48r0bg" path="res://entities/npcs/npc_aqua.tscn" id="6_pbrqa"]
 [ext_resource type="PackedScene" uid="uid://ccabvyelh3kei" path="res://entities/npcs/npc_shion.tscn" id="7_ivfy0"]
-[ext_resource type="PackedScene" uid="uid://dlmb25heo0fti" path="res://entities/player.tscn" id="10_rpbdl"]
+[ext_resource type="PackedScene" uid="uid://dlmb25heo0fti" path="res://entities/player_1.tscn" id="10_rpbdl"]
+[ext_resource type="PackedScene" uid="uid://cdir8ktknml01" path="res://entities/player_2.tscn" id="11_uj5w1"]
 [ext_resource type="PackedScene" uid="uid://cgwg615uwmnap" path="res://user_interfaces/combat_UI.tscn" id="11_wnd54"]
 [ext_resource type="PackedScene" uid="uid://bfgttyngrxknk" path="res://user_interfaces/text_box.tscn" id="12_oq1h2"]
 
@@ -129,10 +130,12 @@ position = Vector2(80, -64)
 [node name="NpcShion" parent="." instance=ExtResource("7_ivfy0")]
 position = Vector2(120, 0)
 
-[node name="Player" parent="." instance=ExtResource("10_rpbdl")]
+[node name="Player1" parent="." instance=ExtResource("10_rpbdl")]
 position = Vector2(0, 53)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="Player1"]
+
+[node name="Player2" parent="." instance=ExtResource("11_uj5w1")]
 
 [node name="CombatUI" parent="." instance=ExtResource("11_wnd54")]
 

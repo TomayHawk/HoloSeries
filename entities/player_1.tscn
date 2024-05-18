@@ -1,6 +1,6 @@
-[gd_scene load_steps=59 format=3 uid="uid://dlmb25heo0fti"]
+[gd_scene load_steps=60 format=3 uid="uid://dlmb25heo0fti"]
 
-[ext_resource type="Script" path="res://scripts/entities/player.gd" id="1_uy6yo"]
+[ext_resource type="Script" path="res://scripts/entities/player_1.gd" id="1_4ou2b"]
 [ext_resource type="Texture2D" uid="uid://uol36pddvrtw" path="res://art/characters/player.png" id="2_6smg7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
@@ -421,14 +421,16 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_swviq"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_c1evc"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hb5yx"]
 size = Vector2(10, 10)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player1" type="CharacterBody2D"]
 y_sort_enabled = true
 scale = Vector2(2, 2)
 collision_mask = 79
-script = ExtResource("1_uy6yo")
+script = ExtResource("1_4ou2b")
 
 [node name="CollisionHitBox" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 0)
@@ -456,6 +458,22 @@ collision_mask = 2
 position = Vector2(0.5, -6)
 scale = Vector2(1.9952, 2)
 shape = SubResource("CircleShape2D_swviq")
+
+[node name="AllyDetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="AllyDetectionShape" type="CollisionShape2D" parent="AllyDetectionArea"]
+position = Vector2(0.5, -6.5)
+scale = Vector2(10, 10)
+shape = SubResource("CircleShape2D_c1evc")
+
+[node name="InnerAllyArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="InnerAllyShape" type="CollisionShape2D" parent="InnerAllyArea"]
+position = Vector2(0.5, -6.5)
+scale = Vector2(10, 10)
+shape = SubResource("CircleShape2D_c1evc")
 
 [node name="AttackCooldown" type="Timer" parent="."]
 one_shot = true
@@ -497,5 +515,8 @@ wait_time = 0.2
 
 [connection signal="body_entered" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_entered"]
 [connection signal="body_exited" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_exited"]
+[connection signal="body_exited" from="AllyDetectionArea" to="." method="_on_ally_detection_area_body_exited"]
+[connection signal="body_entered" from="InnerAllyArea" to="." method="_on_inner_ally_area_body_entered"]
+[connection signal="body_exited" from="InnerAllyArea" to="." method="_on_inner_ally_area_body_exited"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]

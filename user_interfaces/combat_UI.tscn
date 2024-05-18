@@ -1,17 +1,37 @@
-[gd_scene load_steps=4 format=3 uid="uid://cgwg615uwmnap"]
+[gd_scene load_steps=7 format=3 uid="uid://cgwg615uwmnap"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces/combat_UI.gd" id="1_cmxe7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhv31"]
-bg_color = Color(0.235294, 0.235294, 0.235294, 1)
+bg_color = Color(0.235294, 0.235294, 0.235294, 0.709804)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4s7fn"]
+bg_color = Color(0.423529, 0.631373, 0.741176, 0.858824)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6buve"]
+bg_color = Color(0.709804, 0.776471, 0.854902, 0.858824)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x11mp"]
+bg_color = Color(0.423529, 0.631373, 0.741176, 0.858824)
+border_color = Color(0.811765, 0.811765, 0.811765, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05wxr"]
-bg_color = Color(0.235294, 0.235294, 0.235294, 1)
+bg_color = Color(0.235294, 0.235294, 0.235294, 0.752941)
 border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
 border_color = Color(0, 0, 0, 1)
+border_blend = true
 
 [node name="CombatUI" type="CanvasLayer"]
 script = ExtResource("1_cmxe7")
@@ -45,17 +65,17 @@ clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Item2" type="Button" parent="CombatOptions2/MarginContainer/SkillsVBoxContainer"]
+[node name="LifeDrain" type="Button" parent="CombatOptions2/MarginContainer/SkillsVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Life Drain"
 
-[node name="Item3" type="Button" parent="CombatOptions2/MarginContainer/SkillsVBoxContainer"]
+[node name="ManaDrain" type="Button" parent="CombatOptions2/MarginContainer/SkillsVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Mana Drain"
 
-[node name="Item4" type="Button" parent="CombatOptions2/MarginContainer/SkillsVBoxContainer"]
+[node name="Taunt" type="Button" parent="CombatOptions2/MarginContainer/SkillsVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Taunt"
@@ -66,37 +86,38 @@ clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Item2" type="Button" parent="CombatOptions2/MarginContainer/WhiteVBoxContainer"]
+[node name="Heal" type="Button" parent="CombatOptions2/MarginContainer/WhiteVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Heal"
 
-[node name="Item3" type="Button" parent="CombatOptions2/MarginContainer/WhiteVBoxContainer"]
+[node name="Protect" type="Button" parent="CombatOptions2/MarginContainer/WhiteVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Protect"
 
-[node name="Item4" type="Button" parent="CombatOptions2/MarginContainer/WhiteVBoxContainer"]
+[node name="Haste" type="Button" parent="CombatOptions2/MarginContainer/WhiteVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Haste"
 
 [node name="BlackVBoxContainer" type="VBoxContainer" parent="CombatOptions2/MarginContainer"]
+visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Item2" type="Button" parent="CombatOptions2/MarginContainer/BlackVBoxContainer"]
+[node name="Fire" type="Button" parent="CombatOptions2/MarginContainer/BlackVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Fire"
 
-[node name="Item3" type="Button" parent="CombatOptions2/MarginContainer/BlackVBoxContainer"]
+[node name="Poison" type="Button" parent="CombatOptions2/MarginContainer/BlackVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Poison"
 
-[node name="Item4" type="Button" parent="CombatOptions2/MarginContainer/BlackVBoxContainer"]
+[node name="Slowness" type="Button" parent="CombatOptions2/MarginContainer/BlackVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Slowness"
@@ -161,8 +182,12 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Attack" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_4s7fn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6buve")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_x11mp")
 text = "Attack"
 
 [node name="Skills" type="Button" parent="CombatOptions/MarginContainer/VBoxContainer"]
@@ -199,12 +224,11 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -328.0
+offset_left = -304.0
 offset_top = -128.0
-offset_right = -24.0
 grow_horizontal = 0
 grow_vertical = 0
-size_flags_horizontal = 4
+size_flags_horizontal = 8
 size_flags_vertical = 4
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 16
@@ -289,11 +313,18 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "HP"
 
-[node name="HealthAmount" type="Label" parent="CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+theme_override_constants/margin_right = 8
+
+[node name="HealthAmount" type="Label" parent="CharacterInfos/VBoxContainer/Character2/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 8
 text = "#####"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="MP" type="Label" parent="CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
 custom_minimum_size = Vector2(24, 0)
@@ -329,11 +360,18 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "HP"
 
-[node name="HealthAmount" type="Label" parent="CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+theme_override_constants/margin_right = 8
+
+[node name="HealthAmount" type="Label" parent="CharacterInfos/VBoxContainer/Character3/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 8
 text = "#####"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="MP" type="Label" parent="CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
 custom_minimum_size = Vector2(24, 0)
@@ -369,11 +407,18 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "HP"
 
-[node name="HealthAmount" type="Label" parent="CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+theme_override_constants/margin_right = 8
+
+[node name="HealthAmount" type="Label" parent="CharacterInfos/VBoxContainer/Character4/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 8
 text = "#####"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="MP" type="Label" parent="CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
 custom_minimum_size = Vector2(24, 0)
@@ -437,6 +482,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 
+[connection signal="pressed" from="CombatOptions2/MarginContainer/WhiteVBoxContainer/Protect" to="." method="_on_protect_pressed"]
 [connection signal="pressed" from="CombatOptions2/MarginContainer/ItemsVBoxContainer/Potion" to="." method="_on_potion_pressed"]
 [connection signal="pressed" from="CombatOptions2/MarginContainer/ItemsVBoxContainer/XPotion" to="." method="_on_x_potion_pressed"]
 [connection signal="button_down" from="CombatOptions/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_button_down"]

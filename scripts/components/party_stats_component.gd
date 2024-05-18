@@ -15,20 +15,30 @@ var bar_percentage = 1.0
 var stamina_slow_recovery = false
 
 func _physics_process(_delta):
-	if stamina[0] < max_stamina[0]:
-		if stamina_slow_recovery:
-			stamina_bar_slow_update(0)
-		else:
-			stamina_bar_update(0)
+	for i in GlobalSettings.active_players:
+		if stamina[i] < max_stamina[i]:
+			if stamina_slow_recovery:
+				stamina_bar_slow_update(i)
+			else:
+				stamina_bar_update(i)
 
-func update_players():
+func update_players_stats():
 	CombatUI = get_parent().get_child(2).get_node("CombatUI")
-	players[0] = get_parent().get_child(2).get_node("Player")
-	health_bar[0] = players[0].get_node("HealthBar")
-	health_bar[0].max_value = max_health[0]
-	stamina_bar[0] = players[0].get_node("StaminaBar")
-	stamina_bar[0].max_value = max_stamina[0]
-	stamina_bar[0].visible = false
+
+	players[0] = get_parent().get_child(2).get_node_or_null("Player1")
+	players[1] = get_parent().get_child(2).get_node_or_null("Player2")
+	players[2] = get_parent().get_child(2).get_node_or_null("Player3")
+	players[3] = get_parent().get_child(2).get_node_or_null("Player4")
+
+	for i in GlobalSettings.active_players:
+		# get and set players health bar to max_health
+		health_bar[i] = players[i].get_node("HealthBar")
+		health_bar[i].max_value = max_health[i]
+		# get and set players stamina bar to max_stamina
+		stamina_bar[i] = players[i].get_node("StaminaBar")
+		stamina_bar[i].max_value = max_stamina[i]
+		# hide stamina bar
+		stamina_bar[i].visible = false
 
 func health_bar_update(player):
 	if health[player] >= max_health[player]:

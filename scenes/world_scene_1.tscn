@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://c5bvpekwpv6rw" path="res://art/tileSets/plains.png" id="1_7j0j2"]
 [ext_resource type="Script" path="res://scripts/scenes/world_scene_1.gd" id="1_ld7bi"]
 [ext_resource type="Texture2D" uid="uid://btj1vfgsejh7f" path="res://art/objects/objects.png" id="2_nnwlk"]
-[ext_resource type="PackedScene" uid="uid://dlmb25heo0fti" path="res://entities/player.tscn" id="3_xhfsg"]
+[ext_resource type="PackedScene" uid="uid://dlmb25heo0fti" path="res://entities/player_1.tscn" id="3_xhfsg"]
 [ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/NavigationTiles.png" id="4_kndtx"]
 [ext_resource type="PackedScene" uid="uid://bfgttyngrxknk" path="res://user_interfaces/text_box.tscn" id="4_qspxv"]
 [ext_resource type="PackedScene" uid="uid://cgwg615uwmnap" path="res://user_interfaces/combat_UI.tscn" id="7_yoiur"]
@@ -697,10 +697,10 @@ collision_layer = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldScene2Transit"]
 shape = SubResource("RectangleShape2D_h76rv")
 
-[node name="Player" parent="." instance=ExtResource("3_xhfsg")]
+[node name="Player1" parent="." instance=ExtResource("3_xhfsg")]
 position = Vector2(0, -247)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="Player1"]
 limit_top = -288
 position_smoothing_speed = 1.0
 
