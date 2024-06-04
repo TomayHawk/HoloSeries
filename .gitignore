@@ -1,6 +1,7 @@
 .git
 .godot
 art
-/scripts/components_scripts
-/scripts/entities_scripts
+/scripts/components_scripts/global_settings.gd
+/scripts/entities_scripts/player_1.gd
+/scripts/entities_scripts/player_2.gd
 /scripts/user_interfaces_scripts/combat_UI.gd
