@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=3 uid="uid://du2d3fhraj8fe"]
 
-[ext_resource type="Script" path="res://scripts/entities/regular_enemies/nousagi.gd" id="1_y8f3b"]
+[ext_resource type="Script" path="res://scripts/entities_scripts/regular_enemies_scripts/nousagi.gd" id="1_mpp2o"]
 [ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/Nousagi.png" id="2_jbpax"]
 [ext_resource type="PackedScene" uid="uid://b7o2cmo4lhoma" path="res://components/enemies_health_component.tscn" id="3_dv8ha"]
 
@@ -187,13 +187,14 @@ collision_layer = 64
 collision_mask = 207
 motion_mode = 1
 wall_min_slide_angle = 0.0
-script = ExtResource("1_y8f3b")
+script = ExtResource("1_mpp2o")
 
 [node name="CollisionHitBox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_sw4lu")
 
 [node name="DetectionArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 
 [node name="DetectionShape" type="CollisionShape2D" parent="DetectionArea"]
@@ -208,6 +209,7 @@ collision_mask = 0
 shape = SubResource("RectangleShape2D_2uydh")
 
 [node name="AttackArea" type="Area2D" parent="."]
+visible = false
 
 [node name="AttackShape" type="CollisionShape2D" parent="AttackArea"]
 scale = Vector2(3.5, 3.5)

@@ -1,7 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://cavwjdaqys1r6"]
+[gd_scene load_steps=18 format=3 uid="uid://cavwjdaqys1r6"]
 
 [ext_resource type="PackedScene" uid="uid://p1ykej18ur03" path="res://entities/npcs/npc_korone.tscn" id="1_2yygs"]
-[ext_resource type="Script" path="res://scripts/scenes/dungeon_scene_1.gd" id="1_qkpt5"]
+[ext_resource type="Script" path="res://scripts/scenes_scripts/dungeon_scene_1.gd" id="1_qkpt5"]
 [ext_resource type="PackedScene" uid="uid://cm2tllrvhawlt" path="res://entities/npcs/npc_fubuki.tscn" id="2_26t7h"]
 [ext_resource type="Texture2D" uid="uid://c5bvpekwpv6rw" path="res://art/tileSets/plains.png" id="2_rk1nv"]
 [ext_resource type="PackedScene" uid="uid://bqqgl42tyhde6" path="res://entities/npcs/npc_subaru.tscn" id="3_rso7h"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://cdir8ktknml01" path="res://entities/player_2.tscn" id="11_uj5w1"]
 [ext_resource type="PackedScene" uid="uid://cgwg615uwmnap" path="res://user_interfaces/combat_UI.tscn" id="11_wnd54"]
 [ext_resource type="PackedScene" uid="uid://bfgttyngrxknk" path="res://user_interfaces/text_box.tscn" id="12_oq1h2"]
+[ext_resource type="PackedScene" uid="uid://bswhy46f3hcib" path="res://user_interfaces/options.tscn" id="14_sx4vj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sa4e7"]
 texture = ExtResource("2_rk1nv")
@@ -140,5 +141,7 @@ position = Vector2(0, 53)
 [node name="CombatUI" parent="." instance=ExtResource("11_wnd54")]
 
 [node name="TextBox" parent="." instance=ExtResource("12_oq1h2")]
+
+[node name="Options" parent="." instance=ExtResource("14_sx4vj")]
 
 [connection signal="body_entered" from="WorldScene2Transit" to="." method="_on_world_scene_2_transit_body_entered"]

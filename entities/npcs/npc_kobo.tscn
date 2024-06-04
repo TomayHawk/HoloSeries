@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://dlxkifgl6lq80"]
 
-[ext_resource type="Script" path="res://scripts/entities/npcs/npc_kobo.gd" id="1_hn0bh"]
+[ext_resource type="Script" path="res://scripts/entities_scripts/npcs_scripts/npc_kobo.gd" id="1_hn0bh"]
 [ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/Nousagi.png" id="2_1ia7d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y10wm"]

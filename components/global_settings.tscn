@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwjnjoaxlsqc8"]
+
+[ext_resource type="Script" path="res://scripts/components_scripts/global_settings.gd" id="1_mpwj3"]
+
+[node name="GlobalSettings" type="Node"]
+script = ExtResource("1_mpwj3")
+
+[node name="CombatLeaveCooldown" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="CombatLeaveCooldown" to="." method="_on_combat_leave_cooldown_timeout"]

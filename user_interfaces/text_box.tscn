@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bfgttyngrxknk"]
 
-[ext_resource type="Script" path="res://scripts/user_interfaces/text_box.gd" id="1_ijj2t"]
+[ext_resource type="Script" path="res://scripts/user_interfaces_scripts/text_box.gd" id="1_ijj2t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qypng"]
 bg_color = Color(0.235294, 0.235294, 0.235294, 1)
@@ -14,7 +14,7 @@ border_color = Color(0, 0, 0, 1)
 layer = 50
 script = ExtResource("1_ijj2t")
 
-[node name="TextboxContainer" type="MarginContainer" parent="."]
+[node name="TextBoxContainer" type="MarginContainer" parent="."]
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -28,28 +28,28 @@ theme_override_constants/margin_left = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="Panel" type="Panel" parent="TextboxContainer"]
+[node name="Panel" type="Panel" parent="TextBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qypng")
 
-[node name="MarginContainer" type="MarginContainer" parent="TextboxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TextBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TextboxContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TextBoxContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="TextStart" type="Label" parent="TextboxContainer/MarginContainer/HBoxContainer"]
+[node name="TextStart" type="Label" parent="TextBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 12
 text = "*  "
 
-[node name="TextArea" type="Label" parent="TextboxContainer/MarginContainer/HBoxContainer"]
+[node name="TextArea" type="Label" parent="TextBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -58,7 +58,7 @@ text = "Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample 
 autowrap_mode = 2
 clip_text = true
 
-[node name="TextEnd" type="Label" parent="TextboxContainer/MarginContainer/HBoxContainer"]
+[node name="TextEnd" type="Label" parent="TextBoxContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(7, 0)
 layout_mode = 2
 size_flags_horizontal = 0

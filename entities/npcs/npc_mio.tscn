@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cqxp404joem6o"]
 
-[ext_resource type="Script" path="res://scripts/entities/npcs/npc_mio.gd" id="1_5y147"]
+[ext_resource type="Script" path="res://scripts/entities_scripts/npcs_scripts/npc_mio.gd" id="1_5y147"]
 [ext_resource type="Texture2D" uid="uid://uol36pddvrtw" path="res://art/characters/player.png" id="2_r8uhs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r1b16"]

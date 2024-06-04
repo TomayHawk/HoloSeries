@@ -1,6 +1,6 @@
 [gd_scene load_steps=60 format=3 uid="uid://cdir8ktknml01"]
 
-[ext_resource type="Script" path="res://scripts/entities/player_2.gd" id="1_02fdj"]
+[ext_resource type="Script" path="res://scripts/entities_scripts/player_2.gd" id="1_vx1fn"]
 [ext_resource type="Texture2D" uid="uid://uol36pddvrtw" path="res://art/characters/player.png" id="2_ooq3a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
@@ -430,7 +430,8 @@ size = Vector2(10, 10)
 y_sort_enabled = true
 scale = Vector2(2, 2)
 collision_mask = 79
-script = ExtResource("1_02fdj")
+motion_mode = 1
+script = ExtResource("1_vx1fn")
 
 [node name="CollisionHitBox" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 0)
@@ -446,12 +447,14 @@ shape = SubResource("RectangleShape2D_fbnw6")
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_qsfsi")
-animation = &"front_idle"
+animation = &"back_idle"
+frame_progress = 0.679025
 offset = Vector2(0, -14)
 
 [node name="NpcDetectionArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
-collision_mask = 2
+collision_mask = 66
 
 [node name="NpcDetectionShape" type="CollisionShape2D" parent="NpcDetectionArea"]
 position = Vector2(0.5, -6)
@@ -459,6 +462,7 @@ scale = Vector2(1.9952, 2)
 shape = SubResource("CircleShape2D_swviq")
 
 [node name="EntitiesDetectionArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 
 [node name="EntitiesDetectionShape" type="CollisionShape2D" parent="EntitiesDetectionArea"]
@@ -467,6 +471,7 @@ scale = Vector2(10, 10)
 shape = SubResource("CircleShape2D_qb0ma")
 
 [node name="InnerAllyArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 
 [node name="InnerAllyShape" type="CollisionShape2D" parent="InnerAllyArea"]
@@ -518,6 +523,8 @@ one_shot = true
 [node name="PauseTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="AllyAttackCooldown" type="Timer" parent="."]
+
 [connection signal="body_entered" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_entered" flags=18]
 [connection signal="body_exited" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_exited" flags=18]
 [connection signal="body_exited" from="EntitiesDetectionArea" to="." method="_on_entities_detection_area_body_exited"]
@@ -527,3 +534,4 @@ one_shot = true
 [connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout" flags=18]
 [connection signal="timeout" from="DirectionCooldown" to="." method="_on_direction_cooldown_timeout"]
 [connection signal="timeout" from="PauseTimer" to="." method="_on_pause_timer_timeout"]
+[connection signal="timeout" from="AllyAttackCooldown" to="." method="_on_ally_attack_cooldown_timeout"]

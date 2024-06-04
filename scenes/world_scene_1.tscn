@@ -1,7 +1,7 @@
-[gd_scene load_steps=19 format=3 uid="uid://dyvmrtl5c0ad3"]
+[gd_scene load_steps=20 format=3 uid="uid://dyvmrtl5c0ad3"]
 
+[ext_resource type="Script" path="res://scripts/scenes_scripts/world_scene_1.gd" id="1_4rgc2"]
 [ext_resource type="Texture2D" uid="uid://c5bvpekwpv6rw" path="res://art/tileSets/plains.png" id="1_7j0j2"]
-[ext_resource type="Script" path="res://scripts/scenes/world_scene_1.gd" id="1_ld7bi"]
 [ext_resource type="Texture2D" uid="uid://btj1vfgsejh7f" path="res://art/objects/objects.png" id="2_nnwlk"]
 [ext_resource type="PackedScene" uid="uid://dlmb25heo0fti" path="res://entities/player_1.tscn" id="3_xhfsg"]
 [ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/NavigationTiles.png" id="4_kndtx"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cgwg615uwmnap" path="res://user_interfaces/combat_UI.tscn" id="7_yoiur"]
 [ext_resource type="PackedScene" uid="uid://cpvd865i7yd8u" path="res://user_interfaces/audio_stream_player.tscn" id="8_gukjs"]
 [ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/nousagi.tscn" id="9_tem7v"]
+[ext_resource type="PackedScene" uid="uid://bswhy46f3hcib" path="res://user_interfaces/options.tscn" id="10_fkn6n"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_upob8"]
 vertices = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -660,7 +661,7 @@ size = Vector2(128, 16)
 
 [node name="WorldScene1" type="Node2D"]
 y_sort_enabled = true
-script = ExtResource("1_ld7bi")
+script = ExtResource("1_4rgc2")
 
 [node name="NavigationMap" type="TileMap" parent="."]
 visible = false
@@ -708,11 +709,14 @@ position_smoothing_speed = 1.0
 y_sort_enabled = true
 
 [node name="Nousagi" parent="Enemies" instance=ExtResource("9_tem7v")]
+position = Vector2(200, -100)
 
 [node name="CombatUI" parent="." instance=ExtResource("7_yoiur")]
 
 [node name="TextBox" parent="." instance=ExtResource("4_qspxv")]
 
 [node name="AudioStreamPlayer" parent="." instance=ExtResource("8_gukjs")]
+
+[node name="Options" parent="." instance=ExtResource("10_fkn6n")]
 
 [connection signal="body_entered" from="WorldScene2Transit" to="." method="_on_world_scene_2_transit_body_entered"]

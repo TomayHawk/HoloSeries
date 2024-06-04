@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bqqgl42tyhde6"]
 
-[ext_resource type="Script" path="res://scripts/entities/npcs/npc_subaru.gd" id="1_8eps8"]
+[ext_resource type="Script" path="res://scripts/entities_scripts/npcs_scripts/npc_subaru.gd" id="1_8eps8"]
 [ext_resource type="Texture2D" uid="uid://uol36pddvrtw" path="res://art/characters/player.png" id="2_oka6r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o1iqo"]

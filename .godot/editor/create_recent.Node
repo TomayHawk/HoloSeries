@@ -1,4 +1,10 @@
 Timer
+Node
+Control
+Container
+Panel
+Button
+CanvasLayer
 CollisionShape2D
 Area2D
 HBoxContainer
