@@ -4,3 +4,4 @@ art
 /scripts/entities_scripts/player_1.gd
 /scripts/entities_scripts/player_2.gd
 /scripts/user_interfaces_scripts/combat_UI.gd
+project.godot
