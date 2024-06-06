@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://hypatwksy0f7"]
+[gd_scene load_steps=6 format=3 uid="uid://hypatwksy0f7"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/holo_nexus.gd" id="1_1js4i"]
 [ext_resource type="Script" path="res://scripts/entities_scripts/nexus_player.gd" id="2_nibvj"]
@@ -6,6 +6,8 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_j3ep2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_u2nu4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i5uhl"]
 
 [node name="HoloNexus" type="Node2D"]
 script = ExtResource("1_1js4i")
@@ -34,10 +36,20 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Empty" type="TextureButton" parent="Control"]
+[node name="Empty" type="Control" parent="Control"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureButton" type="TextureButton" parent="Control/Empty"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="Area2D" type="Area2D" parent="Control/Empty"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Control/Empty/Area2D"]
+shape = SubResource("CircleShape2D_i5uhl")
 
 [node name="Health" type="TextureButton" parent="Control"]
 layout_mode = 0
