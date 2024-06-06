@@ -1,0 +1,110 @@
+[gd_scene load_steps=5 format=3 uid="uid://hypatwksy0f7"]
+
+[ext_resource type="Script" path="res://scripts/user_interfaces_scripts/holo_nexus.gd" id="1_1js4i"]
+[ext_resource type="Script" path="res://scripts/entities_scripts/nexus_player.gd" id="2_nibvj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j3ep2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u2nu4"]
+
+[node name="HoloNexus" type="Node2D"]
+script = ExtResource("1_1js4i")
+
+[node name="NexusPlayer" type="CharacterBody2D" parent="."]
+script = ExtResource("2_nibvj")
+
+[node name="Sprite2D" type="Sprite2D" parent="NexusPlayer"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NexusPlayer"]
+shape = SubResource("CircleShape2D_j3ep2")
+
+[node name="Area2D" type="Area2D" parent="NexusPlayer"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NexusPlayer/Area2D"]
+shape = SubResource("CircleShape2D_u2nu4")
+
+[node name="Camera2D" type="Camera2D" parent="NexusPlayer"]
+
+[node name="TileMap" type="TileMap" parent="."]
+format = 2
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Empty" type="TextureButton" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Health" type="TextureButton" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Magic" type="TextureButton" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Defence" type="TextureButton" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MagicDefence" type="TextureButton" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Strength" type="TextureButton" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Intelligence" type="TextureButton" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Speed" type="TextureButton" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Agility" type="TextureButton" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SkillsControl" type="Control" parent="Control"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Skill" type="TextureButton" parent="Control/SkillsControl"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WhiteMagicControl" type="Control" parent="Control"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Heal" type="TextureButton" parent="Control/WhiteMagicControl"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BlackMagicControl" type="Control" parent="Control"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Fire" type="TextureButton" parent="Control/BlackMagicControl"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
