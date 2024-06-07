@@ -1,29 +1,52 @@
-[gd_scene load_steps=6 format=3 uid="uid://hypatwksy0f7"]
+[gd_scene load_steps=12 format=3 uid="uid://hypatwksy0f7"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/holo_nexus.gd" id="1_1js4i"]
 [ext_resource type="Script" path="res://scripts/entities_scripts/nexus_player.gd" id="2_nibvj"]
+[ext_resource type="Texture2D" uid="uid://c3i7567gonplb" path="res://art/tileSets/holonexus nodes.png" id="3_ggqdn"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_j3ep2"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_3cjki"]
+atlas = ExtResource("3_ggqdn")
+region = Rect2(224, 272, 16, 16)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_u2nu4"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0pahd"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_i5uhl"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_pq572"]
+atlas = ExtResource("3_ggqdn")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18nfw"]
+atlas = ExtResource("3_ggqdn")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qjxsb"]
+atlas = ExtResource("3_ggqdn")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stfcy"]
+atlas = ExtResource("3_ggqdn")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6qcut"]
+atlas = ExtResource("3_ggqdn")
+region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wv7iw"]
+atlas = ExtResource("3_ggqdn")
+region = Rect2(0, 160, 32, 32)
 
 [node name="HoloNexus" type="Node2D"]
 script = ExtResource("1_1js4i")
 
 [node name="NexusPlayer" type="CharacterBody2D" parent="."]
+position = Vector2(1, 0)
 script = ExtResource("2_nibvj")
 
 [node name="Sprite2D" type="Sprite2D" parent="NexusPlayer"]
+texture = SubResource("AtlasTexture_3cjki")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NexusPlayer"]
-shape = SubResource("CircleShape2D_j3ep2")
-
-[node name="Area2D" type="Area2D" parent="NexusPlayer"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="NexusPlayer/Area2D"]
-shape = SubResource("CircleShape2D_u2nu4")
+scale = Vector2(0.3, 0.3)
+shape = SubResource("RectangleShape2D_0pahd")
 
 [node name="Camera2D" type="Camera2D" parent="NexusPlayer"]
 
@@ -33,90 +56,41 @@ format = 2
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
-[node name="Empty" type="Control" parent="Control"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="TextureButton" type="TextureButton" parent="Control/Empty"]
+[node name="Empty" type="TextureRect" parent="Control"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 32.0
+offset_right = 64.0
+offset_bottom = 32.0
+texture = SubResource("AtlasTexture_pq572")
 
-[node name="Area2D" type="Area2D" parent="Control/Empty"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Control/Empty/Area2D"]
-shape = SubResource("CircleShape2D_i5uhl")
-
-[node name="Health" type="TextureButton" parent="Control"]
+[node name="Empty2" type="TextureRect" parent="Control"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 64.0
+offset_right = 96.0
+offset_bottom = 32.0
+texture = SubResource("AtlasTexture_18nfw")
 
-[node name="Magic" type="TextureButton" parent="Control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Empty3" type="TextureRect" parent="Control"]
+offset_left = 96.0
+offset_right = 128.0
+offset_bottom = 32.0
+texture = SubResource("AtlasTexture_qjxsb")
 
-[node name="Defence" type="TextureButton" parent="Control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Empty4" type="TextureRect" parent="Control"]
+offset_left = 128.0
+offset_right = 160.0
+offset_bottom = 32.0
+texture = SubResource("AtlasTexture_stfcy")
 
-[node name="MagicDefence" type="TextureButton" parent="Control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Empty5" type="TextureRect" parent="Control"]
+offset_left = 160.0
+offset_right = 192.0
+offset_bottom = 32.0
+texture = SubResource("AtlasTexture_6qcut")
 
-[node name="Strength" type="TextureButton" parent="Control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Intelligence" type="TextureButton" parent="Control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Speed" type="TextureButton" parent="Control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Agility" type="TextureButton" parent="Control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="SkillsControl" type="Control" parent="Control"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Skill" type="TextureButton" parent="Control/SkillsControl"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="WhiteMagicControl" type="Control" parent="Control"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Heal" type="TextureButton" parent="Control/WhiteMagicControl"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="BlackMagicControl" type="Control" parent="Control"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Fire" type="TextureButton" parent="Control/BlackMagicControl"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Empty6" type="TextureRect" parent="Control"]
+offset_left = 192.0
+offset_right = 224.0
+offset_bottom = 32.0
+texture = SubResource("AtlasTexture_wv7iw")
