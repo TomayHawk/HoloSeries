@@ -18,12 +18,12 @@ var temp_snap_distance = 0
 var snap_distance = 100000
 var snap_texture = null
 var snap_region = Rect2(Vector2.ZERO, Vector2.ZERO)
-##### update this later
-@onready var nodes_on_screen = [nexus_node.get_child(0), nexus_node.get_child(1), nexus_node.get_child(2), nexus_node.get_child(3), nexus_node.get_child(4), nexus_node.get_child(5)]
+var warping = true
+
+var nodes_on_screen = []
 
 func _ready():
-	print(nodes_on_screen[0])
-	pass # #### update last_node from global_settings
+	for button in nexus_node.get_children(): nodes_on_screen.push_back(button)
 
 func _physics_process(_delta):
 	if snapping:
@@ -47,8 +47,7 @@ func _physics_process(_delta):
 			snap_region = snap_texture.get_region()
 			snap_texture.set_region(Rect2(snap_region.position + Vector2( - 32, 0), snap_region.size))
 			player_node.show()
-		
-		# else: nexus_node.get_node("Empty").texture.set_region(Rect2(0, 0, 32, 32))
+
 	move_and_slide()
 
 #make snapping toggleable
@@ -65,6 +64,16 @@ func snap_to_nearest():
 
 	snap_position = snap_node.position + Vector2(16, 16)
 	snap_direction = (snap_position - position).normalized()
-	snap_texture = snap_node.texture
+	snap_texture = snap_node.texture_normal
+	snapping = true
+	snap_ready = false
+
+func _on_texture_button_2_pressed(extra_arg_0):
+	print(extra_arg_0)
+	snap_node = extra_arg_0
+	snap_distance = position.distance_to(snap_node.position)
+	snap_position = snap_node.position + Vector2(16, 16)
+	snap_direction = (snap_position - position).normalized()
+	snap_texture = snap_node.texture_normal
 	snapping = true
 	snap_ready = false

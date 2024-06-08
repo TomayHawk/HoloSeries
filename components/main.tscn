@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://b68w7kce3jm32"]
+
+[ext_resource type="Script" path="res://components/main.gd" id="1_2sqlb"]
+[ext_resource type="Script" path="res://temp_enemy.gd" id="2_f0rod"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qnf7x"]
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_2sqlb")
+
+[node name="TempEnemy" type="CharacterBody2D" parent="."]
+script = ExtResource("2_f0rod")
+
+[node name="Sprite2D" type="Sprite2D" parent="TempEnemy"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TempEnemy"]
+shape = SubResource("RectangleShape2D_qnf7x")
+
+[node name="Cooldown" type="Timer" parent="TempEnemy"]
+
+[connection signal="timeout" from="TempEnemy/Cooldown" to="." method="_on_cooldown_timeout"]
