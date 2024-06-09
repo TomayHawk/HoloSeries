@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/components_scripts/global_settings.gd" id="1_mpwj3"]
 
 [node name="GlobalSettings" type="Node"]
+process_mode = 3
 script = ExtResource("1_mpwj3")
 
 [node name="CombatLeaveCooldown" type="Timer" parent="."]

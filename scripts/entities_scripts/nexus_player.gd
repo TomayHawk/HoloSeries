@@ -68,9 +68,10 @@ func snap_to_nearest():
 	snapping = true
 	snap_ready = false
 
-func _on_texture_button_2_pressed(extra_arg_0):
+func _on_texture_button_pressed(extra_arg_0):
 	print(extra_arg_0)
-	snap_node = extra_arg_0
+	snap_node = get_node(extra_arg_0)
+	print(snap_node)
 	snap_distance = position.distance_to(snap_node.position)
 	snap_position = snap_node.position + Vector2(16, 16)
 	snap_direction = (snap_position - position).normalized()
