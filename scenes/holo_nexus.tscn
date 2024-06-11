@@ -1,20 +1,21 @@
-[gd_scene load_steps=26 format=3 uid="uid://hypatwksy0f7"]
+[gd_scene load_steps=61 format=3 uid="uid://hypatwksy0f7"]
 
-[ext_resource type="Script" path="res://scenes/holo_nexus.gd" id="1_u0777"]
+[ext_resource type="Script" path="res://scripts/user_interfaces_scripts/holo_nexus.gd" id="1_84ul6"]
 [ext_resource type="Script" path="res://scripts/entities_scripts/nexus_player.gd" id="2_nibvj"]
-[ext_resource type="Texture2D" uid="uid://cg2wj20vejfif" path="res://art/holo_nexus/curve_long_left.png" id="3_2brou"]
 [ext_resource type="Texture2D" uid="uid://c3i7567gonplb" path="res://art/tileSets/holonexus nodes.png" id="3_ggqdn"]
-[ext_resource type="Texture2D" uid="uid://bco32hipmu7du" path="res://art/holo_nexus/curve_long_right.png" id="4_bby0m"]
-[ext_resource type="Texture2D" uid="uid://c6nwno1856piu" path="res://art/holo_nexus/curve_middle_left.png" id="5_gmluj"]
-[ext_resource type="Texture2D" uid="uid://dtu2pwglgyaso" path="res://art/holo_nexus/curve_middle_right.png" id="6_ru22q"]
-[ext_resource type="Texture2D" uid="uid://bkfj1pwc7tt0b" path="res://art/holo_nexus/curve_short_left.png" id="7_ljv46"]
-[ext_resource type="Texture2D" uid="uid://di45jthvgu6bg" path="res://art/holo_nexus/curve_short_right.png" id="8_efij2"]
-[ext_resource type="Texture2D" uid="uid://cy5ju8kpoofl5" path="res://art/holo_nexus/diagonal_long.png" id="9_mf357"]
-[ext_resource type="Texture2D" uid="uid://ckguakclltmaw" path="res://art/holo_nexus/diagonal_middle.png" id="10_rox4p"]
-[ext_resource type="Texture2D" uid="uid://cgrudhbwofypr" path="res://art/holo_nexus/diagonal_short.png" id="11_e4d1v"]
-[ext_resource type="Texture2D" uid="uid://bxmrl04q5x65a" path="res://art/holo_nexus/vertical_long.webp" id="12_3ws6v"]
-[ext_resource type="Texture2D" uid="uid://byogk1w2bdvar" path="res://art/holo_nexus/vertical_middle.png" id="13_rqlka"]
-[ext_resource type="Texture2D" uid="uid://dxfaihcmnssfw" path="res://art/holo_nexus/vertical_short.png" id="14_tygtl"]
+[ext_resource type="Texture2D" uid="uid://r63w27k1bhgg" path="res://art/holo_nexus/curve_outer.png" id="4_kf3d5"]
+[ext_resource type="Texture2D" uid="uid://c1sw8dp1rn3df" path="res://art/holo_nexus/curve_middle.png" id="5_6y08m"]
+[ext_resource type="Texture2D" uid="uid://0mxcei2r42vo" path="res://art/holo_nexus/curve_inner.png" id="6_08vhf"]
+[ext_resource type="Texture2D" uid="uid://ckf87avx74ad8" path="res://art/holo_nexus/diagonal_outer.png" id="7_ooden"]
+[ext_resource type="Texture2D" uid="uid://lwtvxjaqhkgu" path="res://art/holo_nexus/diagonal_inner.png" id="9_ktpa6"]
+[ext_resource type="Texture2D" uid="uid://b4lhfl7pmndpk" path="res://art/holo_nexus/straight_normal.png" id="10_hg50c"]
+[ext_resource type="Texture2D" uid="uid://blfnmsexyoy75" path="res://art/holo_nexus/diagonal_middle.png" id="10_rox4p"]
+[ext_resource type="Texture2D" uid="uid://c3ry8du3g67ev" path="res://art/holo_nexus/curve_inner_extended_left.png" id="11_ky07n"]
+[ext_resource type="Texture2D" uid="uid://bsfw6egk48x3q" path="res://art/holo_nexus/curve_inner_extended_right.png" id="12_tnk4p"]
+[ext_resource type="Texture2D" uid="uid://bmtbvsfdmhx8j" path="res://art/holo_nexus/curve_outer_extended_left.png" id="13_dk8it"]
+[ext_resource type="Texture2D" uid="uid://c7tn8ud8oo1m4" path="res://art/holo_nexus/curve_outer_extended_right.png" id="14_2hpil"]
+[ext_resource type="Texture2D" uid="uid://b80t0fvw1jkqd" path="res://art/holo_nexus/curve_middle_extended_left.png" id="15_lj34j"]
+[ext_resource type="Texture2D" uid="uid://goau1jkuscjp" path="res://art/holo_nexus/curve_middle_extended_right.png" id="16_ek3fd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3cjki"]
 atlas = ExtResource("3_ggqdn")
@@ -29,32 +30,153 @@ texture = ExtResource("3_ggqdn")
 [sub_resource type="TileSet" id="TileSet_2t861"]
 sources/0 = SubResource("TileSetAtlasSource_ve6by")
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xylfl"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5t717"]
 load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wusfo"]
-atlas = SubResource("CompressedTexture2D_xylfl")
-region = Rect2(128, 96, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_1j0ld"]
+atlas = SubResource("CompressedTexture2D_5t717")
+region = Rect2(128, 0, 32, 32)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5pvw7"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_kwrnc"]
 load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6vk7l"]
-atlas = SubResource("CompressedTexture2D_5pvw7")
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0y27"]
+atlas = SubResource("CompressedTexture2D_kwrnc")
 region = Rect2(128, 96, 32, 32)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8o0ih"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rashf"]
 load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0mlkk"]
-atlas = SubResource("CompressedTexture2D_8o0ih")
-region = Rect2(128, 96, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_1pmk4"]
+atlas = SubResource("CompressedTexture2D_rashf")
+region = Rect2(192, 96, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1iriv"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_260ev"]
+atlas = SubResource("CompressedTexture2D_1iriv")
+region = Rect2(192, 128, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_k6ykx"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d34ea"]
+atlas = SubResource("CompressedTexture2D_k6ykx")
+region = Rect2(128, 128, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_reues"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r5gj0"]
+atlas = SubResource("CompressedTexture2D_reues")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0b5iw"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nyjtq"]
+atlas = SubResource("CompressedTexture2D_0b5iw")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xmhvj"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nev8w"]
+atlas = SubResource("CompressedTexture2D_xmhvj")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_67rfm"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cdsgf"]
+atlas = SubResource("CompressedTexture2D_67rfm")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5etr1"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ssy7"]
+atlas = SubResource("CompressedTexture2D_5etr1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vfkil"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2b0p8"]
+atlas = SubResource("CompressedTexture2D_vfkil")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_oamlt"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjco4"]
+atlas = SubResource("CompressedTexture2D_oamlt")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7lkc6"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d7rj4"]
+atlas = SubResource("CompressedTexture2D_7lkc6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ug11w"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6038"]
+atlas = SubResource("CompressedTexture2D_ug11w")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vitsk"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ao4fc"]
+atlas = SubResource("CompressedTexture2D_vitsk")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_25lpr"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dipt0"]
+atlas = SubResource("CompressedTexture2D_25lpr")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nivs1"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vrs1t"]
+atlas = SubResource("CompressedTexture2D_nivs1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_y2j6x"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrqjg"]
+atlas = SubResource("CompressedTexture2D_y2j6x")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_iqv4y"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1j75g"]
+atlas = SubResource("CompressedTexture2D_iqv4y")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tg4io"]
+load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e045335885352390dc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xsj42"]
+atlas = SubResource("CompressedTexture2D_tg4io")
+region = Rect2(0, 0, 32, 32)
 
 [node name="HoloNexus" type="Node2D"]
 process_mode = 3
-script = ExtResource("1_u0777")
+script = ExtResource("1_84ul6")
 
 [node name="NexusPlayer" type="CharacterBody2D" parent="."]
+visible = false
+z_index = 1
 y_sort_enabled = true
 script = ExtResource("2_nibvj")
 
@@ -70,6 +192,7 @@ shape = SubResource("RectangleShape2D_0pahd")
 
 [node name="TileMap" type="TileMap" parent="."]
 y_sort_enabled = true
+scale = Vector2(3, 3)
 tile_set = SubResource("TileSet_2t861")
 format = 2
 layer_0/y_sort_enabled = true
@@ -81,654 +204,1072 @@ layer_0/tile_data = PackedInt32Array(-1114140, 983040, 17, -1048604, 983040, 17,
 visible = false
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
 
 [node name="Quadrant1" type="Control" parent="BigCircle"]
-layout_mode = 3
 anchors_preset = 0
-rotation = 1.5708
 
-[node name="CurveLongLeft" type="TextureRect" parent="BigCircle/Quadrant1"]
+[node name="CurveOuter" type="TextureRect" parent="BigCircle/Quadrant1"]
 layout_mode = 0
-offset_left = -83.0002
-offset_top = -58.9997
-offset_right = -51.0002
-offset_bottom = 5.00031
-texture = ExtResource("3_2brou")
+offset_left = -106.0
+offset_top = -74.0
+offset_right = -58.0
+offset_bottom = 6.0
+texture = ExtResource("4_kf3d5")
 
-[node name="CurveLongRight" type="TextureRect" parent="BigCircle/Quadrant1"]
+[node name="CurveMiddle" type="TextureRect" parent="BigCircle/Quadrant1"]
 layout_mode = 0
-offset_left = -59.0
-offset_top = -83.0
-offset_right = 5.0
-offset_bottom = -51.0
-texture = ExtResource("4_bby0m")
-
-[node name="CurveMiddleLeft" type="TextureRect" parent="BigCircle/Quadrant1"]
-layout_mode = 0
-offset_left = -55.0001
-offset_top = -39.9998
-offset_right = -23.0001
-offset_bottom = 8.0002
-texture = ExtResource("5_gmluj")
-
-[node name="CurveMiddleRight" type="TextureRect" parent="BigCircle/Quadrant1"]
-layout_mode = 0
-offset_left = -40.0002
-offset_top = -54.9999
-offset_right = 7.9998
-offset_bottom = -22.9999
-texture = ExtResource("6_ru22q")
-
-[node name="CurveShortLeft" type="TextureRect" parent="BigCircle/Quadrant1"]
-layout_mode = 0
-offset_left = -27.0
-offset_top = -23.0
-offset_right = -11.0
+offset_left = -70.0
+offset_top = -55.0
+offset_right = -38.0
 offset_bottom = 9.0
-texture = ExtResource("7_ljv46")
+texture = ExtResource("5_6y08m")
+metadata/_edit_use_anchors_ = true
 
-[node name="CurveShortRight" type="TextureRect" parent="BigCircle/Quadrant1"]
+[node name="CurveInner" type="TextureRect" parent="BigCircle/Quadrant1"]
 layout_mode = 0
-offset_left = -23.0
-offset_top = -27.0
-offset_right = 9.0
-offset_bottom = -11.0
-texture = ExtResource("8_efij2")
+offset_left = -43.0
+offset_top = -28.0
+offset_right = -11.0
+offset_bottom = 4.0
+texture = ExtResource("6_08vhf")
+metadata/_edit_use_anchors_ = true
 
-[node name="DiagonalLong" type="TextureRect" parent="BigCircle/Quadrant1"]
+[node name="CurveOuterFlipped" type="TextureRect" parent="BigCircle/Quadrant1"]
 layout_mode = 0
-offset_left = -60.0
-offset_top = -60.0
-offset_right = -28.0
-offset_bottom = -28.0
-texture = ExtResource("9_mf357")
+offset_left = -106.0
+offset_top = -6.0
+offset_right = -58.0
+offset_bottom = 74.0
+texture = ExtResource("4_kf3d5")
+flip_v = true
+metadata/_edit_use_anchors_ = true
+
+[node name="CurveMiddleFlipped" type="TextureRect" parent="BigCircle/Quadrant1"]
+layout_mode = 0
+offset_left = -70.0
+offset_top = -9.0
+offset_right = -38.0
+offset_bottom = 55.0
+texture = ExtResource("5_6y08m")
+flip_v = true
+metadata/_edit_use_anchors_ = true
+
+[node name="CurveInnerFlipped" type="TextureRect" parent="BigCircle/Quadrant1"]
+layout_mode = 0
+offset_left = -43.0
+offset_top = -4.0
+offset_right = -11.0
+offset_bottom = 28.0
+texture = ExtResource("6_08vhf")
+flip_v = true
+metadata/_edit_use_anchors_ = true
+
+[node name="DiagonalOuter" type="TextureRect" parent="BigCircle/Quadrant1"]
+layout_mode = 0
+offset_left = -73.0
+offset_top = -73.0
+offset_right = -41.0
+offset_bottom = -41.0
+texture = ExtResource("7_ooden")
+metadata/_edit_use_anchors_ = true
 
 [node name="DiagonalMiddle" type="TextureRect" parent="BigCircle/Quadrant1"]
 layout_mode = 0
+offset_left = -50.0
+offset_top = -50.0
+offset_right = -18.0
+offset_bottom = -18.0
+texture = ExtResource("10_rox4p")
+metadata/_edit_use_anchors_ = true
+
+[node name="DiagonalInner" type="TextureRect" parent="BigCircle/Quadrant1"]
+layout_mode = 0
+offset_left = -27.0
+offset_top = -27.0
+offset_right = 5.0
+offset_bottom = 5.0
+texture = ExtResource("9_ktpa6")
+metadata/_edit_use_anchors_ = true
+
+[node name="StraightNormal" type="TextureRect" parent="BigCircle/Quadrant1"]
+layout_mode = 0
+offset_left = -104.0
+offset_top = -8.0
+offset_right = -56.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
+metadata/_edit_use_anchors_ = true
+
+[node name="StraightNormal2" type="TextureRect" parent="BigCircle/Quadrant1"]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -8.0
+offset_right = -24.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
+metadata/_edit_use_anchors_ = true
+
+[node name="StraightNormal3" type="TextureRect" parent="BigCircle/Quadrant1"]
+layout_mode = 0
+offset_left = -40.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
+metadata/_edit_use_anchors_ = true
+
+[node name="CurveInnerExtendedLeft" type="TextureRect" parent="BigCircle/Quadrant1"]
+layout_mode = 0
 offset_left = -40.0
 offset_top = -40.0
-offset_right = -8.0
-offset_bottom = -8.0
-texture = ExtResource("10_rox4p")
-
-[node name="DiagonalShort" type="TextureRect" parent="BigCircle/Quadrant1"]
-layout_mode = 0
-offset_left = -23.0
-offset_top = -23.0
-offset_right = 9.0
-offset_bottom = 9.0
-texture = ExtResource("11_e4d1v")
-
-[node name="VerticalLong" type="TextureRect" parent="BigCircle/Quadrant1"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -86.0
 offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("11_ky07n")
+
+[node name="CurveInnerExtendedRight" type="TextureRect" parent="BigCircle/Quadrant1"]
+layout_mode = 0
+offset_left = -32.0
+offset_top = -43.0
+offset_right = 32.0
+offset_bottom = -11.0
+texture = ExtResource("12_tnk4p")
+
+[node name="CurveOuterExtendedLeft" type="TextureRect" parent="BigCircle/Quadrant1"]
+layout_mode = 0
+offset_left = -104.0
+offset_top = -104.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("13_dk8it")
+
+[node name="CurveOuterExtendedRight" type="TextureRect" parent="BigCircle/Quadrant1"]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -106.0
+offset_right = 72.0
+offset_bottom = -58.0
+texture = ExtResource("14_2hpil")
+
+[node name="CurveMiddleExtendedLeft" type="TextureRect" parent="BigCircle/Quadrant1"]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -72.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("15_lj34j")
+
+[node name="CurveMiddleExtendedRight" type="TextureRect" parent="BigCircle/Quadrant1"]
+layout_mode = 0
+offset_left = -56.0
+offset_top = -70.0
+offset_right = 56.0
 offset_bottom = -38.0
-texture = ExtResource("12_3ws6v")
-
-[node name="VerticalMiddle" type="TextureRect" parent="BigCircle/Quadrant1"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -50.0
-offset_right = 8.0
-offset_bottom = -18.0
-texture = ExtResource("13_rqlka")
-
-[node name="VerticalShort" type="TextureRect" parent="BigCircle/Quadrant1"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -27.0
-offset_right = 8.0
-offset_bottom = 5.0
-texture = ExtResource("14_tygtl")
+texture = ExtResource("16_ek3fd")
 
 [node name="Quadrant2" type="Control" parent="BigCircle"]
 layout_mode = 3
 anchors_preset = 0
+rotation = 1.5708
 
-[node name="CurveLongLeft" type="TextureRect" parent="BigCircle/Quadrant2"]
+[node name="CurveOuter" type="TextureRect" parent="BigCircle/Quadrant2"]
 layout_mode = 0
-offset_left = -83.0
-offset_top = -59.0
-offset_right = -51.0
-offset_bottom = 5.0
-texture = ExtResource("3_2brou")
+offset_left = -106.0
+offset_top = -74.0
+offset_right = -58.0
+offset_bottom = 6.0
+texture = ExtResource("4_kf3d5")
 
-[node name="CurveLongRight" type="TextureRect" parent="BigCircle/Quadrant2"]
+[node name="CurveMiddle" type="TextureRect" parent="BigCircle/Quadrant2"]
 layout_mode = 0
-offset_left = -59.0
-offset_top = -83.0
-offset_right = 5.0
-offset_bottom = -51.0
-texture = ExtResource("4_bby0m")
-
-[node name="CurveMiddleLeft" type="TextureRect" parent="BigCircle/Quadrant2"]
-layout_mode = 0
-offset_left = -55.0
-offset_top = -40.0
-offset_right = -23.0
-offset_bottom = 8.0
-texture = ExtResource("5_gmluj")
-
-[node name="CurveMiddleRight" type="TextureRect" parent="BigCircle/Quadrant2"]
-layout_mode = 0
-offset_left = -40.0
+offset_left = -70.0
 offset_top = -55.0
-offset_right = 8.0
-offset_bottom = -23.0
-texture = ExtResource("6_ru22q")
-
-[node name="CurveShortLeft" type="TextureRect" parent="BigCircle/Quadrant2"]
-layout_mode = 0
-offset_left = -27.0
-offset_top = -23.0
-offset_right = -11.0
+offset_right = -38.0
 offset_bottom = 9.0
-texture = ExtResource("7_ljv46")
+texture = ExtResource("5_6y08m")
+metadata/_edit_use_anchors_ = true
 
-[node name="CurveShortRight" type="TextureRect" parent="BigCircle/Quadrant2"]
+[node name="CurveInner" type="TextureRect" parent="BigCircle/Quadrant2"]
 layout_mode = 0
-offset_left = -23.0
-offset_top = -27.0
-offset_right = 9.0
-offset_bottom = -11.0
-texture = ExtResource("8_efij2")
+offset_left = -43.0
+offset_top = -28.0
+offset_right = -11.0
+offset_bottom = 4.0
+texture = ExtResource("6_08vhf")
+metadata/_edit_use_anchors_ = true
 
-[node name="DiagonalLong" type="TextureRect" parent="BigCircle/Quadrant2"]
+[node name="CurveOuterFlipped" type="TextureRect" parent="BigCircle/Quadrant2"]
 layout_mode = 0
-offset_left = -60.0
-offset_top = -60.0
-offset_right = -28.0
-offset_bottom = -28.0
-texture = ExtResource("9_mf357")
+offset_left = -106.0
+offset_top = -6.0
+offset_right = -58.0
+offset_bottom = 74.0
+texture = ExtResource("4_kf3d5")
+flip_v = true
+metadata/_edit_use_anchors_ = true
+
+[node name="CurveMiddleFlipped" type="TextureRect" parent="BigCircle/Quadrant2"]
+layout_mode = 0
+offset_left = -70.0
+offset_top = -9.0
+offset_right = -38.0
+offset_bottom = 55.0
+texture = ExtResource("5_6y08m")
+flip_v = true
+
+[node name="CurveInnerFlipped" type="TextureRect" parent="BigCircle/Quadrant2"]
+layout_mode = 0
+offset_left = -43.0
+offset_top = -4.0
+offset_right = -11.0
+offset_bottom = 28.0
+texture = ExtResource("6_08vhf")
+flip_v = true
+
+[node name="DiagonalOuter" type="TextureRect" parent="BigCircle/Quadrant2"]
+layout_mode = 0
+offset_left = -73.0
+offset_top = -73.0
+offset_right = -41.0
+offset_bottom = -41.0
+texture = ExtResource("7_ooden")
+metadata/_edit_use_anchors_ = true
 
 [node name="DiagonalMiddle" type="TextureRect" parent="BigCircle/Quadrant2"]
 layout_mode = 0
+offset_left = -50.0
+offset_top = -50.0
+offset_right = -18.0
+offset_bottom = -18.0
+texture = ExtResource("10_rox4p")
+metadata/_edit_use_anchors_ = true
+
+[node name="DiagonalInner" type="TextureRect" parent="BigCircle/Quadrant2"]
+layout_mode = 0
+offset_left = -27.0
+offset_top = -27.0
+offset_right = 5.0
+offset_bottom = 5.0
+texture = ExtResource("9_ktpa6")
+metadata/_edit_use_anchors_ = true
+
+[node name="StraightNormal" type="TextureRect" parent="BigCircle/Quadrant2"]
+layout_mode = 0
+offset_left = -104.0
+offset_top = -8.0
+offset_right = -56.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
+metadata/_edit_use_anchors_ = true
+
+[node name="StraightNormal2" type="TextureRect" parent="BigCircle/Quadrant2"]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -8.0
+offset_right = -24.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
+metadata/_edit_use_anchors_ = true
+
+[node name="StraightNormal3" type="TextureRect" parent="BigCircle/Quadrant2"]
+layout_mode = 0
+offset_left = -40.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
+
+[node name="CurveInnerExtendedLeft" type="TextureRect" parent="BigCircle/Quadrant2"]
+layout_mode = 0
 offset_left = -40.0
 offset_top = -40.0
-offset_right = -8.0
-offset_bottom = -8.0
-texture = ExtResource("10_rox4p")
-
-[node name="DiagonalShort" type="TextureRect" parent="BigCircle/Quadrant2"]
-layout_mode = 0
-offset_left = -23.0
-offset_top = -23.0
-offset_right = 9.0
-offset_bottom = 9.0
-texture = ExtResource("11_e4d1v")
-
-[node name="VerticalLong" type="TextureRect" parent="BigCircle/Quadrant2"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -86.0
 offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("11_ky07n")
+
+[node name="CurveInnerExtendedRight" type="TextureRect" parent="BigCircle/Quadrant2"]
+layout_mode = 0
+offset_left = -32.0
+offset_top = -43.0
+offset_right = 32.0
+offset_bottom = -11.0
+texture = ExtResource("12_tnk4p")
+
+[node name="CurveOuterExtendedLeft" type="TextureRect" parent="BigCircle/Quadrant2"]
+layout_mode = 0
+offset_left = -104.0
+offset_top = -104.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("13_dk8it")
+
+[node name="CurveOuterExtendedRight" type="TextureRect" parent="BigCircle/Quadrant2"]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -106.0
+offset_right = 72.0
+offset_bottom = -58.0
+texture = ExtResource("14_2hpil")
+
+[node name="CurveMiddleExtendedLeft" type="TextureRect" parent="BigCircle/Quadrant2"]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -72.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("15_lj34j")
+
+[node name="CurveMiddleExtendedRight" type="TextureRect" parent="BigCircle/Quadrant2"]
+layout_mode = 0
+offset_left = -56.0
+offset_top = -70.0
+offset_right = 56.0
 offset_bottom = -38.0
-texture = ExtResource("12_3ws6v")
-
-[node name="VerticalMiddle" type="TextureRect" parent="BigCircle/Quadrant2"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -50.0
-offset_right = 8.0
-offset_bottom = -18.0
-texture = ExtResource("13_rqlka")
-
-[node name="VerticalShort" type="TextureRect" parent="BigCircle/Quadrant2"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -27.0
-offset_right = 8.0
-offset_bottom = 5.0
-texture = ExtResource("14_tygtl")
+texture = ExtResource("16_ek3fd")
 
 [node name="Quadrant3" type="Control" parent="BigCircle"]
 layout_mode = 3
 anchors_preset = 0
-rotation = -1.5708
+rotation = 3.14159
 
-[node name="CurveLongLeft" type="TextureRect" parent="BigCircle/Quadrant3"]
+[node name="CurveOuter" type="TextureRect" parent="BigCircle/Quadrant3"]
 layout_mode = 0
-offset_left = -83.0
-offset_top = -59.0
-offset_right = -51.0
-offset_bottom = 5.0
-texture = ExtResource("3_2brou")
+offset_left = -106.0
+offset_top = -74.0
+offset_right = -58.0
+offset_bottom = 6.0
+texture = ExtResource("4_kf3d5")
 
-[node name="CurveLongRight" type="TextureRect" parent="BigCircle/Quadrant3"]
+[node name="CurveMiddle" type="TextureRect" parent="BigCircle/Quadrant3"]
 layout_mode = 0
-offset_left = -59.0
-offset_top = -83.0
-offset_right = 5.0
-offset_bottom = -51.0
-texture = ExtResource("4_bby0m")
-
-[node name="CurveMiddleLeft" type="TextureRect" parent="BigCircle/Quadrant3"]
-layout_mode = 0
-offset_left = -54.9999
-offset_top = -40.0002
-offset_right = -22.9999
-offset_bottom = 7.9998
-texture = ExtResource("5_gmluj")
-
-[node name="CurveMiddleRight" type="TextureRect" parent="BigCircle/Quadrant3"]
-layout_mode = 0
-offset_left = -39.9998
-offset_top = -55.0001
-offset_right = 8.0002
-offset_bottom = -23.0001
-texture = ExtResource("6_ru22q")
-
-[node name="CurveShortLeft" type="TextureRect" parent="BigCircle/Quadrant3"]
-layout_mode = 0
-offset_left = -27.0
-offset_top = -23.0
-offset_right = -11.0
+offset_left = -70.0
+offset_top = -55.0
+offset_right = -38.0
 offset_bottom = 9.0
-texture = ExtResource("7_ljv46")
+texture = ExtResource("5_6y08m")
+metadata/_edit_use_anchors_ = true
 
-[node name="CurveShortRight" type="TextureRect" parent="BigCircle/Quadrant3"]
+[node name="CurveInner" type="TextureRect" parent="BigCircle/Quadrant3"]
 layout_mode = 0
-offset_left = -23.0
-offset_top = -27.0
-offset_right = 9.0
-offset_bottom = -11.0
-texture = ExtResource("8_efij2")
+offset_left = -43.0
+offset_top = -28.0
+offset_right = -11.0
+offset_bottom = 4.0
+texture = ExtResource("6_08vhf")
+metadata/_edit_use_anchors_ = true
 
-[node name="DiagonalLong" type="TextureRect" parent="BigCircle/Quadrant3"]
+[node name="CurveOuterFlipped" type="TextureRect" parent="BigCircle/Quadrant3"]
 layout_mode = 0
-offset_left = -60.0
-offset_top = -60.0
-offset_right = -28.0
-offset_bottom = -28.0
-texture = ExtResource("9_mf357")
+offset_left = -106.0
+offset_top = -6.0
+offset_right = -58.0
+offset_bottom = 74.0
+texture = ExtResource("4_kf3d5")
+flip_v = true
+metadata/_edit_use_anchors_ = true
+
+[node name="CurveMiddleFlipped" type="TextureRect" parent="BigCircle/Quadrant3"]
+layout_mode = 0
+offset_left = -70.0
+offset_top = -9.0
+offset_right = -38.0
+offset_bottom = 55.0
+texture = ExtResource("5_6y08m")
+flip_v = true
+metadata/_edit_use_anchors_ = true
+
+[node name="CurveInnerFlipped" type="TextureRect" parent="BigCircle/Quadrant3"]
+layout_mode = 0
+offset_left = -43.0
+offset_top = -4.0
+offset_right = -11.0
+offset_bottom = 28.0
+texture = ExtResource("6_08vhf")
+flip_v = true
+metadata/_edit_use_anchors_ = true
+
+[node name="DiagonalOuter" type="TextureRect" parent="BigCircle/Quadrant3"]
+layout_mode = 0
+offset_left = -73.0
+offset_top = -73.0
+offset_right = -41.0
+offset_bottom = -41.0
+texture = ExtResource("7_ooden")
+metadata/_edit_use_anchors_ = true
 
 [node name="DiagonalMiddle" type="TextureRect" parent="BigCircle/Quadrant3"]
 layout_mode = 0
+offset_left = -50.0
+offset_top = -50.0
+offset_right = -18.0
+offset_bottom = -18.0
+texture = ExtResource("10_rox4p")
+metadata/_edit_use_anchors_ = true
+
+[node name="DiagonalInner" type="TextureRect" parent="BigCircle/Quadrant3"]
+layout_mode = 0
+offset_left = -27.0
+offset_top = -27.0
+offset_right = 5.0
+offset_bottom = 5.0
+texture = ExtResource("9_ktpa6")
+metadata/_edit_use_anchors_ = true
+
+[node name="StraightNormal" type="TextureRect" parent="BigCircle/Quadrant3"]
+layout_mode = 0
+offset_left = -104.0
+offset_top = -8.0
+offset_right = -56.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
+metadata/_edit_use_anchors_ = true
+
+[node name="StraightNormal2" type="TextureRect" parent="BigCircle/Quadrant3"]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -8.0
+offset_right = -24.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
+metadata/_edit_use_anchors_ = true
+
+[node name="StraightNormal3" type="TextureRect" parent="BigCircle/Quadrant3"]
+layout_mode = 0
+offset_left = -40.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
+metadata/_edit_use_anchors_ = true
+
+[node name="CurveInnerExtendedLeft" type="TextureRect" parent="BigCircle/Quadrant3"]
+layout_mode = 0
 offset_left = -40.0
 offset_top = -40.0
-offset_right = -8.0
-offset_bottom = -8.0
-texture = ExtResource("10_rox4p")
-
-[node name="DiagonalShort" type="TextureRect" parent="BigCircle/Quadrant3"]
-layout_mode = 0
-offset_left = -23.0
-offset_top = -23.0
-offset_right = 9.0
-offset_bottom = 9.0
-texture = ExtResource("11_e4d1v")
-
-[node name="VerticalLong" type="TextureRect" parent="BigCircle/Quadrant3"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -86.0
 offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("11_ky07n")
+
+[node name="CurveInnerExtendedRight" type="TextureRect" parent="BigCircle/Quadrant3"]
+layout_mode = 0
+offset_left = -32.0
+offset_top = -43.0
+offset_right = 32.0
+offset_bottom = -11.0
+texture = ExtResource("12_tnk4p")
+
+[node name="CurveOuterExtendedLeft" type="TextureRect" parent="BigCircle/Quadrant3"]
+layout_mode = 0
+offset_left = -104.0
+offset_top = -104.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("13_dk8it")
+
+[node name="CurveOuterExtendedRight" type="TextureRect" parent="BigCircle/Quadrant3"]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -106.0
+offset_right = 72.0
+offset_bottom = -58.0
+texture = ExtResource("14_2hpil")
+
+[node name="CurveMiddleExtendedLeft" type="TextureRect" parent="BigCircle/Quadrant3"]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -72.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("15_lj34j")
+
+[node name="CurveMiddleExtendedRight" type="TextureRect" parent="BigCircle/Quadrant3"]
+layout_mode = 0
+offset_left = -56.0
+offset_top = -70.0
+offset_right = 56.0
 offset_bottom = -38.0
-texture = ExtResource("12_3ws6v")
-
-[node name="VerticalMiddle" type="TextureRect" parent="BigCircle/Quadrant3"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -50.0
-offset_right = 8.0
-offset_bottom = -18.0
-texture = ExtResource("13_rqlka")
-
-[node name="VerticalShort" type="TextureRect" parent="BigCircle/Quadrant3"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -27.0
-offset_right = 8.0
-offset_bottom = 5.0
-texture = ExtResource("14_tygtl")
+texture = ExtResource("16_ek3fd")
 
 [node name="Quadrant4" type="Control" parent="BigCircle"]
 layout_mode = 3
 anchors_preset = 0
-rotation = -3.14159
+rotation = 4.71239
 
-[node name="CurveLongLeft" type="TextureRect" parent="BigCircle/Quadrant4"]
+[node name="CurveOuter" type="TextureRect" parent="BigCircle/Quadrant4"]
 layout_mode = 0
-offset_left = -83.0
-offset_top = -59.0
-offset_right = -51.0
-offset_bottom = 5.0
-texture = ExtResource("3_2brou")
+offset_left = -106.0
+offset_top = -74.0
+offset_right = -58.0
+offset_bottom = 6.0
+texture = ExtResource("4_kf3d5")
 
-[node name="CurveLongRight" type="TextureRect" parent="BigCircle/Quadrant4"]
+[node name="CurveMiddle" type="TextureRect" parent="BigCircle/Quadrant4"]
 layout_mode = 0
-offset_left = -59.0
-offset_top = -83.0
-offset_right = 5.0
-offset_bottom = -51.0
-texture = ExtResource("4_bby0m")
-
-[node name="CurveMiddleLeft" type="TextureRect" parent="BigCircle/Quadrant4"]
-layout_mode = 0
-offset_left = -55.0001
-offset_top = -39.9999
-offset_right = -23.0001
-offset_bottom = 8.00014
-texture = ExtResource("5_gmluj")
-
-[node name="CurveMiddleRight" type="TextureRect" parent="BigCircle/Quadrant4"]
-layout_mode = 0
-offset_left = -40.0001
-offset_top = -54.9999
-offset_right = 7.99986
-offset_bottom = -22.9999
-texture = ExtResource("6_ru22q")
-
-[node name="CurveShortLeft" type="TextureRect" parent="BigCircle/Quadrant4"]
-layout_mode = 0
-offset_left = -27.0
-offset_top = -23.0
-offset_right = -11.0
+offset_left = -70.0
+offset_top = -55.0
+offset_right = -38.0
 offset_bottom = 9.0
-texture = ExtResource("7_ljv46")
+texture = ExtResource("5_6y08m")
+metadata/_edit_use_anchors_ = true
 
-[node name="CurveShortRight" type="TextureRect" parent="BigCircle/Quadrant4"]
+[node name="CurveInner" type="TextureRect" parent="BigCircle/Quadrant4"]
 layout_mode = 0
-offset_left = -23.0
-offset_top = -27.0
-offset_right = 9.0
-offset_bottom = -11.0
-texture = ExtResource("8_efij2")
+offset_left = -43.0
+offset_top = -28.0
+offset_right = -11.0
+offset_bottom = 4.0
+texture = ExtResource("6_08vhf")
+metadata/_edit_use_anchors_ = true
 
-[node name="DiagonalLong" type="TextureRect" parent="BigCircle/Quadrant4"]
+[node name="CurveOuterFlipped" type="TextureRect" parent="BigCircle/Quadrant4"]
 layout_mode = 0
-offset_left = -60.0
-offset_top = -60.0
-offset_right = -28.0
-offset_bottom = -28.0
-texture = ExtResource("9_mf357")
+offset_left = -106.0
+offset_top = -6.0
+offset_right = -58.0
+offset_bottom = 74.0
+texture = ExtResource("4_kf3d5")
+flip_v = true
+metadata/_edit_use_anchors_ = true
+
+[node name="CurveMiddleFlipped" type="TextureRect" parent="BigCircle/Quadrant4"]
+layout_mode = 0
+offset_left = -70.0
+offset_top = -9.0
+offset_right = -38.0
+offset_bottom = 55.0
+texture = ExtResource("5_6y08m")
+flip_v = true
+metadata/_edit_use_anchors_ = true
+
+[node name="CurveInnerFlipped" type="TextureRect" parent="BigCircle/Quadrant4"]
+layout_mode = 0
+offset_left = -43.0
+offset_top = -4.0
+offset_right = -11.0
+offset_bottom = 28.0
+texture = ExtResource("6_08vhf")
+flip_v = true
+metadata/_edit_use_anchors_ = true
+
+[node name="DiagonalOuter" type="TextureRect" parent="BigCircle/Quadrant4"]
+layout_mode = 0
+offset_left = -73.0
+offset_top = -73.0
+offset_right = -41.0
+offset_bottom = -41.0
+texture = ExtResource("7_ooden")
+metadata/_edit_use_anchors_ = true
 
 [node name="DiagonalMiddle" type="TextureRect" parent="BigCircle/Quadrant4"]
 layout_mode = 0
+offset_left = -50.0
+offset_top = -50.0
+offset_right = -18.0
+offset_bottom = -18.0
+texture = ExtResource("10_rox4p")
+metadata/_edit_use_anchors_ = true
+
+[node name="DiagonalInner" type="TextureRect" parent="BigCircle/Quadrant4"]
+layout_mode = 0
+offset_left = -27.0
+offset_top = -27.0
+offset_right = 5.0
+offset_bottom = 5.0
+texture = ExtResource("9_ktpa6")
+metadata/_edit_use_anchors_ = true
+
+[node name="StraightNormal" type="TextureRect" parent="BigCircle/Quadrant4"]
+layout_mode = 0
+offset_left = -104.0
+offset_top = -8.0
+offset_right = -56.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
+metadata/_edit_use_anchors_ = true
+
+[node name="StraightNormal2" type="TextureRect" parent="BigCircle/Quadrant4"]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -8.0
+offset_right = -24.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
+metadata/_edit_use_anchors_ = true
+
+[node name="StraightNormal3" type="TextureRect" parent="BigCircle/Quadrant4"]
+layout_mode = 0
+offset_left = -40.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
+metadata/_edit_use_anchors_ = true
+
+[node name="CurveInnerExtendedLeft" type="TextureRect" parent="BigCircle/Quadrant4"]
+layout_mode = 0
 offset_left = -40.0
 offset_top = -40.0
-offset_right = -8.0
-offset_bottom = -8.0
-texture = ExtResource("10_rox4p")
-
-[node name="DiagonalShort" type="TextureRect" parent="BigCircle/Quadrant4"]
-layout_mode = 0
-offset_left = -23.0
-offset_top = -23.0
-offset_right = 9.0
-offset_bottom = 9.0
-texture = ExtResource("11_e4d1v")
-
-[node name="VerticalLong" type="TextureRect" parent="BigCircle/Quadrant4"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -86.0
 offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("11_ky07n")
+
+[node name="CurveInnerExtendedRight" type="TextureRect" parent="BigCircle/Quadrant4"]
+layout_mode = 0
+offset_left = -32.0
+offset_top = -43.0
+offset_right = 32.0
+offset_bottom = -11.0
+texture = ExtResource("12_tnk4p")
+
+[node name="CurveOuterExtendedLeft" type="TextureRect" parent="BigCircle/Quadrant4"]
+layout_mode = 0
+offset_left = -104.0
+offset_top = -104.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("13_dk8it")
+
+[node name="CurveOuterExtendedRight" type="TextureRect" parent="BigCircle/Quadrant4"]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -106.0
+offset_right = 72.0
+offset_bottom = -58.0
+texture = ExtResource("14_2hpil")
+
+[node name="CurveMiddleExtendedLeft" type="TextureRect" parent="BigCircle/Quadrant4"]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -72.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("15_lj34j")
+
+[node name="CurveMiddleExtendedRight" type="TextureRect" parent="BigCircle/Quadrant4"]
+layout_mode = 0
+offset_left = -56.0
+offset_top = -70.0
+offset_right = 56.0
 offset_bottom = -38.0
-texture = ExtResource("12_3ws6v")
-
-[node name="VerticalMiddle" type="TextureRect" parent="BigCircle/Quadrant4"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -50.0
-offset_right = 8.0
-offset_bottom = -18.0
-texture = ExtResource("13_rqlka")
-
-[node name="VerticalShort" type="TextureRect" parent="BigCircle/Quadrant4"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -27.0
-offset_right = 8.0
-offset_bottom = 5.0
-texture = ExtResource("14_tygtl")
+texture = ExtResource("16_ek3fd")
 
 [node name="BigCircle2" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
 
 [node name="Quadrant1" type="Control" parent="BigCircle2"]
-layout_mode = 3
 anchors_preset = 0
-rotation = 1.5708
 
-[node name="CurveLongRight" type="TextureRect" parent="BigCircle2/Quadrant1"]
+[node name="CurveOuter" type="TextureRect" parent="BigCircle2/Quadrant1"]
 layout_mode = 0
-offset_left = -59.0
-offset_top = -83.0
-offset_right = 5.0
-offset_bottom = -51.0
-texture = ExtResource("4_bby0m")
+offset_left = -106.0
+offset_top = -74.0
+offset_right = -58.0
+offset_bottom = 6.0
+texture = ExtResource("4_kf3d5")
 
-[node name="CurveMiddleLeft" type="TextureRect" parent="BigCircle2/Quadrant1"]
+[node name="CurveMiddle" type="TextureRect" parent="BigCircle2/Quadrant1"]
 layout_mode = 0
-offset_left = -55.0001
-offset_top = -39.9998
-offset_right = -23.0001
-offset_bottom = 8.0002
-texture = ExtResource("5_gmluj")
-
-[node name="CurveShortLeft" type="TextureRect" parent="BigCircle2/Quadrant1"]
-layout_mode = 0
-offset_left = -27.0
-offset_top = -23.0
-offset_right = -11.0
+offset_left = -70.0
+offset_top = -55.0
+offset_right = -38.0
 offset_bottom = 9.0
-texture = ExtResource("7_ljv46")
+texture = ExtResource("5_6y08m")
+metadata/_edit_use_anchors_ = true
 
-[node name="CurveShortRight" type="TextureRect" parent="BigCircle2/Quadrant1"]
+[node name="CurveOuterFlipped" type="TextureRect" parent="BigCircle2/Quadrant1"]
 layout_mode = 0
-offset_left = -23.0
-offset_top = -27.0
-offset_right = 9.0
-offset_bottom = -11.0
-texture = ExtResource("8_efij2")
+offset_left = -106.0
+offset_top = -6.0
+offset_right = -58.0
+offset_bottom = 74.0
+texture = ExtResource("4_kf3d5")
+flip_v = true
+metadata/_edit_use_anchors_ = true
 
-[node name="DiagonalLong" type="TextureRect" parent="BigCircle2/Quadrant1"]
+[node name="CurveMiddleFlipped" type="TextureRect" parent="BigCircle2/Quadrant1"]
 layout_mode = 0
-offset_left = -60.0
-offset_top = -60.0
-offset_right = -28.0
-offset_bottom = -28.0
-texture = ExtResource("9_mf357")
+offset_left = -70.0
+offset_top = -9.0
+offset_right = -38.0
+offset_bottom = 55.0
+texture = ExtResource("5_6y08m")
+flip_v = true
+metadata/_edit_use_anchors_ = true
 
-[node name="VerticalLong" type="TextureRect" parent="BigCircle2/Quadrant1"]
+[node name="StraightNormal2" type="TextureRect" parent="BigCircle2/Quadrant1"]
 layout_mode = 0
-offset_left = -8.0
-offset_top = -86.0
-offset_right = 8.0
-offset_bottom = -38.0
-texture = ExtResource("12_3ws6v")
+offset_left = -72.0
+offset_top = -8.0
+offset_right = -24.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
 
 [node name="Quadrant2" type="Control" parent="BigCircle2"]
 layout_mode = 3
 anchors_preset = 0
+rotation = 1.5708
 
-[node name="CurveLongLeft" type="TextureRect" parent="BigCircle2/Quadrant2"]
+[node name="CurveMiddle" type="TextureRect" parent="BigCircle2/Quadrant2"]
 layout_mode = 0
-offset_left = -83.0
-offset_top = -59.0
-offset_right = -51.0
-offset_bottom = 5.0
-texture = ExtResource("3_2brou")
+offset_left = -70.0
+offset_top = -55.0
+offset_right = -38.0
+offset_bottom = 9.0
+texture = ExtResource("5_6y08m")
+metadata/_edit_use_anchors_ = true
 
-[node name="CurveLongRight" type="TextureRect" parent="BigCircle2/Quadrant2"]
+[node name="CurveOuterFlipped" type="TextureRect" parent="BigCircle2/Quadrant2"]
 layout_mode = 0
-offset_left = -59.0
-offset_top = -83.0
-offset_right = 5.0
-offset_bottom = -51.0
-texture = ExtResource("4_bby0m")
+offset_left = -106.0
+offset_top = -6.0
+offset_right = -58.0
+offset_bottom = 74.0
+texture = ExtResource("4_kf3d5")
+flip_v = true
+metadata/_edit_use_anchors_ = true
 
-[node name="CurveMiddleLeft" type="TextureRect" parent="BigCircle2/Quadrant2"]
+[node name="StraightNormal3" type="TextureRect" parent="BigCircle2/Quadrant2"]
 layout_mode = 0
-offset_left = -55.0
-offset_top = -40.0
-offset_right = -23.0
+offset_left = -40.0
+offset_top = -8.0
+offset_right = 8.0
 offset_bottom = 8.0
-texture = ExtResource("5_gmluj")
+texture = ExtResource("10_hg50c")
+metadata/_edit_use_anchors_ = true
 
-[node name="DiagonalLong" type="TextureRect" parent="BigCircle2/Quadrant2"]
+[node name="CurveInnerExtendedLeft" type="TextureRect" parent="BigCircle2/Quadrant2"]
 layout_mode = 0
-offset_left = -60.0
-offset_top = -60.0
-offset_right = -28.0
-offset_bottom = -28.0
-texture = ExtResource("9_mf357")
-
-[node name="VerticalMiddle" type="TextureRect" parent="BigCircle2/Quadrant2"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -50.0
+offset_left = -40.0
+offset_top = -40.0
 offset_right = 8.0
-offset_bottom = -18.0
-texture = ExtResource("13_rqlka")
-
-[node name="VerticalShort" type="TextureRect" parent="BigCircle2/Quadrant2"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -27.0
-offset_right = 8.0
-offset_bottom = 5.0
-texture = ExtResource("14_tygtl")
+offset_bottom = 8.0
+texture = ExtResource("11_ky07n")
 
 [node name="Quadrant3" type="Control" parent="BigCircle2"]
 layout_mode = 3
 anchors_preset = 0
-rotation = -1.5708
+rotation = 3.14159
 
-[node name="CurveLongRight" type="TextureRect" parent="BigCircle2/Quadrant3"]
+[node name="CurveOuter" type="TextureRect" parent="BigCircle2/Quadrant3"]
 layout_mode = 0
-offset_left = -59.0
-offset_top = -83.0
-offset_right = 5.0
-offset_bottom = -51.0
-texture = ExtResource("4_bby0m")
+offset_left = -106.0
+offset_top = -74.0
+offset_right = -58.0
+offset_bottom = 6.0
+texture = ExtResource("4_kf3d5")
 
-[node name="CurveMiddleLeft" type="TextureRect" parent="BigCircle2/Quadrant3"]
+[node name="CurveMiddle" type="TextureRect" parent="BigCircle2/Quadrant3"]
 layout_mode = 0
-offset_left = -54.9999
-offset_top = -40.0002
-offset_right = -22.9999
-offset_bottom = 7.9998
-texture = ExtResource("5_gmluj")
-
-[node name="CurveShortLeft" type="TextureRect" parent="BigCircle2/Quadrant3"]
-layout_mode = 0
-offset_left = -27.0
-offset_top = -23.0
-offset_right = -11.0
+offset_left = -70.0
+offset_top = -55.0
+offset_right = -38.0
 offset_bottom = 9.0
-texture = ExtResource("7_ljv46")
+texture = ExtResource("5_6y08m")
+metadata/_edit_use_anchors_ = true
 
-[node name="CurveShortRight" type="TextureRect" parent="BigCircle2/Quadrant3"]
+[node name="CurveMiddleFlipped" type="TextureRect" parent="BigCircle2/Quadrant3"]
 layout_mode = 0
-offset_left = -23.0
-offset_top = -27.0
-offset_right = 9.0
-offset_bottom = -11.0
-texture = ExtResource("8_efij2")
+offset_left = -70.0
+offset_top = -9.0
+offset_right = -38.0
+offset_bottom = 55.0
+texture = ExtResource("5_6y08m")
+flip_v = true
+metadata/_edit_use_anchors_ = true
 
-[node name="VerticalMiddle" type="TextureRect" parent="BigCircle2/Quadrant3"]
+[node name="StraightNormal2" type="TextureRect" parent="BigCircle2/Quadrant3"]
 layout_mode = 0
-offset_left = -8.0
-offset_top = -50.0
+offset_left = -72.0
+offset_top = -8.0
+offset_right = -24.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
+metadata/_edit_use_anchors_ = true
+
+[node name="CurveInnerExtendedLeft" type="TextureRect" parent="BigCircle2/Quadrant3"]
+layout_mode = 0
+offset_left = -40.0
+offset_top = -40.0
 offset_right = 8.0
-offset_bottom = -18.0
-texture = ExtResource("13_rqlka")
+offset_bottom = 8.0
+texture = ExtResource("11_ky07n")
 
 [node name="Quadrant4" type="Control" parent="BigCircle2"]
 layout_mode = 3
 anchors_preset = 0
-rotation = -3.14159
+rotation = 4.71239
 
-[node name="CurveLongRight" type="TextureRect" parent="BigCircle2/Quadrant4"]
+[node name="CurveOuterFlipped" type="TextureRect" parent="BigCircle2/Quadrant4"]
 layout_mode = 0
-offset_left = -59.0
-offset_top = -83.0
-offset_right = 5.0
-offset_bottom = -51.0
-texture = ExtResource("4_bby0m")
+offset_left = -106.0
+offset_top = -6.0
+offset_right = -58.0
+offset_bottom = 74.0
+texture = ExtResource("4_kf3d5")
+flip_v = true
+metadata/_edit_use_anchors_ = true
 
-[node name="CurveMiddleLeft" type="TextureRect" parent="BigCircle2/Quadrant4"]
+[node name="CurveMiddleFlipped" type="TextureRect" parent="BigCircle2/Quadrant4"]
 layout_mode = 0
-offset_left = -55.0001
-offset_top = -39.9999
-offset_right = -23.0001
-offset_bottom = 8.00014
-texture = ExtResource("5_gmluj")
+offset_left = -70.0
+offset_top = -9.0
+offset_right = -38.0
+offset_bottom = 55.0
+texture = ExtResource("5_6y08m")
+flip_v = true
+metadata/_edit_use_anchors_ = true
 
-[node name="CurveShortLeft" type="TextureRect" parent="BigCircle2/Quadrant4"]
+[node name="DiagonalOuter" type="TextureRect" parent="BigCircle2/Quadrant4"]
 layout_mode = 0
-offset_left = -27.0
-offset_top = -23.0
-offset_right = -11.0
-offset_bottom = 9.0
-texture = ExtResource("7_ljv46")
+offset_left = -73.0
+offset_top = -73.0
+offset_right = -41.0
+offset_bottom = -41.0
+texture = ExtResource("7_ooden")
+metadata/_edit_use_anchors_ = true
 
-[node name="CurveShortRight" type="TextureRect" parent="BigCircle2/Quadrant4"]
+[node name="StraightNormal" type="TextureRect" parent="BigCircle2/Quadrant4"]
 layout_mode = 0
-offset_left = -23.0
-offset_top = -27.0
-offset_right = 9.0
-offset_bottom = -11.0
-texture = ExtResource("8_efij2")
+offset_left = -104.0
+offset_top = -8.0
+offset_right = -56.0
+offset_bottom = 8.0
+texture = ExtResource("10_hg50c")
+metadata/_edit_use_anchors_ = true
 
-[node name="DiagonalLong" type="TextureRect" parent="BigCircle2/Quadrant4"]
+[node name="CurveInnerExtendedLeft" type="TextureRect" parent="BigCircle2/Quadrant4"]
 layout_mode = 0
-offset_left = -60.0
-offset_top = -60.0
-offset_right = -28.0
-offset_bottom = -28.0
-texture = ExtResource("9_mf357")
-
-[node name="VerticalLong" type="TextureRect" parent="BigCircle2/Quadrant4"]
-layout_mode = 0
-offset_left = -8.0
-offset_top = -86.0
+offset_left = -40.0
+offset_top = -40.0
 offset_right = 8.0
-offset_bottom = -38.0
-texture = ExtResource("12_3ws6v")
+offset_bottom = 8.0
+texture = ExtResource("11_ky07n")
 
 [node name="Control" type="Control" parent="."]
 y_sort_enabled = true
 layout_mode = 3
 anchors_preset = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Skill" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 1
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_1j0ld")
+
+[node name="StarLock" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = -16.0
+offset_right = 48.0
+offset_bottom = 16.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_n0y27")
+
+[node name="HeartLock" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = -16.0
+offset_top = -48.0
+offset_right = 16.0
+offset_bottom = -16.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_1pmk4")
+
+[node name="CircleLock" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = -16.0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 48.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_260ev")
+
+[node name="CrossLock" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = -48.0
+offset_top = -16.0
+offset_right = -16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_d34ea")
 
 [node name="Empty" type="TextureButton" parent="Control"]
 y_sort_enabled = true
-layout_mode = 1
-offset_left = 6.0
-offset_top = -16.0
-offset_right = 38.0
-offset_bottom = 16.0
+layout_mode = 0
+offset_left = -16.0
+offset_top = -80.0
+offset_right = 16.0
+offset_bottom = -48.0
 pivot_offset = Vector2(16, 16)
-texture_normal = SubResource("AtlasTexture_wusfo")
+texture_normal = SubResource("AtlasTexture_r5gj0")
 
 [node name="Empty2" type="TextureButton" parent="Control"]
 y_sort_enabled = true
-offset_left = -16.0
-offset_top = 6.0
-offset_right = 16.0
-offset_bottom = 38.0
+layout_mode = 0
+offset_left = 49.0
+offset_top = -16.0
+offset_right = 81.0
+offset_bottom = 16.0
 pivot_offset = Vector2(16, 16)
-texture_normal = SubResource("AtlasTexture_6vk7l")
+texture_normal = SubResource("AtlasTexture_nyjtq")
 
 [node name="Empty3" type="TextureButton" parent="Control"]
 y_sort_enabled = true
-offset_left = -93.0
+layout_mode = 0
+offset_left = -79.0
 offset_top = -16.0
-offset_right = -61.0
+offset_right = -47.0
 offset_bottom = 16.0
 pivot_offset = Vector2(16, 16)
-texture_normal = SubResource("AtlasTexture_0mlkk")
+texture_normal = SubResource("AtlasTexture_nev8w")
 
-[connection signal="pressed" from="Control/Empty" to="NexusPlayer" method="_on_texture_button_pressed" binds= [NodePath("/root/@EditorNode@17637/@Control@697/@Panel@698/@VBoxContainer@706/@HSplitContainer@709/@HSplitContainer@717/@HSplitContainer@725/@VBoxContainer@726/@VSplitContainer@728/@VSplitContainer@754/@VBoxContainer@755/@PanelContainer@800/MainScreen/@CanvasItemEditor@10090/@VSplitContainer@9915/@HSplitContainer@9917/@HSplitContainer@9919/@Control@9920/@SubViewportContainer@9921/@SubViewport@9922/HoloNexus/Control/Empty")]]
+[node name="Empty4" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = -16.0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 80.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_cdsgf")
+
+[node name="Empty5" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = 29.0
+offset_top = -61.0
+offset_right = 61.0
+offset_bottom = -29.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_1ssy7")
+
+[node name="Empty6" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = 29.0
+offset_top = 29.0
+offset_right = 61.0
+offset_bottom = 61.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_2b0p8")
+
+[node name="Empty7" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = -61.0
+offset_top = -61.0
+offset_right = -29.0
+offset_bottom = -29.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_fjco4")
+
+[node name="Empty8" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = -61.0
+offset_top = 29.0
+offset_right = -29.0
+offset_bottom = 61.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_d7rj4")
+
+[node name="Empty9" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = -16.0
+offset_top = -112.0
+offset_right = 16.0
+offset_bottom = -80.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_c6038")
+
+[node name="Empty10" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = 80.0
+offset_top = -16.0
+offset_right = 112.0
+offset_bottom = 16.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_ao4fc")
+
+[node name="Empty11" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = -112.0
+offset_top = -16.0
+offset_right = -80.0
+offset_bottom = 16.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_dipt0")
+
+[node name="Empty12" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = -16.0
+offset_top = 80.0
+offset_right = 16.0
+offset_bottom = 112.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_vrs1t")
+
+[node name="Empty14" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = 52.0
+offset_top = 52.0
+offset_right = 84.0
+offset_bottom = 84.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_mrqjg")
+
+[node name="Empty15" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = -84.0
+offset_top = -84.0
+offset_right = -52.0
+offset_bottom = -52.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_1j75g")
+
+[node name="Empty16" type="TextureButton" parent="Control"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = -84.0
+offset_top = 52.0
+offset_right = -52.0
+offset_bottom = 84.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_xsj42")
+
+[connection signal="pressed" from="Control/Skill" to="NexusPlayer" method="_on_texture_button_pressed" binds= [0]]
+[connection signal="pressed" from="Control/StarLock" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/HeartLock" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/CircleLock" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/CrossLock" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/Empty" to="NexusPlayer" method="_on_texture_button_pressed"]
 [connection signal="pressed" from="Control/Empty2" to="NexusPlayer" method="_on_texture_button_pressed"]
 [connection signal="pressed" from="Control/Empty3" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/Empty4" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/Empty5" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/Empty6" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/Empty7" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/Empty8" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/Empty9" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/Empty10" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/Empty11" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/Empty12" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/Empty14" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/Empty15" to="NexusPlayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/Empty16" to="NexusPlayer" method="_on_texture_button_pressed"]

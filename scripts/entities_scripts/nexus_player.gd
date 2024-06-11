@@ -11,6 +11,7 @@ var on_node = true
 var snapping = false
 var snap_ready = true
 var snap_node = null
+var snap_mode = true
 var snap_speed = 600
 var snap_position = Vector2.ZERO
 var snap_direction = Vector2.ZERO
@@ -41,7 +42,7 @@ func _physics_process(_delta):
 	else:
 		move_direction = Input.get_vector("left", "right", "up", "down")
 		velocity = move_direction * speed
-		if velocity == Vector2.ZERO&&snap_ready: snap_to_nearest()
+		if velocity == Vector2.ZERO&&snap_ready&&snap_mode: snap_to_nearest()
 		elif !snap_ready&&velocity != Vector2.ZERO:
 			snap_ready = true
 			snap_region = snap_texture.get_region()
@@ -70,7 +71,6 @@ func snap_to_nearest():
 
 func _on_texture_button_pressed(extra_arg_0):
 	print(extra_arg_0)
-	snap_node = get_node(extra_arg_0)
 	print(snap_node)
 	snap_distance = position.distance_to(snap_node.position)
 	snap_position = snap_node.position + Vector2(16, 16)
