@@ -469,6 +469,7 @@ size = Vector2(10, 10)
 y_sort_enabled = true
 scale = Vector2(2, 2)
 collision_mask = 79
+input_pickable = true
 motion_mode = 1
 script = ExtResource("1_xiewa")
 speed = 150
@@ -565,6 +566,7 @@ one_shot = true
 
 [node name="AllyAttackCooldown" type="Timer" parent="."]
 
+[connection signal="input_event" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_input_event"]
 [connection signal="body_entered" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_entered"]
 [connection signal="body_exited" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_exited"]
 [connection signal="body_exited" from="EntitiesDetectionArea" to="." method="_on_entities_detection_area_body_exited"]

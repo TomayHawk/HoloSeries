@@ -236,6 +236,24 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -272.0
+offset_top = -112.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Control/MarginContainer"]
+layout_mode = 2
+rounded = true
+
 [node name="CharacterInfos" type="MarginContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 3
@@ -280,7 +298,8 @@ offset_left = 12.0
 offset_right = 140.0
 offset_bottom = 15.0
 theme_override_font_sizes/font_size = 8
-text = "Character"
+text = "Sora
+"
 vertical_alignment = 1
 
 [node name="Health" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
@@ -327,11 +346,19 @@ theme_override_constants/margin_right = 8
 clip_contents = true
 layout_mode = 2
 
-[node name="CharacterName2" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
+[node name="Button" type="Button" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
+
+[node name="CharacterName2" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer/Button"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+offset_left = 12.0
+offset_right = 140.0
+offset_bottom = 15.0
 theme_override_font_sizes/font_size = 8
-text = "Character"
+text = "AZKi"
+vertical_alignment = 1
 
 [node name="Health" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
 custom_minimum_size = Vector2(24, 0)
@@ -374,11 +401,19 @@ theme_override_constants/margin_right = 8
 clip_contents = true
 layout_mode = 2
 
-[node name="CharacterName3" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
+[node name="Button" type="Button" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
+
+[node name="CharacterName3" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer/Button"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+offset_left = 12.0
+offset_right = 140.0
+offset_bottom = 15.0
 theme_override_font_sizes/font_size = 8
 text = "Character"
+vertical_alignment = 1
 
 [node name="Health" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
 custom_minimum_size = Vector2(24, 0)
@@ -421,11 +456,19 @@ theme_override_constants/margin_right = 8
 clip_contents = true
 layout_mode = 2
 
-[node name="CharacterName4" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
+[node name="Button" type="Button" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
+
+[node name="CharacterName4" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/Button"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+offset_left = 12.0
+offset_right = 140.0
+offset_bottom = 15.0
 theme_override_font_sizes/font_size = 8
 text = "Character"
+vertical_alignment = 1
 
 [node name="Health" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
 custom_minimum_size = Vector2(24, 0)
@@ -457,24 +500,6 @@ custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "####"
-
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -272.0
-offset_top = -112.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_right = 8
-
-[node name="TextureProgressBar" type="TextureProgressBar" parent="Control/MarginContainer"]
-layout_mode = 2
-rounded = true
 
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/WhiteVBoxContainer/Protect" to="." method="_on_protect_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/BlackVBoxContainer/Doom" to="." method="_on_doom_pressed"]
