@@ -490,7 +490,7 @@ shape = SubResource("RectangleShape2D_fbnw6")
 y_sort_enabled = true
 scale = Vector2(0.66, 0.66)
 sprite_frames = SubResource("SpriteFrames_qsfsi")
-animation = &"right_walk"
+animation = &"back_attack"
 offset = Vector2(0, -14)
 
 [node name="NpcDetectionArea" type="Area2D" parent="."]

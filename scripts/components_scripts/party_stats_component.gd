@@ -68,6 +68,12 @@ func update_health_bar(player):
 		stamina_bar[player].visible = false
 
 		combat_UI_node.health_UI_update(player)
+		
+		if GlobalSettings.current_main_player == player:
+			for i in 4:
+				if players[i] != null&&alive[i]&&GlobalSettings.current_main_player != i:
+					GlobalSettings.update_main_player(i)
+					break
 	else:
 		health_bar[player].visible = true
 		bar_percentage = health[player] * 1.0 / max_health[player]

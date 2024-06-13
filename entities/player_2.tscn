@@ -6,6 +6,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
 size = Vector2(11, 6)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fbnw6"]
+size = Vector2(11, 18)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_dxer5"]
 atlas = ExtResource("2_ooq3a")
 region = Rect2(0, 384, 48, 48)
@@ -423,9 +426,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hb5yx"]
 size = Vector2(10, 10)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fbnw6"]
-size = Vector2(11, 18)
-
 [node name="Player2" type="CharacterBody2D"]
 y_sort_enabled = true
 scale = Vector2(2, 2)
@@ -437,6 +437,12 @@ script = ExtResource("1_vx1fn")
 [node name="CollisionHitBox" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_n3b4m")
+
+[node name="CombatHitBoxArea" type="Area2D" parent="."]
+
+[node name="CombatHitBoxShape" type="CollisionShape2D" parent="CombatHitBoxArea"]
+position = Vector2(0.5, -6.5)
+shape = SubResource("RectangleShape2D_fbnw6")
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
@@ -519,12 +525,7 @@ one_shot = true
 
 [node name="AllyAttackCooldown" type="Timer" parent="."]
 
-[node name="CombatHitBoxArea" type="Area2D" parent="."]
-
-[node name="CombatHitBoxShape" type="CollisionShape2D" parent="CombatHitBoxArea"]
-position = Vector2(0.5, -6.5)
-shape = SubResource("RectangleShape2D_fbnw6")
-
+[connection signal="input_event" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_input_event"]
 [connection signal="body_entered" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_entered" flags=18]
 [connection signal="body_exited" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_exited" flags=18]
 [connection signal="body_exited" from="EntitiesDetectionArea" to="." method="_on_entities_detection_area_body_exited"]
@@ -535,4 +536,3 @@ shape = SubResource("RectangleShape2D_fbnw6")
 [connection signal="timeout" from="DirectionCooldown" to="." method="_on_direction_cooldown_timeout"]
 [connection signal="timeout" from="PauseTimer" to="." method="_on_pause_timer_timeout"]
 [connection signal="timeout" from="AllyAttackCooldown" to="." method="_on_ally_attack_cooldown_timeout"]
-[connection signal="input_event" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_input_event"]

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cf2ifm4k70avn"]
+
+[ext_resource type="PackedScene" uid="uid://hypatwksy0f7" path="res://scenes/holo_nexus.tscn" id="1_qxyst"]
+
+[node name="Settings" type="Node2D"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="HoloNexus" parent="." instance=ExtResource("1_qxyst")]

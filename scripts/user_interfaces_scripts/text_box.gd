@@ -40,6 +40,7 @@ func _process(_delta):
 
 func start_text():
 	set_process(true)
+	GlobalSettings.settings_able = false
 
 	for i in GlobalSettings.active_players:
 		GlobalSettings.players[i].set_physics_process(false)
@@ -58,6 +59,7 @@ func hide_text():
 	end_symbol.hide()
 	label.text = ""
 	for i in GlobalSettings.active_players: if PartyStatsComponent.alive[i]:GlobalSettings.players[i].set_physics_process(true)
+	GlobalSettings.settings_able = true
 	set_process(false)
 
 # queue text from npcs

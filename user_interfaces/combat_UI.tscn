@@ -46,6 +46,7 @@ grow_vertical = 2
 scale = Vector2(0.992677, 0.99545)
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="CombatOptions2" type="MarginContainer" parent="Control"]
 layout_mode = 1
