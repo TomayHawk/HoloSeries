@@ -467,7 +467,6 @@ size = Vector2(10, 10)
 
 [node name="Player1" type="CharacterBody2D"]
 y_sort_enabled = true
-scale = Vector2(2, 2)
 collision_mask = 79
 input_pickable = true
 motion_mode = 1
@@ -488,7 +487,6 @@ shape = SubResource("RectangleShape2D_fbnw6")
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
-scale = Vector2(0.66, 0.66)
 sprite_frames = SubResource("SpriteFrames_qsfsi")
 animation = &"back_attack"
 offset = Vector2(0, -14)
