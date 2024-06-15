@@ -1,5 +1,7 @@
 extends Node2D
 
+@onready var current_nexus_player = GlobalSettings.current_main_player
+
 var unlocked_players = [true, true, false, false, false, false, false, false, false, false]
 var players_modulate = ["", "", "", "", "", "", "", "", "", ""]
 var current_node = [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]
@@ -7,31 +9,58 @@ var current_node = [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vect
 var nodes_index = [[get_node("Control/Skill"), 0, 1, - 1], [get_node("Control/HeartLock"), 1, 0, 2], [], []]
 var line_index = []
 
-var default_unlocked = [[], [], [], [], [], [], [], [], [], []]
-var all_nodes_unlock_status = [[[], []], [[], []], [[], []], [[], []], [[], []], [[], []], [[], []], [[], []], [[], []], [[], []]]
-var all_nodes_unlockable = [[[], []], [[], []], [[], []], [[], []], [[], []], [[], []], [[], []], [[], []], [[], []], [[], []]]
-var all_line_unlocked = [[], [], [], [], [], [], [], [], [], []]
+# new_player[player][node]
+var skills_default_unlocked = [[00, 03, 05], [], [], [], [], [], [], [], [], []]
+var stats_default_unlocked = [[000, 003, 005], [], [], [], [], [], [], [], [], []]
+
+# current_players[player][node]
+var skills_unlock_status = [[], [], [], [], [], [], [], [], [], []]
+var stats_unlock_status = [[], [], [], [], [], [], [], [], [], []]
+var skills_unlockable = [[], [], [], [], [], [], [], [], [], []]
+var stats_unlockable = [[], [], [], [], [], [], [], [], [], []]
+
+# all_lines_unlocked[player][node]
+var all_lines_unlocked = [[], [], [], [], [], [], [], [], [], []]
 
 var node_texture = null
 var node_texture_region = null
 
 func _ready():
-	for i in 10: if unlocked_players[i] != GlobalSettings.global_unlocked_players[i]
-		unlocked_players[i] == GlobalSettings.global_unlocked_players[i]
-		add_player_nexus
-	all_nodes_unlock_status = GlobalSettings.global_all_nodes_unlocked.duplicate()
+	# create arrays for newly unlocked players
+	for player in 10: if unlocked_players[player] != GlobalSettings.global_unlocked_players[player]:
+		unlocked_players[player] = GlobalSettings.global_unlocked_players[player]
 
-	update_nexus_player(GlobalSettings.current_main_player)
+		# create empty player data
+		for nodes in 88: skills_unlock_status[player].push_back(false)
+		for nodes in 888: stats_unlock_status[player].push_back(false)
+
+		# update default unlocked nodes
+		for node in skills_default_unlocked[player]: skills_unlock_status[player][node] = true
+		for node in stats_default_unlocked[player]: stats_unlock_status[player][node] = true
+
+	skills_unlock_status = GlobalSettings.global_unlocked_skills.duplicate()
+	stats_unlock_status = GlobalSettings.global_unlocked_stats.duplicate()
+
+	update_nexus_player(current_nexus_player)
 
 func update_nexus_player(player):
-	for node in 88: if all_nodes_unlock_status[player][0][node]:
-		#
-		pass
+	current_nexus_player = player
 
-func unlock_node(player, node_type, current_node, adjacent_unlockable):
-	if !all_nodes_unlocked[player][node_type][current_node]:
-		all_nodes_unlocked[player][node_type][current_node] = true
+	for node in 88:
+		if skills_default_unlocked[player][node]: pass # #### modulate
+		else: pass # #### modulate
+	for node in 888:
+		if stats_default_unlocked[player][node]: pass # #### modulate
+		else: pass # #### modulate
 
+func unlock_node(node_type, node, adjacent_unlockable):
+	if node_type == 0:
+		if !skills_unlock_status[current_nexus_player][node]:
+			skills_unlock_status[current_nexus_player][node] = true
+	else:
+		if !stats_unlock_status[current_nexus_player][node]:
+			stats_unlock_status[current_nexus_player][node] = true
+	
 		# update node texture
 		# update line texture
 

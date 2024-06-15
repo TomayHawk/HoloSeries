@@ -665,6 +665,7 @@ y_sort_enabled = true
 script = ExtResource("1_4rgc2")
 
 [node name="Settings" parent="." instance=ExtResource("2_pklg2")]
+visible = false
 
 [node name="NavigationMap" type="TileMap" parent="."]
 visible = false
