@@ -3,8 +3,6 @@ extends CharacterBody2D
 var move_direction = Vector2.ZERO
 var speed = 150
 
-var last_node = null # #### set this to default node
-
 @onready var nexus_node = get_parent().get_node("Control")
 @onready var player_node = get_parent().get_node("NexusPlayer")
 var on_node = true

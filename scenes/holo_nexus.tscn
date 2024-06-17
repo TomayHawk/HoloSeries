@@ -855,7 +855,6 @@ offset_bottom = -38.0
 texture = ExtResource("16_ek3fd")
 
 [node name="MediumDiamond" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 224.0
@@ -1656,7 +1655,6 @@ pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_nev8w")
 
 [node name="HP" type="TextureButton" parent="Control"]
-modulate = Color(0.3, 0.3, 0.3, 1)
 y_sort_enabled = true
 layout_mode = 0
 offset_left = -16.0
@@ -1770,7 +1768,6 @@ pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_1j75g")
 
 [node name="Empty16" type="TextureButton" parent="Control"]
-modulate = Color(0.3, 0.3, 0.3, 1)
 y_sort_enabled = true
 layout_mode = 0
 offset_left = -84.0
