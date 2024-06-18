@@ -325,6 +325,7 @@ position = Vector2(80, -64)
 position = Vector2(120, 0)
 
 [node name="Player1" parent="." instance=ExtResource("10_rpbdl")]
+modulate = Color(0.903598, 0.903598, 0.903598, 1)
 position = Vector2(0, 53)
 
 [node name="Camera2D" type="Camera2D" parent="Player1"]

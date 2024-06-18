@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3 uid="uid://wsunon4ilt68"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_01no7"]
+bg_color = Color(0.235294, 0.235294, 0.235294, 0.709804)
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="CombatOptions" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_right = 128.0
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="Control/CombatOptions"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_01no7")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/CombatOptions"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CombatOptions/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Items" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Items"
+
+[node name="Info" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Info"
+
+[node name="Cancel" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Cancel"
