@@ -3,13 +3,18 @@ extends Node2D
 @onready var current_nexus_player = GlobalSettings.current_main_player
 
 var unlocked_players = [true, true, false, false, false, false, false, false, false, false]
-var players_modulate = ["", "", "", "", "", "", "", "", "", ""]
-var current_node = [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]
+##### temporary colors
+var players_modulate = [Color.BROWN, Color.PEACH_PUFF, Color.PAPAYA_WHIP, Color.PERU, "", "", "", "", "", ""]
+var current_node = [null, null, null, null, null, null, null, null, null, null]
 
-var skill_nodes_index = [[get_node("Control/Skill"), 1, - 1], [get_node("Control/HeartLock"), 0, 2], [], []]
-var stats_nodes_index = [[get_node("HP"), 7, 9], [get_node("Defence"), 8, 10], [], []]
-var line_index = []
-var line_status = []
+# index show individual nodes, and adjacent node index. negative adjacent index represent skill-type index.
+# skill_nodes_index[0] is null because of their "negative" index representation
+var skill_nodes_index = [null, [get_node("Control/Skill"), 1, - 1], [get_node("Control/HeartLock"), 0, 2], [], []]
+var stats_nodes_index = [[get_node("HP"), 7, - 9], [get_node("Defence"), 8, 10], [], []]
+# line index
+var line_index = [[get_node("BigCircle2/Quadrant1/StraightNormal3"), 0, 1], [get_node("BigCircle2/Quadrant1/CurveInnerExtendedLeft"), 1, 2]]
+
+var line_status = [false, false, false, false, false, false, false, false, false, false]
 
 # new_player[player][node]
 var skills_default_unlocked = [[00, 03, 05], [], [], [], [], [], [], [], [], []]
@@ -81,20 +86,14 @@ func unlock_node(node_type, node):
 				for line in line_index:
 					if line[1] == node&&line[2] == adjacent_node:
 						line[0].modulate = Color(255, 255, 255, 255)
-						line[0].Color(players_modulate[current_nexus_player])
+						line[0].modulate = players_modulate[current_nexus_player]
 						break
-					if line == "last line":
-						line[0].modulate = Color(128, 128, 128, 255)
-						line[0].modulate = Color(255, 255, 255, 255)
 			else:
 				for line in line_index:
 					if line[1] == adjacent_node&&line[2] == node:
 						line[0].modulate = Color(255, 255, 255, 255)
-						line[0].Color(players_modulate[current_nexus_player])
+						line[0].modulate = players_modulate[current_nexus_player]
 						break
-					if line == "last line":
-						line[0].modulate = Color(128, 128, 128, 255)
-						line[0].modulate = Color(255, 255, 255, 255)
 
 func on_node(node):
 	##### display canvaslayer
