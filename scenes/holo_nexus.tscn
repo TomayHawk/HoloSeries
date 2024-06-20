@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=3 uid="uid://hypatwksy0f7"]
+[gd_scene load_steps=75 format=3 uid="uid://hypatwksy0f7"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/holo_nexus.gd" id="1_84ul6"]
 [ext_resource type="Script" path="res://scripts/entities_scripts/nexus_player.gd" id="2_nibvj"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://b80t0fvw1jkqd" path="res://art/holo_nexus/curve_middle_extended_left.png" id="15_lj34j"]
 [ext_resource type="Texture2D" uid="uid://goau1jkuscjp" path="res://art/holo_nexus/curve_middle_extended_right.png" id="16_ek3fd"]
 [ext_resource type="Texture2D" uid="uid://chfk4i5tbm832" path="res://art/holo_nexus/diagonal_normal.png" id="17_yvuvt"]
+[ext_resource type="Texture2D" uid="uid://dc1oxa5cly1i7" path="res://art/tileSets/holonexus.png" id="18_4ma4d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3cjki"]
 atlas = ExtResource("3_ggqdn")
@@ -209,6 +210,10 @@ load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e0453358853
 [sub_resource type="AtlasTexture" id="AtlasTexture_xsj42"]
 atlas = SubResource("CompressedTexture2D_tg4io")
 region = Rect2(64, 256, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ng46w"]
+atlas = ExtResource("18_4ma4d")
+region = Rect2(0, 0, 32, 32)
 
 [node name="HoloNexus" type="Node2D"]
 process_mode = 3
@@ -919,6 +924,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="MediumCircle" type="Control" parent="LineNodes"]
 layout_mode = 1
+anchors_preset = 0
 offset_top = -320.0
 offset_bottom = -320.0
 metadata/_edit_use_anchors_ = true
@@ -2310,6 +2316,7 @@ texture = ExtResource("10_hg50c")
 metadata/_edit_use_anchors_ = true
 
 [node name="DiagonalMiddle" type="TextureRect" parent="LineNodes/BigCircle/Quadrant1"]
+layout_mode = 0
 offset_left = -50.0
 offset_top = -50.0
 offset_right = -18.0
@@ -6307,6 +6314,67 @@ offset_right = 16.0
 offset_bottom = -48.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_nyjtq")
+
+[node name="Control3" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -400.0
+offset_right = -400.0
+
+[node name="TextureButton" type="TextureButton" parent="Control3"]
+layout_mode = 0
+offset_top = 1.0
+offset_right = 32.0
+offset_bottom = 33.0
+texture_normal = SubResource("AtlasTexture_ng46w")
+
+[node name="TextureButton2" type="TextureButton" parent="Control3"]
+offset_top = 22.0
+offset_right = 32.0
+offset_bottom = 54.0
+texture_normal = SubResource("AtlasTexture_ng46w")
+
+[node name="TextureButton3" type="TextureButton" parent="Control3"]
+offset_left = 18.0
+offset_top = -9.0
+offset_right = 50.0
+offset_bottom = 23.0
+texture_normal = SubResource("AtlasTexture_ng46w")
+
+[node name="TextureButton4" type="TextureButton" parent="Control3"]
+offset_left = 18.0
+offset_top = 12.0
+offset_right = 50.0
+offset_bottom = 44.0
+texture_normal = SubResource("AtlasTexture_ng46w")
+
+[node name="TextureButton5" type="TextureButton" parent="Control3"]
+offset_left = 36.0
+offset_top = 1.0
+offset_right = 68.0
+offset_bottom = 33.0
+texture_normal = SubResource("AtlasTexture_ng46w")
+
+[node name="TextureButton6" type="TextureButton" parent="Control3"]
+offset_left = 36.0
+offset_top = 22.0
+offset_right = 68.0
+offset_bottom = 54.0
+texture_normal = SubResource("AtlasTexture_ng46w")
+
+[node name="TextureButton7" type="TextureButton" parent="Control3"]
+offset_left = 54.0
+offset_top = -9.0
+offset_right = 86.0
+offset_bottom = 23.0
+texture_normal = SubResource("AtlasTexture_ng46w")
+
+[node name="TextureButton8" type="TextureButton" parent="Control3"]
+offset_left = 54.0
+offset_top = 12.0
+offset_right = 86.0
+offset_bottom = 44.0
+texture_normal = SubResource("AtlasTexture_ng46w")
 
 [connection signal="pressed" from="Control/Skill" to="NexusPlayer" method="_on_texture_button_pressed" binds= [0]]
 [connection signal="pressed" from="Control/StarLock" to="NexusPlayer" method="_on_texture_button_pressed"]
