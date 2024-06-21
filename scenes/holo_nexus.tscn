@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://hypatwksy0f7"]
+[gd_scene load_steps=351 format=3 uid="uid://hypatwksy0f7"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/holo_nexus.gd" id="1_84ul6"]
 [ext_resource type="Script" path="res://scripts/entities_scripts/nexus_player.gd" id="2_nibvj"]
@@ -17,7 +17,6 @@
 [ext_resource type="Texture2D" uid="uid://b80t0fvw1jkqd" path="res://art/holo_nexus/curve_middle_extended_left.png" id="15_lj34j"]
 [ext_resource type="Texture2D" uid="uid://goau1jkuscjp" path="res://art/holo_nexus/curve_middle_extended_right.png" id="16_ek3fd"]
 [ext_resource type="Texture2D" uid="uid://chfk4i5tbm832" path="res://art/holo_nexus/diagonal_normal.png" id="17_yvuvt"]
-[ext_resource type="Texture2D" uid="uid://dc1oxa5cly1i7" path="res://art/tileSets/holonexus.png" id="18_4ma4d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3cjki"]
 atlas = ExtResource("3_ggqdn")
@@ -211,8 +210,977 @@ load_path = "res://.godot/imported/holonexus nodes.png-4ecdfc70d8e3e1e0453358853
 atlas = SubResource("CompressedTexture2D_tg4io")
 region = Rect2(64, 256, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ng46w"]
-atlas = ExtResource("18_4ma4d")
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s14c0"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7hl2"]
+atlas = SubResource("CompressedTexture2D_s14c0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qfs7y"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rqydb"]
+atlas = SubResource("CompressedTexture2D_qfs7y")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_otbj1"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wyrns"]
+atlas = SubResource("CompressedTexture2D_otbj1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_aoj2n"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4og4h"]
+atlas = SubResource("CompressedTexture2D_aoj2n")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qdrbk"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4p21g"]
+atlas = SubResource("CompressedTexture2D_qdrbk")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yoim4"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qvx7y"]
+atlas = SubResource("CompressedTexture2D_yoim4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yx8mw"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p4y26"]
+atlas = SubResource("CompressedTexture2D_yx8mw")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bugxp"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_syriv"]
+atlas = SubResource("CompressedTexture2D_bugxp")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mhaja"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tnlb1"]
+atlas = SubResource("CompressedTexture2D_mhaja")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_k16br"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pa4pb"]
+atlas = SubResource("CompressedTexture2D_k16br")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qd1d7"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oylrf"]
+atlas = SubResource("CompressedTexture2D_qd1d7")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lpcsf"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ulhu"]
+atlas = SubResource("CompressedTexture2D_lpcsf")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_op4yd"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0piv"]
+atlas = SubResource("CompressedTexture2D_op4yd")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_n4721"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8nm42"]
+atlas = SubResource("CompressedTexture2D_n4721")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2jrh4"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nowbt"]
+atlas = SubResource("CompressedTexture2D_2jrh4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_x3axy"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g6l1a"]
+atlas = SubResource("CompressedTexture2D_x3axy")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_my0yf"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eaq00"]
+atlas = SubResource("CompressedTexture2D_my0yf")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r3wki"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nie1y"]
+atlas = SubResource("CompressedTexture2D_r3wki")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jumfs"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_opngq"]
+atlas = SubResource("CompressedTexture2D_jumfs")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bt4js"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mvjmd"]
+atlas = SubResource("CompressedTexture2D_bt4js")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_clnpk"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q44ju"]
+atlas = SubResource("CompressedTexture2D_clnpk")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_aevs1"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbhwf"]
+atlas = SubResource("CompressedTexture2D_aevs1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ygyjb"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhipv"]
+atlas = SubResource("CompressedTexture2D_ygyjb")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1nf1l"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nv1bb"]
+atlas = SubResource("CompressedTexture2D_1nf1l")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ulsfh"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1q1bi"]
+atlas = SubResource("CompressedTexture2D_ulsfh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_62hw3"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slx64"]
+atlas = SubResource("CompressedTexture2D_62hw3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qy8uq"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ihny8"]
+atlas = SubResource("CompressedTexture2D_qy8uq")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_j1w2g"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3bxtk"]
+atlas = SubResource("CompressedTexture2D_j1w2g")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ngjxs"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qc1dn"]
+atlas = SubResource("CompressedTexture2D_ngjxs")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mfi3n"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_40jmw"]
+atlas = SubResource("CompressedTexture2D_mfi3n")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_i3tut"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xuboa"]
+atlas = SubResource("CompressedTexture2D_i3tut")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6falq"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_siidq"]
+atlas = SubResource("CompressedTexture2D_6falq")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pgl2v"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nifgu"]
+atlas = SubResource("CompressedTexture2D_pgl2v")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f22y0"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_be7un"]
+atlas = SubResource("CompressedTexture2D_f22y0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5cdy3"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_chyqo"]
+atlas = SubResource("CompressedTexture2D_5cdy3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tc7g2"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spfj1"]
+atlas = SubResource("CompressedTexture2D_tc7g2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_06mld"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wmev4"]
+atlas = SubResource("CompressedTexture2D_06mld")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0hyvs"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4mhdu"]
+atlas = SubResource("CompressedTexture2D_0hyvs")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1ht78"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4oq48"]
+atlas = SubResource("CompressedTexture2D_1ht78")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f08s6"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45j8b"]
+atlas = SubResource("CompressedTexture2D_f08s6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h67dj"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxtin"]
+atlas = SubResource("CompressedTexture2D_h67dj")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tdqvv"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gfqhd"]
+atlas = SubResource("CompressedTexture2D_tdqvv")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bpwvu"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_atb5i"]
+atlas = SubResource("CompressedTexture2D_bpwvu")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_voc4t"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nk6ax"]
+atlas = SubResource("CompressedTexture2D_voc4t")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mvaqi"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5gamn"]
+atlas = SubResource("CompressedTexture2D_mvaqi")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bc5u7"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5cc1i"]
+atlas = SubResource("CompressedTexture2D_bc5u7")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xd7g6"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ysbjy"]
+atlas = SubResource("CompressedTexture2D_xd7g6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fkkrr"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45isd"]
+atlas = SubResource("CompressedTexture2D_fkkrr")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0627o"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shapp"]
+atlas = SubResource("CompressedTexture2D_0627o")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ipwcj"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7yrsb"]
+atlas = SubResource("CompressedTexture2D_ipwcj")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2bfp0"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wtjug"]
+atlas = SubResource("CompressedTexture2D_2bfp0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_uurt2"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g54dh"]
+atlas = SubResource("CompressedTexture2D_uurt2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_kr4jp"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovhav"]
+atlas = SubResource("CompressedTexture2D_kr4jp")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pl66s"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_psk4c"]
+atlas = SubResource("CompressedTexture2D_pl66s")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3jokx"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2owjs"]
+atlas = SubResource("CompressedTexture2D_3jokx")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ikjr0"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fw5y5"]
+atlas = SubResource("CompressedTexture2D_ikjr0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4ro2o"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q4gkc"]
+atlas = SubResource("CompressedTexture2D_4ro2o")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0jt2p"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uqxhm"]
+atlas = SubResource("CompressedTexture2D_0jt2p")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a1uuw"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o7pch"]
+atlas = SubResource("CompressedTexture2D_a1uuw")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f0osb"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oi4mx"]
+atlas = SubResource("CompressedTexture2D_f0osb")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vwvy2"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q2dkx"]
+atlas = SubResource("CompressedTexture2D_vwvy2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a46oo"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1h64j"]
+atlas = SubResource("CompressedTexture2D_a46oo")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7leh4"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o60hn"]
+atlas = SubResource("CompressedTexture2D_7leh4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qsav7"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ln0pl"]
+atlas = SubResource("CompressedTexture2D_qsav7")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8gq1g"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vby7e"]
+atlas = SubResource("CompressedTexture2D_8gq1g")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_drqgy"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ka4ay"]
+atlas = SubResource("CompressedTexture2D_drqgy")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a8117"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jnjor"]
+atlas = SubResource("CompressedTexture2D_a8117")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_eupt5"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pj581"]
+atlas = SubResource("CompressedTexture2D_eupt5")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_g1h7o"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qj4ov"]
+atlas = SubResource("CompressedTexture2D_g1h7o")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gjp17"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1hv2"]
+atlas = SubResource("CompressedTexture2D_gjp17")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2miin"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pminv"]
+atlas = SubResource("CompressedTexture2D_2miin")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4108o"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpy27"]
+atlas = SubResource("CompressedTexture2D_4108o")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tfvwq"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_08oea"]
+atlas = SubResource("CompressedTexture2D_tfvwq")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ub0p8"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ffknm"]
+atlas = SubResource("CompressedTexture2D_ub0p8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_t7fhc"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_joy83"]
+atlas = SubResource("CompressedTexture2D_t7fhc")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_eqjs3"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y2lvn"]
+atlas = SubResource("CompressedTexture2D_eqjs3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yceil"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4sk7q"]
+atlas = SubResource("CompressedTexture2D_yceil")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dt424"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s0etj"]
+atlas = SubResource("CompressedTexture2D_dt424")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_82gir"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxi5v"]
+atlas = SubResource("CompressedTexture2D_82gir")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_sc1xv"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cwy5x"]
+atlas = SubResource("CompressedTexture2D_sc1xv")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ushpg"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ge24n"]
+atlas = SubResource("CompressedTexture2D_ushpg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4la70"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3cqbg"]
+atlas = SubResource("CompressedTexture2D_4la70")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pn4gw"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kmcsy"]
+atlas = SubResource("CompressedTexture2D_pn4gw")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ua5r0"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4sg04"]
+atlas = SubResource("CompressedTexture2D_ua5r0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5lsae"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fy3t1"]
+atlas = SubResource("CompressedTexture2D_5lsae")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_sn7qb"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dvfly"]
+atlas = SubResource("CompressedTexture2D_sn7qb")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0e8ji"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jove4"]
+atlas = SubResource("CompressedTexture2D_0e8ji")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r0pkx"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ou135"]
+atlas = SubResource("CompressedTexture2D_r0pkx")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gr7v3"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cohf3"]
+atlas = SubResource("CompressedTexture2D_gr7v3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mg6pr"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xet23"]
+atlas = SubResource("CompressedTexture2D_mg6pr")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3kjlu"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3fi04"]
+atlas = SubResource("CompressedTexture2D_3kjlu")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_66bp8"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8rx2o"]
+atlas = SubResource("CompressedTexture2D_66bp8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0ekru"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s75oa"]
+atlas = SubResource("CompressedTexture2D_0ekru")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_q5ueu"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1cp72"]
+atlas = SubResource("CompressedTexture2D_q5ueu")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m0q10"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ba8y0"]
+atlas = SubResource("CompressedTexture2D_m0q10")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_d8weu"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_no5el"]
+atlas = SubResource("CompressedTexture2D_d8weu")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_833go"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i8i7a"]
+atlas = SubResource("CompressedTexture2D_833go")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cc8ql"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4cnq"]
+atlas = SubResource("CompressedTexture2D_cc8ql")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2xadw"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_efrke"]
+atlas = SubResource("CompressedTexture2D_2xadw")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_g8tsh"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_arc2c"]
+atlas = SubResource("CompressedTexture2D_g8tsh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1hxgt"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ieixb"]
+atlas = SubResource("CompressedTexture2D_1hxgt")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xtcrl"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o6e8a"]
+atlas = SubResource("CompressedTexture2D_xtcrl")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_o2u02"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pip7a"]
+atlas = SubResource("CompressedTexture2D_o2u02")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m3fql"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o44ba"]
+atlas = SubResource("CompressedTexture2D_m3fql")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_t77uq"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1khte"]
+atlas = SubResource("CompressedTexture2D_t77uq")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yvq4u"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kjxko"]
+atlas = SubResource("CompressedTexture2D_yvq4u")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wcqob"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0jfs"]
+atlas = SubResource("CompressedTexture2D_wcqob")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_melpi"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bf324"]
+atlas = SubResource("CompressedTexture2D_melpi")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_htmve"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5mmra"]
+atlas = SubResource("CompressedTexture2D_htmve")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_42qyg"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mgov7"]
+atlas = SubResource("CompressedTexture2D_42qyg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hmwgt"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f4gel"]
+atlas = SubResource("CompressedTexture2D_hmwgt")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_w4c38"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epdl2"]
+atlas = SubResource("CompressedTexture2D_w4c38")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_px3d2"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kt3il"]
+atlas = SubResource("CompressedTexture2D_px3d2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_21h0l"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ms8f1"]
+atlas = SubResource("CompressedTexture2D_21h0l")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hrwce"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nb38j"]
+atlas = SubResource("CompressedTexture2D_hrwce")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mrlme"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1qx50"]
+atlas = SubResource("CompressedTexture2D_mrlme")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_oujel"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85d26"]
+atlas = SubResource("CompressedTexture2D_oujel")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fwubq"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_unwlg"]
+atlas = SubResource("CompressedTexture2D_fwubq")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_q1atm"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tebmp"]
+atlas = SubResource("CompressedTexture2D_q1atm")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_c04ns"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6qlll"]
+atlas = SubResource("CompressedTexture2D_c04ns")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cfv00"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_53bw6"]
+atlas = SubResource("CompressedTexture2D_cfv00")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dtl5e"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ritkh"]
+atlas = SubResource("CompressedTexture2D_dtl5e")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hbb20"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bv24g"]
+atlas = SubResource("CompressedTexture2D_hbb20")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ls3d4"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_thlr2"]
+atlas = SubResource("CompressedTexture2D_ls3d4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ehjbf"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5jgu4"]
+atlas = SubResource("CompressedTexture2D_ehjbf")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a22ub"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yjpux"]
+atlas = SubResource("CompressedTexture2D_a22ub")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_c7j5h"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_35bla"]
+atlas = SubResource("CompressedTexture2D_c7j5h")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2gnd5"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ufi3"]
+atlas = SubResource("CompressedTexture2D_2gnd5")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_kn0ag"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x5ea8"]
+atlas = SubResource("CompressedTexture2D_kn0ag")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_taxgr"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mkp7m"]
+atlas = SubResource("CompressedTexture2D_taxgr")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jecxf"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jgu4b"]
+atlas = SubResource("CompressedTexture2D_jecxf")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pjb8c"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wxmxg"]
+atlas = SubResource("CompressedTexture2D_pjb8c")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nmgkx"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yrbeo"]
+atlas = SubResource("CompressedTexture2D_nmgkx")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s4v3t"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4n5oe"]
+atlas = SubResource("CompressedTexture2D_s4v3t")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_k42uq"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjqps"]
+atlas = SubResource("CompressedTexture2D_k42uq")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2w57c"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h5fl4"]
+atlas = SubResource("CompressedTexture2D_2w57c")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0q4sk"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vhsjh"]
+atlas = SubResource("CompressedTexture2D_0q4sk")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qnhqs"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_22w0r"]
+atlas = SubResource("CompressedTexture2D_qnhqs")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_eg8xl"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ymoja"]
+atlas = SubResource("CompressedTexture2D_eg8xl")
 region = Rect2(0, 0, 32, 32)
 
 [node name="HoloNexus" type="Node2D"]
@@ -6323,58 +7291,1928 @@ offset_right = -400.0
 
 [node name="TextureButton" type="TextureButton" parent="Control3"]
 layout_mode = 0
-offset_top = 1.0
-offset_right = 32.0
-offset_bottom = 33.0
-texture_normal = SubResource("AtlasTexture_ng46w")
+offset_left = -3.0
+offset_top = 2.0
+offset_right = 29.0
+offset_bottom = 34.0
+texture_normal = SubResource("AtlasTexture_p7hl2")
 
 [node name="TextureButton2" type="TextureButton" parent="Control3"]
-offset_top = 22.0
-offset_right = 32.0
-offset_bottom = 54.0
-texture_normal = SubResource("AtlasTexture_ng46w")
+layout_mode = 0
+offset_left = -3.0
+offset_top = 26.0
+offset_right = 29.0
+offset_bottom = 58.0
+texture_normal = SubResource("AtlasTexture_rqydb")
 
 [node name="TextureButton3" type="TextureButton" parent="Control3"]
+layout_mode = 0
 offset_left = 18.0
-offset_top = -9.0
+offset_top = -10.0
 offset_right = 50.0
-offset_bottom = 23.0
-texture_normal = SubResource("AtlasTexture_ng46w")
+offset_bottom = 22.0
+texture_normal = SubResource("AtlasTexture_wyrns")
 
 [node name="TextureButton4" type="TextureButton" parent="Control3"]
+layout_mode = 0
 offset_left = 18.0
-offset_top = 12.0
+offset_top = 14.0
 offset_right = 50.0
-offset_bottom = 44.0
-texture_normal = SubResource("AtlasTexture_ng46w")
+offset_bottom = 46.0
+texture_normal = SubResource("AtlasTexture_4og4h")
 
 [node name="TextureButton5" type="TextureButton" parent="Control3"]
-offset_left = 36.0
-offset_top = 1.0
-offset_right = 68.0
-offset_bottom = 33.0
-texture_normal = SubResource("AtlasTexture_ng46w")
+layout_mode = 0
+offset_left = 39.0
+offset_top = 26.0
+offset_right = 71.0
+offset_bottom = 58.0
+texture_normal = SubResource("AtlasTexture_4p21g")
 
 [node name="TextureButton6" type="TextureButton" parent="Control3"]
-offset_left = 36.0
-offset_top = 22.0
-offset_right = 68.0
-offset_bottom = 54.0
-texture_normal = SubResource("AtlasTexture_ng46w")
+layout_mode = 0
+offset_left = 18.0
+offset_top = 38.0
+offset_right = 50.0
+offset_bottom = 70.0
+texture_normal = SubResource("AtlasTexture_qvx7y")
 
 [node name="TextureButton7" type="TextureButton" parent="Control3"]
-offset_left = 54.0
-offset_top = -9.0
-offset_right = 86.0
-offset_bottom = 23.0
-texture_normal = SubResource("AtlasTexture_ng46w")
+layout_mode = 0
+offset_left = 39.0
+offset_top = 2.0
+offset_right = 71.0
+offset_bottom = 34.0
+texture_normal = SubResource("AtlasTexture_p4y26")
 
 [node name="TextureButton8" type="TextureButton" parent="Control3"]
-offset_left = 54.0
-offset_top = 12.0
-offset_right = 86.0
-offset_bottom = 44.0
-texture_normal = SubResource("AtlasTexture_ng46w")
+offset_left = 60.0
+offset_top = 14.0
+offset_right = 92.0
+offset_bottom = 46.0
+texture_normal = SubResource("AtlasTexture_syriv")
+
+[node name="TextureButton9" type="TextureButton" parent="Control3"]
+offset_left = 60.0
+offset_top = 38.0
+offset_right = 92.0
+offset_bottom = 70.0
+texture_normal = SubResource("AtlasTexture_tnlb1")
+
+[node name="TextureButton10" type="TextureButton" parent="Control3"]
+offset_left = -87.0
+offset_top = 26.0
+offset_right = -55.0
+offset_bottom = 58.0
+texture_normal = SubResource("AtlasTexture_pa4pb")
+
+[node name="TextureButton11" type="TextureButton" parent="Control3"]
+offset_left = -87.0
+offset_top = 50.0
+offset_right = -55.0
+offset_bottom = 82.0
+texture_normal = SubResource("AtlasTexture_oylrf")
+
+[node name="TextureButton12" type="TextureButton" parent="Control3"]
+offset_left = -66.0
+offset_top = 62.0
+offset_right = -34.0
+offset_bottom = 94.0
+texture_normal = SubResource("AtlasTexture_1ulhu")
+
+[node name="TextureButton13" type="TextureButton" parent="Control3"]
+offset_left = -87.0
+offset_top = 74.0
+offset_right = -55.0
+offset_bottom = 106.0
+texture_normal = SubResource("AtlasTexture_y0piv")
+
+[node name="TextureButton14" type="TextureButton" parent="Control3"]
+offset_left = -66.0
+offset_top = 38.0
+offset_right = -34.0
+offset_bottom = 70.0
+texture_normal = SubResource("AtlasTexture_8nm42")
+
+[node name="TextureButton15" type="TextureButton" parent="Control3"]
+offset_left = 18.0
+offset_top = 62.0
+offset_right = 50.0
+offset_bottom = 94.0
+texture_normal = SubResource("AtlasTexture_nowbt")
+
+[node name="TextureButton16" type="TextureButton" parent="Control3"]
+offset_left = 18.0
+offset_top = 86.0
+offset_right = 50.0
+offset_bottom = 118.0
+texture_normal = SubResource("AtlasTexture_g6l1a")
+
+[node name="TextureButton17" type="TextureButton" parent="Control3"]
+offset_left = 39.0
+offset_top = 50.0
+offset_right = 71.0
+offset_bottom = 82.0
+texture_normal = SubResource("AtlasTexture_eaq00")
+
+[node name="TextureButton18" type="TextureButton" parent="Control3"]
+offset_left = 39.0
+offset_top = 74.0
+offset_right = 71.0
+offset_bottom = 106.0
+texture_normal = SubResource("AtlasTexture_nie1y")
+
+[node name="TextureButton19" type="TextureButton" parent="Control3"]
+offset_left = 60.0
+offset_top = 86.0
+offset_right = 92.0
+offset_bottom = 118.0
+texture_normal = SubResource("AtlasTexture_opngq")
+
+[node name="TextureButton20" type="TextureButton" parent="Control3"]
+offset_left = 39.0
+offset_top = 98.0
+offset_right = 71.0
+offset_bottom = 130.0
+texture_normal = SubResource("AtlasTexture_mvjmd")
+
+[node name="TextureButton21" type="TextureButton" parent="Control3"]
+offset_left = 60.0
+offset_top = 62.0
+offset_right = 92.0
+offset_bottom = 94.0
+texture_normal = SubResource("AtlasTexture_q44ju")
+
+[node name="TextureButton22" type="TextureButton" parent="Control3"]
+offset_left = 39.0
+offset_top = -46.0
+offset_right = 71.0
+offset_bottom = -14.0
+texture_normal = SubResource("AtlasTexture_sbhwf")
+
+[node name="TextureButton23" type="TextureButton" parent="Control3"]
+offset_left = 39.0
+offset_top = -22.0
+offset_right = 71.0
+offset_bottom = 10.0
+texture_normal = SubResource("AtlasTexture_xhipv")
+
+[node name="TextureButton24" type="TextureButton" parent="Control3"]
+offset_left = 60.0
+offset_top = -58.0
+offset_right = 92.0
+offset_bottom = -26.0
+texture_normal = SubResource("AtlasTexture_nv1bb")
+
+[node name="TextureButton25" type="TextureButton" parent="Control3"]
+offset_left = 60.0
+offset_top = -34.0
+offset_right = 92.0
+offset_bottom = -2.0
+texture_normal = SubResource("AtlasTexture_1q1bi")
+
+[node name="TextureButton26" type="TextureButton" parent="Control3"]
+offset_left = -87.0
+offset_top = 2.0
+offset_right = -55.0
+offset_bottom = 34.0
+texture_normal = SubResource("AtlasTexture_slx64")
+
+[node name="TextureButton27" type="TextureButton" parent="Control3"]
+offset_left = 60.0
+offset_top = -10.0
+offset_right = 92.0
+offset_bottom = 22.0
+texture_normal = SubResource("AtlasTexture_ihny8")
+
+[node name="TextureButton28" type="TextureButton" parent="Control3"]
+offset_left = -87.0
+offset_top = -22.0
+offset_right = -55.0
+offset_bottom = 10.0
+texture_normal = SubResource("AtlasTexture_3bxtk")
+
+[node name="TextureButton29" type="TextureButton" parent="Control3"]
+offset_left = -87.0
+offset_top = 98.0
+offset_right = -55.0
+offset_bottom = 130.0
+texture_normal = SubResource("AtlasTexture_qc1dn")
+
+[node name="TextureButton30" type="TextureButton" parent="Control3"]
+offset_left = -87.0
+offset_top = -46.0
+offset_right = -55.0
+offset_bottom = -14.0
+texture_normal = SubResource("AtlasTexture_40jmw")
+
+[node name="TextureButton31" type="TextureButton" parent="Control3"]
+offset_left = -66.0
+offset_top = 86.0
+offset_right = -34.0
+offset_bottom = 118.0
+texture_normal = SubResource("AtlasTexture_xuboa")
+
+[node name="TextureButton32" type="TextureButton" parent="Control3"]
+offset_left = -66.0
+offset_top = -58.0
+offset_right = -34.0
+offset_bottom = -26.0
+texture_normal = SubResource("AtlasTexture_siidq")
+
+[node name="TextureButton33" type="TextureButton" parent="Control3"]
+offset_left = -45.0
+offset_top = -46.0
+offset_right = -13.0
+offset_bottom = -14.0
+texture_normal = SubResource("AtlasTexture_nifgu")
+
+[node name="TextureButton34" type="TextureButton" parent="Control3"]
+offset_left = -66.0
+offset_top = -34.0
+offset_right = -34.0
+offset_bottom = -2.0
+texture_normal = SubResource("AtlasTexture_be7un")
+
+[node name="TextureButton35" type="TextureButton" parent="Control3"]
+offset_left = -45.0
+offset_top = 98.0
+offset_right = -13.0
+offset_bottom = 130.0
+texture_normal = SubResource("AtlasTexture_chyqo")
+
+[node name="TextureButton36" type="TextureButton" parent="Control3"]
+offset_left = -24.0
+offset_top = -58.0
+offset_right = 8.0
+offset_bottom = -26.0
+texture_normal = SubResource("AtlasTexture_spfj1")
+
+[node name="TextureButton37" type="TextureButton" parent="Control3"]
+offset_left = -24.0
+offset_top = -34.0
+offset_right = 8.0
+offset_bottom = -2.0
+texture_normal = SubResource("AtlasTexture_wmev4")
+
+[node name="TextureButton38" type="TextureButton" parent="Control3"]
+offset_left = -3.0
+offset_top = 98.0
+offset_right = 29.0
+offset_bottom = 130.0
+texture_normal = SubResource("AtlasTexture_4mhdu")
+
+[node name="TextureButton39" type="TextureButton" parent="Control3"]
+offset_left = -3.0
+offset_top = -46.0
+offset_right = 29.0
+offset_bottom = -14.0
+texture_normal = SubResource("AtlasTexture_4oq48")
+
+[node name="TextureButton40" type="TextureButton" parent="Control3"]
+offset_left = 18.0
+offset_top = -34.0
+offset_right = 50.0
+offset_bottom = -2.0
+texture_normal = SubResource("AtlasTexture_45j8b")
+
+[node name="TextureButton41" type="TextureButton" parent="Control3"]
+offset_left = -3.0
+offset_top = -22.0
+offset_right = 29.0
+offset_bottom = 10.0
+texture_normal = SubResource("AtlasTexture_jxtin")
+
+[node name="TextureButton42" type="TextureButton" parent="Control3"]
+offset_left = 18.0
+offset_top = -58.0
+offset_right = 50.0
+offset_bottom = -26.0
+texture_normal = SubResource("AtlasTexture_gfqhd")
+
+[node name="TextureButton43" type="TextureButton" parent="Control3"]
+offset_left = -66.0
+offset_top = -10.0
+offset_right = -34.0
+offset_bottom = 22.0
+texture_normal = SubResource("AtlasTexture_atb5i")
+
+[node name="TextureButton44" type="TextureButton" parent="Control3"]
+offset_left = -66.0
+offset_top = 14.0
+offset_right = -34.0
+offset_bottom = 46.0
+texture_normal = SubResource("AtlasTexture_nk6ax")
+
+[node name="TextureButton45" type="TextureButton" parent="Control3"]
+offset_left = -45.0
+offset_top = -22.0
+offset_right = -13.0
+offset_bottom = 10.0
+texture_normal = SubResource("AtlasTexture_5gamn")
+
+[node name="TextureButton46" type="TextureButton" parent="Control3"]
+offset_left = -45.0
+offset_top = 2.0
+offset_right = -13.0
+offset_bottom = 34.0
+texture_normal = SubResource("AtlasTexture_5cc1i")
+
+[node name="TextureButton47" type="TextureButton" parent="Control3"]
+offset_left = -24.0
+offset_top = 14.0
+offset_right = 8.0
+offset_bottom = 46.0
+texture_normal = SubResource("AtlasTexture_ysbjy")
+
+[node name="TextureButton48" type="TextureButton" parent="Control3"]
+offset_left = -45.0
+offset_top = 26.0
+offset_right = -13.0
+offset_bottom = 58.0
+texture_normal = SubResource("AtlasTexture_45isd")
+
+[node name="TextureButton49" type="TextureButton" parent="Control3"]
+offset_left = -24.0
+offset_top = -10.0
+offset_right = 8.0
+offset_bottom = 22.0
+texture_normal = SubResource("AtlasTexture_shapp")
+
+[node name="TextureButton50" type="TextureButton" parent="Control3"]
+offset_left = -45.0
+offset_top = 50.0
+offset_right = -13.0
+offset_bottom = 82.0
+texture_normal = SubResource("AtlasTexture_7yrsb")
+
+[node name="TextureButton51" type="TextureButton" parent="Control3"]
+offset_left = -45.0
+offset_top = 74.0
+offset_right = -13.0
+offset_bottom = 106.0
+texture_normal = SubResource("AtlasTexture_wtjug")
+
+[node name="TextureButton52" type="TextureButton" parent="Control3"]
+offset_left = -24.0
+offset_top = 38.0
+offset_right = 8.0
+offset_bottom = 70.0
+texture_normal = SubResource("AtlasTexture_g54dh")
+
+[node name="TextureButton53" type="TextureButton" parent="Control3"]
+offset_left = -24.0
+offset_top = 62.0
+offset_right = 8.0
+offset_bottom = 94.0
+texture_normal = SubResource("AtlasTexture_ovhav")
+
+[node name="TextureButton54" type="TextureButton" parent="Control3"]
+offset_left = -3.0
+offset_top = 74.0
+offset_right = 29.0
+offset_bottom = 106.0
+texture_normal = SubResource("AtlasTexture_psk4c")
+
+[node name="TextureButton55" type="TextureButton" parent="Control3"]
+offset_left = -24.0
+offset_top = 86.0
+offset_right = 8.0
+offset_bottom = 118.0
+texture_normal = SubResource("AtlasTexture_2owjs")
+
+[node name="TextureButton56" type="TextureButton" parent="Control3"]
+offset_left = -3.0
+offset_top = 50.0
+offset_right = 29.0
+offset_bottom = 82.0
+texture_normal = SubResource("AtlasTexture_fw5y5")
+
+[node name="TextureButton57" type="TextureButton" parent="Control3"]
+offset_left = -171.0
+offset_top = 2.0
+offset_right = -139.0
+offset_bottom = 34.0
+texture_normal = SubResource("AtlasTexture_q4gkc")
+
+[node name="TextureButton58" type="TextureButton" parent="Control3"]
+offset_left = -171.0
+offset_top = 26.0
+offset_right = -139.0
+offset_bottom = 58.0
+texture_normal = SubResource("AtlasTexture_uqxhm")
+
+[node name="TextureButton59" type="TextureButton" parent="Control3"]
+offset_left = -150.0
+offset_top = -10.0
+offset_right = -118.0
+offset_bottom = 22.0
+texture_normal = SubResource("AtlasTexture_o7pch")
+
+[node name="TextureButton60" type="TextureButton" parent="Control3"]
+offset_left = -150.0
+offset_top = 14.0
+offset_right = -118.0
+offset_bottom = 46.0
+texture_normal = SubResource("AtlasTexture_oi4mx")
+
+[node name="TextureButton61" type="TextureButton" parent="Control3"]
+offset_left = -129.0
+offset_top = 26.0
+offset_right = -97.0
+offset_bottom = 58.0
+texture_normal = SubResource("AtlasTexture_q2dkx")
+
+[node name="TextureButton62" type="TextureButton" parent="Control3"]
+offset_left = -150.0
+offset_top = 38.0
+offset_right = -118.0
+offset_bottom = 70.0
+texture_normal = SubResource("AtlasTexture_1h64j")
+
+[node name="TextureButton63" type="TextureButton" parent="Control3"]
+offset_left = -129.0
+offset_top = 2.0
+offset_right = -97.0
+offset_bottom = 34.0
+texture_normal = SubResource("AtlasTexture_o60hn")
+
+[node name="TextureButton64" type="TextureButton" parent="Control3"]
+offset_left = -108.0
+offset_top = 14.0
+offset_right = -76.0
+offset_bottom = 46.0
+texture_normal = SubResource("AtlasTexture_ln0pl")
+
+[node name="TextureButton65" type="TextureButton" parent="Control3"]
+offset_left = -108.0
+offset_top = 38.0
+offset_right = -76.0
+offset_bottom = 70.0
+texture_normal = SubResource("AtlasTexture_vby7e")
+
+[node name="TextureButton66" type="TextureButton" parent="Control3"]
+offset_left = -255.0
+offset_top = 26.0
+offset_right = -223.0
+offset_bottom = 58.0
+texture_normal = SubResource("AtlasTexture_ka4ay")
+
+[node name="TextureButton67" type="TextureButton" parent="Control3"]
+offset_left = -255.0
+offset_top = 50.0
+offset_right = -223.0
+offset_bottom = 82.0
+texture_normal = SubResource("AtlasTexture_jnjor")
+
+[node name="TextureButton68" type="TextureButton" parent="Control3"]
+offset_left = -234.0
+offset_top = 62.0
+offset_right = -202.0
+offset_bottom = 94.0
+texture_normal = SubResource("AtlasTexture_pj581")
+
+[node name="TextureButton69" type="TextureButton" parent="Control3"]
+offset_left = -255.0
+offset_top = 74.0
+offset_right = -223.0
+offset_bottom = 106.0
+texture_normal = SubResource("AtlasTexture_qj4ov")
+
+[node name="TextureButton70" type="TextureButton" parent="Control3"]
+offset_left = -234.0
+offset_top = 38.0
+offset_right = -202.0
+offset_bottom = 70.0
+texture_normal = SubResource("AtlasTexture_t1hv2")
+
+[node name="TextureButton71" type="TextureButton" parent="Control3"]
+offset_left = -150.0
+offset_top = 62.0
+offset_right = -118.0
+offset_bottom = 94.0
+texture_normal = SubResource("AtlasTexture_pminv")
+
+[node name="TextureButton72" type="TextureButton" parent="Control3"]
+offset_left = -150.0
+offset_top = 86.0
+offset_right = -118.0
+offset_bottom = 118.0
+texture_normal = SubResource("AtlasTexture_kpy27")
+
+[node name="TextureButton73" type="TextureButton" parent="Control3"]
+offset_left = -129.0
+offset_top = 50.0
+offset_right = -97.0
+offset_bottom = 82.0
+texture_normal = SubResource("AtlasTexture_08oea")
+
+[node name="TextureButton74" type="TextureButton" parent="Control3"]
+offset_left = -129.0
+offset_top = 74.0
+offset_right = -97.0
+offset_bottom = 106.0
+texture_normal = SubResource("AtlasTexture_ffknm")
+
+[node name="TextureButton75" type="TextureButton" parent="Control3"]
+offset_left = -108.0
+offset_top = 86.0
+offset_right = -76.0
+offset_bottom = 118.0
+texture_normal = SubResource("AtlasTexture_joy83")
+
+[node name="TextureButton76" type="TextureButton" parent="Control3"]
+offset_left = -129.0
+offset_top = 98.0
+offset_right = -97.0
+offset_bottom = 130.0
+texture_normal = SubResource("AtlasTexture_y2lvn")
+
+[node name="TextureButton77" type="TextureButton" parent="Control3"]
+offset_left = -108.0
+offset_top = 62.0
+offset_right = -76.0
+offset_bottom = 94.0
+texture_normal = SubResource("AtlasTexture_4sk7q")
+
+[node name="TextureButton78" type="TextureButton" parent="Control3"]
+offset_left = -129.0
+offset_top = -46.0
+offset_right = -97.0
+offset_bottom = -14.0
+texture_normal = SubResource("AtlasTexture_s0etj")
+
+[node name="TextureButton79" type="TextureButton" parent="Control3"]
+offset_left = -129.0
+offset_top = -22.0
+offset_right = -97.0
+offset_bottom = 10.0
+texture_normal = SubResource("AtlasTexture_nxi5v")
+
+[node name="TextureButton80" type="TextureButton" parent="Control3"]
+offset_left = -108.0
+offset_top = -58.0
+offset_right = -76.0
+offset_bottom = -26.0
+texture_normal = SubResource("AtlasTexture_cwy5x")
+
+[node name="TextureButton81" type="TextureButton" parent="Control3"]
+offset_left = -108.0
+offset_top = -34.0
+offset_right = -76.0
+offset_bottom = -2.0
+texture_normal = SubResource("AtlasTexture_ge24n")
+
+[node name="TextureButton82" type="TextureButton" parent="Control3"]
+offset_left = -255.0
+offset_top = 2.0
+offset_right = -223.0
+offset_bottom = 34.0
+texture_normal = SubResource("AtlasTexture_3cqbg")
+
+[node name="TextureButton83" type="TextureButton" parent="Control3"]
+offset_left = -108.0
+offset_top = -10.0
+offset_right = -76.0
+offset_bottom = 22.0
+texture_normal = SubResource("AtlasTexture_kmcsy")
+
+[node name="TextureButton84" type="TextureButton" parent="Control3"]
+offset_left = -255.0
+offset_top = -22.0
+offset_right = -223.0
+offset_bottom = 10.0
+texture_normal = SubResource("AtlasTexture_4sg04")
+
+[node name="TextureButton85" type="TextureButton" parent="Control3"]
+offset_left = -255.0
+offset_top = 98.0
+offset_right = -223.0
+offset_bottom = 130.0
+texture_normal = SubResource("AtlasTexture_fy3t1")
+
+[node name="TextureButton86" type="TextureButton" parent="Control3"]
+offset_left = -255.0
+offset_top = -46.0
+offset_right = -223.0
+offset_bottom = -14.0
+texture_normal = SubResource("AtlasTexture_dvfly")
+
+[node name="TextureButton87" type="TextureButton" parent="Control3"]
+offset_left = -234.0
+offset_top = 86.0
+offset_right = -202.0
+offset_bottom = 118.0
+texture_normal = SubResource("AtlasTexture_jove4")
+
+[node name="TextureButton88" type="TextureButton" parent="Control3"]
+offset_left = -234.0
+offset_top = -58.0
+offset_right = -202.0
+offset_bottom = -26.0
+texture_normal = SubResource("AtlasTexture_ou135")
+
+[node name="TextureButton89" type="TextureButton" parent="Control3"]
+offset_left = -213.0
+offset_top = -46.0
+offset_right = -181.0
+offset_bottom = -14.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton90" type="TextureButton" parent="Control3"]
+offset_left = -234.0
+offset_top = -34.0
+offset_right = -202.0
+offset_bottom = -2.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton91" type="TextureButton" parent="Control3"]
+offset_left = -213.0
+offset_top = 98.0
+offset_right = -181.0
+offset_bottom = 130.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton92" type="TextureButton" parent="Control3"]
+offset_left = -192.0
+offset_top = -58.0
+offset_right = -160.0
+offset_bottom = -26.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton93" type="TextureButton" parent="Control3"]
+offset_left = -192.0
+offset_top = -34.0
+offset_right = -160.0
+offset_bottom = -2.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton94" type="TextureButton" parent="Control3"]
+offset_left = -171.0
+offset_top = 98.0
+offset_right = -139.0
+offset_bottom = 130.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton95" type="TextureButton" parent="Control3"]
+offset_left = -171.0
+offset_top = -46.0
+offset_right = -139.0
+offset_bottom = -14.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton96" type="TextureButton" parent="Control3"]
+offset_left = -150.0
+offset_top = -34.0
+offset_right = -118.0
+offset_bottom = -2.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton97" type="TextureButton" parent="Control3"]
+offset_left = -171.0
+offset_top = -22.0
+offset_right = -139.0
+offset_bottom = 10.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton98" type="TextureButton" parent="Control3"]
+offset_left = -150.0
+offset_top = -58.0
+offset_right = -118.0
+offset_bottom = -26.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton99" type="TextureButton" parent="Control3"]
+offset_left = -234.0
+offset_top = -10.0
+offset_right = -202.0
+offset_bottom = 22.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton100" type="TextureButton" parent="Control3"]
+offset_left = -234.0
+offset_top = 14.0
+offset_right = -202.0
+offset_bottom = 46.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton101" type="TextureButton" parent="Control3"]
+offset_left = -213.0
+offset_top = -22.0
+offset_right = -181.0
+offset_bottom = 10.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton102" type="TextureButton" parent="Control3"]
+offset_left = -213.0
+offset_top = 2.0
+offset_right = -181.0
+offset_bottom = 34.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton103" type="TextureButton" parent="Control3"]
+offset_left = -192.0
+offset_top = 14.0
+offset_right = -160.0
+offset_bottom = 46.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton104" type="TextureButton" parent="Control3"]
+offset_left = -213.0
+offset_top = 26.0
+offset_right = -181.0
+offset_bottom = 58.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton105" type="TextureButton" parent="Control3"]
+offset_left = -192.0
+offset_top = -10.0
+offset_right = -160.0
+offset_bottom = 22.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton106" type="TextureButton" parent="Control3"]
+offset_left = -213.0
+offset_top = 50.0
+offset_right = -181.0
+offset_bottom = 82.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton107" type="TextureButton" parent="Control3"]
+offset_left = -213.0
+offset_top = 74.0
+offset_right = -181.0
+offset_bottom = 106.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton108" type="TextureButton" parent="Control3"]
+offset_left = -192.0
+offset_top = 38.0
+offset_right = -160.0
+offset_bottom = 70.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton109" type="TextureButton" parent="Control3"]
+offset_left = -192.0
+offset_top = 62.0
+offset_right = -160.0
+offset_bottom = 94.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton110" type="TextureButton" parent="Control3"]
+offset_left = -171.0
+offset_top = 74.0
+offset_right = -139.0
+offset_bottom = 106.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton111" type="TextureButton" parent="Control3"]
+offset_left = -192.0
+offset_top = 86.0
+offset_right = -160.0
+offset_bottom = 118.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton112" type="TextureButton" parent="Control3"]
+offset_left = -171.0
+offset_top = 50.0
+offset_right = -139.0
+offset_bottom = 82.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton113" type="TextureButton" parent="Control3"]
+offset_left = -3.0
+offset_top = 170.0
+offset_right = 29.0
+offset_bottom = 202.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton114" type="TextureButton" parent="Control3"]
+offset_left = -3.0
+offset_top = 194.0
+offset_right = 29.0
+offset_bottom = 226.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton115" type="TextureButton" parent="Control3"]
+offset_left = 18.0
+offset_top = 158.0
+offset_right = 50.0
+offset_bottom = 190.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton116" type="TextureButton" parent="Control3"]
+offset_left = 18.0
+offset_top = 182.0
+offset_right = 50.0
+offset_bottom = 214.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton117" type="TextureButton" parent="Control3"]
+offset_left = 39.0
+offset_top = 194.0
+offset_right = 71.0
+offset_bottom = 226.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton118" type="TextureButton" parent="Control3"]
+offset_left = 18.0
+offset_top = 206.0
+offset_right = 50.0
+offset_bottom = 238.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton119" type="TextureButton" parent="Control3"]
+offset_left = 39.0
+offset_top = 170.0
+offset_right = 71.0
+offset_bottom = 202.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton120" type="TextureButton" parent="Control3"]
+offset_left = 60.0
+offset_top = 182.0
+offset_right = 92.0
+offset_bottom = 214.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton121" type="TextureButton" parent="Control3"]
+offset_left = 60.0
+offset_top = 206.0
+offset_right = 92.0
+offset_bottom = 238.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton122" type="TextureButton" parent="Control3"]
+offset_left = -87.0
+offset_top = 194.0
+offset_right = -55.0
+offset_bottom = 226.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton123" type="TextureButton" parent="Control3"]
+offset_left = -87.0
+offset_top = 218.0
+offset_right = -55.0
+offset_bottom = 250.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton124" type="TextureButton" parent="Control3"]
+offset_left = -66.0
+offset_top = 230.0
+offset_right = -34.0
+offset_bottom = 262.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton125" type="TextureButton" parent="Control3"]
+offset_left = -87.0
+offset_top = 242.0
+offset_right = -55.0
+offset_bottom = 274.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton126" type="TextureButton" parent="Control3"]
+offset_left = -66.0
+offset_top = 206.0
+offset_right = -34.0
+offset_bottom = 238.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton127" type="TextureButton" parent="Control3"]
+offset_left = 18.0
+offset_top = 230.0
+offset_right = 50.0
+offset_bottom = 262.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton128" type="TextureButton" parent="Control3"]
+offset_left = 18.0
+offset_top = 254.0
+offset_right = 50.0
+offset_bottom = 286.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton129" type="TextureButton" parent="Control3"]
+offset_left = 39.0
+offset_top = 218.0
+offset_right = 71.0
+offset_bottom = 250.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton130" type="TextureButton" parent="Control3"]
+offset_left = 39.0
+offset_top = 242.0
+offset_right = 71.0
+offset_bottom = 274.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton131" type="TextureButton" parent="Control3"]
+offset_left = 60.0
+offset_top = 254.0
+offset_right = 92.0
+offset_bottom = 286.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton132" type="TextureButton" parent="Control3"]
+offset_left = 39.0
+offset_top = 266.0
+offset_right = 71.0
+offset_bottom = 298.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton133" type="TextureButton" parent="Control3"]
+offset_left = 60.0
+offset_top = 230.0
+offset_right = 92.0
+offset_bottom = 262.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton134" type="TextureButton" parent="Control3"]
+offset_left = 39.0
+offset_top = 122.0
+offset_right = 71.0
+offset_bottom = 154.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton135" type="TextureButton" parent="Control3"]
+offset_left = 39.0
+offset_top = 146.0
+offset_right = 71.0
+offset_bottom = 178.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton136" type="TextureButton" parent="Control3"]
+offset_left = 60.0
+offset_top = 110.0
+offset_right = 92.0
+offset_bottom = 142.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton137" type="TextureButton" parent="Control3"]
+offset_left = 60.0
+offset_top = 134.0
+offset_right = 92.0
+offset_bottom = 166.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton138" type="TextureButton" parent="Control3"]
+offset_left = -87.0
+offset_top = 170.0
+offset_right = -55.0
+offset_bottom = 202.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton139" type="TextureButton" parent="Control3"]
+offset_left = 60.0
+offset_top = 158.0
+offset_right = 92.0
+offset_bottom = 190.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton140" type="TextureButton" parent="Control3"]
+offset_left = -87.0
+offset_top = 146.0
+offset_right = -55.0
+offset_bottom = 178.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton141" type="TextureButton" parent="Control3"]
+offset_left = -87.0
+offset_top = 266.0
+offset_right = -55.0
+offset_bottom = 298.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton142" type="TextureButton" parent="Control3"]
+offset_left = -87.0
+offset_top = 122.0
+offset_right = -55.0
+offset_bottom = 154.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton143" type="TextureButton" parent="Control3"]
+offset_left = -66.0
+offset_top = 254.0
+offset_right = -34.0
+offset_bottom = 286.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton144" type="TextureButton" parent="Control3"]
+offset_left = -66.0
+offset_top = 110.0
+offset_right = -34.0
+offset_bottom = 142.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton145" type="TextureButton" parent="Control3"]
+offset_left = -45.0
+offset_top = 122.0
+offset_right = -13.0
+offset_bottom = 154.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton146" type="TextureButton" parent="Control3"]
+offset_left = -66.0
+offset_top = 134.0
+offset_right = -34.0
+offset_bottom = 166.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton147" type="TextureButton" parent="Control3"]
+offset_left = -45.0
+offset_top = 266.0
+offset_right = -13.0
+offset_bottom = 298.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton148" type="TextureButton" parent="Control3"]
+offset_left = -24.0
+offset_top = 110.0
+offset_right = 8.0
+offset_bottom = 142.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton149" type="TextureButton" parent="Control3"]
+offset_left = -24.0
+offset_top = 134.0
+offset_right = 8.0
+offset_bottom = 166.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton150" type="TextureButton" parent="Control3"]
+offset_left = -3.0
+offset_top = 266.0
+offset_right = 29.0
+offset_bottom = 298.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton151" type="TextureButton" parent="Control3"]
+offset_left = -3.0
+offset_top = 122.0
+offset_right = 29.0
+offset_bottom = 154.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton152" type="TextureButton" parent="Control3"]
+offset_left = 18.0
+offset_top = 134.0
+offset_right = 50.0
+offset_bottom = 166.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton153" type="TextureButton" parent="Control3"]
+offset_left = -3.0
+offset_top = 146.0
+offset_right = 29.0
+offset_bottom = 178.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton154" type="TextureButton" parent="Control3"]
+offset_left = 18.0
+offset_top = 110.0
+offset_right = 50.0
+offset_bottom = 142.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton155" type="TextureButton" parent="Control3"]
+offset_left = -66.0
+offset_top = 158.0
+offset_right = -34.0
+offset_bottom = 190.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton156" type="TextureButton" parent="Control3"]
+offset_left = -66.0
+offset_top = 182.0
+offset_right = -34.0
+offset_bottom = 214.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton157" type="TextureButton" parent="Control3"]
+offset_left = -45.0
+offset_top = 146.0
+offset_right = -13.0
+offset_bottom = 178.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton158" type="TextureButton" parent="Control3"]
+offset_left = -45.0
+offset_top = 170.0
+offset_right = -13.0
+offset_bottom = 202.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton159" type="TextureButton" parent="Control3"]
+offset_left = -24.0
+offset_top = 182.0
+offset_right = 8.0
+offset_bottom = 214.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton160" type="TextureButton" parent="Control3"]
+offset_left = -45.0
+offset_top = 194.0
+offset_right = -13.0
+offset_bottom = 226.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton161" type="TextureButton" parent="Control3"]
+offset_left = -24.0
+offset_top = 158.0
+offset_right = 8.0
+offset_bottom = 190.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton162" type="TextureButton" parent="Control3"]
+offset_left = -45.0
+offset_top = 218.0
+offset_right = -13.0
+offset_bottom = 250.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton163" type="TextureButton" parent="Control3"]
+offset_left = -45.0
+offset_top = 242.0
+offset_right = -13.0
+offset_bottom = 274.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton164" type="TextureButton" parent="Control3"]
+offset_left = -24.0
+offset_top = 206.0
+offset_right = 8.0
+offset_bottom = 238.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton165" type="TextureButton" parent="Control3"]
+offset_left = -24.0
+offset_top = 230.0
+offset_right = 8.0
+offset_bottom = 262.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton166" type="TextureButton" parent="Control3"]
+offset_left = -3.0
+offset_top = 242.0
+offset_right = 29.0
+offset_bottom = 274.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton167" type="TextureButton" parent="Control3"]
+offset_left = -24.0
+offset_top = 254.0
+offset_right = 8.0
+offset_bottom = 286.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton168" type="TextureButton" parent="Control3"]
+offset_left = -3.0
+offset_top = 218.0
+offset_right = 29.0
+offset_bottom = 250.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton169" type="TextureButton" parent="Control3"]
+offset_left = -171.0
+offset_top = 170.0
+offset_right = -139.0
+offset_bottom = 202.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton170" type="TextureButton" parent="Control3"]
+offset_left = -171.0
+offset_top = 194.0
+offset_right = -139.0
+offset_bottom = 226.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton171" type="TextureButton" parent="Control3"]
+offset_left = -150.0
+offset_top = 158.0
+offset_right = -118.0
+offset_bottom = 190.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton172" type="TextureButton" parent="Control3"]
+offset_left = -150.0
+offset_top = 182.0
+offset_right = -118.0
+offset_bottom = 214.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton173" type="TextureButton" parent="Control3"]
+offset_left = -129.0
+offset_top = 194.0
+offset_right = -97.0
+offset_bottom = 226.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton174" type="TextureButton" parent="Control3"]
+offset_left = -150.0
+offset_top = 206.0
+offset_right = -118.0
+offset_bottom = 238.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton175" type="TextureButton" parent="Control3"]
+offset_left = -129.0
+offset_top = 170.0
+offset_right = -97.0
+offset_bottom = 202.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton176" type="TextureButton" parent="Control3"]
+offset_left = -108.0
+offset_top = 182.0
+offset_right = -76.0
+offset_bottom = 214.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton177" type="TextureButton" parent="Control3"]
+offset_left = -108.0
+offset_top = 206.0
+offset_right = -76.0
+offset_bottom = 238.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton178" type="TextureButton" parent="Control3"]
+offset_left = -255.0
+offset_top = 194.0
+offset_right = -223.0
+offset_bottom = 226.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton179" type="TextureButton" parent="Control3"]
+offset_left = -255.0
+offset_top = 218.0
+offset_right = -223.0
+offset_bottom = 250.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton180" type="TextureButton" parent="Control3"]
+offset_left = -234.0
+offset_top = 230.0
+offset_right = -202.0
+offset_bottom = 262.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton181" type="TextureButton" parent="Control3"]
+offset_left = -255.0
+offset_top = 242.0
+offset_right = -223.0
+offset_bottom = 274.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton182" type="TextureButton" parent="Control3"]
+offset_left = -234.0
+offset_top = 206.0
+offset_right = -202.0
+offset_bottom = 238.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton183" type="TextureButton" parent="Control3"]
+offset_left = -150.0
+offset_top = 230.0
+offset_right = -118.0
+offset_bottom = 262.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton184" type="TextureButton" parent="Control3"]
+offset_left = -150.0
+offset_top = 254.0
+offset_right = -118.0
+offset_bottom = 286.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton185" type="TextureButton" parent="Control3"]
+offset_left = -129.0
+offset_top = 218.0
+offset_right = -97.0
+offset_bottom = 250.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton186" type="TextureButton" parent="Control3"]
+offset_left = -129.0
+offset_top = 242.0
+offset_right = -97.0
+offset_bottom = 274.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton187" type="TextureButton" parent="Control3"]
+offset_left = -108.0
+offset_top = 254.0
+offset_right = -76.0
+offset_bottom = 286.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton188" type="TextureButton" parent="Control3"]
+offset_left = -129.0
+offset_top = 266.0
+offset_right = -97.0
+offset_bottom = 298.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton189" type="TextureButton" parent="Control3"]
+offset_left = -108.0
+offset_top = 230.0
+offset_right = -76.0
+offset_bottom = 262.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton190" type="TextureButton" parent="Control3"]
+offset_left = -129.0
+offset_top = 122.0
+offset_right = -97.0
+offset_bottom = 154.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton191" type="TextureButton" parent="Control3"]
+offset_left = -129.0
+offset_top = 146.0
+offset_right = -97.0
+offset_bottom = 178.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton192" type="TextureButton" parent="Control3"]
+offset_left = -108.0
+offset_top = 110.0
+offset_right = -76.0
+offset_bottom = 142.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton193" type="TextureButton" parent="Control3"]
+offset_left = -108.0
+offset_top = 134.0
+offset_right = -76.0
+offset_bottom = 166.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton194" type="TextureButton" parent="Control3"]
+offset_left = -255.0
+offset_top = 170.0
+offset_right = -223.0
+offset_bottom = 202.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton195" type="TextureButton" parent="Control3"]
+offset_left = -108.0
+offset_top = 158.0
+offset_right = -76.0
+offset_bottom = 190.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton196" type="TextureButton" parent="Control3"]
+offset_left = -255.0
+offset_top = 146.0
+offset_right = -223.0
+offset_bottom = 178.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton197" type="TextureButton" parent="Control3"]
+offset_left = -255.0
+offset_top = 266.0
+offset_right = -223.0
+offset_bottom = 298.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton198" type="TextureButton" parent="Control3"]
+offset_left = -255.0
+offset_top = 122.0
+offset_right = -223.0
+offset_bottom = 154.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton199" type="TextureButton" parent="Control3"]
+offset_left = -234.0
+offset_top = 254.0
+offset_right = -202.0
+offset_bottom = 286.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton200" type="TextureButton" parent="Control3"]
+offset_left = -234.0
+offset_top = 110.0
+offset_right = -202.0
+offset_bottom = 142.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton201" type="TextureButton" parent="Control3"]
+offset_left = -213.0
+offset_top = 122.0
+offset_right = -181.0
+offset_bottom = 154.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton202" type="TextureButton" parent="Control3"]
+offset_left = -234.0
+offset_top = 134.0
+offset_right = -202.0
+offset_bottom = 166.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton203" type="TextureButton" parent="Control3"]
+offset_left = -213.0
+offset_top = 266.0
+offset_right = -181.0
+offset_bottom = 298.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton204" type="TextureButton" parent="Control3"]
+offset_left = -192.0
+offset_top = 110.0
+offset_right = -160.0
+offset_bottom = 142.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton205" type="TextureButton" parent="Control3"]
+offset_left = -192.0
+offset_top = 134.0
+offset_right = -160.0
+offset_bottom = 166.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton206" type="TextureButton" parent="Control3"]
+offset_left = -171.0
+offset_top = 266.0
+offset_right = -139.0
+offset_bottom = 298.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton207" type="TextureButton" parent="Control3"]
+offset_left = -171.0
+offset_top = 122.0
+offset_right = -139.0
+offset_bottom = 154.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton208" type="TextureButton" parent="Control3"]
+offset_left = -150.0
+offset_top = 134.0
+offset_right = -118.0
+offset_bottom = 166.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton209" type="TextureButton" parent="Control3"]
+offset_left = -171.0
+offset_top = 146.0
+offset_right = -139.0
+offset_bottom = 178.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton210" type="TextureButton" parent="Control3"]
+offset_left = -150.0
+offset_top = 110.0
+offset_right = -118.0
+offset_bottom = 142.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton211" type="TextureButton" parent="Control3"]
+offset_left = -234.0
+offset_top = 158.0
+offset_right = -202.0
+offset_bottom = 190.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton212" type="TextureButton" parent="Control3"]
+offset_left = -234.0
+offset_top = 182.0
+offset_right = -202.0
+offset_bottom = 214.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton213" type="TextureButton" parent="Control3"]
+offset_left = -213.0
+offset_top = 146.0
+offset_right = -181.0
+offset_bottom = 178.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton214" type="TextureButton" parent="Control3"]
+offset_left = -213.0
+offset_top = 170.0
+offset_right = -181.0
+offset_bottom = 202.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton215" type="TextureButton" parent="Control3"]
+offset_left = -192.0
+offset_top = 182.0
+offset_right = -160.0
+offset_bottom = 214.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton216" type="TextureButton" parent="Control3"]
+offset_left = -213.0
+offset_top = 194.0
+offset_right = -181.0
+offset_bottom = 226.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton217" type="TextureButton" parent="Control3"]
+offset_left = -192.0
+offset_top = 158.0
+offset_right = -160.0
+offset_bottom = 190.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton218" type="TextureButton" parent="Control3"]
+offset_left = -213.0
+offset_top = 218.0
+offset_right = -181.0
+offset_bottom = 250.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton219" type="TextureButton" parent="Control3"]
+offset_left = -213.0
+offset_top = 242.0
+offset_right = -181.0
+offset_bottom = 274.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton220" type="TextureButton" parent="Control3"]
+offset_left = -192.0
+offset_top = 206.0
+offset_right = -160.0
+offset_bottom = 238.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton221" type="TextureButton" parent="Control3"]
+offset_left = -192.0
+offset_top = 230.0
+offset_right = -160.0
+offset_bottom = 262.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton222" type="TextureButton" parent="Control3"]
+offset_left = -171.0
+offset_top = 242.0
+offset_right = -139.0
+offset_bottom = 274.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton223" type="TextureButton" parent="Control3"]
+offset_left = -192.0
+offset_top = 254.0
+offset_right = -160.0
+offset_bottom = 286.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton224" type="TextureButton" parent="Control3"]
+offset_left = -171.0
+offset_top = 218.0
+offset_right = -139.0
+offset_bottom = 250.0
+texture_normal = SubResource("AtlasTexture_cohf3")
+
+[node name="TextureButton225" type="TextureButton" parent="Control3"]
+offset_left = -48.0
+offset_top = -193.0
+offset_right = -16.0
+offset_bottom = -161.0
+texture_normal = SubResource("AtlasTexture_xet23")
+
+[node name="TextureButton226" type="TextureButton" parent="Control3"]
+offset_left = -48.0
+offset_top = -169.0
+offset_right = -16.0
+offset_bottom = -137.0
+texture_normal = SubResource("AtlasTexture_3fi04")
+
+[node name="TextureButton227" type="TextureButton" parent="Control3"]
+offset_left = -27.0
+offset_top = -205.0
+offset_right = 5.0
+offset_bottom = -173.0
+texture_normal = SubResource("AtlasTexture_8rx2o")
+
+[node name="TextureButton228" type="TextureButton" parent="Control3"]
+offset_left = -27.0
+offset_top = -181.0
+offset_right = 5.0
+offset_bottom = -149.0
+texture_normal = SubResource("AtlasTexture_s75oa")
+
+[node name="TextureButton229" type="TextureButton" parent="Control3"]
+offset_left = -6.0
+offset_top = -169.0
+offset_right = 26.0
+offset_bottom = -137.0
+texture_normal = SubResource("AtlasTexture_1cp72")
+
+[node name="TextureButton230" type="TextureButton" parent="Control3"]
+offset_left = -27.0
+offset_top = -157.0
+offset_right = 5.0
+offset_bottom = -125.0
+texture_normal = SubResource("AtlasTexture_ba8y0")
+
+[node name="TextureButton231" type="TextureButton" parent="Control3"]
+offset_left = -6.0
+offset_top = -193.0
+offset_right = 26.0
+offset_bottom = -161.0
+texture_normal = SubResource("AtlasTexture_no5el")
+
+[node name="TextureButton232" type="TextureButton" parent="Control3"]
+offset_left = 15.0
+offset_top = -181.0
+offset_right = 47.0
+offset_bottom = -149.0
+texture_normal = SubResource("AtlasTexture_i8i7a")
+
+[node name="TextureButton233" type="TextureButton" parent="Control3"]
+offset_left = 15.0
+offset_top = -157.0
+offset_right = 47.0
+offset_bottom = -125.0
+texture_normal = SubResource("AtlasTexture_o4cnq")
+
+[node name="TextureButton234" type="TextureButton" parent="Control3"]
+offset_left = -132.0
+offset_top = -169.0
+offset_right = -100.0
+offset_bottom = -137.0
+texture_normal = SubResource("AtlasTexture_efrke")
+
+[node name="TextureButton235" type="TextureButton" parent="Control3"]
+offset_left = -132.0
+offset_top = -145.0
+offset_right = -100.0
+offset_bottom = -113.0
+texture_normal = SubResource("AtlasTexture_arc2c")
+
+[node name="TextureButton236" type="TextureButton" parent="Control3"]
+offset_left = -111.0
+offset_top = -133.0
+offset_right = -79.0
+offset_bottom = -101.0
+texture_normal = SubResource("AtlasTexture_ieixb")
+
+[node name="TextureButton237" type="TextureButton" parent="Control3"]
+offset_left = -132.0
+offset_top = -121.0
+offset_right = -100.0
+offset_bottom = -89.0
+texture_normal = SubResource("AtlasTexture_o6e8a")
+
+[node name="TextureButton238" type="TextureButton" parent="Control3"]
+offset_left = -111.0
+offset_top = -157.0
+offset_right = -79.0
+offset_bottom = -125.0
+texture_normal = SubResource("AtlasTexture_pip7a")
+
+[node name="TextureButton239" type="TextureButton" parent="Control3"]
+offset_left = -27.0
+offset_top = -133.0
+offset_right = 5.0
+offset_bottom = -101.0
+texture_normal = SubResource("AtlasTexture_o44ba")
+
+[node name="TextureButton240" type="TextureButton" parent="Control3"]
+offset_left = -27.0
+offset_top = -109.0
+offset_right = 5.0
+offset_bottom = -77.0
+texture_normal = SubResource("AtlasTexture_1khte")
+
+[node name="TextureButton241" type="TextureButton" parent="Control3"]
+offset_left = -6.0
+offset_top = -145.0
+offset_right = 26.0
+offset_bottom = -113.0
+texture_normal = SubResource("AtlasTexture_kjxko")
+
+[node name="TextureButton242" type="TextureButton" parent="Control3"]
+offset_left = -6.0
+offset_top = -121.0
+offset_right = 26.0
+offset_bottom = -89.0
+texture_normal = SubResource("AtlasTexture_d0jfs")
+
+[node name="TextureButton243" type="TextureButton" parent="Control3"]
+offset_left = 15.0
+offset_top = -109.0
+offset_right = 47.0
+offset_bottom = -77.0
+texture_normal = SubResource("AtlasTexture_bf324")
+
+[node name="TextureButton244" type="TextureButton" parent="Control3"]
+offset_left = -6.0
+offset_top = -97.0
+offset_right = 26.0
+offset_bottom = -65.0
+texture_normal = SubResource("AtlasTexture_5mmra")
+
+[node name="TextureButton245" type="TextureButton" parent="Control3"]
+offset_left = 15.0
+offset_top = -133.0
+offset_right = 47.0
+offset_bottom = -101.0
+texture_normal = SubResource("AtlasTexture_mgov7")
+
+[node name="TextureButton246" type="TextureButton" parent="Control3"]
+offset_left = -6.0
+offset_top = -241.0
+offset_right = 26.0
+offset_bottom = -209.0
+texture_normal = SubResource("AtlasTexture_f4gel")
+
+[node name="TextureButton247" type="TextureButton" parent="Control3"]
+offset_left = -6.0
+offset_top = -217.0
+offset_right = 26.0
+offset_bottom = -185.0
+texture_normal = SubResource("AtlasTexture_epdl2")
+
+[node name="TextureButton248" type="TextureButton" parent="Control3"]
+offset_left = 15.0
+offset_top = -253.0
+offset_right = 47.0
+offset_bottom = -221.0
+texture_normal = SubResource("AtlasTexture_kt3il")
+
+[node name="TextureButton249" type="TextureButton" parent="Control3"]
+offset_left = 15.0
+offset_top = -229.0
+offset_right = 47.0
+offset_bottom = -197.0
+texture_normal = SubResource("AtlasTexture_ms8f1")
+
+[node name="TextureButton250" type="TextureButton" parent="Control3"]
+offset_left = -132.0
+offset_top = -193.0
+offset_right = -100.0
+offset_bottom = -161.0
+texture_normal = SubResource("AtlasTexture_nb38j")
+
+[node name="TextureButton251" type="TextureButton" parent="Control3"]
+offset_left = 15.0
+offset_top = -205.0
+offset_right = 47.0
+offset_bottom = -173.0
+texture_normal = SubResource("AtlasTexture_1qx50")
+
+[node name="TextureButton252" type="TextureButton" parent="Control3"]
+offset_left = -132.0
+offset_top = -217.0
+offset_right = -100.0
+offset_bottom = -185.0
+texture_normal = SubResource("AtlasTexture_85d26")
+
+[node name="TextureButton253" type="TextureButton" parent="Control3"]
+offset_left = -132.0
+offset_top = -97.0
+offset_right = -100.0
+offset_bottom = -65.0
+texture_normal = SubResource("AtlasTexture_unwlg")
+
+[node name="TextureButton254" type="TextureButton" parent="Control3"]
+offset_left = -132.0
+offset_top = -241.0
+offset_right = -100.0
+offset_bottom = -209.0
+texture_normal = SubResource("AtlasTexture_tebmp")
+
+[node name="TextureButton255" type="TextureButton" parent="Control3"]
+offset_left = -111.0
+offset_top = -109.0
+offset_right = -79.0
+offset_bottom = -77.0
+texture_normal = SubResource("AtlasTexture_6qlll")
+
+[node name="TextureButton256" type="TextureButton" parent="Control3"]
+offset_left = -111.0
+offset_top = -253.0
+offset_right = -79.0
+offset_bottom = -221.0
+texture_normal = SubResource("AtlasTexture_53bw6")
+
+[node name="TextureButton257" type="TextureButton" parent="Control3"]
+offset_left = -90.0
+offset_top = -241.0
+offset_right = -58.0
+offset_bottom = -209.0
+texture_normal = SubResource("AtlasTexture_ritkh")
+
+[node name="TextureButton258" type="TextureButton" parent="Control3"]
+offset_left = -111.0
+offset_top = -229.0
+offset_right = -79.0
+offset_bottom = -197.0
+texture_normal = SubResource("AtlasTexture_bv24g")
+
+[node name="TextureButton259" type="TextureButton" parent="Control3"]
+offset_left = -90.0
+offset_top = -97.0
+offset_right = -58.0
+offset_bottom = -65.0
+texture_normal = SubResource("AtlasTexture_thlr2")
+
+[node name="TextureButton260" type="TextureButton" parent="Control3"]
+offset_left = -69.0
+offset_top = -253.0
+offset_right = -37.0
+offset_bottom = -221.0
+texture_normal = SubResource("AtlasTexture_5jgu4")
+
+[node name="TextureButton261" type="TextureButton" parent="Control3"]
+offset_left = -69.0
+offset_top = -229.0
+offset_right = -37.0
+offset_bottom = -197.0
+texture_normal = SubResource("AtlasTexture_yjpux")
+
+[node name="TextureButton262" type="TextureButton" parent="Control3"]
+offset_left = -48.0
+offset_top = -97.0
+offset_right = -16.0
+offset_bottom = -65.0
+texture_normal = SubResource("AtlasTexture_35bla")
+
+[node name="TextureButton263" type="TextureButton" parent="Control3"]
+offset_left = -48.0
+offset_top = -241.0
+offset_right = -16.0
+offset_bottom = -209.0
+texture_normal = SubResource("AtlasTexture_6ufi3")
+
+[node name="TextureButton264" type="TextureButton" parent="Control3"]
+offset_left = -27.0
+offset_top = -229.0
+offset_right = 5.0
+offset_bottom = -197.0
+texture_normal = SubResource("AtlasTexture_x5ea8")
+
+[node name="TextureButton265" type="TextureButton" parent="Control3"]
+offset_left = -48.0
+offset_top = -217.0
+offset_right = -16.0
+offset_bottom = -185.0
+texture_normal = SubResource("AtlasTexture_mkp7m")
+
+[node name="TextureButton266" type="TextureButton" parent="Control3"]
+offset_left = -27.0
+offset_top = -253.0
+offset_right = 5.0
+offset_bottom = -221.0
+texture_normal = SubResource("AtlasTexture_jgu4b")
+
+[node name="TextureButton267" type="TextureButton" parent="Control3"]
+offset_left = -111.0
+offset_top = -205.0
+offset_right = -79.0
+offset_bottom = -173.0
+texture_normal = SubResource("AtlasTexture_wxmxg")
+
+[node name="TextureButton268" type="TextureButton" parent="Control3"]
+offset_left = -111.0
+offset_top = -181.0
+offset_right = -79.0
+offset_bottom = -149.0
+texture_normal = SubResource("AtlasTexture_yrbeo")
+
+[node name="TextureButton269" type="TextureButton" parent="Control3"]
+offset_left = -90.0
+offset_top = -217.0
+offset_right = -58.0
+offset_bottom = -185.0
+texture_normal = SubResource("AtlasTexture_4n5oe")
+
+[node name="TextureButton270" type="TextureButton" parent="Control3"]
+offset_left = -90.0
+offset_top = -193.0
+offset_right = -58.0
+offset_bottom = -161.0
+texture_normal = SubResource("AtlasTexture_rjqps")
+
+[node name="TextureButton271" type="TextureButton" parent="Control3"]
+offset_left = -69.0
+offset_top = -181.0
+offset_right = -37.0
+offset_bottom = -149.0
+texture_normal = SubResource("AtlasTexture_h5fl4")
+
+[node name="TextureButton272" type="TextureButton" parent="Control3"]
+offset_left = -90.0
+offset_top = -169.0
+offset_right = -58.0
+offset_bottom = -137.0
+texture_normal = SubResource("AtlasTexture_vhsjh")
+
+[node name="TextureButton273" type="TextureButton" parent="Control3"]
+offset_left = -69.0
+offset_top = -205.0
+offset_right = -37.0
+offset_bottom = -173.0
+texture_normal = SubResource("AtlasTexture_22w0r")
+
+[node name="TextureButton274" type="TextureButton" parent="Control3"]
+offset_left = -90.0
+offset_top = -145.0
+offset_right = -58.0
+offset_bottom = -113.0
+texture_normal = SubResource("AtlasTexture_ymoja")
 
 [connection signal="pressed" from="Control/Skill" to="NexusPlayer" method="_on_texture_button_pressed" binds= [0]]
 [connection signal="pressed" from="Control/StarLock" to="NexusPlayer" method="_on_texture_button_pressed"]
