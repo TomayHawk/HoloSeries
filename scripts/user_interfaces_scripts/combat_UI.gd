@@ -51,7 +51,7 @@ func _on_skills_button_down():
 	pass
 
 func _on_skills_pressed():
-	if combat_options_2_modes[0].visible: hide_combat_options_2()
+	if combat_options_2_node.visible&&combat_options_2_modes[0].visible: hide_combat_options_2()
 	else:
 		hide_combat_options_2()
 		combat_options_2_node.show()
@@ -65,7 +65,7 @@ func _on_white_magic_button_down():
 	pass
 
 func _on_white_magic_pressed():
-	if combat_options_2_modes[1].visible: hide_combat_options_2()
+	if combat_options_2_node.visible&&combat_options_2_modes[1].visible: hide_combat_options_2()
 	else:
 		hide_combat_options_2()
 		combat_options_2_node.show()
@@ -79,7 +79,7 @@ func _on_black_magic_button_down():
 	pass
 
 func _on_black_magic_pressed():
-	if combat_options_2_modes[2].visible: hide_combat_options_2()
+	if combat_options_2_node.visible&&combat_options_2_modes[2].visible: hide_combat_options_2()
 	else:
 		hide_combat_options_2()
 		combat_options_2_node.show()
@@ -93,7 +93,9 @@ func _on_items_button_down():
 	pass
 
 func _on_items_pressed():
-	if combat_options_2_modes[3].visible: hide_combat_options_2()
+	if combat_options_2_node.visible&&combat_options_2_modes[3].visible:
+		hide_combat_options_2()
+		print("visible")
 	else:
 		hide_combat_options_2()
 		combat_options_2_node.show()
@@ -124,9 +126,8 @@ func _on_x_potion_pressed():
 	PartyStatsComponent.health[0] += 200
 	hide_combat_options_2()
 
-
 func _on_phoenix_feather_pressed():
 	PartyStatsComponent.alive[0] = true
-	PartyStatsComponent.health[0] = PartyStatsComponent.max_health[0]*0.5
+	PartyStatsComponent.health[0] = PartyStatsComponent.max_health[0] * 0.5
 	PartyStatsComponent.players[0].set_physics_process(true)
 	PartyStatsComponent.players[0]._on_entities_detection_area_body_exited(PartyStatsComponent.players[GlobalSettings.current_main_player])

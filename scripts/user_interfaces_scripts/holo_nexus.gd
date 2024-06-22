@@ -2,113 +2,66 @@ extends Node2D
 
 @onready var current_nexus_player = GlobalSettings.current_main_player
 
-var unlocked_players = [true, true, false, false, false, false, false, false, false, false]
 ##### temporary colors
-var players_modulate = [Color.BROWN, Color.PEACH_PUFF, Color.PAPAYA_WHIP, Color.PERU, "", "", "", "", "", ""]
-var current_node = [null, null, null, null, null, null, null, null, null, null]
+var players_modulate = [Color.BROWN, Color.PEACH_PUFF, Color.PAPAYA_WHIP, Color.PERU]
+var recent_node = [0, 0, 0, 0]
 
-# index show individual nodes, and adjacent node index. negative adjacent index represent skill-type index.
-# skill_nodes_index[0] is null because of their "negative" index representation
-var skill_nodes_index = [null, [get_node("Control/Skill"), 1, - 1], [get_node("Control/HeartLock"), 0, 2], [], []]
-var stats_nodes_index = [[get_node("HP"), 7, - 9], [get_node("Defence"), 8, 10], [], []]
-# hexagon system
-skill_nodes_index = [null, [get_node("SkillNodes/Lightning"), 1, - 1], [get_node("Control/HeartLock"), 0, 2], [], []]
-# counter-clockwise from the right
-stats_nodes_index = [[get_node("StatNodes/0"), 0, 0, 0, 0, 0, 0], [get_node("StatNodes/1"), 0, 0, 0, 0, 0, 0], [get_node("StatNodes/2"), 0, 0, 0, 0, 0, 0], []]
+var nexus_nodes = []
+# [player][node]
+var nodes_unlocked = [[9, 10, 11, 12, 13], [0, 5], [], [], [], [], [], [], [], []]
+var nodes_unlockable = [[4, 5, 6, 14, 17, 18], [8], [], [], [], [], [], [], [], []]
 
-skill_nodes_adjacent = [[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0]]
-stats_nodes_adjacent = [[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0]]
-
-# line index
-var line_index = [[get_node("BigCircle2/Quadrant1/StraightNormal3"), 0, 1], [get_node("BigCircle2/Quadrant1/CurveInnerExtendedLeft"), 1, 2]]
-
-var line_status = [false, false, false, false, false, false, false, false, false, false]
-
-# new_player[player][node]
-var skills_default_unlocked = [[00, 03, 05], [], [], [], [], [], [], [], [], []]
-var stats_default_unlocked = [[000, 003, 005], [], [], [], [], [], [], [], [], []]
-
-# current_players[player][node]
-var skills_unlock_status = [[], [], [], [], [], [], [], [], [], []]
-var stats_unlock_status = [[], [], [], [], [], [], [], [], [], []]
-var skills_unlockable = [[], [], [], [], [], [], [], [], [], []]
-var stats_unlockable = [[], [], [], [], [], [], [], [], [], []]
-
-# all_lines_unlocked[player][node]
-var all_lines_unlocked = [[], [], [], [], [], [], [], [], [], []]
-
-var node_texture = null
-var node_texture_region = null
+var recent_emitter = null
+var recent_emitter_index = -1
 
 func _ready():
-	# copy global skills/stats
-	skills_unlock_status = GlobalSettings.global_unlocked_skills.duplicate()
-	stats_unlock_status = GlobalSettings.global_unlocked_stats.duplicate()
+	nodes_unlocked = GlobalSettings.global_unlocked_nodes.duplicate()
 
-	# create arrays for newly unlocked players
-	for player in 10: if unlocked_players[player] != GlobalSettings.global_unlocked_players[player]:
-		unlocked_players[player] = GlobalSettings.global_unlocked_players[player]
+	# check for all adjacent unlockables
+	for player in 4: if GlobalSettings.global_unlocked_players[player]: for node_index in nodes_unlocked[player]:
+		var temp_adjacents = [node_index - 8, node_index - 4, node_index - 3, node_index + 4, node_index + 5, node_index + 8]
+		for temp_index in temp_adjacents: if !(temp_index in nodes_unlocked[player])&&temp_index > - 1: # check each adjacent node if not unlocked
+			var second_temp_adjacents = [temp_index - 8, temp_index - 4, temp_index - 3, temp_index + 4, temp_index + 5, temp_index + 8]
+			# if at least 2 adjacent nodes to that adjacent node is unlocked, the node is unlockable
+			for second_temp_index in second_temp_adjacents: if (second_temp_index in nodes_unlocked[player])&&second_temp_index != node_index:
+				# add adjacent node to unlockable if not already in unlockable
+				print(temp_index) # #### temp line
+				if !(temp_index in nodes_unlockable[player]): nodes_unlockable[player].push_back(temp_index)
 
-		# create empty player data
-		for nodes in 88: skills_unlock_status[player].push_back(false)
-		for nodes in 888: stats_unlock_status[player].push_back(false)
-
-		# update default unlocked nodes
-		for node in skills_default_unlocked[player]: skills_unlock_status[player][node] = true
-		for node in stats_default_unlocked[player]: stats_unlock_status[player][node] = true
-
-	# display current player nexus
+	# connect all button signals
+	if nexus_nodes.size() == 0: for button in $NexusNodes.get_children():
+		nexus_nodes.push_back(button)
+		button.pressed.connect(_on_nexus_node_pressed.bind(button))
+	
 	update_nexus_player(current_nexus_player)
+
+	##### teleport to $NexusNodes.get_child(recent_node[player])
 
 func update_nexus_player(player):
 	current_nexus_player = player
 
-	for node in 88:
-		node_texture = skill_nodes_index[node][0].texture_normal
-		if skills_unlock_status[player][node]:skill_nodes_index[node][0].darkened(0.0)
-		else: skill_nodes_index[node][0].darkened(0.85)
-	for node in 888:
-		node_texture = stats_nodes_index[node][0].texture_normal
-		if stats_unlock_status[player][node]:stats_nodes_index[node][0].darkened(0.0)
-		else: stats_nodes_index[node][0].darkened(0.85)
+	# disable all textures
+	for node in nexus_nodes:
+		node.modulate = Color(0.25, 0.25, 0.25, 1)
 
-	for node in skill_nodes_index:
-		pass
-		##### if [node[1]]
+	# update unlocked textures
+	for node_index in nodes_unlocked[current_nexus_player]:
+		nexus_nodes[node_index].modulate = Color(1, 1, 1, 1)
 
-func unlock_node(node_type, node):
-	if node_type == 0:
-		if !skills_unlock_status[current_nexus_player][node]:
-			skills_unlock_status[current_nexus_player][node] = true
-			skill_nodes_index[node][0].modulate = Color(255, 255, 255, 255)
-	else:
-		if !stats_unlock_status[current_nexus_player][node]:
-			stats_unlock_status[current_nexus_player][node] = true
-			skill_nodes_index[node][0].modulate = Color(255, 255, 255, 255)
+	# update unlockable textures
+	##### need outline
 
-	for adjacent_node in skill_nodes_index[node]:
-		if typeof(adjacent_node) == TYPE_INT:
-
-			##### can optimize
-			if node < adjacent_node:
-				for line in line_index:
-					if line[1] == node&&line[2] == adjacent_node:
-						line[0].modulate = Color(255, 255, 255, 255)
-						line[0].modulate = players_modulate[current_nexus_player]
-						break
-			else:
-				for line in line_index:
-					if line[1] == adjacent_node&&line[2] == node:
-						line[0].modulate = Color(255, 255, 255, 255)
-						line[0].modulate = players_modulate[current_nexus_player]
-						break
-
-func on_node(node):
-	##### display canvaslayer
-	pass
+func unlock_node(node):
+	if !(node in nodes_unlocked[current_nexus_player]):
+		nodes_unlocked[current_nexus_player].push_back(node)
+		nexus_nodes[node].modulate = Color(1, 1, 1, 1)
 
 func exit_nexus():
-	GlobalSettings.global_unlocked_skills = skills_unlock_status.duplicate()
-	GlobalSettings.global_unlocked_stats = stats_unlock_status.duplicate()
+	GlobalSettings.global_unlocked_nodes = nodes_unlocked.duplicate()
 
 	##### scene change
+
+func _on_nexus_node_pressed(button):
+	recent_emitter = button
+	recent_emitter_index = button.get_index()
+	if button != recent_node[current_nexus_player]||!$NexusPlayer.on_node: $NexusPlayer.snap_to_pressed(recent_emitter)

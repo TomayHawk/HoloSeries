@@ -502,7 +502,6 @@ scale = Vector2(1.9952, 2)
 shape = SubResource("CircleShape2D_swviq")
 
 [node name="EntitiesDetectionArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 
 [node name="EntitiesDetectionShape" type="CollisionShape2D" parent="EntitiesDetectionArea"]
@@ -511,7 +510,6 @@ scale = Vector2(10, 10)
 shape = SubResource("CircleShape2D_c1evc")
 
 [node name="InnerAllyArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 
 [node name="InnerAllyShape" type="CollisionShape2D" parent="InnerAllyArea"]
@@ -558,6 +556,7 @@ show_percentage = false
 wait_time = 0.2
 
 [node name="DirectionCooldown" type="Timer" parent="."]
+one_shot = true
 
 [node name="PauseTimer" type="Timer" parent="."]
 one_shot = true
