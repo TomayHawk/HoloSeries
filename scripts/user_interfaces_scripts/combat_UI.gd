@@ -129,5 +129,6 @@ func _on_x_potion_pressed():
 func _on_phoenix_feather_pressed():
 	PartyStatsComponent.alive[0] = true
 	PartyStatsComponent.health[0] = PartyStatsComponent.max_health[0] * 0.5
-	PartyStatsComponent.players[0].set_physics_process(true)
+	PartyStatsComponent.players[0].set_physics_process(get_process_delta_time())
 	PartyStatsComponent.players[0]._on_entities_detection_area_body_exited(PartyStatsComponent.players[GlobalSettings.current_main_player])
+	
