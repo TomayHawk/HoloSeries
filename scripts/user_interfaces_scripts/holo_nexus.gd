@@ -11,6 +11,14 @@ var current_node = [null, null, null, null, null, null, null, null, null, null]
 # skill_nodes_index[0] is null because of their "negative" index representation
 var skill_nodes_index = [null, [get_node("Control/Skill"), 1, - 1], [get_node("Control/HeartLock"), 0, 2], [], []]
 var stats_nodes_index = [[get_node("HP"), 7, - 9], [get_node("Defence"), 8, 10], [], []]
+# hexagon system
+skill_nodes_index = [null, [get_node("SkillNodes/Lightning"), 1, - 1], [get_node("Control/HeartLock"), 0, 2], [], []]
+# counter-clockwise from the right
+stats_nodes_index = [[get_node("StatNodes/0"), 0, 0, 0, 0, 0, 0], [get_node("StatNodes/1"), 0, 0, 0, 0, 0, 0], [get_node("StatNodes/2"), 0, 0, 0, 0, 0, 0], []]
+
+skill_nodes_adjacent = [[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0]]
+stats_nodes_adjacent = [[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0]]
+
 # line index
 var line_index = [[get_node("BigCircle2/Quadrant1/StraightNormal3"), 0, 1], [get_node("BigCircle2/Quadrant1/CurveInnerExtendedLeft"), 1, 2]]
 

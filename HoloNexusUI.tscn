@@ -1,357 +1,15 @@
-[gd_scene load_steps=102 format=3 uid="uid://wsunon4ilt68"]
+[gd_scene load_steps=3 format=3 uid="uid://wsunon4ilt68"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_01no7"]
 bg_color = Color(0.235294, 0.235294, 0.235294, 0.709804)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3utv4"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1xdlw"]
-atlas = SubResource("CompressedTexture2D_3utv4")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6312u"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6f3po"]
-atlas = SubResource("CompressedTexture2D_6312u")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gfhij"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_nuflo"]
-atlas = SubResource("CompressedTexture2D_gfhij")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gnbnm"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_66c8k"]
-atlas = SubResource("CompressedTexture2D_gnbnm")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tns1e"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kwlu3"]
-atlas = SubResource("CompressedTexture2D_tns1e")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qfdk8"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ro0g6"]
-atlas = SubResource("CompressedTexture2D_qfdk8")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_n5ele"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cqmg6"]
-atlas = SubResource("CompressedTexture2D_n5ele")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jrieu"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tv6lv"]
-atlas = SubResource("CompressedTexture2D_jrieu")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_va61s"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_avb3n"]
-atlas = SubResource("CompressedTexture2D_va61s")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rdv2n"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2070n"]
-atlas = SubResource("CompressedTexture2D_rdv2n")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_818qy"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sp3rx"]
-atlas = SubResource("CompressedTexture2D_818qy")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_i4ww0"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rdpsq"]
-atlas = SubResource("CompressedTexture2D_i4ww0")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s8w36"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kb85t"]
-atlas = SubResource("CompressedTexture2D_s8w36")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_akbp2"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0ss2y"]
-atlas = SubResource("CompressedTexture2D_akbp2")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lsiyq"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ss0ix"]
-atlas = SubResource("CompressedTexture2D_lsiyq")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3wgrd"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jcnr3"]
-atlas = SubResource("CompressedTexture2D_3wgrd")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wk6px"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fcp82"]
-atlas = SubResource("CompressedTexture2D_wk6px")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tfpee"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o5kd7"]
-atlas = SubResource("CompressedTexture2D_tfpee")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1pja0"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0d0x4"]
-atlas = SubResource("CompressedTexture2D_1pja0")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rcqdg"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_m44x5"]
-atlas = SubResource("CompressedTexture2D_rcqdg")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_sf5vu"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tmosn"]
-atlas = SubResource("CompressedTexture2D_sf5vu")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bgs6q"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_u7w4d"]
-atlas = SubResource("CompressedTexture2D_bgs6q")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ixajf"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_iu4dh"]
-atlas = SubResource("CompressedTexture2D_ixajf")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nbrfn"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_38fjv"]
-atlas = SubResource("CompressedTexture2D_nbrfn")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qhyhp"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_taq5t"]
-atlas = SubResource("CompressedTexture2D_qhyhp")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0d7ci"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_71gy2"]
-atlas = SubResource("CompressedTexture2D_0d7ci")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_o4h5s"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_34fgn"]
-atlas = SubResource("CompressedTexture2D_o4h5s")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mq3lk"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fa2th"]
-atlas = SubResource("CompressedTexture2D_mq3lk")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_omsk0"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_01nrl"]
-atlas = SubResource("CompressedTexture2D_omsk0")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ny3vj"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ya5nr"]
-atlas = SubResource("CompressedTexture2D_ny3vj")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tvr86"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6jndd"]
-atlas = SubResource("CompressedTexture2D_tvr86")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a3tht"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2dk82"]
-atlas = SubResource("CompressedTexture2D_a3tht")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1r0jm"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_28eyh"]
-atlas = SubResource("CompressedTexture2D_1r0jm")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5uw6g"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ejfhj"]
-atlas = SubResource("CompressedTexture2D_5uw6g")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f8a1o"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fqrll"]
-atlas = SubResource("CompressedTexture2D_f8a1o")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0jnmv"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4gf6v"]
-atlas = SubResource("CompressedTexture2D_0jnmv")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hn4mw"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mk5kk"]
-atlas = SubResource("CompressedTexture2D_hn4mw")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_d6hb6"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_47f50"]
-atlas = SubResource("CompressedTexture2D_d6hb6")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_82dsk"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ti76d"]
-atlas = SubResource("CompressedTexture2D_82dsk")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_10wp8"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fs7du"]
-atlas = SubResource("CompressedTexture2D_10wp8")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_re0eh"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yw7dp"]
-atlas = SubResource("CompressedTexture2D_re0eh")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0nmc2"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_33wou"]
-atlas = SubResource("CompressedTexture2D_0nmc2")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pa2xb"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_x8md5"]
-atlas = SubResource("CompressedTexture2D_pa2xb")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_e7s0o"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xl07k"]
-atlas = SubResource("CompressedTexture2D_e7s0o")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_u1lxm"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_clvsj"]
-atlas = SubResource("CompressedTexture2D_u1lxm")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_40j1p"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_v7l5i"]
-atlas = SubResource("CompressedTexture2D_40j1p")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bpy0i"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_auydv"]
-atlas = SubResource("CompressedTexture2D_bpy0i")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_x88e3"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jrsqw"]
-atlas = SubResource("CompressedTexture2D_x88e3")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_akljq"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yckcu"]
-atlas = SubResource("CompressedTexture2D_akljq")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wyuft"]
-load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ro0p8"]
-atlas = SubResource("CompressedTexture2D_wyuft")
-region = Rect2(0, 0, 32, 32)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k5cw7"]
+bg_color = Color(0.235294, 0.235294, 0.235294, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
 
 [node name="CanvasLayer" type="CanvasLayer"]
 
@@ -405,352 +63,78 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Cancel"
 
-[node name="TextureButton" type="TextureButton" parent="."]
-offset_left = -3.0
-offset_top = 2.0
-offset_right = 29.0
-offset_bottom = 34.0
-texture_normal = SubResource("AtlasTexture_1xdlw")
+[node name="TextBoxContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+offset_right = 1280.0
+offset_bottom = 105.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 0
 
-[node name="TextureButton2" type="TextureButton" parent="."]
-offset_left = -3.0
-offset_top = 26.0
-offset_right = 29.0
-offset_bottom = 58.0
-texture_normal = SubResource("AtlasTexture_6f3po")
+[node name="Panel" type="Panel" parent="Control/TextBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_k5cw7")
 
-[node name="TextureButton3" type="TextureButton" parent="."]
-offset_left = 18.0
-offset_top = -10.0
-offset_right = 50.0
-offset_bottom = 22.0
-texture_normal = SubResource("AtlasTexture_nuflo")
+[node name="MarginContainer" type="MarginContainer" parent="Control/TextBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
-[node name="TextureButton4" type="TextureButton" parent="."]
-offset_left = 18.0
-offset_top = 14.0
-offset_right = 50.0
-offset_bottom = 46.0
-texture_normal = SubResource("AtlasTexture_66c8k")
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/TextBoxContainer/MarginContainer"]
+layout_mode = 2
 
-[node name="TextureButton5" type="TextureButton" parent="."]
-offset_left = 39.0
-offset_top = 26.0
-offset_right = 71.0
-offset_bottom = 58.0
-texture_normal = SubResource("AtlasTexture_kwlu3")
+[node name="TextStart" type="Label" parent="Control/TextBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 12
+text = "*  "
 
-[node name="TextureButton6" type="TextureButton" parent="."]
-offset_left = 18.0
-offset_top = 38.0
-offset_right = 50.0
-offset_bottom = 70.0
-texture_normal = SubResource("AtlasTexture_ro0g6")
+[node name="TextArea" type="Label" parent="Control/TextBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 12
+text = "Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text."
+autowrap_mode = 2
+clip_text = true
 
-[node name="TextureButton7" type="TextureButton" parent="."]
-offset_left = 39.0
-offset_top = 2.0
-offset_right = 71.0
-offset_bottom = 34.0
-texture_normal = SubResource("AtlasTexture_cqmg6")
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 0
+offset_right = 210.0
+offset_bottom = 392.0
 
-[node name="TextureButton8" type="TextureButton" parent="."]
-offset_left = 60.0
-offset_top = 14.0
-offset_right = 92.0
-offset_bottom = 46.0
-texture_normal = SubResource("AtlasTexture_tv6lv")
+[node name="Panel" type="Panel" parent="Control/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_k5cw7")
 
-[node name="TextureButton9" type="TextureButton" parent="."]
-offset_left = 60.0
-offset_top = 38.0
-offset_right = 92.0
-offset_bottom = 70.0
-texture_normal = SubResource("AtlasTexture_avb3n")
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
-[node name="TextureButton10" type="TextureButton" parent="."]
-offset_left = -87.0
-offset_top = 26.0
-offset_right = -55.0
-offset_bottom = 58.0
-texture_normal = SubResource("AtlasTexture_2070n")
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer"]
+layout_mode = 2
 
-[node name="TextureButton11" type="TextureButton" parent="."]
-offset_left = -87.0
-offset_top = 50.0
-offset_right = -55.0
-offset_bottom = 82.0
-texture_normal = SubResource("AtlasTexture_sp3rx")
+[node name="TextStart" type="Label" parent="Control/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 12
+text = "*  "
 
-[node name="TextureButton12" type="TextureButton" parent="."]
-offset_left = -66.0
-offset_top = 62.0
-offset_right = -34.0
-offset_bottom = 94.0
-texture_normal = SubResource("AtlasTexture_rdpsq")
-
-[node name="TextureButton13" type="TextureButton" parent="."]
-offset_left = -87.0
-offset_top = 74.0
-offset_right = -55.0
-offset_bottom = 106.0
-texture_normal = SubResource("AtlasTexture_kb85t")
-
-[node name="TextureButton14" type="TextureButton" parent="."]
-offset_left = -66.0
-offset_top = 38.0
-offset_right = -34.0
-offset_bottom = 70.0
-texture_normal = SubResource("AtlasTexture_0ss2y")
-
-[node name="TextureButton15" type="TextureButton" parent="."]
-offset_left = 18.0
-offset_top = 62.0
-offset_right = 50.0
-offset_bottom = 94.0
-texture_normal = SubResource("AtlasTexture_ss0ix")
-
-[node name="TextureButton16" type="TextureButton" parent="."]
-offset_left = 18.0
-offset_top = 86.0
-offset_right = 50.0
-offset_bottom = 118.0
-texture_normal = SubResource("AtlasTexture_jcnr3")
-
-[node name="TextureButton17" type="TextureButton" parent="."]
-offset_left = 39.0
-offset_top = 50.0
-offset_right = 71.0
-offset_bottom = 82.0
-texture_normal = SubResource("AtlasTexture_fcp82")
-
-[node name="TextureButton18" type="TextureButton" parent="."]
-offset_left = 39.0
-offset_top = 74.0
-offset_right = 71.0
-offset_bottom = 106.0
-texture_normal = SubResource("AtlasTexture_o5kd7")
-
-[node name="TextureButton19" type="TextureButton" parent="."]
-offset_left = 60.0
-offset_top = 86.0
-offset_right = 92.0
-offset_bottom = 118.0
-texture_normal = SubResource("AtlasTexture_0d0x4")
-
-[node name="TextureButton20" type="TextureButton" parent="."]
-offset_left = 39.0
-offset_top = 98.0
-offset_right = 71.0
-offset_bottom = 130.0
-texture_normal = SubResource("AtlasTexture_m44x5")
-
-[node name="TextureButton21" type="TextureButton" parent="."]
-offset_left = 60.0
-offset_top = 62.0
-offset_right = 92.0
-offset_bottom = 94.0
-texture_normal = SubResource("AtlasTexture_tmosn")
-
-[node name="TextureButton22" type="TextureButton" parent="."]
-offset_left = 39.0
-offset_top = -46.0
-offset_right = 71.0
-offset_bottom = -14.0
-texture_normal = SubResource("AtlasTexture_u7w4d")
-
-[node name="TextureButton23" type="TextureButton" parent="."]
-offset_left = 39.0
-offset_top = -22.0
-offset_right = 71.0
-offset_bottom = 10.0
-texture_normal = SubResource("AtlasTexture_iu4dh")
-
-[node name="TextureButton24" type="TextureButton" parent="."]
-offset_left = 60.0
-offset_top = -58.0
-offset_right = 92.0
-offset_bottom = -26.0
-texture_normal = SubResource("AtlasTexture_38fjv")
-
-[node name="TextureButton25" type="TextureButton" parent="."]
-offset_left = 60.0
-offset_top = -34.0
-offset_right = 92.0
-offset_bottom = -2.0
-texture_normal = SubResource("AtlasTexture_taq5t")
-
-[node name="TextureButton26" type="TextureButton" parent="."]
-offset_left = -87.0
-offset_top = 2.0
-offset_right = -55.0
-offset_bottom = 34.0
-texture_normal = SubResource("AtlasTexture_71gy2")
-
-[node name="TextureButton27" type="TextureButton" parent="."]
-offset_left = 60.0
-offset_top = -10.0
-offset_right = 92.0
-offset_bottom = 22.0
-texture_normal = SubResource("AtlasTexture_34fgn")
-
-[node name="TextureButton28" type="TextureButton" parent="."]
-offset_left = -87.0
-offset_top = -22.0
-offset_right = -55.0
-offset_bottom = 10.0
-texture_normal = SubResource("AtlasTexture_fa2th")
-
-[node name="TextureButton29" type="TextureButton" parent="."]
-offset_left = -87.0
-offset_top = 98.0
-offset_right = -55.0
-offset_bottom = 130.0
-texture_normal = SubResource("AtlasTexture_01nrl")
-
-[node name="TextureButton30" type="TextureButton" parent="."]
-offset_left = -87.0
-offset_top = -46.0
-offset_right = -55.0
-offset_bottom = -14.0
-texture_normal = SubResource("AtlasTexture_ya5nr")
-
-[node name="TextureButton31" type="TextureButton" parent="."]
-offset_left = -66.0
-offset_top = 86.0
-offset_right = -34.0
-offset_bottom = 118.0
-texture_normal = SubResource("AtlasTexture_6jndd")
-
-[node name="TextureButton32" type="TextureButton" parent="."]
-offset_left = -66.0
-offset_top = -58.0
-offset_right = -34.0
-offset_bottom = -26.0
-texture_normal = SubResource("AtlasTexture_2dk82")
-
-[node name="TextureButton33" type="TextureButton" parent="."]
-offset_left = -45.0
-offset_top = -46.0
-offset_right = -13.0
-offset_bottom = -14.0
-texture_normal = SubResource("AtlasTexture_28eyh")
-
-[node name="TextureButton34" type="TextureButton" parent="."]
-offset_left = -66.0
-offset_top = -34.0
-offset_right = -34.0
-offset_bottom = -2.0
-texture_normal = SubResource("AtlasTexture_ejfhj")
-
-[node name="TextureButton35" type="TextureButton" parent="."]
-offset_left = -45.0
-offset_top = 98.0
-offset_right = -13.0
-offset_bottom = 130.0
-texture_normal = SubResource("AtlasTexture_fqrll")
-
-[node name="TextureButton36" type="TextureButton" parent="."]
-offset_left = -24.0
-offset_top = -58.0
-offset_right = 8.0
-offset_bottom = -26.0
-texture_normal = SubResource("AtlasTexture_4gf6v")
-
-[node name="TextureButton37" type="TextureButton" parent="."]
-offset_left = -24.0
-offset_top = -34.0
-offset_right = 8.0
-offset_bottom = -2.0
-texture_normal = SubResource("AtlasTexture_mk5kk")
-
-[node name="TextureButton38" type="TextureButton" parent="."]
-offset_left = -3.0
-offset_top = 98.0
-offset_right = 29.0
-offset_bottom = 130.0
-texture_normal = SubResource("AtlasTexture_47f50")
-
-[node name="TextureButton39" type="TextureButton" parent="."]
-offset_left = -3.0
-offset_top = -46.0
-offset_right = 29.0
-offset_bottom = -14.0
-texture_normal = SubResource("AtlasTexture_ti76d")
-
-[node name="TextureButton40" type="TextureButton" parent="."]
-offset_left = 18.0
-offset_top = -34.0
-offset_right = 50.0
-offset_bottom = -2.0
-texture_normal = SubResource("AtlasTexture_fs7du")
-
-[node name="TextureButton41" type="TextureButton" parent="."]
-offset_left = -3.0
-offset_top = -22.0
-offset_right = 29.0
-offset_bottom = 10.0
-texture_normal = SubResource("AtlasTexture_yw7dp")
-
-[node name="TextureButton42" type="TextureButton" parent="."]
-offset_left = 18.0
-offset_top = -58.0
-offset_right = 50.0
-offset_bottom = -26.0
-texture_normal = SubResource("AtlasTexture_33wou")
-
-[node name="TextureButton43" type="TextureButton" parent="."]
-offset_left = -66.0
-offset_top = -10.0
-offset_right = -34.0
-offset_bottom = 22.0
-texture_normal = SubResource("AtlasTexture_x8md5")
-
-[node name="TextureButton44" type="TextureButton" parent="."]
-offset_left = -66.0
-offset_top = 14.0
-offset_right = -34.0
-offset_bottom = 46.0
-texture_normal = SubResource("AtlasTexture_xl07k")
-
-[node name="TextureButton45" type="TextureButton" parent="."]
-offset_left = -45.0
-offset_top = -22.0
-offset_right = -13.0
-offset_bottom = 10.0
-texture_normal = SubResource("AtlasTexture_clvsj")
-
-[node name="TextureButton46" type="TextureButton" parent="."]
-offset_left = -45.0
-offset_top = 2.0
-offset_right = -13.0
-offset_bottom = 34.0
-texture_normal = SubResource("AtlasTexture_v7l5i")
-
-[node name="TextureButton47" type="TextureButton" parent="."]
-offset_left = -24.0
-offset_top = 14.0
-offset_right = 8.0
-offset_bottom = 46.0
-texture_normal = SubResource("AtlasTexture_auydv")
-
-[node name="TextureButton48" type="TextureButton" parent="."]
-offset_left = -45.0
-offset_top = 26.0
-offset_right = -13.0
-offset_bottom = 58.0
-texture_normal = SubResource("AtlasTexture_jrsqw")
-
-[node name="TextureButton49" type="TextureButton" parent="."]
-offset_left = -24.0
-offset_top = -10.0
-offset_right = 8.0
-offset_bottom = 22.0
-texture_normal = SubResource("AtlasTexture_yckcu")
-
-[node name="TextureButton50" type="TextureButton" parent="."]
-offset_left = -45.0
-offset_top = 50.0
-offset_right = -13.0
-offset_bottom = 82.0
-texture_normal = SubResource("AtlasTexture_ro0p8")
+[node name="TextArea" type="Label" parent="Control/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 12
+text = "Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text."
+autowrap_mode = 2
+clip_text = true
