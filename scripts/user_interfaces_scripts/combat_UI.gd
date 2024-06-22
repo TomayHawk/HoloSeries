@@ -129,5 +129,4 @@ func _on_phoenix_feather_pressed():
 	PartyStatsComponent.alive[0] = true
 	PartyStatsComponent.health[0] = PartyStatsComponent.max_health[0]*0.5
 	PartyStatsComponent.players[0].set_physics_process(true)
-	#PartyStatsComponent.players[0].direction_ready = true
-	#PartyStatsComponent.players[0].move_ready = true
+	PartyStatsComponent.players[0]._on_entities_detection_area_body_exited(PartyStatsComponent.players[GlobalSettings.current_main_player])
