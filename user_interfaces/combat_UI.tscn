@@ -140,7 +140,6 @@ theme_override_font_sizes/font_size = 8
 text = "Doom"
 
 [node name="ItemsVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/MarginContainer"]
-visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
@@ -155,10 +154,10 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "X-Potion"
 
-[node name="Item2" type="Button" parent="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer"]
+[node name="PhoenixFeather" type="Button" parent="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
-text = "Item2"
+text = "Phoenix Feather"
 
 [node name="Item3" type="Button" parent="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer"]
 layout_mode = 2
@@ -505,6 +504,7 @@ text = "####"
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/BlackVBoxContainer/Doom" to="." method="_on_doom_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/Potion" to="." method="_on_potion_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/XPotion" to="." method="_on_x_potion_pressed"]
+[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/PhoenixFeather" to="." method="_on_phoenix_feather_pressed"]
 [connection signal="button_down" from="Control/CombatOptions/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_button_down"]
 [connection signal="button_up" from="Control/CombatOptions/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_button_up"]
 [connection signal="pressed" from="Control/CombatOptions/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]

@@ -59,7 +59,7 @@ func _physics_process(_delta):
 		elif current_frame == 3:
 			if current_animation == "attack":
 				if players_exist_in_attack_area&&detected_players[target_player] != null:
-					PartyStatsComponent.take_damage(target_player, 10)
+					PartyStatsComponent.take_damage(target_player, 100) # attack player (damage)
 					player_direction = (detected_players[target_player].position - position).normalized()
 					$Animation.flip_h = player_direction.x < 0
 				$AttackCooldown.set_wait_time(randf_range(1, 3))
