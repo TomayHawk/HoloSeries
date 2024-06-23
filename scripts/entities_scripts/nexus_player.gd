@@ -6,7 +6,7 @@ var speed = 150
 @onready var nexus = get_parent()
 @onready var player_node = nexus.get_node("NexusPlayer")
 
-var on_node = true
+var on_node = false
 var snapping = false
 
 var snap_node = null
@@ -60,7 +60,18 @@ func snap_to_nearest():
 	snapping = true
 
 func snap_to_pressed(recent_emitter):
-	snap_node = recent_emitter
+	var temp_node_index = recent_emitter.get_index()
+	var temp_adjacents = [temp_node_index - 8, temp_node_index - 4, temp_node_index - 3, temp_node_index + 4, temp_node_index + 5, temp_node_index + 8]
+	var temp_distance = 100000
+	var temp_node = null
+	for node in temp_adjacents:
+		if node > - 1:
+			var second_temp_distance = (nexus.nexus_nodes[node].position + Vector2(16, 16)).distance_to(recent_emitter.position + Vector2(16, 16))
+			if temp_distance > second_temp_distance:
+				temp_node = nexus.nexus_nodes[node]
+				temp_distance = second_temp_distance
+
+	snap_node = temp_node
 	snap_position = recent_emitter.position + Vector2(16, 16)
 	snap_distance = position.distance_to(snap_position)
 	snap_direction = (snap_position - position).normalized()

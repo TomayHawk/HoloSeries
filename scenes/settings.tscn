@@ -1,11 +1,55 @@
-[gd_scene load_steps=2 format=3 uid="uid://cf2ifm4k70avn"]
+[gd_scene load_steps=3 format=3 uid="uid://cf2ifm4k70avn"]
 
-[ext_resource type="PackedScene" uid="uid://hypatwksy0f7" path="res://scenes/holo_nexus.tscn" id="1_qxyst"]
+[ext_resource type="Script" path="res://scripts/user_interfaces_scripts/settings.gd" id="1_n570m"]
 
-[node name="Settings" type="Node2D"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gthth"]
+bg_color = Color(0.0313726, 0.678431, 0.72549, 1)
+
+[node name="Settings" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_n570m")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="HoloNexus" parent="." instance=ExtResource("1_qxyst")]
+[node name="SettingsOptions" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -51.0
+offset_top = -231.0
+offset_right = 51.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 32
+
+[node name="Panel" type="Panel" parent="Control/SettingsOptions"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gthth")
+
+[node name="OptionsMargin" type="MarginContainer" parent="Control/SettingsOptions"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/SettingsOptions/OptionsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="HoloNexus" type="Button" parent="Control/SettingsOptions/OptionsMargin/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "HoloNexus
+"
+
+[connection signal="pressed" from="Control/SettingsOptions/OptionsMargin/VBoxContainer/HoloNexus" to="." method="_on_holo_nexus_pressed"]

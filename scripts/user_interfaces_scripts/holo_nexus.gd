@@ -18,20 +18,23 @@ func _ready():
 	nodes_unlocked = GlobalSettings.global_unlocked_nodes.duplicate()
 
 	# check for all adjacent unlockables
-	for player in 4: if GlobalSettings.global_unlocked_players[player]: for node_index in nodes_unlocked[player]:
-		var temp_adjacents = [node_index - 8, node_index - 4, node_index - 3, node_index + 4, node_index + 5, node_index + 8]
-		for temp_index in temp_adjacents: if !(temp_index in nodes_unlocked[player])&&temp_index > - 1: # check each adjacent node if not unlocked
-			var second_temp_adjacents = [temp_index - 8, temp_index - 4, temp_index - 3, temp_index + 4, temp_index + 5, temp_index + 8]
-			# if at least 2 adjacent nodes to that adjacent node is unlocked, the node is unlockable
-			for second_temp_index in second_temp_adjacents: if (second_temp_index in nodes_unlocked[player])&&second_temp_index != node_index:
-				# add adjacent node to unlockable if not already in unlockable
-				print(temp_index) # #### temp line
-				if !(temp_index in nodes_unlockable[player]): nodes_unlockable[player].push_back(temp_index)
+	for player in 4:
+		if GlobalSettings.global_unlocked_players[player]:
+			for node_index in nodes_unlocked[player]:
+				var temp_adjacents = [node_index - 8, node_index - 4, node_index - 3, node_index + 4, node_index + 5, node_index + 8]
+				for temp_index in temp_adjacents:
+					if !(temp_index in nodes_unlocked[player])&&temp_index > - 1: # check each adjacent node if not unlocked
+						var second_temp_adjacents = [temp_index - 8, temp_index - 4, temp_index - 3, temp_index + 4, temp_index + 5, temp_index + 8]
+						# if at least 2 adjacent nodes to that adjacent node is unlocked, the node is unlockable
+						for second_temp_index in second_temp_adjacents:
+							if (second_temp_index in nodes_unlocked[player])&&second_temp_index != node_index:
+								# add adjacent node to unlockable if not already in unlockable
+								if !(temp_index in nodes_unlockable[player]):
+									nodes_unlockable[player].push_back(temp_index)
 
 	# connect all button signals
 	if nexus_nodes.size() == 0: for button in $NexusNodes.get_children():
 		nexus_nodes.push_back(button)
-		button.pressed.connect(_on_nexus_node_pressed.bind(button))
 	
 	update_nexus_player(current_nexus_player)
 

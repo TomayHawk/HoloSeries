@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bspjaws5iswx0"]
+[gd_scene load_steps=19 format=3 uid="uid://bspjaws5iswx0"]
 
 [ext_resource type="Texture2D" uid="uid://bk5fn2u0o5vk6" path="res://art/tileSets/seasonal sample (spring).png" id="1_7s6yp"]
 [ext_resource type="Script" path="res://scripts/scenes_scripts/world_scene_2.gd" id="1_t7xfg"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dlxkifgl6lq80" path="res://entities/npcs/npc_kobo.tscn" id="5_poic2"]
 [ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/nousagi.tscn" id="9_do2gu"]
 [ext_resource type="PackedScene" uid="uid://bswhy46f3hcib" path="res://user_interfaces/options.tscn" id="10_vcib2"]
+[ext_resource type="PackedScene" uid="uid://cf2ifm4k70avn" path="res://scenes/settings.tscn" id="11_ojgko"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_cec7d"]
 vertices = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -134,6 +135,9 @@ position = Vector2(403, 50)
 position = Vector2(453, -79)
 
 [node name="Options" parent="." instance=ExtResource("10_vcib2")]
+
+[node name="Settings" parent="." instance=ExtResource("11_ojgko")]
+visible = false
 
 [connection signal="body_entered" from="WorldScene1Transit" to="." method="_on_world_scene_1_transit_body_entered"]
 [connection signal="body_entered" from="DungeonScene1Transit" to="." method="_on_dungeon_scene_1_transit_body_entered"]

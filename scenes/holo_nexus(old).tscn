@@ -1,4 +1,4 @@
-[gd_scene load_steps=345 format=3 uid="uid://ba14knntxtv7b"]
+[gd_scene load_steps=409 format=3 uid="uid://ba14knntxtv7b"]
 
 [ext_resource type="Texture2D" uid="uid://r63w27k1bhgg" path="res://art/holo_nexus/curve_outer.png" id="1_ks7qk"]
 [ext_resource type="Texture2D" uid="uid://c1sw8dp1rn3df" path="res://art/holo_nexus/curve_middle.png" id="2_55j5k"]
@@ -1166,6 +1166,230 @@ load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a15es"]
 atlas = SubResource("CompressedTexture2D_eg8xl")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_57e1g"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6epnf"]
+atlas = SubResource("CompressedTexture2D_57e1g")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0k7ny"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ekd6p"]
+atlas = SubResource("CompressedTexture2D_0k7ny")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gomk0"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rujo0"]
+atlas = SubResource("CompressedTexture2D_gomk0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_eri82"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lttxu"]
+atlas = SubResource("CompressedTexture2D_eri82")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h43yl"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v07pv"]
+atlas = SubResource("CompressedTexture2D_h43yl")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_22qv6"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sv3vx"]
+atlas = SubResource("CompressedTexture2D_22qv6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nh5bl"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aanw6"]
+atlas = SubResource("CompressedTexture2D_nh5bl")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_j58pr"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r5tui"]
+atlas = SubResource("CompressedTexture2D_j58pr")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_i8jm3"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ut7e"]
+atlas = SubResource("CompressedTexture2D_i8jm3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_d5pde"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uwqe8"]
+atlas = SubResource("CompressedTexture2D_d5pde")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_n8dkq"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ov7kk"]
+atlas = SubResource("CompressedTexture2D_n8dkq")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3xxlc"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wqil"]
+atlas = SubResource("CompressedTexture2D_3xxlc")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8xqgn"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fy7gy"]
+atlas = SubResource("CompressedTexture2D_8xqgn")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vudxe"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmmue"]
+atlas = SubResource("CompressedTexture2D_vudxe")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hrvgu"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mstvc"]
+atlas = SubResource("CompressedTexture2D_hrvgu")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bwjlp"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfwrt"]
+atlas = SubResource("CompressedTexture2D_bwjlp")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qtrvj"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xx4qx"]
+atlas = SubResource("CompressedTexture2D_qtrvj")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hcy75"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c8og4"]
+atlas = SubResource("CompressedTexture2D_hcy75")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_kxuxe"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gg0jk"]
+atlas = SubResource("CompressedTexture2D_kxuxe")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6iw7o"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ib0at"]
+atlas = SubResource("CompressedTexture2D_6iw7o")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nogne"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_abiwt"]
+atlas = SubResource("CompressedTexture2D_nogne")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5xqwn"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5s7ss"]
+atlas = SubResource("CompressedTexture2D_5xqwn")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yb2ky"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gyo8y"]
+atlas = SubResource("CompressedTexture2D_yb2ky")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_loxil"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fgis8"]
+atlas = SubResource("CompressedTexture2D_loxil")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_n4vg5"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vy106"]
+atlas = SubResource("CompressedTexture2D_n4vg5")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gpxjx"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wl6hu"]
+atlas = SubResource("CompressedTexture2D_gpxjx")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_e48qw"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_edd2t"]
+atlas = SubResource("CompressedTexture2D_e48qw")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r1g40"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s5lsc"]
+atlas = SubResource("CompressedTexture2D_r1g40")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_sl8vv"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5a4dv"]
+atlas = SubResource("CompressedTexture2D_sl8vv")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_euk0k"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_opkkl"]
+atlas = SubResource("CompressedTexture2D_euk0k")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wmcub"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wa0rj"]
+atlas = SubResource("CompressedTexture2D_wmcub")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ev2d1"]
+load_path = "res://.godot/imported/holonexus.png-376e852970e93112496155033530fbd7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_875qt"]
+atlas = SubResource("CompressedTexture2D_ev2d1")
 region = Rect2(0, 0, 32, 32)
 
 [node name="HoloNexus(Old)" type="Node2D"]
@@ -9427,3 +9651,347 @@ offset_top = -145.0
 offset_right = -58.0
 offset_bottom = -113.0
 texture_normal = SubResource("AtlasTexture_a15es")
+
+[node name="NexusNodes" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="N0" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25098, 0.25098, 0.25098, 1)
+layout_mode = 1
+offset_right = 32.0
+offset_bottom = 32.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_6epnf")
+
+[node name="N1" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 42.0
+offset_right = 74.0
+offset_bottom = 32.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_ekd6p")
+
+[node name="N2" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 84.0
+offset_right = 116.0
+offset_bottom = 32.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_rujo0")
+
+[node name="N3" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 126.0
+offset_right = 158.0
+offset_bottom = 32.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_lttxu")
+
+[node name="N4" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 21.0
+offset_top = 12.0
+offset_right = 53.0
+offset_bottom = 44.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_v07pv")
+
+[node name="N5" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 63.0
+offset_top = 12.0
+offset_right = 95.0
+offset_bottom = 44.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_sv3vx")
+
+[node name="N6" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 105.0
+offset_top = 12.0
+offset_right = 137.0
+offset_bottom = 44.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_aanw6")
+
+[node name="N7" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 147.0
+offset_top = 12.0
+offset_right = 179.0
+offset_bottom = 44.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_r5tui")
+
+[node name="N8" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25098, 0.25098, 0.25098, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_top = 24.0
+offset_right = 32.0
+offset_bottom = 56.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_8ut7e")
+
+[node name="N9" type="TextureButton" parent="NexusNodes"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 42.0
+offset_top = 24.0
+offset_right = 74.0
+offset_bottom = 56.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_uwqe8")
+
+[node name="N10" type="TextureButton" parent="NexusNodes"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 84.0
+offset_top = 24.0
+offset_right = 116.0
+offset_bottom = 56.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_ov7kk")
+
+[node name="N11" type="TextureButton" parent="NexusNodes"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 126.0
+offset_top = 24.0
+offset_right = 158.0
+offset_bottom = 56.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_4wqil")
+
+[node name="N12" type="TextureButton" parent="NexusNodes"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 21.0
+offset_top = 36.0
+offset_right = 53.0
+offset_bottom = 68.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_fy7gy")
+
+[node name="N13" type="TextureButton" parent="NexusNodes"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 63.0
+offset_top = 36.0
+offset_right = 95.0
+offset_bottom = 68.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_cmmue")
+
+[node name="N14" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 105.0
+offset_top = 36.0
+offset_right = 137.0
+offset_bottom = 68.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_mstvc")
+
+[node name="N15" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 147.0
+offset_top = 36.0
+offset_right = 179.0
+offset_bottom = 68.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_mfwrt")
+
+[node name="N16" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_top = 48.0
+offset_right = 32.0
+offset_bottom = 80.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_xx4qx")
+
+[node name="N17" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 42.0
+offset_top = 48.0
+offset_right = 74.0
+offset_bottom = 80.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_c8og4")
+
+[node name="N18" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 84.0
+offset_top = 48.0
+offset_right = 116.0
+offset_bottom = 80.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_gg0jk")
+
+[node name="N19" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 126.0
+offset_top = 48.0
+offset_right = 158.0
+offset_bottom = 80.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_ib0at")
+
+[node name="N20" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 21.0
+offset_top = 60.0
+offset_right = 53.0
+offset_bottom = 92.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_abiwt")
+
+[node name="N21" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 63.0
+offset_top = 60.0
+offset_right = 95.0
+offset_bottom = 92.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_5s7ss")
+
+[node name="N22" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 105.0
+offset_top = 60.0
+offset_right = 137.0
+offset_bottom = 92.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_gyo8y")
+
+[node name="N23" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25098, 0.25098, 0.25098, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 147.0
+offset_top = 60.0
+offset_right = 179.0
+offset_bottom = 92.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_fgis8")
+
+[node name="N24" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_top = 72.0
+offset_right = 32.0
+offset_bottom = 104.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_vy106")
+
+[node name="N25" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 42.0
+offset_top = 72.0
+offset_right = 74.0
+offset_bottom = 104.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_wl6hu")
+
+[node name="N26" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 84.0
+offset_top = 72.0
+offset_right = 116.0
+offset_bottom = 104.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_edd2t")
+
+[node name="N27" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 126.0
+offset_top = 72.0
+offset_right = 158.0
+offset_bottom = 104.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_s5lsc")
+
+[node name="N28" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 21.0
+offset_top = 84.0
+offset_right = 53.0
+offset_bottom = 116.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_5a4dv")
+
+[node name="N29" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 63.0
+offset_top = 84.0
+offset_right = 95.0
+offset_bottom = 116.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_opkkl")
+
+[node name="N30" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 105.0
+offset_top = 84.0
+offset_right = 137.0
+offset_bottom = 116.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_wa0rj")
+
+[node name="N31" type="TextureButton" parent="NexusNodes"]
+modulate = Color(0.25, 0.25, 0.25, 1)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 147.0
+offset_top = 84.0
+offset_right = 179.0
+offset_bottom = 116.0
+pivot_offset = Vector2(16, 16)
+texture_normal = SubResource("AtlasTexture_875qt")

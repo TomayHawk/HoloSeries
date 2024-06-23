@@ -1,9 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://cavwjdaqys1r6"]
+[gd_scene load_steps=24 format=3 uid="uid://cavwjdaqys1r6"]
 
 [ext_resource type="PackedScene" uid="uid://p1ykej18ur03" path="res://entities/npcs/npc_korone.tscn" id="1_2yygs"]
 [ext_resource type="Script" path="res://scripts/scenes_scripts/dungeon_scene_1.gd" id="1_qkpt5"]
 [ext_resource type="PackedScene" uid="uid://cm2tllrvhawlt" path="res://entities/npcs/npc_fubuki.tscn" id="2_26t7h"]
 [ext_resource type="Texture2D" uid="uid://krbcbovqyxyj" path="res://art/tileSets/dungeon_1.png" id="2_wneuc"]
+[ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/NavigationTiles.png" id="3_cfs1g"]
 [ext_resource type="PackedScene" uid="uid://bqqgl42tyhde6" path="res://entities/npcs/npc_subaru.tscn" id="3_rso7h"]
 [ext_resource type="PackedScene" uid="uid://cqxp404joem6o" path="res://entities/npcs/npc_mio.tscn" id="4_4xut7"]
 [ext_resource type="PackedScene" uid="uid://df670r6ewbkov" path="res://entities/npcs/npc_kaela.tscn" id="5_fkm4l"]
@@ -15,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/nousagi.tscn" id="12_hviyt"]
 [ext_resource type="PackedScene" uid="uid://bfgttyngrxknk" path="res://user_interfaces/text_box.tscn" id="12_oq1h2"]
 [ext_resource type="PackedScene" uid="uid://bswhy46f3hcib" path="res://user_interfaces/options.tscn" id="14_sx4vj"]
+[ext_resource type="PackedScene" uid="uid://cf2ifm4k70avn" path="res://scenes/settings.tscn" id="17_1cdko"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o84oa"]
 texture = ExtResource("2_wneuc")
@@ -265,6 +267,28 @@ physics_layer_0/collision_layer = 8
 physics_layer_0/collision_mask = 0
 sources/1 = SubResource("TileSetAtlasSource_o84oa")
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_y5eqb"]
+vertices = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_peis2"]
+texture = ExtResource("3_cfs1g")
+1:0/0 = 0
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_y5eqb")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_k5v2m"]
+physics_layer_0/collision_layer = 8
+physics_layer_0/collision_mask = 0
+navigation_layer_0/layers = 1
+sources/0 = SubResource("TileSetAtlasSource_peis2")
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qojuv"]
 size = Vector2(128, 16)
 
@@ -294,7 +318,10 @@ layer_2/z_index = 0
 layer_2/tile_data = PackedInt32Array(-65569, 327681, 3, -33, 327681, 3, -262159, 262145, 7, -196641, 131073, 5, -131104, 196609, 7, -131100, 262145, 6, -131099, 262145, 5, -29, 327681, 4, 65506, 327681, 4, -28, 327681, 4, 65514, 65537, 6, 65519, 1, 6, 131056, 65537, 5, 65521, 65537, 5, -14, 1, 5, 65522, 393217, 0, -262169, 458753, 5, -262171, 458753, 5, -131084, 524289, 9, -196620, 524289, 8, -262156, 524289, 8, -327692, 524289, 8, -393228, 524289, 7, -131082, 393217, 9, -196618, 524289, 8, -262154, 524289, 8, -327690, 393217, 8, 131060, 393217, 9, 65524, 393217, 8, -131093, 196609, 9, 65518, 196609, 8, 131053, 196609, 8, -131090, 524289, 0)
 
 [node name="NavigationMap" type="TileMap" parent="."]
+visible = false
+tile_set = SubResource("TileSet_k5v2m")
 format = 2
+layer_0/tile_data = PackedInt32Array(-131106, 65536, 0, -131105, 65536, 0, -131104, 65536, 0, -131103, 65536, 0, -131102, 65536, 0, -131101, 65536, 0, -131100, 65536, 0, -131099, 65536, 0, -131098, 65536, 0, -131097, 65536, 0, -131096, 65536, 0, -131095, 65536, 0, -131094, 65536, 0, -131093, 65536, 0, -131092, 65536, 0, -131091, 65536, 0, -131090, 65536, 0, -131089, 65536, 0, -131088, 65536, 0, -131087, 65536, 0, -131086, 65536, 0, -131085, 65536, 0, -65570, 65536, 0, -34, 65536, 0, 65502, 65536, 0, 131038, 65536, 0, 196574, 65536, 0, -65569, 65536, 0, -33, 65536, 0, 65503, 65536, 0, 131039, 65536, 0, 196575, 65536, 0, -65568, 65536, 0, -32, 65536, 0, 65504, 65536, 0, 131040, 65536, 0, 196576, 65536, 0, -65567, 65536, 0, -31, 65536, 0, 65505, 65536, 0, 131041, 65536, 0, 196577, 65536, 0, -65566, 65536, 0, -30, 65536, 0, 65506, 65536, 0, 131042, 65536, 0, 196578, 65536, 0, -65565, 65536, 0, -29, 65536, 0, 65507, 65536, 0, 131043, 65536, 0, 196579, 65536, 0, -65564, 65536, 0, -28, 65536, 0, 65508, 65536, 0, 131044, 65536, 0, 196580, 65536, 0, -65563, 65536, 0, -27, 65536, 0, 65509, 65536, 0, 131045, 65536, 0, 196581, 65536, 0, -65562, 65536, 0, -26, 65536, 0, 65510, 65536, 0, 131046, 65536, 0, 196582, 65536, 0, -65561, 65536, 0, -25, 65536, 0, 65511, 65536, 0, 131047, 65536, 0, 196583, 65536, 0, -65560, 65536, 0, -24, 65536, 0, 65512, 65536, 0, 131048, 65536, 0, 196584, 65536, 0, -65559, 65536, 0, -23, 65536, 0, 65513, 65536, 0, 131049, 65536, 0, 196585, 65536, 0, -65558, 65536, 0, -22, 65536, 0, 65514, 65536, 0, 131050, 65536, 0, 196586, 65536, 0, -65557, 65536, 0, -21, 65536, 0, 65515, 65536, 0, 131051, 65536, 0, 196587, 65536, 0, -65556, 65536, 0, -20, 65536, 0, 65516, 65536, 0, 131052, 65536, 0, 196588, 65536, 0, -65555, 65536, 0, -19, 65536, 0, 65517, 65536, 0, 131053, 65536, 0, 196589, 65536, 0, -65554, 65536, 0, -18, 65536, 0, 65518, 65536, 0, 131054, 65536, 0, 196590, 65536, 0, -65553, 65536, 0, -17, 65536, 0, 65519, 65536, 0, 131055, 65536, 0, 196591, 65536, 0, -65552, 65536, 0, -16, 65536, 0, 65520, 65536, 0, 131056, 65536, 0, 196592, 65536, 0, -65551, 65536, 0, -15, 65536, 0, 65521, 65536, 0, 131057, 65536, 0, 196593, 65536, 0, -65550, 65536, 0, -14, 65536, 0, 65522, 65536, 0, 131058, 65536, 0, 196594, 65536, 0, -65549, 65536, 0, -13, 65536, 0, 65523, 65536, 0, 131059, 65536, 0, 196595, 65536, 0)
 
 [node name="WorldScene2Transit" type="Area2D" parent="."]
 position = Vector2(0, 72)
@@ -342,5 +369,8 @@ position = Vector2(-368, -6)
 [node name="TextBox" parent="." instance=ExtResource("12_oq1h2")]
 
 [node name="Options" parent="." instance=ExtResource("14_sx4vj")]
+
+[node name="Settings" parent="." instance=ExtResource("17_1cdko")]
+visible = false
 
 [connection signal="body_entered" from="WorldScene2Transit" to="." method="_on_world_scene_2_transit_body_entered"]
