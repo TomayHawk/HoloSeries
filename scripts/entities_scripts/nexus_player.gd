@@ -48,7 +48,7 @@ func _physics_process(_delta):
 			speed = 150
 			snap_to_target(position)
 		elif velocity != Vector2.ZERO:
-			speed += 1
+			if speed < speed_max: speed += 1
 			if on_node:
 				on_node = false
 				$Sprite2D.hide()
