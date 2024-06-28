@@ -7,15 +7,17 @@ var unlockable_instance = null
 # create array for all nexus nodes
 @onready var nexus_nodes = $NexusNodes.get_children()
 
+var unlocked_players = [true, true, false, false]
+var recent_node = [0, 0, 0, 0]
+
 # [player][node]
 var nodes_unlocked = [[], [], [], [], [], [], [], [], [], []]
 var nodes_unlockable = [[], [], [], [], [], [], [], [], [], []]
 
 # adjacents and second adjacents
-const adjacents_index = [[ - 32, - 17, - 16, 15, 16, 32], [ - 64, - 49, - 48, - 33, - 32, - 31, - 17, - 16, - 1, 1, 15, 16, 31, 32, 33, 47, 48, 64],
-						 [- 32, - 16, - 15, 16, 17, 32], [ - 64, - 48, - 47, - 33, - 32, - 31, - 16, - 15, - 1, 1, 16, 17, 31, 32, 33, 48, 49, 64]]
+const adjacents_index = [[ - 32, - 17, - 16, 15, 16, 32], [ - 32, - 16, - 15, 16, 17, 32]]
 						 
-# empty, hp, mp, def, mdef, atk, int, spd, agi
+# EMPTY, HP, MP, DEF, SHD, ATK, INT, SPD, AGI
 const node_type_atlas_position = [Vector2(0, 0), Vector2(0, 32), Vector2(32, 32), Vector2(64, 32), Vector2(96, 32), Vector2(0, 64), Vector2(32, 64), Vector2(64, 64), Vector2(96, 64)]
 # diamond, clover, heart, spade
 const key_node_type_atlas_position = [Vector2(0, 96), Vector2(32, 96), Vector2(64, 96), Vector2(96, 96)]
@@ -30,25 +32,24 @@ func _ready():
 	nodes_unlocked = GlobalSettings.global_unlocked_nodes.duplicate()
 
 	# check for all adjacent unlockables
-	var temp_adjacents = []
-	var second_temp_adjacents = []
-
 	for player in 4: if GlobalSettings.global_unlocked_players[player]: # for each unlocked player
 		for node in nodes_unlocked[player]: # for each unlocked node
 			# determine adjacent nodes
+			var temp_adjacents = []
 			if (node % 32) < 16: for temp_index in adjacents_index[0]: temp_adjacents.push_back(node + temp_index)
-			else: for temp_index in adjacents_index[2]: temp_adjacents.push_back(node + temp_index)
+			else: for temp_index in adjacents_index[1]: temp_adjacents.push_back(node + temp_index)
 
-			for adjacent in adjacents_index[temp_adjacents_type]: # for each adjacent node
+			for adjacent in temp_adjacents: # for each adjacent node
 				if !(adjacent in nodes_unlocked[player])&&(adjacent > - 1)&&(adjacent < 767): # if node is not unlocked and node exists
 					# determine second adjacent nodes
+					var second_temp_adjacents = []
 					if (adjacent % 32) < 16: for second_temp_index in adjacents_index[0]: second_temp_adjacents.push_back(adjacent + second_temp_index)
-					else: for second_temp_index in adjacents_index[2]: second_temp_adjacents.push_back(adjacent + second_temp_index)
+					else: for second_temp_index in adjacents_index[1]: second_temp_adjacents.push_back(adjacent + second_temp_index)
 
 					for second_adjacent in second_temp_adjacents: # for each adjacent node to adjacent node
 						# if second adjacent is unlocked, is not original node, and is not in unlockables array
 						if (second_adjacent in nodes_unlocked[player])&&(second_adjacent != node)&&!(adjacent in nodes_unlockable[player]):
-							nodes_unlockable[player].push_back(temp_index)
+							nodes_unlockable[player].push_back(adjacent)
 
 	# if nexus is empty, initiate randomizer
 	if GlobalSettings.nexus_not_randomized: stat_nodes_randomizer()
@@ -64,7 +65,7 @@ func stat_nodes_randomizer():
 		elif node.modulate == Color(1, 0.501961, 0.501961, 1): area_nodes[1].push_back(node_index) # white magic 2 (light coral)
 		elif node.modulate == Color(0.501961, 0, 1, 1): area_nodes[2].push_back(node_index) # black magic (purple)
 		elif node.modulate == Color(0.501961, 0, 0.501961, 1): area_nodes[3].push_back(node_index) # black magic 2 (dark magenta)
-		elif node.modulate == Color(0.501961, 1, 1, 1): area_nodes[4].push_back(node_index) # summon (red)
+		elif node.modulate == Color(1, 0, 0, 1): area_nodes[4].push_back(node_index) # summon (red)
 		elif node.modulate == Color(1, 1, 0, 1): area_nodes[5].push_back(node_index) # buff (yellow)
 		elif node.modulate == Color(0.501961, 1, 1, 1): area_nodes[6].push_back(node_index) # debuff (light blue)
 		elif node.modulate == Color(1, 0.501961, 0, 1): area_nodes[7].push_back(node_index) # skills (orange)
@@ -75,67 +76,105 @@ func stat_nodes_randomizer():
 		
 		nexus_nodes[node_index].modulate = Color(0.25, 0.25, 0.25, 1)
 		node_index += 1
+	
+	# HP, MP, DEF, SHD, ATK, INT, SPD, AGI, EMPTY
+	# randomizer base number
+	var rand_amount = [[6, 11, 2, 3, 2, 3, 2, 2],
+					  [2, 4, 1, 1, 0, 2, 0, 0],
+					  [9, 18, 3, 4, 3, 12, 3, 3],
+					  [3, 5, 1, 2, 1, 3, 1, 1],
+					  [4, 4, 2, 2, 1, 3, 1, 1],
+					  [11, 8, 3, 3, 4, 4, 3, 3],
+					  [6, 8, 2, 3, 2, 4, 2, 2],
+					  [11, 6, 2, 4, 4, 3, 3, 3],
+					  [3, 2, 1, 0, 1, 1, 1, 1],
+					  [13, 3, 4, 3, 12, 2, 3, 3],
+					  [5, 1, 2, 1, 5, 0, 2, 2],
+					  [8, 1, 4, 2, 2, 1, 0, 0]]
+	# randomizer multiplier
+	var rand_weight = [[2, 3, 1, 1, 1, 1, 1, 1],
+					   [1, 1, 0, 0, 0, 1, 0, 0],
+					   [2, 3, 1, 1, 1, 3, 1, 1],
+					   [1, 1, 0, 1, 0, 1, 0, 0],
+					   [1, 1, 1, 1, 0, 1, 0, 0],
+					   [3, 2, 1, 1, 1, 1, 1, 1],
+					   [2, 2, 1, 1, 1, 1, 1, 1],
+					   [3, 2, 1, 1, 1, 1, 1, 1],
+					   [1, 1, 0, 0, 0, 0, 0, 0],
+					   [3, 1, 1, 1, 3, 1, 1, 1],
+					   [1, 0, 1, 0, 1, 0, 1, 1],
+					   [2, 0, 1, 1, 1, 0, 0, 0]]
+	
+	var rand_result = [[], [], [], [], [], [], [], [], [], [], [], []]
+	var area_rand_type = [[], [], [], [], [], [], [], [], [], [], [], []]
+	var empty_type = 0
+	
+	for rand_area in 12: # for each area type
+		empty_type = area_nodes[rand_area].size() # set number of empty nodes to size of area
+		for rand_type in 8: # for each stat node type
+			# create x stat node type, where x is the base amount + a random weighted flactuation
+			rand_result[rand_area].push_back(rand_amount[rand_area][rand_type] + round(rand_weight[rand_area][rand_type] * (randf_range( - 1, 1) + randf_range( - 1, 1) + randf_range( - 1, 1) + randf_range( - 1, 1)) / 4)) #
+			empty_type -= rand_result[rand_area][rand_type] # reduce the number of empty nodes by x
+			# assign x variables to texture region based on stat node type
+			for rand_number in rand_result[rand_area][rand_type]:
+				area_rand_type[rand_area].push_back(node_type_atlas_position[rand_type + 1])
+			
+		# assign y variables to texture region of empty node type, where y is the remaining unchanged nodes
+		for number in empty_type:
+			area_rand_type[rand_area].push_back(node_type_atlas_position[0])
 
-	##### should be "null" instead
-	var temp_area_rand_type = [[]]
-	
-	var temp_rand_index = []
-	# HP, MP, DEF, MDEF, ATK, INT, SPD, AGI
-	var temp_rand_weight = [3, 3, 1, 1, 1, 1, 1, 1,
-							3, 5, 1, 2, 1, 3, 1, 1,
-							3, 2, 1, 1, 1, 1, 1, 1,
-							3, 2, 1, 1, 1, 1, 1, 1,
-							3, 1, 1, 1, 2, 2, 1, 1,
-							5, 2, 3, 1, 3, 1, 2, 2]
-	var temp_value = [20, 20, 5, 6, 2, 5, 3, 3,
-					  20, 30, 4, 8, 3, 15, 3, 3,
-					  18, 10, 6, 4, 5, 3, 3, 3,
-					  14, 8, 3, 3, 4, 4, 2, 2,
-					  20, 6, 4, 6, 8, 8, 6, 6,
-					  30, 8, 15, 6, 15, 3, 8, 8]
-	
-	var temp_texture = null
-	var temp_texture_region = null
-	
-	###############################################
-	for node_area in 6: for empty_nodes_in_area in [696969669699]:
-		temp_area_rand_type[node_area].push_back(node_type_atlas_position[0])
-	
-	for node_type_and_area in 48:
-		temp_rand_index[node_type_and_area].push_back(randf_range( - 1, 1))
-		for i in 3: temp_rand_index[node_type_and_area] += randf_range( - 1, 1)
-		temp_rand_index[node_type_and_area] = temp_value[node_type_and_area] + round(temp_rand_index[node_type_and_area] * temp_rand_weight[node_type_and_area] / 4)
-		for i in temp_rand_index[node_type_and_area]: temp_area_rand_type[node_type_and_area / 8].push_back(node_type_atlas_position[node_type_and_area % 8 + 2])
+		# shuffle area array
+		area_rand_type[rand_area].shuffle()
+
+		for array_index in area_nodes[rand_area].size():
+			# temp_texture_region = temp_texture.get_region()
+			nexus_nodes[area_nodes[rand_area][array_index]].texture.region = Rect2(area_rand_type[rand_area][array_index], Vector2(32, 32))
 		
-	for i in 6:
-		##### shuffle temp_area_rand_type[i]
-		for j in white_magic_area.size():
-			temp_texture = nexus_nodes[node_index].texture_normal
-			temp_texture_region = temp_texture.get_region()
-			temp_texture.set_region(Rect2([temp_area_rand_type[i][j]], temp_texture_region.size))
-		for area_node_index in white_magic_area:
-		temp_texture = nexus_nodes[node_index].texture_normal
-		temp_texture_region = temp_texture.get_region()
-		temp_texture.set_region(Rect2([temp_area_rand_type[i][j]], temp_texture_region.size))
-		##### size should be changed to int later
-	
-	for node_index in temp_white_magic:
-		temp_texture = nexus_nodes[node_index].texture_normal
-		temp_texture_region = temp_texture.get_region()
-		temp_texture.set_region(Rect2([temp_area_rand_type[i][j]], temp_texture_region.size))
+		var empty_replacer = []
+
+		for temp_node_index in area_nodes[rand_area]:
+			if nexus_nodes[temp_node_index].texture.region == Rect2(Vector2(0, 0), Vector2(32, 32)):
+				empty_replacer.push_back(temp_node_index)
+
+		empty_replacer.shuffle()
+
+		var temp_adjacents = []
+		var same_count = 0
+
+		for temp_node_index in area_nodes[rand_area]:
+			temp_adjacents.clear()
+			same_count = 0
+
+			# determine adjacent nodes
+			if (temp_node_index % 32) < 16: for temp_index in adjacents_index[0]: temp_adjacents.push_back(temp_node_index + temp_index)
+			else: for temp_index in adjacents_index[1]: temp_adjacents.push_back(temp_node_index + temp_index)
+			
+			for adjacent in temp_adjacents: # for each adjacent node
+				# if adjacent node exists and has a same type neighbour, add 1 to count
+				if (adjacent > - 1)&&(adjacent < 767)&&nexus_nodes[temp_node_index].texture.region == nexus_nodes[adjacent].texture.region:
+					same_count += 1
+
+			# if more than 1 same type neighbour
+			if same_count > 1:
+				# replace an empty node with this node type, and this node becomes empty
+				nexus_nodes[empty_replacer.pop_back()].texture.region = nexus_nodes[temp_node_index].texture.region
+				nexus_nodes[temp_node_index].texture.region = Rect2(Vector2(0, 0), Vector2(32, 32))
+
+				empty_replacer.push_back(temp_node_index)
+				empty_replacer.shuffle()
 
 func update_nexus_player(player):
 	current_nexus_player = player
 
 	# disable all textures
 	for node in nexus_nodes:
-		pass # #### node.modulate = Color(0.25, 0.25, 0.25, 1)
+		node.modulate = Color(0.25, 0.25, 0.25, 1)
 
 	# update unlocked textures
 	for node_index in nodes_unlocked[current_nexus_player]:
-		pass # #### nexus_nodes[node_index].modulate = Color(1, 1, 1, 1)
+		nexus_nodes[node_index].modulate = Color(1, 1, 1, 1)
 
-	# clear UnlockableNodes control
+	# clear unlockable textures
 	for past_unlockable_nodes in get_node("UnlockableNodes").get_children():
 		past_unlockable_nodes.queue_free()
 

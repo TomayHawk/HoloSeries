@@ -11,57 +11,63 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0, 0, 0, 1)
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[node name="HoloNexusUI" type="CanvasLayer"]
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1280.0
 offset_bottom = 720.0
+scale = Vector2(0.5, 0.5)
 
-[node name="CombatOptions" type="MarginContainer" parent="Control"]
+[node name="Options" type="MarginContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -128.0
-offset_right = 128.0
+offset_top = -224.0
+offset_right = 232.0
 grow_vertical = 0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_left = 96
+theme_override_constants/margin_bottom = 64
 
-[node name="Panel" type="Panel" parent="Control/CombatOptions"]
+[node name="Panel" type="Panel" parent="Control/Options"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_01no7")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/CombatOptions"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/Options"]
 layout_mode = 2
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/CombatOptions/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Options/MarginContainer"]
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Items" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
+[node name="Unlock" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
+theme_override_font_sizes/font_size = 16
+text = "Unlock"
+
+[node name="Upgrade" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Upgrade"
+
+[node name="Awaken" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Awaken"
+
+[node name="Items" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
 text = "Items"
-
-[node name="Info" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Info"
-
-[node name="Cancel" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Cancel"
 
 [node name="TextBoxContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
@@ -96,41 +102,7 @@ theme_override_font_sizes/font_size = 12
 text = "*  "
 
 [node name="TextArea" type="Label" parent="Control/TextBoxContainer/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-theme_override_font_sizes/font_size = 12
-text = "Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text."
-autowrap_mode = 2
-clip_text = true
-
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
-layout_mode = 0
-offset_right = 210.0
-offset_bottom = 392.0
-
-[node name="Panel" type="Panel" parent="Control/MarginContainer"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_k5cw7")
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer"]
-layout_mode = 2
-
-[node name="TextStart" type="Label" parent="Control/MarginContainer/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 12
-text = "*  "
-
-[node name="TextArea" type="Label" parent="Control/MarginContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(1199, 57)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1

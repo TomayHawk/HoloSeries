@@ -114,15 +114,14 @@ theme_override_font_sizes/font_size = 8
 text = "Haste"
 
 [node name="BlackVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/MarginContainer"]
-visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Fire" type="Button" parent="Control/CombatOptions2/MarginContainer/BlackVBoxContainer"]
+[node name="Fireball" type="Button" parent="Control/CombatOptions2/MarginContainer/BlackVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
-text = "Fire"
+text = "Fireball"
 
 [node name="Poison" type="Button" parent="Control/CombatOptions2/MarginContainer/BlackVBoxContainer"]
 layout_mode = 2
@@ -140,6 +139,7 @@ theme_override_font_sizes/font_size = 8
 text = "Doom"
 
 [node name="ItemsVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/MarginContainer"]
+visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
@@ -501,6 +501,7 @@ theme_override_font_sizes/font_size = 8
 text = "####"
 
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/WhiteVBoxContainer/Protect" to="." method="_on_protect_pressed"]
+[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/BlackVBoxContainer/Fireball" to="." method="_on_fireball_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/BlackVBoxContainer/Doom" to="." method="_on_doom_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/Potion" to="." method="_on_potion_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/XPotion" to="." method="_on_x_potion_pressed"]

@@ -18,6 +18,9 @@ var snap_distance = 100000
 
 var nodes_on_screen = []
 
+const adjacents_index = [[ - 64, - 49, - 48, - 33, - 32, - 31, - 17, - 16, - 1, 1, 15, 16, 31, 32, 33, 47, 48, 64],
+						 [- 64, - 48, - 47, - 33, - 32, - 31, - 16, - 15, - 1, 1, 16, 17, 31, 32, 33, 48, 49, 64]]
+
 # func _ready():
 	# for button in nexus_node.get_children(): nodes_on_screen.push_back(button)
 

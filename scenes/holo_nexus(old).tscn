@@ -5288,18 +5288,20 @@ region = Rect2(0, 0, 32, 32)
 [node name="HoloNexus(Old)" type="Node2D"]
 
 [node name="LineNodes" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
 
 [node name="BigCircle2" type="Control" parent="LineNodes"]
 layout_mode = 3
 anchors_preset = 0
+metadata/_edit_use_anchors_ = true
 
 [node name="Quadrant1" type="Control" parent="LineNodes/BigCircle2"]
 anchors_preset = 0
+metadata/_edit_use_anchors_ = true
 
 [node name="CurveOuter" type="TextureRect" parent="LineNodes/BigCircle2/Quadrant1"]
 layout_mode = 0
@@ -5308,6 +5310,7 @@ offset_top = -74.0
 offset_right = -58.0
 offset_bottom = 6.0
 texture = ExtResource("1_ks7qk")
+metadata/_edit_use_anchors_ = true
 
 [node name="CurveMiddle" type="TextureRect" parent="LineNodes/BigCircle2/Quadrant1"]
 layout_mode = 0
@@ -5316,6 +5319,7 @@ offset_top = -55.0
 offset_right = -38.0
 offset_bottom = 9.0
 texture = ExtResource("2_55j5k")
+metadata/_edit_use_anchors_ = true
 
 [node name="CurveOuterFlipped" type="TextureRect" parent="LineNodes/BigCircle2/Quadrant1"]
 layout_mode = 0
@@ -5344,11 +5348,13 @@ offset_top = -8.0
 offset_right = -24.0
 offset_bottom = 8.0
 texture = ExtResource("3_jx882")
+metadata/_edit_use_anchors_ = true
 
 [node name="Quadrant2" type="Control" parent="LineNodes/BigCircle2"]
 layout_mode = 3
 anchors_preset = 0
 rotation = 1.5708
+metadata/_edit_use_anchors_ = true
 
 [node name="CurveMiddle" type="TextureRect" parent="LineNodes/BigCircle2/Quadrant2"]
 layout_mode = 0
@@ -5385,11 +5391,13 @@ offset_top = -40.0
 offset_right = 8.00001
 offset_bottom = 8.0
 texture = ExtResource("4_uo27y")
+metadata/_edit_use_anchors_ = true
 
 [node name="Quadrant3" type="Control" parent="LineNodes/BigCircle2"]
 layout_mode = 3
 anchors_preset = 0
 rotation = 3.14159
+metadata/_edit_use_anchors_ = true
 
 [node name="CurveOuter" type="TextureRect" parent="LineNodes/BigCircle2/Quadrant3"]
 layout_mode = 0
@@ -5398,6 +5406,7 @@ offset_top = -74.0
 offset_right = -58.0
 offset_bottom = 6.0
 texture = ExtResource("1_ks7qk")
+metadata/_edit_use_anchors_ = true
 
 [node name="CurveMiddle" type="TextureRect" parent="LineNodes/BigCircle2/Quadrant3"]
 layout_mode = 0
@@ -5434,11 +5443,13 @@ offset_top = -40.0
 offset_right = 8.0
 offset_bottom = 8.0
 texture = ExtResource("4_uo27y")
+metadata/_edit_use_anchors_ = true
 
 [node name="Quadrant4" type="Control" parent="LineNodes/BigCircle2"]
 layout_mode = 3
 anchors_preset = 0
 rotation = 4.71239
+metadata/_edit_use_anchors_ = true
 
 [node name="CurveOuterFlipped" type="TextureRect" parent="LineNodes/BigCircle2/Quadrant4"]
 layout_mode = 0
@@ -5485,6 +5496,7 @@ offset_top = -40.0
 offset_right = 8.0
 offset_bottom = 8.0
 texture = ExtResource("4_uo27y")
+metadata/_edit_use_anchors_ = true
 
 [node name="MediumDiamond2" type="Control" parent="LineNodes"]
 layout_mode = 3
@@ -6222,6 +6234,7 @@ offset_top = -40.0
 offset_right = 8.0
 offset_bottom = -24.0
 texture = ExtResource("3_jx882")
+metadata/_edit_use_anchors_ = true
 
 [node name="StraightNormal4" type="TextureRect" parent="LineNodes/SmallSquare/Quadrant1"]
 layout_mode = 0
@@ -9101,7 +9114,6 @@ rotation = 1.5708
 texture = ExtResource("3_jx882")
 
 [node name="BaseShapes" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_top = 672.0
@@ -11004,10 +11016,10 @@ offset_bottom = 8.0
 texture = ExtResource("3_jx882")
 
 [node name="Control" type="Control" parent="."]
-visible = false
 y_sort_enabled = true
 layout_mode = 3
 anchors_preset = 0
+metadata/_edit_use_anchors_ = true
 
 [node name="Skill" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11018,6 +11030,7 @@ offset_right = 16.0
 offset_bottom = 16.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_dfuol")
+metadata/_edit_use_anchors_ = true
 
 [node name="StarLock" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11028,6 +11041,7 @@ offset_right = 48.0
 offset_bottom = 16.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_rl5mb")
+metadata/_edit_use_anchors_ = true
 
 [node name="HeartLock" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11038,6 +11052,7 @@ offset_right = 16.0
 offset_bottom = -16.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_3blu8")
+metadata/_edit_use_anchors_ = true
 
 [node name="CircleLock" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11048,6 +11063,7 @@ offset_right = 16.0
 offset_bottom = 48.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_lneg6")
+metadata/_edit_use_anchors_ = true
 
 [node name="CrossLock" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11058,6 +11074,7 @@ offset_right = -16.0
 offset_bottom = 16.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_k0w6v")
+metadata/_edit_use_anchors_ = true
 
 [node name="Skill2" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11068,6 +11085,7 @@ offset_right = 16.0
 offset_bottom = -48.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_bjrfy")
+metadata/_edit_use_anchors_ = true
 
 [node name="Empty2" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11078,6 +11096,7 @@ offset_right = 81.0
 offset_bottom = 16.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_t6u17")
+metadata/_edit_use_anchors_ = true
 
 [node name="Empty3" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11088,6 +11107,7 @@ offset_right = -47.0
 offset_bottom = 16.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_7pu62")
+metadata/_edit_use_anchors_ = true
 
 [node name="HP" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11098,6 +11118,7 @@ offset_right = 16.0
 offset_bottom = 80.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_r82qg")
+metadata/_edit_use_anchors_ = true
 
 [node name="Empty5" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11108,6 +11129,7 @@ offset_right = 61.0
 offset_bottom = -29.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_73h7f")
+metadata/_edit_use_anchors_ = true
 
 [node name="MP" type="TextureButton" parent="Control"]
 modulate = Color(0.301961, 0.301961, 0.301961, 1)
@@ -11119,6 +11141,7 @@ offset_right = 61.0
 offset_bottom = 61.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_krf5h")
+metadata/_edit_use_anchors_ = true
 
 [node name="Empty7" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11129,6 +11152,7 @@ offset_right = -29.0
 offset_bottom = -29.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_vf6rw")
+metadata/_edit_use_anchors_ = true
 
 [node name="Empty8" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11139,6 +11163,7 @@ offset_right = -29.0
 offset_bottom = 61.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_eu47g")
+metadata/_edit_use_anchors_ = true
 
 [node name="Empty9" type="TextureButton" parent="Control"]
 modulate = Color(0.3, 0.3, 0.3, 1)
@@ -11150,6 +11175,7 @@ offset_right = 16.0
 offset_bottom = -80.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_2yjvj")
+metadata/_edit_use_anchors_ = true
 
 [node name="Empty10" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11160,6 +11186,7 @@ offset_right = 112.0
 offset_bottom = 16.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_atk0f")
+metadata/_edit_use_anchors_ = true
 
 [node name="Empty11" type="TextureButton" parent="Control"]
 modulate = Color(0.4, 0.4, 0.4, 1)
@@ -11171,6 +11198,7 @@ offset_right = -80.0
 offset_bottom = 16.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_qi4xj")
+metadata/_edit_use_anchors_ = true
 
 [node name="Empty12" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11181,6 +11209,7 @@ offset_right = 16.0
 offset_bottom = 112.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_8x304")
+metadata/_edit_use_anchors_ = true
 
 [node name="Empty14" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11191,6 +11220,7 @@ offset_right = 84.0
 offset_bottom = 84.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_3e0h5")
+metadata/_edit_use_anchors_ = true
 
 [node name="Empty15" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11201,6 +11231,7 @@ offset_right = -52.0
 offset_bottom = -52.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_i26jm")
+metadata/_edit_use_anchors_ = true
 
 [node name="Empty16" type="TextureButton" parent="Control"]
 y_sort_enabled = true
@@ -11211,6 +11242,7 @@ offset_right = -52.0
 offset_bottom = 84.0
 pivot_offset = Vector2(16, 16)
 texture_normal = SubResource("AtlasTexture_hc5pm")
+metadata/_edit_use_anchors_ = true
 
 [node name="Control2" type="Control" parent="."]
 visible = false
@@ -20814,6 +20846,7 @@ offset_bottom = 298.0
 texture = SubResource("AtlasTexture_ym7bg")
 
 [node name="NexusSections" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0

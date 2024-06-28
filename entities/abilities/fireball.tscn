@@ -1,0 +1,68 @@
+[gd_scene load_steps=11 format=3 uid="uid://dloiivto6pr0f"]
+
+[ext_resource type="Texture2D" uid="uid://cpkqlu48vt85m" path="res://art/characters/slime.png" id="1_boyp2"]
+[ext_resource type="Script" path="res://scripts/entities_scripts/abilities_scripts/fireball.gd" id="1_g8rfi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lwdst"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i3foy"]
+atlas = ExtResource("1_boyp2")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0g6i4"]
+atlas = ExtResource("1_boyp2")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e5plw"]
+atlas = ExtResource("1_boyp2")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xlde6"]
+atlas = ExtResource("1_boyp2")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hor0h"]
+atlas = ExtResource("1_boyp2")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gh1ec"]
+atlas = ExtResource("1_boyp2")
+region = Rect2(160, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_55pnf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i3foy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0g6i4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e5plw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xlde6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hor0h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gh1ec")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[node name="Fireball" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 72
+script = ExtResource("1_g8rfi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_lwdst")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_55pnf")
+frame_progress = 0.366409

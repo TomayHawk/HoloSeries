@@ -709,6 +709,8 @@ y_sort_enabled = true
 [node name="Nousagi" parent="Enemies" instance=ExtResource("9_tem7v")]
 position = Vector2(200, -100)
 
+[node name="Abilities" type="Node2D" parent="."]
+
 [node name="CombatUI" parent="." instance=ExtResource("7_yoiur")]
 
 [node name="TextBox" parent="." instance=ExtResource("4_qspxv")]

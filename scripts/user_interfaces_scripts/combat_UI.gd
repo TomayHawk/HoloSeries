@@ -17,6 +17,11 @@ extends CanvasLayer
 									 $Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer/Button,
 									 $Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/Button]
 
+@onready var abilities_node = get_parent().get_node("Abilities")
+@onready var abilities = [load("res://entities/abilities/fireball.tscn")]
+
+var ability_spawn_offset = [Vector2(0, -20)]
+
 func _ready():
 	$Control/CombatOptions2.hide()
 	for button_node in players_button_nodes:
@@ -113,6 +118,9 @@ func hide_combat_options_2():
 func _on_protect_pressed():
 	pass
 
+func _on_fireball_pressed():
+	create_ability(0) # create fireball
+
 ##### temporary kamikaze for tests
 func _on_doom_pressed():
 	for i in PartyStatsComponent.active_players: PartyStatsComponent.health[i] = 0
@@ -133,3 +141,8 @@ func _on_phoenix_feather_pressed():
 		PartyStatsComponent.players[0].set_physics_process(true)
 		if not PartyStatsComponent.players[0].check_other_player_distance():
 			PartyStatsComponent.players[0]._on_entities_detection_area_body_exited(PartyStatsComponent.players[GlobalSettings.current_main_player])
+
+func create_ability(ability_index):
+	var instance = abilities[ability_index].instantiate() # create ability instance
+	abilities_node.add_child(instance) # add ability instance to Abilities node
+	instance.position = GlobalSettings.players[GlobalSettings.current_main_player].position + ability_spawn_offset[ability_index] # determine instance spawn position

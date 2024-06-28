@@ -488,7 +488,8 @@ shape = SubResource("RectangleShape2D_fbnw6")
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_qsfsi")
-animation = &"back_attack"
+animation = &"front_attack"
+frame_progress = 0.812006
 offset = Vector2(0, -14)
 
 [node name="NpcDetectionArea" type="Area2D" parent="."]
@@ -502,6 +503,7 @@ scale = Vector2(1.9952, 2)
 shape = SubResource("CircleShape2D_swviq")
 
 [node name="EntitiesDetectionArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 
 [node name="EntitiesDetectionShape" type="CollisionShape2D" parent="EntitiesDetectionArea"]
@@ -510,6 +512,7 @@ scale = Vector2(10, 10)
 shape = SubResource("CircleShape2D_c1evc")
 
 [node name="InnerAllyArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 
 [node name="InnerAllyShape" type="CollisionShape2D" parent="InnerAllyArea"]
