@@ -93,7 +93,6 @@ theme_override_font_sizes/font_size = 8
 text = "Taunt"
 
 [node name="WhiteVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/MarginContainer"]
-visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
@@ -113,7 +112,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Haste"
 
+[node name="Regen" type="Button" parent="Control/CombatOptions2/MarginContainer/WhiteVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Regen"
+
 [node name="BlackVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/MarginContainer"]
+visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
@@ -500,7 +505,10 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "####"
 
+[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/WhiteVBoxContainer/Heal" to="." method="_on_heal_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/WhiteVBoxContainer/Protect" to="." method="_on_protect_pressed"]
+[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/WhiteVBoxContainer/Regen" to="." method="_on_heal_pressed"]
+[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/WhiteVBoxContainer/Regen" to="." method="_on_regen_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/BlackVBoxContainer/Fireball" to="." method="_on_fireball_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/BlackVBoxContainer/Doom" to="." method="_on_doom_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/Potion" to="." method="_on_potion_pressed"]

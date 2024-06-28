@@ -18,7 +18,8 @@ extends CanvasLayer
 									 $Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/Button]
 
 @onready var abilities_node = get_parent().get_node("Abilities")
-@onready var abilities = [load("res://entities/abilities/fireball.tscn")]
+@onready var abilities = [load("res://entities/abilities/fireball.tscn"), 
+							load("res://entities/abilities/regen.tscn")]
 
 var ability_spawn_offset = [Vector2(0, -20)]
 
@@ -118,9 +119,14 @@ func hide_combat_options_2():
 func _on_protect_pressed():
 	pass
 
+
 ## For Abilities
 func _on_fireball_pressed():
-	create_ability(0) # create fireball
+	create_ability(0, true) # create fireball
+
+func _on_regen_pressed():
+	create_ability(1, false)
+
 
 ##### temporary kamikaze for tests
 func _on_doom_pressed():
@@ -143,7 +149,14 @@ func _on_phoenix_feather_pressed():
 		if not PartyStatsComponent.players[0].check_other_player_distance():
 			PartyStatsComponent.players[0]._on_entities_detection_area_body_exited(PartyStatsComponent.players[GlobalSettings.current_main_player])
 
-func create_ability(ability_index):
-	var instance = abilities[ability_index].instantiate() # create ability instance
-	abilities_node.add_child(instance) # add ability instance to Abilities node
-	instance.position = GlobalSettings.players[GlobalSettings.current_main_player].position + ability_spawn_offset[ability_index] # determine instance spawn position
+# Function for create abilities as instance (only if the player is alive)
+# @param ability_index: ability number in the google doc
+# @param position: bool, determine whether the abilities need indicate position or not
+func create_ability(ability_index, position):
+	if PartyStatsComponent.alive[GlobalSettings.current_main_player]:
+		var instance = abilities[ability_index].instantiate() # create ability instance
+		abilities_node.add_child(instance) # add ability instance to Abilities node
+		if position:
+			instance.position = GlobalSettings.players[GlobalSettings.current_main_player].position + ability_spawn_offset[ability_index] # determine instance spawn position
+
+
