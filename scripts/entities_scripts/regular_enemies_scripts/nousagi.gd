@@ -34,6 +34,7 @@ var nousagi_instance = null
 func _ready():
 	$EnemiesHealthComponent.create_enemy()
 	$Animation.play("walk")
+	add_to_group("enemies")
 
 func _physics_process(_delta):
 	current_animation = $Animation.get_animation()
