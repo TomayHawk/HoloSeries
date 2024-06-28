@@ -118,6 +118,7 @@ func hide_combat_options_2():
 func _on_protect_pressed():
 	pass
 
+## For Abilities
 func _on_fireball_pressed():
 	create_ability(0) # create fireball
 
