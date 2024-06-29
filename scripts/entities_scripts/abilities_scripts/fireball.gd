@@ -20,7 +20,8 @@ func _ready():
 		print("Nearest enemy found at position: ", nearest_enemy.global_position)
 	elif move_direction != Vector2.ZERO: # shoot at player default facing direction
 		velocity = move_direction * speed
-	else: # shoot at player attack direction??
+	else: # shoot at player attack direction?? when current player is not moving
+		print (current_player.last_move_direction)
 		velocity = current_player.last_move_direction * speed 
 
 func _physics_process(_delta):
@@ -45,5 +46,5 @@ func find_nearest_enemy():
 		if distance < shortest_distance:
 			shortest_distance = distance
 			nearest_enemy = enemy
-		print("Enemy position: ", enemy.global_position, " Distance: ", distance)
+		#print("Enemy position: ", enemy.global_position, " Distance: ", distance)
 	return nearest_enemy
