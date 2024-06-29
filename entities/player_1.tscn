@@ -472,8 +472,6 @@ input_pickable = true
 motion_mode = 1
 script = ExtResource("1_xiewa")
 speed = 150
-dash_speed = null
-sprint_multiplier = null
 
 [node name="CollisionHitBox" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 0)
