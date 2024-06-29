@@ -1,8 +1,5 @@
 .godot
 art
-/scripts/components_scripts/global_settings.gd
-/scripts/entities_scripts/player_1.gd
-/scripts/entities_scripts/player_2.gd
 project.godot
 scripts/.DS_Store
 .DS_Store

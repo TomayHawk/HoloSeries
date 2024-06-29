@@ -432,6 +432,9 @@ collision_mask = 79
 input_pickable = true
 motion_mode = 1
 script = ExtResource("1_vx1fn")
+speed = null
+dash_speed = null
+sprint_multiplier = null
 
 [node name="CollisionHitBox" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 0)
@@ -524,13 +527,13 @@ one_shot = true
 [node name="AllyAttackCooldown" type="Timer" parent="."]
 
 [connection signal="input_event" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_input_event"]
-[connection signal="body_entered" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_entered" flags=18]
-[connection signal="body_exited" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_exited" flags=18]
+[connection signal="body_entered" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_entered"]
+[connection signal="body_exited" from="NpcDetectionArea" to="." method="_on_npc_detection_area_body_exited"]
 [connection signal="body_exited" from="EntitiesDetectionArea" to="." method="_on_entities_detection_area_body_exited"]
 [connection signal="body_entered" from="InnerAllyArea" to="." method="_on_inner_ally_area_body_entered"]
 [connection signal="body_exited" from="InnerAllyArea" to="." method="_on_inner_ally_area_body_exited"]
-[connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout" flags=18]
-[connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout" flags=18]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
+[connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]
 [connection signal="timeout" from="DirectionCooldown" to="." method="_on_direction_cooldown_timeout"]
 [connection signal="timeout" from="PauseTimer" to="." method="_on_pause_timer_timeout"]
 [connection signal="timeout" from="AllyAttackCooldown" to="." method="_on_ally_attack_cooldown_timeout"]

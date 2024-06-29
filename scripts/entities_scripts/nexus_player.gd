@@ -36,10 +36,11 @@ func _physics_process(_delta):
 		if snap_distance > 1:
 			velocity = snap_distance * snap_speed * snap_direction / 40
 		else:
+			print("hi")
 			velocity = Vector2.ZERO
 			snapping = false
 			on_node = true
-			nexus.recent_node[nexus.current_nexus_player] = snap_node
+			nexus.last_node[nexus.current_nexus_player] = snap_node.get_index()
 			position = snap_position
 
 			$Sprite2D.show()

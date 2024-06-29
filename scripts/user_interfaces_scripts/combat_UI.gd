@@ -18,7 +18,7 @@ extends CanvasLayer
 									 $Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/Button]
 
 @onready var abilities_node = get_parent().get_node("Abilities")
-@onready var abilities = [load("res://entities/abilities/fireball.tscn"), 
+@onready var abilities = [load("res://entities/abilities/fireball.tscn"),
 							load("res://entities/abilities/regen.tscn")]
 
 var ability_spawn_offset = [Vector2(0, -20)]
@@ -119,14 +119,12 @@ func hide_combat_options_2():
 func _on_protect_pressed():
 	pass
 
-
 ## For Abilities
 func _on_fireball_pressed():
 	create_ability(0, true) # create fireball
 
 func _on_regen_pressed():
 	create_ability(1, false)
-
 
 ##### temporary kamikaze for tests
 func _on_doom_pressed():
@@ -146,7 +144,7 @@ func _on_phoenix_feather_pressed():
 		PartyStatsComponent.alive[0] = true
 		PartyStatsComponent.health[0] = PartyStatsComponent.max_health[0] * 0.5
 		PartyStatsComponent.players[0].set_physics_process(true)
-		if not PartyStatsComponent.players[0].check_other_player_distance():
+		if !PartyStatsComponent.players[0].check_other_player_distance():
 			PartyStatsComponent.players[0]._on_entities_detection_area_body_exited(PartyStatsComponent.players[GlobalSettings.current_main_player])
 
 # Function for create abilities as instance (only if the player is alive)
@@ -158,5 +156,3 @@ func create_ability(ability_index, position):
 		abilities_node.add_child(instance) # add ability instance to Abilities node
 		if position:
 			instance.position = GlobalSettings.players[GlobalSettings.current_main_player].position + ability_spawn_offset[ability_index] # determine instance spawn position
-
-

@@ -240,7 +240,7 @@ region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ajp4o"]
 atlas = ExtResource("4_dbcyv")
-region = Rect2(96, 0, 32, 32)
+region = Rect2(0, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dvepl"]
 atlas = ExtResource("4_dbcyv")
@@ -308,7 +308,7 @@ region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jjvfx"]
 atlas = ExtResource("4_dbcyv")
-region = Rect2(32, 0, 32, 32)
+region = Rect2(64, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_404o4"]
 atlas = ExtResource("4_dbcyv")
@@ -364,7 +364,7 @@ region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_youad"]
 atlas = ExtResource("4_dbcyv")
-region = Rect2(0, 96, 32, 32)
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n2pog"]
 atlas = ExtResource("4_dbcyv")
@@ -648,7 +648,7 @@ region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vmm51"]
 atlas = ExtResource("4_dbcyv")
-region = Rect2(64, 96, 32, 32)
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5bc0b"]
 atlas = ExtResource("4_dbcyv")
@@ -832,7 +832,7 @@ region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g1hbq"]
 atlas = ExtResource("4_dbcyv")
-region = Rect2(96, 96, 32, 32)
+region = Rect2(32, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5y8gc"]
 atlas = ExtResource("4_dbcyv")
@@ -3108,6 +3108,7 @@ scale = Vector2(2, 2)
 script = ExtResource("1_84ul6")
 
 [node name="CanvasLayer" parent="." instance=ExtResource("2_t8htg")]
+process_priority = -1
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -341.0
@@ -3137,6 +3138,7 @@ position = Vector2(9.53674e-07, 8.64267e-07)
 texture = SubResource("AtlasTexture_3cjki")
 
 [node name="Sprite2D2" type="Sprite2D" parent="NexusPlayer"]
+visible = false
 scale = Vector2(0.25, 0.25)
 texture = SubResource("AtlasTexture_kd8da")
 
@@ -3616,6 +3618,7 @@ offset_bottom = -230.0
 texture = SubResource("AtlasTexture_kf6ej")
 
 [node name="N52" type="TextureRect" parent="NexusNodes"]
+modulate = Color(0.33, 0.33, 0.33, 1)
 layout_mode = 0
 offset_left = -152.0
 offset_top = -262.0
@@ -3767,7 +3770,7 @@ offset_bottom = -218.0
 texture = SubResource("AtlasTexture_r064b")
 
 [node name="N69" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.33, 0.33, 0.33, 1)
 layout_mode = 0
 offset_left = -131.0
 offset_top = -250.0
@@ -3892,7 +3895,7 @@ offset_bottom = -206.0
 texture = SubResource("AtlasTexture_dfkxl")
 
 [node name="N83" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.33, 0.33, 0.33, 1)
+modulate = Color(1, 1, 0, 1)
 layout_mode = 0
 offset_left = -194.0
 offset_top = -238.0
@@ -4517,7 +4520,7 @@ offset_bottom = -158.0
 texture = SubResource("AtlasTexture_son5s")
 
 [node name="N154" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.33, 0.33, 0.33, 1)
+modulate = Color(1, 0.501961, 0, 1)
 layout_mode = 0
 offset_left = 100.0
 offset_top = -190.0
