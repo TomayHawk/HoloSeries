@@ -3,27 +3,29 @@ extends Node
 # screen size status
 var currently_full_screen = false
 
-# scene information
+# scene variables
 @onready var current_scene_node = get_parent().get_child(2)
-var current_scene_path = "res://scenes/main_menu.tscn"
 
-# current team
-var active_players = 1
-var players = [null, null, null, null]
+# player variables
+'''
+0 = Sora
+1 = AZKi
+'''
+var global_unlocked_players = [true, true, false, false]
+@onready var player_animations_load = [load("res://components/player_animations/sora_animation.tscn"),
+									   load("res://components/player_animations/azki_animation.tscn")]
+var party_player_nodes = []
+var current_main_player_index = 0
+var default_max_health = [9999, 999, 999, 999]
+var default_max_mana = [999, 99, 99, 99]
+var default_max_stamina = [100, 100, 100, 100]
 
-# current player
-var current_main_player = 0
+# combat UI variable
+var combat_ui_node = null
 
-# combat UI nodes
-var combat_UI_node = null
-var combat_UI_control_node = null
-var combat_options_2_node = null
-
-# combat status
+# combat variables
 var in_combat = false
 var enemies_in_combat = []
-
-var tween
 
 """
 scene spawn locations
@@ -46,7 +48,6 @@ var in_settings = false
 
 # nexus variables
 var on_nexus = false
-var global_unlocked_players = [true, true, false, false]
 # [player][node]
 var global_unlocked_nodes = [[135, 167, 182], [], [], [], [], [], [], [], [], []]
 var global_unlocked_ability_nodes = [[], [], [], [], [], [], [], [], [], []]
@@ -55,7 +56,7 @@ var nexus_not_randomized = true
 func _process(_delta):
 	if Input.is_action_just_pressed("full_screen"): full_screen_toggle()
 	if Input.is_action_just_pressed("esc"): esc_input()
-	if Input.is_action_just_pressed("display_combat_UI"): display_combat_UI()
+	if Input.is_action_just_pressed("display_combat_UI"): if combat_ui_node != null: combat_ui_node.combat_ui_control_display()
 
 # global inputs
 # toggle full screen
@@ -70,7 +71,7 @@ func full_screen_toggle():
 # esc inputs
 func esc_input():
 	if !game_paused&&settings_able:
-		combat_UI_node.hide()
+		combat_ui_node.hide()
 		options_node.hide()
 		settings_node.show()
 		get_tree().paused = true
@@ -78,17 +79,11 @@ func esc_input():
 		in_settings = true
 	elif settings_able:
 		settings_node.hide()
-		combat_UI_node.show()
+		combat_ui_node.show()
 		options_node.show()
 		get_tree().paused = false
 		game_paused = false
 		in_settings = false
-
-# display combat UI
-func display_combat_UI():
-	if combat_UI_control_node != null&&!in_combat:
-		if combat_UI_control_node.modulate.a != 1.0: combat_UI_control_node.modulate.a = 1.0
-		elif $CombatLeaveCooldown.is_stopped(): combat_UI_control_node.modulate.a = 0.0
 
 func display_nexus():
 	if !in_combat:
@@ -106,50 +101,24 @@ func change_scene(next_scene_path, spawn_number):
 		next_spawn_position = spawn_positions[spawn_number]
 
 func update_nodes():
-	# update scene node
 	current_scene_node = get_parent().get_child(2)
-
-	# update options node
-	options_node = current_scene_node.get_node_or_null("Options")
-
-	# update settings node
 	settings_node = current_scene_node.get_node_or_null("Settings")
-
-	# update combat UI nodes
-	combat_UI_node = current_scene_node.get_node_or_null("CombatUI")
-	combat_UI_control_node = current_scene_node.get_node_or_null("CombatUI/Control")
-
-	PartyStatsComponent.combat_UI_node = combat_UI_node
-	
-	update_player_nodes()
-
-func update_player_nodes():
-	# update player nodes
-	players[0] = current_scene_node.get_node_or_null("Player1")
-	players[1] = current_scene_node.get_node_or_null("Player2")
-	players[2] = current_scene_node.get_node_or_null("Player3")
-	players[3] = current_scene_node.get_node_or_null("Player4")
-
-	# get number of active players
-	active_players = 4
-	for i in 4: if players[i] == null: active_players -= 1
-
-	PartyStatsComponent.update_nodes()
+	combat_ui_node = current_scene_node.get_node_or_null("CombatUI")
+	for player in party_player_nodes: player.player_stats_component.combat_ui_node = combat_ui_node
 
 func update_main_player(next_main_player):
-	players[current_main_player].get_node("Camera2D").reparent(players[next_main_player])
-	players[current_main_player].current_main = false
-	players[next_main_player].current_main = true
-	current_main_player = next_main_player
-	players[current_main_player].get_node("Camera2D").position = Vector2.ZERO
+	party_player_nodes[current_main_player_index].get_node("Camera2D").reparent(party_player_nodes[next_main_player])
+	party_player_nodes[current_main_player_index].get_node("Camera2D").position = Vector2.ZERO
+	party_player_nodes[current_main_player_index].current_main = false
+	party_player_nodes[next_main_player].current_main = true
+	current_main_player_index = next_main_player
 
 func enter_combat():
 	if !in_combat:
 		in_combat = true
 		if $CombatLeaveCooldown.is_stopped():
 			# fade in combat UI
-			tween = get_tree().create_tween()
-			await tween.tween_property(combat_UI_control_node, "modulate:a", 1, 0.2).finished
+			combat_ui_node.combat_ui_control_tween(1)
 			##### begin combat bgm
 		else:
 			$CombatLeaveCooldown.stop()
@@ -165,8 +134,7 @@ func _on_combat_leave_cooldown_timeout():
 	if enemies_in_combat.is_empty(): leave_combat()
 	if !in_combat:
 		# fade out cmobat UI
-		tween = get_tree().create_tween()
-		await tween.tween_property(combat_UI_control_node, "modulate:a", 0, 0.2).finished
+		combat_ui_node.combat_ui_control_tween(0)
 		##### return to scene bgm
 
 func update_stats(_player):

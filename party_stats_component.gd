@@ -18,14 +18,14 @@ var stamina_slow_recovery = [false, false, false, false]
 
 var bar_percentage = 1.0
 
-var combat_UI_node
+var combat_ui_node
 
 # death update
 @onready var death_timers = [$DeathTimer1, $DeathTimer2, $DeathTimer3, $DeathTimer4]
 var dying = []
 
 # recover stamina every physics frame
-func _physics_process(_delta):
+func _physics_process(delta):
 	for i in active_players:
 		if stamina[i] == max_stamina[i]:stamina_bar[i].visible = false
 		else: update_stamina_bar(i)
@@ -67,7 +67,7 @@ func update_health_bar(player):
 		stamina[player] = max_stamina[player]
 		stamina_bar[player].visible = false
 
-		combat_UI_node.health_UI_update(player)
+		combat_ui_node.health_ui_update(player)
 		
 		if GlobalSettings.current_main_player == player:
 			for i in 4:

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://wsunon4ilt68"]
 
-[ext_resource type="Script" path="res://scripts/user_interfaces_scripts/holo_nexus_UI.gd" id="1_602ku"]
+[ext_resource type="Script" path="res://scripts/user_interfaces_scripts/holo_nexus_ui.gd" id="1_602ku"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_01no7"]
 bg_color = Color(0.235294, 0.235294, 0.235294, 0.709804)

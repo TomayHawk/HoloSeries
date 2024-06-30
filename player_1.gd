@@ -1,10 +1,10 @@
 extends CharacterBody2D
 
-@export var speed = 150
+@export var speed = 200
 @export var dash_speed = 500
 @export var sprint_multiplier = 1.5
 
-@onready var CombatUI = get_parent().get_node("CombatUI")
+@onready var combat_ui_node = get_parent().get_node("CombatUI")
 
 var attack_ready = true
 
@@ -14,7 +14,7 @@ var enemy_body
 var dash_ready = true
 var sprinting = false
 
-var current_main = false
+var current_main = true
 @onready var active_player_node = get_parent().get_node("Player1")
 var move_direction = Vector2.ZERO
 var last_move_direction = Vector2.ZERO
@@ -36,22 +36,25 @@ var target_enemy_number = -1
 var ally_attack_ready = true
 
 func _ready():
-	PartyStatsComponent.stamina[1] = PartyStatsComponent.max_stamina[1]
-	PartyStatsComponent.stamina_slow_recovery[1] = false
+	PartyStatsComponent.stamina[0] = PartyStatsComponent.max_stamina[0]
+	PartyStatsComponent.stamina_slow_recovery[0] = false
 	dash_ready = true
 	$Animation.play("front_idle")
 
 func _physics_process(_delta):
 	if current_main:
 		if attack_ready&&Input.is_action_just_pressed("attack"): attack()
-		if Input.is_action_pressed("dash")&&!PartyStatsComponent.stamina_slow_recovery[1]&&PartyStatsComponent.stamina[1] > 0:
+
+		# dash / sprint
+		# if not in slow recovery and positive stamina, dash with cooldown or continue sprinting after dash.
+		if Input.is_action_pressed("dash")&&!PartyStatsComponent.stamina_slow_recovery[0]&&PartyStatsComponent.stamina[0] > 0:
 			if dash_ready&&Input.is_action_just_pressed("dash"):
-				PartyStatsComponent.stamina[1] -= 35
+				PartyStatsComponent.stamina[0] -= 35
 				dash()
 			else:
-				PartyStatsComponent.stamina[1] -= 0.7
+				PartyStatsComponent.stamina[0] -= 0.7
 				sprinting = true
-		else: sprinting = false
+		else: sprinting = false # if stamina <= 0, stop sprinting
 		movement_input()
 	elif GlobalSettings.in_combat:
 		choose_enemy()
@@ -81,8 +84,8 @@ func _physics_process(_delta):
 	choose_animation()
 	move_and_slide()
 
-	PartyStatsComponent.update_health_bar(1)
-	CombatUI.health_UI_update(1)
+	PartyStatsComponent.update_health_bar(0)
+	combat_ui_node.health_ui_update(0)
 
 #8-way movement inputs
 ##### optimized (temporarily)
@@ -168,17 +171,23 @@ func choose_animation():
 				$Animation.play("back_attack")
 	else:
 		if moving:
-			if move_direction.x != 0:
-				$Animation.play("side_walk")
-				$Animation.flip_h = move_direction.x < 0
+			if move_direction.x > 0:
+				$Animation.flip_h = false
+				$Animation.play("right_walk")
+			elif move_direction.x < 0:
+				$Animation.flip_h = false
+				$Animation.play("left_walk")
 			elif move_direction.y > 0:
 				$Animation.play("front_walk")
 			else:
 				$Animation.play("back_walk")
 		else:
 			if abs(last_move_direction.x) >= abs(last_move_direction.y):
-				$Animation.play("side_idle")
-				$Animation.flip_h = last_move_direction.x < 0
+				$Animation.flip_h = false
+				if last_move_direction.x > 0:
+					$Animation.play("right_idle")
+				else:
+					$Animation.play("left_idle")
 			elif last_move_direction.y > 0:
 				$Animation.play("front_idle")
 			else:
@@ -202,8 +211,8 @@ func attack():
 	$AttackShape.force_shapecast_update()
 	if $AttackShape.is_colliding():
 		enemy_body = $AttackShape.get_collider(0).get_parent()
-		if !dash_ready: enemy_body.take_damage(1, 50)
-		else: enemy_body.take_damage(1, 20)
+		if !dash_ready: enemy_body.take_damage(0, 50)
+		else: enemy_body.take_damage(0, 20)
 
 func dash():
 	dash_ready = false
@@ -233,7 +242,7 @@ func _on_dash_cooldown_timeout():
 	dash_ready = true
 
 func _on_entities_detection_area_body_exited(body):
-	if !current_main&&body == GlobalSettings.players[GlobalSettings.current_main_player]&&PartyStatsComponent.alive[1]:
+	if !current_main&&body == GlobalSettings.players[GlobalSettings.current_main_player]&&PartyStatsComponent.alive[0]:
 		position = GlobalSettings.players[GlobalSettings.current_main_player].position + Vector2(20 + (10 * randf_range(0, 1)), 20 + (10 * randf_range(0, 1)))
 		close_to_main = true
 		direction_ready = true
@@ -267,5 +276,5 @@ func _on_ally_attack_cooldown_timeout():
 func _on_combat_hit_box_area_input_event(_event_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if !current_main&&PartyStatsComponent.alive[1]:
-				GlobalSettings.update_main_player(1)
+			if !current_main&&PartyStatsComponent.alive[0]:
+				GlobalSettings.update_main_player(0)

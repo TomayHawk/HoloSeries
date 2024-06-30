@@ -1,22 +1,12 @@
-[gd_scene load_steps=25 format=3 uid="uid://cavwjdaqys1r6"]
+[gd_scene load_steps=15 format=3 uid="uid://cavwjdaqys1r6"]
 
-[ext_resource type="PackedScene" uid="uid://p1ykej18ur03" path="res://entities/npcs/npc_korone.tscn" id="1_2yygs"]
 [ext_resource type="Script" path="res://scripts/scenes_scripts/dungeon_scene_1.gd" id="1_qkpt5"]
-[ext_resource type="PackedScene" uid="uid://cm2tllrvhawlt" path="res://entities/npcs/npc_fubuki.tscn" id="2_26t7h"]
 [ext_resource type="Texture2D" uid="uid://krbcbovqyxyj" path="res://art/tileSets/dungeon_1.png" id="2_wneuc"]
 [ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tileSets/physics.png" id="3_cfs1g"]
-[ext_resource type="PackedScene" uid="uid://bqqgl42tyhde6" path="res://entities/npcs/npc_subaru.tscn" id="3_rso7h"]
-[ext_resource type="PackedScene" uid="uid://cqxp404joem6o" path="res://entities/npcs/npc_mio.tscn" id="4_4xut7"]
-[ext_resource type="PackedScene" uid="uid://df670r6ewbkov" path="res://entities/npcs/npc_kaela.tscn" id="5_fkm4l"]
-[ext_resource type="PackedScene" uid="uid://2elxv48r0bg" path="res://entities/npcs/npc_aqua.tscn" id="6_pbrqa"]
-[ext_resource type="PackedScene" uid="uid://ccabvyelh3kei" path="res://entities/npcs/npc_shion.tscn" id="7_ivfy0"]
-[ext_resource type="PackedScene" uid="uid://dlmb25heo0fti" path="res://entities/player_1.tscn" id="10_rpbdl"]
-[ext_resource type="PackedScene" uid="uid://cdir8ktknml01" path="res://entities/player_2.tscn" id="11_uj5w1"]
 [ext_resource type="PackedScene" uid="uid://cgwg615uwmnap" path="res://user_interfaces/combat_UI.tscn" id="11_wnd54"]
-[ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/nousagi.tscn" id="12_hviyt"]
+[ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/nousagi.tscn" id="12_hviyt"]
 [ext_resource type="PackedScene" uid="uid://bfgttyngrxknk" path="res://user_interfaces/text_box.tscn" id="12_oq1h2"]
-[ext_resource type="PackedScene" uid="uid://bswhy46f3hcib" path="res://user_interfaces/options.tscn" id="14_sx4vj"]
-[ext_resource type="PackedScene" uid="uid://cf2ifm4k70avn" path="res://scenes/settings.tscn" id="17_1cdko"]
+[ext_resource type="PackedScene" uid="uid://cf2ifm4k70avn" path="res://scenes/game_settings.tscn" id="17_1cdko"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o84oa"]
 texture = ExtResource("2_wneuc")
@@ -335,55 +325,32 @@ collision_layer = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldScene2Transit"]
 shape = SubResource("RectangleShape2D_qojuv")
 
-[node name="NpcKorone" parent="." instance=ExtResource("1_2yygs")]
-position = Vector2(-120, 0)
-
-[node name="NpcFubuki" parent="." instance=ExtResource("2_26t7h")]
-position = Vector2(-80, -64)
-
-[node name="NpcSubaru" parent="." instance=ExtResource("3_rso7h")]
-position = Vector2(-40, 0)
-
-[node name="NpcMio" parent="." instance=ExtResource("4_4xut7")]
-position = Vector2(0, -64)
-
-[node name="NpcKaela" parent="." instance=ExtResource("5_fkm4l")]
-position = Vector2(40, 0)
-
-[node name="NpcAqua" parent="." instance=ExtResource("6_pbrqa")]
-position = Vector2(80, -64)
-
-[node name="NpcShion" parent="." instance=ExtResource("7_ivfy0")]
-position = Vector2(120, 0)
-
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-280, -44.5)
-shape = SubResource("RectangleShape2D_pan47")
-
-[node name="Player1" parent="." instance=ExtResource("10_rpbdl")]
-modulate = Color(0.903598, 0.903598, 0.903598, 1)
-position = Vector2(0, 53)
-
-[node name="Camera2D" type="Camera2D" parent="Player1"]
-
-[node name="Player2" parent="." instance=ExtResource("11_uj5w1")]
+[node name="Players" type="Node2D" parent="."]
 
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Nousagi" parent="Enemies" instance=ExtResource("12_hviyt")]
 position = Vector2(-368, -6)
 
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="Chest" type="StaticBody2D" parent="Entities"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Chest"]
+position = Vector2(-280, -44.5)
+shape = SubResource("RectangleShape2D_pan47")
+
 [node name="Abilities" type="Node2D" parent="."]
 
 [node name="CombatUI" parent="." instance=ExtResource("11_wnd54")]
+visible = false
 
 [node name="TextBox" parent="." instance=ExtResource("12_oq1h2")]
-
-[node name="Options" parent="." instance=ExtResource("14_sx4vj")]
-
-[node name="Settings" parent="." instance=ExtResource("17_1cdko")]
 visible = false
+
+[node name="GameSettings" parent="." instance=ExtResource("17_1cdko")]
+visible = false
+
+[node name="Camera2D" type="Camera2D" parent="."]
 
 [connection signal="body_entered" from="WorldScene2Transit" to="." method="_on_world_scene_2_transit_body_entered"]

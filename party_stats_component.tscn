@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://7k2ggxkhlakw"]
 
-[ext_resource type="Script" path="res://scripts/components_scripts/party_stats_component.gd" id="1_80c5x"]
+[ext_resource type="Script" path="res://party_stats_component.gd" id="1_j88n1"]
 
 [node name="PartyStatsComponent" type="Node"]
-script = ExtResource("1_80c5x")
+script = ExtResource("1_j88n1")
 
 [node name="NaturalRegeneration" type="Timer" parent="."]
 wait_time = 5.0
