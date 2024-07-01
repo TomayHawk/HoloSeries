@@ -9,7 +9,8 @@ var current_player
 var move_direction
 
 func _ready():
-	current_player = PartyStatsComponent.players[GlobalSettings.current_main_player]
+	animation_node.play("shoot")
+	current_player = GlobalSettings.party_player_nodes[GlobalSettings.current_main_player_index]
 	move_direction = current_player.move_direction
 	
 	var nearest_enemy = find_nearest_enemy()
@@ -21,13 +22,11 @@ func _ready():
 	elif move_direction != Vector2.ZERO: # shoot at player default facing direction
 		velocity = move_direction * speed
 	else: # shoot at player attack direction?? when current player is not moving
-		print (current_player.last_move_direction)
-		velocity = current_player.last_move_direction * speed 
+		print(current_player.last_move_direction)
+		velocity = current_player.last_move_direction * speed
 
 func _physics_process(_delta):
 	move_and_slide()
-	$AnimatedSprite2D.play("shoot")
-
 
 func _on_visible_on_screen_enabler_2d_screen_exited():
 	queue_free()

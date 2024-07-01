@@ -104,6 +104,9 @@ func choose_enemy(chosen_enemy_node):
 	call(chosen_ability, chosen_enemy_node)
 	choosing_enemy = false
 
+func regen():
+	abilities_node.start_regen()
+
 # use items
 func use_potion(chosen_player_node):
 	chosen_player_node.player_stats_node.health += 25

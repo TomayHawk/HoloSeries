@@ -1,7 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://dloiivto6pr0f"]
+[gd_scene load_steps=12 format=3 uid="uid://dloiivto6pr0f"]
 
 [ext_resource type="Texture2D" uid="uid://cpkqlu48vt85m" path="res://art/characters/slime.png" id="1_boyp2"]
 [ext_resource type="Script" path="res://scripts/entities_scripts/abilities_scripts/fireball.gd" id="1_g8rfi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_emmkl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i3foy"]
 atlas = ExtResource("1_boyp2")
@@ -53,28 +55,28 @@ animations = [{
 "speed": 3.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_lwdst"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_tjnnp"]
 
 [node name="Fireball" type="CharacterBody2D"]
 collision_layer = 0
-collision_mask = 0
+collision_mask = 72
 script = ExtResource("1_g8rfi")
+damage = null
+speed = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_emmkl")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_55pnf")
 animation = &"shoot"
 
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(1.5, 1.5)
+shape = SubResource("CircleShape2D_tjnnp")
+
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
 
-[node name="checker" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 72
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="checker"]
-shape = SubResource("CircleShape2D_lwdst")
-
 [connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
-[connection signal="body_entered" from="checker" to="." method="_on_checker_body_entered"]
-[connection signal="body_entered" from="checker" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="checker" to="." method="_on_area_2d_body_exited"]
-[connection signal="body_shape_entered" from="checker" to="." method="_on_area_2d_body_shape_entered"]

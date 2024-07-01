@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var speed = 75
 @onready var nav_agent = $NavigationAgent2D
+@onready var animation_node = $Animation
 
 # nousagi animation information
 var current_animation = null
@@ -9,17 +10,16 @@ var current_frame = 0
 var last_frame = 1
 
 # player information
-var detected_players = [null, null, null, null]
-var players_in_area = [false, false, false, false]
-var players_exist_in_area = false
-var players_in_attack_area = [false, false, false, false]
+var players_exist_in_detection_area = false
+var player_nodes_in_detection_area = []
 var players_exist_in_attack_area = false
+var player_nodes_in_attack_area = []
 
 # target directions
 var move_direction = Vector2.ZERO
 var player_direction = Vector2.ZERO
 var target_player_health = 100000
-var target_player = -1
+var target_player_node = -1
 
 # status
 var attack_ready = true
@@ -33,55 +33,55 @@ var nousagi_instance = null
 
 func _ready():
 	$EnemiesHealthComponent.create_enemy()
-	$Animation.play("walk")
+	animation_node.play("walk")
 	add_to_group("enemies")
 
 func _physics_process(_delta):
-	current_animation = $Animation.get_animation()
-	current_frame = $Animation.get_frame()
+	current_animation = animation_node.get_animation()
+	current_frame = animation_node.get_frame()
 	
 	choose_player()
 
 	if current_frame != last_frame:
 		if current_frame == 0:
-			for i in GlobalSettings.active_players: if !PartyStatsComponent.alive[i]&&detected_players[i] != null:
-				_on_detection_area_body_exited(detected_players[i])
-				_on_attack_area_body_exited(detected_players[i])
+			for player_node in player_nodes_in_detection_area:
+				if !player_node.player_stats_node.alive:
+					_on_detection_area_body_exited(player_node)
+					_on_attack_area_body_exited(player_node)
 			velocity = Vector2(0, 0)
 			if players_exist_in_attack_area:
-				if attack_ready: $Animation.play("attack")
-				else: $Animation.play("idle")
+				if attack_ready: animation_node.play("attack")
+				else: animation_node.play("idle")
 			else:
-				if detected_players[target_player] != null: nav_agent.target_position = detected_players[target_player].position
-				$Animation.play("walk")
-				if players_exist_in_area: move_direction = to_local(nav_agent.get_next_path_position()).normalized()
+				if target_player_node != null: nav_agent.target_position = target_player_node.position
+				animation_node.play("walk")
+				if players_exist_in_detection_area: move_direction = to_local(nav_agent.get_next_path_position()).normalized()
 				else: move_direction = Vector2(randf_range( - 1, 1), randf_range( - 1, 1)).normalized()
-				$Animation.flip_h = move_direction.x < 0
+				animation_node.flip_h = move_direction.x < 0
 		elif current_frame == 3:
 			if current_animation == "attack":
-				if players_exist_in_attack_area&&detected_players[target_player] != null:
-					PartyStatsComponent.take_damage(target_player, 100) # attack player (damage)
-					player_direction = (detected_players[target_player].position - position).normalized()
-					$Animation.flip_h = player_direction.x < 0
-				$AttackCooldown.set_wait_time(randf_range(1, 3))
-				$AttackCooldown.start()
+				if players_exist_in_attack_area&&target_player_node != null:
+					target_player_node.player_stats_node.take_damage(100) # attack player (damage)
+					player_direction = (target_player_node.position - position).normalized()
+					animation_node.flip_h = player_direction.x < 0
+				$AttackCooldown.start(randf_range(1, 3))
 				attack_ready = false
 			elif current_animation == "walk":
 				velocity = move_direction * speed
 		if players_exist_in_attack_area: velocity = Vector2(0, 0)
 	
 	if dying:
-		$Animation.play("death")
+		animation_node.play("death")
 		velocity = player_direction * (-100)
 		if $KnockbackTimer.get_time_left() <= 0.1: queue_free()
 	elif taking_knockback:
-		$Animation.play("idle")
+		animation_node.play("idle")
 		velocity = player_direction * (-200) * (1 - (0.4 - $KnockbackTimer.get_time_left()) / 0.4)
 	elif current_animation == "idle":
-		if detected_players[target_player] != null: $Animation.flip_h = (detected_players[target_player].position - position).x < 0
-		if players_exist_in_attack_area&&attack_ready: $Animation.play("attack")
+		if target_player_node != null: animation_node.flip_h = (target_player_node.position - position).x < 0
+		if players_exist_in_attack_area&&attack_ready: animation_node.play("attack")
 		elif !players_exist_in_attack_area:
-			$Animation.play("walk")
+			animation_node.play("walk")
 
 	$EnemiesHealthComponent.health_bar_update()
 	move_and_slide()
@@ -90,75 +90,67 @@ func _physics_process(_delta):
 
 func choose_player():
 	target_player_health = 100000
-	target_player = -1
+	target_player_node = null
 
-	if players_exist_in_attack_area: for i in 4:
-		if players_in_attack_area[i]&&target_player_health > PartyStatsComponent.health[i]:
-			# using health to choose target player
-			target_player_health = PartyStatsComponent.health[i]
-			target_player = i
-	elif players_exist_in_area: for i in 4:
-		if players_in_area[i]&&target_player_health > PartyStatsComponent.health[i]:
-			# using health to choose target player
-			target_player_health = PartyStatsComponent.health[i]
-			target_player = i
+	if players_exist_in_attack_area:
+		for player_node in player_nodes_in_attack_area:
+			if target_player_health > player_node.player_stats_node.health:
+				# using health to choose target player
+				target_player_health = player_node.player_stats_node.health
+				target_player_node = player_node
+	elif players_exist_in_detection_area:
+		for player_node in player_nodes_in_detection_area:
+			if target_player_health > player_node.player_stats_node.health:
+				# using health to choose target player
+				target_player_health = player_node.player_stats_node.health
+				target_player_node = player_node
+
+func summon_attack():
+	nousagi_instance = nousagi_load.instantiate()
+	get_parent().add_child(nousagi_instance)
+	nousagi_instance.position = position + Vector2(5 * randf_range( - 1, 1), 5 * randf_range( - 1, 1)) * 5
 
 func take_damage(player_number, damage):
 	$EnemiesHealthComponent.deal_damage(damage)
 	player_direction = (GlobalSettings.players[player_number].position - position).normalized()
-	$KnockbackTimer.set_wait_time(0.4)
-	$KnockbackTimer.start()
+	$KnockbackTimer.start(0.4)
 
 func _on_detection_area_body_entered(body):
-	for i in 4: if body == GlobalSettings.players[i]&&PartyStatsComponent.alive[i]:
-		detected_players[i] = body
-		players_in_area[i] = true
-		players_exist_in_area = true
+	if body.player_stats_node.alive:
 		GlobalSettings.enter_combat()
-		$SummonNousagiTimer.set_wait_time(randf_range(15, 20))
-		$SummonNousagiTimer.start()
-	GlobalSettings.enemies_in_combat.push_back(self)
+		players_exist_in_detection_area = true
+		if !GlobalSettings.enemies_in_combat.has(self): GlobalSettings.enemies_in_combat.push_back(self)
+		if !player_nodes_in_detection_area.has(self): player_nodes_in_detection_area.push_back(body)
 
 func _on_detection_area_body_exited(body):
-	for i in 4: if body == GlobalSettings.players[i]:
-		detected_players[i] = null
-		players_in_area[i] = false
-		players_exist_in_area = false
-		GlobalSettings.leave_combat()
-		for j in 4: if players_in_area[j]:
-			players_exist_in_area = true
-			GlobalSettings.enter_combat()
-		$SummonNousagiTimer.stop()
 	GlobalSettings.enemies_in_combat.erase(self)
+	player_nodes_in_detection_area.erase(body)
+	player_nodes_in_attack_area.erase(body)
+
 	if GlobalSettings.enemies_in_combat.is_empty(): GlobalSettings.leave_combat()
+	if player_nodes_in_detection_area.is_empty(): players_exist_in_detection_area = false
 
 func _on_attack_area_body_entered(body):
-	for i in 4: if body == detected_players[i]&&PartyStatsComponent.alive[i]:
-		players_in_attack_area[i] = true
+	if body.player_stats_node.alive:
+		GlobalSettings.enter_combat()
+		players_exist_in_detection_area = true
 		players_exist_in_attack_area = true
+		if !GlobalSettings.enemies_in_combat.has(self): GlobalSettings.enemies_in_combat.push_back(self)
+		if !player_nodes_in_detection_area.has(self): player_nodes_in_detection_area.push_back(body)
+		if !player_nodes_in_attack_area.has(self): player_nodes_in_attack_area.push_back(body)
 
 func _on_attack_area_body_exited(body):
-	for i in 4: if body == detected_players[i]:
-		players_in_attack_area[i] = false
-		players_exist_in_attack_area = false
-		for j in 4: if players_in_attack_area[j]:
-			players_exist_in_attack_area = true
+	player_nodes_in_attack_area.erase(body)
+
+	if player_nodes_in_attack_area.is_empty(): players_exist_in_attack_area = false
 
 func _on_attack_cooldown_timeout():
 	attack_ready = true
 
 func _on_knockback_timer_timeout():
 	if taking_knockback&&!dying:
-		$Animation.play("walk")
+		animation_node.play("walk")
 	taking_knockback = false
 
 func _on_summon_nousagi_timer_timeout():
-	var i = 4
-	#var i = 3
-	#var i = randi() % 3
-	# var i = randi() % 10 - 7
-	while i > 0:
-		nousagi_instance = nousagi_load.instantiate()
-		get_parent().add_child(nousagi_instance)
-		nousagi_instance.position = position + Vector2(5 * randf_range( - 1, 1), 5 * randf_range( - 1, 1)) * 5
-		i -= 1
+	var i = randi() % 10 - 7

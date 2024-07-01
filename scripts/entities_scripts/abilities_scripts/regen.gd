@@ -1,45 +1,38 @@
 extends Node2D
-@export var regen_time = 2.0
-@export var regen_time_gap = 0.5
-@export var heal_percentage = 0.2 
 
-var heal_amount
+@onready var caster_node = GlobalSettings.current_main_player_node
 
-var total_healed
-var regen_timer
+@onready var abilities_node = get_parent()
+@onready var regen_timer_node = $Timer
 
-var current_player
-var player_max_health
+var target_player_node = null
+var target_player_stats_node = null
 
-var regen_per_tick
+# 7 times
+var regen_count = 7
+# 4 seconds intervals
+var regen_time_intervals = 4
+# 3% each time
+var heal_percentage = 0.02
+var caster_magic_defence_multiplier_percentage = caster_node.player_stats_node.magic_defence *
+var heal_amount = 10
+# total: 21% over 28 seconds
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	regen_timer = $Timer
-	regen_timer.wait_time = regen_time_gap
-	
-	current_player = GlobalSettings.current_main_player
-	player_max_health = PartyStatsComponent.max_health[GlobalSettings.current_main_player]
-	
-	heal_amount = player_max_health * heal_percentage
-	total_healed = 0
-	regen_per_tick = heal_amount * regen_time_gap / regen_time
+	abilities_node.request_player(self)
 
-	regen_timer.start()
-	set_process(true)
-	
+func update_nodes(player_node):
+	target_player_node = player_node
+	target_player_stats_node = target_player_node.player_stats_node
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	if total_healed >= heal_amount:
-		regen_timer.stop()
-		print("timer stopped")
-		queue_free()
-		
+	heal_amount = target_player_stats_node.max_health * heal_percentage
+	# 70 HP to 1470 HP (max at 7000 HP)
+	clamp(heal_amount, 10, 210)
+
+	regen_timer_node.start(4)
 
 func _on_timer_timeout():
-	total_healed += regen_per_tick
-	PartyStatsComponent.health[current_player] += regen_per_tick
-	if PartyStatsComponent.health[current_player] > player_max_health:
-		PartyStatsComponent.health[current_player] = player_max_health
+	target_player_stats_node.update_health(heal_amount * randf_range(0.8, 1.2))
+	regen_count -= 1
+	if regen_count == 0:
 		queue_free()

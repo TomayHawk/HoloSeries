@@ -59,6 +59,7 @@ func update_health_bar():
 		else: health_bar_node.modulate = Color(1, 0, 0, 1)
 
 func update_mana_bar():
+	mana += 0.5
 	clamp(mana, 0, max_stamina)
 	mana_bar_node.value = mana
 
@@ -82,3 +83,8 @@ func update_stamina_bar():
 func take_damage(amount):
 	if alive: health -= amount
 	update_health_bar()
+
+func update_health(amount):
+	if alive:
+		health += amount
+		update_health_bar()

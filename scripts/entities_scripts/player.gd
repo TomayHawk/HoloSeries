@@ -167,13 +167,11 @@ func ally_movement(delta):
 	velocity = current_move_direction * speed * delta
 	if close_to_current_main_player: velocity /= 1.5
 
-	ally_direction_cooldown_node.set_wait_time(randf_range(0.3, 0.5))
-	ally_direction_cooldown_node.start()
+	ally_direction_cooldown_node.start(randf_range(0.3, 0.5))
 
 func dash():
 	dashing = true
-	dash_cooldown_node.set_wait_time(0.2)
-	dash_cooldown_node.start()
+	dash_cooldown_node.start(0.2)
 
 # combat functions
 func attack():
@@ -182,13 +180,11 @@ func attack():
 	if is_current_main_player: attack_direction = (get_global_mouse_position() - position).normalized()
 	else:
 		ally_attack_ready = false
-		ally_attack_cooldown_node.set_wait_time(randf_range(3, 4))
-		ally_attack_cooldown_node.start()
+		ally_attack_cooldown_node.start(randf_range(3, 4))
 	
 	attack_shape_node.set_target_position(attack_direction * 20)
-	
-	attack_cooldown_node.set_wait_time(0.8)
-	attack_cooldown_node.start()
+
+	attack_cooldown_node.start(0.8)
 	attack_shape_node.force_shapecast_update()
 
 	var enemy_body = null
@@ -227,35 +223,57 @@ func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 			elif !is_current_main_player&&player_stats_node.alive:
 				player_stats_node.update_main_player(player_index)
 
-func _on_entities_detection_area_body_exited(body: Node2D):
-	pass # Replace with function body.
+func _on_entities_detection_area_body_exited(body):
+	if !is_current_main_player&&body == current_player_node&&player_stats_node.alive:
+		position = body.position + Vector2(20 + (10 * randf_range(0, 1)), 20 + (10 * randf_range(0, 1)))
+		close_to_current_main_player = true
 
-func _on_inner_entities_detection_area_body_exited(body: Node2D):
-	pass # Replace with function body.
+func _on_inner_entities_detection_area_body_entered(body):
+	if !is_current_main_player&&body == current_player_node:
+		close_to_current_main_player = true
 
-func _on_inner_entities_detection_area_body_entered(body: Node2D):
-	pass # Replace with function body.
+func _on_inner_entities_detection_area_body_exited(body):
+	if !is_current_main_player&&body == current_player_node&&!GlobalSettings.in_combat:
+		if $PauseTimer.is_inside_tree():
+			$PauseTimer.start(0.5)
+		is_current_main_player = false
 
-func _on_interaction_area_body_entered(body: Node2D):
-	pass # Replace with function body.
+func _on_interaction_area_body_entered(body):
+	# npc can be interacted
+	if body.has_method("area_status"):
+		body.area_status(true)
+	# enemy is inside attack
+	elif !is_current_main_player&&body.has_method("choose_player"):
+		ally_enemy_nodes_in_attack_area.push_back(body)
+		ally_enemy_in_attack_area = true
 
-func _on_interaction_area_body_exited(body: Node2D):
-	pass # Replace with function body.
+func _on_interaction_area_body_exited(body):
+	# npc cannot be interacted
+	if body.has_method("area_status"):
+		body.area_status(false)
+	# enemy is outside attack area
+	elif !is_current_main_player&&body.has_method("choose_player"):
+		ally_enemy_nodes_in_attack_area.erase(body)
+		if ally_enemy_nodes_in_attack_area.is_empty(): ally_enemy_in_attack_area = false
 
 func _on_attack_cooldown_timeout():
-	pass # Replace with function body.
+	attacking = false
 
 func _on_dash_cooldown_timeout():
-	pass # Replace with function body.
+	dashing = false
 
 func _on_ally_attack_cooldown_timeout():
-	pass # Replace with function body.
+	if close_to_current_main_player:
+		ally_direction_ready = false
+		ally_pause_timer_node.start(randf_range(2, 3))
+	else:
+		ally_direction_ready = true
 
 func _on_ally_direction_cooldown_timeout():
-	pass # Replace with function body.
+	velocity = Vector2(0, 0)
 
 func _on_ally_pause_timer_timeout():
-	pass # Replace with function body.
+	ally_direction_ready = true
 
 func _on_death_timer_timeout():
 	animation_node.pause()

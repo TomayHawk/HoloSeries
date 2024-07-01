@@ -14,9 +14,6 @@ var tween
 
 # update nodes and disable text on ready
 func _ready():
-	GlobalSettings.update_nodes()
-	for i in GlobalSettings.active_players:
-		player_anim_node[i] = GlobalSettings.players[i].get_node("Animation")
 	hide_text()
 	set_process(false)
 
@@ -42,15 +39,15 @@ func start_text():
 	set_process(true)
 	GlobalSettings.settings_able = false
 
-	for i in GlobalSettings.active_players:
-		GlobalSettings.players[i].set_physics_process(false)
+	for player_node in GlobalSettings.party_player_nodes:
+		GlobalSettings.player_node.set_physics_process(false)
 
 		#update player animation in case alive and not "idle"
-		if PartyStatsComponent.alive[i]:
-			if GlobalSettings.players[i].last_move_direction.x > 0: player_anim_node[i].play("right_idle")
-			elif GlobalSettings.players[i].last_move_direction.x < 0: player_anim_node[i].play("left_idle")
-			elif GlobalSettings.players[i].last_move_direction.y > 0: player_anim_node[i].play("front_idle")
-			else: player_anim_node[i].play("back_idle")
+		if player_node.player_stats_node.alive:
+			if player_node.last_move_direction.x > 0: player_node.animation_node.play("right_idle")
+			elif player_node.last_move_direction.x < 0: player_node.animation_node.play("left_idle")
+			elif player_node.last_move_direction.y > 0: player_node.animation_node.play("front_idle")
+			else: player_node.animation_node.play("back_idle")
 	
 	textbox_container.show()
 		
@@ -58,7 +55,9 @@ func hide_text():
 	textbox_container.hide()
 	end_symbol.hide()
 	label.text = ""
-	for i in GlobalSettings.active_players: if PartyStatsComponent.alive[i]:GlobalSettings.players[i].set_physics_process(true)
+	for player_node in GlobalSettings.party_player_nodes:
+		if player_node.player_stats_node.alive:
+			player_node.set_physics_process(true)
 	GlobalSettings.settings_able = true
 	set_process(false)
 

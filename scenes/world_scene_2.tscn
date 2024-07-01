@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bspjaws5iswx0"]
+[gd_scene load_steps=17 format=3 uid="uid://bspjaws5iswx0"]
 
 [ext_resource type="Texture2D" uid="uid://bk5fn2u0o5vk6" path="res://art/tileSets/seasonal sample (spring).png" id="1_7s6yp"]
 [ext_resource type="Script" path="res://scripts/scenes_scripts/world_scene_2.gd" id="1_t7xfg"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bfgttyngrxknk" path="res://user_interfaces/text_box.tscn" id="4_olirc"]
 [ext_resource type="PackedScene" uid="uid://cgwg615uwmnap" path="res://user_interfaces/combat_UI.tscn" id="5_ojw1m"]
 [ext_resource type="PackedScene" uid="uid://dlxkifgl6lq80" path="res://entities/npcs/npc_kobo.tscn" id="5_poic2"]
+[ext_resource type="Script" path="res://scripts/components_scripts/abilities.gd" id="6_n24jh"]
 [ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/nousagi.tscn" id="9_do2gu"]
 [ext_resource type="PackedScene" uid="uid://cf2ifm4k70avn" path="res://scenes/game_settings.tscn" id="11_ojgko"]
 
@@ -98,23 +99,30 @@ y_sort_enabled = true
 
 [node name="Nousagi" parent="Enemies" instance=ExtResource("9_do2gu")]
 position = Vector2(249, -35)
+speed = 75
 
 [node name="Nousagi2" parent="Enemies" instance=ExtResource("9_do2gu")]
 position = Vector2(296, 73)
+speed = 75
 
 [node name="Nousagi3" parent="Enemies" instance=ExtResource("9_do2gu")]
 position = Vector2(373, -25)
+speed = 75
 
 [node name="Nousagi4" parent="Enemies" instance=ExtResource("9_do2gu")]
 position = Vector2(339, -128)
+speed = 75
 
 [node name="Nousagi5" parent="Enemies" instance=ExtResource("9_do2gu")]
 position = Vector2(403, 50)
+speed = 75
 
 [node name="Nousagi6" parent="Enemies" instance=ExtResource("9_do2gu")]
 position = Vector2(453, -79)
+speed = 75
 
 [node name="Abilities" type="Node2D" parent="."]
+script = ExtResource("6_n24jh")
 
 [node name="CombatUI" parent="." instance=ExtResource("5_ojw1m")]
 visible = false

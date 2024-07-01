@@ -4,7 +4,7 @@ extends Node
 var currently_full_screen = false
 
 # scene variables
-@onready var current_scene_node = get_parent().get_child(2)
+@onready var current_scene_node = get_parent().get_child(1)
 
 # player variables
 '''
@@ -12,10 +12,10 @@ var currently_full_screen = false
 1 = AZKi
 '''
 var global_unlocked_players = [true, true, false, false]
-@onready var player_animations_load = [load("res://components/player_animations/sora_animation.tscn"),
-									   load("res://components/player_animations/azki_animation.tscn")]
+@onready var player_animations_load = [load("res://resources/player_animations/sora_animation.tscn"),
+									   load("res://resources/player_animations/azki_animation.tscn")]
 var party_player_nodes = []
-var current_main_player_index = 0
+var current_main_player_node = null
 var default_max_health = [9999, 999, 999, 999]
 var default_max_mana = [999, 99, 99, 99]
 var default_max_stamina = [100, 100, 100, 100]
@@ -38,16 +38,10 @@ scene spawn locations
 var spawn_positions = [Vector2.ZERO, Vector2(0, -247), Vector2(0, 341), Vector2(31, -103), Vector2(0, 53)]
 var next_spawn_position = Vector2.ZERO
 
-var options_node = null
+var settings_node = null
 var game_paused = false
 
-var settings_node = null
-var settings_able = true
-
-var in_settings = false
-
 # nexus variables
-var on_nexus = false
 # [player][node]
 var global_unlocked_nodes = [[135, 167, 182], [], [], [], [], [], [], [], [], []]
 var global_unlocked_ability_nodes = [[], [], [], [], [], [], [], [], [], []]
@@ -101,17 +95,17 @@ func change_scene(next_scene_path, spawn_number):
 		next_spawn_position = spawn_positions[spawn_number]
 
 func update_nodes():
-	current_scene_node = get_parent().get_child(2)
+	current_scene_node = get_parent().get_child(1)
 	settings_node = current_scene_node.get_node_or_null("Settings")
 	combat_ui_node = current_scene_node.get_node_or_null("CombatUI")
 	for player in party_player_nodes: player.player_stats_component.combat_ui_node = combat_ui_node
 
 func update_main_player(next_main_player):
-	party_player_nodes[current_main_player_index].get_node("Camera2D").reparent(party_player_nodes[next_main_player])
-	party_player_nodes[current_main_player_index].get_node("Camera2D").position = Vector2.ZERO
-	party_player_nodes[current_main_player_index].current_main = false
-	party_player_nodes[next_main_player].current_main = true
-	current_main_player_index = next_main_player
+	current_main_player_node.get_node("Camera2D").reparent(party_player_nodes[next_main_player])
+	current_main_player_node.get_node("Camera2D").position = Vector2.ZERO
+	current_main_player_node.is_current_main_player = false
+	party_player_nodes[next_main_player].is_current_main_player = true
+	current_main_player_node = party_player_nodes[next_main_player]
 
 func enter_combat():
 	if !in_combat:
@@ -127,8 +121,13 @@ func leave_combat():
 	if in_combat:
 		in_combat = false
 		if $CombatLeaveCooldown.is_stopped():
-			$CombatLeaveCooldown.set_wait_time(2)
-			$CombatLeaveCooldown.start()
+			$CombatLeaveCooldown.start(2)
+
+func request_entities(origin_node, request_count, request_type, target_command):
+	pass
+
+func choose_entities(chosen_nodes):
+	pass
 
 func _on_combat_leave_cooldown_timeout():
 	if enemies_in_combat.is_empty(): leave_combat()
