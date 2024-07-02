@@ -251,6 +251,16 @@ func unlock_node():
 						unlockable_instance.position = nexus_nodes[last_node[current_nexus_player]].position
 
 func exit_nexus():
-	GlobalSettings.global_unlocked_nodes = nodes_unlocked.duplicate()
-
+	GlobalSettings.unlocked_nodes = nodes_unlocked.duplicate()
+	for player in GlobalSettings.unlocked_players:
+		for unlocked in nodes_unlocked[player]
+			if unlocked in ability_nodes:
+				if unlocked in ability_nodes:
+					GlobalSettings.unlocked_ability_nodes.push_back(index)
+			for texture_region in node_type_atlas_position:
+				if unlocked.texture.region == texture_region && texture_region != Vector(0, 0):
+					GlobalSettings.unlocked_stats_nodes[player][texture_region.index??] += 1
+					break
+			GlobalSettings.unlocked_stats_nodes = 
 	##### scene change
+

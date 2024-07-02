@@ -19,6 +19,9 @@ var current_main_player_node = null
 var default_max_health = [9999, 999, 999, 10]
 var default_max_mana = [999, 99, 99, 0]
 var default_max_stamina = [100, 100, 100, 100]
+var default_defence = []
+var default_
+############# create dictionary for each character
 
 # combat UI variable
 var combat_ui_node = null
@@ -43,8 +46,9 @@ var game_paused = false
 
 # nexus variables
 # [player][node]
-var global_unlocked_nodes = [[135, 167, 182], [], [], [], [], [], [], [], [], []]
-var global_unlocked_ability_nodes = [[], [], [], [], [], [], [], [], [], []]
+var unlocked_nodes = [[135, 167, 182], [], [], [], [], [], [], [], [], []]
+var unlocked_ability_nodes = [[], [], [], [], [], [], [], [], [], []]
+var unlocked_stats_nodes = [[], [], [], [], [], [], [], [], [], []]
 var nexus_not_randomized = true
 
 # entities requests

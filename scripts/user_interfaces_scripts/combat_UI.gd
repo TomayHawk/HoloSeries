@@ -97,19 +97,19 @@ func regen():
 
 # use items
 func use_potion(chosen_player_node):
-	chosen_player_node.player_stats_node.health += 25
+	chosen_player_node.player_stats_node.update_health(200)
 
 func use_max_potion():
 	for player in GlobalSettings.players:
 		if player.player_stats_node.alive:
-			player.player_stats_node.health = player.player_stats_node.max_health
+			player.player_stats_node.update_health(999)
 	hide_combat_options_2()
 
 func use_phoenix_feather(chosen_player_node):
-	if !chosen_player_node.player_stats_node.alive:
-		chosen_player_node.player_stats_node.alive = true
-		chosen_player_node.player_stats_node.health = chosen_player_node.player_stats_node.max_health * 0.5
-		chosen_player_node.set_physics_process(true)
+	chosen_player_node[0].player_stats_node.alive = true
+	chosen_player_node.set_physics_process(true)
+	chosen_player_node[0].player_stats_node.update_health(chosen_player_node.player_stats_node.max_health * 0.25)
+		
 		################# if !PartyStatsComponent.players[0].check_other_player_distance():
 			############# 	PartyStatsComponent.players[0]._on_entities_detection_area_body_exited(PartyStatsComponent.players[GlobalSettings.current_main_player])
 
