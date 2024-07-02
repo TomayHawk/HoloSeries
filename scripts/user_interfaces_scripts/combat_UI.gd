@@ -58,10 +58,14 @@ func combat_ui_control_tween(target_visibility_value):
 
 # CombatOptions1
 func _on_attack_pressed():
+	GlobalSettings.requesting_entities = false
+	GlobalSettings.entities_available.clear()
 	choosing_player = false
 	choosing_enemy = false
 
 func _on_combat_options_1_pressed(extra_arg_0):
+	GlobalSettings.requesting_entities = false
+	GlobalSettings.entities_available.clear()
 	if combat_options_2_node.visible&&combat_options_2_modes[extra_arg_0].visible: hide_combat_options_2()
 	else:
 		hide_combat_options_2()
@@ -81,28 +85,12 @@ func hide_combat_options_2():
 1: Regen
 '''
 func instantiate_ability(ability_index):
+	GlobalSettings.requesting_entities = false
+	GlobalSettings.entities_available.clear()	
 	var instance = abilities_load[ability_index].instantiate() # create ability instance
 	abilities_node.add_child(instance) # add ability instance to abilities node
 	instance.position = GlobalSettings.players[GlobalSettings.current_main_player].position # determine instance spawn position
 	hide_combat_options_2()
-
-func request_player(extra_arg_0):
-	chosen_ability = extra_arg_0
-	choosing_player = true
-	hide_combat_options_2()
-
-func request_enemy(extra_arg_0):
-	chosen_ability = extra_arg_0
-	choosing_enemy = true
-	hide_combat_options_2()
-
-func choose_player(chosen_player_node):
-	call(chosen_ability, chosen_player_node)
-	choosing_player = false
-
-func choose_enemy(chosen_enemy_node):
-	call(chosen_ability, chosen_enemy_node)
-	choosing_enemy = false
 
 func regen():
 	abilities_node.start_regen()

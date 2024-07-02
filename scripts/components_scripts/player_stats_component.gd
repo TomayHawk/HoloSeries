@@ -80,11 +80,12 @@ func update_stamina_bar():
 	
 	stamina_bar_node.value = stamina
 
-func take_damage(amount):
-	if alive: health -= amount
-	update_health_bar()
-
 func update_health(amount):
 	if alive:
 		health += amount
 		update_health_bar()
+
+func update_mana(amount):
+	if alive:
+		mana += amount
+		update_mana_bar()	

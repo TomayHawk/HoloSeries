@@ -19,10 +19,10 @@ var heal_amount = 10
 # total: 21% over 28 seconds
 
 func _ready():
-	abilities_node.request_player(self)
+	GlobalSettings.request_entities(self, "initiate", "players_alive", 1)
 
-func update_nodes(player_node):
-	target_player_node = player_node
+func initiate(chosen_nodes):
+	target_player_node = chosen_nodes[0]
 	target_player_stats_node = target_player_node.player_stats_node
 
 	heal_amount = target_player_stats_node.max_health * heal_percentage

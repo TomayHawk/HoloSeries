@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @export var speed = 75
-@onready var nav_agent = $NavigationAgent2D
+@onready var navigation_agent_node = $NavigationAgent2D
 @onready var animation_node = $Animation
 
 # nousagi animation information
@@ -19,7 +19,7 @@ var player_nodes_in_attack_area = []
 var move_direction = Vector2.ZERO
 var player_direction = Vector2.ZERO
 var target_player_health = 100000
-var target_player_node = -1
+var target_player_node = null
 
 # status
 var attack_ready = true
@@ -53,9 +53,9 @@ func _physics_process(_delta):
 				if attack_ready: animation_node.play("attack")
 				else: animation_node.play("idle")
 			else:
-				if target_player_node != null: nav_agent.target_position = target_player_node.position
+				if target_player_node != null: navigation_agent_node.target_position = target_player_node.position
 				animation_node.play("walk")
-				if players_exist_in_detection_area: move_direction = to_local(nav_agent.get_next_path_position()).normalized()
+				if players_exist_in_detection_area: move_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
 				else: move_direction = Vector2(randf_range( - 1, 1), randf_range( - 1, 1)).normalized()
 				animation_node.flip_h = move_direction.x < 0
 		elif current_frame == 3:

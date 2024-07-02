@@ -218,8 +218,11 @@ func choose_animation():
 func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if combat_ui_node.choosing_player:
-				combat_ui_node.choose_player(self)
+			if GlobalSettings.requesting_entities && self in GlobalSettings.available_entities:
+				GlobalSettings.chosen_entities.push_back(self)
+				chosen_entities_count += 1
+				if request_entities_count == chosen_entities_count:
+					GlobalSettings.choose_entities()	
 			elif !is_current_main_player&&player_stats_node.alive:
 				player_stats_node.update_main_player(player_index)
 
