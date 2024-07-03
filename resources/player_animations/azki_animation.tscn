@@ -428,7 +428,7 @@ animations = [{
 "speed": 7.0
 }]
 
-[node name="AZKiAnimation" type="AnimatedSprite2D"]
+[node name="Animation" type="AnimatedSprite2D"]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_qsfsi")
 animation = &"front_walk"

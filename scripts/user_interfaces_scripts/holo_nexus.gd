@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var current_nexus_player = GlobalSettings.current_main_player
+@onready var current_nexus_player = GlobalSettings.current_main_player_node
 @onready var unlockable_load = load("res://components/unlockables.tscn")
 var unlockable_instance = null
 
@@ -18,13 +18,18 @@ var nodes_unlockable = [[], [], [], [], [], [], [], [], [], []]
 
 # adjacents and second adjacents
 const adjacents_index = [[ - 32, - 17, - 16, 15, 16, 32], [ - 32, - 16, - 15, 16, 17, 32]]
-						 
-# EMPTY, HP, MP, DEF, SHD, ATK, INT, SPD, AGI
-const node_type_atlas_position = [Vector2(0, 0), Vector2(0, 32), Vector2(32, 32), Vector2(64, 32), Vector2(96, 32), Vector2(0, 64), Vector2(32, 64), Vector2(64, 64), Vector2(96, 64)]
-# diamond, clover, heart, spade
-const key_node_type_atlas_position = [Vector2(0, 96), Vector2(32, 96), Vector2(64, 96), Vector2(96, 96)]
+
+# empty
+const empty_node_atlas_position = Vector2(0, 0)
 # null
-const null_node_type_atlas_position = Vector2(32, 0)
+const null_node_atlas_position = Vector2(32, 0)
+# HP, MP, DEF, SHD, ATK, INT, SPD, AGI
+const stats_node_atlas_position = [Vector2(0, 32), Vector2(32, 32), Vector2(64, 32), Vector2(96, 32), Vector2(0, 64), Vector2(32, 64), Vector2(64, 64), Vector2(96, 64)]
+# diamond, clover, heart, spade
+const key_node_atlas_position = [Vector2(0, 96), Vector2(32, 96), Vector2(64, 96), Vector2(96, 96)]
+
+# ability nodes
+var ability_nodes = []
 
 # white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
 var area_nodes = [[], [], [], [], [], [], [], [], [], [], [], []]
@@ -33,10 +38,10 @@ var null_nodes = []
 
 func _ready():
 	# duplicate node_unlocked from GlobalSettings
-	nodes_unlocked = GlobalSettings.global_unlocked_nodes.duplicate()
+	nodes_unlocked = GlobalSettings.unlocked_nodes.duplicate()
 
 	# check for all adjacent unlockables
-	for player in 4: if GlobalSettings.global_unlocked_players[player]: # for each unlocked player
+	for player in 4: if GlobalSettings.unlocked_players[player]: # for each unlocked player
 		for node in nodes_unlocked[player]: # for each unlocked node
 			# determine adjacent nodes
 			var temp_adjacents = []
@@ -90,7 +95,8 @@ func stat_nodes_randomizer():
 		elif node.modulate == Color(0, 1, 0, 1): area_nodes[9].push_back(node_index) # physical (green)
 		elif node.modulate == Color(0, 0.501961, 0, 1): area_nodes[10].push_back(node_index) # physical 2 (dark green)
 		elif node.modulate == Color(0, 0.501961, 1, 1): area_nodes[11].push_back(node_index) # tank (blue)
-		
+		elif node.modulate == Color(1, 1, 1, 1): ability_nodes.push_back(node_index) # ability nodes
+
 		node_index += 1
 	
 	# HP, MP, DEF, SHD, ATK, INT, SPD, AGI, EMPTY
@@ -133,11 +139,11 @@ func stat_nodes_randomizer():
 			empty_type -= rand_result[rand_area][rand_type] # reduce the number of empty nodes by x
 			# assign x variables to texture region based on stat node type
 			for rand_number in rand_result[rand_area][rand_type]:
-				area_rand_type[rand_area].push_back(node_type_atlas_position[rand_type + 1])
+				area_rand_type[rand_area].push_back(stats_node_atlas_position[rand_type])
 			
 		# assign y variables to texture region of empty node type, where y is the remaining unchanged nodes
 		for number in empty_type:
-			area_rand_type[rand_area].push_back(node_type_atlas_position[0])
+			area_rand_type[rand_area].push_back(empty_node_atlas_position)
 
 		# shuffle area array
 		area_rand_type[rand_area].shuffle()
@@ -252,15 +258,16 @@ func unlock_node():
 
 func exit_nexus():
 	GlobalSettings.unlocked_nodes = nodes_unlocked.duplicate()
+	var player_index = 0
 	for player in GlobalSettings.unlocked_players:
-		for unlocked in nodes_unlocked[player]
-			if unlocked in ability_nodes:
-				if unlocked in ability_nodes:
-					GlobalSettings.unlocked_ability_nodes.push_back(index)
-			for texture_region in node_type_atlas_position:
-				if unlocked.texture.region == texture_region && texture_region != Vector(0, 0):
-					GlobalSettings.unlocked_stats_nodes[player][texture_region.index??] += 1
-					break
-			GlobalSettings.unlocked_stats_nodes = 
+		GlobalSettings.unlocked_ability_nodes[player_index].clear()
+		for unlocked_index in nodes_unlocked[player]:
+			if unlocked_index in ability_nodes:
+				GlobalSettings.unlocked_ability_nodes[player_index].push_back(unlocked_index)
+			else:
+				for texture_region_index in stats_node_atlas_position.size():
+					if nexus_nodes[unlocked_index].texture.region == stats_node_atlas_position[texture_region_index]:
+						GlobalSettings.unlocked_stats_nodes[player][texture_region_index] += 1
+						break
+		player_index += 1
 	##### scene change
-

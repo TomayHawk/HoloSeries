@@ -1,11 +1,9 @@
 extends CharacterBody2D
 
 # node variables
-@onready var current_player_node = GlobalSettings.players[GlobalSettings.current_main_player]
 @onready var player_stats_node = $PlayerStatsComponent
 @onready var attack_shape_node = $AttackShape
 @onready var animation_node = $Animation
-@onready var combat_ui_node = get_parent().get_node("CombatUI")
 # timer nodes
 @onready var attack_cooldown_node = $AttackCooldown
 @onready var dash_cooldown_node = $DashCooldown
@@ -144,7 +142,7 @@ func ally_movement(delta):
 	elif close_to_current_main_player:
 		current_move_direction = possible_directions[randi() % 8]
 	else:
-		current_move_direction = (current_player_node.position - position).normalized()
+		current_move_direction = (GlobalSettings.current_main_player_node.position - position).normalized()
 	
 	choose_animation()
 
@@ -218,25 +216,25 @@ func choose_animation():
 func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if GlobalSettings.requesting_entities && self in GlobalSettings.available_entities:
+			if GlobalSettings.requesting_entities&&self in GlobalSettings.available_entities:
 				GlobalSettings.chosen_entities.push_back(self)
-				chosen_entities_count += 1
-				if request_entities_count == chosen_entities_count:
-					GlobalSettings.choose_entities()	
+				GlobalSettings.chosen_entities_count += 1
+				if GlobalSettings.request_entities_count == GlobalSettings.chosen_entities_count:
+					GlobalSettings.choose_entities()
 			elif !is_current_main_player&&player_stats_node.alive:
 				player_stats_node.update_main_player(player_index)
 
 func _on_entities_detection_area_body_exited(body):
-	if !is_current_main_player&&body == current_player_node&&player_stats_node.alive:
+	if !is_current_main_player&&body == GlobalSettings.current_main_player_node&&player_stats_node.alive:
 		position = body.position + Vector2(20 + (10 * randf_range(0, 1)), 20 + (10 * randf_range(0, 1)))
 		close_to_current_main_player = true
 
 func _on_inner_entities_detection_area_body_entered(body):
-	if !is_current_main_player&&body == current_player_node:
+	if !is_current_main_player&&body == GlobalSettings.current_main_player_node:
 		close_to_current_main_player = true
 
 func _on_inner_entities_detection_area_body_exited(body):
-	if !is_current_main_player&&body == current_player_node&&!GlobalSettings.in_combat:
+	if !is_current_main_player&&body == GlobalSettings.current_main_player_node&&!GlobalSettings.in_combat:
 		if $PauseTimer.is_inside_tree():
 			$PauseTimer.start(0.5)
 		is_current_main_player = false

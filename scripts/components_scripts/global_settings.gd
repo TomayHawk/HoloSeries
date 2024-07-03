@@ -1,34 +1,32 @@
 extends Node
 
-# screen size status
 var currently_full_screen = false
 
-# scene variables
-@onready var current_scene_node = get_parent().get_child(1)
+var current_scene_node = null
 
-# player variables
-'''
-0 = Sora
-1 = AZKi
-'''
-var global_unlocked_players = [true, true, false, false]
-@onready var player_animations_load = [load("res://resources/player_animations/sora_animation.tscn"),
-									   load("res://resources/player_animations/azki_animation.tscn")]
-var party_player_nodes = []
 var current_main_player_node = null
-var default_max_health = [9999, 999, 999, 10]
-var default_max_mana = [999, 99, 99, 0]
-var default_max_stamina = [100, 100, 100, 100]
-var default_defence = []
-var default_
-############# create dictionary for each character
 
-# combat UI variable
-var combat_ui_node = null
+@onready var game_settings_node = $GameSettings
+@onready var combat_ui_node = $CombatUI
+@onready var text_box_node = $TextBox
+@onready var camera_node = $Camera2D
+@onready var leaving_combat_timer_node = $LeavingCombatTimer
 
-# combat variables
-var in_combat = false
-var enemies_in_combat = []
+@onready var base_player_path = "res://entities/player.tscn"
+
+@onready var scene_paths = ["res://scenes/world_scene_1.tscn",
+						   "res://scenes/world_scene_2.tscn",
+						   "res://scenes/dungeon_scene_1.tscn"]
+
+@onready var player_animations_paths = ["res://resources/player_animations/sora_animation.tscn",
+										"res://resources/player_animations/azki_animation.tscn"]
+
+# settings variables
+var game_paused = false
+
+# spawn positions and camera limits
+var spawn_positions = [Vector2.ZERO, Vector2(0, -247), Vector2(0, 341), Vector2(31, -103), Vector2(0, 53)]
+var camera_limits = []
 
 """
 scene spawn locations
@@ -38,20 +36,31 @@ scene spawn locations
 3 = Forest Spawn (N)
 4 = Dungeon Spawn (S)
 """
-var spawn_positions = [Vector2.ZERO, Vector2(0, -247), Vector2(0, 341), Vector2(31, -103), Vector2(0, 53)]
-var next_spawn_position = Vector2.ZERO
 
-var settings_node = null
-var game_paused = false
+# player variables
+var unlocked_players = [true, true, false, false]
+var party_player_nodes = []
+var default_max_health = [9999, 999, 999, 10]
+var default_max_mana = [999, 99, 99, 0]
+var default_max_stamina = [100, 100, 100, 100]
+
+'''
+character index
+0 = Sora
+1 = AZKi
+'''
 
 # nexus variables
-# [player][node]
 var unlocked_nodes = [[135, 167, 182], [], [], [], [], [], [], [], [], []]
 var unlocked_ability_nodes = [[], [], [], [], [], [], [], [], [], []]
 var unlocked_stats_nodes = [[], [], [], [], [], [], [], [], [], []]
 var nexus_not_randomized = true
 
-# entities requests
+# combat variables
+var in_combat = false
+var enemy_nodes_in_combat = []
+
+# entities request variables
 var requesting_entities = false
 var entities_request_origin_node = null
 var entities_request_target_command_string = ""
@@ -63,9 +72,8 @@ var entities_chosen = []
 func _process(_delta):
 	if Input.is_action_just_pressed("full_screen"): full_screen_toggle()
 	if Input.is_action_just_pressed("esc"): esc_input()
-	if Input.is_action_just_pressed("display_combat_UI"): if combat_ui_node != null: combat_ui_node.combat_ui_control_display()
+	if Input.is_action_just_pressed("display_combat_UI"): combat_ui_node.combat_ui_control_display()
 
-# global inputs
 # toggle full screen
 func full_screen_toggle():
 	if !currently_full_screen:
@@ -79,55 +87,69 @@ func full_screen_toggle():
 func esc_input():
 	if requesting_entities:
 		requesting_entities = false
+		entities_request_count = 0
 		entities_available.clear()
-	elif !game_paused&&settings_able:
-		combat_ui_node.hide()
-		options_node.hide()
-		settings_node.show()
-		get_tree().paused = true
-		game_paused = true
-		in_settings = true
-	elif settings_able:
-		settings_node.hide()
+		entities_chosen_count = 0
+		entities_chosen.clear()
+	elif game_paused:
+		game_settings_node.hide()
 		combat_ui_node.show()
-		options_node.show()
-		get_tree().paused = false
+		current_scene_node.paused = true
+		game_paused = true
+	else:
+		game_settings_node.show()
+		combat_ui_node.hide()
+		current_scene_node.paused = false
 		game_paused = false
-		in_settings = false
+
+func start_game():
+	current_scene_node = load(scene_paths[0]).instantiate()
+	get_parent().add_child(current_scene_node)
+
+	party_player_nodes[0] = load(base_player_path).instantiate()
+	party_player_nodes[1] = load(base_player_path).instantiate()
+
+	current_scene_node.get_node("Players").add_child(party_player_nodes[0])
+	current_scene_node.get_node("Players").add_child(party_player_nodes[1])
+
+	# add animation nodes
+	party_player_nodes[0].add_child(load(player_animations_paths[0]).instantiate())
+	party_player_nodes[1].add_child(load(player_animations_paths[1]).instantiate())
+
+	current_main_player_node = party_player_nodes[0]
+	camera_node.reparent(current_main_player_node)
+
+	update_main_player(current_main_player_node)
 
 # change scene (called from scenes)
 func change_scene(next_scene_path, spawn_number):
 	get_tree().call_deferred("change_scene_to_file", next_scene_path)
 	# used for spawning at next _ready()
 	if spawn_number != null:
-		next_spawn_position = spawn_positions[spawn_number]
+		current_main_player_node.position = spawn_positions[spawn_number]
 
-func update_nodes():
-	current_scene_node = get_parent().get_child(1)
-	settings_node = current_scene_node.get_node_or_null("Settings")
-	combat_ui_node = current_scene_node.get_node_or_null("CombatUI")
-	for player in party_player_nodes: player.player_stats_component.combat_ui_node = combat_ui_node
-
-func update_main_player(next_main_player):
-	current_main_player_node.get_node(“Camera2D”).reparent(party_player_nodes[next_main_player])
-	current_main_player_node.get_node("Camera2D").position = Vector2.ZERO
+func update_main_player(next_main_player_node):
 	current_main_player_node.is_current_main_player = false
-	party_player_nodes[next_main_player].is_current_main_player = true
-	current_main_player_node = party_player_nodes[next_main_player]
+
+	current_main_player_node = next_main_player_node
+
+	current_main_player_node.is_current_main_player = true
+	camera_node.reparent(current_main_player_node)
+	camera_node.position = Vector2.ZERO
 
 func enter_combat():
 	if !in_combat:
 		in_combat = true
-		if $LeavingCombat.is_stopped():
+		if leaving_combat_timer_node.is_stopped():
 			# fade in combat UI
 			combat_ui_node.combat_ui_control_tween(1)
 			##### begin combat bgm
 		else:
-			$LeavingCombat.stop()
+			leaving_combat_timer_node.stop()
 
 func attempt_leave_combat():
-	if in_combat && $LeavingCombat.is_stopped():
-		$LeavingCombat.start(2)
+	if in_combat&&leaving_combat_timer_node.is_stopped():
+		leaving_combat_timer_node.start(2)
 
 func request_entities(origin_node, target_command, request_count, request_entity_type):
 	entities_request_origin_node = origin_node
@@ -139,7 +161,7 @@ func request_entities(origin_node, target_command, request_count, request_entity
 		entities_available = party_player_nodes.duplicate()
 	elif request_entity_type == "ally_players":
 		entities_available = party_player_nodes.duplicate()
-		entities_available.erase(current_main_player_node)	
+		entities_available.erase(current_main_player_node)
 	elif request_entity_type == "players_alive":
 		for player in party_player_nodes:
 			if player.player_stats_node.alive:
@@ -149,41 +171,28 @@ func request_entities(origin_node, target_command, request_count, request_entity
 			if !player.player_stats_node.alive:
 				entities_available.push_back(player)
 	elif request_entity_type == "enemies_in_combat":
-		entities_available = enemies_in_combat.duplicate()
+		entities_available = enemy_nodes_in_combat.duplicate()
 	elif request_entity_type == "all_entities_in_combat":
-		entities_available = party_player_nodes.duplicate()
-		for enemy in enemies_in_combat:
-			entities_available.push_back(enemy)
-	elif request_entity_type == "all_enemies_on_screen":	
+		entities_available = party_player_nodes.duplicate() + entities_available.duplicate()
+	elif request_entity_type == "all_enemies_on_screen":
 		pass
 	elif request_entity_type == "all_entities_on_screen":
-		pass	
+		pass
 		
 	for entity in entities_available:
-		if entity.has_method(): ##### need grouping
-			entity.add_child()
+		if entity.has_method(): # #### need grouping
+			pass # ############### entity.add_child()
 		elif entity.has_method():
-			entity.add_child()
+			pass # ############### entity.add_child()
 
 func choose_entities():
 	requesting_entities = false
+	entities_request_count = 0
 	entities_available.clear()
+	entities_chosen_count = 0
+	entities_chosen.clear()
 	entities_request_origin_node.call(entities_request_target_command_string, entities_chosen)
 
-func _on_combat_leave_cooldown_timeout():
-	if enemies_in_combat.is_empty(): leave_combat()
-	if !in_combat:
-		# fade out cmobat UI
+func _on_leaving_combat_timer_timeout():
+	if enemy_nodes_in_combat.is_empty():
 		combat_ui_node.combat_ui_control_tween(0)
-		##### return to scene bgm
-
-func update_stats(_player):
-	print("player")
-	pass
-	# add stats to base stats
-
-	# add health
-	##### global_unlocked_stats[player][0] * 10
-
-	# add defence
-	##### global_unlocked_stats[player][1] * 20

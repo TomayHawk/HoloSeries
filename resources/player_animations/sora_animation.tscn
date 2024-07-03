@@ -484,7 +484,7 @@ animations = [{
 "speed": 11.0
 }]
 
-[node name="SoraAnimation" type="AnimatedSprite2D"]
+[node name="Animation" type="AnimatedSprite2D"]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_qsfsi")
 animation = &"right_idle"

@@ -1,10 +1,9 @@
-[gd_scene load_steps=780 format=3 uid="uid://hypatwksy0f7"]
+[gd_scene load_steps=779 format=3 uid="uid://hypatwksy0f7"]
 
-[ext_resource type="Script" path="res://scripts/scenes_scripts/holo_nexus.gd" id="1_84ul6"]
+[ext_resource type="Script" path="res://scripts/user_interfaces_scripts/holo_nexus.gd" id="1_84ul6"]
 [ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tileSets/physics.png" id="2_f56on"]
 [ext_resource type="Texture2D" uid="uid://sh1md1kmeikv" path="res://art/tileSets/holonexus.png" id="2_kb302"]
 [ext_resource type="Script" path="res://scripts/entities_scripts/nexus_player.gd" id="2_nibvj"]
-[ext_resource type="PackedScene" uid="uid://wsunon4ilt68" path="res://user_interfaces/holo_nexus_UI.tscn" id="2_t8htg"]
 [ext_resource type="Texture2D" uid="uid://dc1oxa5cly1i7" path="res://art/tileSets/holonexus_.png" id="4_dbcyv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i0fxp"]
@@ -3106,9 +3105,6 @@ region = Rect2(64, 0, 32, 32)
 process_mode = 3
 scale = Vector2(2, 2)
 script = ExtResource("1_84ul6")
-
-[node name="CanvasLayer" parent="." instance=ExtResource("2_t8htg")]
-process_priority = -1
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -341.0

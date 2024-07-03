@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cgwg615uwmnap"]
 
-[ext_resource type="Script" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_d3t4f"]
+[ext_resource type="Script" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_t4tif"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhv31"]
 bg_color = Color(0.235294, 0.235294, 0.235294, 0.709804)
@@ -34,7 +34,7 @@ border_color = Color(0, 0, 0, 1)
 border_blend = true
 
 [node name="CombatUI" type="CanvasLayer"]
-script = ExtResource("1_d3t4f")
+script = ExtResource("1_t4tif")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -562,9 +562,7 @@ text = "####"
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/WhiteVBoxContainer/Heal" to="." method="_on_heal_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/WhiteVBoxContainer/Regen" to="." method="instantiate_ability" binds= [1]]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/BlackVBoxContainer/Fireball" to="." method="instantiate_ability" binds= [0]]
-[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/Potion" to="." method="request_player" binds= ["use_potion"]]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/MaxPotion" to="." method="use_max_potion"]
-[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/PhoenixFeather" to="." method="request_player" binds= ["use_phoenix_feather"]]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/KFPFamilyBucket" to="." method="use_kfp_family_bucket"]
 [connection signal="pressed" from="Control/CombatOptions/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
 [connection signal="pressed" from="Control/CombatOptions/MarginContainer/VBoxContainer/Special" to="." method="_on_combat_options_1_pressed" binds= [0]]

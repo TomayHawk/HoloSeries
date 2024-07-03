@@ -1,13 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://cf2ifm4k70avn"]
 
-[ext_resource type="Script" path="res://scripts/scenes_scripts/game_settings.gd" id="1_n570m"]
+[ext_resource type="Script" path="res://scripts/scenes_scripts/game_options.gd" id="1_3ijke"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gthth"]
 bg_color = Color(0.0313726, 0.678431, 0.72549, 1)
 
-[node name="Settings" type="CanvasLayer"]
+[node name="GameOptions" type="CanvasLayer"]
 process_mode = 3
-script = ExtResource("1_n570m")
+script = ExtResource("1_3ijke")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

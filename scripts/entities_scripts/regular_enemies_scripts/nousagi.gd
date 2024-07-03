@@ -105,7 +105,7 @@ func choose_player():
 				target_player_health = player_node.player_stats_node.health
 				target_player_node = player_node
 
-func summon_attack():
+func summon_nousagi():
 	nousagi_instance = nousagi_load.instantiate()
 	get_parent().add_child(nousagi_instance)
 	nousagi_instance.position = position + Vector2(5 * randf_range( - 1, 1), 5 * randf_range( - 1, 1)) * 5

@@ -1,13 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://dyvmrtl5c0ad3"]
+[gd_scene load_steps=13 format=3 uid="uid://dyvmrtl5c0ad3"]
 
 [ext_resource type="Script" path="res://scripts/scenes_scripts/world_scene_1.gd" id="1_4rgc2"]
 [ext_resource type="Texture2D" uid="uid://c5bvpekwpv6rw" path="res://art/tileSets/plains.png" id="1_7j0j2"]
 [ext_resource type="Texture2D" uid="uid://btj1vfgsejh7f" path="res://art/objects/objects.png" id="2_nnwlk"]
-[ext_resource type="PackedScene" uid="uid://cf2ifm4k70avn" path="res://scenes/game_settings.tscn" id="2_pklg2"]
 [ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tileSets/physics.png" id="4_kndtx"]
-[ext_resource type="PackedScene" uid="uid://bfgttyngrxknk" path="res://user_interfaces/text_box.tscn" id="4_qspxv"]
-[ext_resource type="Script" path="res://scripts/components_scripts/abilities.gd" id="6_6ke16"]
-[ext_resource type="PackedScene" uid="uid://cgwg615uwmnap" path="res://user_interfaces/combat_UI.tscn" id="7_yoiur"]
 [ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/nousagi.tscn" id="9_tem7v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5688q"]
@@ -692,22 +688,7 @@ y_sort_enabled = true
 
 [node name="Nousagi" parent="Enemies" instance=ExtResource("9_tem7v")]
 position = Vector2(200, -100)
-speed = 75
 
 [node name="Abilities" type="Node2D" parent="."]
-script = ExtResource("6_6ke16")
-
-[node name="CombatUI" parent="." instance=ExtResource("7_yoiur")]
-visible = false
-
-[node name="TextBox" parent="." instance=ExtResource("4_qspxv")]
-visible = false
-
-[node name="GameSettings" parent="." instance=ExtResource("2_pklg2")]
-visible = false
-
-[node name="Camera2D" type="Camera2D" parent="."]
-limit_top = -288
-position_smoothing_speed = 1.0
 
 [connection signal="body_entered" from="WorldScene2Transit" to="." method="_on_world_scene_2_transit_body_entered"]

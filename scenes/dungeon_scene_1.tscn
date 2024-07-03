@@ -1,13 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://cavwjdaqys1r6"]
+[gd_scene load_steps=12 format=3 uid="uid://cavwjdaqys1r6"]
 
 [ext_resource type="Script" path="res://scripts/scenes_scripts/dungeon_scene_1.gd" id="1_qkpt5"]
 [ext_resource type="Texture2D" uid="uid://krbcbovqyxyj" path="res://art/tileSets/dungeon_1.png" id="2_wneuc"]
 [ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tileSets/physics.png" id="3_cfs1g"]
-[ext_resource type="Script" path="res://scripts/components_scripts/abilities.gd" id="5_6xd4k"]
-[ext_resource type="PackedScene" uid="uid://cgwg615uwmnap" path="res://user_interfaces/combat_UI.tscn" id="11_wnd54"]
 [ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/nousagi.tscn" id="12_hviyt"]
-[ext_resource type="PackedScene" uid="uid://bfgttyngrxknk" path="res://user_interfaces/text_box.tscn" id="12_oq1h2"]
-[ext_resource type="PackedScene" uid="uid://cf2ifm4k70avn" path="res://scenes/game_settings.tscn" id="17_1cdko"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o84oa"]
 texture = ExtResource("2_wneuc")
@@ -332,7 +328,6 @@ shape = SubResource("RectangleShape2D_qojuv")
 
 [node name="Nousagi" parent="Enemies" instance=ExtResource("12_hviyt")]
 position = Vector2(-368, -6)
-speed = 75
 
 [node name="Entities" type="Node2D" parent="."]
 
@@ -343,17 +338,5 @@ position = Vector2(-280, -44.5)
 shape = SubResource("RectangleShape2D_pan47")
 
 [node name="Abilities" type="Node2D" parent="."]
-script = ExtResource("5_6xd4k")
-
-[node name="CombatUI" parent="." instance=ExtResource("11_wnd54")]
-visible = false
-
-[node name="TextBox" parent="." instance=ExtResource("12_oq1h2")]
-visible = false
-
-[node name="GameSettings" parent="." instance=ExtResource("17_1cdko")]
-visible = false
-
-[node name="Camera2D" type="Camera2D" parent="."]
 
 [connection signal="body_entered" from="WorldScene2Transit" to="." method="_on_world_scene_2_transit_body_entered"]
