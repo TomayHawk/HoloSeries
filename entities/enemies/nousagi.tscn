@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=3 uid="uid://du2d3fhraj8fe"]
 
-[ext_resource type="Script" path="res://scripts/entities_scripts/regular_enemies_scripts/nousagi.gd" id="1_mpp2o"]
+[ext_resource type="Script" path="res://scripts/entities_scripts/enemies_scripts/nousagi.gd" id="1_5prxx"]
 [ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/characters/Nousagi.png" id="2_jbpax"]
 [ext_resource type="PackedScene" uid="uid://b7o2cmo4lhoma" path="res://components/enemy_stats_component.tscn" id="3_dv8ha"]
 
@@ -187,7 +187,7 @@ collision_layer = 64
 collision_mask = 207
 motion_mode = 1
 wall_min_slide_angle = 0.0
-script = ExtResource("1_mpp2o")
+script = ExtResource("1_5prxx")
 
 [node name="CollisionHitBox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)

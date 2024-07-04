@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var speed = 75
+var speed = 75
 @onready var navigation_agent_node = $NavigationAgent2D
 @onready var animation_node = $Animation
 
@@ -28,11 +28,12 @@ var dying = false
 
 # duplicating nousagis
 @onready var scene_node = get_parent().get_parent()
-@onready var nousagi_load = load("res://entities/nousagi.tscn")
+@onready var nousagi_load = load("res://entities/enemies/nousagi.tscn")
 var nousagi_instance = null
 
+@onready var enemy_stats_node = $EnemyStatsComponent
+
 func _ready():
-	$EnemyStatsComponent.create_enemy()
 	animation_node.play("walk")
 	add_to_group("enemies")
 
@@ -61,7 +62,7 @@ func _physics_process(_delta):
 		elif current_frame == 3:
 			if current_animation == "attack":
 				if players_exist_in_attack_area&&target_player_node != null:
-					target_player_node.player_stats_node.take_damage(100) # attack player (damage)
+					target_player_node.player_stats_node.update_health( - 100) # attack player (damage)
 					player_direction = (target_player_node.position - position).normalized()
 					animation_node.flip_h = player_direction.x < 0
 				$AttackCooldown.start(randf_range(1, 3))
@@ -110,24 +111,24 @@ func summon_nousagi():
 	get_parent().add_child(nousagi_instance)
 	nousagi_instance.position = position + Vector2(5 * randf_range( - 1, 1), 5 * randf_range( - 1, 1)) * 5
 
-func take_damage(player_number, damage):
-	$EnemyStatsComponent.deal_damage(damage)
-	player_direction = (GlobalSettings.players[player_number].position - position).normalized()
+func take_damage(player_index, damage):
+	$EnemyStatsComponent.update_health( - damage)
+	player_direction = (GlobalSettings.party_player_nodes[player_index].position - position).normalized()
 	$KnockbackTimer.start(0.4)
 
 func _on_detection_area_body_entered(body):
 	if body.player_stats_node.alive:
 		GlobalSettings.enter_combat()
 		players_exist_in_detection_area = true
-		if !GlobalSettings.enemies_in_combat.has(self): GlobalSettings.enemies_in_combat.push_back(self)
+		if !GlobalSettings.enemy_nodes_in_combat.has(self): GlobalSettings.enemy_nodes_in_combat.push_back(self)
 		if !player_nodes_in_detection_area.has(self): player_nodes_in_detection_area.push_back(body)
 
 func _on_detection_area_body_exited(body):
-	GlobalSettings.enemies_in_combat.erase(self)
+	GlobalSettings.enemy_nodes_in_combat.erase(self)
 	player_nodes_in_detection_area.erase(body)
 	player_nodes_in_attack_area.erase(body)
 
-	if GlobalSettings.enemies_in_combat.is_empty(): GlobalSettings.leave_combat()
+	if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
 	if player_nodes_in_detection_area.is_empty(): players_exist_in_detection_area = false
 
 func _on_attack_area_body_entered(body):
@@ -135,7 +136,7 @@ func _on_attack_area_body_entered(body):
 		GlobalSettings.enter_combat()
 		players_exist_in_detection_area = true
 		players_exist_in_attack_area = true
-		if !GlobalSettings.enemies_in_combat.has(self): GlobalSettings.enemies_in_combat.push_back(self)
+		if !GlobalSettings.enemy_nodes_in_combat.has(self): GlobalSettings.enemy_nodes_in_combat.push_back(self)
 		if !player_nodes_in_detection_area.has(self): player_nodes_in_detection_area.push_back(body)
 		if !player_nodes_in_attack_area.has(self): player_nodes_in_attack_area.push_back(body)
 
@@ -153,4 +154,4 @@ func _on_knockback_timer_timeout():
 	taking_knockback = false
 
 func _on_summon_nousagi_timer_timeout():
-	var i = randi() % 10 - 7
+	print("temp_summon_timer_response")

@@ -88,8 +88,6 @@ shape = SubResource("RectangleShape2D_u5vm7")
 
 [node name="NpcKobo" parent="." instance=ExtResource("5_poic2")]
 
-[node name="Players" type="Node2D" parent="."]
-
 [node name="Enemies" type="Node2D" parent="."]
 y_sort_enabled = true
 

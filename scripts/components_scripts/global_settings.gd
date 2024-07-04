@@ -6,6 +6,7 @@ var current_scene_node = null
 
 var current_main_player_node = null
 
+@onready var party_node = $Party
 @onready var game_options_node = $GameOptions
 @onready var combat_ui_node = $CombatUI
 @onready var combat_ui_control_node = $CombatUI/Control
@@ -105,18 +106,25 @@ func esc_input():
 		game_paused = false
 
 func start_game():
-	current_scene_node = load(scene_paths[0]).instantiate()
-	get_tree().root.add_child(current_scene_node)
+	get_tree().call_deferred("change_scene_to_file", scene_paths[0])
 
-	party_player_nodes[0] = load(base_player_path).instantiate()
-	party_player_nodes[1] = load(base_player_path).instantiate()
+	party_player_nodes.clear()
 
-	current_scene_node.get_node("Players").add_child(party_player_nodes[0])
-	current_scene_node.get_node("Players").add_child(party_player_nodes[1])
+	party_player_nodes.push_back(load(base_player_path).instantiate())
+	party_player_nodes.push_back(load(base_player_path).instantiate())
 
 	# add animation nodes
 	party_player_nodes[0].add_child(load(player_animations_paths[0]).instantiate())
 	party_player_nodes[1].add_child(load(player_animations_paths[1]).instantiate())
+
+	party_node.add_child(party_player_nodes[0])
+	party_node.add_child(party_player_nodes[1])
+
+	party_player_nodes[0].player_index = 0
+	party_player_nodes[1].player_index = 1
+
+	party_player_nodes[0].position = spawn_positions[0]
+	party_player_nodes[1].position = spawn_positions[0] + (15 * Vector2(randf_range( - 1, 1), randf_range( - 1, 1)))
 
 	current_main_player_node = party_player_nodes[0]
 	camera_node.reparent(current_main_player_node)
@@ -126,7 +134,9 @@ func start_game():
 # change scene (called from scenes)
 func change_scene(next_scene_index, spawn_index):
 	get_tree().call_deferred("change_scene_to_file", scene_paths[next_scene_index])
+
 	current_main_player_node.position = spawn_positions[spawn_index]
+
 	for player_node in party_player_nodes: if player_node != current_main_player_node:
 		player_node.position = spawn_positions[spawn_index] + (15 * Vector2(randf_range( - 1, 1), randf_range( - 1, 1)))
 

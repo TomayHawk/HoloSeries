@@ -9,31 +9,35 @@ extends Node
 @onready var death_timer_node = player_node.get_node("DeathTimer")
 
 # player variables
-var player_index = 0
+@onready var player_index = player_node.player_index
 var stamina_slow_recovery = false
 var temp_bar_percentage = 1.0
 var alive = true
 
 # health variables
-var max_health = 100
-var health = max_health
+@onready var max_health = GlobalSettings.default_max_health[player_index]
+var health = 100
 
 # mana variables
-var max_mana = 100
-var mana = max_mana
+@onready var max_mana = GlobalSettings.default_max_mana[player_index]
+var mana = 100
 
 # stamina variables
-var max_stamina = 100
-var stamina = max_stamina
+@onready var max_stamina = GlobalSettings.default_max_stamina[player_index]
+var stamina = 100
 
 func _ready():
-	player_index = player_node.player_index
-	max_health = GlobalSettings.default_max_health[player_index]
 	health = max_health
-	max_mana = GlobalSettings.default_max_mana[player_index]
 	mana = max_mana
-	max_stamina = GlobalSettings.default_max_stamina[player_index]
 	stamina = max_stamina
+
+	health_bar_node.max_value = max_health
+	mana_bar_node.max_value = max_mana
+	stamina_bar_node.max_value = max_stamina
+
+	health_bar_node.value = health
+	mana_bar_node.value = mana
+	stamina_bar_node.value = stamina
 
 # recover stamina every physics frame
 func _physics_process(_delta):
@@ -43,7 +47,7 @@ func _physics_process(_delta):
 func update_health_bar():
 	clamp(health, 0, max_health)
 	health_bar_node.visible = health > 0&&health < max_health
-	combat_ui_node.health_ui_update(player_index)
+
 	health_bar_node.value = health
 
 	if health == 0:
@@ -66,26 +70,30 @@ func update_health_bar():
 		if temp_bar_percentage > 0.5: health_bar_node.modulate = Color(0, 1, 0, 1)
 		elif temp_bar_percentage > 0.1: health_bar_node.modulate = Color(1, 1, 0, 1)
 		else: health_bar_node.modulate = Color(1, 0, 0, 1)
+	
+	combat_ui_node.combat_ui_health_update(player_node)
 
 func update_mana_bar():
 	mana += 0.5
 	clamp(mana, 0, max_stamina)
 	mana_bar_node.value = mana
+	combat_ui_node.combat_ui_mana_update(player_node)
 
 func update_stamina_bar():
+	if stamina_slow_recovery:
+		stamina += 0.25
+	elif stamina < max_stamina:
+		stamina += 0.5
+
 	clamp(stamina, 0, max_stamina)
 	health_bar_node.visible = stamina < max_stamina
+
 	if stamina == 0:
 		stamina_slow_recovery = true
 		stamina_bar_node.modulate = Color(1, 0.5, 0, 1)
-	else:
-		if stamina_slow_recovery:
-			stamina += 0.25
-			if stamina >= max_stamina:
-				stamina_slow_recovery = false
-				stamina_bar_node.modulate = Color(0.5, 0, 0, 1)
-		else:
-			stamina += 0.5
+	elif stamina == max_stamina:
+		stamina_slow_recovery = false
+		stamina_bar_node.modulate = Color(0.5, 0, 0, 1)
 	
 	stamina_bar_node.value = stamina
 

@@ -681,8 +681,6 @@ collision_layer = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldScene2Transit"]
 shape = SubResource("RectangleShape2D_h76rv")
 
-[node name="Players" type="Node2D" parent="."]
-
 [node name="Enemies" type="Node2D" parent="."]
 y_sort_enabled = true
 

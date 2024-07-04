@@ -9,13 +9,14 @@
 process_mode = 3
 script = ExtResource("1_mpwj3")
 
+[node name="Party" type="Node2D" parent="."]
+
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="GameOptions" parent="." instance=ExtResource("3_afjlo")]
 visible = false
 
 [node name="CombatUI" parent="." instance=ExtResource("3_s0tbo")]
-visible = false
 
 [node name="TextBox" parent="." instance=ExtResource("4_tvnta")]
 visible = false

@@ -322,8 +322,6 @@ collision_layer = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldScene2Transit"]
 shape = SubResource("RectangleShape2D_qojuv")
 
-[node name="Players" type="Node2D" parent="."]
-
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Nousagi" parent="Enemies" instance=ExtResource("12_hviyt")]
@@ -332,6 +330,9 @@ position = Vector2(-368, -6)
 [node name="Entities" type="Node2D" parent="."]
 
 [node name="Chest" type="StaticBody2D" parent="Entities"]
+scale = Vector2(1.25803, 1)
+collision_layer = 0
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Chest"]
 position = Vector2(-280, -44.5)

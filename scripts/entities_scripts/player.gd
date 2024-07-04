@@ -12,7 +12,7 @@ extends CharacterBody2D
 @onready var ally_pause_timer_node = $AllyPauseTimer
 
 # speed variables
-var speed = 1200
+var speed = 12000
 var dash_speed = 500
 var sprint_multiplier = 1.5
 
@@ -49,15 +49,15 @@ var ally_target_enemy_node = null
 
 func _ready():
 	animation_node.play("front_idle")
-	player_stats_node.stamina = player_stats_node.max_stamina
-	player_stats_node.stamina_slow_recovery = false
-	dashing = false
+
+	GlobalSettings.combat_ui_node.combat_ui_health_update(self)
+	GlobalSettings.combat_ui_node.combat_ui_mana_update(self)
 
 func _physics_process(delta):
 	# if player
 	if is_current_main_player:
 		# attack
-		if !attacking&&GlobalSettings.player_attack: attack()
+		if !attacking&&Input.is_action_just_pressed("attack"): attack()
 
 		# dash / sprint
 		if player_stats_node.stamina > 0&&!player_stats_node.stamina_slow_recovery:
@@ -82,8 +82,8 @@ func _physics_process(delta):
 		# determine enemy health
 		for enemy in ally_enemy_nodes_in_attack_area:
 			# target enemy with lowest health
-			if enemy.get_node("EnemiesHealthComponent").health < target_enemy_health:
-				target_enemy_health = enemy.get_node("EnemiesHealthComponent").health
+			if enemy.enemy_stats_node.health < target_enemy_health:
+				target_enemy_health = enemy.enemy_stats_node.health
 				ally_target_enemy_node = enemy
 
 		attack_direction = (ally_target_enemy_node.position - position).normalized()
@@ -131,7 +131,7 @@ func ally_movement(delta):
 
 		# determine enemies to evaluate
 		if ally_enemy_in_detection_area: target_enemies = ally_enemy_nodes_in_detection_area
-		else: target_enemies = GlobalSettings.enemies_in_combat
+		else: target_enemies = GlobalSettings.enemy_nodes_in_combat
 
 		# evaluate enemy distances
 		for enemy in target_enemies:
@@ -187,8 +187,8 @@ func attack():
 
 	var enemy_body = null
 	if attack_shape_node.is_colliding():
-		for collider_index in attack_shape_node.get_collider_count():
-			enemy_body = attack_shape_node.get_collider(collider_index).get_parent()
+		for collision_index in attack_shape_node.get_collision_count():
+			enemy_body = attack_shape_node.get_collider(collision_index).get_parent()
 			if dashing: enemy_body.take_damage(0, 50)
 			else: enemy_body.take_damage(0, 20)
 
@@ -235,8 +235,8 @@ func _on_inner_entities_detection_area_body_entered(body):
 
 func _on_inner_entities_detection_area_body_exited(body):
 	if !is_current_main_player&&body == GlobalSettings.current_main_player_node&&!GlobalSettings.in_combat:
-		if $PauseTimer.is_inside_tree():
-			$PauseTimer.start(0.5)
+		if ally_pause_timer_node.is_inside_tree():
+			ally_pause_timer_node.start(0.5)
 		is_current_main_player = false
 
 func _on_interaction_area_body_entered(body):

@@ -1,15 +1,13 @@
 extends StaticBody2D
 
-@onready var textbox_node = get_node("/root/WorldScene2/TextBox/")
-
 var area_active = false
 
 func _ready():
 	set_process(false)
 
 func _process(_delta):
-	if Input.is_action_just_pressed("interact")&&(!textbox_node.textbox_container.is_visible())&&!GlobalSettings.in_combat:
-		textbox_node.start_text()
+	if Input.is_action_just_pressed("interact")&&(!GlobalSettings.text_box_node.textbox_container.is_visible())&&!GlobalSettings.in_combat:
+		GlobalSettings.text_box_node.start_text()
 		run_dialogue()
 
 func area_status(check_bool):
@@ -17,6 +15,6 @@ func area_status(check_bool):
 	set_process(area_active)
 
 func run_dialogue():
-	textbox_node.queue_text("Never gonna give you up.")
-	textbox_node.queue_text("Never gonna let you down.")
-	textbox_node.queue_text("Never gonna run around and desert you!")
+	GlobalSettings.text_box_node.queue_text("Never gonna give you up.")
+	GlobalSettings.text_box_node.queue_text("Never gonna let you down.")
+	GlobalSettings.text_box_node.queue_text("Never gonna run around and desert you!")

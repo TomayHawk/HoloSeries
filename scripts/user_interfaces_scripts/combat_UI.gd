@@ -22,6 +22,11 @@ extends CanvasLayer
 										  $Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer/MarginContainer/HealthAmount,
 										  $Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/MarginContainer/HealthAmount]
 
+@onready var players_mana_label_nodes = [$Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer/MarginContainer2/ManaAmount,
+										  $Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer/MarginContainer2/ManaAmount,
+										  $Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer/MarginContainer2/ManaAmount,
+										  $Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/MarginContainer2/ManaAmount]
+
 @onready var abilities_load = [load("res://entities/abilities/fireball.tscn"),
 							   load("res://entities/abilities/regen.tscn")]
 
@@ -35,7 +40,10 @@ func _ready():
 
 # CombatUI health text update
 func combat_ui_health_update(player_node):
-	players_health_label_nodes[player_node.player_index].text = str(GlobalSettings.player_node.player_stats_node.health)
+	players_health_label_nodes[player_node.player_index].text = str(player_node.player_stats_node.health)
+
+func combat_ui_mana_update(player_node):
+	players_mana_label_nodes[player_node.player_index].text = str(player_node.player_stats_node.mana)
 
 # CombatUI control visibility animation
 func combat_ui_control_tween(target_visibility_value):

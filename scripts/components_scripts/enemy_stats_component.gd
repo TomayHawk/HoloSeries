@@ -2,12 +2,11 @@ extends Node
 
 # enemy node
 @onready var enemy_node = get_parent()
-@onready var health_bar_node = enemy.get_node("HealthBar")
+@onready var health_bar_node = enemy_node.get_node("HealthBar")
 
 # health variables
 var max_health = 100
 var health = 100
-var health_bar = null
 var health_bar_percentage = 1.0
 
 # knockback status
@@ -21,23 +20,24 @@ func health_bar_update():
 	# if max or min health, hide health bar
 	clamp(health, 0, max_health)
 	health_bar_node.visible = health != max_health
+
 	if health == 0:
-		enemy.dying = true
+		enemy_node.dying = true
 	# if health in range
 	else:
 		# health bar color depending on health percentages
 		health_bar_percentage = health * 1.0 / max_health
-		if health_bar_percentage > 0.5: health_bar.modulate = "a9ff30"
-		elif health_bar_percentage > 0.1: health_bar.modulate = "c8a502"
-		else: health_bar.modulate = "a93430"
+		if health_bar_percentage > 0.5: health_bar_node.modulate = "a9ff30"
+		elif health_bar_percentage > 0.1: health_bar_node.modulate = "c8a502"
+		else: health_bar_node.modulate = "a93430"
 	
 	# update health bar
-	health_bar.value = health
+	health_bar_node.value = health
 
 # deal damage to enemy (called by enemy)
 func update_health(amount):
 	# no damage if currently taking knockback
-	if enemy.taking_knockback: amount = 0
-	enemy.taking_knockback = true
+	if enemy_node.taking_knockback: amount = 0
+	enemy_node.taking_knockback = true
 	health += amount
 	health_bar_update()
