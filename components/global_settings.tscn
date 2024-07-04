@@ -10,6 +10,7 @@ process_mode = 3
 script = ExtResource("1_mpwj3")
 
 [node name="Party" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

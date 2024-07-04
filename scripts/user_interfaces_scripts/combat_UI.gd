@@ -93,7 +93,7 @@ func use_potion(chosen_player_nodes):
 func use_max_potion():
 	for player in GlobalSettings.party_player_nodes:
 		if player.player_stats_node.alive:
-			player.player_stats_node.update_health(999)
+			player.player_stats_node.update_health(99999)
 	hide_combat_options_2()
 
 func use_phoenix_feather(chosen_player_nodes):

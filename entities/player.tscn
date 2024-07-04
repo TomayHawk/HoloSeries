@@ -35,21 +35,19 @@ position = Vector2(0, -11)
 shape = SubResource("RectangleShape2D_fbnw6")
 
 [node name="EntitiesDetectionArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 
 [node name="EntitiesDetectionShape" type="CollisionShape2D" parent="EntitiesDetectionArea"]
 position = Vector2(2.98023e-08, -7)
-scale = Vector2(10, 10)
+scale = Vector2(25, 25)
 shape = SubResource("CircleShape2D_c1evc")
 
 [node name="InnerEntitiesDetectionArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 
 [node name="InnerEntitiesDetectionShape" type="CollisionShape2D" parent="InnerEntitiesDetectionArea"]
 position = Vector2(2.98023e-08, -7)
-scale = Vector2(5, 5)
+scale = Vector2(15, 15)
 shape = SubResource("CircleShape2D_c1evc")
 
 [node name="InteractionArea" type="Area2D" parent="."]

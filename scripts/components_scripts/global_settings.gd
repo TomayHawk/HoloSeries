@@ -73,6 +73,7 @@ var entities_chosen_count = 0
 var entities_chosen = []
 
 func _process(_delta):
+	print(in_combat)
 	if Input.is_action_just_pressed("full_screen"): full_screen_toggle()
 	if Input.is_action_just_pressed("esc"): esc_input()
 	if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
@@ -123,13 +124,18 @@ func start_game():
 	party_player_nodes[0].player_index = 0
 	party_player_nodes[1].player_index = 1
 
-	party_player_nodes[0].position = spawn_positions[0]
-	party_player_nodes[1].position = spawn_positions[0] + (15 * Vector2(randf_range( - 1, 1), randf_range( - 1, 1)))
-
 	current_main_player_node = party_player_nodes[0]
 	camera_node.reparent(current_main_player_node)
-
 	update_main_player(current_main_player_node)
+
+	party_player_nodes[0].position = spawn_positions[0]
+	party_player_nodes[1]._on_entities_detection_area_body_exited(party_player_nodes[0])
+
+	GlobalSettings.combat_ui_node.combat_ui_health_update(party_player_nodes[0])
+	GlobalSettings.combat_ui_node.combat_ui_mana_update(party_player_nodes[0])
+
+	GlobalSettings.combat_ui_node.combat_ui_health_update(party_player_nodes[1])
+	GlobalSettings.combat_ui_node.combat_ui_mana_update(party_player_nodes[1])
 
 # change scene (called from scenes)
 func change_scene(next_scene_index, spawn_index):
@@ -139,6 +145,8 @@ func change_scene(next_scene_index, spawn_index):
 
 	for player_node in party_player_nodes: if player_node != current_main_player_node:
 		player_node.position = spawn_positions[spawn_index] + (15 * Vector2(randf_range( - 1, 1), randf_range( - 1, 1)))
+	
+	leave_combat()
 
 func update_main_player(next_main_player_node):
 	current_main_player_node.is_current_main_player = false
@@ -164,6 +172,11 @@ func enter_combat():
 func attempt_leave_combat():
 	if in_combat&&leaving_combat_timer_node.is_stopped():
 		leaving_combat_timer_node.start(2)
+
+func leave_combat():
+	in_combat = false
+	enemy_nodes_in_combat.clear()
+	combat_ui_node.combat_ui_control_tween(0)
 
 func request_entities(origin_node, target_command, request_count, request_entity_type):
 	entities_request_origin_node = origin_node
@@ -217,4 +230,4 @@ func combat_ui_display():
 
 func _on_leaving_combat_timer_timeout():
 	if enemy_nodes_in_combat.is_empty():
-		combat_ui_node.combat_ui_control_tween(0)
+		leave_combat()

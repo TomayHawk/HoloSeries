@@ -45,7 +45,7 @@ func _physics_process(_delta):
 	else: update_stamina_bar()
 
 func update_health_bar():
-	clamp(health, 0, max_health)
+	health = clamp(health, 0, max_health)
 	health_bar_node.visible = health > 0&&health < max_health
 
 	health_bar_node.value = health
@@ -75,7 +75,7 @@ func update_health_bar():
 
 func update_mana_bar():
 	mana += 0.5
-	clamp(mana, 0, max_stamina)
+	mana = clamp(mana, 0, max_stamina)
 	mana_bar_node.value = mana
 	combat_ui_node.combat_ui_mana_update(player_node)
 
@@ -85,8 +85,8 @@ func update_stamina_bar():
 	elif stamina < max_stamina:
 		stamina += 0.5
 
-	clamp(stamina, 0, max_stamina)
-	health_bar_node.visible = stamina < max_stamina
+	stamina = clamp(stamina, 0, max_stamina)
+	stamina_bar_node.visible = stamina < max_stamina
 
 	if stamina == 0:
 		stamina_slow_recovery = true
@@ -104,5 +104,5 @@ func update_health(amount):
 
 func update_mana(amount):
 	if alive:
-		mana += amount
+		mana += amount - 0.5
 		update_mana_bar()

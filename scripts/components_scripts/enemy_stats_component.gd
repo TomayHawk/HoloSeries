@@ -18,7 +18,7 @@ func ready():
 
 func health_bar_update():
 	# if max or min health, hide health bar
-	clamp(health, 0, max_health)
+	health = clamp(health, 0, max_health)
 	health_bar_node.visible = health != max_health
 
 	if health == 0:
