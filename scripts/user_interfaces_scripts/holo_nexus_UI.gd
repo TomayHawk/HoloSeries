@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-@onready var nexus = get_parent()
+@onready var nexus_node = get_parent()
 
 func _on_unlock_pressed():
-	nexus.unlock_node()
+	nexus_node.unlock_node()

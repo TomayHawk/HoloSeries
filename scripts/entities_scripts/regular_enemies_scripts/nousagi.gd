@@ -32,7 +32,7 @@ var dying = false
 var nousagi_instance = null
 
 func _ready():
-	$EnemiesHealthComponent.create_enemy()
+	$EnemyStatsComponent.create_enemy()
 	animation_node.play("walk")
 	add_to_group("enemies")
 
@@ -83,7 +83,7 @@ func _physics_process(_delta):
 		elif !players_exist_in_attack_area:
 			animation_node.play("walk")
 
-	$EnemiesHealthComponent.health_bar_update()
+	$EnemyStatsComponent.health_bar_update()
 	move_and_slide()
 
 	last_frame = current_frame
@@ -111,7 +111,7 @@ func summon_nousagi():
 	nousagi_instance.position = position + Vector2(5 * randf_range( - 1, 1), 5 * randf_range( - 1, 1)) * 5
 
 func take_damage(player_number, damage):
-	$EnemiesHealthComponent.deal_damage(damage)
+	$EnemyStatsComponent.deal_damage(damage)
 	player_direction = (GlobalSettings.players[player_number].position - position).normalized()
 	$KnockbackTimer.start(0.4)
 

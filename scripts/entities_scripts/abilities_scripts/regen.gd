@@ -13,18 +13,17 @@ var regen_count = 7
 var regen_time_intervals = 4
 # 3% each time
 var heal_percentage = 0.02
-var caster_magic_defence_multiplier_percentage = caster_node.player_stats_node.magic_defence * 
 var heal_amount = 10
 # total: 21% over 28 seconds
 
 func _ready():
-	GlobalSettings.request_entities(self, "initiate_regen", "players_alive", 1)
+	GlobalSettings.request_entities(self, "initiate_regen", 1, "players_alive")
 
 func initiate_regen(chosen_nodes):
 	target_player_node = chosen_nodes[0]
 	target_player_stats_node = target_player_node.player_stats_node
 
-	heal_amount = target_player_stats_node.max_health * heal_percentage * 
+	heal_amount = target_player_stats_node.max_health * heal_percentage
 	# 70 HP to 1470 HP (max at 7000 HP)
 	clamp(heal_amount, 10, 210)
 

@@ -1,29 +1,30 @@
 extends CharacterBody2D
 
+@onready var caster = GlobalSettings.current_main_player_node
 @onready var animation_node = $AnimatedSprite2D
 
 @export var damage = 50
 @export var speed = 250
 
-var current_player
 var move_direction
 
 func _ready():
+	position = caster.position
 	animation_node.play("shoot")
-	current_player = GlobalSettings.party_player_nodes[GlobalSettings.current_main_player_index]
-	move_direction = current_player.move_direction
+
+	move_direction = caster.move_direction
 	
 	var nearest_enemy = find_nearest_enemy()
 	if nearest_enemy:
 		# Calculate the direction to the nearest enemy
-		var direction = (nearest_enemy.global_position - current_player.position).normalized()
+		var direction = (nearest_enemy.global_position - caster.position).normalized()
 		velocity = direction * speed
 		print("Nearest enemy found at position: ", nearest_enemy.global_position)
 	elif move_direction != Vector2.ZERO: # shoot at player default facing direction
 		velocity = move_direction * speed
 	else: # shoot at player attack direction?? when current player is not moving
-		print(current_player.last_move_direction)
-		velocity = current_player.last_move_direction * speed
+		print(caster.last_move_direction)
+		velocity = caster.last_move_direction * speed
 
 func _physics_process(_delta):
 	move_and_slide()
@@ -41,7 +42,7 @@ func find_nearest_enemy():
 	var shortest_distance = INF
 	var enemies = get_tree().get_nodes_in_group("enemies")
 	for enemy in enemies:
-		var distance = current_player.position.distance_to(enemy.global_position)
+		var distance = caster.position.distance_to(enemy.global_position)
 		if distance < shortest_distance:
 			shortest_distance = distance
 			nearest_enemy = enemy

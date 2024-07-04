@@ -14,7 +14,7 @@ texture = ExtResource("2_f56on")
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-12, -8, 12, -8, 12, 8, -12, 8)
 
 [sub_resource type="TileSet" id="TileSet_5u4ff"]
-physics_layer_0/collision_layer = 8
+physics_layer_0/collision_layer = 256
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_i0fxp")
 
@@ -3125,7 +3125,8 @@ layer_0/tile_data = PackedInt32Array(-1245206, 0, 0, -1179670, 0, 0, -1114134, 0
 z_index = 1
 y_sort_enabled = true
 position = Vector2(-10, -6)
-collision_mask = 8
+collision_layer = 0
+collision_mask = 256
 script = ExtResource("2_nibvj")
 
 [node name="Sprite2D" type="Sprite2D" parent="NexusPlayer"]

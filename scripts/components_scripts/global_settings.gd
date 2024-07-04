@@ -6,8 +6,9 @@ var current_scene_node = null
 
 var current_main_player_node = null
 
-@onready var game_settings_node = $GameSettings
+@onready var game_options_node = $GameOptions
 @onready var combat_ui_node = $CombatUI
+@onready var combat_ui_control_node = $CombatUI/Control
 @onready var text_box_node = $TextBox
 @onready var camera_node = $Camera2D
 @onready var leaving_combat_timer_node = $LeavingCombatTimer
@@ -58,6 +59,7 @@ var nexus_not_randomized = true
 
 # combat variables
 var in_combat = false
+var abilities_node = null
 var enemy_nodes_in_combat = []
 
 # entities request variables
@@ -72,7 +74,11 @@ var entities_chosen = []
 func _process(_delta):
 	if Input.is_action_just_pressed("full_screen"): full_screen_toggle()
 	if Input.is_action_just_pressed("esc"): esc_input()
-	if Input.is_action_just_pressed("display_combat_UI"): combat_ui_node.combat_ui_control_display()
+	if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
+
+func update_nodes(scene_node):
+	current_scene_node = scene_node
+	abilities_node = current_scene_node.get_node_or_null("Abilities")
 
 # toggle full screen
 func full_screen_toggle():
@@ -86,25 +92,21 @@ func full_screen_toggle():
 # esc inputs
 func esc_input():
 	if requesting_entities:
-		requesting_entities = false
-		entities_request_count = 0
-		entities_available.clear()
-		entities_chosen_count = 0
-		entities_chosen.clear()
+		empty_entities_request()
 	elif game_paused:
-		game_settings_node.hide()
+		game_options_node.hide()
 		combat_ui_node.show()
 		current_scene_node.paused = true
 		game_paused = true
 	else:
-		game_settings_node.show()
+		game_options_node.show()
 		combat_ui_node.hide()
 		current_scene_node.paused = false
 		game_paused = false
 
 func start_game():
 	current_scene_node = load(scene_paths[0]).instantiate()
-	get_parent().add_child(current_scene_node)
+	get_tree().root.add_child(current_scene_node)
 
 	party_player_nodes[0] = load(base_player_path).instantiate()
 	party_player_nodes[1] = load(base_player_path).instantiate()
@@ -122,11 +124,11 @@ func start_game():
 	update_main_player(current_main_player_node)
 
 # change scene (called from scenes)
-func change_scene(next_scene_path, spawn_number):
-	get_tree().call_deferred("change_scene_to_file", next_scene_path)
-	# used for spawning at next _ready()
-	if spawn_number != null:
-		current_main_player_node.position = spawn_positions[spawn_number]
+func change_scene(next_scene_index, spawn_index):
+	get_tree().call_deferred("change_scene_to_file", scene_paths[next_scene_index])
+	current_main_player_node.position = spawn_positions[spawn_index]
+	for player_node in party_player_nodes: if player_node != current_main_player_node:
+		player_node.position = spawn_positions[spawn_index] + (15 * Vector2(randf_range( - 1, 1), randf_range( - 1, 1)))
 
 func update_main_player(next_main_player_node):
 	current_main_player_node.is_current_main_player = false
@@ -136,6 +138,8 @@ func update_main_player(next_main_player_node):
 	current_main_player_node.is_current_main_player = true
 	camera_node.reparent(current_main_player_node)
 	camera_node.position = Vector2.ZERO
+
+	empty_entities_request()
 
 func enter_combat():
 	if !in_combat:
@@ -155,8 +159,7 @@ func request_entities(origin_node, target_command, request_count, request_entity
 	entities_request_origin_node = origin_node
 	entities_request_target_command_string = target_command
 	entities_request_count = request_count
-	entities_chosen_count = 0
-	
+
 	if request_entity_type == "party_players":
 		entities_available = party_player_nodes.duplicate()
 	elif request_entity_type == "ally_players":
@@ -186,12 +189,21 @@ func request_entities(origin_node, target_command, request_count, request_entity
 			pass # ############### entity.add_child()
 
 func choose_entities():
+	entities_request_origin_node.call(entities_request_target_command_string, entities_chosen)
+	empty_entities_request()
+
+func empty_entities_request():
 	requesting_entities = false
 	entities_request_count = 0
 	entities_available.clear()
 	entities_chosen_count = 0
 	entities_chosen.clear()
-	entities_request_origin_node.call(entities_request_target_command_string, entities_chosen)
+
+# display combat ui
+func combat_ui_display():
+	if !GlobalSettings.in_combat:
+		if combat_ui_control_node.modulate.a != 1.0: combat_ui_control_node.modulate.a = 1.0
+		elif leaving_combat_timer_node.is_stopped(): combat_ui_control_node.modulate.a = 0.0
 
 func _on_leaving_combat_timer_timeout():
 	if enemy_nodes_in_combat.is_empty():

@@ -37,7 +37,7 @@ func _process(_delta):
 
 func start_text():
 	set_process(true)
-	GlobalSettings.settings_able = false
+	GlobalSettings.game_paused = true
 
 	for player_node in GlobalSettings.party_player_nodes:
 		GlobalSettings.player_node.set_physics_process(false)
@@ -58,7 +58,7 @@ func hide_text():
 	for player_node in GlobalSettings.party_player_nodes:
 		if player_node.player_stats_node.alive:
 			player_node.set_physics_process(true)
-	GlobalSettings.settings_able = true
+	GlobalSettings.game_paused = false
 	set_process(false)
 
 # queue text from npcs

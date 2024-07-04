@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 func _on_play_button_pressed():
-	get_tree().root.add_child(load("res://components/global_game_settings.tscn").instantiate())
+	GlobalSettings.start_game()
 	queue_free()
 
 func _on_saves_button_pressed():

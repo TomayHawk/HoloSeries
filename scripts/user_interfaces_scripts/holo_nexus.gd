@@ -41,15 +41,15 @@ func _ready():
 	nodes_unlocked = GlobalSettings.unlocked_nodes.duplicate()
 
 	# check for all adjacent unlockables
-	for player in 4: if GlobalSettings.unlocked_players[player]: # for each unlocked player
-		for node in nodes_unlocked[player]: # for each unlocked node
+	for player_index in 4: if GlobalSettings.unlocked_players[player_index]: # for each unlocked player
+		for node in nodes_unlocked[player_index]: # for each unlocked node
 			# determine adjacent nodes
 			var temp_adjacents = []
 			if (node % 32) < 16: for temp_index in adjacents_index[0]: temp_adjacents.push_back(node + temp_index)
 			else: for temp_index in adjacents_index[1]: temp_adjacents.push_back(node + temp_index)
 
 			for adjacent in temp_adjacents: # for each adjacent node
-				if !(adjacent in nodes_unlocked[player])&&(adjacent > - 1)&&(adjacent < 767): # if node is not unlocked and node exists
+				if !(adjacent in nodes_unlocked[player_index])&&(adjacent > - 1)&&(adjacent < 767): # if node is not unlocked and node exists
 					# determine second adjacent nodes
 					var second_temp_adjacents = []
 					if (adjacent % 32) < 16: for second_temp_index in adjacents_index[0]: second_temp_adjacents.push_back(adjacent + second_temp_index)
@@ -57,8 +57,8 @@ func _ready():
 
 					for second_adjacent in second_temp_adjacents: # for each adjacent node to adjacent node
 						# if second adjacent is unlocked, is not original node, and is not in unlockables array
-						if (second_adjacent in nodes_unlocked[player])&&(second_adjacent != node)&&!(adjacent in nodes_unlockable[player]):
-							nodes_unlockable[player].push_back(adjacent)
+						if (second_adjacent in nodes_unlocked[player_index])&&(second_adjacent != node)&&!(adjacent in nodes_unlockable[player_index]):
+							nodes_unlockable[player_index].push_back(adjacent)
 
 	# if nexus is empty, initiate randomizer
 	if GlobalSettings.nexus_not_randomized: stat_nodes_randomizer()
@@ -258,16 +258,26 @@ func unlock_node():
 
 func exit_nexus():
 	GlobalSettings.unlocked_nodes = nodes_unlocked.duplicate()
-	var player_index = 0
-	for player in GlobalSettings.unlocked_players:
+
+	# for each unlocked player
+	for player_index in 4: if GlobalSettings.unlocked_players[player_index]:
+		# clear unlocked nodes lists
 		GlobalSettings.unlocked_ability_nodes[player_index].clear()
-		for unlocked_index in nodes_unlocked[player]:
+		GlobalSettings.unlocked_stats_nodes[player_index].clear()
+		# for each unlocked node
+		for unlocked_index in nodes_unlocked[player_index]:
+			# if node is an ability, add node index to unlocked abilities list
 			if unlocked_index in ability_nodes:
 				GlobalSettings.unlocked_ability_nodes[player_index].push_back(unlocked_index)
+			# else add count to respective unlocked stats node type
 			else:
 				for texture_region_index in stats_node_atlas_position.size():
 					if nexus_nodes[unlocked_index].texture.region == stats_node_atlas_position[texture_region_index]:
-						GlobalSettings.unlocked_stats_nodes[player][texture_region_index] += 1
+						GlobalSettings.unlocked_stats_nodes[player_index][texture_region_index] += 1
 						break
-		player_index += 1
-	##### scene change
+	
+	# change scene
+	GlobalSettings.show()
+	GlobalSettings.current_scene_node.show()
+	GlobalSettings.current_scene_node.paused = false
+	queue_free()

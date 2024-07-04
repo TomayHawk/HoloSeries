@@ -25,11 +25,8 @@ const adjacents_index = [[ - 64, - 49, - 48, - 33, - 32, - 31, - 17, - 16, - 1, 
 	# for button in nexus_node.get_children(): nodes_on_screen.push_back(button)
 
 func _physics_process(_delta):
-	# print(position)
-	# GlobalSettings.players[GlobalSettings.current_main_player].get_node("Camera2D").enabled = false
-	# get_node("Camera2D").make_current()
-	# get_node("Camera2D").position = position
-	# print(get_node("Camera2D").is_current())
+	GlobalSettings.camera_node.reparent(self)
+	GlobalSettings.camera_node.position = Vector2(0, 0)
 
 	if snapping:
 		snap_distance = position.distance_to(snap_position)
