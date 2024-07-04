@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://qbr5gxao65w1"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_iof7x"]
+load_path = "res://.godot/imported/entities_highlight.png-55ab5cccf54cd6e0627f74eb75de9e79.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7i4l5"]
+atlas = SubResource("CompressedTexture2D_iof7x")
+region = Rect2(0, 16, 16, 16)
+
+[node name="EnemyMarker" type="Sprite2D"]
+position = Vector2(0, -40)
+texture = SubResource("AtlasTexture_7i4l5")

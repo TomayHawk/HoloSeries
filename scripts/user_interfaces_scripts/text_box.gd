@@ -40,7 +40,7 @@ func start_text():
 	GlobalSettings.game_paused = true
 
 	for player_node in GlobalSettings.party_player_nodes:
-		GlobalSettings.player_node.set_physics_process(false)
+		player_node.set_physics_process(false)
 
 		#update player animation in case alive and not "idle"
 		if player_node.player_stats_node.alive:

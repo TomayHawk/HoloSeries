@@ -122,7 +122,7 @@ func ally_movement(delta):
 	ally_direction_ready = false
 	moving = true
 
-	if GlobalSettings.in_combat:
+	if !GlobalSettings.enemy_nodes_in_combat.is_empty():
 		var distance_to_enemy = 10000
 		var target_enemies = []
 
@@ -136,8 +136,12 @@ func ally_movement(delta):
 			if position.distance_to(enemy.position) < distance_to_enemy:
 				distance_to_enemy = position.distance_to(enemy.position)
 				ally_target_enemy_node = enemy
+
+		current_move_direction = (ally_target_enemy_node.position - position).normalized()
+
 	elif ally_in_main_inner_area:
 		current_move_direction = possible_directions[randi() % 8]
+		ally_direction_cooldown_node.start(randf_range(0.5, 1))
 	else:
 		current_move_direction = (GlobalSettings.current_main_player_node.position - position).normalized()
 	
@@ -165,8 +169,6 @@ func ally_movement(delta):
 
 	if ally_in_main_inner_area: velocity /= 1.5
 
-	ally_direction_cooldown_node.start(randf_range(0.3, 0.5))
-
 func dash():
 	dashing = true
 	dash_cooldown_node.start(0.2)
@@ -177,6 +179,11 @@ func attack():
 
 	if is_current_main_player: attack_direction = (get_global_mouse_position() - position).normalized()
 	else:
+		var temp_enemy_health = 10000000000
+		for enemy_node in ally_enemy_nodes_in_attack_area:
+			if enemy_node.enemy_stats_node.health < temp_enemy_health:
+				temp_enemy_health = enemy_node.enemy_stats_node.health
+				attack_direction = (enemy_node.position - position).normalized()
 		ally_attack_ready = false
 		ally_attack_cooldown_node.start(randf_range(3, 4))
 	
@@ -254,6 +261,10 @@ func _on_interaction_area_body_entered(body):
 	elif !is_current_main_player&&body.has_method("choose_player"):
 		ally_enemy_nodes_in_attack_area.push_back(body)
 		ally_enemy_in_attack_area = true
+		
+		velocity = Vector2(0, 0)
+		moving = false
+		ally_direction_ready = true
 
 func _on_interaction_area_body_exited(body):
 	# npc cannot be interacted
@@ -269,15 +280,18 @@ func _on_interaction_area_body_exited(body):
 func _on_attack_cooldown_timeout():
 	attacking = false
 	last_move_direction = attack_direction
+	choose_animation()
 
 func _on_dash_cooldown_timeout():
 	dashing = false
 
 func _on_ally_attack_cooldown_timeout():
-	print("temporary")
+	ally_attack_ready = true
 
 func _on_ally_direction_cooldown_timeout():
-	if ally_in_main_inner_area:
+	if !GlobalSettings.enemy_nodes_in_combat.is_empty():
+		ally_pause_timer_node.start(randf_range(0.2, 0.4))
+	elif ally_in_main_inner_area:
 		ally_pause_timer_node.start(randf_range(1.5, 2))
 	else:
 		ally_pause_timer_node.start(randf_range(0.5, 0.8))

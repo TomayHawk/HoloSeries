@@ -74,7 +74,13 @@ func _physics_process(_delta):
 	if dying:
 		animation_node.play("death")
 		velocity = player_direction * (-100)
-		if $KnockbackTimer.get_time_left() <= 0.1: queue_free()
+		if $KnockbackTimer.get_time_left() <= 0.1:
+			GlobalSettings.enemy_nodes_in_combat.erase(self)
+			queue_free()
+
+	if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
+	if player_nodes_in_detection_area.is_empty(): players_exist_in_detection_area = false
+
 	elif taking_knockback:
 		animation_node.play("idle")
 		velocity = player_direction * (-200) * (1 - (0.4 - $KnockbackTimer.get_time_left()) / 0.4)

@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://cgwg615uwmnap" path="res://user_interfaces/combat_ui.tscn" id="3_s0tbo"]
 [ext_resource type="PackedScene" uid="uid://bfgttyngrxknk" path="res://user_interfaces/text_box.tscn" id="4_tvnta"]
 
-[node name="GlobalSettings" type="Node"]
-process_mode = 3
+[node name="GlobalSettings" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_mpwj3")
 
 [node name="Party" type="Node2D" parent="."]
@@ -25,5 +25,3 @@ visible = false
 [node name="LeavingCombatTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
-
-[connection signal="timeout" from="LeavingCombatTimer" to="." method="_on_leaving_combat_timer_timeout"]

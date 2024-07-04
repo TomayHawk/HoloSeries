@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 var currently_full_screen = false
 
@@ -73,7 +73,6 @@ var entities_chosen_count = 0
 var entities_chosen = []
 
 func _process(_delta):
-	print(in_combat)
 	if Input.is_action_just_pressed("full_screen"): full_screen_toggle()
 	if Input.is_action_just_pressed("esc"): esc_input()
 	if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
@@ -81,6 +80,8 @@ func _process(_delta):
 func update_nodes(scene_node):
 	current_scene_node = scene_node
 	abilities_node = current_scene_node.get_node_or_null("Abilities")
+
+	party_node.reparent(current_scene_node)
 
 # toggle full screen
 func full_screen_toggle():
@@ -98,13 +99,13 @@ func esc_input():
 	elif game_paused:
 		game_options_node.hide()
 		combat_ui_node.show()
-		current_scene_node.paused = true
-		game_paused = true
+		get_tree().paused = false
+		game_paused = false
 	else:
 		game_options_node.show()
 		combat_ui_node.hide()
-		current_scene_node.paused = false
-		game_paused = false
+		get_tree().paused = true
+		game_paused = true
 
 func start_game():
 	get_tree().call_deferred("change_scene_to_file", scene_paths[0])
@@ -139,6 +140,8 @@ func start_game():
 
 # change scene (called from scenes)
 func change_scene(next_scene_index, spawn_index):
+	party_node.call_deferred("reparent", GlobalSettings)
+	
 	get_tree().call_deferred("change_scene_to_file", scene_paths[next_scene_index])
 
 	current_main_player_node.position = spawn_positions[spawn_index]
