@@ -60,6 +60,7 @@ var nexus_not_randomized = true
 
 # combat variables
 var in_combat = false
+var leaving_combat = false
 var abilities_node = null
 var enemy_nodes_in_combat = []
 
@@ -107,6 +108,9 @@ func esc_input():
 		get_tree().paused = true
 		game_paused = true
 
+func left_click_handler():
+	pass
+
 func start_game():
 	get_tree().call_deferred("change_scene_to_file", scene_paths[0])
 
@@ -130,7 +134,7 @@ func start_game():
 	update_main_player(current_main_player_node)
 
 	party_player_nodes[0].position = spawn_positions[0]
-	party_player_nodes[1]._on_entities_detection_area_body_exited(party_player_nodes[0])
+	party_player_nodes[1]._on_outer_entities_detection_area_body_exited(party_player_nodes[0])
 
 	GlobalSettings.combat_ui_node.combat_ui_health_update(party_player_nodes[0])
 	GlobalSettings.combat_ui_node.combat_ui_mana_update(party_player_nodes[0])
@@ -163,8 +167,9 @@ func update_main_player(next_main_player_node):
 	empty_entities_request()
 
 func enter_combat():
-	if !in_combat:
+	if !in_combat||leaving_combat:
 		in_combat = true
+		leaving_combat = false
 		if leaving_combat_timer_node.is_stopped():
 			# fade in combat UI
 			combat_ui_node.combat_ui_control_tween(1)
@@ -174,14 +179,17 @@ func enter_combat():
 
 func attempt_leave_combat():
 	if in_combat&&leaving_combat_timer_node.is_stopped():
+		leaving_combat = true
 		leaving_combat_timer_node.start(2)
 
 func leave_combat():
 	in_combat = false
+	leaving_combat = false
 	enemy_nodes_in_combat.clear()
 	combat_ui_node.combat_ui_control_tween(0)
 
 func request_entities(origin_node, target_command, request_count, request_entity_type):
+	requesting_entities = true
 	entities_request_origin_node = origin_node
 	entities_request_target_command_string = target_command
 	entities_request_count = request_count
@@ -204,19 +212,20 @@ func request_entities(origin_node, target_command, request_count, request_entity
 	elif request_entity_type == "all_entities_in_combat":
 		entities_available = party_player_nodes.duplicate() + entities_available.duplicate()
 	elif request_entity_type == "all_enemies_on_screen":
-		pass
+		entities_available = enemy_nodes_in_combat.duplicate() # #### need to change
 	elif request_entity_type == "all_entities_on_screen":
-		pass
-		
+		entities_available = party_player_nodes.duplicate() + entities_available.duplicate() # #### need to change
+
+	'''	
 	for entity in entities_available:
-		if entity.has_method(): # #### need grouping
+		if entity.has_method("ally_movement"): # #### need grouping
 			pass # ############### entity.add_child()
 		elif entity.has_method():
 			pass # ############### entity.add_child()
+	'''
 
 func choose_entities():
 	entities_request_origin_node.call(entities_request_target_command_string, entities_chosen)
-	empty_entities_request()
 
 func empty_entities_request():
 	requesting_entities = false

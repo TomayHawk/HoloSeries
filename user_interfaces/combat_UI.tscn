@@ -589,10 +589,12 @@ text = "####
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/WhiteVBoxContainer/Heal" to="." method="_on_heal_pressed"]
+[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/WhiteVBoxContainer/Heal" to="." method="instantiate_ability" binds= [2]]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/WhiteVBoxContainer/Regen" to="." method="instantiate_ability" binds= [1]]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/BlackVBoxContainer/Fireball" to="." method="instantiate_ability" binds= [0]]
+[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/Potion" to="." method="request_entities" binds= ["use_potion", 1, "players_alive"]]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/MaxPotion" to="." method="use_max_potion"]
+[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/PhoenixFeather" to="." method="request_entities" binds= ["use_phoenix_feather", 1, "players_dead"]]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/KFPFamilyBucket" to="." method="use_kfp_family_bucket"]
 [connection signal="pressed" from="Control/CombatOptions/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
 [connection signal="pressed" from="Control/CombatOptions/MarginContainer/VBoxContainer/Special" to="." method="_on_combat_options_1_pressed" binds= [0]]

@@ -17,10 +17,13 @@ var heal_amount = 10
 # total: 21% over 28 seconds
 
 func _ready():
+	hide()
 	GlobalSettings.request_entities(self, "initiate_regen", 1, "players_alive")
 
 func initiate_regen(chosen_nodes):
+	show()
 	target_player_node = chosen_nodes[0]
+	GlobalSettings.empty_entities_request()
 	target_player_stats_node = target_player_node.player_stats_node
 
 	heal_amount = target_player_stats_node.max_health * heal_percentage
@@ -30,7 +33,7 @@ func initiate_regen(chosen_nodes):
 	regen_timer_node.start(4)
 
 func _on_timer_timeout():
-	target_player_stats_node.update_health(heal_amount * randf_range(0.8, 1.2))
+	target_player_stats_node.update_health(floor(heal_amount * randf_range(0.8, 1.2)))
 	regen_count -= 1
 	if regen_count == 0:
 		queue_free()

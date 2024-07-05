@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5o6bi43j562b"]
+[gd_scene load_steps=9 format=3 uid="uid://c5o6bi43j562b"]
 
 [ext_resource type="Script" path="res://scripts/entities_scripts/player.gd" id="1_euq10"]
 [ext_resource type="PackedScene" uid="uid://bba5o3t2xufxm" path="res://components/player_stats_component.tscn" id="2_66p30"]
@@ -8,6 +8,8 @@ size = Vector2(16, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fbnw6"]
 size = Vector2(20, 29)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8208e"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c1evc"]
 
@@ -34,12 +36,20 @@ collision_mask = 0
 position = Vector2(0, -11)
 shape = SubResource("RectangleShape2D_fbnw6")
 
+[node name="OuterEntitiesDetectionArea" type="Area2D" parent="."]
+visible = false
+
+[node name="OuterEntitiesDetectionShape" type="CollisionShape2D" parent="OuterEntitiesDetectionArea"]
+scale = Vector2(35, 35)
+shape = SubResource("CircleShape2D_8208e")
+
 [node name="EntitiesDetectionArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 
 [node name="EntitiesDetectionShape" type="CollisionShape2D" parent="EntitiesDetectionArea"]
 position = Vector2(2.98023e-08, -7)
-scale = Vector2(25, 25)
+scale = Vector2(20, 20)
 shape = SubResource("CircleShape2D_c1evc")
 
 [node name="InnerEntitiesDetectionArea" type="Area2D" parent="."]
@@ -47,7 +57,7 @@ collision_layer = 0
 
 [node name="InnerEntitiesDetectionShape" type="CollisionShape2D" parent="InnerEntitiesDetectionArea"]
 position = Vector2(2.98023e-08, -7)
-scale = Vector2(15, 15)
+scale = Vector2(8, 8)
 shape = SubResource("CircleShape2D_c1evc")
 
 [node name="InteractionArea" type="Area2D" parent="."]
@@ -59,6 +69,9 @@ collision_mask = 66
 position = Vector2(0, -7)
 scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_swviq")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
 
 [node name="AttackShape" type="ShapeCast2D" parent="."]
 position = Vector2(0, -7)
@@ -130,6 +143,8 @@ wait_time = 0.5
 one_shot = true
 
 [connection signal="input_event" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_input_event"]
+[connection signal="body_exited" from="OuterEntitiesDetectionArea" to="." method="_on_outer_entities_detection_area_body_exited"]
+[connection signal="body_entered" from="EntitiesDetectionArea" to="." method="_on_entities_detection_area_body_entered"]
 [connection signal="body_exited" from="EntitiesDetectionArea" to="." method="_on_entities_detection_area_body_exited"]
 [connection signal="body_entered" from="InnerEntitiesDetectionArea" to="." method="_on_inner_entities_detection_area_body_entered"]
 [connection signal="body_exited" from="InnerEntitiesDetectionArea" to="." method="_on_inner_entities_detection_area_body_exited"]

@@ -6,22 +6,26 @@
 [ext_resource type="PackedScene" uid="uid://bfgttyngrxknk" path="res://user_interfaces/text_box.tscn" id="4_tvnta"]
 
 [node name="GlobalSettings" type="Node2D"]
+process_mode = 3
 y_sort_enabled = true
 script = ExtResource("1_mpwj3")
 
 [node name="Party" type="Node2D" parent="."]
+process_mode = 1
 y_sort_enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
+process_mode = 1
 
 [node name="GameOptions" parent="." instance=ExtResource("3_afjlo")]
-visible = false
 
 [node name="CombatUI" parent="." instance=ExtResource("3_s0tbo")]
+process_mode = 1
 
 [node name="TextBox" parent="." instance=ExtResource("4_tvnta")]
-visible = false
+process_mode = 1
 
 [node name="LeavingCombatTimer" type="Timer" parent="."]
+process_mode = 1
 wait_time = 2.0
 one_shot = true

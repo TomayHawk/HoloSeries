@@ -117,10 +117,19 @@ func summon_nousagi():
 	get_parent().add_child(nousagi_instance)
 	nousagi_instance.position = position + Vector2(5 * randf_range( - 1, 1), 5 * randf_range( - 1, 1)) * 5
 
-func take_damage(player_index, damage):
+func take_damage(player_node, damage):
 	$EnemyStatsComponent.update_health( - damage)
-	player_direction = (GlobalSettings.party_player_nodes[player_index].position - position).normalized()
+	player_direction = (player_node.position - position).normalized()
 	$KnockbackTimer.start(0.4)
+
+func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			if GlobalSettings.requesting_entities&&self in GlobalSettings.entities_available&&!(self in GlobalSettings.entities_chosen):
+				GlobalSettings.entities_chosen.push_back(self)
+				GlobalSettings.entities_chosen_count += 1
+				if GlobalSettings.entities_request_count == GlobalSettings.entities_chosen_count:
+					GlobalSettings.choose_entities()
 
 func _on_detection_area_body_entered(body):
 	if body.player_stats_node.alive:
@@ -130,12 +139,14 @@ func _on_detection_area_body_entered(body):
 		if !player_nodes_in_detection_area.has(self): player_nodes_in_detection_area.push_back(body)
 
 func _on_detection_area_body_exited(body):
-	GlobalSettings.enemy_nodes_in_combat.erase(self)
 	player_nodes_in_detection_area.erase(body)
 	player_nodes_in_attack_area.erase(body)
+	
+	if player_nodes_in_detection_area.is_empty():
+		GlobalSettings.enemy_nodes_in_combat.erase(self)
+		players_exist_in_detection_area = false
 
 	if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
-	if player_nodes_in_detection_area.is_empty(): players_exist_in_detection_area = false
 
 func _on_attack_area_body_entered(body):
 	if body.player_stats_node.alive:

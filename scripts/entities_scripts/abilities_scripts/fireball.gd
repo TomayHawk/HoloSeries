@@ -1,50 +1,51 @@
 extends CharacterBody2D
 
-@onready var caster = GlobalSettings.current_main_player_node
+@onready var caster_node = GlobalSettings.current_main_player_node
 @onready var animation_node = $AnimatedSprite2D
+@onready var blast_radius_node = $BlastRadius
+@onready var time_left_node = $TimeLeft
 
 @export var damage = 50
-@export var speed = 250
+@export var speed = 10000
 
-var move_direction
+var move_direction = Vector2.ZERO
+var collision_information = null
+var nodes_in_blast_area = []
 
 func _ready():
-	position = caster.position
+	position = caster_node.position + Vector2(0, 7)
 	animation_node.play("shoot")
 
-	move_direction = caster.move_direction
-	
-	var nearest_enemy = find_nearest_enemy()
-	if nearest_enemy:
-		# Calculate the direction to the nearest enemy
-		var direction = (nearest_enemy.global_position - caster.position).normalized()
-		velocity = direction * speed
-		print("Nearest enemy found at position: ", nearest_enemy.global_position)
-	elif move_direction != Vector2.ZERO: # shoot at player default facing direction
-		velocity = move_direction * speed
-	else: # shoot at player attack direction?? when current player is not moving
-		print(caster.last_move_direction)
-		velocity = caster.last_move_direction * speed
+	GlobalSettings.request_entities(self, "initiate_fireball", 1, "all_enemies_on_screen")
 
-func _physics_process(_delta):
-	move_and_slide()
+	set_physics_process(false)
+	hide()
+
+func _physics_process(delta):
+	print("hi")
+	collision_information = move_and_collide(velocity * delta)
+	if collision_information != null: area_impact()
+
+func initiate_fireball(chosen_nodes):
+	move_direction = (chosen_nodes[0].position - position).normalized()
+	velocity = move_direction * speed
+
+	show()
+	set_physics_process(true)
+
+func area_impact():
+	for enemy_node in nodes_in_blast_area:
+		enemy_node.take_damage(caster_node, damage)
+	queue_free()
+
+func _on_blast_radius_body_entered(body):
+	nodes_in_blast_area.push_back(body)
+
+func _on_blast_radius_body_exited(body):
+	nodes_in_blast_area.erase(body)
 
 func _on_visible_on_screen_enabler_2d_screen_exited():
-	queue_free()
+	time_left_node.time_left(0.5)
 
-func _on_checker_body_entered(body):
-	if body.is_in_group("enemies"):
-		body.take_damage(0, damage)
+func _on_time_left_timeout():
 	queue_free()
-
-func find_nearest_enemy():
-	var nearest_enemy = null
-	var shortest_distance = INF
-	var enemies = get_tree().get_nodes_in_group("enemies")
-	for enemy in enemies:
-		var distance = caster.position.distance_to(enemy.global_position)
-		if distance < shortest_distance:
-			shortest_distance = distance
-			nearest_enemy = enemy
-		#print("Enemy position: ", enemy.global_position, " Distance: ", distance)
-	return nearest_enemy

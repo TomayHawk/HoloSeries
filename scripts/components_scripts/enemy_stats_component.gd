@@ -23,6 +23,9 @@ func health_bar_update():
 
 	if health == 0:
 		enemy_node.dying = true
+		GlobalSettings.enemy_nodes_in_combat.erase(enemy_node)
+
+		if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
 	# if health in range
 	else:
 		# health bar color depending on health percentages

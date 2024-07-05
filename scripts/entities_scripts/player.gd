@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var player_stats_node = $PlayerStatsComponent
 @onready var attack_shape_node = $AttackShape
 @onready var animation_node = $Animation
+@onready var navigation_agent_node = $NavigationAgent2D
 # timer nodes
 @onready var attack_cooldown_node = $AttackCooldown
 @onready var dash_cooldown_node = $DashCooldown
@@ -12,7 +13,8 @@ extends CharacterBody2D
 @onready var ally_pause_timer_node = $AllyPauseTimer
 
 # speed variables
-var speed = 10000
+var speed = 8000
+var ally_speed = 6000
 var dash_speed = 500
 var sprint_multiplier = 1.5
 
@@ -21,6 +23,7 @@ var player_index = 0
 var is_current_main_player = false
 
 # ally variables
+var ally_in_main_detection_area = false
 var ally_in_main_inner_area = false
 
 # movement variables
@@ -41,9 +44,7 @@ var attack_direction = Vector2.ZERO
 # combat variables (player)
 # combat variables (allies)
 var ally_attack_ready = true
-var ally_enemy_in_detection_area = false
 var ally_enemy_in_attack_area = false
-var ally_enemy_nodes_in_detection_area = []
 var ally_enemy_nodes_in_attack_area = []
 var ally_target_enemy_node = null
 
@@ -72,6 +73,7 @@ func _physics_process(delta):
 
 	# if ally in combat
 	elif GlobalSettings.in_combat&&ally_enemy_in_attack_area:
+
 		moving = false
 		velocity = Vector2.ZERO
 
@@ -88,7 +90,7 @@ func _physics_process(delta):
 
 		choose_animation()
 	# if ally can move
-	elif ally_direction_ready: ally_movement(delta)
+	elif ally_direction_ready&&!attacking: ally_movement(delta)
 
 	move_and_slide()
 
@@ -122,30 +124,28 @@ func ally_movement(delta):
 	ally_direction_ready = false
 	moving = true
 
-	if !GlobalSettings.enemy_nodes_in_combat.is_empty():
+	if GlobalSettings.in_combat&&!GlobalSettings.leaving_combat:
 		var distance_to_enemy = 10000
-		var target_enemies = []
-
-		# determine enemies to evaluate
-		if ally_enemy_in_detection_area: target_enemies = ally_enemy_nodes_in_detection_area
-		else: target_enemies = GlobalSettings.enemy_nodes_in_combat
-
 		# evaluate enemy distances
-		for enemy in target_enemies:
+		for enemy in GlobalSettings.enemy_nodes_in_combat:
 			# target enemy with shortest distance
 			if position.distance_to(enemy.position) < distance_to_enemy:
 				distance_to_enemy = position.distance_to(enemy.position)
 				ally_target_enemy_node = enemy
 
-		current_move_direction = (ally_target_enemy_node.position - position).normalized()
+		navigation_agent_node.target_position = ally_target_enemy_node.position
+		current_move_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
+		ally_direction_cooldown_node.start(randf_range(0.2, 0.4))
 
 	elif ally_in_main_inner_area:
 		current_move_direction = possible_directions[randi() % 8]
-		ally_direction_cooldown_node.start(randf_range(0.5, 1))
+		ally_direction_cooldown_node.start(randf_range(0.5, 0.7))
+	elif ally_in_main_detection_area:
+		navigation_agent_node.target_position = GlobalSettings.current_main_player_node.position
+		current_move_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
+		ally_direction_cooldown_node.start(randf_range(0.5, 0.7))
 	else:
-		current_move_direction = (GlobalSettings.current_main_player_node.position - position).normalized()
-	
-	choose_animation()
+		ally_direction_ready = true
 
 	var directions = []
 	var distance_to_direction = 2
@@ -163,11 +163,15 @@ func ally_movement(delta):
 			distance_to_direction = current_move_direction.distance_to(possible_directions[i])
 			current_move_direction = possible_directions[i]
 
-	velocity = current_move_direction * speed * delta
+	velocity = current_move_direction * ally_speed * delta
 
 	last_move_direction = current_move_direction
 
-	if ally_in_main_inner_area: velocity /= 1.5
+	choose_animation()
+
+	if !GlobalSettings.in_combat:
+		if ally_in_main_inner_area: velocity /= 1.5
+		elif ally_in_main_detection_area: velocity /= 1.25
 
 func dash():
 	dashing = true
@@ -185,7 +189,7 @@ func attack():
 				temp_enemy_health = enemy_node.enemy_stats_node.health
 				attack_direction = (enemy_node.position - position).normalized()
 		ally_attack_ready = false
-		ally_attack_cooldown_node.start(randf_range(3, 4))
+		ally_attack_cooldown_node.start(randf_range(2, 3))
 	
 	attack_shape_node.set_target_position(attack_direction * 20)
 
@@ -196,8 +200,8 @@ func attack():
 	if attack_shape_node.is_colliding():
 		for collision_index in attack_shape_node.get_collision_count():
 			enemy_body = attack_shape_node.get_collider(collision_index).get_parent()
-			if dashing: enemy_body.take_damage(0, 50)
-			else: enemy_body.take_damage(0, 20)
+			if dashing: enemy_body.take_damage(self, 50)
+			else: enemy_body.take_damage(self, 20)
 
 func choose_animation():
 	if attacking:
@@ -226,32 +230,34 @@ func choose_animation():
 func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if GlobalSettings.requesting_entities&&self in GlobalSettings.available_entities:
-				GlobalSettings.chosen_entities.push_back(self)
-				GlobalSettings.chosen_entities_count += 1
-				if GlobalSettings.request_entities_count == GlobalSettings.chosen_entities_count:
+			if GlobalSettings.requesting_entities&&self in GlobalSettings.entities_available&&!(self in GlobalSettings.entities_chosen):
+				GlobalSettings.entities_chosen.push_back(self)
+				GlobalSettings.entities_chosen_count += 1
+				if GlobalSettings.entities_request_count == GlobalSettings.entities_chosen_count:
 					GlobalSettings.choose_entities()
 			elif !is_current_main_player&&player_stats_node.alive:
-				player_stats_node.update_main_player(player_index)
+				GlobalSettings.update_main_player(self)
 
-func _on_entities_detection_area_body_exited(body):
+func _on_outer_entities_detection_area_body_exited(body):
 	if body == GlobalSettings.current_main_player_node&&player_stats_node.alive:
 		position = body.position + Vector2((randf_range(15, 25) * ((randi() % 2) * 2 - 1)), (randf_range(15, 25) * ((randi() % 2) * 2 - 1)))
 		ally_in_main_inner_area = true
 
+func _on_entities_detection_area_body_entered(body):
+	if body == GlobalSettings.current_main_player_node:
+		ally_in_main_detection_area = true
+
+func _on_entities_detection_area_body_exited(body):
+	if body == GlobalSettings.current_main_player_node&&player_stats_node.alive:
+		ally_in_main_detection_area = false
+
 func _on_inner_entities_detection_area_body_entered(body):
 	if body == GlobalSettings.current_main_player_node:
 		ally_in_main_inner_area = true
-	elif body.has_method("choose_player"):
-		ally_enemy_in_detection_area = true
-		ally_enemy_nodes_in_detection_area.push_back(body)
 
 func _on_inner_entities_detection_area_body_exited(body):
-	if body == GlobalSettings.current_main_player_node&&!GlobalSettings.in_combat:
+	if body == GlobalSettings.current_main_player_node&&player_stats_node.alive:
 		ally_in_main_inner_area = false
-	elif body.has_method("choose_player"):
-		ally_enemy_nodes_in_detection_area.erase(body)
-		if ally_enemy_nodes_in_detection_area.is_empty(): ally_enemy_in_detection_area = false
 
 func _on_interaction_area_body_entered(body):
 	# npc can be interacted
@@ -289,15 +295,16 @@ func _on_ally_attack_cooldown_timeout():
 	ally_attack_ready = true
 
 func _on_ally_direction_cooldown_timeout():
-	if !GlobalSettings.enemy_nodes_in_combat.is_empty():
-		ally_pause_timer_node.start(randf_range(0.2, 0.4))
-	elif ally_in_main_inner_area:
-		ally_pause_timer_node.start(randf_range(1.5, 2))
+	if GlobalSettings.in_combat&&!GlobalSettings.leaving_combat:
+		ally_direction_ready = true
 	else:
-		ally_pause_timer_node.start(randf_range(0.5, 0.8))
-	velocity = Vector2(0, 0)
-	moving = false
-
+		if ally_in_main_inner_area:
+			ally_pause_timer_node.start(randf_range(1.5, 2))
+		else:
+			ally_pause_timer_node.start(randf_range(1.5, 2))
+		velocity = Vector2(0, 0)
+		moving = false
+	
 	choose_animation()
 
 func _on_ally_pause_timer_timeout():
