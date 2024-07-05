@@ -1,7 +1,7 @@
 extends Node2D
 
-@onready var current_nexus_player = GlobalSettings.current_main_player_node
-@onready var unlockable_load = load("res://components/unlockables.tscn")
+@onready var current_nexus_player = GlobalSettings.current_main_player_node.player_index
+@onready var unlockable_load = load("res://resources/nexus_unlockables.tscn")
 var unlockable_instance = null
 
 # create array for all nexus nodes
@@ -80,6 +80,8 @@ func _ready():
 	update_nexus_player(current_nexus_player)
 
 func stat_nodes_randomizer():
+	GlobalSettings.nexus_not_randomized = false
+
 	var node_index = 0
 	for node in nexus_nodes:
 
@@ -221,17 +223,13 @@ func update_nexus_player(player):
 	nexus_player_node.get_node("Sprite2D2").hide()
 
 func unlock_node():
-	print("sup")
-	print(last_node[current_nexus_player])
 	if last_node[current_nexus_player] in nodes_unlockable[current_nexus_player]:
-		print("bye")
 		nodes_unlocked[current_nexus_player].push_back(last_node[current_nexus_player])
 		nodes_unlockable[current_nexus_player].erase(last_node[current_nexus_player])
 
 		for unlockable in $UnlockableNodes.get_children():
 			if unlockable.position == nexus_nodes[last_node[current_nexus_player]].position:
 				unlockable.queue_free()
-				print("hotate")
 
 		nexus_nodes[last_node[current_nexus_player]].modulate = Color(1, 1, 1, 1)
 
@@ -251,7 +249,6 @@ func unlock_node():
 					# if second adjacent is unlocked, is not original node, and is not in unlockables array
 					if (second_adjacent in nodes_unlocked[current_nexus_player])&&(second_adjacent != last_node[current_nexus_player])&&!(adjacent in nodes_unlockable[current_nexus_player]):
 						nodes_unlockable[current_nexus_player].push_back(adjacent)
-						print("this", nodes_unlockable[current_nexus_player])
 						unlockable_instance = unlockable_load.instantiate()
 						get_node("UnlockableNodes").add_child(unlockable_instance)
 						unlockable_instance.position = nexus_nodes[last_node[current_nexus_player]].position
@@ -263,7 +260,7 @@ func exit_nexus():
 	for player_index in 4: if GlobalSettings.unlocked_players[player_index]:
 		# clear unlocked nodes lists
 		GlobalSettings.unlocked_ability_nodes[player_index].clear()
-		GlobalSettings.unlocked_stats_nodes[player_index].clear()
+		GlobalSettings.unlocked_stats_nodes[player_index] = [0, 0, 0, 0, 0, 0, 0, 0]
 		# for each unlocked node
 		for unlocked_index in nodes_unlocked[player_index]:
 			# if node is an ability, add node index to unlocked abilities list
@@ -272,12 +269,15 @@ func exit_nexus():
 			# else add count to respective unlocked stats node type
 			else:
 				for texture_region_index in stats_node_atlas_position.size():
-					if nexus_nodes[unlocked_index].texture.region == stats_node_atlas_position[texture_region_index]:
+					if nexus_nodes[unlocked_index].texture.region.position == stats_node_atlas_position[texture_region_index]:
 						GlobalSettings.unlocked_stats_nodes[player_index][texture_region_index] += 1
 						break
 	
 	# change scene
+	GlobalSettings.game_paused = false
+	GlobalSettings.game_options_node.hide()
+	GlobalSettings.combat_ui_node.show()
 	GlobalSettings.show()
 	GlobalSettings.current_scene_node.show()
-	GlobalSettings.current_scene_node.paused = false
+	get_tree().paused = false
 	queue_free()

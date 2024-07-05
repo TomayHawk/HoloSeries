@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://chm27onewh2og"]
+
+[ext_resource type="Script" path="res://scripts/entities_scripts/abilities_scripts/heal.gd" id="1_w5388"]
+
+[node name="Heal" type="Node2D"]
+position = Vector2(0, -1)
+script = ExtResource("1_w5388")

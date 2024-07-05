@@ -53,9 +53,19 @@ character index
 '''
 
 # nexus variables
+var on_nexus = false
 var unlocked_nodes = [[135, 167, 182], [], [], [], [], [], [], [], [], []]
 var unlocked_ability_nodes = [[], [], [], [], [], [], [], [], [], []]
-var unlocked_stats_nodes = [[], [], [], [], [], [], [], [], [], []]
+var unlocked_stats_nodes = [[0, 0, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 0, 0, 0, 0, 0],
+							[0, 0, 0, 0, 0, 0, 0, 0]]
 var nexus_not_randomized = true
 
 # combat variables
@@ -95,7 +105,12 @@ func full_screen_toggle():
 
 # esc inputs
 func esc_input():
-	if requesting_entities:
+	if on_nexus:
+		on_nexus = false
+		camera_node.reparent(current_main_player_node)
+		camera_node.position = Vector2.ZERO
+		get_tree().root.get_node("HoloNexus").call_deferred("exit_nexus")
+	elif requesting_entities:
 		empty_entities_request()
 	elif game_paused:
 		game_options_node.hide()
@@ -185,6 +200,7 @@ func attempt_leave_combat():
 func leave_combat():
 	in_combat = false
 	leaving_combat = false
+	leaving_combat_timer_node.stop()
 	enemy_nodes_in_combat.clear()
 	combat_ui_node.combat_ui_control_tween(0)
 

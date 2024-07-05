@@ -5,6 +5,7 @@ extends CharacterBody2D
 @onready var attack_shape_node = $AttackShape
 @onready var animation_node = $Animation
 @onready var navigation_agent_node = $NavigationAgent2D
+@onready var obstacle_check_node = $ObstacleCheck
 # timer nodes
 @onready var attack_cooldown_node = $AttackCooldown
 @onready var dash_cooldown_node = $DashCooldown
@@ -37,6 +38,7 @@ var possible_directions = [Vector2(1, 0), Vector2(0.7071, -0.7071), Vector2(0, -
 # movement variables (player)
 # movement variables (allies)
 var ally_direction_ready = true
+var ray_cast_obstacles = true
 
 # combat variables
 var attacking = false
@@ -147,21 +149,47 @@ func ally_movement(delta):
 	else:
 		ally_direction_ready = true
 
-	var directions = []
-	var distance_to_direction = 2
-	# determine movement quadrant
-	if current_move_direction.x > 0:
-		if current_move_direction.y > 0: directions = [0, 6, 7]
-		else: directions = [0, 1, 2]
-	elif current_move_direction.x < 0:
-		if current_move_direction.y > 0: directions = [4, 5, 6]
-		else: directions = [2, 3, 4]
-	
-	# set movement direction to 8-way movement
-	for i in directions:
-		if current_move_direction.distance_to(possible_directions[i]) < distance_to_direction:
-			distance_to_direction = current_move_direction.distance_to(possible_directions[i])
-			current_move_direction = possible_directions[i]
+	# assume currently facing obstacle
+	ray_cast_obstacles = true
+	# each possible walk direction
+	var directions = [0, 1, 2, 3, 4, 5, 6, 7]
+	var originally_selected_direction = current_move_direction
+	var temp_snapped = Vector2.ZERO
+
+	# while facing obstacles
+	while ray_cast_obstacles:
+		var distance_to_direction = 2
+		
+		# for each possible direction
+		for i in directions:
+			# if distance to snapped direction is shorter than current distance to snapped direction, set new snapped direction
+			if originally_selected_direction.distance_to(possible_directions[i]) < distance_to_direction:
+				distance_to_direction = originally_selected_direction.distance_to(possible_directions[i])
+				temp_snapped = possible_directions[i]
+
+		current_move_direction = temp_snapped
+
+		# check for obstacles
+		obstacle_check_node.set_target_position(current_move_direction * 20)
+		obstacle_check_node.force_shapecast_update()
+
+		# if facing obstacles
+		if obstacle_check_node.is_colliding():
+			# remove currently selected direction
+			for i in directions:
+				if current_move_direction == possible_directions[i]:
+					directions.erase(i)
+			
+			if directions.is_empty():
+				for i in 8:
+					if originally_selected_direction.distance_to(possible_directions[i]) < distance_to_direction:
+						distance_to_direction = originally_selected_direction.distance_to(possible_directions[i])
+						temp_snapped = possible_directions[i]
+				current_move_direction = temp_snapped
+
+				ray_cast_obstacles = false
+		else:
+			ray_cast_obstacles = false
 
 	velocity = current_move_direction * ally_speed * delta
 

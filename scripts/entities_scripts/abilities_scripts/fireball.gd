@@ -13,7 +13,7 @@ var collision_information = null
 var nodes_in_blast_area = []
 
 func _ready():
-	position = caster_node.position + Vector2(0, 7)
+	position = caster_node.position + Vector2(0, -7)
 	animation_node.play("shoot")
 
 	GlobalSettings.request_entities(self, "initiate_fireball", 1, "all_enemies_on_screen")

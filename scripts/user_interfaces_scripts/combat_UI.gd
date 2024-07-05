@@ -28,7 +28,8 @@ extends CanvasLayer
 										  $Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/MarginContainer2/ManaAmount]
 
 @onready var abilities_load = [load("res://entities/abilities/fireball.tscn"),
-							   load("res://entities/abilities/regen.tscn")]
+							   load("res://entities/abilities/regen.tscn"),
+							   load("res://entities/abilities/heal.tscn")]
 
 var tween
 

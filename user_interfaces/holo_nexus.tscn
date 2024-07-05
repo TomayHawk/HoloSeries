@@ -1,10 +1,11 @@
-[gd_scene load_steps=779 format=3 uid="uid://hypatwksy0f7"]
+[gd_scene load_steps=780 format=3 uid="uid://hypatwksy0f7"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/holo_nexus.gd" id="1_84ul6"]
 [ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tileSets/physics.png" id="2_f56on"]
 [ext_resource type="Texture2D" uid="uid://sh1md1kmeikv" path="res://art/tileSets/holonexus.png" id="2_kb302"]
 [ext_resource type="Script" path="res://scripts/entities_scripts/nexus_player.gd" id="2_nibvj"]
 [ext_resource type="Texture2D" uid="uid://dc1oxa5cly1i7" path="res://art/tileSets/holonexus_.png" id="4_dbcyv"]
+[ext_resource type="PackedScene" uid="uid://wsunon4ilt68" path="res://user_interfaces/holo_nexus_ui.tscn" id="6_jufqf"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i0fxp"]
 texture = ExtResource("2_f56on")
@@ -9958,3 +9959,5 @@ texture = SubResource("AtlasTexture_qnrgt")
 [node name="UnlockableNodes" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
+
+[node name="HoloNexusUI" parent="." instance=ExtResource("6_jufqf")]
