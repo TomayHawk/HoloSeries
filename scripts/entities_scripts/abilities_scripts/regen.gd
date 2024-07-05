@@ -31,6 +31,7 @@ func initiate_regen(chosen_nodes):
 	clamp(heal_amount, 10, 210)
 
 	regen_timer_node.start(4)
+	target_player_stats_node.update_mana( - 20)
 
 func _on_timer_timeout():
 	target_player_stats_node.update_health(floor(heal_amount * randf_range(0.8, 1.2)))

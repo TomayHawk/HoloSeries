@@ -9,4 +9,6 @@ region = Rect2(16, 0, 48, 16)
 
 [node name="PlayerHighlight" type="Sprite2D"]
 y_sort_enabled = true
+position = Vector2(0, 10)
 texture = SubResource("AtlasTexture_mlsv6")
+offset = Vector2(0, -5)

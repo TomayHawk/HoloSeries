@@ -24,7 +24,7 @@ func health_bar_update():
 	if health == 0:
 		enemy_node.dying = true
 		GlobalSettings.enemy_nodes_in_combat.erase(enemy_node)
-
+		if GlobalSettings.locked_enemy_node == self: GlobalSettings.locked_enemy_node = null
 		if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
 	# if health in range
 	else:

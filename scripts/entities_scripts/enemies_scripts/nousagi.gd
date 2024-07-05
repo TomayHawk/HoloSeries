@@ -4,6 +4,8 @@ var speed = 75
 @onready var navigation_agent_node = $NavigationAgent2D
 @onready var animation_node = $Animation
 
+@onready var enemy_marker_path = "res://resources/entity_highlights/enemy_marker.tscn"
+
 # nousagi animation information
 var current_animation = null
 var current_frame = 0
@@ -75,6 +77,7 @@ func _physics_process(_delta):
 		animation_node.play("death")
 		velocity = player_direction * (-100)
 		if $KnockbackTimer.get_time_left() <= 0.1:
+			if GlobalSettings.locked_enemy_node == self: GlobalSettings.locked_enemy_node = null
 			GlobalSettings.enemy_nodes_in_combat.erase(self)
 			queue_free()
 
@@ -125,7 +128,13 @@ func take_damage(player_node, damage):
 func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if GlobalSettings.requesting_entities&&self in GlobalSettings.entities_available&&!(self in GlobalSettings.entities_chosen):
+			if Input.is_action_pressed("alt"):
+				if GlobalSettings.locked_enemy_node != null:
+					GlobalSettings.locked_enemy_node.remove_child(GlobalSettings.locked_enemy_node.get_node("EnemyMarker"))
+					GlobalSettings.locked_enemy_node = null
+				GlobalSettings.locked_enemy_node = self
+				add_child(load(enemy_marker_path).instantiate())
+			if GlobalSettings.requesting_entities&&(self in GlobalSettings.entities_available)&&!(self in GlobalSettings.entities_chosen):
 				GlobalSettings.entities_chosen.push_back(self)
 				GlobalSettings.entities_chosen_count += 1
 				if GlobalSettings.entities_request_count == GlobalSettings.entities_chosen_count:
@@ -143,6 +152,7 @@ func _on_detection_area_body_exited(body):
 	player_nodes_in_attack_area.erase(body)
 	
 	if player_nodes_in_detection_area.is_empty():
+		if GlobalSettings.locked_enemy_node == self: GlobalSettings.locked_enemy_node = null
 		GlobalSettings.enemy_nodes_in_combat.erase(self)
 		players_exist_in_detection_area = false
 

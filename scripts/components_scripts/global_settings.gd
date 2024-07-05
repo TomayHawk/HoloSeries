@@ -23,6 +23,15 @@ var current_main_player_node = null
 @onready var player_animations_paths = ["res://resources/player_animations/sora_animation.tscn",
 										"res://resources/player_animations/azki_animation.tscn"]
 
+@onready var entity_highlights_paths = ["res://resources/entity_highlights/enemy_highlight.tscn",
+										"res://resources/entity_highlights/enemy_marker.tscn",
+										"res://resources/entity_highlights/entity_highlight.tscn",
+										"res://resources/entity_highlights/entity_marker.tscn",
+										"res://resources/entity_highlights/invalid_highlight.tscn",
+										"res://resources/entity_highlights/invalid_marker.tscn",
+										"res://resources/entity_highlights/player_highlight.tscn",
+										"res://resources/entity_highlights/player_marker.tscn"]
+
 # settings variables
 var game_paused = false
 
@@ -42,9 +51,9 @@ scene spawn locations
 # player variables
 var unlocked_players = [true, true, false, false]
 var party_player_nodes = []
-var default_max_health = [9999, 999, 999, 10]
-var default_max_mana = [999, 99, 99, 0]
-var default_max_stamina = [100, 100, 100, 100]
+var default_max_health = [9999, 300, 999, 10]
+var default_max_mana = [999, 60, 99, 0]
+var default_max_stamina = [300, 100, 100, 100]
 
 '''
 character index
@@ -73,6 +82,7 @@ var in_combat = false
 var leaving_combat = false
 var abilities_node = null
 var enemy_nodes_in_combat = []
+var locked_enemy_node = null
 
 # entities request variables
 var requesting_entities = false
@@ -144,6 +154,10 @@ func start_game():
 	party_player_nodes[0].player_index = 0
 	party_player_nodes[1].player_index = 1
 
+	##### not working
+	party_player_nodes[0].player_stats_node.update_stats()
+	party_player_nodes[1].player_stats_node.update_stats()
+
 	current_main_player_node = party_player_nodes[0]
 	camera_node.reparent(current_main_player_node)
 	update_main_player(current_main_player_node)
@@ -203,6 +217,7 @@ func leave_combat():
 	leaving_combat_timer_node.stop()
 	enemy_nodes_in_combat.clear()
 	combat_ui_node.combat_ui_control_tween(0)
+	locked_enemy_node = null
 
 func request_entities(origin_node, target_command, request_count, request_entity_type):
 	requesting_entities = true
@@ -232,13 +247,15 @@ func request_entities(origin_node, target_command, request_count, request_entity
 	elif request_entity_type == "all_entities_on_screen":
 		entities_available = party_player_nodes.duplicate() + entities_available.duplicate() # #### need to change
 
-	'''	
 	for entity in entities_available:
 		if entity.has_method("ally_movement"): # #### need grouping
-			pass # ############### entity.add_child()
-		elif entity.has_method():
-			pass # ############### entity.add_child()
-	'''
+			entity.add_child(load(entity_highlights_paths[6]).instantiate())
+		elif entity.has_method("choose_player"):
+			entity.add_child(load(entity_highlights_paths[0]).instantiate())
+
+	if (entities_request_count == 1)&&(locked_enemy_node != null)&&(locked_enemy_node in entities_available):
+		entities_chosen.push_back(locked_enemy_node)
+		choose_entities()
 
 func choose_entities():
 	entities_request_origin_node.call(entities_request_target_command_string, entities_chosen)
@@ -246,6 +263,13 @@ func choose_entities():
 func empty_entities_request():
 	requesting_entities = false
 	entities_request_count = 0
+
+	for entity in entities_available:
+		if entity.has_method("ally_movement"): # #### need grouping
+			entity.remove_child(entity.get_node("PlayerHighlight"))
+		elif entity.has_method("choose_player"):
+			entity.remove_child(entity.get_node("EnemyHighlight"))
+
 	entities_available.clear()
 	entities_chosen_count = 0
 	entities_chosen.clear()

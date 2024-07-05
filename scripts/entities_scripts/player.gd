@@ -306,10 +306,9 @@ func _on_interaction_area_body_exited(body):
 		if body.has_method("area_status"):
 			body.area_status(false)
 	# enemy is outside attack area
-	else:
-		if body.has_method("choose_player"):
-			ally_enemy_nodes_in_attack_area.erase(body)
-			if ally_enemy_nodes_in_attack_area.is_empty(): ally_enemy_in_attack_area = false
+	if body.has_method("choose_player"):
+		ally_enemy_nodes_in_attack_area.erase(body)
+		if ally_enemy_nodes_in_attack_area.is_empty(): ally_enemy_in_attack_area = false
 
 func _on_attack_cooldown_timeout():
 	attacking = false
