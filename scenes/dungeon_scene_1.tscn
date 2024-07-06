@@ -295,6 +295,7 @@ size = Vector2(128, 16)
 size = Vector2(28, 23)
 
 [node name="DungeonScene1" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_qkpt5")
 
 [node name="DungeonMap" type="TileMap" parent="."]
@@ -323,11 +324,13 @@ collision_layer = 8
 shape = SubResource("RectangleShape2D_qojuv")
 
 [node name="Enemies" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Nousagi" parent="Enemies" instance=ExtResource("12_hviyt")]
 position = Vector2(-368, -6)
 
 [node name="Entities" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Chest" type="StaticBody2D" parent="Entities"]
 scale = Vector2(1.25803, 1)
@@ -339,5 +342,6 @@ position = Vector2(-280, -44.5)
 shape = SubResource("RectangleShape2D_pan47")
 
 [node name="Abilities" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [connection signal="body_entered" from="WorldScene2Transit" to="." method="_on_world_scene_2_transit_body_entered"]

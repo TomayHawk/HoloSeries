@@ -198,35 +198,33 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "MAX Potion"
 
-[node name="PhoenixFeather" type="Button" parent="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer"]
+[node name="PhoenixBurger" type="Button" parent="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
-text = "Phoenix Feather"
+text = "Phoenix Burger"
 
-[node name="KFPFamilyBucket" type="Button" parent="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer"]
+[node name="ResetButton" type="Button" parent="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
-text = "KFP Family Bucket"
+text = "Reset Button"
+
+[node name="TempKillItem" type="Button" parent="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Temp Kill Item"
 
 [node name="CombatOptions" type="MarginContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -142.0
+offset_top = -128.0
 offset_right = 128.0
 grow_vertical = 0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_bottom = 16
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Control/CombatOptions"]
-layout_mode = 2
-
-[node name="VScrollBar" type="VScrollBar" parent="Control/CombatOptions/ScrollContainer"]
-visible = false
-layout_mode = 2
 
 [node name="Panel" type="Panel" parent="Control/CombatOptions"]
 layout_mode = 2
@@ -239,12 +237,16 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/CombatOptions/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/CombatOptions/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CombatOptions/MarginContainer/ScrollContainer"]
 clip_contents = true
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Attack" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
+[node name="Attack" type="Button" parent="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
@@ -253,43 +255,43 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_6buve")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_x11mp")
 text = "Attack"
 
-[node name="Special" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
+[node name="Special" type="Button" parent="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Special"
 
-[node name="Skill" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
+[node name="Skill" type="Button" parent="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Skill"
 
-[node name="Buff" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
+[node name="Buff" type="Button" parent="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Buff
 "
 
-[node name="Debuff" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
+[node name="Debuff" type="Button" parent="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Debuff"
 
-[node name="WhiteMagic" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
+[node name="WhiteMagic" type="Button" parent="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "White Magic"
 
-[node name="BlackMagic" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
+[node name="BlackMagic" type="Button" parent="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Black Magic"
 
-[node name="Summon" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
+[node name="Summon" type="Button" parent="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Summon"
 
-[node name="Items" type="Button" parent="Control/CombatOptions/MarginContainer/VBoxContainer"]
+[node name="Items" type="Button" parent="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Items"
@@ -594,14 +596,15 @@ vertical_alignment = 1
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/BlackVBoxContainer/Fireball" to="." method="instantiate_ability" binds= [0]]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/Potion" to="." method="request_entities" binds= ["use_potion", 1, "players_alive"]]
 [connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/MaxPotion" to="." method="use_max_potion"]
-[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/PhoenixFeather" to="." method="request_entities" binds= ["use_phoenix_feather", 1, "players_dead"]]
-[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/KFPFamilyBucket" to="." method="use_kfp_family_bucket"]
-[connection signal="pressed" from="Control/CombatOptions/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
-[connection signal="pressed" from="Control/CombatOptions/MarginContainer/VBoxContainer/Special" to="." method="_on_combat_options_1_pressed" binds= [0]]
-[connection signal="pressed" from="Control/CombatOptions/MarginContainer/VBoxContainer/Skill" to="." method="_on_combat_options_1_pressed" binds= [1]]
-[connection signal="pressed" from="Control/CombatOptions/MarginContainer/VBoxContainer/Buff" to="." method="_on_combat_options_1_pressed" binds= [2]]
-[connection signal="pressed" from="Control/CombatOptions/MarginContainer/VBoxContainer/Debuff" to="." method="_on_combat_options_1_pressed" binds= [3]]
-[connection signal="pressed" from="Control/CombatOptions/MarginContainer/VBoxContainer/WhiteMagic" to="." method="_on_combat_options_1_pressed" binds= [4]]
-[connection signal="pressed" from="Control/CombatOptions/MarginContainer/VBoxContainer/BlackMagic" to="." method="_on_combat_options_1_pressed" binds= [5]]
-[connection signal="pressed" from="Control/CombatOptions/MarginContainer/VBoxContainer/Summon" to="." method="_on_combat_options_1_pressed" binds= [6]]
-[connection signal="pressed" from="Control/CombatOptions/MarginContainer/VBoxContainer/Items" to="." method="_on_combat_options_1_pressed" binds= [7]]
+[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/PhoenixBurger" to="." method="request_entities" binds= ["use_phoenix_burger", 1, "players_dead"]]
+[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/ResetButton" to="." method="use_reset_button"]
+[connection signal="pressed" from="Control/CombatOptions2/MarginContainer/ItemsVBoxContainer/TempKillItem" to="." method="request_entities" binds= ["use_temp_kill_item", 1, "players_alive"]]
+[connection signal="pressed" from="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Special" to="." method="_on_combat_options_1_pressed" binds= [0]]
+[connection signal="pressed" from="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Skill" to="." method="_on_combat_options_1_pressed" binds= [1]]
+[connection signal="pressed" from="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Buff" to="." method="_on_combat_options_1_pressed" binds= [2]]
+[connection signal="pressed" from="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Debuff" to="." method="_on_combat_options_1_pressed" binds= [3]]
+[connection signal="pressed" from="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer/WhiteMagic" to="." method="_on_combat_options_1_pressed" binds= [4]]
+[connection signal="pressed" from="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer/BlackMagic" to="." method="_on_combat_options_1_pressed" binds= [5]]
+[connection signal="pressed" from="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Summon" to="." method="_on_combat_options_1_pressed" binds= [6]]
+[connection signal="pressed" from="Control/CombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Items" to="." method="_on_combat_options_1_pressed" binds= [7]]

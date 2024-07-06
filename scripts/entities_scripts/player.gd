@@ -12,12 +12,13 @@ extends CharacterBody2D
 @onready var ally_attack_cooldown_node = $AllyAttackCooldown
 @onready var ally_direction_cooldown_node = $AllyDirectionCooldown
 @onready var ally_pause_timer_node = $AllyPauseTimer
+@onready var death_timer_node = $DeathTimer
 
 # speed variables
-var speed = 8000
+var speed = 10000
 var ally_speed = 6000
 var dash_speed = 500
-var sprint_multiplier = 1.5
+var sprint_multiplier = 1.25
 
 # player node information variables
 var player_index = 0
@@ -69,6 +70,8 @@ func _physics_process(delta):
 			elif Input.is_action_pressed("dash"):
 				player_stats_node.stamina -= 0.7
 				sprinting = true
+			elif sprinting:
+				sprinting = false
 		else: sprinting = false
 
 		player_movement(delta)
@@ -200,6 +203,34 @@ func ally_movement(delta):
 	if !GlobalSettings.in_combat:
 		if ally_in_main_inner_area: velocity /= 1.5
 		elif ally_in_main_detection_area: velocity /= 1.25
+
+func reset_variables():
+	ally_in_main_detection_area = true
+	ally_in_main_inner_area = false
+
+	moving = false
+	dashing = false
+	sprinting = false
+	current_move_direction = Vector2.ZERO
+
+	attacking = false
+	attack_direction = Vector2.ZERO
+
+	ally_attack_ready = true
+	ally_enemy_in_attack_area = false
+	ally_enemy_nodes_in_attack_area.clear()
+	ally_target_enemy_node = null
+
+	velocity = Vector2.ZERO
+
+	attack_cooldown_node.stop()
+	ally_attack_cooldown_node.stop()
+	ally_direction_cooldown_node.stop()
+	death_timer_node.stop()
+	
+	ally_direction_ready = false
+	ally_pause_timer_node.start(randf_range(0.2, 0.5))
+	choose_animation()
 
 func dash():
 	dashing = true

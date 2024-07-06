@@ -9,6 +9,6 @@ region = Rect2(16, 16, 48, 16)
 
 [node name="EnemyHighlight" type="Sprite2D"]
 y_sort_enabled = true
-position = Vector2(0, 10)
+position = Vector2(0, -5)
 texture = SubResource("AtlasTexture_vc30a")
-offset = Vector2(0, -5)
+offset = Vector2(0, 10)

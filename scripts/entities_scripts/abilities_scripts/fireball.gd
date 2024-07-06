@@ -32,6 +32,7 @@ func initiate_fireball(chosen_nodes):
 	
 	show()
 	time_left_node.start()
+	GlobalSettings.empty_entities_request()
 
 func area_impact():
 	for enemy_node in nodes_in_blast_area:
@@ -48,5 +49,5 @@ func _on_visible_on_screen_enabler_2d_screen_exited():
 	time_left_node.set_wait_time(0.5)
 
 func _on_time_left_timeout():
-	print("timeout")
+
 	queue_free()

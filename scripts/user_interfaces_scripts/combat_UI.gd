@@ -41,7 +41,7 @@ func _ready():
 
 # CombatUI health text update
 func combat_ui_health_update(player_node):
-	players_health_label_nodes[player_node.player_index].text = str(player_node.player_stats_node.health)
+	players_health_label_nodes[player_node.player_index].text = str(floor(player_node.player_stats_node.health))
 
 func combat_ui_mana_update(player_node):
 	players_mana_label_nodes[player_node.player_index].text = str(floor(player_node.player_stats_node.mana))
@@ -82,30 +82,41 @@ func instantiate_ability(ability_index):
 	# create and add ability instance to abilities node
 	GlobalSettings.abilities_node.add_child(abilities_load[ability_index].instantiate())
 
-# request entities for items
+# request entities for items (target_command, request_count, request_entity_type)
 func request_entities(extra_arg_0, extra_arg_1, extra_arg_2):
+	GlobalSettings.empty_entities_request()
 	GlobalSettings.request_entities(self, extra_arg_0, extra_arg_1, extra_arg_2)
 
 # use items
 func use_potion(chosen_player_nodes):
 	chosen_player_nodes[0].player_stats_node.update_health(200)
+	GlobalSettings.empty_entities_request()
 
 func use_max_potion():
+	GlobalSettings.empty_entities_request()
 	for player in GlobalSettings.party_player_nodes:
 		if player.player_stats_node.alive:
 			player.player_stats_node.update_health(99999)
 
-func use_phoenix_feather(chosen_player_nodes):
+func use_phoenix_burger(chosen_player_nodes):
 	chosen_player_nodes[0].player_stats_node.alive = true
+	chosen_player_nodes[0].reset_variables()
 	chosen_player_nodes[0].player_stats_node.update_health(chosen_player_nodes[0].player_stats_node.max_health * 0.25)
 	chosen_player_nodes[0].set_physics_process(true)
 
 	if chosen_player_nodes[0].position.distance_to(GlobalSettings.current_main_player_node.position) > 80:
 		chosen_player_nodes[0]._on_entities_detection_area_body_exited(GlobalSettings.current_main_player_node)
+	GlobalSettings.empty_entities_request()
 
-func use_kfp_family_bucket():
+func use_reset_button():
+	GlobalSettings.empty_entities_request()
 	for player in GlobalSettings.party_player_nodes:
 		if !player.player_stats_node.alive:
 			player.player_stats_node.alive = true
+			player.reset_variables()
 			player.player_stats_node.update_health(player.player_stats_node.max_health)
 			player.set_physics_process(true)
+
+func use_temp_kill_item(chosen_player_nodes):
+	chosen_player_nodes[0].player_stats_node.update_health( - 99999)
+	GlobalSettings.empty_entities_request()

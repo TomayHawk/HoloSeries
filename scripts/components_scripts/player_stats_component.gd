@@ -6,7 +6,6 @@ extends Node
 @onready var health_bar_node = player_node.get_node("HealthBar")
 @onready var mana_bar_node = player_node.get_node("ManaBar")
 @onready var stamina_bar_node = player_node.get_node("StaminaBar")
-@onready var death_timer_node = player_node.get_node("DeathTimer")
 
 # player variables
 @onready var player_index = player_node.player_index
@@ -62,19 +61,22 @@ func update_health_bar():
 
 	if health == 0:
 		alive = false
-		death_timer_node.set_wait_time(0.5)
-		death_timer_node.start()
-		
-		player_node.animation_node.play("death")
+		player_node.death_timer_node.start(0.5)
+		player_node.attack_cooldown_node.stop()
+		player_node.ally_attack_cooldown_node.stop()
+		player_node.ally_direction_cooldown_node.stop()
+		player_node.ally_pause_timer_node.stop()
+
 		player_node.set_physics_process(false)
+		player_node.animation_node.play("death")
 
 		stamina = max_stamina
 		stamina_bar_node.visible = false
 		
-		if GlobalSettings.current_main_player_index == player_index:
+		if GlobalSettings.current_main_player_node == player_node:
 			for temp_player_node in GlobalSettings.party_player_nodes:
-				if temp_player_node.player_stats_component.alive&&temp_player_node.player_index != player_index:
-					GlobalSettings.update_main_player(temp_player_node.player_index)
+				if temp_player_node.player_stats_node.alive:
+					GlobalSettings.update_main_player(player_index)
 	else:
 		temp_bar_percentage = health * 1.0 / max_health
 		if temp_bar_percentage > 0.5: health_bar_node.modulate = Color(0, 1, 0, 1)

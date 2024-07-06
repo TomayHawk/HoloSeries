@@ -241,11 +241,11 @@ func request_entities(origin_node, target_command, request_count, request_entity
 	elif request_entity_type == "enemies_in_combat":
 		entities_available = enemy_nodes_in_combat.duplicate()
 	elif request_entity_type == "all_entities_in_combat":
-		entities_available = party_player_nodes.duplicate() + entities_available.duplicate()
+		entities_available = party_player_nodes.duplicate() + enemy_nodes_in_combat.duplicate()
 	elif request_entity_type == "all_enemies_on_screen":
-		entities_available = enemy_nodes_in_combat.duplicate() # #### need to change
+		entities_available = current_scene_node.get_node("Enemies").get_children().duplicate()
 	elif request_entity_type == "all_entities_on_screen":
-		entities_available = party_player_nodes.duplicate() + entities_available.duplicate() # #### need to change
+		entities_available = party_player_nodes.duplicate() + current_scene_node.get_node("Enemies").get_children().duplicate()
 
 	for entity in entities_available:
 		if entity.has_method("ally_movement"): # #### need grouping
@@ -263,12 +263,13 @@ func choose_entities():
 func empty_entities_request():
 	requesting_entities = false
 	entities_request_count = 0
-
+	
 	for entity in entities_available:
-		if entity.has_method("ally_movement"): # #### need grouping
-			entity.remove_child(entity.get_node("PlayerHighlight"))
-		elif entity.has_method("choose_player"):
-			entity.remove_child(entity.get_node("EnemyHighlight"))
+		if is_instance_valid(entity):
+			if entity.has_method("ally_movement"): # #### need grouping
+				entity.remove_child(entity.get_node("PlayerHighlight"))
+			elif entity.has_method("choose_player"):
+				entity.remove_child(entity.get_node("EnemyHighlight"))
 
 	entities_available.clear()
 	entities_chosen_count = 0

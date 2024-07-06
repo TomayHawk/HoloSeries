@@ -688,5 +688,6 @@ y_sort_enabled = true
 position = Vector2(200, -100)
 
 [node name="Abilities" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [connection signal="body_entered" from="WorldScene2Transit" to="." method="_on_world_scene_2_transit_body_entered"]

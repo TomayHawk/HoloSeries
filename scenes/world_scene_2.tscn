@@ -110,6 +110,7 @@ position = Vector2(403, 50)
 position = Vector2(453, -79)
 
 [node name="Abilities" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [connection signal="body_entered" from="WorldScene1Transit" to="." method="_on_world_scene_1_transit_body_entered"]
 [connection signal="body_entered" from="DungeonScene1Transit" to="." method="_on_dungeon_scene_1_transit_body_entered"]

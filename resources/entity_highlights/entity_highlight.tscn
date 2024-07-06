@@ -9,6 +9,6 @@ region = Rect2(16, 48, 48, 16)
 
 [node name="EntityHighlight" type="Sprite2D"]
 y_sort_enabled = true
-position = Vector2(0, 10)
+position = Vector2(0, -5)
 texture = SubResource("AtlasTexture_hao17")
-offset = Vector2(0, -5)
+offset = Vector2(0, 10)
