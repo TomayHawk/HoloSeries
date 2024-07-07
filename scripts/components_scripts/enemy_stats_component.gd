@@ -2,6 +2,8 @@ extends Node
 
 # enemy node
 @onready var enemy_node = get_parent()
+@onready var knockback_timer = enemy_node.get_node("KnockbackTimer")
+
 @onready var health_bar_node = enemy_node.get_node("HealthBar")
 
 # health variables
@@ -9,40 +11,52 @@ var max_health = 100
 var health = 100
 var health_bar_percentage = 1.0
 
-# knockback status
-var knockback = false
-
 # called upon instantiating (creating) each enemy
-func ready():
+func _ready():
 	health_bar_node.max_value = max_health
+	update_health(enemy_node.position, 0.0, 0)
+	set_physics_process(false)
+
+func _physics_process(_delta):
+	enemy_node.move_and_slide()
 
 # deal damage to enemy (called by enemy)
-func update_health(source_position, knockback_weight, amount):
-	# no damage if currently taking knockback
-	if enemy_node.taking_knockback: amount = 0
-	enemy_node.taking_knockback = true
+func update_health(knockback_direction, knockback_weight, amount):
+	# invincibility check
+	if enemy_node.invincible:
+		amount = 0
+	elif amount < 0:
+		enemy_node.invincible = true
+		enemy_node.invincibility_frame_node.start(0.05)
+
+	# update health bar
 	health += amount
-	
-	# if max or min health, hide health bar
 	health = clamp(health, 0, max_health)
+	health_bar_node.value = health
 	health_bar_node.visible = health != max_health
 
-	if health == 0:
-		enemy_node.dying = true
-		GlobalSettings.enemy_nodes_in_combat.erase(enemy_node)
-		if GlobalSettings.locked_enemy_node == self: GlobalSettings.locked_enemy_node = null
-		if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
-	# if health in range
-	else:
-		# health bar color depending on health percentages
-		health_bar_percentage = health * 1.0 / max_health
-		if health_bar_percentage > 0.5: health_bar_node.modulate = "a9ff30"
-		elif health_bar_percentage > 0.1: health_bar_node.modulate = "c8a502"
-		else: health_bar_node.modulate = "a93430"
-	
-	# update health bar
-	health_bar_node.value = health
+	# check death
+	if health == 0: trigger_death()
 
-	enemy_node.player_direction = (source_position - enemy_node.position).normalized()
+	# determine health bar modulation based on percentage
+	health_bar_percentage = health * 1.0 / max_health
+	if health_bar_percentage > 0.5: health_bar_node.modulate = "a9ff30"
+	elif health_bar_percentage > 0.2: health_bar_node.modulate = "c8a502"
+	else: health_bar_node.modulate = "a93430"
+
+	# knockback
+	enemy_node.taking_knockback = true
+	enemy_node.knockback_direction = knockback_direction
 	enemy_node.knockback_weight = knockback_weight
-	enemy_node.get_node("KnockbackTimer").start(0.4)
+	knockback_timer.start(0.4)
+
+func trigger_death():
+	GlobalSettings.enemy_nodes_in_combat.erase(enemy_node)
+	if GlobalSettings.locked_enemy_node == self: GlobalSettings.locked_enemy_node = null
+	if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
+
+	enemy_node.set_physics_process(false)
+	enemy_node.animation_node.play("death")
+	enemy_node.get_node("DeathTimer").start(0.3)
+	enemy_node.velocity = enemy_node.knockback_direction * 100
+	set_physics_process(true)

@@ -52,6 +52,11 @@ var ally_enemy_in_attack_area = false
 var ally_enemy_nodes_in_attack_area = []
 var ally_target_enemy_node = null
 
+# knockback variables
+var taking_knockback = false
+var knockback_direction = Vector2.ZERO
+var knockback_weight = 0.0
+
 func _ready():
 	var i = 0
 	for party_player_node in GlobalSettings.party_player_nodes:
@@ -104,6 +109,9 @@ func _physics_process(delta):
 		choose_animation()
 	# if ally can move
 	elif ally_direction_ready&&!attacking: ally_movement(delta)
+
+	if taking_knockback:
+		velocity = knockback_direction * 200 * (1 - (0.4 - $KnockbackTimer.get_time_left()) / 0.4) * knockback_weight
 
 	move_and_slide()
 
@@ -270,8 +278,8 @@ func attack():
 	if attack_shape_node.is_colliding():
 		for collision_index in attack_shape_node.get_collision_count():
 			enemy_body = attack_shape_node.get_collider(collision_index).get_parent()
-			if dashing: enemy_body.enemy_stats_node.update_health(position, 1.5, 50)
-			else: enemy_body.enemy_stats_node.update_health(position, 1.0, 20)
+			if dashing: enemy_body.enemy_stats_node.update_health(attack_direction, 3.5, -50)
+			else: enemy_body.enemy_stats_node.update_health(attack_direction, 1.0, -20)
 
 func choose_animation():
 	if attacking:
@@ -378,6 +386,9 @@ func _on_ally_direction_cooldown_timeout():
 
 func _on_ally_pause_timer_timeout():
 	ally_direction_ready = true
+
+func _on_knockback_timer_timeout():
+	taking_knockback = false
 
 func _on_death_timer_timeout():
 	animation_node.pause()

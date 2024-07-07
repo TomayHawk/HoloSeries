@@ -26,7 +26,6 @@ var target_player_node = null
 # status
 var attack_ready = true
 var taking_knockback = false
-var dying = false
 
 # duplicating nousagis
 @onready var scene_node = get_parent().get_parent()
@@ -34,8 +33,10 @@ var dying = false
 var nousagi_instance = null
 
 @onready var enemy_stats_node = $EnemyStatsComponent
-
+@onready var invincibility_frame_node = $InvincibilityFrame
+var knockback_direction = Vector2.ZERO
 var knockback_weight = 0.0
+var invincible = false
 
 func _ready():
 	animation_node.play("walk")
@@ -65,29 +66,21 @@ func _physics_process(_delta):
 		elif current_frame == 3:
 			if current_animation == "attack":
 				if players_exist_in_attack_area&&target_player_node != null:
-					target_player_node.player_stats_node.update_health(position, 0.1, -100) # attack player (damage)
 					player_direction = (target_player_node.position - position).normalized()
+					target_player_node.player_stats_node.update_health(player_direction, 0.4, -100) # attack player (damage)
 					animation_node.flip_h = player_direction.x < 0
 				$AttackCooldown.start(randf_range(1, 3))
 				attack_ready = false
 			elif current_animation == "walk":
 				velocity = move_direction * speed
 		if players_exist_in_attack_area: velocity = Vector2(0, 0)
-	
-	if dying:
-		animation_node.play("death")
-		velocity = player_direction * (-100)
-		if $KnockbackTimer.get_time_left() <= 0.1:
-			if GlobalSettings.locked_enemy_node == self: GlobalSettings.locked_enemy_node = null
-			GlobalSettings.enemy_nodes_in_combat.erase(self)
-			queue_free()
 
 	if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
 	if player_nodes_in_detection_area.is_empty(): players_exist_in_detection_area = false
 
-	elif taking_knockback:
+	if taking_knockback:
 		animation_node.play("idle")
-		velocity = player_direction * (-200) * (1 - (0.4 - $KnockbackTimer.get_time_left()) / 0.4) * knockback_weight
+		velocity = knockback_direction * 200 * (1 - (0.4 - $KnockbackTimer.get_time_left()) / 0.4) * knockback_weight
 	elif current_animation == "idle":
 		if target_player_node != null: animation_node.flip_h = (target_player_node.position - position).x < 0
 		if players_exist_in_attack_area&&attack_ready: animation_node.play("attack")
@@ -171,9 +164,15 @@ func _on_attack_cooldown_timeout():
 	attack_ready = true
 
 func _on_knockback_timer_timeout():
-	if taking_knockback&&!dying:
-		animation_node.play("walk")
+	animation_node.play("walk")
 	taking_knockback = false
+	knockback_weight = 0.0
 
 func _on_summon_nousagi_timer_timeout():
 	print("temp_summon_timer_response")
+
+func _on_invincibility_frame_timeout():
+	invincible = false
+
+func _on_death_timer_timeout():
+	queue_free()

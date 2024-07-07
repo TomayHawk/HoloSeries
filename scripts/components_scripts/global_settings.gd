@@ -252,7 +252,11 @@ func request_entities(origin_node, target_command, request_count, request_entity
 		choose_entities()
 
 func choose_entities():
-	entities_request_origin_node.call(entities_request_target_command_string, entities_chosen)
+	if entities_chosen.size() == 1:
+		entities_request_origin_node.call(entities_request_target_command_string, entities_chosen.duplicate()[0])
+	else:
+		entities_request_origin_node.call(entities_request_target_command_string, entities_chosen.duplicate())
+	empty_entities_request()
 
 func empty_entities_request():
 	requesting_entities = false

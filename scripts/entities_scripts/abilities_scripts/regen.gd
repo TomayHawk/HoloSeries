@@ -4,37 +4,52 @@ extends Node2D
 
 @onready var regen_timer_node = $Timer
 
-var target_player_node = null
 var target_player_stats_node = null
 
 # 7 times
 var regen_count = 7
-# 4 seconds intervals
-var regen_time_intervals = 4
-# 3% each time
+# 2% each time
 var heal_percentage = 0.02
 var heal_amount = 10
-# total: 21% over 28 seconds
+# total: 14% over 28 seconds
+##### need to add stats multipliers
 
 func _ready():
-	hide()
 	GlobalSettings.request_entities(self, "initiate_regen", 1, "players_alive")
+	if GlobalSettings.entities_available.size() == 0: queue_free()
 
-func initiate_regen(chosen_nodes):
+	# if alt is pressed, auto-aim player with lowest health
+	if Input.is_action_pressed("alt"):
+		var temp_health = 0
+		var selected_player = null
+
+		for entity_node in GlobalSettings.entities_available:
+			if entity_node.player_stats_node.health < temp_health:
+				temp_health = entity_node.player_stats_node.health
+				selected_player = entity_node
+
+		GlobalSettings.entities_chosen.push_back(selected_player)
+		GlobalSettings.choose_entities()
+
+	hide()
+
+func initiate_regen(chosen_node):
 	show()
-	target_player_node = chosen_nodes[0]
-	GlobalSettings.empty_entities_request()
-	target_player_stats_node = target_player_node.player_stats_node
 
-	heal_amount = target_player_stats_node.max_health * heal_percentage
+	target_player_stats_node = chosen_node.player_stats_node
+
+	# check mana sufficiency
+	if target_player_stats_node.mana < 20: queue_free()
+	else: target_player_stats_node.update_mana( - 20)
+	
 	# 70 HP to 1470 HP (max at 7000 HP)
-	clamp(heal_amount, 10, 210)
+	heal_amount = clamp(target_player_stats_node.max_health * heal_percentage, 10, 210)
 
 	regen_timer_node.start(4)
-	target_player_stats_node.update_mana_bar( - 20)
 
 func _on_timer_timeout():
-	target_player_stats_node.update_health_bar(floor(heal_amount * randf_range(0.8, 1.2)))
+	target_player_stats_node.update_health(Vector2.ZERO, 0.0, floor(heal_amount * randf_range(0.8, 1.2)))
+
+	# check times healed
 	regen_count -= 1
-	if regen_count == 0:
-		queue_free()
+	if regen_count == 0: queue_free()
