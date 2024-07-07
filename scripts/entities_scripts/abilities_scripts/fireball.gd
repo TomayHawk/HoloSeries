@@ -28,7 +28,7 @@ func initiate_fireball(chosen_nodes):
 	move_direction = (chosen_nodes[0].position - position).normalized()
 	velocity = move_direction * speed
 
-	caster_node.player_stats_node.update_mana( - 10)
+	caster_node.player_stats_node.update_mana_bar( - 10)
 	
 	show()
 	time_left_node.start()

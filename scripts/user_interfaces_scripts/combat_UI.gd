@@ -40,11 +40,11 @@ func _ready():
 		button_node.disabled = true
 
 # CombatUI health text update
-func combat_ui_health_update(player_node):
-	players_health_label_nodes[player_node.player_index].text = str(floor(player_node.player_stats_node.health))
+func update_health_label(party_index, health):
+	players_health_label_nodes[party_index].text = str(floor(health))
 
-func combat_ui_mana_update(player_node):
-	players_mana_label_nodes[player_node.player_index].text = str(floor(player_node.player_stats_node.mana))
+func update_mana_label(party_index, mana):
+	players_mana_label_nodes[party_index].text = str(floor(mana))
 
 # CombatUI control visibility animation
 func combat_ui_control_tween(target_visibility_value):
@@ -89,20 +89,18 @@ func request_entities(extra_arg_0, extra_arg_1, extra_arg_2):
 
 # use items
 func use_potion(chosen_player_nodes):
-	chosen_player_nodes[0].player_stats_node.update_health(200)
+	chosen_player_nodes[0].player_stats_node.update_health(chosen_player_nodes[0].position, 0.0, 200)
 	GlobalSettings.empty_entities_request()
 
 func use_max_potion():
 	GlobalSettings.empty_entities_request()
 	for player in GlobalSettings.party_player_nodes:
 		if player.player_stats_node.alive:
-			player.player_stats_node.update_health(99999)
+			player.player_stats_node.update_health(player.position, 0.0, 99999)
 
 func use_phoenix_burger(chosen_player_nodes):
-	chosen_player_nodes[0].player_stats_node.alive = true
-	chosen_player_nodes[0].reset_variables()
-	chosen_player_nodes[0].player_stats_node.update_health(chosen_player_nodes[0].player_stats_node.max_health * 0.25)
-	chosen_player_nodes[0].set_physics_process(true)
+	chosen_player_nodes[0].player_stats_node.revive()
+	chosen_player_nodes[0].player_stats_node.update_health(chosen_player_nodes[0].position, 0.0, chosen_player_nodes[0].player_stats_node.max_health * 0.25)
 
 	if chosen_player_nodes[0].position.distance_to(GlobalSettings.current_main_player_node.position) > 80:
 		chosen_player_nodes[0]._on_entities_detection_area_body_exited(GlobalSettings.current_main_player_node)
@@ -112,11 +110,9 @@ func use_reset_button():
 	GlobalSettings.empty_entities_request()
 	for player in GlobalSettings.party_player_nodes:
 		if !player.player_stats_node.alive:
-			player.player_stats_node.alive = true
-			player.reset_variables()
-			player.player_stats_node.update_health(player.player_stats_node.max_health)
-			player.set_physics_process(true)
+			player.player_stats_node.revive()
+			player.player_stats_node.update_health(player.position, 0.0, player.player_stats_node.max_health)
 
 func use_temp_kill_item(chosen_player_nodes):
-	chosen_player_nodes[0].player_stats_node.update_health( - 99999)
+	chosen_player_nodes[0].player_stats_node.update_health(chosen_player_nodes[0].position, 0.0, -99999)
 	GlobalSettings.empty_entities_request()

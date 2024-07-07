@@ -16,7 +16,13 @@ var knockback = false
 func ready():
 	health_bar_node.max_value = max_health
 
-func health_bar_update():
+# deal damage to enemy (called by enemy)
+func update_health(source_position, knockback_weight, amount):
+	# no damage if currently taking knockback
+	if enemy_node.taking_knockback: amount = 0
+	enemy_node.taking_knockback = true
+	health += amount
+	
 	# if max or min health, hide health bar
 	health = clamp(health, 0, max_health)
 	health_bar_node.visible = health != max_health
@@ -37,10 +43,6 @@ func health_bar_update():
 	# update health bar
 	health_bar_node.value = health
 
-# deal damage to enemy (called by enemy)
-func update_health(amount):
-	# no damage if currently taking knockback
-	if enemy_node.taking_knockback: amount = 0
-	enemy_node.taking_knockback = true
-	health += amount
-	health_bar_update()
+	enemy_node.player_direction = (source_position - enemy_node.position).normalized()
+	enemy_node.knockback_weight = knockback_weight
+	enemy_node.get_node("KnockbackTimer").start(0.4)

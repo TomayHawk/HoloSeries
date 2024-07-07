@@ -151,9 +151,6 @@ func start_game():
 	party_node.add_child(party_player_nodes[0])
 	party_node.add_child(party_player_nodes[1])
 
-	party_player_nodes[0].player_index = 0
-	party_player_nodes[1].player_index = 1
-
 	##### not working
 	party_player_nodes[0].player_stats_node.update_stats()
 	party_player_nodes[1].player_stats_node.update_stats()
@@ -164,12 +161,6 @@ func start_game():
 
 	party_player_nodes[0].position = spawn_positions[0]
 	party_player_nodes[1]._on_outer_entities_detection_area_body_exited(party_player_nodes[0])
-
-	GlobalSettings.combat_ui_node.combat_ui_health_update(party_player_nodes[0])
-	GlobalSettings.combat_ui_node.combat_ui_mana_update(party_player_nodes[0])
-
-	GlobalSettings.combat_ui_node.combat_ui_health_update(party_player_nodes[1])
-	GlobalSettings.combat_ui_node.combat_ui_mana_update(party_player_nodes[1])
 
 # change scene (called from scenes)
 func change_scene(next_scene_index, spawn_index):
@@ -220,10 +211,13 @@ func leave_combat():
 	locked_enemy_node = null
 
 func request_entities(origin_node, target_command, request_count, request_entity_type):
+	empty_entities_request()
 	requesting_entities = true
 	entities_request_origin_node = origin_node
 	entities_request_target_command_string = target_command
 	entities_request_count = request_count
+
+	entities_available = get_tree().get_nodes_in_group(request_entity_type)
 
 	if request_entity_type == "party_players":
 		entities_available = party_player_nodes.duplicate()

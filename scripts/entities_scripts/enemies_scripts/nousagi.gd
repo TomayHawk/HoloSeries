@@ -35,9 +35,10 @@ var nousagi_instance = null
 
 @onready var enemy_stats_node = $EnemyStatsComponent
 
+var knockback_weight = 0.0
+
 func _ready():
 	animation_node.play("walk")
-	add_to_group("enemies")
 
 func _physics_process(_delta):
 	current_animation = animation_node.get_animation()
@@ -64,7 +65,7 @@ func _physics_process(_delta):
 		elif current_frame == 3:
 			if current_animation == "attack":
 				if players_exist_in_attack_area&&target_player_node != null:
-					target_player_node.player_stats_node.update_health( - 100) # attack player (damage)
+					target_player_node.player_stats_node.update_health(position, 0.1, -100) # attack player (damage)
 					player_direction = (target_player_node.position - position).normalized()
 					animation_node.flip_h = player_direction.x < 0
 				$AttackCooldown.start(randf_range(1, 3))
@@ -86,14 +87,13 @@ func _physics_process(_delta):
 
 	elif taking_knockback:
 		animation_node.play("idle")
-		velocity = player_direction * (-200) * (1 - (0.4 - $KnockbackTimer.get_time_left()) / 0.4)
+		velocity = player_direction * (-200) * (1 - (0.4 - $KnockbackTimer.get_time_left()) / 0.4) * knockback_weight
 	elif current_animation == "idle":
 		if target_player_node != null: animation_node.flip_h = (target_player_node.position - position).x < 0
 		if players_exist_in_attack_area&&attack_ready: animation_node.play("attack")
 		elif !players_exist_in_attack_area:
 			animation_node.play("walk")
 
-	$EnemyStatsComponent.health_bar_update()
 	move_and_slide()
 
 	last_frame = current_frame
@@ -119,11 +119,6 @@ func summon_nousagi():
 	nousagi_instance = nousagi_load.instantiate()
 	get_parent().add_child(nousagi_instance)
 	nousagi_instance.position = position + Vector2(5 * randf_range( - 1, 1), 5 * randf_range( - 1, 1)) * 5
-
-func take_damage(player_node, damage):
-	$EnemyStatsComponent.update_health( - damage)
-	player_direction = (player_node.position - position).normalized()
-	$KnockbackTimer.start(0.4)
 
 func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:

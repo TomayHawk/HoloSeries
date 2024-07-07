@@ -182,7 +182,7 @@ size = Vector2(22, 16)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k2v4m"]
 
-[node name="Nousagi" type="CharacterBody2D"]
+[node name="Nousagi" type="CharacterBody2D" groups=["enemies"]]
 y_sort_enabled = true
 collision_layer = 64
 collision_mask = 207

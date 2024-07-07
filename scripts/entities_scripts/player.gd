@@ -21,7 +21,8 @@ var dash_speed = 500
 var sprint_multiplier = 1.25
 
 # player node information variables
-var player_index = 0
+var party_index = 0
+var character_index = 0
 var is_current_main_player = false
 
 # ally variables
@@ -52,6 +53,13 @@ var ally_enemy_nodes_in_attack_area = []
 var ally_target_enemy_node = null
 
 func _ready():
+	var i = 0
+	for party_player_node in GlobalSettings.party_player_nodes:
+		if self == party_player_node:
+			party_index = i
+			break
+		i += 1
+
 	animation_node.play("front_idle")
 	
 func _physics_process(delta):
@@ -145,12 +153,10 @@ func ally_movement(delta):
 	elif ally_in_main_inner_area:
 		current_move_direction = possible_directions[randi() % 8]
 		ally_direction_cooldown_node.start(randf_range(0.5, 0.7))
-	elif ally_in_main_detection_area:
+	else:
 		navigation_agent_node.target_position = GlobalSettings.current_main_player_node.position
 		current_move_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
 		ally_direction_cooldown_node.start(randf_range(0.5, 0.7))
-	else:
-		ally_direction_ready = true
 
 	# assume currently facing obstacle
 	ray_cast_obstacles = true
@@ -161,7 +167,7 @@ func ally_movement(delta):
 
 	# while facing obstacles
 	while ray_cast_obstacles:
-		var distance_to_direction = 2
+		var distance_to_direction = INF
 		
 		# for each possible direction
 		for i in directions:
@@ -205,32 +211,37 @@ func ally_movement(delta):
 		elif ally_in_main_detection_area: velocity /= 1.25
 
 func reset_variables():
-	ally_in_main_detection_area = true
-	ally_in_main_inner_area = false
+	var i = 0
+	for party_player_node in GlobalSettings.party_player_nodes:
+		if self == party_player_node:
+			party_index = i
+			break
+		i += 1
+
+	is_current_main_player = self == GlobalSettings.current_main_player_node
 
 	moving = false
 	dashing = false
 	sprinting = false
 	current_move_direction = Vector2.ZERO
+	last_move_direction = Vector2.ZERO
 
 	attacking = false
 	attack_direction = Vector2.ZERO
 
 	ally_attack_ready = true
-	ally_enemy_in_attack_area = false
-	ally_enemy_nodes_in_attack_area.clear()
 	ally_target_enemy_node = null
-
-	velocity = Vector2.ZERO
 
 	attack_cooldown_node.stop()
 	ally_attack_cooldown_node.stop()
 	ally_direction_cooldown_node.stop()
 	death_timer_node.stop()
-	
+
+	velocity = Vector2.ZERO
+	choose_animation()
+
 	ally_direction_ready = false
 	ally_pause_timer_node.start(randf_range(0.2, 0.5))
-	choose_animation()
 
 func dash():
 	dashing = true
@@ -259,8 +270,8 @@ func attack():
 	if attack_shape_node.is_colliding():
 		for collision_index in attack_shape_node.get_collision_count():
 			enemy_body = attack_shape_node.get_collider(collision_index).get_parent()
-			if dashing: enemy_body.take_damage(self, 50)
-			else: enemy_body.take_damage(self, 20)
+			if dashing: enemy_body.enemy_stats_node.update_health(position, 1.5, 50)
+			else: enemy_body.enemy_stats_node.update_health(position, 1.0, 20)
 
 func choose_animation():
 	if attacking:
@@ -307,7 +318,7 @@ func _on_entities_detection_area_body_entered(body):
 		ally_in_main_detection_area = true
 
 func _on_entities_detection_area_body_exited(body):
-	if body == GlobalSettings.current_main_player_node&&player_stats_node.alive:
+	if body == GlobalSettings.current_main_player_node:
 		ally_in_main_detection_area = false
 
 func _on_inner_entities_detection_area_body_entered(body):
@@ -315,12 +326,12 @@ func _on_inner_entities_detection_area_body_entered(body):
 		ally_in_main_inner_area = true
 
 func _on_inner_entities_detection_area_body_exited(body):
-	if body == GlobalSettings.current_main_player_node&&player_stats_node.alive:
+	if body == GlobalSettings.current_main_player_node:
 		ally_in_main_inner_area = false
 
 func _on_interaction_area_body_entered(body):
 	# npc can be interacted
-	if body.has_method("area_status"):
+	if is_current_main_player&&body.has_method("area_status"):
 		body.area_status(true)
 	# enemy is inside attack
 	elif !is_current_main_player&&body.has_method("choose_player"):
@@ -359,7 +370,7 @@ func _on_ally_direction_cooldown_timeout():
 		if ally_in_main_inner_area:
 			ally_pause_timer_node.start(randf_range(1.5, 2))
 		else:
-			ally_pause_timer_node.start(randf_range(1.5, 2))
+			ally_direction_ready = true
 		velocity = Vector2(0, 0)
 		moving = false
 	

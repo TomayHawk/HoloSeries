@@ -21,8 +21,8 @@ func initiate_heal(chosen_nodes):
 
 	heal_amount = target_player_stats_node.max_health * heal_percentage * randf_range(0.8, 1.2)
 
-	target_player_stats_node.update_health(floor(heal_amount * randf_range(0.8, 1.2)))
+	target_player_stats_node.update_health_bar(floor(heal_amount * randf_range(0.8, 1.2)))
 
-	target_player_stats_node.update_mana( - 8)
+	target_player_stats_node.update_mana_bar( - 8)
 
 	queue_free()

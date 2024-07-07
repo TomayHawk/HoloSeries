@@ -2,119 +2,143 @@ extends Node
 
 # node variables
 @onready var player_node = get_parent()
+@onready var animation_node = player_node.get_node("Animation")
 @onready var combat_ui_node = GlobalSettings.combat_ui_node
+
+@onready var attack_cooldown_node = player_node.get_node("AttackCooldown")
+@onready var ally_direction_cooldown_node = player_node.get_node("AllyDirectionCooldown")
+@onready var death_timer_node = player_node.get_node("DeathTimer")
+
 @onready var health_bar_node = player_node.get_node("HealthBar")
 @onready var mana_bar_node = player_node.get_node("ManaBar")
 @onready var stamina_bar_node = player_node.get_node("StaminaBar")
 
 # player variables
-@onready var player_index = player_node.player_index
-var stamina_slow_recovery = false
-var temp_bar_percentage = 1.0
+var party_index = 0
+var character_index = 0
 var alive = true
+var stamina_slow_recovery = false
 
-# health variables
-@onready var max_health = GlobalSettings.default_max_health[player_index]
+# stats variables
+var max_health = 100
+var max_mana = 100
+var max_stamina = 100
+
 var health = 100
-
-# mana variables
-@onready var max_mana = GlobalSettings.default_max_mana[player_index]
 var mana = 100
-
-# stamina variables
-@onready var max_stamina = GlobalSettings.default_max_stamina[player_index]
 var stamina = 100
 
+# temporary variables
+var temp_bar_percentage = 1.0
+
 func _ready():
-	health = max_health
-	mana = max_mana
-	stamina = max_stamina
+	update_stats()
+
+	update_health(player_node.position, 0.0, 99999)
+	update_mana(9999)
+	update_stamina(999)
+
+func _physics_process(_delta):
+	# regenerate mana
+	if mana != max_mana:
+		update_mana(0.004)
+
+	# regenerate stamina
+	if stamina != max_stamina:
+		if stamina_slow_recovery:
+			update_stamina(0.25)
+		else:
+			update_stamina(0.5)
+
+func update_stats():
+	party_index = player_node.party_index
+	character_index = player_node.party_index # #### temporary
+
+	max_health = GlobalSettings.default_max_health[character_index]
+	max_mana = GlobalSettings.default_max_mana[character_index]
+	max_stamina = GlobalSettings.default_max_stamina[character_index]
 
 	health_bar_node.max_value = max_health
 	mana_bar_node.max_value = max_mana
 	stamina_bar_node.max_value = max_stamina
 
-	health_bar_node.value = health
-	mana_bar_node.value = mana
-	stamina_bar_node.value = stamina
+	update_health(player_node.position, 0.0, 0)
+	update_mana(0)
+	update_stamina(0)
 
-# recover stamina every physics frame
-func _physics_process(_delta):
-	if stamina == max_stamina: stamina_bar_node.visible = false
-	else: update_stamina_bar()
-	
-	update_mana_bar()
-
-func update_stats():
-	max_health = GlobalSettings.default_max_health[player_index]
-	max_mana = GlobalSettings.default_max_mana[player_index]
-	max_stamina = GlobalSettings.default_max_stamina[player_index]
-
-	combat_ui_node.combat_ui_health_update(player_node)
-	combat_ui_node.combat_ui_mana_update(player_node)
-
-func update_health_bar():
-	health = clamp(health, 0, max_health)
-	health_bar_node.visible = health > 0&&health < max_health
-
-	health_bar_node.value = health
-
-	if health == 0:
-		alive = false
-		player_node.death_timer_node.start(0.5)
-		player_node.attack_cooldown_node.stop()
-		player_node.ally_attack_cooldown_node.stop()
-		player_node.ally_direction_cooldown_node.stop()
-		player_node.ally_pause_timer_node.stop()
-
-		player_node.set_physics_process(false)
-		player_node.animation_node.play("death")
-
-		stamina = max_stamina
-		stamina_bar_node.visible = false
-		
-		if GlobalSettings.current_main_player_node == player_node:
-			for temp_player_node in GlobalSettings.party_player_nodes:
-				if temp_player_node.player_stats_node.alive:
-					GlobalSettings.update_main_player(player_index)
-	else:
-		temp_bar_percentage = health * 1.0 / max_health
-		if temp_bar_percentage > 0.5: health_bar_node.modulate = Color(0, 1, 0, 1)
-		elif temp_bar_percentage > 0.1: health_bar_node.modulate = Color(1, 1, 0, 1)
-		else: health_bar_node.modulate = Color(1, 0, 0, 1)
-	
-	combat_ui_node.combat_ui_health_update(player_node)
-
-func update_mana_bar():
-	mana += 0.004
-	mana = clamp(mana, 0, max_mana)
-	mana_bar_node.value = mana
-	combat_ui_node.combat_ui_mana_update(player_node)
-
-func update_stamina_bar():
-	if stamina_slow_recovery:
-		stamina += 0.25
-	elif stamina < max_stamina:
-		stamina += 0.5
-
-	stamina = clamp(stamina, 0, max_stamina)
-	stamina_bar_node.visible = stamina < max_stamina
-
-	if stamina == 0:
-		stamina_slow_recovery = true
-		stamina_bar_node.modulate = Color(0.5, 0, 0, 1)
-	elif stamina == max_stamina:
-		stamina_slow_recovery = false
-		stamina_bar_node.modulate = Color(1, 0.5, 0, 1)
-	
-	stamina_bar_node.value = stamina
-
-func update_health(amount):
+func update_health(source_position, knockback_weight, amount):
 	if alive:
-		health += amount
-		update_health_bar()
+		health = clamp(health + amount, 0, max_health)
+		health_bar_node.value = health
+		health_bar_node.visible = health > 0&&health < max_health
+		combat_ui_node.update_health_label(party_index, health)
+
+		if amount < 0:
+			print((source_position - player_node.position).normalized() * knockback_weight)
+
+		if health == 0:
+			trigger_death()
+		else:
+			# determine health bar color based on percentage
+			temp_bar_percentage = health * 1.0 / max_health
+			if temp_bar_percentage > 0.5: health_bar_node.modulate = Color(0, 1, 0, 1)
+			elif temp_bar_percentage > 0.2: health_bar_node.modulate = Color(1, 1, 0, 1)
+			else: health_bar_node.modulate = Color(1, 0, 0, 1)
 
 func update_mana(amount):
 	if alive:
-		mana += amount - 0.5
-		update_mana_bar()
+		mana = clamp(mana + amount, 0, max_mana)
+		mana_bar_node.value = mana
+		mana_bar_node.visible = mana < max_mana
+		combat_ui_node.update_mana_label(party_index, mana)
+
+func update_stamina(amount):
+	if alive:
+		stamina = clamp(stamina + amount, 0, max_stamina)
+		stamina_bar_node.value = stamina
+		stamina_bar_node.visible = stamina < max_stamina
+
+		# deal with slow recovery
+		if stamina == 0:
+			stamina_slow_recovery = true
+			stamina_bar_node.modulate = Color(0.5, 0, 0, 1)
+		elif stamina == max_stamina:
+			stamina_slow_recovery = false
+			stamina_bar_node.modulate = Color(1, 0.5, 0, 1)
+
+func trigger_death():
+	# stop player process
+	player_node.set_physics_process(false)
+
+	# groups
+	player_node.remove_from_group("alive")
+
+	# start death animation
+	alive = false
+	animation_node.set_speed_scale(1.0)
+	animation_node.play("death")
+	death_timer_node.start(0.5)
+
+	# reset stamina
+	stamina = max_stamina
+
+	# hide all stats bars
+	health_bar_node.visible = false
+	mana_bar_node.visible = false
+	stamina_bar_node.visible = false
+
+	# avoid choose_animation() triggers
+	attack_cooldown_node.stop()
+	ally_direction_cooldown_node.stop()
+	
+	# update main player if the player is main player
+	if player_node == GlobalSettings.current_main_player_node:
+		for party_player_node in GlobalSettings.party_player_nodes:
+			if party_player_node.player_stats_node.alive:
+				GlobalSettings.update_main_player(party_player_node)
+
+func revive():
+	alive = true
+	player_node.reset_variables()
+	player_node.add_to_group("alive")
+	player_node.set_physics_process(true)
