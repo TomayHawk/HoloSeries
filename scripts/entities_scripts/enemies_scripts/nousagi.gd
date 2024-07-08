@@ -218,3 +218,9 @@ func _on_invincibility_frame_timeout():
 
 func _on_death_timer_timeout():
 	queue_free()
+
+func _on_combat_hit_box_area_mouse_entered():
+	GlobalSettings.mouse_in_attack_area = false
+
+func _on_combat_hit_box_area_mouse_exited():
+	GlobalSettings.mouse_in_attack_area = true

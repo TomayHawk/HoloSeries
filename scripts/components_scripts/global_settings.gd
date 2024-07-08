@@ -35,6 +35,7 @@ var current_main_player_node = null
 # settings variables
 var game_paused = false
 var player_can_attack = false
+var mouse_in_attack_area = true
 
 # spawn positions and camera limits
 var spawn_positions = [Vector2.ZERO, Vector2(0, -247), Vector2(0, 341), Vector2(31, -103), Vector2(0, 53)]
@@ -94,16 +95,16 @@ var entities_available = []
 var entities_chosen_count = 0
 var entities_chosen = []
 
-func _process(_delta):
-	call_deferred("reset_player_can_attack", true)
-
-func reset_player_can_attack(value):
-	player_can_attack = value
-
 func _input(_event):
+	if Input.is_action_just_pressed("action")&&mouse_in_attack_area:
+		player_can_attack = true
+		call_deferred("reset_action")
 	if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
 	elif Input.is_action_just_pressed("esc"): esc_input()
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
+
+func reset_action():
+	player_can_attack = false
 
 func update_nodes(scene_node):
 	current_scene_node = scene_node

@@ -71,7 +71,8 @@ func _physics_process(delta):
 	# if player
 	if is_current_main_player:
 		# attack
-		if !attacking&&Input.is_action_just_pressed("action")&&GlobalSettings.player_can_attack: attack()
+		if !attacking&&GlobalSettings.player_can_attack:
+			attack()
 
 		# dash / sprint
 		if player_stats_node.stamina > 0&&!player_stats_node.stamina_slow_recovery:
@@ -392,3 +393,9 @@ func _on_knockback_timer_timeout():
 
 func _on_death_timer_timeout():
 	animation_node.pause()
+
+func _on_combat_hit_box_area_mouse_entered():
+	GlobalSettings.mouse_in_attack_area = false
+
+func _on_combat_hit_box_area_mouse_exited():
+	GlobalSettings.mouse_in_attack_area = true

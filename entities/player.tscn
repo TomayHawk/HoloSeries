@@ -54,6 +54,7 @@ scale = Vector2(20, 20)
 shape = SubResource("CircleShape2D_c1evc")
 
 [node name="InnerEntitiesDetectionArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 
 [node name="InnerEntitiesDetectionShape" type="CollisionShape2D" parent="InnerEntitiesDetectionArea"]
@@ -154,6 +155,8 @@ wait_time = 0.5
 one_shot = true
 
 [connection signal="input_event" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_input_event"]
+[connection signal="mouse_entered" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_mouse_entered"]
+[connection signal="mouse_exited" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_mouse_exited"]
 [connection signal="body_exited" from="OuterEntitiesDetectionArea" to="." method="_on_outer_entities_detection_area_body_exited"]
 [connection signal="body_entered" from="EntitiesDetectionArea" to="." method="_on_entities_detection_area_body_entered"]
 [connection signal="body_exited" from="EntitiesDetectionArea" to="." method="_on_entities_detection_area_body_exited"]

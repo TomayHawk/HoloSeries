@@ -3,14 +3,14 @@ extends CanvasLayer
 @onready var control_node = $Control
 @onready var combat_options_2_node = $Control/CombatOptions2
 
-@onready var combat_options_2_modes = [$Control/CombatOptions2/MarginContainer/SpecialVBoxContainer,
-									   $Control/CombatOptions2/MarginContainer/SkillVBoxContainer,
-							  		   $Control/CombatOptions2/MarginContainer/BuffVBoxContainer,
-									   $Control/CombatOptions2/MarginContainer/DebuffVBoxContainer,
-									   $Control/CombatOptions2/MarginContainer/WhiteVBoxContainer,
-									   $Control/CombatOptions2/MarginContainer/BlackVBoxContainer,
-									   $Control/CombatOptions2/MarginContainer/SummonVBoxContainer,
-									   $Control/CombatOptions2/MarginContainer/ItemsVBoxContainer]
+@onready var combat_options_2_modes = [$Control/CombatOptions2/ScrollContainer/MarginContainer/SpecialVBoxContainer,
+									   $Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer,
+							  		   $Control/CombatOptions2/ScrollContainer/MarginContainer/BuffVBoxContainer,
+									   $Control/CombatOptions2/ScrollContainer/MarginContainer/DebuffVBoxContainer,
+									   $Control/CombatOptions2/ScrollContainer/MarginContainer/WhiteVBoxContainer,
+									   $Control/CombatOptions2/ScrollContainer/MarginContainer/BlackVBoxContainer,
+									   $Control/CombatOptions2/ScrollContainer/MarginContainer/SummonVBoxContainer,
+									   $Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer]
 
 @onready var players_button_nodes = [$Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer/Button,
 									 $Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer/Button,
@@ -53,7 +53,6 @@ func combat_ui_control_tween(target_visibility_value):
 
 func button_pressed():
 	GlobalSettings.empty_entities_request()
-	GlobalSettings.player_can_attack = false
 
 # CombatOptions1 (Basic Attack)
 func _on_attack_pressed():
@@ -111,3 +110,9 @@ func use_reset_button():
 
 func use_temp_kill_item(chosen_player_node):
 	chosen_player_node.player_stats_node.update_health(Vector2.ZERO, 0.0, -99999)
+
+func _on_control_mouse_entered():
+	GlobalSettings.mouse_in_attack_area = false
+
+func _on_control_mouse_exited():
+	GlobalSettings.mouse_in_attack_area = true
