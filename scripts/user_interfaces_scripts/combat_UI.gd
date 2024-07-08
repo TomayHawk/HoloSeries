@@ -51,14 +51,16 @@ func combat_ui_control_tween(target_visibility_value):
 	tween = get_tree().create_tween()
 	await tween.tween_property(control_node, "modulate:a", target_visibility_value, 0.2).finished
 
+func button_pressed():
+	GlobalSettings.empty_entities_request()
+	GlobalSettings.player_can_attack = false
+
 # CombatOptions1 (Basic Attack)
 func _on_attack_pressed():
 	hide_combat_options_2()
-	GlobalSettings.empty_entities_request()
 
 # CombatOptions1
 func _on_combat_options_1_pressed(extra_arg_0):
-	GlobalSettings.empty_entities_request()
 	if combat_options_2_node.visible&&combat_options_2_modes[extra_arg_0].visible:
 		hide_combat_options_2()
 	else:
@@ -78,7 +80,6 @@ func hide_combat_options_2():
 '''
 # create ability nodes
 func instantiate_ability(ability_index):
-	GlobalSettings.empty_entities_request()
 	# create and add ability instance to abilities node
 	GlobalSettings.abilities_node.add_child(abilities_load[ability_index].instantiate())
 
@@ -91,7 +92,6 @@ func use_potion(chosen_player_node):
 	chosen_player_node.player_stats_node.update_health(Vector2.ZERO, 0.0, 200)
 
 func use_max_potion():
-	GlobalSettings.empty_entities_request()
 	for player in GlobalSettings.party_player_nodes:
 		if player.player_stats_node.alive:
 			player.player_stats_node.update_health(Vector2.ZERO, 0.0, 99999)
@@ -104,7 +104,6 @@ func use_phoenix_burger(chosen_player_node):
 		chosen_player_node._on_entities_detection_area_body_exited(GlobalSettings.current_main_player_node)
 
 func use_reset_button():
-	GlobalSettings.empty_entities_request()
 	for player in GlobalSettings.party_player_nodes:
 		if !player.player_stats_node.alive:
 			player.player_stats_node.revive()

@@ -18,6 +18,8 @@ func _ready():
 	GlobalSettings.request_entities(self, "initiate_regen", 1, "players_alive")
 	if GlobalSettings.entities_available.size() == 0: queue_free()
 
+	hide()
+
 	# if alt is pressed, auto-aim player with lowest health
 	if Input.is_action_pressed("alt"):
 		var temp_health = 0
@@ -30,8 +32,6 @@ func _ready():
 
 		GlobalSettings.entities_chosen.push_back(selected_player)
 		GlobalSettings.choose_entities()
-
-	hide()
 
 func initiate_regen(chosen_node):
 	show()

@@ -71,7 +71,7 @@ func _physics_process(delta):
 	# if player
 	if is_current_main_player:
 		# attack
-		if !attacking&&Input.is_action_just_pressed("attack"): attack()
+		if !attacking&&Input.is_action_just_pressed("action")&&GlobalSettings.player_can_attack: attack()
 
 		# dash / sprint
 		if player_stats_node.stamina > 0&&!player_stats_node.stamina_slow_recovery:

@@ -2,11 +2,13 @@ extends Node
 
 # enemy node
 @onready var enemy_node = get_parent()
-@onready var knockback_timer = enemy_node.get_node("KnockbackTimer")
+@onready var knockback_timer_node = enemy_node.get_node("KnockbackTimer")
+@onready var invincibility_frame_node = enemy_node.get_node("InvincibilityFrame")
 
 @onready var health_bar_node = enemy_node.get_node("HealthBar")
 
 # health variables
+var alive = true
 var max_health = 100
 var health = 100
 var health_bar_percentage = 1.0
@@ -27,7 +29,7 @@ func update_health(knockback_direction, knockback_weight, amount):
 		amount = 0
 	elif amount < 0:
 		enemy_node.invincible = true
-		enemy_node.invincibility_frame_node.start(0.05)
+		invincibility_frame_node.start(0.05)
 
 	# update health bar
 	health += amount
@@ -48,9 +50,11 @@ func update_health(knockback_direction, knockback_weight, amount):
 	enemy_node.taking_knockback = true
 	enemy_node.knockback_direction = knockback_direction
 	enemy_node.knockback_weight = knockback_weight
-	knockback_timer.start(0.4)
+	knockback_timer_node.start(0.4)
 
 func trigger_death():
+	alive = false
+	
 	GlobalSettings.enemy_nodes_in_combat.erase(enemy_node)
 	if GlobalSettings.locked_enemy_node == self: GlobalSettings.locked_enemy_node = null
 	if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()

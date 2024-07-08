@@ -173,10 +173,10 @@ animations = [{
 "speed": 6.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_voh6m"]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2uydh"]
 size = Vector2(22, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_voh6m"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t045a"]
 
@@ -190,7 +190,7 @@ motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_5prxx")
 
-[node name="CollisionHitBox" type="CollisionShape2D" parent="."]
+[node name="MovementHitBox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_sw4lu")
 
@@ -198,17 +198,9 @@ shape = SubResource("RectangleShape2D_sw4lu")
 y_sort_enabled = true
 position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_7htyj")
-animation = &"death"
+animation = &"idle"
 autoplay = "idle"
 offset = Vector2(0, -12)
-
-[node name="DetectionArea" type="Area2D" parent="."]
-visible = false
-collision_layer = 0
-
-[node name="DetectionShape" type="CollisionShape2D" parent="DetectionArea"]
-scale = Vector2(10, 10)
-shape = SubResource("CircleShape2D_voh6m")
 
 [node name="CombatHitBoxArea" type="Area2D" parent="."]
 collision_layer = 64
@@ -216,6 +208,14 @@ collision_mask = 0
 
 [node name="CombatHitBoxShape" type="CollisionShape2D" parent="CombatHitBoxArea"]
 shape = SubResource("RectangleShape2D_2uydh")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+
+[node name="DetectionShape" type="CollisionShape2D" parent="DetectionArea"]
+scale = Vector2(15, 15)
+shape = SubResource("CircleShape2D_voh6m")
 
 [node name="AttackArea" type="Area2D" parent="."]
 visible = false
@@ -225,6 +225,7 @@ scale = Vector2(3.5, 3.5)
 shape = SubResource("CircleShape2D_t045a")
 
 [node name="DamageArea" type="Area2D" parent="."]
+visible = false
 position = Vector2(35, 0)
 
 [node name="DamageShape" type="CollisionShape2D" parent="DamageArea"]
@@ -250,12 +251,13 @@ metadata/_edit_use_anchors_ = true
 [node name="AttackCooldown" type="Timer" parent="."]
 one_shot = true
 
+[node name="SummonCooldown" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
 [node name="KnockbackTimer" type="Timer" parent="."]
 wait_time = 0.4
-one_shot = true
-
-[node name="SummonNousagiTimer" type="Timer" parent="."]
-wait_time = 10.0
 one_shot = true
 
 [node name="InvincibilityFrame" type="Timer" parent="."]
@@ -266,13 +268,13 @@ one_shot = true
 wait_time = 0.3
 one_shot = true
 
+[connection signal="input_event" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_input_event"]
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
-[connection signal="input_event" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_input_event"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
+[connection signal="timeout" from="SummonCooldown" to="." method="_on_summon_timer_timeout"]
 [connection signal="timeout" from="KnockbackTimer" to="." method="_on_knockback_timer_timeout"]
-[connection signal="timeout" from="SummonNousagiTimer" to="." method="_on_summon_nousagi_timer_timeout"]
 [connection signal="timeout" from="InvincibilityFrame" to="." method="_on_invincibility_frame_timeout"]
 [connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]

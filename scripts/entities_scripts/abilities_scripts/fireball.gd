@@ -13,9 +13,14 @@ var nodes_in_blast_area = []
 func _ready():
 	GlobalSettings.request_entities(self, "initiate_fireball", 1, "all_enemies_on_screen")
 	if GlobalSettings.entities_available.size() == 0: queue_free()
+
+	# disabled while selecting target
+	hide()
+	set_physics_process(false)
+	$AnimatedSprite2D.play("shoot")
 	
 	# if alt is pressed, auto-aim closest enemy
-	if Input.is_action_pressed("alt"):
+	if Input.is_action_pressed("alt")&&GlobalSettings.entities_available.size() != 0:
 		var temp_distance = INF
 		var selected_enemy = null
 
@@ -26,11 +31,6 @@ func _ready():
 			
 		GlobalSettings.entities_chosen.push_back(selected_enemy)
 		GlobalSettings.choose_entities()
-	
-	# disabled while selecting target
-	hide()
-	set_physics_process(false)
-	$AnimatedSprite2D.play("shoot")
 
 func _physics_process(delta):
 	# blast on collision

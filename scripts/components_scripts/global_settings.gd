@@ -34,6 +34,7 @@ var current_main_player_node = null
 
 # settings variables
 var game_paused = false
+var player_can_attack = false
 
 # spawn positions and camera limits
 var spawn_positions = [Vector2.ZERO, Vector2(0, -247), Vector2(0, 341), Vector2(31, -103), Vector2(0, 53)]
@@ -94,9 +95,15 @@ var entities_chosen_count = 0
 var entities_chosen = []
 
 func _process(_delta):
-	if Input.is_action_just_pressed("full_screen"): full_screen_toggle()
-	if Input.is_action_just_pressed("esc"): esc_input()
+	call_deferred("reset_player_can_attack", true)
+
+func reset_player_can_attack(value):
+	player_can_attack = value
+
+func _input(_event):
 	if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
+	elif Input.is_action_just_pressed("esc"): esc_input()
+	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
 
 func update_nodes(scene_node):
 	current_scene_node = scene_node
@@ -132,9 +139,6 @@ func esc_input():
 		combat_ui_node.hide()
 		get_tree().paused = true
 		game_paused = true
-
-func left_click_handler():
-	pass
 
 func start_game():
 	get_tree().call_deferred("change_scene_to_file", scene_paths[0])
