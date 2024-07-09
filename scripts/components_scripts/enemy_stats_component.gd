@@ -56,7 +56,7 @@ func trigger_death():
 	alive = false
 	
 	GlobalSettings.enemy_nodes_in_combat.erase(enemy_node)
-	if GlobalSettings.locked_enemy_node == self: GlobalSettings.locked_enemy_node = null
+	if GlobalSettings.locked_enemy_node == enemy_node: GlobalSettings.locked_enemy_node = null
 	if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
 
 	enemy_node.set_physics_process(false)

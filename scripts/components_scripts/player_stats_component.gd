@@ -25,6 +25,13 @@ var health = 100
 var mana = 100
 var stamina = 100
 
+var defence = 0
+var shield = 0
+var strength = 0
+var intellegence = 0
+var speed = 0
+var agility = 0
+
 # temporary variables
 var temp_bar_percentage = 1.0
 

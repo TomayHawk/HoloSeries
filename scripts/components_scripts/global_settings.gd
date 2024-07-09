@@ -10,6 +10,7 @@ var current_main_player_node = null
 @onready var game_options_node = $GameOptions
 @onready var combat_ui_node = $CombatUI
 @onready var combat_ui_control_node = $CombatUI/Control
+@onready var combat_ui_combat_options_2_node = $CombatUI/Control/CombatOptions2
 @onready var text_box_node = $TextBox
 @onready var camera_node = $Camera2D
 @onready var leaving_combat_timer_node = $LeavingCombatTimer
@@ -20,8 +21,17 @@ var current_main_player_node = null
 						   "res://scenes/world_scene_2.tscn",
 						   "res://scenes/dungeon_scene_1.tscn"]
 
-@onready var player_animations_paths = ["res://resources/player_animations/sora_animation.tscn",
-										"res://resources/player_animations/azki_animation.tscn"]
+@onready var character_names = ["Tokino Sora",
+								 "AZKi",
+								 "Roboco",
+								 "Aki Rosenthal",
+								  "Himemori Luna"]
+
+@onready var character_animations_paths = ["res://resources/player_animations/sora_animation.tscn",
+										   "res://resources/player_animations/azki_animation.tscn",
+										   "res://resources/player_animations/roboco_animation.tscn",
+										   "res://resources/player_animations/akirose_animation.tscn",
+										   "res://resources/player_animations/luna_animation.tscn"]
 
 @onready var entity_highlights_paths = ["res://resources/entity_highlights/enemy_highlight.tscn",
 										"res://resources/entity_highlights/enemy_marker.tscn",
@@ -51,17 +61,22 @@ scene spawn locations
 """
 
 # player variables
-var unlocked_players = [true, true, false, false]
+var party_player_character_index = [0, 4, 3, - 1]
 var party_player_nodes = []
-var default_max_health = [9999, 300, 999, 10]
-var default_max_mana = [999, 60, 99, 0]
-var default_max_stamina = [300, 100, 100, 100]
 
-'''
-character index
-0 = Sora
-1 = AZKi
-'''
+var unlocked_players = [true, true, true, true, true]
+
+# default stats
+var default_level = [1, 1, 1, 1, 1]
+var default_max_health = [390, 496, 605, 250, 277]
+var default_max_mana = [16, 40, 99, 250, 9999]
+var default_max_stamina = [300, 100, 130, 200, 500]
+var default_defence = [0, 0, 0, 0, 0]
+var default_shield = [0, 0, 0, 0, 0]
+var default_strength = [0, 0, 0, 0, 0]
+var default_intellegence = [0, 0, 0, 0, 0]
+var default_agility = [0, 0, 0, 0, 0]
+var default_action_speed = [0, 0, 0, 0, 0]
 
 # nexus variables
 var on_nexus = false
@@ -96,14 +111,14 @@ var entities_chosen_count = 0
 var entities_chosen = []
 
 func _input(_event):
-	if Input.is_action_just_pressed("action")&&mouse_in_attack_area:
+	if Input.is_action_just_pressed("action")&&mouse_in_attack_area&&!requesting_entities:
 		player_can_attack = true
-		call_deferred("reset_action")
+		call_deferred("reset_action_availability")
 	if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
 	elif Input.is_action_just_pressed("esc"): esc_input()
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
 
-func reset_action():
+func reset_action_availability():
 	player_can_attack = false
 
 func update_nodes(scene_node):
@@ -130,6 +145,8 @@ func esc_input():
 		get_tree().root.get_node("HoloNexus").call_deferred("exit_nexus")
 	elif requesting_entities:
 		empty_entities_request()
+	elif combat_ui_combat_options_2_node.visible == true:
+		combat_ui_node.hide_combat_options_2()
 	elif game_paused:
 		game_options_node.hide()
 		combat_ui_node.show()
@@ -142,16 +159,16 @@ func esc_input():
 		game_paused = true
 
 func start_game():
+	# instantiate WorldScene1
 	get_tree().call_deferred("change_scene_to_file", scene_paths[0])
 
-	party_player_nodes.clear()
-
+	# add party members
 	party_player_nodes.push_back(load(base_player_path).instantiate())
 	party_player_nodes.push_back(load(base_player_path).instantiate())
 
 	# add animation nodes
-	party_player_nodes[0].add_child(load(player_animations_paths[0]).instantiate())
-	party_player_nodes[1].add_child(load(player_animations_paths[1]).instantiate())
+	party_player_nodes[0].add_child(load(character_animations_paths[0]).instantiate())
+	party_player_nodes[1].add_child(load(character_animations_paths[1]).instantiate())
 
 	party_node.add_child(party_player_nodes[0])
 	party_node.add_child(party_player_nodes[1])
@@ -190,6 +207,9 @@ func update_main_player(next_main_player_node):
 	camera_node.position = Vector2.ZERO
 
 	empty_entities_request()
+
+func update_party_player(_next_party_player_node):
+	pass
 
 func enter_combat():
 	if !in_combat||leaving_combat:

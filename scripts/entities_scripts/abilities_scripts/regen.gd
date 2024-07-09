@@ -34,18 +34,19 @@ func _ready():
 		GlobalSettings.choose_entities()
 
 func initiate_regen(chosen_node):
-	show()
-
-	target_player_stats_node = chosen_node.player_stats_node
-
 	# check mana sufficiency
-	if target_player_stats_node.mana < 20: queue_free()
-	else: target_player_stats_node.update_mana( - 20)
-	
-	# 70 HP to 1470 HP (max at 7000 HP)
-	heal_amount = clamp(target_player_stats_node.max_health * heal_percentage, 10, 210)
+	if caster_node.player_stats_node.mana < 20:
+		queue_free()
+	else:
+		caster_node.player_stats_node.update_mana( - 20)
+		show()
 
-	regen_timer_node.start(4)
+		target_player_stats_node = chosen_node.player_stats_node
+
+		# 70 HP to 1470 HP (max at 7000 HP)
+		heal_amount = clamp(target_player_stats_node.max_health * heal_percentage, 10, 210)
+
+		regen_timer_node.start(4)
 
 func _on_timer_timeout():
 	target_player_stats_node.update_health(Vector2.ZERO, 0.0, floor(heal_amount * randf_range(0.8, 1.2)))

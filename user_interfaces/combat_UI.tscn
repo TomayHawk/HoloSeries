@@ -1,7 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://cgwg615uwmnap"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_w0nri"]
-[ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tileSets/physics.png" id="2_visvf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhv31"]
 bg_color = Color(0.235294, 0.235294, 0.235294, 0.709804)
@@ -13,9 +12,9 @@ corner_radius_bottom_left = 3
 [sub_resource type="Theme" id="Theme_hq48e"]
 VScrollBar/icons/decrement = null
 VScrollBar/icons/decrement_highlight = null
-VScrollBar/icons/decrement_pressed = ExtResource("2_visvf")
+VScrollBar/icons/decrement_pressed = null
 VScrollBar/icons/increment = null
-VScrollBar/icons/increment_highlight = ExtResource("2_visvf")
+VScrollBar/icons/increment_highlight = null
 VScrollBar/icons/increment_pressed = null
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_k0k2u"]
@@ -48,8 +47,15 @@ border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(0.615686, 1, 1, 0.470588)
+border_color = Color(0.615686, 1, 1, 0.321569)
 border_blend = true
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iklx7"]
+bg_color = Color(0.235294, 0.235294, 0.235294, 0.709804)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -74,8 +80,8 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -96.0
-offset_right = 274.0
+offset_top = -104.0
+offset_right = 306.0
 grow_vertical = 0
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -97,6 +103,10 @@ vertical_scroll_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
 
 [node name="SpecialVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/ScrollContainer/MarginContainer"]
 visible = false
@@ -210,154 +220,133 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Item"
 
-[node name="ItemsVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/ScrollContainer/MarginContainer"]
+[node name="ItemsGridContainer" type="GridContainer" parent="Control/CombatOptions2/ScrollContainer/MarginContainer"]
 visible = false
-clip_contents = true
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="Potion" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Potion"
-
-[node name="MaxPotion" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "MAX Potion"
-
-[node name="PhoenixBurger" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Phoenix Burger"
-
-[node name="ResetButton" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Reset Button"
-
-[node name="TempKillItem" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Temp Kill Item"
-
-[node name="GridContainer" type="GridContainer" parent="Control/CombatOptions2/ScrollContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 2
 
-[node name="Potion" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer"]
+[node name="Potion" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 8
 text = " "
 alignment = 0
 
-[node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/Potion"]
+[node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/Potion"]
 layout_mode = 0
-offset_right = 20.0
+offset_left = 74.0
+offset_right = 93.0
 offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/Potion"]
-offset_left = 19.0
-offset_right = 80.0
+[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/Potion"]
+layout_mode = 0
+offset_left = 6.0
+offset_right = 68.0
 offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "Potion"
 vertical_alignment = 1
 
-[node name="MaxPotion" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer"]
+[node name="MaxPotion" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 8
 text = " "
 
-[node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/MaxPotion"]
-offset_right = 20.0
+[node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion"]
+layout_mode = 0
+offset_left = 74.0
+offset_right = 93.0
 offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "111"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/MaxPotion"]
-offset_left = 19.0
-offset_right = 80.0
+[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion"]
+layout_mode = 0
+offset_left = 6.0
+offset_right = 68.0
 offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "MAX Potion"
 vertical_alignment = 1
 
-[node name="PhoenixBurger" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer"]
+[node name="PhoenixBurger" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 8
 text = " "
 alignment = 0
 
-[node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/PhoenixBurger"]
-offset_right = 20.0
+[node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger"]
+layout_mode = 0
+offset_left = 74.0
+offset_right = 93.0
 offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/PhoenixBurger"]
-offset_left = 19.0
-offset_right = 80.0
+[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger"]
+layout_mode = 0
+offset_left = 6.0
+offset_right = 68.0
 offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "Phoenix Burger"
 vertical_alignment = 1
 
-[node name="ResetButton" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer"]
+[node name="ResetButton" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = " "
 
-[node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/ResetButton"]
-offset_right = 20.0
+[node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton"]
+layout_mode = 0
+offset_left = 74.0
+offset_right = 93.0
 offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/ResetButton"]
-offset_left = 19.0
-offset_right = 80.0
+[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton"]
+layout_mode = 0
+offset_left = 6.0
+offset_right = 68.0
 offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "Reset Button"
 vertical_alignment = 1
 
-[node name="TempKillItem" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer"]
+[node name="TempKillItem" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = " "
 
-[node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/TempKillItem"]
-offset_right = 20.0
+[node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem"]
+layout_mode = 0
+offset_left = 74.0
+offset_right = 93.0
 offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "9"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/TempKillItem"]
-offset_left = 19.0
-offset_right = 80.0
+[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem"]
+layout_mode = 0
+offset_left = 6.0
+offset_right = 68.0
 offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "Temp Kill Item"
@@ -368,7 +357,7 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -96.0
+offset_top = -104.0
 offset_right = 112.0
 grow_vertical = 0
 size_flags_horizontal = 4
@@ -382,18 +371,25 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_rhv31")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control/CombatOptions"]
 layout_mode = 2
-theme = SubResource("Theme_hq48e")
-theme_override_styles/panel = SubResource("StyleBoxTexture_k0k2u")
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/CombatOptions/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/CombatOptions/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CombatOptions/ScrollContainer/MarginContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Attack" type="Button" parent="Control/CombatOptions/ScrollContainer/VBoxContainer"]
+[node name="Attack" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
@@ -402,59 +398,46 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_6buve")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_x11mp")
 text = "Attack"
 
-[node name="Special" type="Button" parent="Control/CombatOptions/ScrollContainer/VBoxContainer"]
+[node name="Special" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Special"
 
-[node name="Skill" type="Button" parent="Control/CombatOptions/ScrollContainer/VBoxContainer"]
+[node name="Skill" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Skill"
 
-[node name="Buff" type="Button" parent="Control/CombatOptions/ScrollContainer/VBoxContainer"]
+[node name="Buff" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Buff
 "
 
-[node name="Debuff" type="Button" parent="Control/CombatOptions/ScrollContainer/VBoxContainer"]
+[node name="Debuff" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Debuff"
 
-[node name="BlackMagic" type="Button" parent="Control/CombatOptions/ScrollContainer/VBoxContainer"]
+[node name="WhiteMagic" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "White Magic"
+
+[node name="BlackMagic" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Black Magic"
 
-[node name="Summon" type="Button" parent="Control/CombatOptions/ScrollContainer/VBoxContainer"]
+[node name="Summon" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Summon"
 
-[node name="Items" type="Button" parent="Control/CombatOptions/ScrollContainer/VBoxContainer"]
+[node name="Items" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Items"
-
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -272.0
-offset_top = -112.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_right = 8
-
-[node name="TextureProgressBar" type="TextureProgressBar" parent="Control/MarginContainer"]
-layout_mode = 2
-rounded = true
 
 [node name="CharacterInfos" type="MarginContainer" parent="Control"]
 layout_mode = 1
@@ -463,8 +446,8 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -304.0
-offset_top = -128.0
+offset_left = -239.0
+offset_top = -104.0
 grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 8
@@ -478,34 +461,27 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_05wxr")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CharacterInfos"]
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="Character1" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CharacterInfos/VBoxContainer/Character1"]
 clip_contents = true
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
-custom_minimum_size = Vector2(128, 0)
+[node name="CharacterName1" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-
-[node name="CharacterName1" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer/Button"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-offset_left = 12.0
-offset_right = 140.0
-offset_bottom = 15.0
 theme_override_font_sizes/font_size = 8
 text = "Sora
 "
 vertical_alignment = 1
 
-[node name="Health" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
-custom_minimum_size = Vector2(24, 0)
+[node name="HP" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
+custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "HP"
@@ -517,27 +493,26 @@ theme_override_constants/margin_right = 8
 
 [node name="HealthAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer/MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 8
 text = "#####"
 horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="MP" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
-custom_minimum_size = Vector2(24, 0)
+custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "MP"
 vertical_alignment = 1
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
-theme_override_constants/margin_right = 19
 
 [node name="ManaAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer/MarginContainer2"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 8
 text = "####
 "
@@ -548,28 +523,20 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CharacterInfos/VBoxContainer/Character2"]
 clip_contents = true
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
-custom_minimum_size = Vector2(128, 0)
+[node name="CharacterName2" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-
-[node name="CharacterName2" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer/Button"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-offset_left = 12.0
-offset_right = 140.0
-offset_bottom = 15.0
 theme_override_font_sizes/font_size = 8
 text = "AZKi"
 vertical_alignment = 1
 
-[node name="Health" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
-custom_minimum_size = Vector2(24, 0)
+[node name="HP" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
+custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "HP"
@@ -581,26 +548,25 @@ theme_override_constants/margin_right = 8
 
 [node name="HealthAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer/MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 8
 text = "#####"
 horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="MP" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
-custom_minimum_size = Vector2(24, 0)
+custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "MP"
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(29, 0)
 layout_mode = 2
-theme_override_constants/margin_right = 19
 
 [node name="ManaAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer/MarginContainer2"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 8
 text = "####
 "
@@ -611,28 +577,20 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CharacterInfos/VBoxContainer/Character3"]
 clip_contents = true
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
-custom_minimum_size = Vector2(128, 0)
+[node name="CharacterName3" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-
-[node name="CharacterName3" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer/Button"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-offset_left = 12.0
-offset_right = 140.0
-offset_bottom = 15.0
 theme_override_font_sizes/font_size = 8
 text = "Character"
 vertical_alignment = 1
 
-[node name="Health" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
-custom_minimum_size = Vector2(24, 0)
+[node name="HP" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
+custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "HP"
@@ -644,26 +602,25 @@ theme_override_constants/margin_right = 8
 
 [node name="HealthAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer/MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 8
 text = "#####"
 horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="MP" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
-custom_minimum_size = Vector2(24, 0)
+custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "MP"
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(29, 0)
 layout_mode = 2
-theme_override_constants/margin_right = 19
 
 [node name="ManaAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer/MarginContainer2"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 8
 text = "####
 "
@@ -674,28 +631,20 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CharacterInfos/VBoxContainer/Character4"]
 clip_contents = true
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
-custom_minimum_size = Vector2(128, 0)
+[node name="CharacterName4" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-
-[node name="CharacterName4" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/Button"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-offset_left = 12.0
-offset_right = 140.0
-offset_bottom = 15.0
 theme_override_font_sizes/font_size = 8
 text = "Character"
 vertical_alignment = 1
 
-[node name="Health" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
-custom_minimum_size = Vector2(24, 0)
+[node name="HP" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
+custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "HP"
@@ -707,28 +656,27 @@ theme_override_constants/margin_right = 8
 
 [node name="HealthAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 8
-text = "#####"
+text = "99999"
 horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="MP" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
-custom_minimum_size = Vector2(24, 0)
+custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "MP"
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(29, 0)
 layout_mode = 2
-theme_override_constants/margin_right = 19
 
 [node name="ManaAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/MarginContainer2"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 8
-text = "####
+text = "9999
 "
 horizontal_alignment = 2
 vertical_alignment = 1
@@ -737,6 +685,77 @@ vertical_alignment = 1
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_05wxr")
+
+[node name="Control" type="Control" parent="Control/CharacterInfos"]
+layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/CharacterInfos/Control"]
+layout_mode = 2
+offset_left = 8.0
+offset_top = 21.0
+offset_right = 386.0
+offset_bottom = 25.0
+scale = Vector2(0.5, 0.5)
+show_percentage = false
+
+[node name="ProgressBar2" type="ProgressBar" parent="Control/CharacterInfos/Control"]
+offset_left = 8.0
+offset_top = 41.0
+offset_right = 386.0
+offset_bottom = 45.0
+scale = Vector2(0.5, 0.5)
+show_percentage = false
+
+[node name="ProgressBar3" type="ProgressBar" parent="Control/CharacterInfos/Control"]
+offset_left = 8.0
+offset_top = 61.0
+offset_right = 386.0
+offset_bottom = 65.0
+scale = Vector2(0.5, 0.5)
+show_percentage = false
+
+[node name="ProgressBar4" type="ProgressBar" parent="Control/CharacterInfos/Control"]
+offset_left = 8.0
+offset_top = 81.0
+offset_right = 386.0
+offset_bottom = 85.0
+scale = Vector2(0.5, 0.5)
+show_percentage = false
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+offset_right = 184.0
+offset_bottom = 168.0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 64
+
+[node name="Panel" type="Panel" parent="Control/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_iklx7")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SpecialVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SpecialVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
@@ -783,77 +802,61 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_05wxr")
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SummonVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SummonVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SummonVBoxContainer/Item" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/Potion" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/Potion" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/Potion" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/Potion" to="." method="request_entities" binds= ["use_potion", 1, "players_alive"]]
-[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/MaxPotion" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/MaxPotion" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/MaxPotion" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/MaxPotion" to="." method="use_max_potion"]
-[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/PhoenixBurger" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/PhoenixBurger" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/PhoenixBurger" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/PhoenixBurger" to="." method="request_entities" binds= ["use_phoenix_burger", 1, "players_dead"]]
-[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/ResetButton" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/ResetButton" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/ResetButton" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/ResetButton" to="." method="use_reset_button"]
-[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/TempKillItem" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/TempKillItem" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/TempKillItem" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer/TempKillItem" to="." method="request_entities" binds= ["use_temp_kill_item", 1, "players_alive"]]
-[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/Potion" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/Potion" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/Potion" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/Potion" to="." method="request_entities" binds= ["use_potion", 1, "players_alive"]]
-[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/MaxPotion" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/MaxPotion" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/MaxPotion" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/MaxPotion" to="." method="use_max_potion"]
-[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/PhoenixBurger" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/PhoenixBurger" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/PhoenixBurger" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/PhoenixBurger" to="." method="request_entities" binds= ["use_phoenix_burger", 1, "players_dead"]]
-[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/ResetButton" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/ResetButton" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/ResetButton" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/ResetButton" to="." method="use_reset_button"]
-[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/TempKillItem" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/TempKillItem" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/TempKillItem" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/GridContainer/TempKillItem" to="." method="request_entities" binds= ["use_temp_kill_item", 1, "players_alive"]]
-[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Attack" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
-[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Special" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Special" to="." method="_on_control_mouse_entered"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Special" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Special" to="." method="_on_combat_options_1_pressed" binds= [0]]
-[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Skill" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Skill" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Skill" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Skill" to="." method="_on_combat_options_1_pressed" binds= [1]]
-[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Buff" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Buff" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Buff" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Buff" to="." method="_on_combat_options_1_pressed" binds= [2]]
-[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Debuff" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Debuff" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Debuff" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Debuff" to="." method="_on_combat_options_1_pressed" binds= [3]]
-[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/VBoxContainer/BlackMagic" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/VBoxContainer/BlackMagic" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/BlackMagic" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/BlackMagic" to="." method="_on_combat_options_1_pressed" binds= [5]]
-[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Summon" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Summon" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Summon" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Summon" to="." method="_on_combat_options_1_pressed" binds= [6]]
-[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Items" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Items" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Items" to="." method="button_pressed"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/VBoxContainer/Items" to="." method="_on_combat_options_1_pressed" binds= [7]]
+[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/Potion" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/Potion" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/Potion" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/Potion" to="." method="request_entities" binds= ["use_potion", 1, "players_alive"]]
+[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion" to="." method="use_max_potion"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="request_entities" binds= ["use_phoenix_burger", 1, "players_dead"]]
+[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton" to="." method="use_reset_button"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem" to="." method="request_entities" binds= ["use_temp_kill_item", 1, "players_alive"]]
+[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Special" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Special" to="." method="_on_control_mouse_entered"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Special" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Special" to="." method="_on_combat_options_1_pressed" binds= [0]]
+[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skill" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skill" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skill" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skill" to="." method="_on_combat_options_1_pressed" binds= [1]]
+[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="_on_combat_options_1_pressed" binds= [2]]
+[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Debuff" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Debuff" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Debuff" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Debuff" to="." method="_on_combat_options_1_pressed" binds= [3]]
+[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/WhiteMagic" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/WhiteMagic" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/WhiteMagic" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/WhiteMagic" to="." method="_on_combat_options_1_pressed" binds= [4]]
+[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/BlackMagic" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/BlackMagic" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/BlackMagic" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/BlackMagic" to="." method="_on_combat_options_1_pressed" binds= [5]]
+[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Summon" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Summon" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Summon" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Summon" to="." method="_on_combat_options_1_pressed" binds= [6]]
+[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_combat_options_1_pressed" binds= [7]]
 [connection signal="mouse_entered" from="Control/CharacterInfos/Panel2" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CharacterInfos/Panel2" to="." method="_on_control_mouse_exited"]

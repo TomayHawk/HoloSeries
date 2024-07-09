@@ -94,7 +94,7 @@ func _physics_process(_delta):
 				# attack player
 				if players_exist_in_attack_area:
 					attack_direction = (target_player_node.position - position).normalized()
-					target_player_node.player_stats_node.update_health(attack_direction, 0.4, -100) # attack player (damage)
+					target_player_node.player_stats_node.update_health(attack_direction, 0.4, randf_range( - 12, -15)) # attack player (damage)
 					animation_node.flip_h = attack_direction.x < 0
 				attack_cooldown_node.start(randf_range(1, 3))
 				attack_ready = false
@@ -217,6 +217,9 @@ func _on_invincibility_frame_timeout():
 	invincible = false
 
 func _on_death_timer_timeout():
+	GlobalSettings.enemy_nodes_in_combat.erase(self)
+	if GlobalSettings.locked_enemy_node == self: GlobalSettings.locked_enemy_node = null
+	if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
 	queue_free()
 
 func _on_combat_hit_box_area_mouse_entered():

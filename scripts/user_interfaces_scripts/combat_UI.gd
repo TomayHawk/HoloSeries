@@ -10,12 +10,7 @@ extends CanvasLayer
 									   $Control/CombatOptions2/ScrollContainer/MarginContainer/WhiteVBoxContainer,
 									   $Control/CombatOptions2/ScrollContainer/MarginContainer/BlackVBoxContainer,
 									   $Control/CombatOptions2/ScrollContainer/MarginContainer/SummonVBoxContainer,
-									   $Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsVBoxContainer]
-
-@onready var players_button_nodes = [$Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer/Button,
-									 $Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer/Button,
-									 $Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer/Button,
-									 $Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/Button]
+									   $Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer]
 
 @onready var players_health_label_nodes = [$Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer/MarginContainer/HealthAmount,
 										  $Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer/MarginContainer/HealthAmount,
@@ -36,8 +31,6 @@ var tween
 func _ready():
 	control_node.modulate = Color.TRANSPARENT
 	combat_options_2_node.hide()
-	for button_node in players_button_nodes:
-		button_node.disabled = true
 
 # CombatUI health text update
 func update_health_label(party_index, health):

@@ -40,18 +40,20 @@ func _physics_process(delta):
 # run after entity selection with GlobalSettings.choose_entities()
 func initiate_fireball(chosen_node):
 	# check mana sufficiency
-	if caster_node.player_stats_node.mana < 10: queue_free()
-	else: caster_node.player_stats_node.update_mana( - 10)
+	if caster_node.player_stats_node.mana < 10:
+		queue_free()
+	else:
+		caster_node.player_stats_node.update_mana( - 10)
 
-	# set position, move direction and velocity
-	position = caster_node.position + Vector2(0, -7)
-	move_direction = (chosen_node.position - position).normalized()
-	velocity = move_direction * speed
+		# set position, move direction and velocity
+		position = caster_node.position + Vector2(0, -7)
+		move_direction = (chosen_node.position - position).normalized()
+		velocity = move_direction * speed
 
-	# begin despawn timer
-	time_left_node.start()
-	show()
-	set_physics_process(true)
+		# begin despawn timer
+		time_left_node.start()
+		show()
+		set_physics_process(true)
 
 # blast
 func area_impact():

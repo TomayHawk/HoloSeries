@@ -26,11 +26,13 @@ func _ready():
 
 func initiate_heal(chosen_node):
 	# check mana sufficiency
-	if chosen_node.player_stats_node.mana < 8: queue_free()
-	else: chosen_node.player_stats_node.update_mana( - 8)
+	if caster_node.player_stats_node.mana < 8:
+		queue_free()
+	else:
+		caster_node.player_stats_node.update_mana( - 8)
 
-	# heal chosen node
-	heal_amount = floor(chosen_node.player_stats_node.max_health * heal_percentage * randf_range(0.8, 1.2))
-	chosen_node.player_stats_node.update_health(Vector2.ZERO, 0.0, heal_amount)
+		# heal chosen node
+		heal_amount = floor(chosen_node.player_stats_node.max_health * heal_percentage * randf_range(0.8, 1.2))
+		chosen_node.player_stats_node.update_health(Vector2.ZERO, 0.0, heal_amount)
 
-	queue_free()
+		queue_free()
