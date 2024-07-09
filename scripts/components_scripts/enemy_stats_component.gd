@@ -16,14 +16,14 @@ var health_bar_percentage = 1.0
 # called upon instantiating (creating) each enemy
 func _ready():
 	health_bar_node.max_value = max_health
-	update_health(enemy_node.position, 0.0, 0)
+	update_health(0, [], enemy_node.position, 0.0)
 	set_physics_process(false)
 
 func _physics_process(_delta):
 	enemy_node.move_and_slide()
 
 # deal damage to enemy (called by enemy)
-func update_health(knockback_direction, knockback_weight, amount):
+func update_health(amount, _types, knockback_direction, knockback_weight):
 	# invincibility check
 	if enemy_node.invincible:
 		amount = 0

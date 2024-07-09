@@ -81,16 +81,16 @@ func request_entities(extra_arg_0, extra_arg_1, extra_arg_2):
 
 # use items
 func use_potion(chosen_player_node):
-	chosen_player_node.player_stats_node.update_health(Vector2.ZERO, 0.0, 200)
+	chosen_player_node.player_stats_node.update_health(200, [], Vector2.ZERO, 0.0)
 
 func use_max_potion():
 	for player in GlobalSettings.party_player_nodes:
 		if player.player_stats_node.alive:
-			player.player_stats_node.update_health(Vector2.ZERO, 0.0, 99999)
+			player.player_stats_node.update_health(99999, ["break_limit"], Vector2.ZERO, 0.0)
 
 func use_phoenix_burger(chosen_player_node):
 	chosen_player_node.player_stats_node.revive()
-	chosen_player_node.player_stats_node.update_health(Vector2.ZERO, 0.0, chosen_player_node.player_stats_node.max_health * 0.25)
+	chosen_player_node.player_stats_node.update_health(chosen_player_node.player_stats_node.max_health * 0.25, ["break_limit"], Vector2.ZERO, 0.0)
 
 	if chosen_player_node.position.distance_to(GlobalSettings.current_main_player_node.position) > 80:
 		chosen_player_node._on_entities_detection_area_body_exited(GlobalSettings.current_main_player_node)
@@ -99,10 +99,10 @@ func use_reset_button():
 	for player in GlobalSettings.party_player_nodes:
 		if !player.player_stats_node.alive:
 			player.player_stats_node.revive()
-			player.player_stats_node.update_health(Vector2.ZERO, 0.0, player.player_stats_node.max_health)
+			player.player_stats_node.update_health(player.player_stats_node.max_health, ["break_limit"], Vector2.ZERO, 0.0)
 
 func use_temp_kill_item(chosen_player_node):
-	chosen_player_node.player_stats_node.update_health(Vector2.ZERO, 0.0, -99999)
+	chosen_player_node.player_stats_node.update_health( - 99999, ["break_limit"], Vector2.ZERO, 0.0)
 
 func _on_control_mouse_entered():
 	GlobalSettings.mouse_in_attack_area = false

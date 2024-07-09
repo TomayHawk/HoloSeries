@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://cgwg615uwmnap"]
+[gd_scene load_steps=11 format=3 uid="uid://cgwg615uwmnap"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_w0nri"]
+[ext_resource type="Texture2D" uid="uid://dxnu3xke1bx8l" path="res://art/characters/Untitled_Artwork (1).png" id="2_diyiq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhv31"]
 bg_color = Color(0.235294, 0.235294, 0.235294, 0.709804)
@@ -699,6 +700,7 @@ scale = Vector2(0.5, 0.5)
 show_percentage = false
 
 [node name="ProgressBar2" type="ProgressBar" parent="Control/CharacterInfos/Control"]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 41.0
 offset_right = 386.0
@@ -707,6 +709,7 @@ scale = Vector2(0.5, 0.5)
 show_percentage = false
 
 [node name="ProgressBar3" type="ProgressBar" parent="Control/CharacterInfos/Control"]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 61.0
 offset_right = 386.0
@@ -715,6 +718,7 @@ scale = Vector2(0.5, 0.5)
 show_percentage = false
 
 [node name="ProgressBar4" type="ProgressBar" parent="Control/CharacterInfos/Control"]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 81.0
 offset_right = 386.0
@@ -724,10 +728,10 @@ show_percentage = false
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
-offset_right = 184.0
-offset_bottom = 168.0
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 64
+offset_right = 208.0
+offset_bottom = 160.0
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 56
 
 [node name="Panel" type="Panel" parent="Control/MarginContainer"]
 layout_mode = 2
@@ -735,27 +739,116 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_iklx7")
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/MarginContainer/MarginContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Character1" type="Button" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = " "
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1"]
+layout_mode = 2
+offset_right = 308.0
+offset_bottom = 55.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer"]
+clip_contents = true
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("2_diyiq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/VBoxContainer"]
+[node name="CharacterName1" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Sora
+"
+vertical_alignment = 1
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/VBoxContainer"]
+[node name="Level" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "###"
+horizontal_alignment = 2
+vertical_alignment = 1
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 0
 
-[node name="HBoxContainer5" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/VBoxContainer"]
+[node name="HP" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "HP"
 
-[node name="HBoxContainer6" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 16
+
+[node name="HealthAmount" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "#####"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MP" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "MP"
+vertical_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 6
+
+[node name="ManaAmount" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "####
+"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SpecialVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SpecialVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
@@ -808,24 +901,24 @@ layout_mode = 2
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/Potion" to="." method="request_entities" binds= ["use_potion", 1, "players_alive"]]
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion" to="." method="use_max_potion"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion" to="." method="use_max_potion"]
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="button_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="request_entities" binds= ["use_phoenix_burger", 1, "players_dead"]]
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton" to="." method="use_reset_button"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton" to="." method="use_reset_button"]
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem" to="." method="button_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem" to="." method="request_entities" binds= ["use_temp_kill_item", 1, "players_alive"]]
 [connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
 [connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
 [connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Special" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Special" to="." method="_on_control_mouse_entered"]
 [connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Special" to="." method="button_pressed"]

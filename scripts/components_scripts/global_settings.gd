@@ -27,11 +27,11 @@ var current_main_player_node = null
 								 "Aki Rosenthal",
 								  "Himemori Luna"]
 
-@onready var character_animations_paths = ["res://resources/player_animations/sora_animation.tscn",
-										   "res://resources/player_animations/azki_animation.tscn",
-										   "res://resources/player_animations/roboco_animation.tscn",
-										   "res://resources/player_animations/akirose_animation.tscn",
-										   "res://resources/player_animations/luna_animation.tscn"]
+@onready var character_animations_paths = ["res://entities/character_specifics/sora.tscn",
+										   "res://entities/character_specifics/azki.tscn",
+										   "res://entities/character_specifics/roboco.tscn",
+										   "res://entities/character_specifics/akirose.tscn",
+										   "res://entities/character_specifics/luna.tscn"]
 
 @onready var entity_highlights_paths = ["res://resources/entity_highlights/enemy_highlight.tscn",
 										"res://resources/entity_highlights/enemy_marker.tscn",
@@ -68,15 +68,27 @@ var unlocked_players = [true, true, true, true, true]
 
 # default stats
 var default_level = [1, 1, 1, 1, 1]
-var default_max_health = [390, 496, 605, 250, 277]
+var default_max_health = [390, 373, 496, 465, 277]
 var default_max_mana = [16, 40, 99, 250, 9999]
-var default_max_stamina = [300, 100, 130, 200, 500]
-var default_defence = [0, 0, 0, 0, 0]
-var default_shield = [0, 0, 0, 0, 0]
+var default_max_stamina = [100, 100, 100, 100, 100]
+var default_defence = [15, 8, 8, 22, 12]
+var default_shield = [15, 8, 8, 16, 12]
 var default_strength = [0, 0, 0, 0, 0]
 var default_intellegence = [0, 0, 0, 0, 0]
 var default_agility = [0, 0, 0, 0, 0]
 var default_action_speed = [0, 0, 0, 0, 0]
+var default_crit_rate = [0.05, 0.05, 0.05, 0.05, 0.05]
+var default_crit_damage = [0.50, 0.50, 0.50, 0.50, 0.50]
+
+# character stats_multiplier
+var char_multiplier_defence = [0.00, 0.00, 0.00, 0.00, 0.00]
+var char_multiplier_shield = [0.00, 0.00, 0.00, 0.00, 0.00]
+var char_multiplier_strength = [0.00, 0.00, 0.00, 0.00, 0.00]
+var char_multiplier_intellegence = [0.00, 0.00, 0.00, 0.00, 0.00]
+var char_multiplier_agility = [0.00, 0.00, 0.00, 0.00, 0.00]
+var char_multiplier_action_speed = [0.00, 0.00, 0.00, 0.00, 0.00]
+var char_multiplier_crit_rate = [0.00, 0.00, 0.00, 0.00, 0.00]
+var char_multiplier_crit_damage = [0.00, 0.00, 0.00, 0.00, 0.00]
 
 # nexus variables
 var on_nexus = false

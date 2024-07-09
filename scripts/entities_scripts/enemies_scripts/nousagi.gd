@@ -94,7 +94,7 @@ func _physics_process(_delta):
 				# attack player
 				if players_exist_in_attack_area:
 					attack_direction = (target_player_node.position - position).normalized()
-					target_player_node.player_stats_node.update_health(attack_direction, 0.4, randf_range( - 12, -15)) # attack player (damage)
+					target_player_node.player_stats_node.update_health(randf_range( - 12, -15), ["normal_combat_damage"], attack_direction, 0.4) # attack player (damage)
 					animation_node.flip_h = attack_direction.x < 0
 				attack_cooldown_node.start(randf_range(1, 3))
 				attack_ready = false

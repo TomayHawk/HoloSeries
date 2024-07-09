@@ -3,9 +3,11 @@ extends CharacterBody2D
 # node variables
 @onready var player_stats_node = $PlayerStatsComponent
 @onready var attack_shape_node = $AttackShape
-@onready var animation_node = $Animation
 @onready var navigation_agent_node = $NavigationAgent2D
 @onready var obstacle_check_node = $ObstacleCheck
+
+@onready var animation_node = $CharacterSpecifics/Animation
+
 # timer nodes
 @onready var attack_cooldown_node = $AttackCooldown
 @onready var dash_cooldown_node = $DashCooldown
@@ -279,8 +281,8 @@ func attack():
 	if attack_shape_node.is_colliding():
 		for collision_index in attack_shape_node.get_collision_count():
 			enemy_body = attack_shape_node.get_collider(collision_index).get_parent()
-			if dashing: enemy_body.enemy_stats_node.update_health(attack_direction, 3.5, -50)
-			else: enemy_body.enemy_stats_node.update_health(attack_direction, 1.0, -20)
+			if dashing: enemy_body.enemy_stats_node.update_health( - 50, [], attack_direction, 3.5)
+			else: enemy_body.enemy_stats_node.update_health( - 20, [], attack_direction, 1.0)
 
 func choose_animation():
 	if attacking:

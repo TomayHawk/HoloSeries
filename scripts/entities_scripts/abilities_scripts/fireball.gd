@@ -59,7 +59,7 @@ func initiate_fireball(chosen_node):
 func area_impact():
 	# deal damage to each enemy in blast radius
 	for enemy_node in nodes_in_blast_area:
-		enemy_node.enemy_stats_node.update_health(move_direction, 0.5, damage)
+		enemy_node.enemy_stats_node.update_health(damage, "normal_combat_damage", move_direction, 0.5)
 	queue_free()
 
 func _on_blast_radius_body_entered(body):

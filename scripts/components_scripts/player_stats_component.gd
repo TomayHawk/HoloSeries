@@ -38,7 +38,7 @@ var temp_bar_percentage = 1.0
 func _ready():
 	update_stats()
 
-	update_health(Vector2.ZERO, 0.0, 99999)
+	update_health(99999, [], Vector2.ZERO, 0.0)
 	update_mana(9999)
 	update_stamina(999)
 
@@ -69,23 +69,37 @@ func update_stats():
 	stamina_bar_node.max_value = max_stamina
 
 	# update stats
-	update_health(Vector2.ZERO, 0.0, 0)
+	update_health(0, [], Vector2.ZERO, 0.0)
 	update_mana(0)
 	update_stamina(0)
 
-func update_health(knockback_direction, knockback_weight, amount):
+func update_health(amount, types, knockback_direction, knockback_weight):
 	if alive:
+		# normal combat damage handling
+		if types.has("normal_combat_damage"):
+			amount += (amount * (0.7 - (((defence - 1000) * (defence - 1000)) * 1.0 / 1425000))) + (defence * 1.0 / 3)
+			amount = clamp(amount, -99999, -1)
+
+		# set limit
+		if types.has("break_limit"):
+			amount = clamp(amount, -99999, 99999)
+		else:
+			amount = clamp(amount, -9999, 9999)
+
 		# update health bar
 		health = clamp(health + amount, 0, max_health)
 		health_bar_node.value = health
 		health_bar_node.visible = health > 0&&health < max_health
 		combat_ui_node.update_health_label(party_index, health)
 
-		if amount < 0:
+		# knockback handling
+		if knockback_direction != Vector2.ZERO:
 			player_node.taking_knockback = true
 			player_node.knockback_direction = knockback_direction
 			player_node.knockback_weight = knockback_weight
 			knockback_timer.start(0.4)
+
+		# check death
 		if health == 0:
 			trigger_death()
 		else:
