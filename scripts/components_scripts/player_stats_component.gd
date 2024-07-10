@@ -64,7 +64,14 @@ func _physics_process(_delta):
 			update_stamina(0.5)
 
 func update_stats():
-	party_index = player_node.party_index
+	var i = 0
+	for party_player_node in GlobalSettings.party_player_nodes:
+		if player_node == party_player_node:
+			party_index = i
+			break
+		i += 1
+		
+	player_node.party_index = party_index
 	character_index = player_node.party_index # #### temporary
 
 	# set max stats

@@ -490,7 +490,6 @@ script = ExtResource("1_3bvwi")
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
-scale = Vector2(4.66515, 7.36456)
 sprite_frames = SubResource("SpriteFrames_qsfsi")
 animation = &"right_idle"
 frame_progress = 0.357359

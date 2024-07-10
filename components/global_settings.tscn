@@ -27,5 +27,7 @@ one_shot = true
 process_mode = 1
 y_sort_enabled = true
 
+[node name="Standby" type="Node2D" parent="."]
+
 [node name="Camera2D" type="Camera2D" parent="."]
 process_mode = 1

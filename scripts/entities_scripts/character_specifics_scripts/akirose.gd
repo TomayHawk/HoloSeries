@@ -1,5 +1,6 @@
 extends Node2D
 
+var character_index = 3
 # default stats (Score: 4.18) + 2% Crit Rate + 10% Crit Damage
 # physical-magic
 var default_level = 1
@@ -14,6 +15,9 @@ var default_speed = 0
 var default_agility = 0
 var default_crit_chance = 0.05 # +0.02 Crit Rate
 var default_crit_damage = 0.60 # +0.10 Crit Damage
+
+var regular_attack_damage = 13
+var temp_regular_attack_damage = 13
 
 @onready var player_node = get_parent()
 @onready var player_stats_node = player_node.get_node("PlayerStatsComponent")
@@ -42,11 +46,10 @@ func regular_attack():
 		for collision_index in attack_shape_node.get_collision_count():
 			enemy_body = attack_shape_node.get_collider(collision_index).get_parent()
 			var knockback_weight = 1.0
-			var types = []
-			var damage = GlobalSettings.physical_damage_calculator(13, player_stats_node, enemy_body.enemy_stats_node)
 			if player_node.dashing:
-				damage[0] *= 1.5
-				knockback_weight = 3.5
-			if damage[1]:
-				types.push_back("critical")
-			enemy_body.enemy_stats_node.update_health( - damage[0], types, player_node.attack_direction, knockback_weight)
+				temp_regular_attack_damage = regular_attack_damage * 1.5
+				knockback_weight = 1.5
+			else:
+				temp_regular_attack_damage = regular_attack_damage
+			var damage = GlobalSettings.physical_damage_calculator(temp_regular_attack_damage, player_stats_node, enemy_body.enemy_stats_node)
+			enemy_body.enemy_stats_node.update_health( - damage[0], damage[1], player_node.attack_direction, knockback_weight)

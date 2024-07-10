@@ -13,15 +13,55 @@ extends CanvasLayer
 									   $Control/CombatOptions2/ScrollContainer/MarginContainer/SummonVBoxContainer,
 									   $Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer]
 
-@onready var players_health_label_nodes = [$Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer/MarginContainer/HealthAmount,
-										  $Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer/MarginContainer/HealthAmount,
-										  $Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer/MarginContainer/HealthAmount,
-										  $Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/MarginContainer/HealthAmount]
+@onready var players_info_nodes = [$Control/CharacterInfos/VBoxContainer/Character1,
+								   $Control/CharacterInfos/VBoxContainer/Character2,
+								   $Control/CharacterInfos/VBoxContainer/Character3,
+								   $Control/CharacterInfos/VBoxContainer/Character4]
 
-@onready var players_mana_label_nodes = [$Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer/MarginContainer2/ManaAmount,
-										  $Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer/MarginContainer2/ManaAmount,
-										  $Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer/MarginContainer2/ManaAmount,
-										  $Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/MarginContainer2/ManaAmount]
+@onready var players_progress_bar_nodes = [$Control/CharacterInfos/Control/ProgressBar1,
+										  $Control/CharacterInfos/Control/ProgressBar2,
+										  $Control/CharacterInfos/Control/ProgressBar3,
+										  $Control/CharacterInfos/Control/ProgressBar4]
+
+@onready var character_name_label_nodes = [players_info_nodes[0].get_node("HBoxContainer/CharacterName1"),
+										   players_info_nodes[1].get_node("HBoxContainer/CharacterName2"),
+										   players_info_nodes[2].get_node("HBoxContainer/CharacterName3"),
+										   players_info_nodes[3].get_node("HBoxContainer/CharacterName4")]
+
+@onready var players_health_label_nodes = [players_info_nodes[0].get_node("HBoxContainer/MarginContainer/HealthAmount"),
+										   players_info_nodes[1].get_node("HBoxContainer/MarginContainer/HealthAmount"),
+										   players_info_nodes[2].get_node("HBoxContainer/MarginContainer/HealthAmount"),
+										   players_info_nodes[3].get_node("HBoxContainer/MarginContainer/HealthAmount")]
+
+@onready var players_mana_label_nodes = [players_info_nodes[0].get_node("HBoxContainer/MarginContainer2/ManaAmount"),
+										 players_info_nodes[1].get_node("HBoxContainer/MarginContainer2/ManaAmount"),
+										 players_info_nodes[2].get_node("HBoxContainer/MarginContainer2/ManaAmount"),
+										 players_info_nodes[3].get_node("HBoxContainer/MarginContainer2/ManaAmount")]
+
+@onready var character_selector_player_nodes = [$CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1,
+												$CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2,
+												$CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3,
+												$CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4]
+
+@onready var character_selector_character_name_nodes = [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName"),
+														character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName"),
+														character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName"),
+														character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName")]
+
+@onready var character_selector_level_label_nodes = [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level"),
+													 character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level"),
+													 character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level"),
+													 character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level")]
+
+@onready var character_selector_health_label_nodes = [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount"),
+													  character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount"),
+													  character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount"),
+													  character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount")]
+
+@onready var character_selector_mana_label_nodes = [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount"),
+													character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount"),
+													character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount"),
+													character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount")]
 
 @onready var abilities_load = [load("res://entities/abilities/fireball.tscn"),
 							   load("res://entities/abilities/regen.tscn"),
@@ -31,7 +71,7 @@ var tween
 
 func _ready():
 	control_node.modulate = Color.TRANSPARENT
-	character_selector_node.hide()
+	hide_character_selector()
 	combat_options_2_node.hide()
 
 # CombatUI health text update
@@ -45,6 +85,11 @@ func update_mana_label(party_index, mana):
 func combat_ui_control_tween(target_visibility_value):
 	tween = get_tree().create_tween()
 	await tween.tween_property(control_node, "modulate:a", target_visibility_value, 0.2).finished
+
+func hide_character_selector():
+	character_selector_node.hide()
+	for character in character_selector_player_nodes:
+		character.hide()
 
 func button_pressed():
 	GlobalSettings.empty_entities_request()

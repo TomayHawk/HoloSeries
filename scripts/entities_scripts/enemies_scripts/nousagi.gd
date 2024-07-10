@@ -95,7 +95,7 @@ func _physics_process(_delta):
 				if players_exist_in_attack_area:
 					attack_direction = (target_player_node.position - position).normalized()
 					var damage = GlobalSettings.physical_damage_calculator(13, enemy_stats_node, target_player_node.player_stats_node)
-					target_player_node.player_stats_node.update_health( - damage[0], ["normal_combat_damage"], attack_direction, 0.4) # attack player (damage)
+					target_player_node.player_stats_node.update_health( - damage[0], damage[1], attack_direction, 0.4) # attack player (damage)
 					animation_node.flip_h = attack_direction.x < 0
 				attack_cooldown_node.start(randf_range(1, 3))
 				attack_ready = false
@@ -224,7 +224,8 @@ func _on_death_timer_timeout():
 	queue_free()
 
 func _on_combat_hit_box_area_mouse_entered():
-	GlobalSettings.mouse_in_attack_area = false
+	if GlobalSettings.requesting_entities:
+		GlobalSettings.mouse_in_attack_area = false
 
 func _on_combat_hit_box_area_mouse_exited():
 	GlobalSettings.mouse_in_attack_area = true

@@ -7,6 +7,7 @@ var current_scene_node = null
 var current_main_player_node = null
 
 @onready var party_node = $Party
+@onready var standby_node = $Standby
 @onready var game_options_node = $GameOptions
 @onready var combat_ui_node = $CombatUI
 @onready var combat_ui_control_node = $CombatUI/Control
@@ -28,7 +29,7 @@ var current_main_player_node = null
 								 "Aki Rosenthal",
 								  "Himemori Luna"]
 
-@onready var character_animations_paths = ["res://entities/character_specifics/sora.tscn",
+@onready var character_specifics_paths = ["res://entities/character_specifics/sora.tscn",
 										   "res://entities/character_specifics/azki.tscn",
 										   "res://entities/character_specifics/roboco.tscn",
 										   "res://entities/character_specifics/akirose.tscn",
@@ -64,6 +65,7 @@ scene spawn locations
 # player variables
 var party_player_character_index = [0, 4, 3, - 1]
 var party_player_nodes = []
+var standby_player_nodes = []
 
 var unlocked_players = [true, true, true, true, true]
 
@@ -103,6 +105,7 @@ var entities_chosen = []
 # stats calculation variables
 var output_amount = 0
 var is_critical = false
+var temp_types = []
 
 func _input(_event):
 	if Input.is_action_just_pressed("action")&&mouse_in_attack_area&&!requesting_entities:
@@ -167,27 +170,46 @@ func start_game():
 	# instantiate WorldScene1
 	get_tree().call_deferred("change_scene_to_file", scene_paths[0])
 
-	# add party members
-	party_player_nodes.push_back(load(base_player_path).instantiate())
-	party_player_nodes.push_back(load(base_player_path).instantiate())
+	var i = 0
+	for character_unlocked in unlocked_players:
+		if character_unlocked:
+			# create base player
+			standby_player_nodes.push_back(load(base_player_path).instantiate())
+			# attach character specifics
+			standby_player_nodes[i].add_child(load(character_specifics_paths[i]).instantiate())
+			# put player in Standby
+			standby_node.add_child(standby_player_nodes[i])
+			standby_player_nodes[i].player_stats_node.update_stats()
+		i += 1
 
-	# add animation nodes
-	party_player_nodes[0].add_child(load(character_animations_paths[0]).instantiate())
-	party_player_nodes[1].add_child(load(character_animations_paths[1]).instantiate())
-
-	party_node.add_child(party_player_nodes[0])
-	party_node.add_child(party_player_nodes[1])
-
-	##### not working
-	party_player_nodes[0].player_stats_node.update_stats()
-	party_player_nodes[1].player_stats_node.update_stats()
-
+	i = 0
+	for character_index in party_player_character_index:
+		for player_node in standby_player_nodes:
+			if player_node.character_specifics_node.character_index == character_index:
+				party_player_nodes.push_back(player_node)
+				standby_player_nodes.erase(player_node)
+				player_node.reparent(party_node)
+				party_player_nodes[i].player_stats_node.update_stats()
+				break
+		i += 1
+	
 	current_main_player_node = party_player_nodes[0]
-	camera_node.reparent(current_main_player_node)
 	update_main_player(current_main_player_node)
-
 	party_player_nodes[0].position = spawn_positions[0]
-	party_player_nodes[1]._on_outer_entities_detection_area_body_exited(party_player_nodes[0])
+
+	for player_node in party_player_nodes:
+		if player_node != current_main_player_node:
+			player_node._on_outer_entities_detection_area_body_exited(current_main_player_node)
+	
+	for player_node in standby_player_nodes:
+		player_node.set_physics_process(false)
+		player_node.hide()
+	
+	i = 3
+	for party_player_empty in (4 - party_player_nodes.size()):
+		combat_ui_node.players_info_nodes[i].hide()
+		combat_ui_node.players_progress_bar_nodes[i].hide()
+		i -= 1
 
 # change scene (called from scenes)
 func change_scene(next_scene_index, spawn_index):
@@ -313,7 +335,7 @@ func combat_ui_display():
 		elif leaving_combat_timer_node.is_stopped(): combat_ui_control_node.modulate.a = 0.0
 
 func physical_damage_calculator(input_damage, origin_entity_stats_node, target_entity_stats_node):
-	is_critical = false
+	temp_types.clear()
 	
 	# base damage 
 	output_amount = input_damage + (origin_entity_stats_node.strength * 2) + (input_damage * origin_entity_stats_node.strength * 0.05)
@@ -321,7 +343,7 @@ func physical_damage_calculator(input_damage, origin_entity_stats_node, target_e
 	# crit chance
 	if randf() < origin_entity_stats_node.crit_chance:
 		output_amount *= (1 + origin_entity_stats_node.crit_damage)
-		is_critical = true
+		temp_types.push_back("critical")
 
 	# damage reduction
 	output_amount *= origin_entity_stats_node.level / (target_entity_stats_node.level + (origin_entity_stats_node.level * (1 + (target_entity_stats_node.defence * 1.0 / 1500))))
@@ -333,14 +355,13 @@ func physical_damage_calculator(input_damage, origin_entity_stats_node, target_e
 	output_amount = clamp(output_amount, 0, 99999)
 
 	# max 25% miss if not critical
-	if !is_critical&&randf() < (target_entity_stats_node.agility / 1028):
+	if temp_types.is_empty()&&randf() < (target_entity_stats_node.agility / 1028):
 		output_amount = 0
-		is_critical = false
 
-	return [output_amount, is_critical]
+	return [output_amount, temp_types]
 
 func magic_damage_calculator(input_damage, origin_entity_stats_node, target_entity_stats_node):
-	is_critical = false
+	temp_types.clear()
 	
 	##### planning to have a different calculation
 	# base damage 
@@ -349,7 +370,7 @@ func magic_damage_calculator(input_damage, origin_entity_stats_node, target_enti
 	# crit chance
 	if randf() < origin_entity_stats_node.crit_chance:
 		output_amount *= (1 + origin_entity_stats_node.crit_damage)
-		is_critical = true
+		temp_types.push_back("critical")
 
 	# damage reduction
 	output_amount *= origin_entity_stats_node.level / (target_entity_stats_node.level + (origin_entity_stats_node.level * (1 + (target_entity_stats_node.shield * 1.0 / 1500))))
@@ -361,11 +382,10 @@ func magic_damage_calculator(input_damage, origin_entity_stats_node, target_enti
 	output_amount = clamp(output_amount, 0, 99999)
 
 	# max 25% miss if not critical
-	if !is_critical&&randf() < (target_entity_stats_node.speed / 1028):
+	if temp_types.is_empty()&&randf() < (target_entity_stats_node.speed / 1028):
 		output_amount = 0
-		is_critical = false
 
-	return [output_amount, is_critical]
+	return [output_amount, temp_types]
 
 func magic_heal_calculator(input_amount, origin_entity_stats_node):
 	# base damage 

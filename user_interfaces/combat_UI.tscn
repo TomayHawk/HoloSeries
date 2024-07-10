@@ -690,7 +690,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_05wxr")
 [node name="Control" type="Control" parent="Control/CharacterInfos"]
 layout_mode = 2
 
-[node name="ProgressBar" type="ProgressBar" parent="Control/CharacterInfos/Control"]
+[node name="ProgressBar1" type="ProgressBar" parent="Control/CharacterInfos/Control"]
 layout_mode = 2
 offset_left = 8.0
 offset_top = 21.0
@@ -793,7 +793,7 @@ theme_override_constants/separation = 0
 [node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CharacterName1" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="CharacterName" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -888,7 +888,7 @@ theme_override_constants/separation = 0
 [node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CharacterName1" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="CharacterName" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -983,7 +983,7 @@ theme_override_constants/separation = 0
 [node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CharacterName1" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="CharacterName" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -1078,7 +1078,7 @@ theme_override_constants/separation = 0
 [node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CharacterName1" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="CharacterName" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
