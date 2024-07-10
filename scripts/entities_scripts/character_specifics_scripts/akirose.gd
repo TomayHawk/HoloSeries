@@ -1,5 +1,6 @@
 extends Node2D
 
+var character_name = "Aki Rosenthal"
 var character_index = 3
 # default stats (Score: 4.18) + 2% Crit Rate + 10% Crit Damage
 # physical-magic

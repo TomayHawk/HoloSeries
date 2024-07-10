@@ -91,6 +91,19 @@ func hide_character_selector():
 	for character in character_selector_player_nodes:
 		character.hide()
 
+func update_character_selector():
+	for button in character_selector_player_nodes:
+		button.hide()
+
+	var i = 0
+	for player in GlobalSettings.standby_player_nodes:
+		character_selector_player_nodes[i].show()
+		character_selector_character_name_nodes[i].text = player.character_specifics_node.character_name
+		character_selector_level_label_nodes[i].text = "Lvl " + str(player.player_stats_node.level)
+		character_selector_health_label_nodes[i].text = str(player.player_stats_node.health)
+		character_selector_mana_label_nodes[i].text = str(player.player_stats_node.mana)
+		i += 1
+
 func button_pressed():
 	GlobalSettings.empty_entities_request()
 
@@ -156,3 +169,16 @@ func _on_control_mouse_entered():
 
 func _on_control_mouse_exited():
 	GlobalSettings.mouse_in_attack_area = true
+
+func _on_character_1_pressed():
+	GlobalSettings.standby_player_nodes.push_back(GlobalSettings.current_main_player_node)
+	GlobalSettings.standby_player_nodes[0] # #############
+
+func _on_character_2_pressed():
+	pass # Replace with function body.
+
+func _on_character_3_pressed():
+	pass # Replace with function body.
+
+func _on_character_4_pressed():
+	pass # Replace with function body.

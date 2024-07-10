@@ -190,6 +190,7 @@ func start_game():
 				standby_player_nodes.erase(player_node)
 				player_node.reparent(party_node)
 				party_player_nodes[i].player_stats_node.update_stats()
+				combat_ui_node.character_name_label_nodes[i].text = party_player_nodes[i].character_specifics_node.character_name
 				break
 		i += 1
 	
@@ -210,6 +211,8 @@ func start_game():
 		combat_ui_node.players_info_nodes[i].hide()
 		combat_ui_node.players_progress_bar_nodes[i].hide()
 		i -= 1
+
+	combat_ui_node.update_character_selector()
 
 # change scene (called from scenes)
 func change_scene(next_scene_index, spawn_index):

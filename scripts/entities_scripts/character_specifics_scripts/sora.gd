@@ -1,5 +1,6 @@
 extends Node2D
 
+var character_name = "Tokino Sora"
 var character_index = 0
 # default stats (Score: 4.55)
 # buffer-healer

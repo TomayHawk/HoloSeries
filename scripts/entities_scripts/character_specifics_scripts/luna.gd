@@ -1,5 +1,6 @@
 extends Node2D
 
+var character_name = "Himemori Luna"
 var character_index = 4
 # default stats (Score: 4.285)
 # healer

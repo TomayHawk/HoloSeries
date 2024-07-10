@@ -1,5 +1,6 @@
 extends Node2D
 
+var character_name = "AZKi"
 var character_index = 1
 # default stats (Score: 4.265) + 5% Crit Rate
 # buffer-skills

@@ -1242,3 +1242,7 @@ vertical_alignment = 1
 [connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_combat_options_1_pressed" binds= [7]]
 [connection signal="mouse_entered" from="Control/CharacterInfos/Panel2" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CharacterInfos/Panel2" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_character_1_pressed"]
+[connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2" to="." method="_on_character_2_pressed"]
+[connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3" to="." method="_on_character_3_pressed"]
+[connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4" to="." method="_on_character_4_pressed"]

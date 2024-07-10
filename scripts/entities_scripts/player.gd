@@ -21,7 +21,7 @@ extends CharacterBody2D
 # speed variables
 var speed = 10000
 var ally_speed = 6000
-var dash_speed = 500
+var dash_speed = 30000
 var sprint_multiplier = 1.25
 
 # player node information variables
@@ -36,7 +36,10 @@ var ally_in_main_inner_area = false
 # movement variables
 var moving = false
 var dashing = false
+var dash_stamina_consumption = 35
+var dash_time = 0.2
 var sprinting = false
+var sprinting_stamina_consumption = 0.8
 var current_move_direction = Vector2.ZERO
 var last_move_direction = Vector2.ZERO
 var possible_directions = [Vector2(1, 0), Vector2(0.7071, -0.7071), Vector2(0, -1), Vector2( - 0.7071, -0.7071),
@@ -82,11 +85,11 @@ func _physics_process(delta):
 		if player_stats_node.stamina > 0&&!player_stats_node.stamina_slow_recovery:
 			# dash
 			if Input.is_action_just_pressed("dash")&&!dashing:
-				player_stats_node.stamina -= 35 - (player_stats_node.agility * 0.0625)
+				player_stats_node.stamina -= dash_stamina_consumption
 				dash()
 			# sprint
 			elif Input.is_action_pressed("dash"):
-				player_stats_node.stamina -= 0.7 - (player_stats_node.agility * 1.0 / 2048)
+				player_stats_node.stamina -= sprinting_stamina_consumption
 				sprinting = true
 			elif sprinting:
 				sprinting = false
@@ -124,7 +127,7 @@ func _physics_process(delta):
 func player_movement(delta):
 	# movement inputs
 	current_move_direction = Input.get_vector("left", "right", "up", "down")
-	velocity = current_move_direction * (speed + (50 * player_stats_node.speed)) * delta
+	velocity = current_move_direction * speed * delta
 	
 	if velocity != Vector2.ZERO:
 		moving = true
@@ -136,10 +139,10 @@ func player_movement(delta):
 	# dash
 	if dashing:
 		if moving == true:
-			velocity += current_move_direction * (dash_speed + (2 * player_stats_node.speed)) * (1 - (0.2 - dash_cooldown_node.get_time_left()) / 0.2)
+			velocity += current_move_direction * dash_speed * delta * (1 - (dash_time - dash_cooldown_node.get_time_left()) / dash_time)
 		else:
 			moving = true
-			velocity = last_move_direction * (dash_speed + (2 * player_stats_node.speed)) * (1 - (0.2 - dash_cooldown_node.get_time_left()) / 0.2)
+			velocity = last_move_direction * dash_speed * delta * (1 - (dash_time - dash_cooldown_node.get_time_left()) / dash_time)
 	# sprint
 	elif sprinting: velocity *= sprint_multiplier
 
@@ -213,7 +216,7 @@ func ally_movement(delta):
 		else:
 			ray_cast_obstacles = false
 
-	velocity = current_move_direction * (ally_speed + (player_stats_node.speed * 10)) * delta
+	velocity = current_move_direction * ally_speed * delta
 
 	last_move_direction = current_move_direction
 
@@ -258,7 +261,7 @@ func reset_variables():
 
 func dash():
 	dashing = true
-	dash_cooldown_node.start(0.2)
+	dash_cooldown_node.start(dash_time)
 
 # combat functions
 func attack():

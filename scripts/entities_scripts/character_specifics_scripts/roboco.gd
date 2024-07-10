@@ -1,5 +1,6 @@
 extends Node2D
 
+var character_name = "Roboco"
 var character_index = 2
 # default stats (Score: 4.025) + 20 Stamina + 15% Crit Damage
 # physical-tank

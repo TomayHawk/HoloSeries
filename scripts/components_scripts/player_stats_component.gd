@@ -33,8 +33,8 @@ var defence = 10
 var shield = 10
 var strength = 10
 var intelligence = 10
-var speed = 10
-var agility = 10
+var speed = 0
+var agility = 0
 var crit_chance = 0.05
 var crit_damage = 0.50
 
@@ -70,7 +70,7 @@ func update_stats():
 			party_index = i
 			break
 		i += 1
-		
+
 	player_node.party_index = party_index
 	character_index = player_node.party_index # #### temporary
 
@@ -98,6 +98,15 @@ func update_stats():
 	agility = character_specifics_node.default_agility
 	crit_chance = character_specifics_node.default_crit_chance
 	crit_damage = character_specifics_node.default_crit_damage
+
+	player_node.speed = 10000 + (50 * speed)
+	player_node.ally_speed = 6000 + (30 * speed)
+	player_node.dash_speed = 30000 + (150 * speed)
+
+	player_node.dash_stamina_consumption = 35 - (agility * 0.0625)
+	player_node.sprinting_stamina_consumption = 0.8 - (agility * 0.00048828125)
+
+	player_node.dash_time = 0.2 * (1 - (agility * 0.000625))
 
 func update_health(value, types, knockback_direction, knockback_weight):
 	if alive:
