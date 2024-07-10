@@ -11,6 +11,7 @@ var move_direction = Vector2.ZERO
 var nodes_in_blast_area = []
 
 func _ready():
+	print(GlobalSettings.abilities_node.get_children())
 	GlobalSettings.request_entities(self, "initiate_fireball", 1, "all_enemies_on_screen")
 	if GlobalSettings.entities_available.size() == 0: queue_free()
 
@@ -40,7 +41,7 @@ func _physics_process(delta):
 # run after entity selection with GlobalSettings.choose_entities()
 func initiate_fireball(chosen_node):
 	# check mana sufficiency
-	if caster_node.player_stats_node.mana < 10:
+	if caster_node.player_stats_node.mana < 10||!caster_node.player_stats_node.alive:
 		queue_free()
 	else:
 		caster_node.player_stats_node.update_mana( - 10)

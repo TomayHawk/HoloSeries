@@ -1,6 +1,7 @@
-[gd_scene load_steps=63 format=3 uid="uid://b4eent41ye8uv"]
+[gd_scene load_steps=64 format=3 uid="uid://b4eent41ye8uv"]
 
 [ext_resource type="Texture2D" uid="uid://uol36pddvrtw" path="res://art/characters/player.png" id="1_guvf8"]
+[ext_resource type="Script" path="res://scripts/entities_scripts/character_specifics_scripts/luna.gd" id="1_ionk7"]
 [ext_resource type="Texture2D" uid="uid://cu1embux0bml5" path="res://art/characters/Soratest .png" id="2_8isq1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dxer5"]
@@ -485,6 +486,7 @@ animations = [{
 }]
 
 [node name="CharacterSpecifics" type="Node2D"]
+script = ExtResource("1_ionk7")
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true

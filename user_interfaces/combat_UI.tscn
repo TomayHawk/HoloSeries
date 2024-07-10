@@ -726,39 +726,44 @@ offset_bottom = 85.0
 scale = Vector2(0.5, 0.5)
 show_percentage = false
 
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
+[node name="CharacterSelector" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector"]
 layout_mode = 1
 offset_right = 208.0
 offset_bottom = 160.0
+scale = Vector2(0.99279, 0.997135)
 theme_override_constants/margin_left = 48
 theme_override_constants/margin_top = 56
 
-[node name="Panel" type="Panel" parent="Control/MarginContainer"]
+[node name="Panel" type="Panel" parent="CharacterSelector/MarginContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_iklx7")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Control/MarginContainer/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CharacterSelector/MarginContainer/MarginContainer"]
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Character1" type="Button" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Character1" type="Button" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = " "
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1"]
 layout_mode = 2
 offset_right = 308.0
 offset_bottom = 55.0
@@ -766,62 +771,61 @@ scale = Vector2(0.5, 0.5)
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer"]
 clip_contents = true
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
 
-[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource("2_diyiq")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CharacterName1" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="CharacterName1" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "Sora
-"
+text = "Character"
 vertical_alignment = 1
 
-[node name="Level" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Level" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 16
-text = "###"
+text = "Lvl ###"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="HP" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="HP" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "HP"
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_constants/margin_left = 6
 theme_override_constants/margin_right = 16
 
-[node name="HealthAmount" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer"]
+[node name="HealthAmount" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 16
@@ -829,19 +833,304 @@ text = "#####"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="MP" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="MP" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "MP"
 vertical_alignment = 1
 
-[node name="MarginContainer2" type="MarginContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="MarginContainer2" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 theme_override_constants/margin_left = 6
 
-[node name="ManaAmount" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2"]
+[node name="ManaAmount" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "####
+"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Character2" type="Button" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = " "
+
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2"]
+layout_mode = 2
+offset_right = 308.0
+offset_bottom = 55.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="TextureRect" type="TextureRect" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("2_diyiq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CharacterName1" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Character"
+vertical_alignment = 1
+
+[node name="Level" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "Lvl ###"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HP" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "HP"
+
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 16
+
+[node name="HealthAmount" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "#####"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MP" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "MP"
+vertical_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 6
+
+[node name="ManaAmount" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "####
+"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Character3" type="Button" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = " "
+
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3"]
+layout_mode = 2
+offset_right = 308.0
+offset_bottom = 55.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="TextureRect" type="TextureRect" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("2_diyiq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CharacterName1" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Character"
+vertical_alignment = 1
+
+[node name="Level" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "Lvl ###"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HP" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "HP"
+
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 16
+
+[node name="HealthAmount" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "#####"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MP" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "MP"
+vertical_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 6
+
+[node name="ManaAmount" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "####
+"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Character4" type="Button" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = " "
+
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4"]
+layout_mode = 2
+offset_right = 308.0
+offset_bottom = 55.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="TextureRect" type="TextureRect" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("2_diyiq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CharacterName1" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Character"
+vertical_alignment = 1
+
+[node name="Level" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "Lvl ###"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HP" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "HP"
+
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 16
+
+[node name="HealthAmount" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "#####"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MP" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "MP"
+vertical_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 6
+
+[node name="ManaAmount" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 16

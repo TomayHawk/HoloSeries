@@ -1,6 +1,7 @@
-[gd_scene load_steps=55 format=3 uid="uid://deekeu52mvy7i"]
+[gd_scene load_steps=56 format=3 uid="uid://deekeu52mvy7i"]
 
 [ext_resource type="Texture2D" uid="uid://uol36pddvrtw" path="res://art/characters/player.png" id="1_0ttec"]
+[ext_resource type="Script" path="res://scripts/entities_scripts/character_specifics_scripts/azki.gd" id="1_5w7ib"]
 [ext_resource type="Texture2D" uid="uid://y746qcmmsreg" path="res://art/characters/AZki_finalised2.png" id="2_c6jpr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dxer5"]
@@ -429,6 +430,7 @@ animations = [{
 }]
 
 [node name="CharacterSpecifics" type="Node2D"]
+script = ExtResource("1_5w7ib")
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true

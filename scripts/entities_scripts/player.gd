@@ -6,6 +6,7 @@ extends CharacterBody2D
 @onready var navigation_agent_node = $NavigationAgent2D
 @onready var obstacle_check_node = $ObstacleCheck
 
+@onready var character_specifics_node = $CharacterSpecifics
 @onready var animation_node = $CharacterSpecifics/Animation
 
 # timer nodes
@@ -73,7 +74,7 @@ func _physics_process(delta):
 	# if player
 	if is_current_main_player:
 		# attack
-		if !attacking&&GlobalSettings.player_can_attack:
+		if !attacking&&GlobalSettings.player_can_attack&&!taking_knockback:
 			attack()
 
 		# dash / sprint
@@ -261,28 +262,7 @@ func dash():
 # combat functions
 func attack():
 	attacking = true
-
-	if is_current_main_player: attack_direction = (get_global_mouse_position() - position).normalized()
-	else:
-		var temp_enemy_health = 10000000000
-		for enemy_node in ally_enemy_nodes_in_attack_area:
-			if enemy_node.enemy_stats_node.health < temp_enemy_health:
-				temp_enemy_health = enemy_node.enemy_stats_node.health
-				attack_direction = (enemy_node.position - position).normalized()
-		ally_attack_ready = false
-		ally_attack_cooldown_node.start(randf_range(2, 3))
-	
-	attack_shape_node.set_target_position(attack_direction * 20)
-
-	attack_cooldown_node.start(0.8)
-	attack_shape_node.force_shapecast_update()
-
-	var enemy_body = null
-	if attack_shape_node.is_colliding():
-		for collision_index in attack_shape_node.get_collision_count():
-			enemy_body = attack_shape_node.get_collider(collision_index).get_parent()
-			if dashing: enemy_body.enemy_stats_node.update_health( - 50, [], attack_direction, 3.5)
-			else: enemy_body.enemy_stats_node.update_health( - 20, [], attack_direction, 1.0)
+	character_specifics_node.regular_attack()
 
 func choose_animation():
 	if attacking:

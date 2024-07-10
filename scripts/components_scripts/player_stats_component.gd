@@ -2,6 +2,8 @@ extends Node
 
 # node variables
 @onready var player_node = get_parent()
+@onready var character_specifics_node = player_node.get_node("CharacterSpecifics")
+
 @onready var combat_ui_node = GlobalSettings.combat_ui_node
 
 @onready var health_bar_node = player_node.get_node("HealthBar")
@@ -17,20 +19,24 @@ var alive = true
 var stamina_slow_recovery = false
 
 # stats variables
-var max_health = 100
-var max_mana = 100
+var level = 1
+
+var max_health = 200
+var max_mana = 10
 var max_stamina = 100
 
-var health = 100
-var mana = 100
+var health = 200
+var mana = 10
 var stamina = 100
 
-var defence = 0
-var shield = 0
-var strength = 0
-var intellegence = 0
-var speed = 0
-var agility = 0
+var defence = 10
+var shield = 10
+var strength = 10
+var intelligence = 10
+var speed = 10
+var agility = 10
+var crit_rate = 0.05
+var crit_damage = 0.50
 
 # temporary variables
 var temp_bar_percentage = 1.0
@@ -59,9 +65,9 @@ func update_stats():
 	character_index = player_node.party_index # #### temporary
 
 	# set max stats
-	max_health = GlobalSettings.default_max_health[character_index]
-	max_mana = GlobalSettings.default_max_mana[character_index]
-	max_stamina = GlobalSettings.default_max_stamina[character_index]
+	max_health = character_specifics_node.default_max_health
+	max_mana = character_specifics_node.default_max_mana
+	max_stamina = character_specifics_node.default_max_stamina
 
 	# set stats bars max values
 	health_bar_node.max_value = max_health
@@ -72,6 +78,16 @@ func update_stats():
 	update_health(0, [], Vector2.ZERO, 0.0)
 	update_mana(0)
 	update_stamina(0)
+
+	level = character_specifics_node.default_level
+	defence = character_specifics_node.default_defence
+	shield = character_specifics_node.default_shield
+	strength = character_specifics_node.default_strength
+	intelligence = character_specifics_node.default_intelligence
+	speed = character_specifics_node.default_speed
+	agility = character_specifics_node.default_agility
+	crit_rate = character_specifics_node.default_crit_rate
+	crit_damage = character_specifics_node.default_crit_damage
 
 func update_health(amount, types, knockback_direction, knockback_weight):
 	if alive:
@@ -91,6 +107,11 @@ func update_health(amount, types, knockback_direction, knockback_weight):
 		health_bar_node.value = health
 		health_bar_node.visible = health > 0&&health < max_health
 		combat_ui_node.update_health_label(party_index, health)
+
+		if amount < 0:
+			GlobalSettings.damage_display(floor(amount), player_node.position + Vector2(0, -7), ["player_damage"])
+		elif amount > 0:
+			GlobalSettings.damage_display(floor(amount), player_node.position + Vector2(0, -7), ["heal"])
 
 		# knockback handling
 		if knockback_direction != Vector2.ZERO:

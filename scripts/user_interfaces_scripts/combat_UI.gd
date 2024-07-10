@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @onready var control_node = $Control
 @onready var combat_options_2_node = $Control/CombatOptions2
+@onready var character_selector_node = $CharacterSelector
 
 @onready var combat_options_2_modes = [$Control/CombatOptions2/ScrollContainer/MarginContainer/SpecialVBoxContainer,
 									   $Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer,
@@ -30,6 +31,7 @@ var tween
 
 func _ready():
 	control_node.modulate = Color.TRANSPARENT
+	character_selector_node.hide()
 	combat_options_2_node.hide()
 
 # CombatUI health text update

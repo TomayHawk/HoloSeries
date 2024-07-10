@@ -1,5 +1,6 @@
-[gd_scene load_steps=63 format=3 uid="uid://dt671wy7udatd"]
+[gd_scene load_steps=64 format=3 uid="uid://dt671wy7udatd"]
 
+[ext_resource type="Script" path="res://scripts/entities_scripts/character_specifics_scripts/sora.gd" id="1_3r7d2"]
 [ext_resource type="Texture2D" uid="uid://uol36pddvrtw" path="res://art/characters/player.png" id="1_nnphy"]
 [ext_resource type="Texture2D" uid="uid://cu1embux0bml5" path="res://art/characters/Soratest .png" id="2_ks4r1"]
 
@@ -485,6 +486,7 @@ animations = [{
 }]
 
 [node name="CharacterSpecifics" type="Node2D"]
+script = ExtResource("1_3r7d2")
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true

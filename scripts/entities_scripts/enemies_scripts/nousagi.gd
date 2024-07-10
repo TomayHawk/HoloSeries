@@ -178,14 +178,14 @@ func _on_detection_area_body_entered(body):
 		if !player_nodes_in_detection_area.has(self): player_nodes_in_detection_area.push_back(body)
 
 func _on_detection_area_body_exited(body):
+	_on_attack_area_body_exited(body)
+
 	player_nodes_in_detection_area.erase(body)
 	
 	if player_nodes_in_detection_area.is_empty():
 		if GlobalSettings.locked_enemy_node == self: GlobalSettings.locked_enemy_node = null
 		GlobalSettings.enemy_nodes_in_combat.erase(self)
 		players_exist_in_detection_area = false
-
-	_on_attack_area_body_exited(body)
 
 	if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
 

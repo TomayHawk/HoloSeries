@@ -11,6 +11,7 @@ var current_main_player_node = null
 @onready var combat_ui_node = $CombatUI
 @onready var combat_ui_control_node = $CombatUI/Control
 @onready var combat_ui_combat_options_2_node = $CombatUI/Control/CombatOptions2
+@onready var combat_ui_character_selector_node = $CombatUI/CharacterSelector
 @onready var text_box_node = $TextBox
 @onready var camera_node = $Camera2D
 @onready var leaving_combat_timer_node = $LeavingCombatTimer
@@ -66,30 +67,6 @@ var party_player_nodes = []
 
 var unlocked_players = [true, true, true, true, true]
 
-# default stats
-var default_level = [1, 1, 1, 1, 1]
-var default_max_health = [390, 373, 496, 465, 277]
-var default_max_mana = [16, 40, 99, 250, 9999]
-var default_max_stamina = [100, 100, 100, 100, 100]
-var default_defence = [15, 8, 8, 22, 12]
-var default_shield = [15, 8, 8, 16, 12]
-var default_strength = [0, 0, 0, 0, 0]
-var default_intellegence = [0, 0, 0, 0, 0]
-var default_agility = [0, 0, 0, 0, 0]
-var default_action_speed = [0, 0, 0, 0, 0]
-var default_crit_rate = [0.05, 0.05, 0.05, 0.05, 0.05]
-var default_crit_damage = [0.50, 0.50, 0.50, 0.50, 0.50]
-
-# character stats_multiplier
-var char_multiplier_defence = [0.00, 0.00, 0.00, 0.00, 0.00]
-var char_multiplier_shield = [0.00, 0.00, 0.00, 0.00, 0.00]
-var char_multiplier_strength = [0.00, 0.00, 0.00, 0.00, 0.00]
-var char_multiplier_intellegence = [0.00, 0.00, 0.00, 0.00, 0.00]
-var char_multiplier_agility = [0.00, 0.00, 0.00, 0.00, 0.00]
-var char_multiplier_action_speed = [0.00, 0.00, 0.00, 0.00, 0.00]
-var char_multiplier_crit_rate = [0.00, 0.00, 0.00, 0.00, 0.00]
-var char_multiplier_crit_damage = [0.00, 0.00, 0.00, 0.00, 0.00]
-
 # nexus variables
 var on_nexus = false
 var unlocked_nodes = [[135, 167, 182], [], [], [], [], [], [], [], [], []]
@@ -110,6 +87,7 @@ var nexus_not_randomized = true
 var in_combat = false
 var leaving_combat = false
 var abilities_node = null
+var damage_display_node = null
 var enemy_nodes_in_combat = []
 var locked_enemy_node = null
 
@@ -126,16 +104,25 @@ func _input(_event):
 	if Input.is_action_just_pressed("action")&&mouse_in_attack_area&&!requesting_entities:
 		player_can_attack = true
 		call_deferred("reset_action_availability")
-	if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
+	elif Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
 	elif Input.is_action_just_pressed("esc"): esc_input()
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
+	elif Input.is_action_just_pressed("tab"): character_selector_display()
+	elif Input.is_action_just_released("tab"): character_selector_display()
 
 func reset_action_availability():
 	player_can_attack = false
 
+func character_selector_display():
+	if combat_ui_character_selector_node.is_visible():
+		combat_ui_character_selector_node.hide()
+	else:
+		combat_ui_character_selector_node.show()
+
 func update_nodes(scene_node):
 	current_scene_node = scene_node
 	abilities_node = current_scene_node.get_node_or_null("Abilities")
+	damage_display_node = current_scene_node.get_node_or_null("DamageDisplay")
 
 	party_node.reparent(current_scene_node)
 
@@ -157,7 +144,9 @@ func esc_input():
 		get_tree().root.get_node("HoloNexus").call_deferred("exit_nexus")
 	elif requesting_entities:
 		empty_entities_request()
-	elif combat_ui_combat_options_2_node.visible == true:
+	elif combat_ui_character_selector_node.is_visible():
+		combat_ui_character_selector_node.hide()
+	elif combat_ui_combat_options_2_node.is_visible():
 		combat_ui_node.hide_combat_options_2()
 	elif game_paused:
 		game_options_node.hide()
@@ -297,8 +286,10 @@ func choose_entities():
 
 func empty_entities_request():
 	requesting_entities = false
-	entities_request_count = 0
 	
+	if entities_request_origin_node != null&&entities_request_origin_node.get_parent() == abilities_node&&entities_chosen.size() != entities_request_count:
+		entities_request_origin_node.queue_free()
+
 	for entity in entities_available:
 		if is_instance_valid(entity):
 			if entity.has_method("ally_movement"): # #### need grouping
@@ -306,15 +297,52 @@ func empty_entities_request():
 			elif entity.has_method("choose_player"):
 				entity.remove_child(entity.get_node("EnemyHighlight"))
 
+	entities_request_count = 0
 	entities_available.clear()
 	entities_chosen_count = 0
 	entities_chosen.clear()
 
 # display combat ui
 func combat_ui_display():
-	if !GlobalSettings.in_combat:
+	if !in_combat:
 		if combat_ui_control_node.modulate.a != 1.0: combat_ui_control_node.modulate.a = 1.0
 		elif leaving_combat_timer_node.is_stopped(): combat_ui_control_node.modulate.a = 0.0
+
+func damage_display(value, display_position, types):
+	var display = Label.new()
+	display.global_position = display_position
+	display.text = str(value)
+	display.z_index = 5
+	display.label_settings = LabelSettings.new()
+
+	var color = "#FFF"
+	if types.has("player_damage"):
+		color = "#B22"
+	elif types.has("heal"):
+		color = "#3E3"
+
+	if value == 0:
+		color = "#FFF8"
+
+	display.label_settings.font_color = color
+	display.label_settings.font_size = 9
+	display.label_settings.outline_color = "#000"
+	display.label_settings.outline_size = 1
+	
+	if damage_display_node != null:
+		damage_display_node.call_deferred("add_child", display)
+	
+	await display.resized
+	display.pivot_offset = Vector2(display.size / 2)
+	
+	var tween = get_tree().create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(display, "position:y", display.position.y - 24, 0.25).set_ease(Tween.EASE_OUT)
+	tween.tween_property(display, "position:y", display.position.y - 16, 0.25).set_ease(Tween.EASE_IN).set_delay(0.25)
+	tween.tween_property(display, "scale", Vector2(0.75, 0.75), 0.25).set_ease(Tween.EASE_IN).set_delay(0.25)
+
+	await tween.finished
+	display.queue_free()
 
 func _on_leaving_combat_timer_timeout():
 	if enemy_nodes_in_combat.is_empty():
