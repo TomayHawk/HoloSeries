@@ -14,6 +14,7 @@ extends CharacterBody2D
 @onready var dash_cooldown_node = $DashCooldown
 @onready var ally_attack_cooldown_node = $AllyAttackCooldown
 @onready var ally_direction_cooldown_node = $AllyDirectionCooldown
+@onready var ally_idle_cooldown_node = $AllyIdleCooldown
 @onready var ally_pause_timer_node = $AllyPauseTimer
 @onready var death_timer_node = $DeathTimer
 
@@ -74,18 +75,18 @@ func _physics_process(delta):
 	# if player
 	if is_current_main_player:
 		# attack
-		if !attacking&&GlobalSettings.player_can_attack&&!taking_knockback:
+		if !attacking&&GlobalSettings.player_can_attack:
 			attack()
 
 		# dash / sprint
 		if player_stats_node.stamina > 0&&!player_stats_node.stamina_slow_recovery:
 			# dash
 			if Input.is_action_just_pressed("dash")&&!dashing:
-				player_stats_node.stamina -= 35
+				player_stats_node.stamina -= 35 - (player_stats_node.agility * 0.0625)
 				dash()
 			# sprint
 			elif Input.is_action_pressed("dash"):
-				player_stats_node.stamina -= 0.7
+				player_stats_node.stamina -= 0.7 - (player_stats_node.agility * 1.0 / 2048)
 				sprinting = true
 			elif sprinting:
 				sprinting = false
@@ -123,7 +124,7 @@ func _physics_process(delta):
 func player_movement(delta):
 	# movement inputs
 	current_move_direction = Input.get_vector("left", "right", "up", "down")
-	velocity = current_move_direction * speed * delta
+	velocity = current_move_direction * (speed + (50 * player_stats_node.speed)) * delta
 	
 	if velocity != Vector2.ZERO:
 		moving = true
@@ -135,10 +136,10 @@ func player_movement(delta):
 	# dash
 	if dashing:
 		if moving == true:
-			velocity += current_move_direction * dash_speed * (1 - (0.2 - dash_cooldown_node.get_time_left()) / 0.2)
+			velocity += current_move_direction * (dash_speed + (2 * player_stats_node.speed)) * (1 - (0.2 - dash_cooldown_node.get_time_left()) / 0.2)
 		else:
 			moving = true
-			velocity = last_move_direction * dash_speed * (1 - (0.2 - dash_cooldown_node.get_time_left()) / 0.2)
+			velocity = last_move_direction * (dash_speed + (2 * player_stats_node.speed)) * (1 - (0.2 - dash_cooldown_node.get_time_left()) / 0.2)
 	# sprint
 	elif sprinting: velocity *= sprint_multiplier
 
@@ -212,7 +213,7 @@ func ally_movement(delta):
 		else:
 			ray_cast_obstacles = false
 
-	velocity = current_move_direction * ally_speed * delta
+	velocity = current_move_direction * (ally_speed + (player_stats_node.speed * 10)) * delta
 
 	last_move_direction = current_move_direction
 
@@ -314,11 +315,13 @@ func _on_entities_detection_area_body_exited(body):
 
 func _on_inner_entities_detection_area_body_entered(body):
 	if body == GlobalSettings.current_main_player_node:
+		ally_idle_cooldown_node.stop()
 		ally_in_main_inner_area = true
 
 func _on_inner_entities_detection_area_body_exited(body):
 	if body == GlobalSettings.current_main_player_node:
-		ally_in_main_inner_area = false
+		if ally_idle_cooldown_node.is_inside_tree():
+			ally_idle_cooldown_node.start(1.5)
 
 func _on_interaction_area_body_entered(body):
 	# npc can be interacted
@@ -366,6 +369,9 @@ func _on_ally_direction_cooldown_timeout():
 		moving = false
 	
 	choose_animation()
+
+func _on_ally_idle_cooldown_timeout():
+	ally_in_main_inner_area = false
 
 func _on_ally_pause_timer_timeout():
 	ally_direction_ready = true

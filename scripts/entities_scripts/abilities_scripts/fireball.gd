@@ -4,14 +4,13 @@ extends CharacterBody2D
 @onready var time_left_node = $TimeLeft
 
 var speed = 180
-var damage = -50
+var damage = 10
 ##### need to add stats multipliers
 
 var move_direction = Vector2.ZERO
 var nodes_in_blast_area = []
 
 func _ready():
-	print(GlobalSettings.abilities_node.get_children())
 	GlobalSettings.request_entities(self, "initiate_fireball", 1, "all_enemies_on_screen")
 	if GlobalSettings.entities_available.size() == 0: queue_free()
 
@@ -60,7 +59,8 @@ func initiate_fireball(chosen_node):
 func area_impact():
 	# deal damage to each enemy in blast radius
 	for enemy_node in nodes_in_blast_area:
-		enemy_node.enemy_stats_node.update_health(damage, "normal_combat_damage", move_direction, 0.5)
+		var temp_damage = GlobalSettings.magic_damage_calculator(damage, caster_node.player_stats_node, enemy_node.enemy_stats_node)
+		enemy_node.enemy_stats_node.update_health( - temp_damage[0], ["normal_combat_damage"], move_direction, 0.5)
 	queue_free()
 
 func _on_blast_radius_body_entered(body):

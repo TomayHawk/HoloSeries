@@ -100,6 +100,10 @@ var entities_available = []
 var entities_chosen_count = 0
 var entities_chosen = []
 
+# stats calculation variables
+var output_amount = 0
+var is_critical = false
+
 func _input(_event):
 	if Input.is_action_just_pressed("action")&&mouse_in_attack_area&&!requesting_entities:
 		player_can_attack = true
@@ -308,6 +312,73 @@ func combat_ui_display():
 		if combat_ui_control_node.modulate.a != 1.0: combat_ui_control_node.modulate.a = 1.0
 		elif leaving_combat_timer_node.is_stopped(): combat_ui_control_node.modulate.a = 0.0
 
+func physical_damage_calculator(input_damage, origin_entity_stats_node, target_entity_stats_node):
+	is_critical = false
+	
+	# base damage 
+	output_amount = input_damage + (origin_entity_stats_node.strength * 2) + (input_damage * origin_entity_stats_node.strength * 0.05)
+
+	# crit chance
+	if randf() < origin_entity_stats_node.crit_chance:
+		output_amount *= (1 + origin_entity_stats_node.crit_damage)
+		is_critical = true
+
+	# damage reduction
+	output_amount *= origin_entity_stats_node.level / (target_entity_stats_node.level + (origin_entity_stats_node.level * (1 + (target_entity_stats_node.defence * 1.0 / 1500))))
+
+	# randomizer
+	output_amount = output_amount * randf_range(0.97, 1.03) + randf_range( - input_damage / 10, input_damage / 10)
+
+	# clamp
+	output_amount = clamp(output_amount, 0, 99999)
+
+	# max 25% miss if not critical
+	if !is_critical&&randf() < (target_entity_stats_node.agility / 1028):
+		output_amount = 0
+		is_critical = false
+
+	return [output_amount, is_critical]
+
+func magic_damage_calculator(input_damage, origin_entity_stats_node, target_entity_stats_node):
+	is_critical = false
+	
+	##### planning to have a different calculation
+	# base damage 
+	output_amount = input_damage + (origin_entity_stats_node.intelligence * 2) + (input_damage * origin_entity_stats_node.intelligence * 0.05)
+
+	# crit chance
+	if randf() < origin_entity_stats_node.crit_chance:
+		output_amount *= (1 + origin_entity_stats_node.crit_damage)
+		is_critical = true
+
+	# damage reduction
+	output_amount *= origin_entity_stats_node.level / (target_entity_stats_node.level + (origin_entity_stats_node.level * (1 + (target_entity_stats_node.shield * 1.0 / 1500))))
+
+	# randomizer
+	output_amount = output_amount * randf_range(0.97, 1.03) + randf_range( - input_damage / 10, input_damage / 10)
+
+	# clamp
+	output_amount = clamp(output_amount, 0, 99999)
+
+	# max 25% miss if not critical
+	if !is_critical&&randf() < (target_entity_stats_node.speed / 1028):
+		output_amount = 0
+		is_critical = false
+
+	return [output_amount, is_critical]
+
+func magic_heal_calculator(input_amount, origin_entity_stats_node):
+	# base damage 
+	output_amount = input_amount * (1 + (origin_entity_stats_node.intelligence * 0.05))
+
+	# randomizer
+	output_amount = output_amount * randf_range(0.97, 1.03) + randf_range( - input_amount / 10, input_amount / 10)
+
+	# clamp
+	output_amount = clamp(output_amount, 0, 99999)
+
+	return output_amount
+
 func damage_display(value, display_position, types):
 	var display = Label.new()
 	display.global_position = display_position
@@ -321,7 +392,10 @@ func damage_display(value, display_position, types):
 	elif types.has("heal"):
 		color = "#3E3"
 
-	if value == 0:
+	if types.has("critical"):
+		color = "#FB0"
+	elif value == 0:
+		display.text = "Miss"
 		color = "#FFF8"
 
 	display.label_settings.font_color = color

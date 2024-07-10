@@ -35,8 +35,11 @@ var strength = 10
 var intelligence = 10
 var speed = 10
 var agility = 10
-var crit_rate = 0.05
+var crit_chance = 0.05
 var crit_damage = 0.50
+
+var weapon_strength = 0
+var attack_multiplier = 1.0
 
 # temporary variables
 var temp_bar_percentage = 1.0
@@ -44,7 +47,7 @@ var temp_bar_percentage = 1.0
 func _ready():
 	update_stats()
 
-	update_health(99999, [], Vector2.ZERO, 0.0)
+	update_health(99999, ["break_limit"], Vector2.ZERO, 0.0)
 	update_mana(9999)
 	update_stamina(999)
 
@@ -86,32 +89,32 @@ func update_stats():
 	intelligence = character_specifics_node.default_intelligence
 	speed = character_specifics_node.default_speed
 	agility = character_specifics_node.default_agility
-	crit_rate = character_specifics_node.default_crit_rate
+	crit_chance = character_specifics_node.default_crit_chance
 	crit_damage = character_specifics_node.default_crit_damage
 
-func update_health(amount, types, knockback_direction, knockback_weight):
+func update_health(value, types, knockback_direction, knockback_weight):
 	if alive:
 		# normal combat damage handling
 		if types.has("normal_combat_damage"):
-			amount += (amount * (0.7 - (((defence - 1000) * (defence - 1000)) * 1.0 / 1425000))) + (defence * 1.0 / 3)
-			amount = clamp(amount, -99999, -1)
+			value += (value * (0.7 - (((defence - 1000) * (defence - 1000)) * 1.0 / 1425000))) + (defence * 1.0 / 3)
+			value = clamp(value, -99999, 0)
 
 		# set limit
 		if types.has("break_limit"):
-			amount = clamp(amount, -99999, 99999)
+			value = clamp(value, -99999, 99999)
 		else:
-			amount = clamp(amount, -9999, 9999)
+			value = clamp(value, -9999, 9999)
 
 		# update health bar
-		health = clamp(health + amount, 0, max_health)
+		health = clamp(health + value, 0, max_health)
 		health_bar_node.value = health
 		health_bar_node.visible = health > 0&&health < max_health
 		combat_ui_node.update_health_label(party_index, health)
 
-		if amount < 0:
-			GlobalSettings.damage_display(floor(amount), player_node.position + Vector2(0, -7), ["player_damage"])
-		elif amount > 0:
-			GlobalSettings.damage_display(floor(amount), player_node.position + Vector2(0, -7), ["heal"])
+		if value < 0:
+			GlobalSettings.damage_display(floor(value), player_node.position + Vector2(0, -7), ["player_damage"])
+		elif value > 0:
+			GlobalSettings.damage_display(floor(value), player_node.position + Vector2(0, -7), ["heal"])
 
 		# knockback handling
 		if knockback_direction != Vector2.ZERO:
@@ -130,18 +133,18 @@ func update_health(amount, types, knockback_direction, knockback_weight):
 			elif temp_bar_percentage > 0.2: health_bar_node.modulate = Color(1, 1, 0, 1)
 			else: health_bar_node.modulate = Color(1, 0, 0, 1)
 
-func update_mana(amount):
+func update_mana(value):
 	if alive:
 		# update mana bar
-		mana = clamp(mana + amount, 0, max_mana)
+		mana = clamp(mana + value, 0, max_mana)
 		mana_bar_node.value = mana
 		mana_bar_node.visible = mana < max_mana
 		combat_ui_node.update_mana_label(party_index, mana)
 
-func update_stamina(amount):
+func update_stamina(value):
 	if alive:
 		# update stamina bar
-		stamina = clamp(stamina + amount, 0, max_stamina)
+		stamina = clamp(stamina + value, 0, max_stamina)
 		stamina_bar_node.value = stamina
 		stamina_bar_node.visible = stamina < max_stamina
 

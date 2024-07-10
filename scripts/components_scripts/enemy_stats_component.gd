@@ -9,9 +9,22 @@ extends Node
 
 # health variables
 var alive = true
-var max_health = 100
-var health = 100
+var max_health = 200
+var health = 200
 var health_bar_percentage = 1.0
+
+var level = 1
+var mana = 10
+var stamina = 100
+
+var defence = 10
+var shield = 10
+var strength = 10
+var intelligence = 10
+var speed = 0
+var agility = 0
+var crit_chance = 0.05
+var crit_damage = 0.50
 
 # called upon instantiating (creating) each enemy
 func _ready():
@@ -23,7 +36,7 @@ func _physics_process(_delta):
 	enemy_node.move_and_slide()
 
 # deal damage to enemy (called by enemy)
-func update_health(amount, _types, knockback_direction, knockback_weight):
+func update_health(amount, types, knockback_direction, knockback_weight):
 	# invincibility check
 	if enemy_node.invincible:
 		amount = 0
@@ -38,7 +51,7 @@ func update_health(amount, _types, knockback_direction, knockback_weight):
 	health_bar_node.visible = health != max_health
 
 	if amount < 0:
-		GlobalSettings.damage_display(floor(amount), enemy_node.position, [])
+		GlobalSettings.damage_display(floor(amount), enemy_node.position, types)
 
 	# check death
 	if health == 0: trigger_death()
