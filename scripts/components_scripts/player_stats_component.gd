@@ -14,7 +14,6 @@ extends Node
 
 # player variables
 var party_index = 0
-var character_index = 0
 var alive = true
 var stamina_slow_recovery = false
 
@@ -70,9 +69,6 @@ func update_stats():
 			party_index = i
 			break
 		i += 1
-
-	player_node.party_index = party_index
-	character_index = player_node.party_index # #### temporary
 
 	# set max stats
 	max_health = character_specifics_node.default_max_health

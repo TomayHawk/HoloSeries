@@ -9961,3 +9961,4 @@ layout_mode = 3
 anchors_preset = 0
 
 [node name="HoloNexusUI" parent="." instance=ExtResource("6_jufqf")]
+visible = false

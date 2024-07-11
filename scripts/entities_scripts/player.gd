@@ -25,8 +25,6 @@ var dash_speed = 30000
 var sprint_multiplier = 1.25
 
 # player node information variables
-var party_index = 0
-var character_index = 0
 var is_current_main_player = false
 
 # ally variables
@@ -65,13 +63,6 @@ var knockback_direction = Vector2.ZERO
 var knockback_weight = 0.0
 
 func _ready():
-	var i = 0
-	for party_player_node in GlobalSettings.party_player_nodes:
-		if self == party_player_node:
-			party_index = i
-			break
-		i += 1
-
 	animation_node.play("front_idle")
 	
 func _physics_process(delta):
@@ -227,13 +218,6 @@ func ally_movement(delta):
 		elif ally_in_main_detection_area: velocity /= 1.25
 
 func reset_variables():
-	var i = 0
-	for party_player_node in GlobalSettings.party_player_nodes:
-		if self == party_player_node:
-			party_index = i
-			break
-		i += 1
-
 	is_current_main_player = self == GlobalSettings.current_main_player_node
 
 	moving = false

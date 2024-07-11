@@ -88,8 +88,8 @@ func combat_ui_control_tween(target_visibility_value):
 
 func hide_character_selector():
 	character_selector_node.hide()
-	for character in character_selector_player_nodes:
-		character.hide()
+	for button in character_selector_player_nodes:
+		button.hide()
 
 func update_character_selector():
 	for button in character_selector_player_nodes:
@@ -170,15 +170,31 @@ func _on_control_mouse_entered():
 func _on_control_mouse_exited():
 	GlobalSettings.mouse_in_attack_area = true
 
-func _on_character_1_pressed():
+func _on_character_selector_button_pressed(extra_arg_0):
+	var i = 0
+	for party_character_index in GlobalSettings.party_player_character_index:
+		if GlobalSettings.current_main_player_node.character_specifics_node.character_index == party_character_index:
+			break
+		i += 1
+
+	GlobalSettings.party_player_character_index[i] = GlobalSettings.standby_player_nodes[extra_arg_0].character_specifics_node.character_index
+
+	GlobalSettings.current_main_player_node.set_physics_process(false)
+	GlobalSettings.current_main_player_node.hide()
+	GlobalSettings.current_main_player_node.reparent(GlobalSettings.standby_node)
 	GlobalSettings.standby_player_nodes.push_back(GlobalSettings.current_main_player_node)
-	GlobalSettings.standby_player_nodes[0] # #############
+	GlobalSettings.party_player_nodes.erase(GlobalSettings.current_main_player_node)
 
-func _on_character_2_pressed():
-	pass # Replace with function body.
+	GlobalSettings.standby_player_nodes[extra_arg_0].position = GlobalSettings.current_main_player_node.position
+	GlobalSettings.update_main_player(GlobalSettings.standby_player_nodes[extra_arg_0])
 
-func _on_character_3_pressed():
-	pass # Replace with function body.
+	GlobalSettings.standby_player_nodes.erase(GlobalSettings.current_main_player_node)
 
-func _on_character_4_pressed():
-	pass # Replace with function body.
+	GlobalSettings.current_main_player_node.set_physics_process(true)
+	GlobalSettings.current_main_player_node.show()
+	GlobalSettings.current_main_player_node.reparent(GlobalSettings.party_node)
+	GlobalSettings.party_player_nodes.insert(i, GlobalSettings.current_main_player_node)
+
+	GlobalSettings.current_main_player_node.player_stats_node.update_stats()
+	character_name_label_nodes[GlobalSettings.current_main_player_node.player_stats_node.party_index].text = GlobalSettings.current_main_player_node.character_specifics_node.character_name
+	update_character_selector()

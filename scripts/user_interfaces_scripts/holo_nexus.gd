@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var current_nexus_player = GlobalSettings.current_main_player_node.player_index
+@onready var current_nexus_player = GlobalSettings.current_main_player_node.character_specifics_node.character_index
 @onready var unlockable_load = load("res://resources/nexus_unlockables.tscn")
 var unlockable_instance = null
 

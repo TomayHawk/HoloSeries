@@ -17,6 +17,8 @@ var default_agility = 0
 var default_crit_chance = 0.05 # +0.02 Crit Rate
 var default_crit_damage = 0.60 # +0.10 Crit Damage
 
+var default_unlocked_nexus_nodes = [491, 522, 523]
+
 var regular_attack_damage = 13
 var temp_regular_attack_damage = 13
 

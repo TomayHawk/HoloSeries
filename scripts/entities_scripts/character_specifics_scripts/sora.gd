@@ -7,7 +7,7 @@ var character_index = 0
 var default_level = 999
 var default_max_health = 99999 # +190 (+0.95 T1)
 var default_max_mana = 9999 # +18 (+1.8 T1)
-var default_max_stamina = 500 # #### should be 100
+var default_max_stamina = 500
 var default_defence = 1000
 var default_shield = 1000
 var default_strength = 1000
@@ -16,6 +16,8 @@ var default_speed = 256 # +1 (+1 T1)
 var default_agility = 256 # +1 (+1 T1)
 var default_crit_chance = 0.50
 var default_crit_damage = 0.50
+
+var default_unlocked_nexus_nodes = [135, 167, 182]
 
 var regular_attack_damage = 13
 var temp_regular_attack_damage = 13
