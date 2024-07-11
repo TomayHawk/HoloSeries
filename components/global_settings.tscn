@@ -31,3 +31,5 @@ y_sort_enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 process_mode = 1
+
+[connection signal="timeout" from="LeavingCombatTimer" to="." method="_on_leaving_combat_timer_timeout"]

@@ -435,6 +435,5 @@ script = ExtResource("1_5w7ib")
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_qsfsi")
-animation = &"front_walk"
-frame_progress = 0.747943
-offset = Vector2(0, -14)
+animation = &"left_idle"
+offset = Vector2(0, -19.5)

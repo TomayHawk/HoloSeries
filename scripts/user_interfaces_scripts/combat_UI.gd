@@ -71,8 +71,12 @@ var tween
 
 func _ready():
 	control_node.modulate = Color.TRANSPARENT
-	hide_character_selector()
 	combat_options_2_node.hide()
+	
+	character_selector_node.hide()
+
+	for button in character_selector_player_nodes:
+		button.hide()
 
 # CombatUI health text update
 func update_health_label(party_index, health):
@@ -86,11 +90,6 @@ func combat_ui_control_tween(target_visibility_value):
 	tween = get_tree().create_tween()
 	await tween.tween_property(control_node, "modulate:a", target_visibility_value, 0.2).finished
 
-func hide_character_selector():
-	character_selector_node.hide()
-	for button in character_selector_player_nodes:
-		button.hide()
-
 func update_character_selector():
 	for button in character_selector_player_nodes:
 		button.hide()
@@ -100,8 +99,8 @@ func update_character_selector():
 		character_selector_player_nodes[i].show()
 		character_selector_character_name_nodes[i].text = player.character_specifics_node.character_name
 		character_selector_level_label_nodes[i].text = "Lvl " + str(player.player_stats_node.level)
-		character_selector_health_label_nodes[i].text = str(player.player_stats_node.health)
-		character_selector_mana_label_nodes[i].text = str(player.player_stats_node.mana)
+		character_selector_health_label_nodes[i].text = str(floor(player.player_stats_node.health))
+		character_selector_mana_label_nodes[i].text = str(floor(player.player_stats_node.mana))
 		i += 1
 
 func button_pressed():
@@ -152,9 +151,6 @@ func use_phoenix_burger(chosen_player_node):
 	chosen_player_node.player_stats_node.revive()
 	chosen_player_node.player_stats_node.update_health(chosen_player_node.player_stats_node.max_health * 0.25, ["break_limit"], Vector2.ZERO, 0.0)
 
-	if chosen_player_node.position.distance_to(GlobalSettings.current_main_player_node.position) > 80:
-		chosen_player_node._on_entities_detection_area_body_exited(GlobalSettings.current_main_player_node)
-
 func use_reset_button():
 	for player in GlobalSettings.party_player_nodes:
 		if !player.player_stats_node.alive:
@@ -172,6 +168,8 @@ func _on_control_mouse_exited():
 
 func _on_character_selector_button_pressed(extra_arg_0):
 	var i = 0
+	var temp_position = Vector2.ZERO
+	
 	for party_character_index in GlobalSettings.party_player_character_index:
 		if GlobalSettings.current_main_player_node.character_specifics_node.character_index == party_character_index:
 			break
@@ -185,8 +183,13 @@ func _on_character_selector_button_pressed(extra_arg_0):
 	GlobalSettings.standby_player_nodes.push_back(GlobalSettings.current_main_player_node)
 	GlobalSettings.party_player_nodes.erase(GlobalSettings.current_main_player_node)
 
-	GlobalSettings.standby_player_nodes[extra_arg_0].position = GlobalSettings.current_main_player_node.position
+	temp_position = GlobalSettings.current_main_player_node.position + Vector2(0, 0.01)
+	
+	GlobalSettings.current_main_player_node.position = Vector2(2000000, 2000000)
+
 	GlobalSettings.update_main_player(GlobalSettings.standby_player_nodes[extra_arg_0])
+
+	GlobalSettings.current_main_player_node.position = temp_position
 
 	GlobalSettings.standby_player_nodes.erase(GlobalSettings.current_main_player_node)
 

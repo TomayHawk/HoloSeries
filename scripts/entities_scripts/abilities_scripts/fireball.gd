@@ -34,6 +34,7 @@ func _ready():
 
 func _physics_process(delta):
 	# blast on collision
+	print(position)
 	var collision_information = move_and_collide(velocity * delta)
 	if collision_information != null: area_impact()
 

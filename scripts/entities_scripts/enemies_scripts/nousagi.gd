@@ -13,7 +13,7 @@ extends CharacterBody2D
 
 @onready var nousagi_load = load("res://entities/enemies/nousagi.tscn")
 
-var speed = 75
+var speed = 4500
 
 # animation variables
 var current_animation = null
@@ -49,7 +49,7 @@ var nousagi_instance = null
 func _ready():
 	animation_node.play("walk")
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	# get current animation and current animation frame information
 	current_animation = animation_node.get_animation()
 	current_frame = animation_node.get_frame()
@@ -100,14 +100,14 @@ func _physics_process(_delta):
 				attack_cooldown_node.start(randf_range(1, 3))
 				attack_ready = false
 			elif current_animation == "walk":
-				velocity = move_direction * speed
+				velocity = move_direction * speed * delta
 
 		if players_exist_in_attack_area: velocity = Vector2(0, 0)
 
 	# check knockback
 	if taking_knockback:
 		animation_node.play("idle")
-		velocity = knockback_direction * 200 * (1 - (0.4 - knockback_timer_node.get_time_left()) / 0.4) * knockback_weight
+		velocity = knockback_direction * 1800 * delta * (1 - (0.4 - knockback_timer_node.get_time_left()) / 0.4) * knockback_weight
 	# animation check outside animation frame update
 	elif current_animation == "idle":
 		# face targeet player
@@ -119,10 +119,6 @@ func _physics_process(_delta):
 		# switch to walk when outside attack mode
 		elif !players_exist_in_attack_area:
 			animation_node.play("walk")
-
-	# check combat
-	if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
-	if player_nodes_in_detection_area.is_empty(): players_exist_in_detection_area = false
 
 	last_frame = current_frame
 	move_and_slide()
@@ -176,19 +172,23 @@ func _on_detection_area_body_entered(body):
 		GlobalSettings.enter_combat()
 		players_exist_in_detection_area = true
 		if !GlobalSettings.enemy_nodes_in_combat.has(self): GlobalSettings.enemy_nodes_in_combat.push_back(self)
-		if !player_nodes_in_detection_area.has(self): player_nodes_in_detection_area.push_back(body)
+		if !player_nodes_in_detection_area.has(body): player_nodes_in_detection_area.push_back(body)
 
 func _on_detection_area_body_exited(body):
 	_on_attack_area_body_exited(body)
 
 	player_nodes_in_detection_area.erase(body)
-	
+	print("players", player_nodes_in_detection_area)
+
 	if player_nodes_in_detection_area.is_empty():
 		if GlobalSettings.locked_enemy_node == self: GlobalSettings.locked_enemy_node = null
 		GlobalSettings.enemy_nodes_in_combat.erase(self)
 		players_exist_in_detection_area = false
+		print("enemies", GlobalSettings.enemy_nodes_in_combat)
 
-	if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
+	if GlobalSettings.enemy_nodes_in_combat.is_empty():
+		print("leaving")
+		GlobalSettings.attempt_leave_combat()
 
 func _on_attack_area_body_entered(body):
 	if enemy_stats_node.alive == true&&body.player_stats_node.alive:
@@ -196,8 +196,8 @@ func _on_attack_area_body_entered(body):
 		players_exist_in_detection_area = true
 		players_exist_in_attack_area = true
 		if !GlobalSettings.enemy_nodes_in_combat.has(self): GlobalSettings.enemy_nodes_in_combat.push_back(self)
-		if !player_nodes_in_detection_area.has(self): player_nodes_in_detection_area.push_back(body)
-		if !player_nodes_in_attack_area.has(self): player_nodes_in_attack_area.push_back(body)
+		if !player_nodes_in_detection_area.has(body): player_nodes_in_detection_area.push_back(body)
+		if !player_nodes_in_attack_area.has(body): player_nodes_in_attack_area.push_back(body)
 
 func _on_attack_area_body_exited(body):
 	player_nodes_in_attack_area.erase(body)

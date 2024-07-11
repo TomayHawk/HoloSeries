@@ -200,7 +200,7 @@ func start_game():
 
 	for player_node in party_player_nodes:
 		if player_node != current_main_player_node:
-			player_node._on_outer_entities_detection_area_body_exited(current_main_player_node)
+			player_node.position = current_main_player_node.position + (25 * Vector2(randf_range( - 1, 1), randf_range( - 1, 1)))
 	
 	for player_node in standby_player_nodes:
 		player_node.set_physics_process(false)
@@ -223,7 +223,7 @@ func change_scene(next_scene_index, spawn_index):
 	current_main_player_node.position = spawn_positions[spawn_index]
 
 	for player_node in party_player_nodes: if player_node != current_main_player_node:
-		player_node.position = spawn_positions[spawn_index] + (15 * Vector2(randf_range( - 1, 1), randf_range( - 1, 1)))
+		player_node.position = spawn_positions[spawn_index] + (25 * Vector2(randf_range( - 1, 1), randf_range( - 1, 1)))
 	
 	leave_combat()
 
@@ -242,6 +242,7 @@ func update_party_player(_next_party_player_node):
 	pass
 
 func enter_combat():
+	print("enter combat")
 	if !in_combat||leaving_combat:
 		in_combat = true
 		leaving_combat = false
@@ -253,6 +254,7 @@ func enter_combat():
 			leaving_combat_timer_node.stop()
 
 func attempt_leave_combat():
+	print("attempt")
 	if in_combat&&leaving_combat_timer_node.is_stopped():
 		leaving_combat = true
 		leaving_combat_timer_node.start(2)
@@ -444,3 +446,4 @@ func damage_display(value, display_position, types):
 func _on_leaving_combat_timer_timeout():
 	if enemy_nodes_in_combat.is_empty():
 		leave_combat()
+		print("left")
