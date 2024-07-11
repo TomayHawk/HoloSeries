@@ -78,5 +78,5 @@ func trigger_death():
 	enemy_node.set_physics_process(false)
 	enemy_node.animation_node.play("death")
 	enemy_node.get_node("DeathTimer").start(0.3)
-	enemy_node.velocity = enemy_node.knockback_direction * 100
+	enemy_node.velocity = enemy_node.knockback_direction * 200
 	set_physics_process(true)

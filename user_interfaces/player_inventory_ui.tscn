@@ -1,0 +1,522 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjuro6l8pppiv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fc3sm"]
+bg_color = Color(0.235294, 0.235294, 0.235294, 0.752941)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.615686, 1, 1, 0.321569)
+border_blend = true
+
+[node name="PlayerInventoryUI" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -120.0
+offset_right = 160.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Control/MarginContainer"]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fc3sm")
+
+[node name="TabContainer" type="TabContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+theme_override_constants/side_margin = 4
+theme_override_font_sizes/font_size = 8
+tab_focus_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/TabContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/MarginContainer/TabContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+
+[node name="Button" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+text = "First"
+clip_text = true
+
+[node name="Button2" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button3" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button4" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button5" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button6" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button7" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button8" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button9" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button10" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button11" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button12" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button13" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button14" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button15" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button16" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button17" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button18" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button19" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button20" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/MarginContainer/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/MarginContainer/TabContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+
+[node name="Button" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+text = "Second"
+
+[node name="Button2" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button3" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button4" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button5" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button6" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button7" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button8" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button9" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button10" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button11" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button12" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button13" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button14" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button15" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button16" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button17" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button18" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button19" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button20" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="MarginContainer3" type="MarginContainer" parent="Control/MarginContainer/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/MarginContainer/TabContainer/MarginContainer3"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+
+[node name="Button" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+text = "Third"
+clip_text = true
+
+[node name="Button2" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button3" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button4" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button5" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button6" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button7" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button8" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button9" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button10" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button11" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button12" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button13" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button14" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button15" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button16" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button17" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button18" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button19" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button20" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8

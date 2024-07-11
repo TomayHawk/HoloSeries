@@ -98,7 +98,7 @@ func update_character_selector():
 	for player in GlobalSettings.standby_player_nodes:
 		character_selector_player_nodes[i].show()
 		character_selector_character_name_nodes[i].text = player.character_specifics_node.character_name
-		character_selector_level_label_nodes[i].text = "Lvl " + str(player.player_stats_node.level)
+		character_selector_level_label_nodes[i].text = "Lvl " + str(player.player_stats_node.level).pad_zeros(3)
 		character_selector_health_label_nodes[i].text = str(floor(player.player_stats_node.health))
 		character_selector_mana_label_nodes[i].text = str(floor(player.player_stats_node.mana))
 		i += 1

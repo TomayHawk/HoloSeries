@@ -107,7 +107,7 @@ func _physics_process(delta):
 	# check knockback
 	if taking_knockback:
 		animation_node.play("idle")
-		velocity = knockback_direction * 1800 * delta * (1 - (0.4 - knockback_timer_node.get_time_left()) / 0.4) * knockback_weight
+		velocity = knockback_direction * 12000 * delta * (1 - (0.4 - knockback_timer_node.get_time_left()) / 0.4) * knockback_weight
 	# animation check outside animation frame update
 	elif current_animation == "idle":
 		# face targeet player

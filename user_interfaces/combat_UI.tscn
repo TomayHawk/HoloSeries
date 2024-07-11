@@ -1277,3 +1277,6 @@ one_shot = true
 [connection signal="mouse_entered" from="Control/CharacterInfos/Panel2" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CharacterInfos/Panel2" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_character_selector_button_pressed" binds= [0]]
+[connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2" to="." method="_on_character_selector_button_pressed" binds= [1]]
+[connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3" to="." method="_on_character_selector_button_pressed" binds= [2]]
+[connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4" to="." method="_on_character_selector_button_pressed" binds= [3]]
