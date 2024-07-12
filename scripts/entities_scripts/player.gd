@@ -19,8 +19,8 @@ extends CharacterBody2D
 
 # speed variables
 var speed = 8000
-var ally_speed = 8000
-var temp_ally_speed = 8000
+var ally_speed = 6000
+var temp_ally_speed = 6000
 var dash_speed = 30000
 var sprint_multiplier = 1.25
 
@@ -58,11 +58,17 @@ var taking_knockback = false
 var knockback_direction = Vector2.ZERO
 var knockback_weight = 0.0
 
+# temporary variables
+var temp_distance_to_main_player = 0.0
+var temp_move_direction = Vector2.ZERO
+var temp_possible_directions = [0, 1, 2, 3, 4, 5, 6, 7]
+var temp_comparator = 0.0
+
 func _ready():
 	animation_node.play("front_idle")
 	
 func _physics_process(delta):
-	var distance_to_main_player = position.distance_to(GlobalSettings.current_main_player_node.position)
+	temp_distance_to_main_player = position.distance_to(GlobalSettings.current_main_player_node.position)
 	# if player
 	if is_current_main_player:
 		# attack
@@ -86,17 +92,18 @@ func _physics_process(delta):
 		player_movement(delta)
 
 	# if ally in combat
-	elif GlobalSettings.in_combat&&ally_enemy_in_attack_area&&distance_to_main_player < 250:
+	elif GlobalSettings.in_combat&&ally_enemy_in_attack_area&&temp_distance_to_main_player < 250:
 
 		moving = false
 		velocity = Vector2.ZERO
 
-		var target_enemy_health = 1000000000
+		# target health
+		temp_comparator = INF
 		# determine enemy health
 		for enemy in ally_enemy_nodes_in_attack_area:
 			# target enemy with lowest health
-			if enemy.enemy_stats_node.health < target_enemy_health:
-				target_enemy_health = enemy.enemy_stats_node.health
+			if enemy.enemy_stats_node.health < temp_comparator:
+				temp_comparator = enemy.enemy_stats_node.health
 				ally_target_enemy_node = enemy
 
 		last_move_direction = (ally_target_enemy_node.position - position).normalized()
@@ -138,28 +145,28 @@ func player_movement(delta):
 	if attacking: velocity /= 2
 
 func ally_movement(delta):
-	var distance_to_main_player = position.distance_to(GlobalSettings.current_main_player_node.position)
 	ally_direction_ready = false
 	moving = true
 	temp_ally_speed = ally_speed
 
-	if GlobalSettings.in_combat&&!GlobalSettings.leaving_combat&&distance_to_main_player < 250:
-		var distance_to_enemy = 10000
+	if GlobalSettings.in_combat&&!GlobalSettings.leaving_combat&&temp_distance_to_main_player < 250:
+		# distance to target
+		temp_comparator = INF
 		# evaluate enemy distances
 		for enemy in GlobalSettings.enemy_nodes_in_combat:
 			# target enemy with shortest distance
-			if position.distance_to(enemy.position) < distance_to_enemy:
-				distance_to_enemy = position.distance_to(enemy.position)
+			if position.distance_to(enemy.position) < temp_comparator:
+				temp_comparator = position.distance_to(enemy.position)
 				ally_target_enemy_node = enemy
 		
-		if distance_to_enemy > distance_to_main_player&&distance_to_enemy > 200:
+		if temp_comparator > 200&&temp_comparator > temp_distance_to_main_player:
 			navigation_agent_node.target_position = GlobalSettings.current_main_player_node.position
 		else:
 			navigation_agent_node.target_position = ally_target_enemy_node.position
 			
 		current_move_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
 		ally_direction_cooldown_node.start(randf_range(0.2, 0.4))
-	elif distance_to_main_player < 80:
+	elif temp_distance_to_main_player < 80:
 		current_move_direction = possible_directions[randi() % 8]
 		ally_direction_cooldown_node.start(randf_range(0.5, 0.7))
 		temp_ally_speed /= 1.5
@@ -168,30 +175,33 @@ func ally_movement(delta):
 		current_move_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
 		ally_direction_cooldown_node.start(randf_range(0.5, 0.7))
 
-	if distance_to_main_player > 200:
-		temp_ally_speed *= (distance_to_main_player / 200)
-		if distance_to_main_player > 300:
+	if temp_distance_to_main_player > 200:
+		temp_ally_speed *= (temp_distance_to_main_player / 200)
+		if temp_distance_to_main_player > 300:
 			temp_ally_speed = ally_speed * 2
+	
+	if GlobalSettings.current_main_player_node.sprinting&&!GlobalSettings.in_combat&&temp_distance_to_main_player > 120&&GlobalSettings.current_main_player_node.moving:
+		temp_ally_speed = GlobalSettings.current_main_player_node.speed * sprint_multiplier
 
 	# assume currently facing obstacle
 	ray_cast_obstacles = true
 	# each possible walk direction
-	var directions = [0, 1, 2, 3, 4, 5, 6, 7]
-	var originally_selected_direction = current_move_direction
-	var temp_snapped = Vector2.ZERO
+	temp_possible_directions = [0, 1, 2, 3, 4, 5, 6, 7]
+	temp_move_direction = current_move_direction
 
 	# while facing obstacles
 	while ray_cast_obstacles:
-		var distance_to_direction = INF
+		# distance to target direction
+		temp_comparator = INF
 		
 		# for each possible direction
-		for i in directions:
+		for i in temp_possible_directions:
 			# if distance to snapped direction is shorter than current distance to snapped direction, set new snapped direction
-			if originally_selected_direction.distance_to(possible_directions[i]) < distance_to_direction:
-				distance_to_direction = originally_selected_direction.distance_to(possible_directions[i])
-				temp_snapped = possible_directions[i]
+			if current_move_direction.distance_to(possible_directions[i]) < temp_comparator:
+				temp_comparator = current_move_direction.distance_to(possible_directions[i])
+				temp_move_direction = possible_directions[i]
 
-		current_move_direction = temp_snapped
+		current_move_direction = temp_move_direction
 
 		# check for obstacles
 		obstacle_check_node.set_target_position(current_move_direction * 20)
@@ -200,16 +210,16 @@ func ally_movement(delta):
 		# if facing obstacles
 		if obstacle_check_node.is_colliding():
 			# remove currently selected direction
-			for i in directions:
+			for i in temp_possible_directions:
 				if current_move_direction == possible_directions[i]:
-					directions.erase(i)
+					temp_possible_directions.erase(i)
 			
-			if directions.is_empty():
+			if temp_possible_directions.is_empty():
 				for i in 8:
-					if originally_selected_direction.distance_to(possible_directions[i]) < distance_to_direction:
-						distance_to_direction = originally_selected_direction.distance_to(possible_directions[i])
-						temp_snapped = possible_directions[i]
-				current_move_direction = temp_snapped
+					if current_move_direction.distance_to(possible_directions[i]) < temp_comparator:
+						temp_comparator = current_move_direction.distance_to(possible_directions[i])
+						temp_move_direction = possible_directions[i]
+				current_move_direction = temp_move_direction
 
 				ray_cast_obstacles = false
 		else:
@@ -220,32 +230,6 @@ func ally_movement(delta):
 	last_move_direction = current_move_direction
 
 	choose_animation()
-
-func reset_variables():
-	is_current_main_player = self == GlobalSettings.current_main_player_node
-
-	moving = false
-	dashing = false
-	sprinting = false
-	current_move_direction = Vector2.ZERO
-	last_move_direction = Vector2.ZERO
-
-	attacking = false
-	attack_direction = Vector2.ZERO
-
-	ally_attack_ready = true
-	ally_target_enemy_node = null
-
-	attack_cooldown_node.stop()
-	ally_attack_cooldown_node.stop()
-	ally_direction_cooldown_node.stop()
-	death_timer_node.stop()
-
-	velocity = Vector2.ZERO
-	choose_animation()
-
-	ally_direction_ready = false
-	ally_pause_timer_node.start(randf_range(0.2, 0.5))
 
 func dash():
 	dashing = true
@@ -300,7 +284,7 @@ func _on_interaction_area_body_entered(body):
 		ally_enemy_nodes_in_attack_area.push_back(body)
 		ally_enemy_in_attack_area = true
 		
-		velocity = Vector2(0, 0)
+		velocity = Vector2.ZERO
 		moving = false
 		ally_direction_ready = true
 
@@ -326,16 +310,15 @@ func _on_ally_attack_cooldown_timeout():
 	ally_attack_ready = true
 
 func _on_ally_direction_cooldown_timeout():
-	var distance_to_main_player = position.distance_to(GlobalSettings.current_main_player_node.position)
-	velocity = Vector2(0, 0)
+	velocity = Vector2.ZERO
 	moving = false
 
 	if GlobalSettings.in_combat&&!GlobalSettings.leaving_combat:
 		ally_direction_ready = true
 	else:
-		if distance_to_main_player < 70:
+		if temp_distance_to_main_player < 70:
 			ally_pause_timer_node.start(randf_range(1.5, 2))
-		elif distance_to_main_player < 100:
+		elif temp_distance_to_main_player < 100:
 			ally_pause_timer_node.start(randf_range(0.7, 0.8))
 		else:
 			ally_direction_ready = true

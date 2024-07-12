@@ -96,7 +96,7 @@ func update_stats():
 	crit_damage = character_specifics_node.default_crit_damage
 
 	player_node.speed = 8000 + (50 * speed)
-	player_node.ally_speed = 8000 + (30 * speed)
+	player_node.ally_speed = 6000 + (30 * speed)
 	player_node.dash_speed = 30000 + (150 * speed)
 
 	player_node.dash_stamina_consumption = 35 - (agility * 0.0625)
@@ -124,9 +124,9 @@ func update_health(value, types, knockback_direction, knockback_weight):
 		combat_ui_node.update_health_label(party_index, health)
 
 		if value < 0:
-			GlobalSettings.damage_display(floor(value), player_node.position + Vector2(0, -7), ["player_damage"])
+			CombatEntitiesComponent.damage_display(floor(value), player_node.position + Vector2(0, -7), ["player_damage"])
 		elif value > 0:
-			GlobalSettings.damage_display(floor(value), player_node.position + Vector2(0, -7), ["heal"])
+			CombatEntitiesComponent.damage_display(floor(value), player_node.position + Vector2(0, -7), ["heal"])
 
 		# knockback handling
 		if knockback_direction != Vector2.ZERO:
@@ -201,6 +201,5 @@ func trigger_death():
 
 func revive():
 	alive = true
-	player_node.reset_variables()
 	player_node.add_to_group("alive")
 	player_node.set_physics_process(true)

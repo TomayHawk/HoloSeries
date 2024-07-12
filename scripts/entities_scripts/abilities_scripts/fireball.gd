@@ -60,7 +60,7 @@ func initiate_fireball(chosen_node):
 func area_impact():
 	# deal damage to each enemy in blast radius
 	for enemy_node in nodes_in_blast_area:
-		var temp_damage = GlobalSettings.magic_damage_calculator(damage, caster_node.player_stats_node, enemy_node.enemy_stats_node)
+		var temp_damage = CombatEntitiesComponent.magic_damage_calculator(damage, caster_node.player_stats_node, enemy_node.enemy_stats_node)
 		enemy_node.enemy_stats_node.update_health( - temp_damage[0], temp_damage[1], move_direction, 0.5)
 	queue_free()
 

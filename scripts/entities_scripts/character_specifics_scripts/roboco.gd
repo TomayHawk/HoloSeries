@@ -54,5 +54,5 @@ func regular_attack():
 				knockback_weight = 1.5
 			else:
 				temp_regular_attack_damage = regular_attack_damage
-			var damage = GlobalSettings.physical_damage_calculator(temp_regular_attack_damage, player_stats_node, enemy_body.enemy_stats_node)
+			var damage = CombatEntitiesComponent.physical_damage_calculator(temp_regular_attack_damage, player_stats_node, enemy_body.enemy_stats_node)
 			enemy_body.enemy_stats_node.update_health( - damage[0], damage[1], player_node.attack_direction, knockback_weight)

@@ -51,7 +51,7 @@ func update_health(amount, types, knockback_direction, knockback_weight):
 	health_bar_node.visible = health != max_health
 
 	if amount < 0:
-		GlobalSettings.damage_display(floor(amount), enemy_node.position, types)
+		CombatEntitiesComponent.damage_display(floor(amount), enemy_node.position, types)
 
 	# check death
 	if health == 0: trigger_death()

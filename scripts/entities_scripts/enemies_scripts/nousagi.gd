@@ -94,7 +94,7 @@ func _physics_process(delta):
 				# attack player
 				if players_exist_in_attack_area:
 					attack_direction = (target_player_node.position - position).normalized()
-					var damage = GlobalSettings.physical_damage_calculator(13, enemy_stats_node, target_player_node.player_stats_node)
+					var damage = CombatEntitiesComponent.physical_damage_calculator(13, enemy_stats_node, target_player_node.player_stats_node)
 					target_player_node.player_stats_node.update_health( - damage[0], damage[1], attack_direction, 0.4) # attack player (damage)
 					animation_node.flip_h = attack_direction.x < 0
 				attack_cooldown_node.start(randf_range(1, 3))
