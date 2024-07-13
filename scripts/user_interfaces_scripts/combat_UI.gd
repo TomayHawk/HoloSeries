@@ -43,25 +43,25 @@ extends CanvasLayer
 												$CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3,
 												$CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4]
 
-@onready var character_selector_character_name_nodes = [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName"),
-														character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName"),
-														character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName"),
-														character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName")]
+@onready var character_selector_name_nodes = [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName"),
+											  character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName"),
+											  character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName"),
+											  character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName")]
 
-@onready var character_selector_level_label_nodes = [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level"),
-													 character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level"),
-													 character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level"),
-													 character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level")]
+@onready var character_selector_level_nodes = [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level"),
+											   character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level"),
+											   character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level"),
+											   character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level")]
 
-@onready var character_selector_health_label_nodes = [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount"),
-													  character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount"),
-													  character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount"),
-													  character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount")]
+@onready var character_selector_health_nodes = [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount"),
+												character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount"),
+												character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount"),
+												character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount")]
 
-@onready var character_selector_mana_label_nodes = [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount"),
-													character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount"),
-													character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount"),
-													character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount")]
+@onready var character_selector_mana_nodes = [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount"),
+											  character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount"),
+											  character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount"),
+											  character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount")]
 
 @onready var abilities_load = [load("res://entities/abilities/fireball.tscn"),
 							   load("res://entities/abilities/regen.tscn"),
@@ -97,10 +97,10 @@ func update_character_selector():
 	var i = 0
 	for player in GlobalSettings.standby_player_nodes:
 		character_selector_player_nodes[i].show()
-		character_selector_character_name_nodes[i].text = player.character_specifics_node.character_name
-		character_selector_level_label_nodes[i].text = "Lvl " + str(player.player_stats_node.level).pad_zeros(3)
-		character_selector_health_label_nodes[i].text = str(floor(player.player_stats_node.health))
-		character_selector_mana_label_nodes[i].text = str(floor(player.player_stats_node.mana))
+		character_selector_name_nodes[i].text = player.character_specifics_node.character_name
+		character_selector_level_nodes[i].text = "Lvl " + str(player.player_stats_node.level).pad_zeros(3)
+		character_selector_health_nodes[i].text = str(floor(player.player_stats_node.health))
+		character_selector_mana_nodes[i].text = str(floor(player.player_stats_node.mana))
 		i += 1
 
 func button_pressed():

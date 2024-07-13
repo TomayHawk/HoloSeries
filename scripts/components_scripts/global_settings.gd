@@ -49,6 +49,7 @@ var game_paused = false
 var player_can_attack = false
 var mouse_in_attack_area = true
 var combat_inputs_available = false
+var nexus_inputs_available = false
 
 # spawn positions and camera limits
 var spawn_positions = [Vector2.ZERO, Vector2(0, -247), Vector2(0, 341), Vector2(31, -103), Vector2(0, 53)]
@@ -72,6 +73,7 @@ var unlocked_players = [true, true, true, true, true]
 
 # nexus variables
 var on_nexus = false
+var nexus_character_selector_node = null
 var unlocked_nodes = [[135, 167, 182], [], [], [], [], [], [], [], [], []]
 var unlocked_ability_nodes = [[], [], [], [], [], [], [], [], [], []]
 var unlocked_stats_nodes = [[0, 0, 0, 0, 0, 0, 0, 0],
@@ -113,6 +115,8 @@ func _input(_event):
 	elif combat_inputs_available:
 		if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
 		elif (Input.is_action_just_pressed("tab")||Input.is_action_just_released("tab")): character_selector_display()
+	elif nexus_inputs_available:
+		if (Input.is_action_just_pressed("tab")||Input.is_action_just_released("tab")): nexus_character_selector_display()
 
 func reset_action_availability():
 	player_can_attack = false
@@ -143,6 +147,7 @@ func esc_input():
 		on_nexus = false
 		game_paused = false
 		combat_inputs_available = true
+		nexus_inputs_available = false
 		get_tree().root.get_node("HoloNexus").call_deferred("exit_nexus")
 
 	elif requesting_entities:
@@ -234,6 +239,9 @@ func combat_ui_display():
 
 func character_selector_display():
 	combat_ui_character_selector_node.visible = !combat_ui_character_selector_node.visible
+
+func nexus_character_selector_display():
+	nexus_character_selector_node.visible = !nexus_character_selector_node.visible
 
 func update_main_player(next_main_player_node):
 	current_main_player_node.is_current_main_player = false

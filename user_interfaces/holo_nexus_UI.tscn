@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://wsunon4ilt68"]
+[gd_scene load_steps=6 format=3 uid="uid://wsunon4ilt68"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/holo_nexus_ui.gd" id="1_602ku"]
+[ext_resource type="Texture2D" uid="uid://dxnu3xke1bx8l" path="res://art/characters/Untitled_Artwork (1).png" id="2_38u1l"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_01no7"]
 bg_color = Color(0.235294, 0.235294, 0.235294, 0.709804)
@@ -12,6 +13,13 @@ border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_88jqg"]
+bg_color = Color(0.235294, 0.235294, 0.235294, 0.709804)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [node name="HoloNexusUI" type="CanvasLayer"]
 process_mode = 3
@@ -115,4 +123,325 @@ text = "Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample 
 autowrap_mode = 2
 clip_text = true
 
+[node name="NexusCharacterSelector" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector"]
+layout_mode = 1
+offset_right = 208.0
+offset_bottom = 160.0
+scale = Vector2(0.99279, 0.997135)
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 56
+
+[node name="Panel" type="Panel" parent="NexusCharacterSelector/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_88jqg")
+
+[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Character1" type="Button" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+text = " "
+
+[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1"]
+layout_mode = 2
+offset_right = 308.0
+offset_bottom = 55.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="TextureRect" type="TextureRect" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("2_38u1l")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CharacterName" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Character"
+vertical_alignment = 1
+
+[node name="Level" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "Lvl ###"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Character2" type="Button" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+text = " "
+
+[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2"]
+layout_mode = 2
+offset_right = 308.0
+offset_bottom = 55.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="TextureRect" type="TextureRect" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("2_38u1l")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CharacterName" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Character"
+vertical_alignment = 1
+
+[node name="Level" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "Lvl ###"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Character3" type="Button" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+text = " "
+
+[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3"]
+layout_mode = 2
+offset_right = 308.0
+offset_bottom = 55.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="TextureRect" type="TextureRect" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("2_38u1l")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CharacterName" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Character"
+vertical_alignment = 1
+
+[node name="Level" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "Lvl ###"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Character4" type="Button" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+text = " "
+
+[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4"]
+layout_mode = 2
+offset_right = 308.0
+offset_bottom = 55.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="TextureRect" type="TextureRect" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("2_38u1l")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CharacterName" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Character"
+vertical_alignment = 1
+
+[node name="Level" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "Lvl ###"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Character5" type="Button" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+text = " "
+
+[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5"]
+layout_mode = 2
+offset_right = 308.0
+offset_bottom = 55.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="TextureRect" type="TextureRect" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("2_38u1l")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CharacterName" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5/MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Character"
+vertical_alignment = 1
+
+[node name="Level" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5/MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "Lvl ###"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Character6" type="Button" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+text = " "
+
+[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6"]
+layout_mode = 2
+offset_right = 308.0
+offset_bottom = 55.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="TextureRect" type="TextureRect" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("2_38u1l")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CharacterName" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6/MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(144, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Character"
+vertical_alignment = 1
+
+[node name="Level" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6/MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "Lvl ###"
+horizontal_alignment = 2
+vertical_alignment = 1
+
 [connection signal="pressed" from="Control/Options/MarginContainer/VBoxContainer/Unlock" to="." method="_on_unlock_pressed"]
+[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_nexus_character_selector_button_pressed" binds= [0]]
+[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2" to="." method="_on_nexus_character_selector_button_pressed" binds= [1]]
+[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3" to="." method="_on_nexus_character_selector_button_pressed" binds= [2]]
+[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4" to="." method="_on_nexus_character_selector_button_pressed" binds= [3]]
+[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5" to="." method="_on_nexus_character_selector_button_pressed" binds= [4]]
+[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6" to="." method="_on_nexus_character_selector_button_pressed" binds= [5]]

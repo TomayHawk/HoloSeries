@@ -1,13 +1,15 @@
 extends Node2D
 
-@onready var current_nexus_player = GlobalSettings.current_main_player_node.character_specifics_node.character_index
-@onready var unlockable_load = load("res://resources/nexus_unlockables.tscn")
-var unlockable_instance = null
-
 # create array for all nexus nodes
 @onready var nexus_nodes = $NexusNodes.get_children()
-
 @onready var nexus_player_node = $NexusPlayer
+
+@onready var current_nexus_player = GlobalSettings.current_main_player_node.character_specifics_node.character_index
+
+@onready var nexus_ui_node = $HoloNexusUI
+
+@onready var unlockable_load = load("res://resources/nexus_unlockables.tscn")
+var unlockable_instance = null
 
 var unlocked_players = [true, true, false, false]
 var last_node = [167, 0, 0, 0]
@@ -82,6 +84,12 @@ func _ready():
 
 	# update NexusPlayer and visible unlocked nodes
 	update_nexus_player(current_nexus_player)
+
+	GlobalSettings.nexus_inputs_available = true
+	GlobalSettings.nexus_character_selector_node = get_node("HoloNexusUI/NexusCharacterSelector")
+
+	nexus_ui_node.update_character_selector()
+	nexus_ui_node.nexus_character_selector_node.hide()
 
 func stat_nodes_randomizer():
 	GlobalSettings.nexus_not_randomized = false
