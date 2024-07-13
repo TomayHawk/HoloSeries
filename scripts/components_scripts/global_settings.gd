@@ -48,6 +48,7 @@ var current_main_player_node = null
 var game_paused = false
 var player_can_attack = false
 var mouse_in_attack_area = true
+var combat_inputs_available = false
 
 # spawn positions and camera limits
 var spawn_positions = [Vector2.ZERO, Vector2(0, -247), Vector2(0, 341), Vector2(31, -103), Vector2(0, 53)]
@@ -84,6 +85,8 @@ var unlocked_stats_nodes = [[0, 0, 0, 0, 0, 0, 0, 0],
 							[0, 0, 0, 0, 0, 0, 0, 0],
 							[0, 0, 0, 0, 0, 0, 0, 0]]
 var nexus_not_randomized = true
+var nexus_node_texture_positions = []
+var nexus_node_stats = []
 
 # combat variables
 var in_combat = false
@@ -105,20 +108,14 @@ func _input(_event):
 	if Input.is_action_just_pressed("action")&&mouse_in_attack_area&&!requesting_entities:
 		player_can_attack = true
 		call_deferred("reset_action_availability")
-	elif Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
 	elif Input.is_action_just_pressed("esc"): esc_input()
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
-	elif Input.is_action_just_pressed("tab"): character_selector_display()
-	elif Input.is_action_just_released("tab"): character_selector_display()
+	elif combat_inputs_available:
+		if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
+		elif (Input.is_action_just_pressed("tab")||Input.is_action_just_released("tab")): character_selector_display()
 
 func reset_action_availability():
 	player_can_attack = false
-
-func character_selector_display():
-	if combat_ui_character_selector_node.is_visible():
-		combat_ui_character_selector_node.hide()
-	else:
-		combat_ui_character_selector_node.show()
 
 func update_nodes(scene_node):
 	current_scene_node = scene_node
@@ -139,25 +136,32 @@ func full_screen_toggle():
 # esc inputs
 func esc_input():
 	if on_nexus:
+		get_tree().paused = false
+		show()
+		combat_ui_node.show()
+		current_scene_node.show()
 		on_nexus = false
-		camera_node.reparent(current_main_player_node)
-		camera_node.position = Vector2.ZERO
+		game_paused = false
+		combat_inputs_available = true
 		get_tree().root.get_node("HoloNexus").call_deferred("exit_nexus")
+
 	elif requesting_entities:
 		empty_entities_request()
-	elif combat_ui_character_selector_node.is_visible():
+	elif combat_ui_character_selector_node.visible:
 		combat_ui_character_selector_node.hide()
-	elif combat_ui_combat_options_2_node.is_visible():
+	elif combat_ui_combat_options_2_node.visible:
 		combat_ui_node.hide_combat_options_2()
 	elif game_paused:
 		game_options_node.hide()
 		combat_ui_node.show()
 		get_tree().paused = false
+		combat_inputs_available = true
 		game_paused = false
 	else:
 		game_options_node.show()
 		combat_ui_node.hide()
 		get_tree().paused = true
+		combat_inputs_available = false
 		game_paused = true
 
 func start_game():
@@ -207,6 +211,7 @@ func start_game():
 		i -= 1
 
 	combat_ui_node.update_character_selector()
+	combat_inputs_available = true
 
 # change scene (called from scenes)
 func change_scene(next_scene_index, spawn_index):
@@ -220,6 +225,15 @@ func change_scene(next_scene_index, spawn_index):
 		player_node.position = spawn_positions[spawn_index] + (25 * Vector2(randf_range( - 1, 1), randf_range( - 1, 1)))
 	
 	leave_combat()
+
+# display combat ui
+func combat_ui_display():
+	if !GlobalSettings.in_combat:
+		if combat_ui_control_node.modulate.a != 1.0: combat_ui_control_node.modulate.a = 1.0
+		elif GlobalSettings.leaving_combat_timer_node.is_stopped(): combat_ui_control_node.modulate.a = 0.0
+
+func character_selector_display():
+	combat_ui_character_selector_node.visible = !combat_ui_character_selector_node.visible
 
 func update_main_player(next_main_player_node):
 	current_main_player_node.is_current_main_player = false
@@ -236,7 +250,6 @@ func update_party_player(_next_party_player_node):
 	pass
 
 func enter_combat():
-	print("enter combat")
 	if !in_combat||leaving_combat:
 		in_combat = true
 		leaving_combat = false
@@ -248,7 +261,6 @@ func enter_combat():
 			leaving_combat_timer_node.stop()
 
 func attempt_leave_combat():
-	print("attempt")
 	if in_combat&&leaving_combat_timer_node.is_stopped():
 		leaving_combat = true
 		leaving_combat_timer_node.start(2)
@@ -327,14 +339,6 @@ func empty_entities_request():
 	entities_chosen_count = 0
 	entities_chosen.clear()
 
-# display combat ui
-func combat_ui_display():
-	if !in_combat:
-		if combat_ui_control_node.modulate.a != 1.0: combat_ui_control_node.modulate.a = 1.0
-		elif leaving_combat_timer_node.is_stopped(): combat_ui_control_node.modulate.a = 0.0
-
 func _on_leaving_combat_timer_timeout():
 	if enemy_nodes_in_combat.is_empty():
 		leave_combat()
-		print("left")
-		

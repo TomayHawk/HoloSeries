@@ -62,6 +62,10 @@ func _ready():
 
 	# if nexus is empty, initiate randomizer
 	if GlobalSettings.nexus_not_randomized: stat_nodes_randomizer()
+	else:
+		for node in nexus_nodes:
+			if node.texture.region.position == empty_node_atlas_position:
+				node.texture.region.position = GlobalSettings.nexus_node_texture_positions[node.get_index()]
 	
 	for node in nexus_nodes:
 		if node.texture.region.position == Vector2(32, 0): null_nodes.push_back(node.get_index()) # null
@@ -187,6 +191,15 @@ func stat_nodes_randomizer():
 
 					empty_replacer.push_back(temp_node_index)
 					empty_replacer.shuffle()
+	
+	# save randomized textures
+	for node in nexus_nodes:
+		if node.texture.region.position in stats_node_atlas_position:
+			GlobalSettings.nexus_node_texture_positions.push_back(node.texture.region.position)
+		else:
+			GlobalSettings.nexus_node_texture_positions.push_back(Vector2.ZERO)
+			
+	# save amount
 
 func update_nexus_player(player):
 	current_nexus_player = player
@@ -272,12 +285,7 @@ func exit_nexus():
 					if nexus_nodes[unlocked_index].texture.region.position == stats_node_atlas_position[texture_region_index]:
 						GlobalSettings.unlocked_stats_nodes[player_index][texture_region_index] += 1
 						break
-	
-	# change scene
-	GlobalSettings.game_paused = false
-	GlobalSettings.game_options_node.hide()
-	GlobalSettings.combat_ui_node.show()
-	GlobalSettings.show()
-	GlobalSettings.current_scene_node.show()
-	get_tree().paused = false
+
+	GlobalSettings.camera_node.reparent(GlobalSettings.current_main_player_node)
+	GlobalSettings.camera_node.position = Vector2.ZERO
 	queue_free()

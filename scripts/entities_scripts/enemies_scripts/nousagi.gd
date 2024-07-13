@@ -178,16 +178,13 @@ func _on_detection_area_body_exited(body):
 	_on_attack_area_body_exited(body)
 
 	player_nodes_in_detection_area.erase(body)
-	print("players", player_nodes_in_detection_area)
 
 	if player_nodes_in_detection_area.is_empty():
 		if GlobalSettings.locked_enemy_node == self: GlobalSettings.locked_enemy_node = null
 		GlobalSettings.enemy_nodes_in_combat.erase(self)
 		players_exist_in_detection_area = false
-		print("enemies", GlobalSettings.enemy_nodes_in_combat)
 
 	if GlobalSettings.enemy_nodes_in_combat.is_empty():
-		print("leaving")
 		GlobalSettings.attempt_leave_combat()
 
 func _on_attack_area_body_entered(body):
