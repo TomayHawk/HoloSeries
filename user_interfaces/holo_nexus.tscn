@@ -3211,7 +3211,7 @@ offset_bottom = -266.0
 texture = SubResource("AtlasTexture_tkgt0")
 
 [node name="N6" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -89.0
 offset_top = -298.0
@@ -3316,7 +3316,7 @@ offset_bottom = -254.0
 texture = SubResource("AtlasTexture_sj33e")
 
 [node name="N18" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -236.0
 offset_top = -286.0
@@ -3405,7 +3405,7 @@ offset_bottom = -254.0
 texture = SubResource("AtlasTexture_gwbit")
 
 [node name="N28" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 184.0
 offset_top = -286.0
@@ -3510,7 +3510,7 @@ offset_bottom = -242.0
 texture = SubResource("AtlasTexture_lc4qm")
 
 [node name="N40" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -5.0
 offset_top = -274.0
@@ -3705,7 +3705,7 @@ offset_bottom = -230.0
 texture = SubResource("AtlasTexture_pjlmm")
 
 [node name="N62" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 268.0
 offset_top = -262.0
@@ -3714,7 +3714,7 @@ offset_bottom = -230.0
 texture = SubResource("AtlasTexture_t2q6r")
 
 [node name="N63" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 310.0
 offset_top = -262.0
@@ -3732,7 +3732,7 @@ offset_bottom = -218.0
 texture = SubResource("AtlasTexture_04681")
 
 [node name="N65" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -299.0
 offset_top = -250.0
@@ -3759,7 +3759,7 @@ offset_bottom = -218.0
 texture = SubResource("AtlasTexture_bu3cr")
 
 [node name="N68" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -173.0
 offset_top = -250.0
@@ -3813,7 +3813,7 @@ offset_bottom = -218.0
 texture = SubResource("AtlasTexture_nfkmv")
 
 [node name="N74" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 79.0
 offset_top = -250.0
@@ -3839,7 +3839,7 @@ offset_bottom = -218.0
 texture = SubResource("AtlasTexture_00h3v")
 
 [node name="N77" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 205.0
 offset_top = -250.0
@@ -3964,7 +3964,7 @@ offset_bottom = -206.0
 texture = SubResource("AtlasTexture_id270")
 
 [node name="N91" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 142.0
 offset_top = -238.0
@@ -4068,7 +4068,7 @@ offset_bottom = -194.0
 texture = SubResource("AtlasTexture_uy5uc")
 
 [node name="N103" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -47.0
 offset_top = -226.0
@@ -4162,7 +4162,7 @@ offset_bottom = -182.0
 texture = SubResource("AtlasTexture_6p54d")
 
 [node name="N114" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -236.0
 offset_top = -214.0
@@ -4171,7 +4171,7 @@ offset_bottom = -182.0
 texture = SubResource("AtlasTexture_7drft")
 
 [node name="N115" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -194.0
 offset_top = -214.0
@@ -4188,7 +4188,7 @@ offset_bottom = -182.0
 texture = SubResource("AtlasTexture_yvion")
 
 [node name="N117" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -110.0
 offset_top = -214.0
@@ -4215,7 +4215,7 @@ offset_bottom = -182.0
 texture = SubResource("AtlasTexture_unyr1")
 
 [node name="N120" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 16.0
 offset_top = -214.0
@@ -4233,7 +4233,7 @@ offset_bottom = -182.0
 texture = SubResource("AtlasTexture_ag1h5")
 
 [node name="N122" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 100.0
 offset_top = -214.0
@@ -4287,7 +4287,7 @@ offset_bottom = -182.0
 texture = SubResource("AtlasTexture_x24iw")
 
 [node name="N128" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -341.0
 offset_top = -202.0
@@ -4401,7 +4401,7 @@ offset_bottom = -170.0
 texture = SubResource("AtlasTexture_kr8tc")
 
 [node name="N141" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 205.0
 offset_top = -202.0
@@ -4464,7 +4464,7 @@ offset_bottom = -158.0
 texture = SubResource("AtlasTexture_pvv3x")
 
 [node name="N148" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -152.0
 offset_top = -190.0
@@ -4482,7 +4482,7 @@ offset_bottom = -158.0
 texture = SubResource("AtlasTexture_p16ih")
 
 [node name="N150" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -68.0
 offset_top = -190.0
@@ -4553,7 +4553,7 @@ offset_bottom = -158.0
 texture = SubResource("AtlasTexture_sncay")
 
 [node name="N158" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 268.0
 offset_top = -190.0
@@ -4677,7 +4677,7 @@ offset_bottom = -146.0
 texture = SubResource("AtlasTexture_km6wb")
 
 [node name="N172" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 163.0
 offset_top = -178.0
@@ -4695,7 +4695,7 @@ offset_bottom = -146.0
 texture = SubResource("AtlasTexture_83rya")
 
 [node name="N174" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 247.0
 offset_top = -178.0
@@ -4721,7 +4721,7 @@ offset_bottom = -134.0
 texture = SubResource("AtlasTexture_acqv3")
 
 [node name="N177" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -278.0
 offset_top = -166.0
@@ -4773,7 +4773,7 @@ offset_bottom = -134.0
 texture = SubResource("AtlasTexture_mx51s")
 
 [node name="N183" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -26.0
 offset_top = -166.0
@@ -4800,7 +4800,7 @@ offset_bottom = -134.0
 texture = SubResource("AtlasTexture_5bfue")
 
 [node name="N186" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 100.0
 offset_top = -166.0
@@ -4879,7 +4879,7 @@ offset_bottom = -122.0
 texture = SubResource("AtlasTexture_8artm")
 
 [node name="N195" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -215.0
 offset_top = -154.0
@@ -4897,7 +4897,7 @@ offset_bottom = -122.0
 texture = SubResource("AtlasTexture_a8egb")
 
 [node name="N197" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -131.0
 offset_top = -154.0
@@ -5003,7 +5003,7 @@ offset_bottom = -110.0
 texture = SubResource("AtlasTexture_tqsta")
 
 [node name="N209" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -278.0
 offset_top = -142.0
@@ -5012,7 +5012,7 @@ offset_bottom = -110.0
 texture = SubResource("AtlasTexture_clejh")
 
 [node name="N210" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -236.0
 offset_top = -142.0
@@ -5074,7 +5074,7 @@ offset_bottom = -110.0
 texture = SubResource("AtlasTexture_71hvy")
 
 [node name="N217" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 58.0
 offset_top = -142.0
@@ -5110,7 +5110,7 @@ offset_bottom = -110.0
 texture = SubResource("AtlasTexture_62eqh")
 
 [node name="N221" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 226.0
 offset_top = -142.0
@@ -5119,7 +5119,7 @@ offset_bottom = -110.0
 texture = SubResource("AtlasTexture_2xoeq")
 
 [node name="N222" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 268.0
 offset_top = -142.0
@@ -5349,7 +5349,7 @@ offset_bottom = -86.0
 texture = SubResource("AtlasTexture_ebu6t")
 
 [node name="N248" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 16.0
 offset_top = -118.0
@@ -5376,7 +5376,7 @@ offset_bottom = -86.0
 texture = SubResource("AtlasTexture_p6ywk")
 
 [node name="N251" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 142.0
 offset_top = -118.0
@@ -5482,7 +5482,7 @@ offset_bottom = -74.0
 texture = SubResource("AtlasTexture_bw0lt")
 
 [node name="N263" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -47.0
 offset_top = -106.0
@@ -5590,7 +5590,7 @@ offset_bottom = -62.0
 texture = SubResource("AtlasTexture_yfol4")
 
 [node name="N275" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -194.0
 offset_top = -94.0
@@ -5643,7 +5643,7 @@ offset_bottom = -62.0
 texture = SubResource("AtlasTexture_2uc5u")
 
 [node name="N281" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 58.0
 offset_top = -94.0
@@ -5722,7 +5722,7 @@ offset_bottom = -50.0
 texture = SubResource("AtlasTexture_k0a2i")
 
 [node name="N290" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -257.0
 offset_top = -82.0
@@ -5827,7 +5827,7 @@ offset_bottom = -50.0
 texture = SubResource("AtlasTexture_a532d")
 
 [node name="N302" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 247.0
 offset_top = -82.0
@@ -5880,7 +5880,7 @@ offset_bottom = -38.0
 texture = SubResource("AtlasTexture_pnhcu")
 
 [node name="N308" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -152.0
 offset_top = -70.0
@@ -5916,7 +5916,7 @@ offset_bottom = -38.0
 texture = SubResource("AtlasTexture_fhl5p")
 
 [node name="N312" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 16.0
 offset_top = -70.0
@@ -5996,7 +5996,7 @@ offset_bottom = -26.0
 texture = SubResource("AtlasTexture_xqw3g")
 
 [node name="N321" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -299.0
 offset_top = -58.0
@@ -6095,7 +6095,7 @@ offset_bottom = -26.0
 texture = SubResource("AtlasTexture_usmpc")
 
 [node name="N332" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 163.0
 offset_top = -58.0
@@ -6193,7 +6193,7 @@ offset_bottom = -14.0
 texture = SubResource("AtlasTexture_i6g2c")
 
 [node name="N343" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -26.0
 offset_top = -46.0
@@ -6324,7 +6324,7 @@ offset_bottom = -2.0
 texture = SubResource("AtlasTexture_vshif")
 
 [node name="N358" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -89.0
 offset_top = -34.0
@@ -6351,7 +6351,7 @@ offset_bottom = -2.0
 texture = SubResource("AtlasTexture_a2yaa")
 
 [node name="N361" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 37.0
 offset_top = -34.0
@@ -6360,7 +6360,7 @@ offset_bottom = -2.0
 texture = SubResource("AtlasTexture_soi0m")
 
 [node name="N362" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 79.0
 offset_top = -34.0
@@ -6369,7 +6369,7 @@ offset_bottom = -2.0
 texture = SubResource("AtlasTexture_6yoqu")
 
 [node name="N363" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 121.0
 offset_top = -34.0
@@ -6387,7 +6387,7 @@ offset_bottom = -2.0
 texture = SubResource("AtlasTexture_7eju1")
 
 [node name="N365" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 205.0
 offset_top = -34.0
@@ -6422,7 +6422,7 @@ offset_bottom = 10.0
 texture = SubResource("AtlasTexture_o6he7")
 
 [node name="N369" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -278.0
 offset_top = -22.0
@@ -6449,7 +6449,7 @@ offset_bottom = 10.0
 texture = SubResource("AtlasTexture_4uj84")
 
 [node name="N372" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -152.0
 offset_top = -22.0
@@ -6528,7 +6528,7 @@ offset_bottom = 10.0
 texture = SubResource("AtlasTexture_m7urg")
 
 [node name="N381" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0, 0.501961, 1, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 226.0
 offset_top = -22.0
@@ -6537,7 +6537,7 @@ offset_bottom = 10.0
 texture = SubResource("AtlasTexture_s33jn")
 
 [node name="N382" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 268.0
 offset_top = -22.0
@@ -6617,7 +6617,7 @@ offset_bottom = 22.0
 texture = SubResource("AtlasTexture_aepjj")
 
 [node name="N391" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -47.0
 offset_top = -10.0
@@ -6626,7 +6626,7 @@ offset_bottom = 22.0
 texture = SubResource("AtlasTexture_6008d")
 
 [node name="N392" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -5.0
 offset_top = -10.0
@@ -6716,7 +6716,7 @@ offset_bottom = 34.0
 texture = SubResource("AtlasTexture_7ecnv")
 
 [node name="N402" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -236.0
 offset_top = 2.0
@@ -6814,7 +6814,7 @@ offset_bottom = 34.0
 texture = SubResource("AtlasTexture_8rc3f")
 
 [node name="N413" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 226.0
 offset_top = 2.0
@@ -6841,7 +6841,7 @@ offset_bottom = 34.0
 texture = SubResource("AtlasTexture_q6wu1")
 
 [node name="N416" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -341.0
 offset_top = 14.0
@@ -6893,7 +6893,7 @@ offset_bottom = 46.0
 texture = SubResource("AtlasTexture_5fnwp")
 
 [node name="N422" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -89.0
 offset_top = 14.0
@@ -6946,7 +6946,7 @@ offset_bottom = 46.0
 texture = SubResource("AtlasTexture_8iag1")
 
 [node name="N428" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 163.0
 offset_top = 14.0
@@ -7008,7 +7008,7 @@ offset_bottom = 58.0
 texture = SubResource("AtlasTexture_uahq0")
 
 [node name="N435" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -194.0
 offset_top = 26.0
@@ -7017,7 +7017,7 @@ offset_bottom = 58.0
 texture = SubResource("AtlasTexture_ebg05")
 
 [node name="N436" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -152.0
 offset_top = 26.0
@@ -7053,7 +7053,7 @@ offset_bottom = 58.0
 texture = SubResource("AtlasTexture_quenw")
 
 [node name="N440" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 16.0
 offset_top = 26.0
@@ -7272,7 +7272,7 @@ offset_bottom = 82.0
 texture = SubResource("AtlasTexture_2u42n")
 
 [node name="N465" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -278.0
 offset_top = 50.0
@@ -7386,7 +7386,7 @@ offset_bottom = 82.0
 texture = SubResource("AtlasTexture_rhs54")
 
 [node name="N478" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 268.0
 offset_top = 50.0
@@ -7429,7 +7429,7 @@ offset_bottom = 94.0
 texture = SubResource("AtlasTexture_jhiwa")
 
 [node name="N483" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -215.0
 offset_top = 62.0
@@ -7474,7 +7474,7 @@ offset_bottom = 94.0
 texture = SubResource("AtlasTexture_r7tcx")
 
 [node name="N488" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -5.0
 offset_top = 62.0
@@ -7509,7 +7509,7 @@ offset_bottom = 94.0
 texture = SubResource("AtlasTexture_jkwqh")
 
 [node name="N492" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 163.0
 offset_top = 62.0
@@ -7634,7 +7634,7 @@ offset_bottom = 106.0
 texture = SubResource("AtlasTexture_t2had")
 
 [node name="N506" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 100.0
 offset_top = 74.0
@@ -7697,7 +7697,7 @@ offset_bottom = 118.0
 texture = SubResource("AtlasTexture_8clcj")
 
 [node name="N513" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -299.0
 offset_top = 86.0
@@ -7706,7 +7706,7 @@ offset_bottom = 118.0
 texture = SubResource("AtlasTexture_ffq1a")
 
 [node name="N514" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -257.0
 offset_top = 86.0
@@ -7724,7 +7724,7 @@ offset_bottom = 118.0
 texture = SubResource("AtlasTexture_wmgmh")
 
 [node name="N516" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -173.0
 offset_top = 86.0
@@ -7742,7 +7742,7 @@ offset_bottom = 118.0
 texture = SubResource("AtlasTexture_rghnt")
 
 [node name="N518" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -89.0
 offset_top = 86.0
@@ -7821,7 +7821,7 @@ offset_bottom = 118.0
 texture = SubResource("AtlasTexture_vnx7n")
 
 [node name="N527" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 289.0
 offset_top = 86.0
@@ -8013,7 +8013,7 @@ offset_bottom = 142.0
 texture = SubResource("AtlasTexture_tvwrv")
 
 [node name="N549" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -131.0
 offset_top = 110.0
@@ -8022,7 +8022,7 @@ offset_bottom = 142.0
 texture = SubResource("AtlasTexture_nofoj")
 
 [node name="N550" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -89.0
 offset_top = 110.0
@@ -8040,7 +8040,7 @@ offset_bottom = 142.0
 texture = SubResource("AtlasTexture_2w42r")
 
 [node name="N552" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -5.0
 offset_top = 110.0
@@ -8191,7 +8191,7 @@ offset_bottom = 154.0
 texture = SubResource("AtlasTexture_ojalg")
 
 [node name="N569" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 58.0
 offset_top = 122.0
@@ -8209,7 +8209,7 @@ offset_bottom = 154.0
 texture = SubResource("AtlasTexture_oklea")
 
 [node name="N571" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 142.0
 offset_top = 122.0
@@ -8271,7 +8271,7 @@ offset_bottom = 166.0
 texture = SubResource("AtlasTexture_64e7p")
 
 [node name="N578" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -257.0
 offset_top = 134.0
@@ -8315,7 +8315,7 @@ offset_bottom = 166.0
 texture = SubResource("AtlasTexture_tfsam")
 
 [node name="N583" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -47.0
 offset_top = 134.0
@@ -8369,7 +8369,7 @@ offset_bottom = 166.0
 texture = SubResource("AtlasTexture_ifkkt")
 
 [node name="N589" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 205.0
 offset_top = 134.0
@@ -8395,7 +8395,7 @@ offset_bottom = 166.0
 texture = SubResource("AtlasTexture_sjhuj")
 
 [node name="N592" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -320.0
 offset_top = 146.0
@@ -8583,7 +8583,7 @@ offset_bottom = 190.0
 texture = SubResource("AtlasTexture_410cb")
 
 [node name="N613" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -131.0
 offset_top = 158.0
@@ -8592,7 +8592,7 @@ offset_bottom = 190.0
 texture = SubResource("AtlasTexture_0l3ra")
 
 [node name="N614" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -89.0
 offset_top = 158.0
@@ -8619,7 +8619,7 @@ offset_bottom = 190.0
 texture = SubResource("AtlasTexture_vsi01")
 
 [node name="N617" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 37.0
 offset_top = 158.0
@@ -8645,7 +8645,7 @@ offset_bottom = 190.0
 texture = SubResource("AtlasTexture_rij85")
 
 [node name="N620" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 163.0
 offset_top = 158.0
@@ -8663,7 +8663,7 @@ offset_bottom = 190.0
 texture = SubResource("AtlasTexture_ucyvf")
 
 [node name="N622" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 247.0
 offset_top = 158.0
@@ -8699,7 +8699,7 @@ offset_bottom = 202.0
 texture = SubResource("AtlasTexture_0hoq4")
 
 [node name="N626" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -236.0
 offset_top = 170.0
@@ -8812,7 +8812,7 @@ offset_bottom = 202.0
 texture = SubResource("AtlasTexture_fgnja")
 
 [node name="N639" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 310.0
 offset_top = 170.0
@@ -8919,7 +8919,7 @@ offset_bottom = 214.0
 texture = SubResource("AtlasTexture_0v7og")
 
 [node name="N651" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 121.0
 offset_top = 182.0
@@ -8990,7 +8990,7 @@ offset_bottom = 226.0
 texture = SubResource("AtlasTexture_5bj73")
 
 [node name="N659" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -194.0
 offset_top = 194.0
@@ -9017,7 +9017,7 @@ offset_bottom = 226.0
 texture = SubResource("AtlasTexture_828mv")
 
 [node name="N662" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -68.0
 offset_top = 194.0
@@ -9026,7 +9026,7 @@ offset_bottom = 226.0
 texture = SubResource("AtlasTexture_7ygub")
 
 [node name="N663" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -26.0
 offset_top = 194.0
@@ -9044,7 +9044,7 @@ offset_bottom = 226.0
 texture = SubResource("AtlasTexture_yb0mo")
 
 [node name="N665" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 58.0
 offset_top = 194.0
@@ -9255,7 +9255,7 @@ offset_bottom = 250.0
 texture = SubResource("AtlasTexture_mfrpv")
 
 [node name="N689" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -278.0
 offset_top = 218.0
@@ -9282,7 +9282,7 @@ offset_bottom = 250.0
 texture = SubResource("AtlasTexture_885sj")
 
 [node name="N692" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -152.0
 offset_top = 218.0
@@ -9372,7 +9372,7 @@ offset_bottom = 250.0
 texture = SubResource("AtlasTexture_1aefa")
 
 [node name="N702" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 268.0
 offset_top = 218.0
@@ -9453,7 +9453,7 @@ offset_bottom = 262.0
 texture = SubResource("AtlasTexture_eoq0u")
 
 [node name="N711" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -47.0
 offset_top = 230.0
@@ -9507,7 +9507,7 @@ offset_bottom = 262.0
 texture = SubResource("AtlasTexture_ng0fy")
 
 [node name="N717" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 205.0
 offset_top = 230.0
@@ -9534,7 +9534,7 @@ offset_bottom = 262.0
 texture = SubResource("AtlasTexture_5hpmn")
 
 [node name="N720" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -320.0
 offset_top = 242.0
@@ -9702,7 +9702,7 @@ offset_bottom = 286.0
 texture = SubResource("AtlasTexture_pyg4b")
 
 [node name="N739" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = -215.0
 offset_top = 254.0
@@ -9774,7 +9774,7 @@ offset_bottom = 286.0
 texture = SubResource("AtlasTexture_vuyee")
 
 [node name="N747" type="TextureRect" parent="NexusNodes"]
-modulate = Color(0.5, 0.5, 0.5, 1)
+modulate = Color(0.2, 0.2, 0.2, 1)
 layout_mode = 0
 offset_left = 121.0
 offset_top = 254.0

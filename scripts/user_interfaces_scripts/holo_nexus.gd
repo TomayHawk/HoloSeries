@@ -11,12 +11,12 @@ extends Node2D
 @onready var unlockable_load = load("res://resources/nexus_unlockables.tscn")
 var unlockable_instance = null
 
-var unlocked_players = [true, true, false, false]
-var last_node = [167, 0, 0, 0]
+var unlocked_players = [true, true, true, true, true]
+var last_node = [167, 0, 0, 0, 0]
 
 # [player][node]
-var nodes_unlocked = [[], [], [], [], [], [], [], [], [], []]
-var nodes_unlockable = [[], [], [], [], [], [], [], [], [], []]
+var nodes_unlocked = [[], [], [], [], []]
+var nodes_unlockable = [[], [], [], [], []]
 
 # adjacents and second adjacents
 const adjacents_index = [[ - 32, - 17, - 16, 15, 16, 32], [ - 32, - 16, - 15, 16, 17, 32]]
@@ -64,7 +64,7 @@ func _ready():
 
 	# if nexus is empty, initiate randomizer
 	if GlobalSettings.nexus_not_randomized: stat_nodes_randomizer()
-	else:
+	else: # else update empty board
 		for node in nexus_nodes:
 			if node.texture.region.position == empty_node_atlas_position:
 				node.texture.region.position = GlobalSettings.nexus_node_texture_positions[node.get_index()]
@@ -88,6 +88,7 @@ func _ready():
 	GlobalSettings.nexus_inputs_available = true
 	GlobalSettings.nexus_character_selector_node = get_node("HoloNexusUI/NexusCharacterSelector")
 
+	nexus_player_node.character_index = GlobalSettings.current_main_player_node.character_specifics_node.character_index
 	nexus_ui_node.update_character_selector()
 	nexus_ui_node.nexus_character_selector_node.hide()
 
@@ -127,6 +128,19 @@ func stat_nodes_randomizer():
 					  [13, 3, 4, 3, 12, 2, 3, 3],
 					  [5, 1, 2, 1, 5, 0, 2, 2],
 					  [8, 1, 4, 2, 2, 1, 0, 0]]
+
+	var j = 0
+	for array in rand_amount:
+		for number in array:
+			j += number
+	print(j)
+
+	var k = 0
+	for node in nexus_nodes:
+		if node.texture.region.position == empty_node_atlas_position:
+			k += 1
+	print(k)
+
 	# randomizer multiplier
 	var rand_weight = [[2, 3, 1, 1, 1, 1, 1, 1],
 					   [1, 1, 0, 0, 0, 1, 0, 0],
@@ -218,7 +232,7 @@ func update_nexus_player(player):
 
 	# update null node textures
 	for node_index in null_nodes:
-		nexus_nodes[node_index].modulate = Color(0.5, 0.5, 0.5, 1)
+		nexus_nodes[node_index].modulate = Color(0.2, 0.2, 0.2, 1)
 
 	# update unlocked textures
 	for node_index in nodes_unlocked[current_nexus_player]:
@@ -236,15 +250,28 @@ func update_nexus_player(player):
 	# update unlockable textures
 	for node_index in nodes_unlockable[current_nexus_player]:
 		unlockable_instance = unlockable_load.instantiate()
+		unlockable_instance.name = str(node_index)
 		get_node("UnlockableNodes").add_child(unlockable_instance)
 		unlockable_instance.position = nexus_nodes[node_index].position
+	
+	print(nodes_unlockable[current_nexus_player])
+	print(get_node("UnlockableNodes").get_children())
+	for node in get_node("UnlockableNodes").get_children():
+		print(node.position)
 	
 	nexus_player_node.position = nexus_nodes[last_node[current_nexus_player]].position + Vector2(16, 16)
 	nexus_player_node.get_node("Sprite2D").show()
 	nexus_player_node.get_node("Sprite2D2").hide()
 
+	var i = 0
+	for node in nexus_nodes:
+		if node.texture.region.position == empty_node_atlas_position:
+			i += 1
+	print(i)
+
 func unlock_node():
-	if last_node[current_nexus_player] in nodes_unlockable[current_nexus_player]:
+	# if current nexus node is unlockable
+	if last_node[current_nexus_player] in nodes_unlockable[current_nexus_player]&&nexus_nodes[last_node[current_nexus_player]].texture.region.position != null_node_atlas_position:
 		nodes_unlocked[current_nexus_player].push_back(last_node[current_nexus_player])
 		nodes_unlockable[current_nexus_player].erase(last_node[current_nexus_player])
 
@@ -260,7 +287,7 @@ func unlock_node():
 		else: for temp_index in adjacents_index[1]: temp_adjacents.push_back(last_node[current_nexus_player] + temp_index)
 
 		for adjacent in temp_adjacents: # for each adjacent node
-			if !(adjacent in nodes_unlocked[current_nexus_player])&&(adjacent > - 1)&&(adjacent < 767): # if node is not unlocked and node exists
+			if !(adjacent in nodes_unlocked[current_nexus_player])&&nexus_nodes[adjacent].texture.region.position != null_node_atlas_position&&(adjacent > - 1)&&(adjacent < 767): # if node is not unlocked and node exists
 				# determine second adjacent nodes
 				var second_temp_adjacents = []
 				if (adjacent % 32) < 16: for second_temp_index in adjacents_index[0]: second_temp_adjacents.push_back(adjacent + second_temp_index)
@@ -271,8 +298,14 @@ func unlock_node():
 					if (second_adjacent in nodes_unlocked[current_nexus_player])&&(second_adjacent != last_node[current_nexus_player])&&!(adjacent in nodes_unlockable[current_nexus_player]):
 						nodes_unlockable[current_nexus_player].push_back(adjacent)
 						unlockable_instance = unlockable_load.instantiate()
+						unlockable_instance.name = str(adjacent)
 						get_node("UnlockableNodes").add_child(unlockable_instance)
-						unlockable_instance.position = nexus_nodes[last_node[current_nexus_player]].position
+						unlockable_instance.position = nexus_nodes[adjacent].position
+		
+		get_node("UnlockableNodes").remove_child(get_node("UnlockableNodes").get_node(NodePath(str(last_node[current_nexus_player]))))
+		print(get_node("UnlockableNodes").get_children())
+		for node in get_node("UnlockableNodes").get_children():
+			print(node.position)
 
 func exit_nexus():
 	GlobalSettings.unlocked_nodes = nodes_unlocked.duplicate()

@@ -73,7 +73,7 @@ func magic_heal_calculator(input_amount, origin_entity_stats_node):
 func damage_display(value, display_position, types):
 	var display = Label.new()
 	display.global_position = display_position
-	display.text = str(value)
+	display.text = str(abs(value))
 	display.z_index = 5
 	display.label_settings = LabelSettings.new()
 
