@@ -55,7 +55,10 @@ func update_character_selector():
 		nexus_character_selector_level_nodes[i].text = "Lvl " + str(player.player_stats_node.level).pad_zeros(3)
 		i += 1
 
-func _on_nexus_character_selector_button_pressed(extra_arg_0: int):
+func _on_nexus_character_selector_button_pressed(extra_arg_0):
 	print(nexus_character_selector_origin_player_nodes[extra_arg_0])
 	print(nexus_player_node.character_index[extra_arg_0])
 	nexus_player_node.update_nexus_player(extra_arg_0)
+
+func _on_nexus_inventory_item_pressed(extra_arg_0):
+	pass # Replace with function body.
