@@ -106,6 +106,9 @@ var entities_available = []
 var entities_chosen_count = 0
 var entities_chosen = []
 
+# inventory
+var nexus_inventory = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
 func _input(_event):
 	if Input.is_action_just_pressed("action")&&mouse_in_attack_area&&!requesting_entities:
 		player_can_attack = true

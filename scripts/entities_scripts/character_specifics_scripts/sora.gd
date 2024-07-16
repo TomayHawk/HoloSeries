@@ -12,7 +12,7 @@ var default_defence = 1000
 var default_shield = 1000
 var default_strength = 1000
 var default_intelligence = 1000 # +4 (+0.8 T1)
-var default_speed = 256 # +1 (+1 T1)
+var default_speed = 1 # +1 (+1 T1)
 var default_agility = 256 # +1 (+1 T1)
 var default_crit_chance = 0.50
 var default_crit_damage = 0.50
@@ -41,7 +41,7 @@ func regular_attack():
 	
 	attack_shape_node.set_target_position(player_node.attack_direction * 20)
 
-	attack_cooldown_node.start(0.8)
+	attack_cooldown_node.start(0.5)
 	attack_shape_node.force_shapecast_update()
 
 	var enemy_body = null

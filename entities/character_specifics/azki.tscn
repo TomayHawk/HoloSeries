@@ -288,7 +288,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_aqcla")
 }],
-"loop": true,
+"loop": false,
 "name": &"front_attack",
 "speed": 5.0
 }, {
@@ -435,5 +435,7 @@ script = ExtResource("1_5w7ib")
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_qsfsi")
-animation = &"front_idle"
+animation = &"front_attack"
+frame = 3
+frame_progress = 1.0
 offset = Vector2(0, -19.5)

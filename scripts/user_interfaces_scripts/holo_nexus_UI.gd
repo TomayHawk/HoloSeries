@@ -1,7 +1,7 @@
 extends CanvasLayer
 
-@onready var nexus_node = get_parent()
-@onready var nexus_player_node = nexus_node.get_node("NexusPlayer")
+@onready var nexus = get_parent()
+@onready var nexus_player = nexus.get_node("NexusPlayer")
 
 @onready var nexus_character_selector_node = $NexusCharacterSelector
 
@@ -30,8 +30,8 @@ var nexus_character_selector_origin_player_nodes = []
 var nexus_character_selector_character_indices = []
 
 func _on_unlock_pressed():
-	if nexus_player_node.velocity == Vector2.ZERO:
-		nexus_node.unlock_node()
+	if nexus_player.velocity == Vector2.ZERO:
+		nexus.unlock_node()
 
 func update_character_selector():
 	for button in nexus_character_selector_player_nodes:
@@ -42,7 +42,7 @@ func update_character_selector():
 	nexus_character_selector_character_indices.clear()
 
 	for player in GlobalSettings.party_player_nodes:
-		if player.character_specifics_node.character_index != nexus_player_node.character_index:
+		if player.character_specifics_node.character_index != nexus_player.character_index:
 			nexus_character_selector_player_nodes[i].show()
 			nexus_character_selector_name_nodes[i].text = player.character_specifics_node.character_name
 			nexus_character_selector_level_nodes[i].text = "Lvl " + str(player.player_stats_node.level).pad_zeros(3)
@@ -57,8 +57,19 @@ func update_character_selector():
 
 func _on_nexus_character_selector_button_pressed(extra_arg_0):
 	print(nexus_character_selector_origin_player_nodes[extra_arg_0])
-	print(nexus_player_node.character_index[extra_arg_0])
-	nexus_player_node.update_nexus_player(extra_arg_0)
+	print(nexus_player.character_index[extra_arg_0])
+	nexus_player.update_nexus_player(extra_arg_0)
 
 func _on_nexus_inventory_item_pressed(extra_arg_0):
-	pass # Replace with function body.
+	if GlobalSettings.nexus_inventory[extra_arg_0] > 0:
+		var temp_position = nexus.last_node[nexus.current_nexus_player].texture.region.position
+		if temp_position == nexus.empty_node_atlas_position:
+			if extra_arg_0 in [10, 14, 15, 16]:
+				pass
+			elif extra_arg_0 in [17, 18, 19, 20, 21, 22, 23, 24]:
+				pass
+		elif temp_position in nexus.stats_node_atlas_position:
+			if extra_arg_0 == 25:
+				pass
+			else:
+				pass

@@ -102,6 +102,7 @@ value = 200.0
 show_percentage = false
 
 [node name="AttackCooldown" type="Timer" parent="."]
+wait_time = 0.5
 one_shot = true
 
 [node name="DashCooldown" type="Timer" parent="."]

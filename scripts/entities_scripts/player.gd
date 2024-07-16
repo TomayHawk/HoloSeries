@@ -18,7 +18,7 @@ extends CharacterBody2D
 @onready var death_timer_node = $DeathTimer
 
 # speed variables
-var speed = 8000
+var speed = 2000
 var ally_speed = 6000
 var temp_ally_speed = 6000
 var dash_speed = 30000

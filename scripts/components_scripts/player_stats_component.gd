@@ -95,7 +95,7 @@ func update_stats():
 	crit_chance = character_specifics_node.default_crit_chance
 	crit_damage = character_specifics_node.default_crit_damage
 
-	player_node.speed = 8000 + (50 * speed)
+	player_node.speed = 2000 + (50 * speed)
 	player_node.ally_speed = 6000 + (30 * speed)
 	player_node.dash_speed = 30000 + (150 * speed)
 

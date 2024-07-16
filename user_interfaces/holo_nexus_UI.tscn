@@ -93,11 +93,11 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -280.0
-offset_right = 320.0
+offset_top = -208.0
+offset_right = 336.0
 grow_vertical = 0
 theme_override_constants/margin_left = 128
-theme_override_constants/margin_bottom = 48
+theme_override_constants/margin_bottom = 80
 
 [node name="Panel" type="Panel" parent="Control/NexusInventory"]
 layout_mode = 2
@@ -129,501 +129,803 @@ alignment = 0
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LifeCrystal"]
 layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LifeCrystal"]
-layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
 text = "Life Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LifeCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MagicCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Magic Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MagicCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MagicCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Magic Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MagicCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DexterityCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Dexterity Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DexterityCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DexterityCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Dexterity Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DexterityCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TalentCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Talent Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TalentCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TalentCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Talent Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TalentCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BlessedCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Blessed Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/BlessedCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/BlessedCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Blessed Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/BlessedCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AbyssalCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Abyssal Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AbyssalCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AbyssalCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Abyssal Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AbyssalCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="StarCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Star Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Star Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ProsperityCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Prosperity Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ProsperityCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ProsperityCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Prosperity Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ProsperityCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="LoveCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Nobility Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LoveCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LoveCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Nobility Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LoveCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NobilityCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = " "
+
+[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/NobilityCrystal"]
+layout_mode = 0
+offset_left = 17.0
+offset_right = 145.0
+offset_bottom = 22.0
+theme_override_font_sizes/font_size = 12
+text = "Nobility Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/NobilityCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="FriendCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Friend Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/FriendCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/FriendCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Friend Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/FriendCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SkillCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Skill Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SkillCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SkillCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Skill Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SkillCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="StarlightCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Starlight Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarlightCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarlightCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Starlight Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarlightCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MoonlightCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Moonlight Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MoonlightCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MoonlightCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
 text = "Moonlight Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MoonlightCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DreamCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Dream Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DreamCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DreamCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Dream Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DreamCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TeleportCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Teleport Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TeleportCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TeleportCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Teleport Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TeleportCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="KingCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "King Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/KingCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/KingCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "King Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/KingCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HealthCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Health Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/HealthCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/HealthCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Health Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/HealthCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ManaCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Mana Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ManaCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ManaCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Mana Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ManaCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DefenceCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = " "
+
+[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DefenceCrystal"]
+layout_mode = 0
+offset_left = 17.0
+offset_right = 145.0
+offset_bottom = 22.0
+theme_override_font_sizes/font_size = 12
+text = "Defence Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DefenceCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ShieldCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Shield Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShieldCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShieldCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Shield Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShieldCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AttackCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = " "
+
+[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AttackCrystal"]
+layout_mode = 0
+offset_left = 17.0
+offset_right = 145.0
+offset_bottom = 22.0
+theme_override_font_sizes/font_size = 12
+text = "Attack Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AttackCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="IntelligenceCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = " "
+
+[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/IntelligenceCrystal"]
+layout_mode = 0
+offset_left = 17.0
+offset_right = 145.0
+offset_bottom = 22.0
+theme_override_font_sizes/font_size = 12
+text = "Intelligence Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/IntelligenceCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpeedCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = " "
+
+[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SpeedCrystal"]
+layout_mode = 0
+offset_left = 17.0
+offset_right = 145.0
+offset_bottom = 22.0
+theme_override_font_sizes/font_size = 12
+text = "Speed Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SpeedCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AgilityCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Agility Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AgilityCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AgilityCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Agility Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AgilityCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ClearCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Clear Crystal"
+theme_override_font_sizes/font_size = 10
+text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ClearCrystal"]
-layout_mode = 0
-offset_left = 135.0
-offset_right = 186.0
-offset_bottom = 22.0
-theme_override_font_sizes/font_size = 12
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ClearCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Life Crystal"
+text = "Clear Crystal"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ClearCrystal"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "999"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TextBoxContainer" type="MarginContainer" parent="Control"]
@@ -986,12 +1288,31 @@ vertical_alignment = 1
 
 [connection signal="pressed" from="Control/Options/MarginContainer/VBoxContainer/Unlock" to="." method="_on_unlock_pressed"]
 [connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LifeCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [0]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MagicCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [0]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DexterityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [0]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TalentCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [0]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/BlessedCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [0]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AbyssalCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [0]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [0]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MagicCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [1]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DexterityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [2]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TalentCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [3]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/BlessedCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [4]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AbyssalCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [5]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [6]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ProsperityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [7]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LoveCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [8]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/NobilityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [9]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/FriendCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [10]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SkillCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [11]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarlightCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [12]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MoonlightCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [13]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DreamCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [14]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TeleportCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [15]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/KingCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [16]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/HealthCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [17]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ManaCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [18]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DefenceCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [19]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShieldCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [20]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AttackCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [21]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/IntelligenceCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [22]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SpeedCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [23]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AgilityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [24]]
+[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ClearCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [25]]
 [connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_nexus_character_selector_button_pressed" binds= [0]]
 [connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2" to="." method="_on_nexus_character_selector_button_pressed" binds= [1]]
 [connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3" to="." method="_on_nexus_character_selector_button_pressed" binds= [2]]
