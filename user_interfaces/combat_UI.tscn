@@ -501,7 +501,7 @@ theme_override_constants/margin_top = 8
 clip_contents = true
 layout_mode = 2
 
-[node name="CharacterName1" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
+[node name="CharacterName" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
@@ -556,7 +556,7 @@ theme_override_constants/margin_top = 8
 clip_contents = true
 layout_mode = 2
 
-[node name="CharacterName2" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
+[node name="CharacterName" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
@@ -610,7 +610,7 @@ theme_override_constants/margin_top = 8
 clip_contents = true
 layout_mode = 2
 
-[node name="CharacterName3" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
+[node name="CharacterName" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
@@ -664,7 +664,7 @@ theme_override_constants/margin_top = 8
 clip_contents = true
 layout_mode = 2
 
-[node name="CharacterName4" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
+[node name="CharacterName" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8

@@ -3,72 +3,38 @@ extends CanvasLayer
 @onready var control_node := $Control
 @onready var combat_options_2_node := $Control/CombatOptions2
 @onready var character_selector_node := $CharacterSelector
+@onready var combat_options_2_modes := $Control/CombatOptions2/ScrollContainer/MarginContainer.get_children()
+@onready var players_info_nodes := $Control/CharacterInfos/VBoxContainer.get_children()
+@onready var players_progress_bar_nodes := $Control/CharacterInfos/Control.get_children()
+@onready var temp_character_selector_player_container_node := $CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer
+@onready var character_selector_player_nodes := $CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer.get_children()
 
-@onready var combat_options_2_modes := [$Control/CombatOptions2/ScrollContainer/MarginContainer/SpecialVBoxContainer,
-									   $Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer,
-							  		   $Control/CombatOptions2/ScrollContainer/MarginContainer/BuffVBoxContainer,
-									   $Control/CombatOptions2/ScrollContainer/MarginContainer/DebuffVBoxContainer,
-									   $Control/CombatOptions2/ScrollContainer/MarginContainer/WhiteVBoxContainer,
-									   $Control/CombatOptions2/ScrollContainer/MarginContainer/BlackVBoxContainer,
-									   $Control/CombatOptions2/ScrollContainer/MarginContainer/SummonVBoxContainer,
-									   $Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer]
-
-@onready var players_info_nodes := [$Control/CharacterInfos/VBoxContainer/Character1,
-								   $Control/CharacterInfos/VBoxContainer/Character2,
-								   $Control/CharacterInfos/VBoxContainer/Character3,
-								   $Control/CharacterInfos/VBoxContainer/Character4]
-
-@onready var players_progress_bar_nodes := [$Control/CharacterInfos/Control/ProgressBar1,
-										  $Control/CharacterInfos/Control/ProgressBar2,
-										  $Control/CharacterInfos/Control/ProgressBar3,
-										  $Control/CharacterInfos/Control/ProgressBar4]
-
-@onready var character_name_label_nodes := [players_info_nodes[0].get_node("HBoxContainer/CharacterName1"),
-										   players_info_nodes[1].get_node("HBoxContainer/CharacterName2"),
-										   players_info_nodes[2].get_node("HBoxContainer/CharacterName3"),
-										   players_info_nodes[3].get_node("HBoxContainer/CharacterName4")]
-
-@onready var players_health_label_nodes := [players_info_nodes[0].get_node("HBoxContainer/MarginContainer/HealthAmount"),
-										   players_info_nodes[1].get_node("HBoxContainer/MarginContainer/HealthAmount"),
-										   players_info_nodes[2].get_node("HBoxContainer/MarginContainer/HealthAmount"),
-										   players_info_nodes[3].get_node("HBoxContainer/MarginContainer/HealthAmount")]
-
-@onready var players_mana_label_nodes := [players_info_nodes[0].get_node("HBoxContainer/MarginContainer2/ManaAmount"),
-										 players_info_nodes[1].get_node("HBoxContainer/MarginContainer2/ManaAmount"),
-										 players_info_nodes[2].get_node("HBoxContainer/MarginContainer2/ManaAmount"),
-										 players_info_nodes[3].get_node("HBoxContainer/MarginContainer2/ManaAmount")]
-
-@onready var character_selector_player_nodes := [$CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1,
-												$CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2,
-												$CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3,
-												$CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4]
-
-@onready var character_selector_name_nodes := [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName"),
-											  character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName"),
-											  character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName"),
-											  character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName")]
-
-@onready var character_selector_level_nodes := [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level"),
-											   character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level"),
-											   character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level"),
-											   character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level")]
-
-@onready var character_selector_health_nodes := [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount"),
-												character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount"),
-												character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount"),
-												character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount")]
-
-@onready var character_selector_mana_nodes := [character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount"),
-											  character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount"),
-											  character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount"),
-											  character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount")]
-
-@onready var abilities_load := [load("res://entities/abilities/fireball.tscn"),
-							   load("res://entities/abilities/regen.tscn"),
-							   load("res://entities/abilities/heal.tscn")]
+@onready var abilities_load: Array[Resource] = [load("res://entities/abilities/fireball.tscn"),
+												load("res://entities/abilities/regen.tscn"),
+												load("res://entities/abilities/heal.tscn")]
 
 var tween
+
+var character_name_label_nodes: Array[Node] = []
+var players_health_label_nodes: Array[Node] = []
+var players_mana_label_nodes: Array[Node] = []
+var character_selector_name_nodes: Array[Node] = []
+var character_selector_level_nodes: Array[Node] = []
+var character_selector_health_nodes: Array[Node] = []
+var character_selector_mana_nodes: Array[Node] = []
+
 func _ready():
+	combat_options_2_modes.pop_front()
+
+	for i in 4:
+		character_name_label_nodes.push_back(players_info_nodes[i].get_node("HBoxContainer/CharacterName"))
+		players_health_label_nodes.push_back(players_info_nodes[i].get_node("HBoxContainer/MarginContainer/HealthAmount"))
+		players_mana_label_nodes.push_back(players_info_nodes[i].get_node("HBoxContainer/MarginContainer2/ManaAmount"))
+		character_selector_name_nodes.push_back(character_selector_player_nodes[i].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharacterName"))
+		character_selector_level_nodes.push_back(character_selector_player_nodes[i].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Level"))
+		character_selector_health_nodes.push_back(character_selector_player_nodes[i].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer/HealthAmount"))
+		character_selector_mana_nodes.push_back(character_selector_player_nodes[i].get_node("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/MarginContainer2/ManaAmount"))
+
 	control_node.modulate = Color.TRANSPARENT
 	combat_options_2_node.hide()
 	

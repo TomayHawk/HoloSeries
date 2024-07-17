@@ -36,8 +36,8 @@ var sprinting := false
 var sprinting_stamina_consumption := 0.8
 var current_move_direction := Vector2.ZERO
 var last_move_direction := Vector2.ZERO
-const possible_directions := [Vector2(1, 0), Vector2(0.7071, -0.7071), Vector2(0, -1), Vector2( - 0.7071, -0.7071),
-						   Vector2( - 1, 0), Vector2( - 0.7071, 0.7071), Vector2(0, 1), Vector2(0.7071, 0.7071)]
+const possible_directions: Array[Vector2] = [Vector2(1, 0), Vector2(0.7071, -0.7071), Vector2(0, -1), Vector2( - 0.7071, -0.7071),
+											 Vector2( - 1, 0), Vector2( - 0.7071, 0.7071), Vector2(0, 1), Vector2(0.7071, 0.7071)]
 # movement variables (player)
 # movement variables (allies)
 var ally_direction_ready := true
@@ -50,8 +50,8 @@ var attack_direction := Vector2.ZERO
 # combat variables (allies)
 var ally_attack_ready := true
 var ally_enemy_in_attack_area := false
-var ally_enemy_nodes_in_attack_area := []
-var ally_target_enemy_node = null
+var ally_enemy_nodes_in_attack_area: Array[Node] = []
+var ally_target_enemy_node: Node = null
 
 # knockback variables
 var taking_knockback := false
@@ -61,7 +61,7 @@ var knockback_weight := 0.0
 # temporary variables
 var temp_distance_to_main_player := 0.0
 var temp_move_direction := Vector2.ZERO
-var temp_possible_directions := [0, 1, 2, 3, 4, 5, 6, 7]
+var temp_possible_directions: Array[int] = [0, 1, 2, 3, 4, 5, 6, 7]
 var temp_comparator := 0.0
 
 func _ready():

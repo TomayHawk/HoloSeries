@@ -17,7 +17,7 @@ const default_agility := 0
 const default_crit_chance := 0.05 # +0.02 Crit Rate
 const default_crit_damage := 0.60 # +0.10 Crit Damage
 
-const default_unlocked_nexus_nodes := [491, 522, 523]
+const default_unlocked_nexus_nodes: Array[int] = [491, 522, 523]
 
 const regular_attack_damage := 13
 var temp_regular_attack_damage := 13.0

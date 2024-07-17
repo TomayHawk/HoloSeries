@@ -11,17 +11,17 @@ var character_index := 0
 var on_node := false
 var snapping := false
 
-var snap_node := Node.new()
+var snap_node: Node = null
 const snap_speed := 600.0
 var snap_position := Vector2.ZERO
 var snap_direction := Vector2.ZERO
 var temp_snap_distance := 0.0
 var snap_distance := INF
 
-var nodes_on_screen := []
+var nodes_on_screen: Array[Node] = []
 
-const adjacents_index := [[ - 64, - 49, - 48, - 33, - 32, - 31, - 17, - 16, - 1, 1, 15, 16, 31, 32, 33, 47, 48, 64],
-						 [- 64, - 48, - 47, - 33, - 32, - 31, - 16, - 15, - 1, 1, 16, 17, 31, 32, 33, 48, 49, 64]]
+const adjacents_index: Array[Array] = [[ - 64, - 49, - 48, - 33, - 32, - 31, - 17, - 16, - 1, 1, 15, 16, 31, 32, 33, 47, 48, 64],
+									   [- 64, - 48, - 47, - 33, - 32, - 31, - 16, - 15, - 1, 1, 16, 17, 31, 32, 33, 48, 49, 64]]
 
 func _physics_process(_delta):
 	GlobalSettings.camera_node.reparent(self)

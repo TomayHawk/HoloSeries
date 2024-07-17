@@ -8,7 +8,7 @@ const damage := 10
 ##### need to add stats multipliers
 
 var move_direction := Vector2.ZERO
-var nodes_in_blast_area := []
+var nodes_in_blast_area: Array[Node] = []
 
 func _ready():
 	GlobalSettings.request_entities(self, "initiate_fireball", 1, "all_enemies_on_screen")

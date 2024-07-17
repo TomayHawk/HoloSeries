@@ -5,32 +5,20 @@ extends CanvasLayer
 
 @onready var nexus_character_selector_node := $NexusCharacterSelector
 
-@onready var nexus_character_selector_player_nodes := [nexus_character_selector_node.get_node("MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1"),
-													  nexus_character_selector_node.get_node("MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2"),
-													  nexus_character_selector_node.get_node("MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3"),
-													  nexus_character_selector_node.get_node("MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4"),
-													  nexus_character_selector_node.get_node("MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5"),
-													  nexus_character_selector_node.get_node("MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6")]
+@onready var nexus_character_selector_player_nodes := nexus_character_selector_node.get_node("MarginContainer/MarginContainer/ScrollContainer/VBoxContainer").get_children()
 
-@onready var nexus_character_selector_name_nodes := [nexus_character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/HBoxContainer/CharacterName"),
-													nexus_character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/HBoxContainer/CharacterName"),
-													nexus_character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/HBoxContainer/CharacterName"),
-													nexus_character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/HBoxContainer/CharacterName"),
-													nexus_character_selector_player_nodes[4].get_node("MarginContainer/HBoxContainer/HBoxContainer/CharacterName"),
-													nexus_character_selector_player_nodes[5].get_node("MarginContainer/HBoxContainer/HBoxContainer/CharacterName")]
-
-@onready var nexus_character_selector_level_nodes := [nexus_character_selector_player_nodes[0].get_node("MarginContainer/HBoxContainer/HBoxContainer/Level"),
-													 nexus_character_selector_player_nodes[1].get_node("MarginContainer/HBoxContainer/HBoxContainer/Level"),
-													 nexus_character_selector_player_nodes[2].get_node("MarginContainer/HBoxContainer/HBoxContainer/Level"),
-													 nexus_character_selector_player_nodes[3].get_node("MarginContainer/HBoxContainer/HBoxContainer/Level"),
-													 nexus_character_selector_player_nodes[4].get_node("MarginContainer/HBoxContainer/HBoxContainer/Level"),
-													 nexus_character_selector_player_nodes[5].get_node("MarginContainer/HBoxContainer/HBoxContainer/Level")]
-
-var nexus_character_selector_origin_player_nodes := []
-var nexus_character_selector_character_indices := []
+var nexus_character_selector_name_nodes: Array[Node] = []
+var nexus_character_selector_level_nodes: Array[Node] = []
+var nexus_character_selector_origin_player_nodes: Array[Node] = []
+var nexus_character_selector_character_indices: Array[int] = []
 
 ###########################################
 var actions = {}
+
+func _ready():
+	for i in 6:
+		nexus_character_selector_name_nodes.push_back(nexus_character_selector_player_nodes[i].get_node("MarginContainer/HBoxContainer/HBoxContainer/CharacterName"))
+		nexus_character_selector_level_nodes.push_back(nexus_character_selector_player_nodes[i].get_node("MarginContainer/HBoxContainer/HBoxContainer/Level"))
 
 func _on_unlock_pressed():
 	if nexus_player.velocity == Vector2.ZERO:

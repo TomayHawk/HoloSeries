@@ -6,7 +6,7 @@ extends CanvasLayer
 
 var state_ready := true
 var state_end := false
-var text_queue := []
+var text_queue: Array[String] = []
 var tween
 
 # update nodes and disable text on ready

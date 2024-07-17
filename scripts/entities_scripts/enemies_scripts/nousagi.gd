@@ -22,9 +22,9 @@ var last_frame := 1
 
 # player variables
 var players_exist_in_detection_area := false
-var player_nodes_in_detection_area := []
+var player_nodes_in_detection_area: Array[Node] = []
 var players_exist_in_attack_area := false
-var player_nodes_in_attack_area := []
+var player_nodes_in_attack_area: Array[Node] = []
 
 # combat variables
 var attack_ready := true
@@ -41,10 +41,10 @@ var knockback_weight := 0.0
 var invincible := false
 
 # temporary variables
-var targetable_player_nodes := []
-var target_player_node := Node.new()
+var targetable_player_nodes: Array[Node] = []
+var target_player_node: Node = null
 var target_player_health := INF
-var nousagi_instance := Node.new()
+var nousagi_instance: Node = null
 
 func _ready():
 	animation_node.play("walk")

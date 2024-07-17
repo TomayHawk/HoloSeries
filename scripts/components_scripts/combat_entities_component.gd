@@ -1,8 +1,8 @@
 extends Node
 
-var damage_display_node := Node.new()
+var damage_display_node: Node = null
 
-var temp_types := []
+var temp_types: Array[String] = []
 var output_amount := 0.0
 
 func physical_damage_calculator(input_damage, origin_entity_stats_node, target_entity_stats_node):

@@ -2,9 +2,9 @@ extends Node2D
 
 var currently_full_screen := false
 
-var current_scene_node := Node.new()
+var current_scene_node: Node = null
 
-var current_main_player_node := Node.new()
+var current_main_player_node: Node = null
 
 @onready var party_node := $Party
 @onready var standby_node := $Standby
@@ -52,8 +52,8 @@ var combat_inputs_available := false
 var nexus_inputs_available := false
 
 # spawn positions and camera limits
-const spawn_positions := [Vector2.ZERO, Vector2(0, -247), Vector2(0, 341), Vector2(31, -103), Vector2(0, 53)]
-var camera_limits := []
+const spawn_positions: Array[Vector2] = [Vector2.ZERO, Vector2(0, -247), Vector2(0, 341), Vector2(31, -103), Vector2(0, 53)]
+var camera_limits: Array[Rect2] = []
 
 """
 scene spawn locations
@@ -66,48 +66,48 @@ scene spawn locations
 
 # player variables
 var party_player_character_index := [0, 4, 3, - 1]
-var party_player_nodes := []
-var standby_player_nodes := []
+var party_player_nodes: Array[Node] = []
+var standby_player_nodes: Array[Node] = []
 
-var unlocked_players := [true, true, true, true, true]
+var unlocked_players: Array[bool] = [true, true, true, true, true]
 
 # nexus variables
 var on_nexus := false
-var nexus_character_selector_node := Node.new()
-var unlocked_nodes := [[135, 167, 182], [], [], [], [], [], [], [], [], []]
-var unlocked_ability_nodes := [[], [], [], [], [], [], [], [], [], []]
-var unlocked_stats_nodes := [[0, 0, 0, 0, 0, 0, 0, 0],
-							[0, 0, 0, 0, 0, 0, 0, 0],
-							[0, 0, 0, 0, 0, 0, 0, 0],
-							[0, 0, 0, 0, 0, 0, 0, 0],
-							[0, 0, 0, 0, 0, 0, 0, 0],
-							[0, 0, 0, 0, 0, 0, 0, 0],
-							[0, 0, 0, 0, 0, 0, 0, 0],
-							[0, 0, 0, 0, 0, 0, 0, 0],
-							[0, 0, 0, 0, 0, 0, 0, 0],
-							[0, 0, 0, 0, 0, 0, 0, 0]]
+var nexus_character_selector_node: Node = null
+var unlocked_nodes: Array[Array] = [[135, 167, 182], [], [], [], [], [], [], [], [], []]
+var unlocked_ability_nodes: Array[Array] = [[], [], [], [], [], [], [], [], [], []]
+var unlocked_stats_nodes: Array[Array] = [[0, 0, 0, 0, 0, 0, 0, 0],
+										  [0, 0, 0, 0, 0, 0, 0, 0],
+										  [0, 0, 0, 0, 0, 0, 0, 0],
+										  [0, 0, 0, 0, 0, 0, 0, 0],
+										  [0, 0, 0, 0, 0, 0, 0, 0],
+										  [0, 0, 0, 0, 0, 0, 0, 0],
+										  [0, 0, 0, 0, 0, 0, 0, 0],
+										  [0, 0, 0, 0, 0, 0, 0, 0],
+										  [0, 0, 0, 0, 0, 0, 0, 0],
+										  [0, 0, 0, 0, 0, 0, 0, 0]]
 var nexus_not_randomized := true
-var nexus_node_texture_positions := []
-var nexus_node_stats := []
+var nexus_node_texture_positions: Array[Vector2] = []
+var nexus_node_stats: Array[Array] = [[], [], [], [], [], [], [], [], [], []]
 
 # combat variables
 var in_combat := false
 var leaving_combat := false
-var abilities_node := Node.new()
-var enemy_nodes_in_combat := []
-var locked_enemy_node = null
+var abilities_node: Node = null
+var enemy_nodes_in_combat: Array[Node] = []
+var locked_enemy_node: Node = null
 
 # entities request variables
 var requesting_entities := false
-var entities_request_origin_node = null
+var entities_request_origin_node: Node = null
 var entities_request_target_command_string := ""
 var entities_request_count := 0
-var entities_available := []
+var entities_available: Array[Node] = []
 var entities_chosen_count := 0
-var entities_chosen := []
+var entities_chosen: Array[Node] = []
 
 # inventory
-var nexus_inventory := [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var nexus_inventory: Array[int] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 func _input(_event):
 	if Input.is_action_just_pressed("action")&&mouse_in_attack_area&&!requesting_entities:

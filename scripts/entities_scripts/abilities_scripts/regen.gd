@@ -4,7 +4,7 @@ extends Node2D
 
 @onready var regen_timer_node := $Timer
 
-var target_player_stats_node := Node.new()
+var target_player_stats_node: Node = null
 
 # 7 times
 var regen_count := 7
