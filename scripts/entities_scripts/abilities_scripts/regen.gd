@@ -1,16 +1,16 @@
 extends Node2D
 
-@onready var caster_node = GlobalSettings.current_main_player_node
+@onready var caster_node := GlobalSettings.current_main_player_node
 
-@onready var regen_timer_node = $Timer
+@onready var regen_timer_node := $Timer
 
-var target_player_stats_node = null
+var target_player_stats_node := Node.new()
 
 # 7 times
-var regen_count = 7
+var regen_count := 7
 # 2% each time
-var heal_percentage = 0.02
-var heal_amount = 10
+const heal_percentage := 0.02
+var heal_amount := 10.0
 # total: 14% over 28 seconds
 ##### need to add stats multipliers
 

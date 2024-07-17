@@ -1,50 +1,50 @@
 extends CharacterBody2D
 
-@onready var enemies_node = get_parent()
-@onready var enemy_stats_node = $EnemyStatsComponent
+@onready var enemies_node := get_parent()
+@onready var enemy_stats_node := $EnemyStatsComponent
 
-@onready var animation_node = $Animation
-@onready var navigation_agent_node = $NavigationAgent2D
-@onready var attack_cooldown_node = $AttackCooldown
-@onready var summon_cooldown_node = $SummonCooldown
-@onready var knockback_timer_node = $KnockbackTimer
+@onready var animation_node := $Animation
+@onready var navigation_agent_node := $NavigationAgent2D
+@onready var attack_cooldown_node := $AttackCooldown
+@onready var summon_cooldown_node := $SummonCooldown
+@onready var knockback_timer_node := $KnockbackTimer
 
-@onready var enemy_marker_path = "res://resources/entity_highlights/enemy_marker.tscn"
+@onready var enemy_marker_path := "res://resources/entity_highlights/enemy_marker.tscn"
 
-@onready var nousagi_load = load("res://entities/enemies/nousagi.tscn")
+@onready var nousagi_load := load("res://entities/enemies/nousagi.tscn")
 
-var speed = 4500
+var speed := 4500.0
 
 # animation variables
-var current_animation = null
-var current_frame = 0
-var last_frame = 1
+var current_animation := ""
+var current_frame := 0
+var last_frame := 1
 
 # player variables
-var players_exist_in_detection_area = false
-var player_nodes_in_detection_area = []
-var players_exist_in_attack_area = false
-var player_nodes_in_attack_area = []
+var players_exist_in_detection_area := false
+var player_nodes_in_detection_area := []
+var players_exist_in_attack_area := false
+var player_nodes_in_attack_area := []
 
 # combat variables
-var attack_ready = true
-var summon_ready = false
-var taking_knockback = false
+var attack_ready := true
+var summon_ready := false
+var taking_knockback := false
 
 # direction variables
-var move_direction = Vector2.ZERO
-var attack_direction = Vector2.ZERO
+var move_direction := Vector2.ZERO
+var attack_direction := Vector2.ZERO
 
 # combat status variables
-var knockback_direction = Vector2.ZERO
-var knockback_weight = 0.0
-var invincible = false
+var knockback_direction := Vector2.ZERO
+var knockback_weight := 0.0
+var invincible := false
 
 # temporary variables
-var targetable_player_nodes = []
-var target_player_node = null
-var target_player_health = INF
-var nousagi_instance = null
+var targetable_player_nodes := []
+var target_player_node := Node.new()
+var target_player_health := INF
+var nousagi_instance := Node.new()
 
 func _ready():
 	animation_node.play("walk")

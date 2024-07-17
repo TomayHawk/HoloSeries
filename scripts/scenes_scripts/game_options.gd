@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-@onready var nexus_path = "res://user_interfaces/holo_nexus.tscn"
+@onready var nexus_path := "res://user_interfaces/holo_nexus.tscn"
 
 func _ready():
 	hide()

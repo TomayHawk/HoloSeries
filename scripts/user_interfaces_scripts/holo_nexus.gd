@@ -1,42 +1,44 @@
 extends Node2D
 
 # create array for all nexus nodes
-@onready var nexus_nodes = $NexusNodes.get_children()
-@onready var nexus_player_node = $NexusPlayer
+@onready var nexus_nodes := $NexusNodes.get_children()
+@onready var nexus_player_node := $NexusPlayer
 
 @onready var current_nexus_player = GlobalSettings.current_main_player_node.character_specifics_node.character_index
 
-@onready var nexus_ui_node = $HoloNexusUI
+@onready var nexus_ui_node := $HoloNexusUI
 
-@onready var unlockable_load = load("res://resources/nexus_unlockables.tscn")
-var unlockable_instance = null
+@onready var unlockable_load := load("res://resources/nexus_unlockables.tscn")
+var unlockable_instance := Node.new()
 
-var unlocked_players = [true, true, true, true, true]
-var last_node = [167, 0, 0, 0, 0]
+var unlocked_players := [true, true, true, true, true]
+var last_node := [167, 0, 0, 0, 0]
 
 # [player][node]
-var nodes_unlocked = [[], [], [], [], []]
-var nodes_unlockable = [[], [], [], [], []]
+var nodes_unlocked := [[], [], [], [], []]
+var nodes_unlockable := [[], [], [], [], []]
 
 # adjacents and second adjacents
-const adjacents_index = [[ - 32, - 17, - 16, 15, 16, 32], [ - 32, - 16, - 15, 16, 17, 32]]
+const adjacents_index := [[ - 32, - 17, - 16, 15, 16, 32], [ - 32, - 16, - 15, 16, 17, 32]]
 
 # empty
-const empty_node_atlas_position = Vector2(0, 0)
+const empty_node_atlas_position := Vector2(0, 0)
 # null
-const null_node_atlas_position = Vector2(32, 0)
+const null_node_atlas_position := Vector2(32, 0)
 # HP, MP, DEF, SHD, ATK, INT, SPD, AGI
-const stats_node_atlas_position = [Vector2(0, 32), Vector2(32, 32), Vector2(64, 32), Vector2(96, 32), Vector2(0, 64), Vector2(32, 64), Vector2(64, 64), Vector2(96, 64)]
+const stats_node_atlas_position := [Vector2(0, 32), Vector2(32, 32), Vector2(64, 32), Vector2(96, 32), Vector2(0, 64), Vector2(32, 64), Vector2(64, 64), Vector2(96, 64)]
 # diamond, clover, heart, spade
-const key_node_atlas_position = [Vector2(0, 96), Vector2(32, 96), Vector2(64, 96), Vector2(96, 96)]
+const key_node_atlas_position := [Vector2(0, 96), Vector2(32, 96), Vector2(64, 96), Vector2(96, 96)]
+# skills, white magic, black magic
+const ability_node_atlas_position := [Vector2(64, 0), Vector2(96, 0), Vector2(128, 0)]
 
 # ability nodes
-var ability_nodes = []
+var ability_nodes := []
 
 # white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
-var area_nodes = [[], [], [], [], [], [], [], [], [], [], [], []]
-var key_nodes = [[], [], [], []]
-var null_nodes = []
+var area_nodes := [[], [], [], [], [], [], [], [], [], [], [], []]
+var key_nodes := [[], [], [], []]
+var null_nodes := []
 
 func _ready():
 	# duplicate node_unlocked from GlobalSettings

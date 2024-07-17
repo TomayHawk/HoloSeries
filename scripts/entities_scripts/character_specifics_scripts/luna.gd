@@ -1,26 +1,26 @@
 extends Node2D
 
-var character_name = "Himemori Luna"
-var character_index = 4
+const character_name := "Himemori Luna"
+const character_index := 4
 # default stats (Score: 4.285)
 # healer
-var default_level = 1
-var default_max_health = 377 # +177 (+0.885 T1)
-var default_max_mana = 36 # +26 (+2.6 T1)
-var default_max_stamina = 100
-var default_defence = 3 # -7 (-1.6 T1)
-var default_shield = 13 # +3 (+0.6 T1)
-var default_strength = 4 # -6 (-0.8 T1)
-var default_intelligence = 18 # +8 (+1.6 T1)
-var default_speed = 1 # +1 (+1 T1)
-var default_agility = 1 # +1 (+1 T1)
-var default_crit_chance = 0.05
-var default_crit_damage = 0.50
+const default_level := 1
+const default_max_health := 377 # +177 (+0.885 T1)
+const default_max_mana := 36 # +26 (+2.6 T1)
+const default_max_stamina := 100
+const default_defence := 3 # -7 (-1.6 T1)
+const default_shield := 13 # +3 (+0.6 T1)
+const default_strength := 4 # -6 (-0.8 T1)
+const default_intelligence := 18 # +8 (+1.6 T1)
+const default_speed := 1 # +1 (+1 T1)
+const default_agility := 1 # +1 (+1 T1)
+const default_crit_chance := 0.05
+const default_crit_damage := 0.50
 
-var default_unlocked_nexus_nodes = [100, 132, 147]
+const default_unlocked_nexus_nodes := [100, 132, 147]
 
-var regular_attack_damage = 13
-var temp_regular_attack_damage = 13
+const regular_attack_damage := 13
+var temp_regular_attack_damage := 13.0
 
 @onready var player_node = get_parent()
 @onready var player_stats_node = player_node.get_node("PlayerStatsComponent")

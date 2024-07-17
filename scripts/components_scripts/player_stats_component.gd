@@ -1,47 +1,47 @@
 extends Node
 
 # node variables
-@onready var player_node = get_parent()
-@onready var character_specifics_node = player_node.get_node("CharacterSpecifics")
+@onready var player_node := get_parent()
+@onready var character_specifics_node := player_node.get_node("CharacterSpecifics")
 
-@onready var combat_ui_node = GlobalSettings.combat_ui_node
+@onready var combat_ui_node := GlobalSettings.combat_ui_node
 
-@onready var health_bar_node = player_node.get_node("HealthBar")
-@onready var mana_bar_node = player_node.get_node("ManaBar")
-@onready var stamina_bar_node = player_node.get_node("StaminaBar")
+@onready var health_bar_node := player_node.get_node("HealthBar")
+@onready var mana_bar_node := player_node.get_node("ManaBar")
+@onready var stamina_bar_node := player_node.get_node("StaminaBar")
 
-@onready var knockback_timer = player_node.get_node("KnockbackTimer")
+@onready var knockback_timer := player_node.get_node("KnockbackTimer")
 
 # player variables
-var party_index = 0
-var alive = true
-var stamina_slow_recovery = false
+var party_index := 0
+var alive := true
+var stamina_slow_recovery := false
 
 # stats variables
-var level = 1
+var level := 1
 
-var max_health = 200
-var max_mana = 10
-var max_stamina = 100
+var max_health := 200.0
+var max_mana := 10.0
+var max_stamina := 100.0
 
-var health = 200
-var mana = 10
-var stamina = 100
+var health := 200.0
+var mana := 10.0
+var stamina := 100.0
 
-var defence = 10
-var shield = 10
-var strength = 10
-var intelligence = 10
-var speed = 0
-var agility = 0
-var crit_chance = 0.05
-var crit_damage = 0.50
+var defence := 10.0
+var shield := 10.0
+var strength := 10.0
+var intelligence := 10.0
+var speed := 0.0
+var agility := 0.0
+var crit_chance := 0.05
+var crit_damage := 0.50
 
-var weapon_strength = 0
-var attack_multiplier = 1.0
+var weapon_strength := 0.0
+var attack_multiplier := 1.0
 
 # temporary variables
-var temp_bar_percentage = 1.0
+var temp_bar_percentage := 1.0
 
 func _ready():
 	update_stats()

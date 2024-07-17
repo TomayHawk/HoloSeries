@@ -1,26 +1,26 @@
 extends Node2D
 
-var character_name = "Roboco"
-var character_index = 2
+const character_name := "Roboco"
+const character_index := 2
 # default stats (Score: 4.025) + 20 Stamina + 15% Crit Damage
 # physical-tank
-var default_level = 1
-var default_max_health = 465 # +265 (+1.325 T1)
-var default_max_mana = 10
-var default_max_stamina = 120 # +20 Stamina
-var default_defence = 18 # +8 (+1.6 T1)
-var default_shield = 13 # +3 (+0.6 T1)
-var default_strength = 16 # +6 (+1.2 T1)
-var default_intelligence = 4 # -6 (-1.2 T1)
-var default_speed = 0
-var default_agility = 1 # +1 (+1.0 T1)
-var default_crit_chance = 0.05
-var default_crit_damage = 0.65 # +0.15 Crit Damage
+const default_level := 1
+const default_max_health := 465 # +265 (+1.325 T1)
+const default_max_mana := 10
+const default_max_stamina := 120 # +20 Stamina
+const default_defence := 18 # +8 (+1.6 T1)
+const default_shield := 13 # +3 (+0.6 T1)
+const default_strength := 16 # +6 (+1.2 T1)
+const default_intelligence := 4 # -6 (-1.2 T1)
+const default_speed := 0
+const default_agility := 1 # +1 (+1.0 T1)
+const default_crit_chance := 0.05
+const default_crit_damage := 0.65 # +0.15 Crit Damage
 
-var default_unlocked_nexus_nodes = [284, 333, 364]
+const default_unlocked_nexus_nodes := [284, 333, 364]
 
-var regular_attack_damage = 13
-var temp_regular_attack_damage = 13
+const regular_attack_damage := 13
+var temp_regular_attack_damage := 13.0
 
 @onready var player_node = get_parent()
 @onready var player_stats_node = player_node.get_node("PlayerStatsComponent")

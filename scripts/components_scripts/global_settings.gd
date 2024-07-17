@@ -1,41 +1,41 @@
 extends Node2D
 
-var currently_full_screen = false
+var currently_full_screen := false
 
-var current_scene_node = null
+var current_scene_node := Node.new()
 
-var current_main_player_node = null
+var current_main_player_node := Node.new()
 
-@onready var party_node = $Party
-@onready var standby_node = $Standby
-@onready var game_options_node = $GameOptions
-@onready var combat_ui_node = $CombatUI
-@onready var combat_ui_control_node = $CombatUI/Control
-@onready var combat_ui_combat_options_2_node = $CombatUI/Control/CombatOptions2
-@onready var combat_ui_character_selector_node = $CombatUI/CharacterSelector
-@onready var text_box_node = $TextBox
-@onready var camera_node = $Camera2D
-@onready var leaving_combat_timer_node = $LeavingCombatTimer
+@onready var party_node := $Party
+@onready var standby_node := $Standby
+@onready var game_options_node := $GameOptions
+@onready var combat_ui_node := $CombatUI
+@onready var combat_ui_control_node := $CombatUI/Control
+@onready var combat_ui_combat_options_2_node := $CombatUI/Control/CombatOptions2
+@onready var combat_ui_character_selector_node := $CombatUI/CharacterSelector
+@onready var text_box_node := $TextBox
+@onready var camera_node := $Camera2D
+@onready var leaving_combat_timer_node := $LeavingCombatTimer
 
-@onready var base_player_path = "res://entities/player.tscn"
+@onready var base_player_path := "res://entities/player.tscn"
 
-@onready var scene_paths = ["res://scenes/world_scene_1.tscn",
+@onready var scene_paths := ["res://scenes/world_scene_1.tscn",
 						   "res://scenes/world_scene_2.tscn",
 						   "res://scenes/dungeon_scene_1.tscn"]
 
-@onready var character_names = ["Tokino Sora",
+@onready var character_names := ["Tokino Sora",
 								 "AZKi",
 								 "Roboco",
 								 "Aki Rosenthal",
 								  "Himemori Luna"]
 
-@onready var character_specifics_paths = ["res://entities/character_specifics/sora.tscn",
+@onready var character_specifics_paths := ["res://entities/character_specifics/sora.tscn",
 										   "res://entities/character_specifics/azki.tscn",
 										   "res://entities/character_specifics/roboco.tscn",
 										   "res://entities/character_specifics/akirose.tscn",
 										   "res://entities/character_specifics/luna.tscn"]
 
-@onready var entity_highlights_paths = ["res://resources/entity_highlights/enemy_highlight.tscn",
+@onready var entity_highlights_paths := ["res://resources/entity_highlights/enemy_highlight.tscn",
 										"res://resources/entity_highlights/enemy_marker.tscn",
 										"res://resources/entity_highlights/entity_highlight.tscn",
 										"res://resources/entity_highlights/entity_marker.tscn",
@@ -45,15 +45,15 @@ var current_main_player_node = null
 										"res://resources/entity_highlights/player_marker.tscn"]
 
 # settings variables
-var game_paused = false
-var player_can_attack = false
-var mouse_in_attack_area = true
-var combat_inputs_available = false
-var nexus_inputs_available = false
+var game_paused := false
+var player_can_attack := false
+var mouse_in_attack_area := true
+var combat_inputs_available := false
+var nexus_inputs_available := false
 
 # spawn positions and camera limits
-var spawn_positions = [Vector2.ZERO, Vector2(0, -247), Vector2(0, 341), Vector2(31, -103), Vector2(0, 53)]
-var camera_limits = []
+const spawn_positions := [Vector2.ZERO, Vector2(0, -247), Vector2(0, 341), Vector2(31, -103), Vector2(0, 53)]
+var camera_limits := []
 
 """
 scene spawn locations
@@ -65,18 +65,18 @@ scene spawn locations
 """
 
 # player variables
-var party_player_character_index = [0, 4, 3, - 1]
-var party_player_nodes = []
-var standby_player_nodes = []
+var party_player_character_index := [0, 4, 3, - 1]
+var party_player_nodes := []
+var standby_player_nodes := []
 
-var unlocked_players = [true, true, true, true, true]
+var unlocked_players := [true, true, true, true, true]
 
 # nexus variables
-var on_nexus = false
-var nexus_character_selector_node = null
-var unlocked_nodes = [[135, 167, 182], [], [], [], [], [], [], [], [], []]
-var unlocked_ability_nodes = [[], [], [], [], [], [], [], [], [], []]
-var unlocked_stats_nodes = [[0, 0, 0, 0, 0, 0, 0, 0],
+var on_nexus := false
+var nexus_character_selector_node := Node.new()
+var unlocked_nodes := [[135, 167, 182], [], [], [], [], [], [], [], [], []]
+var unlocked_ability_nodes := [[], [], [], [], [], [], [], [], [], []]
+var unlocked_stats_nodes := [[0, 0, 0, 0, 0, 0, 0, 0],
 							[0, 0, 0, 0, 0, 0, 0, 0],
 							[0, 0, 0, 0, 0, 0, 0, 0],
 							[0, 0, 0, 0, 0, 0, 0, 0],
@@ -86,28 +86,28 @@ var unlocked_stats_nodes = [[0, 0, 0, 0, 0, 0, 0, 0],
 							[0, 0, 0, 0, 0, 0, 0, 0],
 							[0, 0, 0, 0, 0, 0, 0, 0],
 							[0, 0, 0, 0, 0, 0, 0, 0]]
-var nexus_not_randomized = true
-var nexus_node_texture_positions = []
-var nexus_node_stats = []
+var nexus_not_randomized := true
+var nexus_node_texture_positions := []
+var nexus_node_stats := []
 
 # combat variables
-var in_combat = false
-var leaving_combat = false
-var abilities_node = null
-var enemy_nodes_in_combat = []
+var in_combat := false
+var leaving_combat := false
+var abilities_node := Node.new()
+var enemy_nodes_in_combat := []
 var locked_enemy_node = null
 
 # entities request variables
-var requesting_entities = false
+var requesting_entities := false
 var entities_request_origin_node = null
-var entities_request_target_command_string = ""
-var entities_request_count = 0
-var entities_available = []
-var entities_chosen_count = 0
-var entities_chosen = []
+var entities_request_target_command_string := ""
+var entities_request_count := 0
+var entities_available := []
+var entities_chosen_count := 0
+var entities_chosen := []
 
 # inventory
-var nexus_inventory = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var nexus_inventory := [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 func _input(_event):
 	if Input.is_action_just_pressed("action")&&mouse_in_attack_area&&!requesting_entities:

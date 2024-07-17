@@ -1,68 +1,68 @@
 extends CharacterBody2D
 
 # node variables
-@onready var player_stats_node = $PlayerStatsComponent
-@onready var attack_shape_node = $AttackShape
-@onready var navigation_agent_node = $NavigationAgent2D
-@onready var obstacle_check_node = $ObstacleCheck
+@onready var player_stats_node := $PlayerStatsComponent
+@onready var attack_shape_node := $AttackShape
+@onready var navigation_agent_node := $NavigationAgent2D
+@onready var obstacle_check_node := $ObstacleCheck
 
-@onready var character_specifics_node = $CharacterSpecifics
-@onready var animation_node = $CharacterSpecifics/Animation
+@onready var character_specifics_node := $CharacterSpecifics
+@onready var animation_node := $CharacterSpecifics/Animation
 
 # timer nodes
-@onready var attack_cooldown_node = $AttackCooldown
-@onready var dash_cooldown_node = $DashCooldown
-@onready var ally_attack_cooldown_node = $AllyAttackCooldown
-@onready var ally_direction_cooldown_node = $AllyDirectionCooldown
-@onready var ally_pause_timer_node = $AllyPauseTimer
-@onready var death_timer_node = $DeathTimer
+@onready var attack_cooldown_node := $AttackCooldown
+@onready var dash_cooldown_node := $DashCooldown
+@onready var ally_attack_cooldown_node := $AllyAttackCooldown
+@onready var ally_direction_cooldown_node := $AllyDirectionCooldown
+@onready var ally_pause_timer_node := $AllyPauseTimer
+@onready var death_timer_node := $DeathTimer
 
 # speed variables
-var speed = 2000
-var ally_speed = 6000
-var temp_ally_speed = 6000
-var dash_speed = 30000
-var sprint_multiplier = 1.25
+var speed := 2000.0
+var ally_speed := 6000.0
+var temp_ally_speed := 6000.0
+var dash_speed := 30000.0
+const sprint_multiplier := 1.25
 
 # player node information variables
-var is_current_main_player = false
+var is_current_main_player := false
 
 # movement variables
-var moving = false
-var dashing = false
-var dash_stamina_consumption = 35
-var dash_time = 0.2
-var sprinting = false
-var sprinting_stamina_consumption = 0.8
-var current_move_direction = Vector2.ZERO
-var last_move_direction = Vector2.ZERO
-var possible_directions = [Vector2(1, 0), Vector2(0.7071, -0.7071), Vector2(0, -1), Vector2( - 0.7071, -0.7071),
+var moving := false
+var dashing := false
+var dash_stamina_consumption := 35.0
+var dash_time := 0.2
+var sprinting := false
+var sprinting_stamina_consumption := 0.8
+var current_move_direction := Vector2.ZERO
+var last_move_direction := Vector2.ZERO
+const possible_directions := [Vector2(1, 0), Vector2(0.7071, -0.7071), Vector2(0, -1), Vector2( - 0.7071, -0.7071),
 						   Vector2( - 1, 0), Vector2( - 0.7071, 0.7071), Vector2(0, 1), Vector2(0.7071, 0.7071)]
 # movement variables (player)
 # movement variables (allies)
-var ally_direction_ready = true
-var ray_cast_obstacles = true
+var ally_direction_ready := true
+var ray_cast_obstacles := true
 
 # combat variables
-var attacking = false
-var attack_direction = Vector2.ZERO
+var attacking := false
+var attack_direction := Vector2.ZERO
 # combat variables (player)
 # combat variables (allies)
-var ally_attack_ready = true
-var ally_enemy_in_attack_area = false
-var ally_enemy_nodes_in_attack_area = []
+var ally_attack_ready := true
+var ally_enemy_in_attack_area := false
+var ally_enemy_nodes_in_attack_area := []
 var ally_target_enemy_node = null
 
 # knockback variables
-var taking_knockback = false
-var knockback_direction = Vector2.ZERO
-var knockback_weight = 0.0
+var taking_knockback := false
+var knockback_direction := Vector2.ZERO
+var knockback_weight := 0.0
 
 # temporary variables
-var temp_distance_to_main_player = 0.0
-var temp_move_direction = Vector2.ZERO
-var temp_possible_directions = [0, 1, 2, 3, 4, 5, 6, 7]
-var temp_comparator = 0.0
+var temp_distance_to_main_player := 0.0
+var temp_move_direction := Vector2.ZERO
+var temp_possible_directions := [0, 1, 2, 3, 4, 5, 6, 7]
+var temp_comparator := 0.0
 
 func _ready():
 	animation_node.play("front_idle")

@@ -1,26 +1,26 @@
 extends Node2D
 
-var character_name = "AZKi"
-var character_index = 1
+const character_name := "AZKi"
+const character_index := 1
 # default stats (Score: 4.265) + 5% Crit Rate
 # buffer-skills
-var default_level = 1
-var default_max_health = 373 # +173 (+0.865 T1)
-var default_max_mana = 40 # +30 (+3 T1)
-var default_max_stamina = 100
-var default_defence = 8 # -2 (-0.2 T1)
-var default_shield = 6 # -4 (-0.8 T1)
-var default_strength = 9 # -1 (-0.2 T1)
-var default_intelligence = 12 # +2 (+0.4 T1)
-var default_speed = 2 # +2 (+2 T1)
-var default_agility = 2 # +2 (+2 T1)
-var default_crit_chance = 0.10 # +0.05 Crit Rate
-var default_crit_damage = 0.50
+const default_level := 1
+const default_max_health := 373 # +173 (+0.865 T1)
+const default_max_mana := 40 # +30 (+3 T1)
+const default_max_stamina := 100
+const default_defence := 8 # -2 (-0.2 T1)
+const default_shield := 6 # -4 (-0.8 T1)
+const default_strength := 9 # -1 (-0.2 T1)
+const default_intelligence := 12 # +2 (+0.4 T1)
+const default_speed := 2 # +2 (+2 T1)
+const default_agility := 2 # +2 (+2 T1)
+const default_crit_chance := 0.10 # +0.05 Crit Rate
+const default_crit_damage := 0.50
 
-var default_unlocked_nexus_nodes = [139, 154, 170]
+const default_unlocked_nexus_nodes := [139, 154, 170]
 
-var regular_attack_damage = 13
-var temp_regular_attack_damage = 13
+const regular_attack_damage := 13
+var temp_regular_attack_damage := 13.0
 
 @onready var player_node = get_parent()
 @onready var player_stats_node = player_node.get_node("PlayerStatsComponent")

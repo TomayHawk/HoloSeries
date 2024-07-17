@@ -1,15 +1,12 @@
 extends CanvasLayer
 
-@onready var textbox_container = $TextBoxContainer
-@onready var end_symbol = $TextBoxContainer/MarginContainer/HBoxContainer/TextEnd
-@onready var label = $TextBoxContainer/MarginContainer/HBoxContainer/TextArea
+@onready var textbox_container := $TextBoxContainer
+@onready var end_symbol := $TextBoxContainer/MarginContainer/HBoxContainer/TextEnd
+@onready var label := $TextBoxContainer/MarginContainer/HBoxContainer/TextArea
 
-@onready var player_anim_node = [null, null, null, null]
-
-var temp_string = ""
-var state_ready = true
-var state_end = false
-var text_queue = []
+var state_ready := true
+var state_end := false
+var text_queue := []
 var tween
 
 # update nodes and disable text on ready

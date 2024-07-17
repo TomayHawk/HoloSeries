@@ -1,14 +1,14 @@
 extends CharacterBody2D
 
-@onready var caster_node = GlobalSettings.current_main_player_node
-@onready var time_left_node = $TimeLeft
+@onready var caster_node := GlobalSettings.current_main_player_node
+@onready var time_left_node := $TimeLeft
 
-var speed = 180
-var damage = 10
+const speed := 180
+const damage := 10
 ##### need to add stats multipliers
 
-var move_direction = Vector2.ZERO
-var nodes_in_blast_area = []
+var move_direction := Vector2.ZERO
+var nodes_in_blast_area := []
 
 func _ready():
 	GlobalSettings.request_entities(self, "initiate_fireball", 1, "all_enemies_on_screen")

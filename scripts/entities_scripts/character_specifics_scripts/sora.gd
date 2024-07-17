@@ -1,26 +1,26 @@
 extends Node2D
 
-var character_name = "Tokino Sora"
-var character_index = 0
+const character_name := "Tokino Sora"
+const character_index := 0
 # default stats (Score: 4.55)
 # buffer-healer
-var default_level = 999
-var default_max_health = 99999 # +190 (+0.95 T1)
-var default_max_mana = 9999 # +18 (+1.8 T1)
-var default_max_stamina = 500
-var default_defence = 1000
-var default_shield = 1000
-var default_strength = 1000
-var default_intelligence = 1000 # +4 (+0.8 T1)
-var default_speed = 1 # +1 (+1 T1)
-var default_agility = 256 # +1 (+1 T1)
-var default_crit_chance = 0.50
-var default_crit_damage = 0.50
+const default_level := 999
+const default_max_health := 99999 # +190 (+0.95 T1)
+const default_max_mana := 9999 # +18 (+1.8 T1)
+const default_max_stamina := 500
+const default_defence := 1000
+const default_shield := 1000
+const default_strength := 1000
+const default_intelligence := 1000 # +4 (+0.8 T1)
+const default_speed := 1 # +1 (+1 T1)
+const default_agility := 256 # +1 (+1 T1)
+const default_crit_chance := 0.50
+const default_crit_damage := 0.50
 
-var default_unlocked_nexus_nodes = [135, 167, 182]
+const default_unlocked_nexus_nodes := [135, 167, 182]
 
-var regular_attack_damage = 13
-var temp_regular_attack_damage = 13
+const regular_attack_damage := 13
+var temp_regular_attack_damage := 13.0
 
 @onready var player_node = get_parent()
 @onready var player_stats_node = player_node.get_node("PlayerStatsComponent")

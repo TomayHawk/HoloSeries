@@ -1,9 +1,9 @@
 extends Node
 
-var damage_display_node = null
+var damage_display_node := Node.new()
 
-var temp_types = []
-var output_amount = 0.0
+var temp_types := []
+var output_amount := 0.0
 
 func physical_damage_calculator(input_damage, origin_entity_stats_node, target_entity_stats_node):
 	temp_types.clear()

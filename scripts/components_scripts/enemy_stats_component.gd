@@ -1,30 +1,30 @@
 extends Node
 
 # enemy node
-@onready var enemy_node = get_parent()
-@onready var knockback_timer_node = enemy_node.get_node("KnockbackTimer")
-@onready var invincibility_frame_node = enemy_node.get_node("InvincibilityFrame")
+@onready var enemy_node := get_parent()
+@onready var knockback_timer_node := enemy_node.get_node("KnockbackTimer")
+@onready var invincibility_frame_node := enemy_node.get_node("InvincibilityFrame")
 
-@onready var health_bar_node = enemy_node.get_node("HealthBar")
+@onready var health_bar_node := enemy_node.get_node("HealthBar")
 
 # health variables
-var alive = true
-var max_health = 200
-var health = 200
-var health_bar_percentage = 1.0
+var alive := true
+var max_health := 200.0
+var health := 200.0
+var health_bar_percentage := 1.0
 
-var level = 1
-var mana = 10
-var stamina = 100
+var level := 1
+var mana := 10.0
+var stamina := 100.0
 
-var defence = 10
-var shield = 10
-var strength = 10
-var intelligence = 10
-var speed = 0
-var agility = 0
-var crit_chance = 0.05
-var crit_damage = 0.50
+var defence := 10.0
+var shield := 10.0
+var strength := 10.0
+var intelligence := 10.0
+var speed := 0.0
+var agility := 0.0
+var crit_chance := 0.05
+var crit_damage := 0.50
 
 # called upon instantiating (creating) each enemy
 func _ready():

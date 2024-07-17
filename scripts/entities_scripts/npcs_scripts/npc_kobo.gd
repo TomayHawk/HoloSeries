@@ -1,6 +1,6 @@
 extends StaticBody2D
 
-var area_active = false
+var area_active := false
 
 func _ready():
 	set_process(false)

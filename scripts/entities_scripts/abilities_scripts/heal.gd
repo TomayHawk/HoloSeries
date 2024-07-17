@@ -1,10 +1,10 @@
 extends Node2D
 
-@onready var caster_node = GlobalSettings.current_main_player_node
+@onready var caster_node := GlobalSettings.current_main_player_node
 
 # heal 5%
-var heal_percentage = 0.05
-var heal_amount = 10
+const heal_percentage := 0.05
+var heal_amount := 10.0
 ##### need to add stats multipliers
 
 func _ready():
