@@ -5,7 +5,6 @@ extends Node2D
 # heal 5%
 const heal_percentage := 0.05
 var heal_amount := 10.0
-##### need to add stats multipliers
 
 func _ready():
 	GlobalSettings.request_entities(self, "initiate_heal", 1, "players_alive")
@@ -32,7 +31,7 @@ func initiate_heal(chosen_node):
 		caster_node.player_stats_node.update_mana( - 8)
 
 		# heal chosen node
-		heal_amount = floor(chosen_node.player_stats_node.max_health * heal_percentage * randf_range(0.8, 1.2))
+		heal_amount = CombatEntitiesComponent.magic_heal_calculator(chosen_node.player_stats_node.max_health * heal_percentage, caster_node.player_stats_node)
 		chosen_node.player_stats_node.update_health(heal_amount, [null], Vector2.ZERO, 0.0)
 
 		queue_free()

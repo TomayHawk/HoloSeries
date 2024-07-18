@@ -3,9 +3,11 @@ extends CharacterBody2D
 @onready var caster_node := GlobalSettings.current_main_player_node
 @onready var time_left_node := $TimeLeft
 
-const speed := 180
+const speed := 90
 const damage := 10
-##### need to add stats multipliers
+
+var speed_stats_multiplier: float = 1 + (caster_node.player_stats_node.intelligence / 1000) + (caster_node.player_stats_node.speed / 256)
+var damage_stats_multiplier: float = 1 + (caster_node.player_stats_node.intelligence / 500)
 
 var move_direction := Vector2.ZERO
 var nodes_in_blast_area: Array[Node] = []
@@ -48,7 +50,7 @@ func initiate_fireball(chosen_node):
 		# set position, move direction and velocity
 		position = caster_node.position + Vector2(0, -7)
 		move_direction = (chosen_node.position - position).normalized()
-		velocity = move_direction * speed
+		velocity = move_direction * speed * speed_stats_multiplier
 
 		# begin despawn timer
 		time_left_node.start()
@@ -59,7 +61,7 @@ func initiate_fireball(chosen_node):
 func area_impact():
 	# deal damage to each enemy in blast radius
 	for enemy_node in nodes_in_blast_area:
-		var temp_damage = CombatEntitiesComponent.magic_damage_calculator(damage, caster_node.player_stats_node, enemy_node.enemy_stats_node)
+		var temp_damage = CombatEntitiesComponent.magic_damage_calculator(damage * damage_stats_multiplier, caster_node.player_stats_node, enemy_node.enemy_stats_node)
 		enemy_node.enemy_stats_node.update_health( - temp_damage[0], temp_damage[1], move_direction, 0.5)
 	queue_free()
 

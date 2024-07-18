@@ -49,7 +49,7 @@ func initiate_regen(chosen_node):
 		regen_timer_node.start(4)
 
 func _on_timer_timeout():
-	target_player_stats_node.update_health(floor(heal_amount * randf_range(0.8, 1.2)), [null], Vector2.ZERO, 0.0)
+	target_player_stats_node.update_health(CombatEntitiesComponent.magic_heal_calculator(heal_amount * randf_range(0.8, 1.2), caster_node.player_stats_node), [null], Vector2.ZERO, 0.0)
 
 	# check times healed
 	regen_count -= 1
