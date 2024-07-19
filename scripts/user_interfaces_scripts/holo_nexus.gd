@@ -33,12 +33,12 @@ const key_node_atlas_position: Array[Vector2] = [Vector2(0, 96), Vector2(32, 96)
 const ability_node_atlas_position: Array[Vector2] = [Vector2(64, 0), Vector2(96, 0), Vector2(128, 0)]
 
 # ability nodes
-var ability_nodes: Array[Node] = []
+var ability_nodes: Array[int] = []
 
 # white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
 var area_nodes: Array[Array] = [[], [], [], [], [], [], [], [], [], [], [], []]
 var key_nodes: Array[Array] = [[], [], [], []]
-var null_nodes: Array[Node] = []
+var null_nodes: Array[int] = []
 
 func _ready():
 	# duplicate node_unlocked from GlobalSettings

@@ -13,7 +13,34 @@ var nexus_character_selector_origin_player_nodes: Array[Node] = []
 var nexus_character_selector_character_indices: Array[int] = []
 
 ###########################################
-var actions = {}
+@onready var nexus_inventory_options_valid_atlas_positions := {
+	0: [nexus.stats_node_atlas_position[0],nexus.stats_node_atlas_position[2],nexus.stats_node_atlas_position[4]],
+	1: [nexus.stats_node_atlas_position[1],nexus.stats_node_atlas_position[3],nexus.stats_node_atlas_position[5]],
+	2: [nexus.stats_node_atlas_position[6],nexus.stats_node_atlas_position[7]],
+	3: [nexus.ability_node_atlas_position[0]],
+	4: [nexus.ability_node_atlas_position[1]],
+	5: [nexus.ability_node_atlas_position[2]],
+	6: [nexus.key_node_atlas_position[0]],
+	7: [nexus.key_node_atlas_position[1]],
+	8: [nexus.key_node_atlas_position[2]],
+	9: [nexus.key_node_atlas_position[3]],
+	10: nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position],
+	11: [nexus.ability_node_atlas_position[0]],
+	12: [nexus.ability_node_atlas_position[1]],
+	13: [nexus.ability_node_atlas_position[2]],
+	14: nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position],
+	15: nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position],
+	16: nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position],
+	17: [nexus.empty_node_atlas_position],
+	18: [nexus.empty_node_atlas_position],
+	19: [nexus.empty_node_atlas_position],
+	20: [nexus.empty_node_atlas_position],
+	21: [nexus.empty_node_atlas_position],
+	22: [nexus.empty_node_atlas_position],
+	23: [nexus.empty_node_atlas_position],
+	24: [nexus.empty_node_atlas_position],
+	25: [nexus.stats_node_atlas_position.duplicate()]
+}
 
 func _ready():
 	for i in 6:
@@ -52,44 +79,7 @@ func _on_nexus_character_selector_button_pressed(extra_arg_0):
 	nexus_player.update_nexus_player(extra_arg_0)
 
 func _on_nexus_inventory_item_pressed(extra_arg_0):
-	if GlobalSettings.nexus_inventory[extra_arg_0] > 0:
-		var temp_position = nexus.last_node[nexus.current_nexus_player].texture.region.position
-		if extra_arg_0 in [10, 14, 15, 16]:
-			pass
-		elif temp_position == nexus.empty_node_atlas_position:
-			if extra_arg_0 in [17, 18, 19, 20, 21, 22, 23, 24]:
-				pass
-		elif temp_position in nexus.stats_node_atlas_position:
-			if extra_arg_0 == 25:
-				pass
-			elif extra_arg_0 == 0&&(temp_position == nexus.stats_node_atlas_position[0]||temp_position == nexus.stats_node_atlas_position[2]||temp_position == nexus.stats_node_atlas_position[4]):
-				pass
-			elif extra_arg_0 == 1&&(temp_position == nexus.stats_node_atlas_position[1]||temp_position == nexus.stats_node_atlas_position[3]||temp_position == nexus.stats_node_atlas_position[5]):
-				pass
-			elif extra_arg_0 == 2&&(temp_position == nexus.stats_node_atlas_position[6]||temp_position == nexus.stats_node_atlas_position[7]):
-				pass
-		elif temp_position in nexus.ability_node_atlas_position:
-			if temp_position == nexus.ability_node_atlas_position[0]:
-				if extra_arg_0 == 3:
-					pass
-				elif extra_arg_0 == 11:
-					pass
-			elif temp_position == nexus.ability_node_atlas_position[1]:
-				if extra_arg_0 == 4:
-					pass
-				elif extra_arg_0 == 12:
-					pass
-			elif temp_position == nexus.ability_node_atlas_position[2]:
-				if extra_arg_0 == 5:
-					pass
-				elif extra_arg_0 == 13:
-					pass
-		elif temp_position in nexus.key_node_atlas_position:
-			if extra_arg_0 == 6&&temp_position == nexus.stats_node_atlas_position[0]:
-				pass
-			elif extra_arg_0 == 7&&temp_position == nexus.stats_node_atlas_position[1]:
-				pass
-			elif extra_arg_0 == 8&&temp_position == nexus.stats_node_atlas_position[2]:
-				pass
-			elif extra_arg_0 == 9&&temp_position == nexus.stats_node_atlas_position[3]:
-				pass
+	if GlobalSettings.nexus_inventory[extra_arg_0] == 0:
+		print(nexus_inventory_options_valid_atlas_positions[extra_arg_0])
+		if nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position in nexus_inventory_options_valid_atlas_positions[extra_arg_0]:
+			print("true")
