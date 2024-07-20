@@ -247,6 +247,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BlessedCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+modulate = Color(0.3, 0.3, 0.3, 1)
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = " "
@@ -1287,35 +1288,3 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [connection signal="pressed" from="Control/Options/MarginContainer/VBoxContainer/Unlock" to="." method="_on_unlock_pressed"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LifeCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [0]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MagicCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [1]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DexterityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [2]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TalentCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [3]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/BlessedCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [4]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AbyssalCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [5]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [6]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ProsperityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [7]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LoveCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [8]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/NobilityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [9]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/FriendCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [10]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SkillCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [11]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarlightCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [12]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MoonlightCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [13]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DreamCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [14]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TeleportCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [15]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/KingCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [16]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/HealthCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [17]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ManaCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [18]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DefenceCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [19]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShieldCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [20]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AttackCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [21]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/IntelligenceCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [22]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SpeedCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [23]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AgilityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [24]]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ClearCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [25]]
-[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_nexus_character_selector_button_pressed" binds= [0]]
-[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2" to="." method="_on_nexus_character_selector_button_pressed" binds= [1]]
-[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3" to="." method="_on_nexus_character_selector_button_pressed" binds= [2]]
-[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4" to="." method="_on_nexus_character_selector_button_pressed" binds= [3]]
-[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5" to="." method="_on_nexus_character_selector_button_pressed" binds= [4]]
-[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6" to="." method="_on_nexus_character_selector_button_pressed" binds= [5]]

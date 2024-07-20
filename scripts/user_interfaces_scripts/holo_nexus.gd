@@ -272,42 +272,54 @@ func update_nexus_player(player):
 	print(i)
 
 func unlock_node():
-	# if current nexus node is unlockable
+	# if current nexus node is in current player unlockables, and node is not a null node
 	if last_node[current_nexus_player] in nodes_unlockable[current_nexus_player]&&nexus_nodes[last_node[current_nexus_player]].texture.region.position != null_node_atlas_position:
+		# add node index to unlocked
 		nodes_unlocked[current_nexus_player].push_back(last_node[current_nexus_player])
+		# remove node index from unlockables
 		nodes_unlockable[current_nexus_player].erase(last_node[current_nexus_player])
+		# remove node unlockables outline
+		get_node("UnlockableNodes").remove_child(get_node("UnlockableNodes").get_node(str(last_node[current_nexus_player])))
 
-		for unlockable in $UnlockableNodes.get_children():
-			if unlockable.position == nexus_nodes[last_node[current_nexus_player]].position:
-				unlockable.queue_free()
-
+		# update unlocked node texture
 		nexus_nodes[last_node[current_nexus_player]].modulate = Color(1, 1, 1, 1)
 
 		var temp_adjacents = []
 
-		if (last_node[current_nexus_player] % 32) < 16: for temp_index in adjacents_index[0]: temp_adjacents.push_back(last_node[current_nexus_player] + temp_index)
-		else: for temp_index in adjacents_index[1]: temp_adjacents.push_back(last_node[current_nexus_player] + temp_index)
+		# determine index differences to adjacent nodes
+		if (last_node[current_nexus_player] % 32) < 16:
+			for temp_index in adjacents_index[0]:
+				temp_adjacents.push_back(last_node[current_nexus_player] + temp_index)
+		else:
+			for temp_index in adjacents_index[1]:
+				temp_adjacents.push_back(last_node[current_nexus_player] + temp_index)
 
-		for adjacent in temp_adjacents: # for each adjacent node
-			if !(adjacent in nodes_unlocked[current_nexus_player])&&nexus_nodes[adjacent].texture.region.position != null_node_atlas_position&&(adjacent > - 1)&&(adjacent < 767): # if node is not unlocked and node exists
-				# determine second adjacent nodes
+		# for each adjacent node
+		for adjacent in temp_adjacents:
+			# if node is not unlocked and node exists
+			if !(adjacent in nodes_unlocked[current_nexus_player])&&nexus_nodes[adjacent].texture.region.position != null_node_atlas_position&&(adjacent > - 1)&&(adjacent < 767):
 				var second_temp_adjacents = []
-				if (adjacent % 32) < 16: for second_temp_index in adjacents_index[0]: second_temp_adjacents.push_back(adjacent + second_temp_index)
-				else: for second_temp_index in adjacents_index[1]: second_temp_adjacents.push_back(adjacent + second_temp_index)
+				
+				# determine index differences to second adjacent nodes (nodes adjacent to adjacent nodes)
+				if (adjacent % 32) < 16:
+					for second_temp_index in adjacents_index[0]:
+						second_temp_adjacents.push_back(adjacent + second_temp_index)
+				else:
+					for second_temp_index in adjacents_index[1]:
+						second_temp_adjacents.push_back(adjacent + second_temp_index)
 
-				for second_adjacent in second_temp_adjacents: # for each adjacent node to adjacent node
+				# for each second adjacent nodes
+				for second_adjacent in second_temp_adjacents:
 					# if second adjacent is unlocked, is not original node, and is not in unlockables array
 					if (second_adjacent in nodes_unlocked[current_nexus_player])&&(second_adjacent != last_node[current_nexus_player])&&!(adjacent in nodes_unlockable[current_nexus_player]):
+						# add adjacent node to unlockables
 						nodes_unlockable[current_nexus_player].push_back(adjacent)
+
+						# create unlockables outline for adjacent node
 						unlockable_instance = unlockable_load.instantiate()
 						unlockable_instance.name = str(adjacent)
 						get_node("UnlockableNodes").add_child(unlockable_instance)
 						unlockable_instance.position = nexus_nodes[adjacent].position
-		
-		get_node("UnlockableNodes").remove_child(get_node("UnlockableNodes").get_node(NodePath(str(last_node[current_nexus_player]))))
-		print(get_node("UnlockableNodes").get_children())
-		for node in get_node("UnlockableNodes").get_children():
-			print(node.position)
 
 func exit_nexus():
 	GlobalSettings.unlocked_nodes = nodes_unlocked.duplicate()
