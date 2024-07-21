@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @onready var nexus := get_parent()
+@onready var nexus_ui_node := nexus.get_node("HoloNexusUI")
 
 var move_direction := Vector2.ZERO
 var speed := 150.0
@@ -40,6 +41,8 @@ func _physics_process(_delta):
 
 			$Sprite2D.show()
 			$Sprite2D2.hide()
+
+			nexus_ui_node.show_default()
 	else:
 		move_direction = Input.get_vector("left", "right", "up", "down")
 		velocity = move_direction * speed
@@ -47,6 +50,7 @@ func _physics_process(_delta):
 			speed = 150
 			snap_to_target(position)
 		elif velocity != Vector2.ZERO:
+			nexus_ui_node.hide_all()
 			if speed < speed_max: speed += 1
 			if on_node:
 				on_node = false
@@ -97,6 +101,8 @@ func snap_to_target(initial_position):
 	snap_direction = (snap_position - initial_position).normalized()
 
 	snapping = true
+
+	nexus_ui_node.hide_all()
 
 func snap_to_pressed(recent_emitter):
 	var temp_node_index = recent_emitter.get_index()

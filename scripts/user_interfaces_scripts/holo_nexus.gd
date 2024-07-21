@@ -92,7 +92,7 @@ func _ready():
 
 	nexus_player_node.character_index = GlobalSettings.current_main_player_node.character_specifics_node.character_index
 	nexus_ui_node.update_character_selector()
-	nexus_ui_node.nexus_character_selector_node.hide()
+	nexus_ui_node.character_selector_node.hide()
 
 func stat_nodes_randomizer():
 	GlobalSettings.nexus_not_randomized = false
@@ -118,18 +118,18 @@ func stat_nodes_randomizer():
 	
 	# HP, MP, DEF, SHD, ATK, INT, SPD, AGI, EMPTY
 	# randomizer base number
-	var rand_amount = [[6, 11, 2, 3, 2, 3, 2, 2],
-					  [2, 4, 1, 1, 0, 2, 0, 0],
-					  [9, 18, 3, 4, 3, 12, 3, 3],
-					  [3, 5, 1, 2, 1, 3, 1, 1],
-					  [4, 4, 2, 2, 1, 3, 1, 1],
-					  [11, 8, 3, 3, 4, 4, 3, 3],
-					  [6, 8, 2, 3, 2, 4, 2, 2],
-					  [11, 6, 2, 4, 4, 3, 3, 3],
-					  [3, 2, 1, 0, 1, 1, 1, 1],
-					  [13, 3, 4, 3, 12, 2, 3, 3],
-					  [5, 1, 2, 1, 5, 0, 2, 2],
-					  [8, 1, 4, 2, 2, 1, 0, 0]]
+	var rand_amount = [[6, 11, 2, 3, 2, 6, 2, 2],
+					  [3, 4, 1, 1, 0, 2, 0, 0],
+					  [11, 18, 3, 4, 3, 10, 3, 3],
+					  [3, 6, 1, 2, 1, 3, 1, 1],
+					  [4, 4, 1, 1, 1, 4, 1, 1],
+					  [11, 8, 3, 3, 5, 4, 3, 3],
+					  [6, 8, 2, 2, 2, 4, 2, 2],
+					  [11, 7, 3, 4, 5, 3, 3, 3],
+					  [3, 2, 1, 0, 2, 1, 1, 1],
+					  [13, 4, 3, 2, 9, 1, 3, 3],
+					  [5, 1, 2, 1, 4, 0, 2, 2],
+					  [8, 2, 3, 2, 2, 1, 0, 0]]
 
 	var j = 0
 	for array in rand_amount:
@@ -144,18 +144,18 @@ func stat_nodes_randomizer():
 	print(k)
 
 	# randomizer multiplier
-	var rand_weight = [[2, 3, 1, 1, 1, 1, 1, 1],
+	var rand_weight = [[2, 3, 1, 1, 1, 2, 1, 1],
 					   [1, 1, 0, 0, 0, 1, 0, 0],
-					   [2, 3, 1, 1, 1, 3, 1, 1],
-					   [1, 1, 0, 1, 0, 1, 0, 0],
-					   [1, 1, 1, 1, 0, 1, 0, 0],
-					   [3, 2, 1, 1, 1, 1, 1, 1],
+					   [3, 5, 1, 1, 1, 3, 1, 1],
+					   [1, 2, 0, 1, 0, 1, 0, 0],
+					   [1, 1, 0, 0, 0, 1, 0, 0],
+					   [3, 2, 1, 1, 2, 1, 1, 1],
 					   [2, 2, 1, 1, 1, 1, 1, 1],
-					   [3, 2, 1, 1, 1, 1, 1, 1],
+					   [3, 2, 1, 1, 2, 1, 1, 1],
 					   [1, 1, 0, 0, 0, 0, 0, 0],
-					   [3, 1, 1, 1, 3, 1, 1, 1],
+					   [3, 1, 1, 1, 3, 0, 1, 1],
 					   [1, 0, 1, 0, 1, 0, 1, 1],
-					   [2, 0, 1, 1, 1, 0, 0, 0]]
+					   [2, 1, 1, 1, 1, 0, 0, 0]]
 	
 	var rand_result = [[], [], [], [], [], [], [], [], [], [], [], []]
 	var area_rand_type = [[], [], [], [], [], [], [], [], [], [], [], []]
