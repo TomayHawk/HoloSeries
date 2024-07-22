@@ -62,6 +62,7 @@ func _ready():
 		inventory_items_quantity_label[i].text = str(GlobalSettings.nexus_inventory[i])
 	
 	call_deferred("update_inventory_buttons")
+	character_selector_node.hide()
 	hide_all()
 	show_default()
 

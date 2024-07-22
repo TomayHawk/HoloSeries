@@ -87,7 +87,8 @@ var unlocked_stats_nodes: Array[Array] = [[0, 0, 0, 0, 0, 0, 0, 0],
 										  [0, 0, 0, 0, 0, 0, 0, 0],
 										  [0, 0, 0, 0, 0, 0, 0, 0]]
 var nexus_not_randomized := true
-var nexus_node_texture_positions: Array[Vector2] = []
+var nexus_default_atlas_positions: Array[Vector2] = []
+var nexus_default_nodes_quality: Array[int] = []
 var nexus_node_stats: Array[Array] = [[], [], [], [], [], [], [], [], [], []]
 
 # combat variables

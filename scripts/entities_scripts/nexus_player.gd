@@ -3,11 +3,11 @@ extends CharacterBody2D
 @onready var nexus := get_parent()
 @onready var nexus_ui_node := nexus.get_node("HoloNexusUI")
 
+@onready var character_index: int = GlobalSettings.current_main_player_node.character_specifics_node.character_index
+
 var move_direction := Vector2.ZERO
 var speed := 150.0
 const speed_max := 300
-
-var character_index := 0
 
 var on_node := false
 var snapping := false
