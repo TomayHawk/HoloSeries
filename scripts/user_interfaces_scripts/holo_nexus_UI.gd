@@ -147,13 +147,27 @@ func update_inventory_buttons():
 				inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
 
 func teleport(type):
+	var valid = false
+
 	if type == "return":
-		pass
+		if nexus.last_node[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]:
+			valid = true
 	elif type == "ally":
-		pass
+		for player_index in nexus.nodes_unlocked.size():
+			if player_index != nexus.current_nexus_player&&nexus.last_node[nexus.current_nexus_player] in nexus.nodes_unlocked[player_index]:
+				valid = true
 	elif type == "any":
+		valid = true
+	
+	if valid:
+		pass
+	else:
 		pass
 
 func convert(target_type_position):
+	nexus.nodes_converted_index.push_back(nexus.last_node[nexus.current_nexus_player])
+	nexus.nodes_converted_type.push_back(target_type_position)
+	nexus.nodes_converted_quality.push_back()
+
 	nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position = target_type_position
 	nexus.unlock_node()

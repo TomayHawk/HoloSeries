@@ -497,28 +497,3 @@ sprite_frames = SubResource("SpriteFrames_qsfsi")
 animation = &"front_idle"
 frame_progress = 0.195863
 offset = Vector2(0, -12.5)
-
-[node name="AttackCooldown" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true
-
-[node name="DashCooldown" type="Timer" parent="."]
-wait_time = 0.2
-one_shot = true
-
-[node name="AllyAttackCooldown" type="Timer" parent="."]
-one_shot = true
-
-[node name="AllyDirectionCooldown" type="Timer" parent="."]
-one_shot = true
-
-[node name="AllyPauseTimer" type="Timer" parent="."]
-one_shot = true
-
-[node name="KnockbackTimer" type="Timer" parent="."]
-wait_time = 0.4
-one_shot = true
-
-[node name="DeathTimer" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true

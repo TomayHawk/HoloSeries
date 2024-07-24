@@ -14,6 +14,7 @@ var nodes_unlocked: Array[Array] = [[], [], [], [], []]
 var nodes_unlockable: Array[Array] = [[], [], [], [], []]
 var nodes_converted_index: Array[Array] = [[], [], [], [], []]
 var nodes_converted_type: Array[Array] = [[], [], [], [], []]
+var nodes_converted_quality: Array[Array] = [[], [], [], [], []]
 
 var nodes_quality: Array[int] = []
 
@@ -116,17 +117,17 @@ func stat_nodes_randomizer():
 	# HP, MP, DEF, SHD, ATK, INT, SPD, AGI, EMPTY
 	# randomizer base number
 	var area_amount = [[6, 11, 2, 3, 2, 6, 2, 2],
-					  [3, 4, 1, 1, 0, 2, 0, 0],
-					  [11, 18, 3, 4, 3, 10, 3, 3],
-					  [3, 6, 1, 2, 1, 3, 1, 1],
-					  [4, 4, 1, 1, 1, 4, 1, 1],
-					  [11, 8, 3, 3, 5, 4, 3, 3],
-					  [6, 8, 2, 2, 2, 4, 2, 2],
-					  [11, 7, 3, 4, 5, 3, 3, 3],
-					  [3, 2, 1, 0, 2, 1, 1, 1],
-					  [13, 4, 3, 2, 9, 1, 3, 3],
-					  [5, 1, 2, 1, 4, 0, 2, 2],
-					  [8, 2, 3, 2, 2, 1, 0, 0]]
+					   [3, 4, 1, 1, 0, 2, 0, 0],
+					   [11, 18, 3, 4, 3, 10, 3, 3],
+					   [3, 6, 1, 2, 1, 3, 1, 1],
+					   [4, 4, 1, 1, 1, 4, 1, 1],
+					   [11, 8, 3, 3, 5, 4, 3, 3],
+					   [6, 8, 2, 2, 2, 4, 2, 2],
+					   [11, 7, 3, 4, 5, 3, 3, 3],
+					   [3, 2, 1, 0, 2, 1, 1, 1],
+					   [13, 4, 3, 2, 9, 1, 3, 3],
+					   [5, 1, 2, 1, 4, 0, 2, 2],
+					   [8, 2, 3, 2, 2, 1, 0, 0]]
 
 	var j = 0
 	for array in area_amount:
@@ -337,21 +338,22 @@ func exit_nexus():
 	GlobalSettings.unlocked_nodes = nodes_unlocked.duplicate()
 
 	# for each unlocked player
-	for player_index in 4: if GlobalSettings.unlocked_players[player_index]:
-		# clear unlocked nodes lists
-		GlobalSettings.unlocked_ability_nodes[player_index].clear()
-		GlobalSettings.unlocked_stats_nodes[player_index] = [0, 0, 0, 0, 0, 0, 0, 0]
-		# for each unlocked node
-		for unlocked_index in nodes_unlocked[player_index]:
-			# if node is an ability, add node index to unlocked abilities list
-			if unlocked_index in ability_nodes:
-				GlobalSettings.unlocked_ability_nodes[player_index].push_back(unlocked_index)
-			# else add count to respective unlocked stats node type
-			else:
-				for texture_region_index in stats_node_atlas_position.size():
-					if nexus_nodes[unlocked_index].texture.region.position == stats_node_atlas_position[texture_region_index]:
-						GlobalSettings.unlocked_stats_nodes[player_index][texture_region_index] += 1
-						break
+	for player_index in 4:
+		if GlobalSettings.unlocked_players[player_index]:
+			# clear unlocked nodes lists
+			GlobalSettings.unlocked_ability_nodes[player_index].clear()
+			GlobalSettings.unlocked_stats_nodes[player_index] = [0, 0, 0, 0, 0, 0, 0, 0]
+			# for each unlocked node
+			for unlocked_index in nodes_unlocked[player_index]:
+				# if node is an ability, add node index to unlocked abilities list
+				if unlocked_index in ability_nodes:
+					GlobalSettings.unlocked_ability_nodes[player_index].push_back(unlocked_index)
+				# else add count to respective unlocked stats node type
+				else:
+					for texture_region_index in stats_node_atlas_position.size():
+						if nexus_nodes[unlocked_index].texture.region.position == stats_node_atlas_position[texture_region_index]:
+							GlobalSettings.unlocked_stats_nodes[player_index][texture_region_index] += 1
+							break
 
 	GlobalSettings.camera_node.reparent(GlobalSettings.current_main_player_node)
 	GlobalSettings.camera_node.position = Vector2.ZERO
