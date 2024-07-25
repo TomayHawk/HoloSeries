@@ -123,5 +123,5 @@ func snap_to_pressed(recent_emitter):
 
 	snapping = true
 
-func update_nexus_player(selector_index):
-	pass
+func update_nexus_player(target_character_index):
+	position = nexus.nexus_nodes[nexus.last_node[target_character_index]].position + Vector2(16, 16)

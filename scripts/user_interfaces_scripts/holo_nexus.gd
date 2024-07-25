@@ -9,7 +9,7 @@ extends Node2D
 var unlockable_instance: Node = null
 
 # character information
-var last_node: Array[int] = [167, 0, 0, 0, 0]
+var last_node: Array[int] = [167, 154, 333, 523, 132]
 var nodes_unlocked: Array[Array] = [[], [], [], [], []]
 var nodes_unlockable: Array[Array] = [[], [], [], [], []]
 var nodes_converted_index: Array[Array] = [[], [], [], [], []]

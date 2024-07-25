@@ -74,7 +74,7 @@ var unlocked_players: Array[bool] = [true, true, true, true, true]
 # nexus variables
 var on_nexus := false
 var nexus_character_selector_node: Node = null
-var unlocked_nodes: Array[Array] = [[135, 167, 182], [], [], [], [], [], [], [], [], []]
+var unlocked_nodes: Array[Array] = [[], [], [], [], [], [], [], [], [], []]
 var unlocked_ability_nodes: Array[Array] = [[], [], [], [], [], [], [], [], [], []]
 var unlocked_stats_nodes: Array[Array] = [[0, 0, 0, 0, 0, 0, 0, 0],
 										  [0, 0, 0, 0, 0, 0, 0, 0],
@@ -187,6 +187,8 @@ func start_game():
 			# put player in Standby
 			standby_node.add_child(standby_player_nodes[i])
 			standby_player_nodes[i].player_stats_node.update_stats()
+			##### add unlocked nodes (should be erased after adding "unlock character")
+			unlocked_nodes[i] = standby_player_nodes[i].character_specifics_node.default_unlocked_nexus_nodes.duplicate()
 		i += 1
 
 	i = 0
