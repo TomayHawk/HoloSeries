@@ -161,8 +161,9 @@ func teleport(type):
 	
 	if valid:
 		pass
-	else:
-		pass
+
+func select_teleport(type):
+	pass
 
 func convert(target_type_position):
 	nexus.nodes_converted_index.push_back(nexus.last_node[nexus.current_nexus_player])

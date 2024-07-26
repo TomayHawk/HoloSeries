@@ -1,6 +1,7 @@
 extends Node2D
 
 var currently_full_screen := false
+var scroll_increment := Vector2(0.1, 0.1)
 
 var current_scene_node: Node = null
 
@@ -110,7 +111,11 @@ var entities_chosen: Array[Node] = []
 # inventory
 var nexus_inventory: Array[int] = [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1]
 
-func _input(_event):
+func _process(_delta):
+	if Input.is_action_just_released("scroll_up"): camera_node.zoom = clamp(camera_node.zoom - scroll_increment, Vector2(0.5, 0.5), Vector2(1.5, 1.5))
+	elif Input.is_action_just_released("scroll_down"): camera_node.zoom = clamp(camera_node.zoom + scroll_increment, Vector2(0.5, 0.5), Vector2(1.5, 1.5))
+
+func _input(event):
 	if Input.is_action_just_pressed("action")&&mouse_in_attack_area&&!requesting_entities:
 		player_can_attack = true
 		call_deferred("reset_action_availability")
@@ -118,9 +123,15 @@ func _input(_event):
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
 	elif combat_inputs_available:
 		if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
-		elif (Input.is_action_just_pressed("tab")||Input.is_action_just_released("tab")): character_selector_display()
+		elif Input.is_action_just_pressed("tab"): combat_ui_character_selector_node.show()
+		elif Input.is_action_just_released("tab"): combat_ui_character_selector_node.hide()
 	elif nexus_inputs_available:
-		if (Input.is_action_just_pressed("tab")||Input.is_action_just_released("tab")): nexus_character_selector_display()
+		if Input.is_action_just_pressed("tab"): nexus_character_selector_node.show()
+		elif Input.is_action_just_released("tab"): nexus_character_selector_node.hide()
+	elif Input.is_action_just_pressed("scroll_up")||Input.is_action_pressed("scroll_up")||Input.is_action_just_released("scroll_up"):
+		print("he")
+		camera_node.zoom -= scroll_increment
+	elif Input.is_action_just_pressed("scroll_down")||Input.is_action_pressed("scroll_down")||Input.is_action_just_released("scroll_down"): camera_node.zoom += Vector2(0.1, 0.1)
 
 func reset_action_availability():
 	player_can_attack = false
@@ -242,12 +253,6 @@ func combat_ui_display():
 	if !GlobalSettings.in_combat:
 		if combat_ui_control_node.modulate.a != 1.0: combat_ui_control_node.modulate.a = 1.0
 		elif GlobalSettings.leaving_combat_timer_node.is_stopped(): combat_ui_control_node.modulate.a = 0.0
-
-func character_selector_display():
-	combat_ui_character_selector_node.visible = !combat_ui_character_selector_node.visible
-
-func nexus_character_selector_display():
-	nexus_character_selector_node.visible = !nexus_character_selector_node.visible
 
 func update_main_player(next_main_player_node):
 	current_main_player_node.is_current_main_player = false
