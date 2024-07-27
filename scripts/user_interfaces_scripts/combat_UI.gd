@@ -24,8 +24,6 @@ var character_selector_health_nodes: Array[Node] = []
 var character_selector_mana_nodes: Array[Node] = []
 
 func _ready():
-	combat_options_2_modes.pop_front()
-
 	for i in 4:
 		character_name_label_nodes.push_back(players_info_nodes[i].get_node("HBoxContainer/CharacterName"))
 		players_health_label_nodes.push_back(players_info_nodes[i].get_node("HBoxContainer/MarginContainer/HealthAmount"))
@@ -127,9 +125,11 @@ func use_temp_kill_item(chosen_player_node):
 
 func _on_control_mouse_entered():
 	GlobalSettings.mouse_in_attack_area = false
+	GlobalSettings.mouse_in_zoom_area = false
 
 func _on_control_mouse_exited():
 	GlobalSettings.mouse_in_attack_area = true
+	GlobalSettings.mouse_in_zoom_area = true
 
 func _on_character_selector_button_pressed(extra_arg_0):
 	var i = 0

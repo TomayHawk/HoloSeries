@@ -1,7 +1,6 @@
 extends Node2D
 
 var currently_full_screen := false
-var scroll_increment := Vector2(0.1, 0.1)
 
 var current_scene_node: Node = null
 
@@ -46,6 +45,10 @@ var current_main_player_node: Node = null
 										"res://resources/entity_highlights/player_marker.tscn"]
 
 # settings variables
+@onready var current_camera_node := $Camera2D
+var target_zoom := Vector2(1.0, 1.0)
+var zoom_interval := 0.0
+var mouse_in_zoom_area := false
 var game_paused := false
 var player_can_attack := false
 var mouse_in_attack_area := true
@@ -73,6 +76,7 @@ var standby_player_nodes: Array[Node] = []
 var unlocked_players: Array[bool] = [true, true, true, true, true]
 
 # nexus variables
+var nexus_camera_node: Node = null
 var on_nexus := false
 var nexus_character_selector_node: Node = null
 var unlocked_nodes: Array[Array] = [[], [], [], [], [], [], [], [], [], []]
@@ -111,16 +115,31 @@ var entities_chosen: Array[Node] = []
 # inventory
 var nexus_inventory: Array[int] = [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1]
 
-func _process(_delta):
-	if Input.is_action_just_released("scroll_up"): camera_node.zoom = clamp(camera_node.zoom - scroll_increment, Vector2(0.5, 0.5), Vector2(1.5, 1.5))
-	elif Input.is_action_just_released("scroll_down"): camera_node.zoom = clamp(camera_node.zoom + scroll_increment, Vector2(0.5, 0.5), Vector2(1.5, 1.5))
+func _ready():
+	set_physics_process(false)
 
-func _input(event):
+func _physics_process(delta):
+	if target_zoom.x != current_camera_node.zoom.x:
+		zoom_interval += delta * 0.1
+		current_camera_node.zoom = current_camera_node.zoom.lerp(target_zoom, zoom_interval)
+	else:
+		zoom_interval = 0.0
+		set_physics_process(false)
+
+func _input(_event):
 	if Input.is_action_just_pressed("action")&&mouse_in_attack_area&&!requesting_entities:
 		player_can_attack = true
 		call_deferred("reset_action_availability")
 	elif Input.is_action_just_pressed("esc"): esc_input()
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
+	elif Input.is_action_just_pressed("scroll_up"):
+		if current_camera_node.zoom.x < 1.5:
+			target_zoom = clamp(target_zoom + Vector2(0.05, 0.05), Vector2(0.5, 0.5), Vector2(1.5, 1.5))
+			set_physics_process(true)
+	elif Input.is_action_just_pressed("scroll_down"):
+		if current_camera_node.zoom.x > 0.5:
+			target_zoom = clamp(target_zoom - Vector2(0.05, 0.05), Vector2(0.5, 0.5), Vector2(1.5, 1.5))
+			set_physics_process(true)
 	elif combat_inputs_available:
 		if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
 		elif Input.is_action_just_pressed("tab"): combat_ui_character_selector_node.show()
@@ -128,10 +147,6 @@ func _input(event):
 	elif nexus_inputs_available:
 		if Input.is_action_just_pressed("tab"): nexus_character_selector_node.show()
 		elif Input.is_action_just_released("tab"): nexus_character_selector_node.hide()
-	elif Input.is_action_just_pressed("scroll_up")||Input.is_action_pressed("scroll_up")||Input.is_action_just_released("scroll_up"):
-		print("he")
-		camera_node.zoom -= scroll_increment
-	elif Input.is_action_just_pressed("scroll_down")||Input.is_action_pressed("scroll_down")||Input.is_action_just_released("scroll_down"): camera_node.zoom += Vector2(0.1, 0.1)
 
 func reset_action_availability():
 	player_can_attack = false
@@ -235,6 +250,8 @@ func start_game():
 	combat_ui_node.update_character_selector()
 	combat_inputs_available = true
 
+	mouse_in_zoom_area = true
+
 # change scene (called from scenes)
 func change_scene(next_scene_index, spawn_index):
 	party_node.call_deferred("reparent", GlobalSettings)
@@ -246,6 +263,7 @@ func change_scene(next_scene_index, spawn_index):
 	for player_node in party_player_nodes: if player_node != current_main_player_node:
 		player_node.position = spawn_positions[spawn_index] + (25 * Vector2(randf_range( - 1, 1), randf_range( - 1, 1)))
 	
+	mouse_in_zoom_area = true
 	leave_combat()
 
 # display combat ui

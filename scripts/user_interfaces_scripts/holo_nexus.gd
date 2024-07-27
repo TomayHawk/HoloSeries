@@ -42,6 +42,12 @@ var black_magic_nodes: Array[int] = []
 const adjacents_index: Array[Array] = [[ - 32, - 17, - 16, 15, 16, 32], [ - 32, - 16, - 15, 16, 17, 32]]
 
 func _ready():
+	GlobalSettings.nexus_camera_node = nexus_player_node.get_node("Camera2D")
+	GlobalSettings.current_camera_node = GlobalSettings.nexus_camera_node
+	GlobalSettings.target_zoom = Vector2(1.0, 1.0)
+	GlobalSettings.nexus_camera_node.zoom = Vector2(1.0, 1.0)
+	GlobalSettings.mouse_in_zoom_area = true
+
 	# duplicate node_unlocked from GlobalSettings
 	nodes_unlocked = GlobalSettings.unlocked_nodes.duplicate()
 	nodes_quality = GlobalSettings.nexus_default_nodes_quality.duplicate()
@@ -355,6 +361,9 @@ func exit_nexus():
 							GlobalSettings.unlocked_stats_nodes[player_index][texture_region_index] += 1
 							break
 
+	GlobalSettings.target_zoom = Vector2(1.0, 1.0)
+	GlobalSettings.camera_node.zoom = Vector2(1.0, 1.0)
+	GlobalSettings.current_camera_node = GlobalSettings.camera_node
 	GlobalSettings.camera_node.reparent(GlobalSettings.current_main_player_node)
 	GlobalSettings.camera_node.position = Vector2.ZERO
 	queue_free()
