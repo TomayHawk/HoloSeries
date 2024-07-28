@@ -172,3 +172,9 @@ func convert(target_type_position):
 
 	nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position = target_type_position
 	nexus.unlock_node()
+
+func _on_button_mouse_exited():
+	pass # Replace with function body.
+
+func _on_button_mouse_entered():
+	pass # Replace with function body.

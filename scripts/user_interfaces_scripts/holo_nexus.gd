@@ -164,9 +164,10 @@ func stat_nodes_randomizer():
 	var rand_result = [[], [], [], [], [], [], [], [], [], [], [], []]
 	var rand_result_stats_type = [[], [], [], [], [], [], [], [], [], [], [], []]
 	var empty_type = 0
-	var empty_replacer = []
+	var replacables = []
 	var temp_adjacents = []
 	var same_count = 0
+	var temp_node = null
 	
 	# for each area type
 	for area_type in 12:
@@ -192,20 +193,18 @@ func stat_nodes_randomizer():
 		for array_index in area_nodes[area_type].size():
 			# temp_texture_region = temp_texture.get_region()
 			nexus_nodes[area_nodes[area_type][array_index]].texture.region = Rect2(rand_result_stats_type[area_type][array_index], Vector2(32, 32))
-		
-		empty_replacer.clear()
+
+		replacables.clear()
 
 		for temp_node_index in area_nodes[area_type]:
+			# if node is empty
 			if nexus_nodes[temp_node_index].texture.region == Rect2(Vector2(0, 0), Vector2(32, 32)):
-				empty_replacer.push_back(temp_node_index)
-
-		empty_replacer.shuffle()
-
-		temp_adjacents.clear()
-		same_count = 0
+				# add node to replacables
+				replacables.push_back(temp_node_index)
 
 		for i in 5:
 			for temp_node_index in area_nodes[area_type]:
+				replacables.shuffle()
 				temp_adjacents.clear()
 				same_count = 0
 
@@ -221,11 +220,59 @@ func stat_nodes_randomizer():
 				# if more than 1 same type neighbour
 				if same_count > 0:
 					# replace an empty node with this node type, and this node becomes empty
-					nexus_nodes[empty_replacer.pop_back()].texture.region = nexus_nodes[temp_node_index].texture.region
+					nexus_nodes[replacables.pop_back()].texture.region = nexus_nodes[temp_node_index].texture.region
 					nexus_nodes[temp_node_index].texture.region = Rect2(Vector2(0, 0), Vector2(32, 32))
 
-					empty_replacer.push_back(temp_node_index)
-					empty_replacer.shuffle()
+					replacables.push_back(temp_node_index)
+			
+		replacables.clear()
+
+		for temp_node_index in area_nodes[area_type]:
+			temp_adjacents.clear()
+			same_count = 0
+
+			print(same_count)
+
+			# if node is empty
+			if nexus_nodes[temp_node_index].texture.region != Rect2(Vector2(0, 0), Vector2(32, 32)):
+				# determine adjacent nodes
+				if (temp_node_index % 32) < 16: for temp_index in adjacents_index[0]: temp_adjacents.push_back(temp_node_index + temp_index)
+				else: for temp_index in adjacents_index[1]: temp_adjacents.push_back(temp_node_index + temp_index)
+				
+				for adjacent in temp_adjacents: # for each adjacent node
+					# if adjacent node exists and has a same type neighbour, add 1 to count
+					if (adjacent > - 1)&&(adjacent < 767)&&nexus_nodes[adjacent].texture.region == Rect2(Vector2(0, 0), Vector2(32, 32)):
+						same_count += 1
+				
+				print(same_count)
+
+				# add node to replacables
+				if same_count < 3:
+					replacables.push_back(temp_node_index)
+
+		for i in 5:
+			for temp_node_index in area_nodes[area_type]:
+				replacables.shuffle()
+				temp_adjacents.clear()
+				same_count = 0
+
+				# determine adjacent nodes
+				if (temp_node_index % 32) < 16: for temp_index in adjacents_index[0]: temp_adjacents.push_back(temp_node_index + temp_index)
+				else: for temp_index in adjacents_index[1]: temp_adjacents.push_back(temp_node_index + temp_index)
+
+				for adjacent in temp_adjacents: # for each adjacent node
+					# if adjacent node exists and has a same type neighbour, add 1 to count
+					if (adjacent > - 1)&&(adjacent < 767)&&nexus_nodes[temp_node_index].texture.region == nexus_nodes[adjacent].texture.region:
+						same_count += 1
+
+				# if more than 1 same type neighbour
+				if same_count > 1:
+					# replace a stats node with this node type, and this node becomes a stats node
+					temp_node = nexus_nodes[replacables.pop_back()]
+					nexus_nodes[temp_node_index].texture.region = temp_node.texture.region
+					temp_node.texture.region = Rect2(Vector2(0, 0), Vector2(32, 32))
+
+					replacables.push_back(temp_node_index)
 	
 	# save randomized textures
 	for node in nexus_nodes:
