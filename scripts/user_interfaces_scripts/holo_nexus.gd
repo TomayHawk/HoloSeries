@@ -14,9 +14,9 @@ var nodes_unlocked: Array[Array] = [[], [], [], [], []]
 var nodes_unlockable: Array[Array] = [[], [], [], [], []]
 var nodes_converted_index: Array[Array] = [[], [], [], [], []]
 var nodes_converted_type: Array[Array] = [[], [], [], [], []]
-var nodes_converted_quality: Array[Array] = [[], [], [], [], []]
 
 var nodes_quality: Array[int] = []
+var nodes_converted_quality: Array[Array] = [[], [], [], [], []]
 
 # nexus atlas positions
 # HP, MP, DEF, SHD, ATK, INT, SPD, AGI
@@ -27,6 +27,17 @@ const null_node_atlas_position := Vector2(32, 0)
 const stats_node_atlas_position: Array[Vector2] = [Vector2(0, 32), Vector2(32, 32), Vector2(64, 32), Vector2(96, 32), Vector2(0, 64), Vector2(32, 64), Vector2(64, 64), Vector2(96, 64)]
 const key_node_atlas_position: Array[Vector2] = [Vector2(0, 96), Vector2(32, 96), Vector2(64, 96), Vector2(96, 96)]
 const ability_node_atlas_position: Array[Vector2] = [Vector2(64, 0), Vector2(96, 0), Vector2(128, 0)]
+
+const stats_qualities := {
+	0: [],
+	1: [],
+	2: [],
+	3: [],
+	4: [],
+	5: [],
+	6: [],
+	7: []
+}
 
 # ability nodes
 var ability_nodes: Array[int] = []
@@ -290,6 +301,9 @@ func stat_nodes_randomizer():
 			elif node.texture.region.position.x == 96: key_nodes[3].push_back(node.get_index()) # spade
 
 	# save amount
+	for area_type in 12:
+		for node_index in area_nodes[area_type]:
+			if nexus_nodes[node_index].texture.region.position == stats_node_atlas_position[0]:
 
 func update_nexus_player(player):
 	current_nexus_player = player
