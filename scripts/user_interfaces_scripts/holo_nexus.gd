@@ -16,7 +16,7 @@ var nodes_converted_index: Array[Array] = [[], [], [], [], []]
 var nodes_converted_type: Array[Array] = [[], [], [], [], []]
 
 var nodes_quality: Array[int] = []
-var nodes_converted_quality: Array[Array] = [[], [], [], [], []]
+var nodes_converted_quality: Array[Array] = [[[]], [[]], [[]], [[]], [[]]]
 
 # nexus atlas positions
 # HP, MP, DEF, SHD, ATK, INT, SPD, AGI
@@ -28,15 +28,15 @@ const stats_node_atlas_position: Array[Vector2] = [Vector2(0, 32), Vector2(32, 3
 const key_node_atlas_position: Array[Vector2] = [Vector2(0, 96), Vector2(32, 96), Vector2(64, 96), Vector2(96, 96)]
 const ability_node_atlas_position: Array[Vector2] = [Vector2(64, 0), Vector2(96, 0), Vector2(128, 0)]
 
-const stats_qualities := {
-	0: [],
-	1: [],
-	2: [],
-	3: [],
-	4: [],
-	5: [],
-	6: [],
-	7: []
+const default_stats_qualities := {
+	0: [[200, 200, 300], [200, 200, 300, 300, 300, 400]],
+	1: [[10, 10, 20], [10, 10, 20, 20, 40]],
+	2: [[5, 10], [5, 10, 10, 15]],
+	3: [[5, 10], [5, 10, 10, 15]],
+	4: [[5, 5, 5, 10], [5, 10, 10]],
+	5: [[5, 5, 5, 10], [5, 10, 10]],
+	6: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4]],
+	7: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4]]
 }
 
 # ability nodes
@@ -50,7 +50,7 @@ var white_magic_nodes: Array[int] = []
 var black_magic_nodes: Array[int] = []
 
 # adjacent node indices
-const adjacents_index: Array[Array] = [[ - 32, - 17, - 16, 15, 16, 32], [ - 32, - 16, - 15, 16, 17, 32]]
+const adjacents_index: Array[Array] = [[-32, -17, -16, 15, 16, 32], [-32, -16, -15, 16, 17, 32]]
 
 func _ready():
 	GlobalSettings.nexus_camera_node = nexus_player_node.get_node("Camera2D")
@@ -88,7 +88,7 @@ func _ready():
 				# for each adjacent node
 				for adjacent in temp_adjacents:
 					# if node is not unlocked, is not null, and node exists
-					if !(adjacent in nodes_unlocked[player_index])&&!(adjacent in null_nodes)&&(adjacent > - 1)&&(adjacent < 767):
+					if !(adjacent in nodes_unlocked[player_index]) && !(adjacent in null_nodes) && (adjacent > -1) && (adjacent < 767):
 						# determine second adjacent nodes
 						var second_temp_adjacents = []
 						if (adjacent % 32) < 16:
@@ -99,7 +99,7 @@ func _ready():
 						# for second adjacent node
 						for second_adjacent in second_temp_adjacents:
 							# if second adjacent is unlocked, is not original node, and is not in unlockables array
-							if (second_adjacent in nodes_unlocked[player_index])&&(second_adjacent != node)&&!(adjacent in nodes_unlockable[player_index]):
+							if (second_adjacent in nodes_unlocked[player_index]) && (second_adjacent != node) && !(adjacent in nodes_unlockable[player_index]):
 								nodes_unlockable[player_index].push_back(adjacent)
 
 	# toggle nexus inputs
@@ -188,7 +188,7 @@ func stat_nodes_randomizer():
 		# for each stat node type
 		for stat_type in 8:
 			# create x stat node type, where x is the base amount + a random weighted flactuation
-			rand_result[area_type].push_back(area_amount[area_type][stat_type] + round(rand_weight[area_type][stat_type] * (randf_range( - 1, 1) + randf_range( - 1, 1) + randf_range( - 1, 1) + randf_range( - 1, 1)) / 4))
+			rand_result[area_type].push_back(area_amount[area_type][stat_type] + round(rand_weight[area_type][stat_type] * (randf_range(-1, 1) + randf_range(-1, 1) + randf_range(-1, 1) + randf_range(-1, 1)) / 4))
 			empty_type -= rand_result[area_type][stat_type] # reduce the number of empty nodes by x
 			# assign x variables to texture region based on stat node type
 			for rand_number in rand_result[area_type][stat_type]:
@@ -225,7 +225,7 @@ func stat_nodes_randomizer():
 
 				for adjacent in temp_adjacents: # for each adjacent node
 					# if adjacent node exists and has a same type neighbour, add 1 to count
-					if (adjacent > - 1)&&(adjacent < 767)&&nexus_nodes[temp_node_index].texture.region == nexus_nodes[adjacent].texture.region:
+					if (adjacent > -1) && (adjacent < 767) && nexus_nodes[temp_node_index].texture.region == nexus_nodes[adjacent].texture.region:
 						same_count += 1
 
 				# if more than 1 same type neighbour
@@ -252,7 +252,7 @@ func stat_nodes_randomizer():
 				
 				for adjacent in temp_adjacents: # for each adjacent node
 					# if adjacent node exists and has a same type neighbour, add 1 to count
-					if (adjacent > - 1)&&(adjacent < 767)&&nexus_nodes[adjacent].texture.region == Rect2(Vector2(0, 0), Vector2(32, 32)):
+					if (adjacent > -1) && (adjacent < 767) && nexus_nodes[adjacent].texture.region == Rect2(Vector2(0, 0), Vector2(32, 32)):
 						same_count += 1
 				
 				print(same_count)
@@ -273,7 +273,7 @@ func stat_nodes_randomizer():
 
 				for adjacent in temp_adjacents: # for each adjacent node
 					# if adjacent node exists and has a same type neighbour, add 1 to count
-					if (adjacent > - 1)&&(adjacent < 767)&&nexus_nodes[temp_node_index].texture.region == nexus_nodes[adjacent].texture.region:
+					if (adjacent > -1) && (adjacent < 767) && nexus_nodes[temp_node_index].texture.region == nexus_nodes[adjacent].texture.region:
 						same_count += 1
 
 				# if more than 1 same type neighbour
@@ -300,10 +300,18 @@ func stat_nodes_randomizer():
 			elif node.texture.region.position.x == 64: key_nodes[2].push_back(node.get_index()) # heart
 			elif node.texture.region.position.x == 96: key_nodes[3].push_back(node.get_index()) # spade
 
+	for i in 767:
+		nodes_quality.push_back(0)
+
 	# save amount
 	for area_type in 12:
 		for node_index in area_nodes[area_type]:
-			if nexus_nodes[node_index].texture.region.position == stats_node_atlas_position[0]:
+			for i in stats_node_atlas_position.size():
+				if nexus_nodes[node_index].texture.region.position == stats_node_atlas_position[i]:
+					var l = 0
+					if area_type == 0 && i == 0:
+						pass ## ####
+					nodes_quality[node_index] = default_stats_qualities[i][l][randi() % default_stats_qualities[i][l].size()]
 
 func update_nexus_player(player):
 	current_nexus_player = player
@@ -353,7 +361,7 @@ func update_nexus_player(player):
 
 func unlock_node():
 	# if current nexus node is in current player unlockables, and node is not a null node
-	if last_node[current_nexus_player] in nodes_unlockable[current_nexus_player]&&nexus_nodes[last_node[current_nexus_player]].texture.region.position != null_node_atlas_position:
+	if last_node[current_nexus_player] in nodes_unlockable[current_nexus_player] && nexus_nodes[last_node[current_nexus_player]].texture.region.position != null_node_atlas_position:
 		# add node index to unlocked
 		nodes_unlocked[current_nexus_player].push_back(last_node[current_nexus_player])
 		# remove node index from unlockables
@@ -377,7 +385,7 @@ func unlock_node():
 		# for each adjacent node
 		for adjacent in temp_adjacents:
 			# if node is not unlocked and node exists
-			if !(adjacent in nodes_unlocked[current_nexus_player])&&nexus_nodes[adjacent].texture.region.position != null_node_atlas_position&&(adjacent > - 1)&&(adjacent < 767):
+			if !(adjacent in nodes_unlocked[current_nexus_player]) && nexus_nodes[adjacent].texture.region.position != null_node_atlas_position && (adjacent > -1) && (adjacent < 767):
 				var second_temp_adjacents = []
 				
 				# determine index differences to second adjacent nodes (nodes adjacent to adjacent nodes)
@@ -391,7 +399,7 @@ func unlock_node():
 				# for each second adjacent nodes
 				for second_adjacent in second_temp_adjacents:
 					# if second adjacent is unlocked, is not original node, and is not in unlockables array
-					if (second_adjacent in nodes_unlocked[current_nexus_player])&&(second_adjacent != last_node[current_nexus_player])&&!(adjacent in nodes_unlockable[current_nexus_player]):
+					if (second_adjacent in nodes_unlocked[current_nexus_player]) && (second_adjacent != last_node[current_nexus_player]) && !(adjacent in nodes_unlockable[current_nexus_player]):
 						# add adjacent node to unlockables
 						nodes_unlockable[current_nexus_player].push_back(adjacent)
 
