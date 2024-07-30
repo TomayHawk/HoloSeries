@@ -29,15 +29,30 @@ const key_node_atlas_position: Array[Vector2] = [Vector2(0, 96), Vector2(32, 96)
 const ability_node_atlas_position: Array[Vector2] = [Vector2(64, 0), Vector2(96, 0), Vector2(128, 0)]
 
 const default_stats_qualities := {
-	0: [[200, 200, 300], [200, 200, 300, 300, 300, 400]],
-	1: [[10, 10, 20], [10, 10, 20, 20, 40]],
-	2: [[5, 10], [5, 10, 10, 15]],
-	3: [[5, 10], [5, 10, 10, 15]],
-	4: [[5, 5, 5, 10], [5, 10, 10]],
-	5: [[5, 5, 5, 10], [5, 10, 10]],
-	6: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4]],
-	7: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4]]
+	0: [[200, 200, 300], [200, 200, 300, 300, 300, 400], [300, 300, 400]],
+	1: [[10, 10, 20], [10, 10, 20, 20, 40], [20, 20, 40]],
+	2: [[5, 10], [5, 10, 10, 15], [10, 15]],
+	3: [[5, 10], [5, 10, 10, 15], [10, 15]],
+	4: [[5, 5, 5, 10], [5, 10], [10]],
+	5: [[5, 5, 5, 10], [5, 10], [10]],
+	6: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4], [3, 4]],
+	7: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4], [3, 4]]
 }
+
+# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
+# HP, MP, DEF, SHD, ATK, INT, SPD, AGI
+const default_area_stats_qualities := [[0, 0, 0, 0, 0, 0, 0, 0],
+									   [1, 2, 0, 2, 0, 2, 1, 1],
+									   [0, 0, 0, 0, 0, 0, 0, 0],
+									   [1, 2, 0, 2, 0, 2, 1, 1],
+									   [0, 0, 0, 0, 0, 0, 0, 0],
+									   [0, 0, 0, 0, 0, 0, 1, 1],
+									   [0, 0, 0, 0, 0, 0, 1, 1],
+									   [0, 0, 0, 0, 0, 0, 0, 0],
+									   [1, 1, 1, 1, 1, 1, 2, 2],
+									   [0, 0, 0, 0, 0, 0, 0, 0],
+									   [2, 1, 2, 0, 2, 0, 1, 1],
+									   [1, 0, 1, 1, 0, 0, 0, 0]]
 
 # ability nodes
 var ability_nodes: Array[int] = []
@@ -133,18 +148,18 @@ func stat_nodes_randomizer():
 	
 	# HP, MP, DEF, SHD, ATK, INT, SPD, AGI, EMPTY
 	# randomizer base number
-	var area_amount = [[6, 11, 2, 3, 2, 6, 2, 2],
-					   [3, 4, 1, 1, 0, 2, 0, 0],
+	var area_amount = [[6, 11, 2, 5, 2, 6, 2, 2],
+					   [3, 4, 1, 2, 0, 2, 0, 0],
 					   [11, 18, 3, 4, 3, 10, 3, 3],
 					   [3, 6, 1, 2, 1, 3, 1, 1],
 					   [4, 4, 1, 1, 1, 4, 1, 1],
 					   [11, 8, 3, 3, 5, 4, 3, 3],
 					   [6, 8, 2, 2, 2, 4, 2, 2],
-					   [11, 7, 3, 4, 5, 3, 3, 3],
+					   [11, 7, 3, 2, 5, 3, 3, 3],
 					   [3, 2, 1, 0, 2, 1, 1, 1],
 					   [13, 4, 3, 2, 9, 1, 3, 3],
 					   [5, 1, 2, 1, 4, 0, 2, 2],
-					   [8, 2, 3, 2, 2, 1, 0, 0]]
+					   [8, 2, 3, 1, 2, 1, 0, 0]]
 
 	var j = 0
 	for array in area_amount:
@@ -160,7 +175,7 @@ func stat_nodes_randomizer():
 
 	# randomizer multiplier
 	var rand_weight = [[2, 3, 1, 1, 1, 2, 1, 1],
-					   [1, 1, 0, 0, 0, 1, 0, 0],
+					   [1, 1, 0, 1, 0, 1, 0, 0],
 					   [3, 5, 1, 1, 1, 3, 1, 1],
 					   [1, 2, 0, 1, 0, 1, 0, 0],
 					   [1, 1, 0, 0, 0, 1, 0, 0],
@@ -308,10 +323,7 @@ func stat_nodes_randomizer():
 		for node_index in area_nodes[area_type]:
 			for i in stats_node_atlas_position.size():
 				if nexus_nodes[node_index].texture.region.position == stats_node_atlas_position[i]:
-					var l = 0
-					if area_type == 0 && i == 0:
-						pass ## ####
-					nodes_quality[node_index] = default_stats_qualities[i][l][randi() % default_stats_qualities[i][l].size()]
+					nodes_quality[node_index] = default_stats_qualities[i][default_area_stats_qualities[area_type][i]][randi() % default_stats_qualities[i][default_area_stats_qualities[area_type][i]].size()]
 
 func update_nexus_player(player):
 	current_nexus_player = player
