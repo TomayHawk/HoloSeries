@@ -69,7 +69,7 @@ scene spawn locations
 """
 
 # player variables
-var party_player_character_index := [0, 4, 3, - 1]
+var party_player_character_index := [0, 4, 3, -1]
 var party_player_nodes: Array[Node] = []
 var standby_player_nodes: Array[Node] = []
 
@@ -127,16 +127,16 @@ func _physics_process(delta):
 		set_physics_process(false)
 
 func _input(_event):
-	if Input.is_action_just_pressed("action")&&mouse_in_attack_area&&!requesting_entities:
+	if Input.is_action_just_pressed("action") && mouse_in_attack_area && !requesting_entities:
 		player_can_attack = true
 		call_deferred("reset_action_availability")
 	elif Input.is_action_just_pressed("esc"): esc_input()
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
-	elif Input.is_action_just_pressed("scroll_up"):
+	elif Input.is_action_just_pressed("scroll_up") && mouse_in_zoom_area:
 		if current_camera_node.zoom.x < 1.5:
 			target_zoom = clamp(target_zoom + Vector2(0.05, 0.05), Vector2(0.5, 0.5), Vector2(1.5, 1.5))
 			set_physics_process(true)
-	elif Input.is_action_just_pressed("scroll_down"):
+	elif Input.is_action_just_pressed("scroll_down") && mouse_in_zoom_area:
 		if current_camera_node.zoom.x > 0.5:
 			target_zoom = clamp(target_zoom - Vector2(0.05, 0.05), Vector2(0.5, 0.5), Vector2(1.5, 1.5))
 			set_physics_process(true)
@@ -235,7 +235,7 @@ func start_game():
 
 	for player_node in party_player_nodes:
 		if player_node != current_main_player_node:
-			player_node.position = current_main_player_node.position + (25 * Vector2(randf_range( - 1, 1), randf_range( - 1, 1)))
+			player_node.position = current_main_player_node.position + (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
 	
 	for player_node in standby_player_nodes:
 		player_node.set_physics_process(false)
@@ -261,7 +261,7 @@ func change_scene(next_scene_index, spawn_index):
 	current_main_player_node.position = spawn_positions[spawn_index]
 
 	for player_node in party_player_nodes: if player_node != current_main_player_node:
-		player_node.position = spawn_positions[spawn_index] + (25 * Vector2(randf_range( - 1, 1), randf_range( - 1, 1)))
+		player_node.position = spawn_positions[spawn_index] + (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
 	
 	mouse_in_zoom_area = true
 	leave_combat()
@@ -287,7 +287,7 @@ func update_party_player(_next_party_player_node):
 	pass
 
 func enter_combat():
-	if !in_combat||leaving_combat:
+	if !in_combat || leaving_combat:
 		in_combat = true
 		leaving_combat = false
 		if leaving_combat_timer_node.is_stopped():
@@ -298,7 +298,7 @@ func enter_combat():
 			leaving_combat_timer_node.stop()
 
 func attempt_leave_combat():
-	if in_combat&&leaving_combat_timer_node.is_stopped():
+	if in_combat && leaving_combat_timer_node.is_stopped():
 		leaving_combat = true
 		leaving_combat_timer_node.start(2)
 
@@ -347,7 +347,7 @@ func request_entities(origin_node, target_command, request_count, request_entity
 		elif entity.has_method("choose_player"):
 			entity.add_child(load(entity_highlights_paths[0]).instantiate())
 
-	if (entities_request_count == 1)&&(locked_enemy_node != null)&&(locked_enemy_node in entities_available):
+	if (entities_request_count == 1) && (locked_enemy_node != null) && (locked_enemy_node in entities_available):
 		entities_chosen.push_back(locked_enemy_node)
 		choose_entities()
 
@@ -361,7 +361,7 @@ func choose_entities():
 func empty_entities_request():
 	requesting_entities = false
 	
-	if entities_request_origin_node != null&&entities_request_origin_node.get_parent() == abilities_node&&entities_chosen.size() != entities_request_count:
+	if entities_request_origin_node != null && entities_request_origin_node.get_parent() == abilities_node && entities_chosen.size() != entities_request_count:
 		entities_request_origin_node.queue_free()
 
 	for entity in entities_available:
