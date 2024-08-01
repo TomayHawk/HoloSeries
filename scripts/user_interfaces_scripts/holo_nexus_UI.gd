@@ -165,9 +165,14 @@ func teleport(type):
 		pass
 
 func convert(target_type_position):
-	nexus.nodes_converted_index.push_back(nexus.last_node[nexus.current_nexus_player])
-	nexus.nodes_converted_type.push_back(target_type_position)
-	nexus.nodes_converted_quality.push_back()
+	nexus.nodes_converted_index[nexus.current_nexus_player].push_back(nexus.last_node[nexus.current_nexus_player])
+	nexus.nodes_converted_type[nexus.current_nexus_player].push_back(target_type_position)
+	if nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position == nexus.empty_node_atlas_position:
+		nexus.nodes_converted_quality[nexus.current_nexus_player].push_back(0)
+	else:
+		for i in nexus.stats_node_atlas_position.size():
+			if nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position == nexus.stats_node_atlas_position[i]:
+				nexus.nodes_converted_quality[nexus.current_nexus_player].push_back(nexus.converted_stats_qualities[i])
 
 	nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position = target_type_position
 	nexus.unlock_node()

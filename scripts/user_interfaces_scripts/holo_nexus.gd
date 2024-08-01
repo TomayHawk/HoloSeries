@@ -16,7 +16,7 @@ var nodes_converted_index: Array[Array] = [[], [], [], [], []]
 var nodes_converted_type: Array[Array] = [[], [], [], [], []]
 
 var nodes_quality: Array[int] = []
-var nodes_converted_quality: Array[Array] = [[[]], [[]], [[]], [[]], [[]]]
+var nodes_converted_quality: Array[Array] = [[], [], [], [], []]
 
 # nexus atlas positions
 # HP, MP, DEF, SHD, ATK, INT, SPD, AGI
@@ -38,6 +38,8 @@ const default_stats_qualities := {
 	6: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4], [3, 4]],
 	7: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4], [3, 4]]
 }
+
+const converted_stats_qualities := [400, 40, 15, 15, 20, 20, 4, 4]
 
 # white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
 # HP, MP, DEF, SHD, ATK, INT, SPD, AGI
