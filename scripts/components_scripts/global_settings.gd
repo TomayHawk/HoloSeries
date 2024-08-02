@@ -27,7 +27,7 @@ var current_main_player_node: Node = null
 								 "AZKi",
 								 "Roboco",
 								 "Aki Rosenthal",
-								  "Himemori Luna"]
+								 "Himemori Luna"]
 
 @onready var character_specifics_paths := ["res://entities/character_specifics/sora.tscn",
 										   "res://entities/character_specifics/azki.tscn",

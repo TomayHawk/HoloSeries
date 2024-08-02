@@ -15,6 +15,8 @@ extends CanvasLayer
 
 @onready var descriptions_node := $Control/DescriptionsContainer
 
+@onready var descriptions_label_node := $Control/DescriptionsContainer/MarginContainer/HBoxContainer/TextArea
+
 var character_selector_name_nodes: Array[Node] = []
 var character_selector_level_nodes: Array[Node] = []
 
@@ -66,9 +68,15 @@ func _ready():
 	call_deferred("update_inventory_buttons")
 	character_selector_node.hide()
 	hide_all()
-	show_default()
+	call_deferred("update_nexus_ui")
 
-func show_default():
+func update_nexus_ui():
+	var node_quality_string = str(nexus.nodes_quality[nexus.last_node[nexus.current_nexus_player]])
+	if node_quality_string == "0":
+		descriptions_label_node.text = "photosynthesis"
+	else:
+		descriptions_label_node.text = "Gain " + node_quality_string + " " + "STATS" + "."
+
 	options_node.show()
 	descriptions_node.show()
 
@@ -173,6 +181,7 @@ func convert(target_type_position):
 		for i in nexus.stats_node_atlas_position.size():
 			if nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position == nexus.stats_node_atlas_position[i]:
 				nexus.nodes_converted_quality[nexus.current_nexus_player].push_back(nexus.converted_stats_qualities[i])
+				break
 
 	nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position = target_type_position
 	nexus.unlock_node()

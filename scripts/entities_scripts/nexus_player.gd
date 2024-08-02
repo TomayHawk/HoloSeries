@@ -42,7 +42,7 @@ func _physics_process(_delta):
 			$Sprite2D.show()
 			$Sprite2D2.hide()
 
-			nexus_ui_node.show_default()
+			nexus_ui_node.update_nexus_ui()
 	else:
 		move_direction = Input.get_vector("left", "right", "up", "down")
 		velocity = move_direction * speed
