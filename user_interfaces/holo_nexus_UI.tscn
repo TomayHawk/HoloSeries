@@ -1337,6 +1337,7 @@ vertical_alignment = 1
 [connection signal="mouse_entered" from="Control/Options/MarginContainer/VBoxContainer/Items" to="." method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="Control/Options/MarginContainer/VBoxContainer/Items" to="." method="_on_button_mouse_exited"]
 [connection signal="pressed" from="Control/Options/MarginContainer/VBoxContainer/Items" to="." method="_on_items_pressed"]
+[connection signal="gui_input" from="Control/NexusInventory/MarginContainer/ScrollContainer" to="." method="_on_scroll_container_gui_input"]
 [connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LifeCrystal" to="." method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LifeCrystal" to="." method="_on_button_mouse_exited"]
 [connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LifeCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [0]]

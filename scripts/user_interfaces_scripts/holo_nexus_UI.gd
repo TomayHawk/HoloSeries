@@ -26,32 +26,32 @@ var character_selector_character_indices: Array[int] = []
 var inventory_items_quantity_label: Array[Node] = []
 
 @onready var inventory_options_valid_node_atlas_positions := {
-	0: [[nexus.stats_node_atlas_position[0], nexus.stats_node_atlas_position[2], nexus.stats_node_atlas_position[4]], nexus, "unlock_node"],
-	1: [[nexus.stats_node_atlas_position[1], nexus.stats_node_atlas_position[3], nexus.stats_node_atlas_position[5]], nexus, "unlock_node"],
-	2: [[nexus.stats_node_atlas_position[6], nexus.stats_node_atlas_position[7]], nexus, "unlock_node"],
-	3: [[nexus.ability_node_atlas_position[0]], nexus, "unlock_node"],
-	4: [[nexus.ability_node_atlas_position[1]], nexus, "unlock_node"],
-	5: [[nexus.ability_node_atlas_position[2]], nexus, "unlock_node"],
-	6: [[nexus.key_node_atlas_position[0]], nexus, "unlock_node"],
-	7: [[nexus.key_node_atlas_position[1]], nexus, "unlock_node"],
-	8: [[nexus.key_node_atlas_position[2]], nexus, "unlock_node"],
-	9: [[nexus.key_node_atlas_position[3]], nexus, "unlock_node"],
-	10: [[nexus.ability_node_atlas_position[0]], nexus, "unlock_node"],
-	11: [[nexus.ability_node_atlas_position[1]], nexus, "unlock_node"],
-	12: [[nexus.ability_node_atlas_position[2]], nexus, "unlock_node"],
-	13: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], nexus, "unlock_node"],
-	14: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], self, "teleport", "return"],
-	15: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], self, "teleport", "ally"],
-	16: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], self, "teleport", "any"],
-	17: [[nexus.empty_node_atlas_position], self, "convert", nexus.stats_node_atlas_position[0]],
-	18: [[nexus.empty_node_atlas_position], self, "convert", nexus.stats_node_atlas_position[1]],
-	19: [[nexus.empty_node_atlas_position], self, "convert", nexus.stats_node_atlas_position[2]],
-	20: [[nexus.empty_node_atlas_position], self, "convert", nexus.stats_node_atlas_position[3]],
-	21: [[nexus.empty_node_atlas_position], self, "convert", nexus.stats_node_atlas_position[4]],
-	22: [[nexus.empty_node_atlas_position], self, "convert", nexus.stats_node_atlas_position[5]],
-	23: [[nexus.empty_node_atlas_position], self, "convert", nexus.stats_node_atlas_position[6]],
-	24: [[nexus.empty_node_atlas_position], self, "convert", nexus.stats_node_atlas_position[7]],
-	25: [nexus.stats_node_atlas_position.duplicate(), self, "convert", nexus.empty_node_atlas_position]
+	0: [[nexus.stats_node_atlas_position[0], nexus.stats_node_atlas_position[2], nexus.stats_node_atlas_position[4]], "attempt_unlock"],
+	1: [[nexus.stats_node_atlas_position[1], nexus.stats_node_atlas_position[3], nexus.stats_node_atlas_position[5]], "attempt_unlock"],
+	2: [[nexus.stats_node_atlas_position[6], nexus.stats_node_atlas_position[7]], "attempt_unlock"],
+	3: [[nexus.ability_node_atlas_position[0]], "attempt_unlock"],
+	4: [[nexus.ability_node_atlas_position[1]], "attempt_unlock"],
+	5: [[nexus.ability_node_atlas_position[2]], "attempt_unlock"],
+	6: [[nexus.key_node_atlas_position[0]], "attempt_unlock"],
+	7: [[nexus.key_node_atlas_position[1]], "attempt_unlock"],
+	8: [[nexus.key_node_atlas_position[2]], "attempt_unlock"],
+	9: [[nexus.key_node_atlas_position[3]], "attempt_unlock"],
+	10: [[nexus.ability_node_atlas_position[0]], "attempt_unlock"],
+	11: [[nexus.ability_node_atlas_position[1]], "attempt_unlock"],
+	12: [[nexus.ability_node_atlas_position[2]], "attempt_unlock"],
+	13: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "attempt_unlock"],
+	14: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "teleport", "return"],
+	15: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "teleport", "ally"],
+	16: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "teleport", "any"],
+	17: [[nexus.empty_node_atlas_position], "convert", nexus.stats_node_atlas_position[0]],
+	18: [[nexus.empty_node_atlas_position], "convert", nexus.stats_node_atlas_position[1]],
+	19: [[nexus.empty_node_atlas_position], "convert", nexus.stats_node_atlas_position[2]],
+	20: [[nexus.empty_node_atlas_position], "convert", nexus.stats_node_atlas_position[3]],
+	21: [[nexus.empty_node_atlas_position], "convert", nexus.stats_node_atlas_position[4]],
+	22: [[nexus.empty_node_atlas_position], "convert", nexus.stats_node_atlas_position[5]],
+	23: [[nexus.empty_node_atlas_position], "convert", nexus.stats_node_atlas_position[6]],
+	24: [[nexus.empty_node_atlas_position], "convert", nexus.stats_node_atlas_position[7]],
+	25: [nexus.stats_node_atlas_position.duplicate(), "convert", nexus.empty_node_atlas_position]
 }
 
 const stats_node_descriptions := [[]]
@@ -124,6 +124,7 @@ func _on_awaken_pressed():
 	pass # Replace with function body.
 
 func _on_items_pressed():
+	update_inventory_buttons()
 	options_node.hide()
 	inventory_node.show()
 
@@ -138,11 +139,12 @@ func _on_cancel_pressed():
 # nexus inventory button signals
 func _on_nexus_inventory_item_pressed(extra_arg_0):
 	# if player is not moving and inventory is not empty
-	if nexus_player.velocity == Vector2.ZERO && GlobalSettings.nexus_inventory[extra_arg_0] == 0: # #### should be > 0 instead of == 0
-		# if item is valid for current node type
-		if nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position in inventory_options_valid_node_atlas_positions[extra_arg_0][0]:
-			# call appropriate function
-			inventory_options_valid_node_atlas_positions[extra_arg_0][1].call(inventory_options_valid_node_atlas_positions[extra_arg_0][2], inventory_options_valid_node_atlas_positions[extra_arg_0][3])
+	if nexus_player.velocity == Vector2.ZERO && GlobalSettings.nexus_inventory[extra_arg_0] != 0 && inventory_items_nodes[extra_arg_0].modulate == Color(1, 1, 1, 1):
+		# call appropriate function
+		if inventory_options_valid_node_atlas_positions[extra_arg_0][1] == "attempt_unlock":
+			call("attempt_unlock")
+		else:
+			call(inventory_options_valid_node_atlas_positions[extra_arg_0][1], inventory_options_valid_node_atlas_positions[extra_arg_0][2])
 			
 		update_inventory_buttons()
 
@@ -153,8 +155,18 @@ func update_inventory_buttons():
 		else:
 			if nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position in inventory_options_valid_node_atlas_positions[i][0]:
 				inventory_items_nodes[i].modulate = Color(1, 1, 1, 1)
+				if i < 14 && nexus.last_node[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]:
+					inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
+				elif i > 16 || i == 14 && !(nexus.last_node[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]):
+					inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
 			else:
 				inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
+			print(i)
+			print(nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position)
+			print(inventory_options_valid_node_atlas_positions[i][0])
+
+func attempt_unlock():
+	nexus.unlock_node()
 
 func teleport(type):
 	var valid = false
@@ -183,6 +195,7 @@ func convert(target_type_position):
 				nexus.nodes_converted_quality[nexus.current_nexus_player].push_back(nexus.converted_stats_qualities[i])
 				break
 
+	print(target_type_position)
 	nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position = target_type_position
 	nexus.unlock_node()
 
@@ -191,3 +204,6 @@ func _on_button_mouse_entered():
 
 func _on_button_mouse_exited():
 	GlobalSettings.mouse_in_zoom_area = true
+
+func _on_scroll_container_gui_input(event):
+	print("event", event)

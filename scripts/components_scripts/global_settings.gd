@@ -126,7 +126,9 @@ func _physics_process(delta):
 		zoom_interval = 0.0
 		set_physics_process(false)
 
-func _input(_event):
+func _input(event):
+	if event is InputEventMouseButton:
+		print(event.is_double_click())
 	if Input.is_action_just_pressed("action") && mouse_in_attack_area && !requesting_entities:
 		player_can_attack = true
 		call_deferred("reset_action_availability")
