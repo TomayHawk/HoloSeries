@@ -71,7 +71,7 @@ func _ready():
 	call_deferred("update_nexus_ui")
 
 func update_nexus_ui():
-	var node_quality_string = str(nexus.nodes_quality[nexus.last_node[nexus.current_nexus_player]])
+	var node_quality_string = str(nexus.nodes_quality[nexus.last_nodes[nexus.current_nexus_player]])
 	if node_quality_string == "0":
 		descriptions_label_node.text = "photosynthesis"
 	else:
@@ -153,16 +153,16 @@ func update_inventory_buttons():
 		if GlobalSettings.nexus_inventory[i] == 0:
 			inventory_items_nodes[i].hide()
 		else:
-			if nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position in inventory_options_valid_node_atlas_positions[i][0]:
+			if nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position in inventory_options_valid_node_atlas_positions[i][0]:
 				inventory_items_nodes[i].modulate = Color(1, 1, 1, 1)
-				if i < 14 && nexus.last_node[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]:
+				if i < 14 && nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]:
 					inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
-				elif i > 16 || i == 14 && !(nexus.last_node[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]):
+				elif i > 16 || i == 14 && !(nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]):
 					inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
 			else:
 				inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
 			print(i)
-			print(nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position)
+			print(nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position)
 			print(inventory_options_valid_node_atlas_positions[i][0])
 
 func attempt_unlock():
@@ -172,11 +172,11 @@ func teleport(type):
 	var valid = false
 
 	if type == "return":
-		if nexus.last_node[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]:
+		if nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]:
 			valid = true
 	elif type == "ally":
 		for player_index in nexus.nodes_unlocked.size():
-			if player_index != nexus.current_nexus_player && nexus.last_node[nexus.current_nexus_player] in nexus.nodes_unlocked[player_index]:
+			if player_index != nexus.current_nexus_player && nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[player_index]:
 				valid = true
 	elif type == "any":
 		valid = true
@@ -185,18 +185,18 @@ func teleport(type):
 		pass
 
 func convert(target_type_position):
-	nexus.nodes_converted_index[nexus.current_nexus_player].push_back(nexus.last_node[nexus.current_nexus_player])
+	nexus.nodes_converted_index[nexus.current_nexus_player].push_back(nexus.last_nodes[nexus.current_nexus_player])
 	nexus.nodes_converted_type[nexus.current_nexus_player].push_back(target_type_position)
-	if nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position == nexus.empty_node_atlas_position:
+	if nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position == nexus.empty_node_atlas_position:
 		nexus.nodes_converted_quality[nexus.current_nexus_player].push_back(0)
 	else:
 		for i in nexus.stats_node_atlas_position.size():
-			if nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position == nexus.stats_node_atlas_position[i]:
+			if nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position == nexus.stats_node_atlas_position[i]:
 				nexus.nodes_converted_quality[nexus.current_nexus_player].push_back(nexus.converted_stats_qualities[i])
 				break
 
 	print(target_type_position)
-	nexus.nexus_nodes[nexus.last_node[nexus.current_nexus_player]].texture.region.position = target_type_position
+	nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position = target_type_position
 	nexus.unlock_node()
 
 func _on_button_mouse_entered():

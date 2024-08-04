@@ -44,6 +44,9 @@ var current_main_player_node: Node = null
 										"res://resources/entity_highlights/player_highlight.tscn",
 										"res://resources/entity_highlights/player_marker.tscn"]
 
+
+@onready var nexus_path := "res://user_interfaces/holo_nexus.tscn"
+
 # settings variables
 @onready var current_camera_node := $Camera2D
 var target_zoom := Vector2(1.0, 1.0)
@@ -79,7 +82,6 @@ var unlocked_players: Array[bool] = [true, true, true, true, true]
 var nexus_camera_node: Node = null
 var on_nexus := false
 var nexus_character_selector_node: Node = null
-var unlocked_nodes: Array[Array] = [[], [], [], [], [], [], [], [], [], []]
 var unlocked_ability_nodes: Array[Array] = [[], [], [], [], [], [], [], [], [], []]
 var unlocked_stats_nodes: Array[Array] = [[0, 0, 0, 0, 0, 0, 0, 0],
 										  [0, 0, 0, 0, 0, 0, 0, 0],
@@ -93,8 +95,14 @@ var unlocked_stats_nodes: Array[Array] = [[0, 0, 0, 0, 0, 0, 0, 0],
 										  [0, 0, 0, 0, 0, 0, 0, 0]]
 var nexus_not_randomized := true
 var nexus_default_atlas_positions: Array[Vector2] = []
-var nexus_default_nodes_quality: Array[int] = []
-var nexus_node_stats: Array[Array] = [[], [], [], [], [], [], [], [], [], []]
+
+var nexus_last_nodes: Array[int] = [167, 154, 333, 523, 132]
+var nexus_nodes_unlocked: Array[Array] = [[], [], [], [], []]
+var nexus_nodes_unlockable: Array[Array] = [[], [], [], [], []]
+var nexus_nodes_quality: Array[int] = []
+var nexus_nodes_converted: Array[Array] = [[], [], [], [], []]
+var nexus_nodes_converted_type: Array[Array] = [[], [], [], [], []]
+var nexus_nodes_converted_quality: Array[Array] = [[], [], [], [], []]
 
 # combat variables
 var in_combat := false
@@ -117,6 +125,9 @@ var nexus_inventory: Array[int] = [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 
 
 func _ready():
 	set_physics_process(false)
+	game_options_node.hide()
+	combat_ui_node.hide()
+	text_box_node.hide()
 
 func _physics_process(delta):
 	if target_zoom.x != current_camera_node.zoom.x:
@@ -216,7 +227,7 @@ func start_game():
 			standby_node.add_child(standby_player_nodes[i])
 			standby_player_nodes[i].player_stats_node.update_stats()
 			##### add unlocked nodes (should be erased after adding "unlock character")
-			unlocked_nodes[i] = standby_player_nodes[i].character_specifics_node.default_unlocked_nexus_nodes.duplicate()
+			nexus_nodes_unlocked[i] = standby_player_nodes[i].character_specifics_node.default_unlocked_nexus_nodes.duplicate()
 		i += 1
 
 	i = 0
@@ -285,8 +296,16 @@ func update_main_player(next_main_player_node):
 
 	empty_entities_request()
 
-func update_party_player(_next_party_player_node):
-	pass
+func display_nexus():
+	on_nexus = true
+	get_tree().paused = true
+	get_tree().root.add_child(load(nexus_path).instantiate())
+	
+	current_scene_node.hide()
+	game_options_node.hide()
+	combat_ui_node.hide()
+	text_box_node.hide()
+	hide()
 
 func enter_combat():
 	if !in_combat || leaving_combat:

@@ -95,7 +95,7 @@ func update_stats():
 	crit_chance = character_specifics_node.default_crit_chance
 	crit_damage = character_specifics_node.default_crit_damage
 
-	player_node.speed = 2000 + (50 * speed)
+	player_node.speed = 7000 + (50 * speed)
 	player_node.ally_speed = 6000 + (30 * speed)
 	player_node.dash_speed = 30000 + (150 * speed)
 
@@ -120,7 +120,7 @@ func update_health(value, types, knockback_direction, knockback_weight):
 		# update health bar
 		health = clamp(health + value, 0, max_health)
 		health_bar_node.value = health
-		health_bar_node.visible = health > 0&&health < max_health
+		health_bar_node.visible = health > 0 && health < max_health
 		combat_ui_node.update_health_label(party_index, health)
 
 		if value < 0:

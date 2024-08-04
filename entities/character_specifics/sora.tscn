@@ -346,7 +346,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"front_idle",
-"speed": 3.0
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -369,7 +369,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"front_walk",
-"speed": 7.0
+"speed": 17.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -494,6 +494,7 @@ y_sort_enabled = true
 position = Vector2(-1, 3)
 scale = Vector2(1.25, 1.25)
 sprite_frames = SubResource("SpriteFrames_qsfsi")
-animation = &"front_idle"
-frame_progress = 0.195863
+animation = &"front_walk"
+frame = 4
+frame_progress = 0.498917
 offset = Vector2(0, -12.5)

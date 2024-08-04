@@ -36,7 +36,7 @@ func _physics_process(_delta):
 			velocity = Vector2.ZERO
 			snapping = false
 			on_node = true
-			nexus.last_node[nexus.current_nexus_player] = snap_node.get_index()
+			nexus.last_nodes[nexus.current_nexus_player] = snap_node.get_index()
 			position = snap_position
 
 			$Sprite2D.show()
@@ -124,4 +124,4 @@ func snap_to_pressed(recent_emitter):
 	snapping = true
 
 func update_nexus_player(target_character_index):
-	position = nexus.nexus_nodes[nexus.last_node[target_character_index]].position + Vector2(16, 16)
+	position = nexus.nexus_nodes[nexus.last_nodes[target_character_index]].position + Vector2(16, 16)
