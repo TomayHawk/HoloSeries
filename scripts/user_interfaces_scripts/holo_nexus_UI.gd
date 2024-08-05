@@ -70,6 +70,10 @@ func _ready():
 	hide_all()
 	call_deferred("update_nexus_ui")
 
+func _input(event):
+	if event is InputEventMouseButton && event.is_double_click():
+		print(event.is_double_click())
+
 func update_nexus_ui():
 	var node_quality_string = str(nexus.nodes_quality[nexus.last_nodes[nexus.current_nexus_player]])
 	if node_quality_string == "0":

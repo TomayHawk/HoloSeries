@@ -6,8 +6,8 @@ extends CharacterBody2D
 const speed := 90
 const damage := 10
 
-var speed_stats_multiplier: float = 1 + (caster_node.player_stats_node.intelligence / 1000) + (caster_node.player_stats_node.speed / 256)
-var damage_stats_multiplier: float = 1 + (caster_node.player_stats_node.intelligence / 500)
+@onready var speed_stats_multiplier: float = 1 + (GlobalSettings.current_main_player_node.player_stats_node.intelligence / 1000) + (GlobalSettings.current_main_player_node.player_stats_node.speed / 256)
+@onready var damage_stats_multiplier: float = 1 + (GlobalSettings.current_main_player_node.player_stats_node.intelligence / 500)
 
 var move_direction := Vector2.ZERO
 var nodes_in_blast_area: Array[Node] = []
@@ -22,7 +22,7 @@ func _ready():
 	$AnimatedSprite2D.play("shoot")
 	
 	# if alt is pressed, auto-aim closest enemy
-	if Input.is_action_pressed("alt")&&GlobalSettings.entities_available.size() != 0:
+	if Input.is_action_pressed("alt") && GlobalSettings.entities_available.size() != 0:
 		var temp_distance = INF
 		var selected_enemy = null
 
@@ -37,24 +37,31 @@ func _ready():
 func _physics_process(delta):
 	# blast on collision
 	var collision_information = move_and_collide(velocity * delta)
+	print(collision_information)
 	if collision_information != null: area_impact()
 
 # run after entity selection with GlobalSettings.choose_entities()
 func initiate_fireball(chosen_node):
+	print("run")
 	# check mana sufficiency
-	if caster_node.player_stats_node.mana < 10||!caster_node.player_stats_node.alive:
+	if caster_node.player_stats_node.mana < 10 || !caster_node.player_stats_node.alive:
 		queue_free()
 	else:
-		caster_node.player_stats_node.update_mana( - 10)
+		print("flying")
+		caster_node.player_stats_node.update_mana(-10)
 
 		# set position, move direction and velocity
 		position = caster_node.position + Vector2(0, -7)
 		move_direction = (chosen_node.position - position).normalized()
 		velocity = move_direction * speed * speed_stats_multiplier
 
+		print(position)
+		print(move_direction)
+		print(velocity)
 		# begin despawn timer
 		time_left_node.start()
 		show()
+		set_physics_process(true)
 		set_physics_process(true)
 
 # blast
@@ -62,7 +69,7 @@ func area_impact():
 	# deal damage to each enemy in blast radius
 	for enemy_node in nodes_in_blast_area:
 		var temp_damage = CombatEntitiesComponent.magic_damage_calculator(damage * damage_stats_multiplier, caster_node.player_stats_node, enemy_node.enemy_stats_node)
-		enemy_node.enemy_stats_node.update_health( - temp_damage[0], temp_damage[1], move_direction, 0.5)
+		enemy_node.enemy_stats_node.update_health(-temp_damage[0], temp_damage[1], move_direction, 0.5)
 	queue_free()
 
 func _on_blast_radius_body_entered(body):

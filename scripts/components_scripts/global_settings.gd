@@ -126,7 +126,6 @@ var nexus_inventory: Array[int] = [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 
 func _ready():
 	set_physics_process(false)
 	game_options_node.hide()
-	combat_ui_node.hide()
 	text_box_node.hide()
 
 func _physics_process(delta):
@@ -137,9 +136,7 @@ func _physics_process(delta):
 		zoom_interval = 0.0
 		set_physics_process(false)
 
-func _input(event):
-	if event is InputEventMouseButton:
-		print(event.is_double_click())
+func _input(_event):
 	if Input.is_action_just_pressed("action") && mouse_in_attack_area && !requesting_entities:
 		player_can_attack = true
 		call_deferred("reset_action_availability")
@@ -368,11 +365,16 @@ func request_entities(origin_node, target_command, request_count, request_entity
 		elif entity.has_method("choose_player"):
 			entity.add_child(load(entity_highlights_paths[0]).instantiate())
 
+	print((entities_request_count == 1))
+	print((locked_enemy_node != null))
+	print((locked_enemy_node in entities_available))
+
 	if (entities_request_count == 1) && (locked_enemy_node != null) && (locked_enemy_node in entities_available):
 		entities_chosen.push_back(locked_enemy_node)
 		choose_entities()
 
 func choose_entities():
+	print(entities_chosen.size() == 1)
 	if entities_chosen.size() == 1:
 		entities_request_origin_node.call(entities_request_target_command_string, entities_chosen.duplicate()[0])
 	else:
