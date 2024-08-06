@@ -13,12 +13,15 @@ var move_direction := Vector2.ZERO
 var nodes_in_blast_area: Array[Node] = []
 
 func _ready():
+	set_physics_process(false)
+	
 	GlobalSettings.request_entities(self, "initiate_fireball", 1, "all_enemies_on_screen")
-	if GlobalSettings.entities_available.size() == 0: queue_free()
+	print(GlobalSettings.entities_available.size())
+	print(GlobalSettings.locked_enemy_node == null)
+	if GlobalSettings.entities_available.size() == 0 && GlobalSettings.locked_enemy_node == null: queue_free()
 
 	# disabled while selecting target
-	hide()
-	set_physics_process(false)
+	##### hide()
 	$AnimatedSprite2D.play("shoot")
 	
 	# if alt is pressed, auto-aim closest enemy
@@ -37,17 +40,14 @@ func _ready():
 func _physics_process(delta):
 	# blast on collision
 	var collision_information = move_and_collide(velocity * delta)
-	print(collision_information)
 	if collision_information != null: area_impact()
 
 # run after entity selection with GlobalSettings.choose_entities()
 func initiate_fireball(chosen_node):
-	print("run")
 	# check mana sufficiency
 	if caster_node.player_stats_node.mana < 10 || !caster_node.player_stats_node.alive:
 		queue_free()
 	else:
-		print("flying")
 		caster_node.player_stats_node.update_mana(-10)
 
 		# set position, move direction and velocity
@@ -55,13 +55,9 @@ func initiate_fireball(chosen_node):
 		move_direction = (chosen_node.position - position).normalized()
 		velocity = move_direction * speed * speed_stats_multiplier
 
-		print(position)
-		print(move_direction)
-		print(velocity)
 		# begin despawn timer
 		time_left_node.start()
 		show()
-		set_physics_process(true)
 		set_physics_process(true)
 
 # blast

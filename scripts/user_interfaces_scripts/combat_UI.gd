@@ -75,7 +75,7 @@ func _on_attack_pressed():
 
 # CombatOptions1
 func _on_combat_options_1_pressed(extra_arg_0):
-	if combat_options_2_node.visible&&combat_options_2_modes[extra_arg_0].visible:
+	if combat_options_2_node.visible && combat_options_2_modes[extra_arg_0].visible:
 		hide_combat_options_2()
 	else:
 		hide_combat_options_2()
@@ -121,13 +121,15 @@ func use_reset_button():
 			player.player_stats_node.update_health(player.player_stats_node.max_health, ["break_limit"], Vector2.ZERO, 0.0)
 
 func use_temp_kill_item(chosen_player_node):
-	chosen_player_node.player_stats_node.update_health( - 99999, ["break_limit"], Vector2.ZERO, 0.0)
+	chosen_player_node.player_stats_node.update_health(-99999, ["break_limit"], Vector2.ZERO, 0.0)
 
 func _on_control_mouse_entered():
+	print("enter")
 	GlobalSettings.mouse_in_attack_area = false
 	GlobalSettings.mouse_in_zoom_area = false
 
 func _on_control_mouse_exited():
+	print("exit")
 	GlobalSettings.mouse_in_attack_area = true
 	GlobalSettings.mouse_in_zoom_area = true
 

@@ -709,11 +709,6 @@ text = "9999
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Panel2" type="Panel" parent="Control/CharacterInfos"]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_05wxr")
-
 [node name="Control" type="Control" parent="Control/CharacterInfos"]
 layout_mode = 2
 
@@ -1173,6 +1168,8 @@ vertical_alignment = 1
 [node name="CharacterSelectorCooldown" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer" to="." method="_on_control_mouse_exited"]
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SpecialVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SpecialVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SpecialVBoxContainer/Item" to="." method="button_pressed"]
@@ -1238,6 +1235,8 @@ one_shot = true
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem" to="." method="button_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem" to="." method="request_entities" binds= ["use_temp_kill_item", 1, "players_alive"]]
+[connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer" to="." method="_on_control_mouse_exited"]
 [connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="button_pressed"]
@@ -1274,9 +1273,19 @@ one_shot = true
 [connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="button_pressed"]
 [connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_combat_options_1_pressed" binds= [7]]
-[connection signal="mouse_entered" from="Control/CharacterInfos/Panel2" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Control/CharacterInfos/Panel2" to="." method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="Control/CharacterInfos/Control" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CharacterInfos/Control" to="." method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="CharacterSelector/MarginContainer/MarginContainer" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterSelector/MarginContainer/MarginContainer" to="." method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_character_selector_button_pressed" binds= [0]]
+[connection signal="mouse_entered" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2" to="." method="_on_character_selector_button_pressed" binds= [1]]
+[connection signal="mouse_entered" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3" to="." method="_on_character_selector_button_pressed" binds= [2]]
+[connection signal="mouse_entered" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4" to="." method="_on_character_selector_button_pressed" binds= [3]]

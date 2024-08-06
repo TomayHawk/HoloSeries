@@ -94,7 +94,7 @@ var unlocked_stats_nodes: Array[Array] = [[0, 0, 0, 0, 0, 0, 0, 0],
 										  [0, 0, 0, 0, 0, 0, 0, 0],
 										  [0, 0, 0, 0, 0, 0, 0, 0]]
 var nexus_not_randomized := true
-var nexus_default_atlas_positions: Array[Vector2] = []
+var nexus_randomized_atlas_positions: Array[Vector2] = []
 
 var nexus_last_nodes: Array[int] = [167, 154, 333, 523, 132]
 var nexus_nodes_unlocked: Array[Array] = [[], [], [], [], []]
@@ -356,6 +356,7 @@ func request_entities(origin_node, target_command, request_count, request_entity
 		entities_available = party_player_nodes.duplicate() + enemy_nodes_in_combat.duplicate()
 	elif request_entity_type == "all_enemies_on_screen":
 		entities_available = current_scene_node.get_node("Enemies").get_children().duplicate()
+		print(entities_available)
 	elif request_entity_type == "all_entities_on_screen":
 		entities_available = party_player_nodes.duplicate() + current_scene_node.get_node("Enemies").get_children().duplicate()
 
@@ -365,16 +366,11 @@ func request_entities(origin_node, target_command, request_count, request_entity
 		elif entity.has_method("choose_player"):
 			entity.add_child(load(entity_highlights_paths[0]).instantiate())
 
-	print((entities_request_count == 1))
-	print((locked_enemy_node != null))
-	print((locked_enemy_node in entities_available))
-
 	if (entities_request_count == 1) && (locked_enemy_node != null) && (locked_enemy_node in entities_available):
 		entities_chosen.push_back(locked_enemy_node)
 		choose_entities()
 
 func choose_entities():
-	print(entities_chosen.size() == 1)
 	if entities_chosen.size() == 1:
 		entities_request_origin_node.call(entities_request_target_command_string, entities_chosen.duplicate()[0])
 	else:

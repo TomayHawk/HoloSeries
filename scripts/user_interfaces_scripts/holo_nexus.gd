@@ -1,12 +1,10 @@
 extends Node2D
 
-# create array for all nexus nodes
+
 @onready var nexus_nodes := $NexusNodes.get_children()
 @onready var nexus_player_node := $NexusPlayer
 @onready var nexus_ui_node := $HoloNexusUI
-@onready var current_nexus_player = GlobalSettings.current_main_player_node.character_specifics_node.character_index
-@onready var unlockable_load := load("res://resources/nexus_unlockables.tscn")
-var unlockable_instance: Node = null
+@onready var current_nexus_player: int = GlobalSettings.current_main_player_node.character_specifics_node.character_index
 
 # character information
 @onready var last_nodes: Array[int] = GlobalSettings.nexus_last_nodes.duplicate()
@@ -16,6 +14,9 @@ var unlockable_instance: Node = null
 @onready var nodes_converted: Array[Array] = GlobalSettings.nexus_nodes_converted.duplicate()
 @onready var nodes_converted_type: Array[Array] = GlobalSettings.nexus_nodes_converted_type.duplicate()
 @onready var nodes_converted_quality: Array[Array] = GlobalSettings.nexus_nodes_converted_quality.duplicate()
+
+@onready var unlockable_load := load("res://resources/nexus_unlockables.tscn")
+var unlockable_instance: Node = null
 
 # nexus atlas positions
 # HP, MP, DEF, SHD, ATK, INT, SPD, AGI
@@ -27,33 +28,7 @@ const stats_node_atlas_position: Array[Vector2] = [Vector2(0, 32), Vector2(32, 3
 const key_node_atlas_position: Array[Vector2] = [Vector2(0, 96), Vector2(32, 96), Vector2(64, 96), Vector2(96, 96)]
 const ability_node_atlas_position: Array[Vector2] = [Vector2(64, 0), Vector2(96, 0), Vector2(128, 0)]
 
-const default_stats_qualities := {
-	0: [[200, 200, 300], [200, 200, 300, 300, 300, 400], [300, 300, 400]],
-	1: [[10, 10, 20], [10, 10, 20, 20, 40], [20, 20, 40]],
-	2: [[5, 10], [5, 10, 10, 15], [10, 15]],
-	3: [[5, 10], [5, 10, 10, 15], [10, 15]],
-	4: [[5, 5, 5, 10], [5, 10], [10]],
-	5: [[5, 5, 5, 10], [5, 10], [10]],
-	6: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4], [3, 4]],
-	7: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4], [3, 4]]
-}
-
 const converted_stats_qualities := [400, 40, 15, 15, 20, 20, 4, 4]
-
-# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
-# HP, MP, DEF, SHD, ATK, INT, SPD, AGI
-const default_area_stats_qualities := [[0, 0, 0, 0, 0, 0, 0, 0],
-									   [1, 2, 0, 2, 0, 2, 1, 1],
-									   [0, 0, 0, 0, 0, 0, 0, 0],
-									   [1, 2, 0, 2, 0, 2, 1, 1],
-									   [0, 0, 0, 0, 0, 0, 0, 0],
-									   [0, 0, 0, 0, 0, 0, 1, 1],
-									   [0, 0, 0, 0, 0, 0, 1, 1],
-									   [0, 0, 0, 0, 0, 0, 0, 0],
-									   [1, 1, 1, 1, 1, 1, 2, 2],
-									   [0, 0, 0, 0, 0, 0, 0, 0],
-									   [2, 1, 2, 0, 2, 0, 1, 1],
-									   [1, 0, 1, 1, 0, 0, 0, 0]]
 
 # ability nodes
 var ability_nodes: Array[int] = []
@@ -69,7 +44,7 @@ var black_magic_nodes: Array[int] = []
 const adjacents_index: Array[Array] = [[-32, -17, -16, 15, 16, 32], [-32, -16, -15, 16, 17, 32]]
 
 # temporary variables
-var node_index := 0
+var index_counter := 0
 
 func _ready():
 	# update camera settings
@@ -86,11 +61,11 @@ func _ready():
 	if GlobalSettings.nexus_not_randomized:
 		stat_nodes_randomizer()
 	else:
-		node_index = 0
+		index_counter = 0
 		for node in nexus_nodes:
 			if node.texture.region.position == empty_node_atlas_position:
-				node.texture.region.position = GlobalSettings.nexus_default_atlas_positions[node_index]
-			node_index += 1
+				node.texture.region.position = GlobalSettings.nexus_default_atlas_positions[index_counter]
+			index_counter += 1
 
 	# update current player and allies in character selector
 	update_nexus_player(current_nexus_player)
@@ -102,84 +77,90 @@ func stat_nodes_randomizer():
 	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
 	var area_nodes: Array[Array] = [[], [], [], [], [], [], [], [], [], [], [], []]
 
-	node_index = 0
+	index_counter = 0
 	for temp_node in nexus_nodes:
-		if temp_node.modulate == Color(1, 0, 1, 1): area_nodes[0].push_back(node_index) # white magic (pink)
-		elif temp_node.modulate == Color(1, 0.501961, 0.501961, 1): area_nodes[1].push_back(node_index) # white magic 2 (light coral)
-		elif temp_node.modulate == Color(0.501961, 0, 1, 1): area_nodes[2].push_back(node_index) # black magic (purple)
-		elif temp_node.modulate == Color(0.501961, 0, 0.501961, 1): area_nodes[3].push_back(node_index) # black magic 2 (dark magenta)
-		elif temp_node.modulate == Color(1, 0, 0, 1): area_nodes[4].push_back(node_index) # summon (red)
-		elif temp_node.modulate == Color(1, 1, 0, 1): area_nodes[5].push_back(node_index) # buff (yellow)
-		elif temp_node.modulate == Color(0.501961, 1, 1, 1): area_nodes[6].push_back(node_index) # debuff (light blue)
-		elif temp_node.modulate == Color(1, 0.501961, 0, 1): area_nodes[7].push_back(node_index) # skills (orange)
-		elif temp_node.modulate == Color(0.501961, 0.501961, 0, 1): area_nodes[8].push_back(node_index) # skills 2 (olive)
-		elif temp_node.modulate == Color(0, 1, 0, 1): area_nodes[9].push_back(node_index) # physical (green)
-		elif temp_node.modulate == Color(0, 0.501961, 0, 1): area_nodes[10].push_back(node_index) # physical 2 (dark green)
-		elif temp_node.modulate == Color(0, 0.501961, 1, 1): area_nodes[11].push_back(node_index) # tank (blue)
-		elif temp_node.modulate == Color(1, 1, 1, 1): ability_nodes.push_back(node_index) # ability nodes
-		node_index += 1
-	
-	# HP, MP, DEF, SHD, ATK, INT, SPD, AGI, EMPTY
+		if temp_node.modulate == Color(1, 0, 1, 1): area_nodes[0].push_back(index_counter) # white magic (pink)
+		elif temp_node.modulate == Color(1, 0.501961, 0.501961, 1): area_nodes[1].push_back(index_counter) # white magic 2 (light coral)
+		elif temp_node.modulate == Color(0.501961, 0, 1, 1): area_nodes[2].push_back(index_counter) # black magic (purple)
+		elif temp_node.modulate == Color(0.501961, 0, 0.501961, 1): area_nodes[3].push_back(index_counter) # black magic 2 (dark magenta)
+		elif temp_node.modulate == Color(1, 0, 0, 1): area_nodes[4].push_back(index_counter) # summon (red)
+		elif temp_node.modulate == Color(1, 1, 0, 1): area_nodes[5].push_back(index_counter) # buff (yellow)
+		elif temp_node.modulate == Color(0.501961, 1, 1, 1): area_nodes[6].push_back(index_counter) # debuff (light blue)
+		elif temp_node.modulate == Color(1, 0.501961, 0, 1): area_nodes[7].push_back(index_counter) # skills (orange)
+		elif temp_node.modulate == Color(0.501961, 0.501961, 0, 1): area_nodes[8].push_back(index_counter) # skills 2 (olive)
+		elif temp_node.modulate == Color(0, 1, 0, 1): area_nodes[9].push_back(index_counter) # physical (green)
+		elif temp_node.modulate == Color(0, 0.501961, 0, 1): area_nodes[10].push_back(index_counter) # physical 2 (dark green)
+		elif temp_node.modulate == Color(0, 0.501961, 1, 1): area_nodes[11].push_back(index_counter) # tank (blue)
+		elif temp_node.modulate == Color(1, 1, 1, 1): ability_nodes.push_back(index_counter) # ability nodes
+		index_counter += 1
+
 	# randomizer base number
-	var area_amount = [[6, 11, 2, 5, 2, 6, 2, 2],
-					   [3, 4, 1, 2, 0, 2, 0, 0],
-					   [11, 18, 3, 4, 3, 10, 3, 3],
-					   [3, 6, 1, 2, 1, 3, 1, 1],
-					   [4, 4, 1, 1, 1, 4, 1, 1],
-					   [11, 8, 3, 3, 5, 4, 3, 3],
-					   [6, 8, 2, 2, 2, 4, 2, 2],
-					   [11, 7, 3, 2, 5, 3, 3, 3],
-					   [3, 2, 1, 0, 2, 1, 1, 1],
-					   [13, 4, 3, 2, 9, 1, 3, 3],
-					   [5, 1, 2, 1, 4, 0, 2, 2],
-					   [8, 2, 3, 1, 2, 1, 0, 0]]
+	# HP, MP, DEF, SHD, ATK, INT, SPD, AGI, EMPTY
+	const area_amount: Array[Array] = [[6, 11, 2, 5, 2, 6, 2, 2],
+									   [3, 4, 1, 2, 0, 2, 0, 0],
+									   [11, 18, 3, 4, 3, 10, 3, 3],
+									   [3, 6, 1, 2, 1, 3, 1, 1],
+									   [4, 4, 1, 1, 1, 4, 1, 1],
+									   [11, 8, 3, 3, 5, 4, 3, 3],
+									   [6, 8, 2, 2, 2, 4, 2, 2],
+									   [11, 7, 3, 2, 5, 3, 3, 3],
+									   [3, 2, 1, 0, 2, 1, 1, 1],
+									   [13, 4, 3, 2, 9, 1, 3, 3],
+									   [5, 1, 2, 1, 4, 0, 2, 2],
+									   [8, 2, 3, 1, 2, 1, 0, 0]]
 
 	# randomizer weight
-	var rand_weight = [[2, 3, 1, 1, 1, 2, 1, 1],
-					   [1, 1, 0, 1, 0, 1, 0, 0],
-					   [3, 5, 1, 1, 1, 3, 1, 1],
-					   [1, 2, 0, 1, 0, 1, 0, 0],
-					   [1, 1, 0, 0, 0, 1, 0, 0],
-					   [3, 2, 1, 1, 2, 1, 1, 1],
-					   [2, 2, 1, 1, 1, 1, 1, 1],
-					   [3, 2, 1, 1, 2, 1, 1, 1],
-					   [1, 1, 0, 0, 0, 0, 0, 0],
-					   [3, 1, 1, 1, 3, 0, 1, 1],
-					   [1, 0, 1, 0, 1, 0, 1, 1],
-					   [2, 1, 1, 1, 1, 0, 0, 0]]
+	const rand_weight: Array[Array] = [[2, 3, 1, 1, 1, 2, 1, 1],
+									   [1, 1, 0, 1, 0, 1, 0, 0],
+									   [3, 5, 1, 1, 1, 3, 1, 1],
+									   [1, 2, 0, 1, 0, 1, 0, 0],
+									   [1, 1, 0, 0, 0, 1, 0, 0],
+									   [3, 2, 1, 1, 2, 1, 1, 1],
+									   [2, 2, 1, 1, 1, 1, 1, 1],
+									   [3, 2, 1, 1, 2, 1, 1, 1],
+									   [1, 1, 0, 0, 0, 0, 0, 0],
+									   [3, 1, 1, 1, 3, 0, 1, 1],
+									   [1, 0, 1, 0, 1, 0, 1, 1],
+									   [2, 1, 1, 1, 1, 0, 0, 0]]
 	
-	var rand_resultant_amount = [[], [], [], [], [], [], [], [], [], [], [], []]
-	var rand_resultant_type = [[], [], [], [], [], [], [], [], [], [], [], []]
-	var empty_type = 0
-	var replacables = []
-	var temp_adjacents = []
-	var same_count = 0
-	var temp_node = null
+	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
+	var rand_resultant_amount: Array[int] = []
+	var rand_resultant_types: Array[Vector2] = []
+	var weighted_flactuation := 0
+	var replacables := []
+	var temp_adjacents := []
+	var same_count := 0
+	var temp_node: Node = null
 	
 	# for each area type
 	for area_type in area_nodes.size():
-		# set number of empty nodes to size of area
-		empty_type = area_nodes[area_type].size()
+		rand_resultant_amount.clear()
+		rand_resultant_types.clear()
 
 		# for each stat node type
 		for stat_type in 8:
-			# create x stat node type, where x is the base amount + a random weighted flactuation
-			rand_resultant_amount[area_type].push_back(area_amount[area_type][stat_type] + round(rand_weight[area_type][stat_type] * (randf_range(-0.25, 0.25) + randf_range(-0.25, 0.25) + randf_range(-0.25, 0.25) + randf_range(-0.25, 0.25))))
-			empty_type -= rand_resultant_amount[area_type][stat_type] # reduce the number of empty nodes by x
-			# assign x variables to texture region based on stat node type
-			for rand_number in rand_resultant_amount[area_type][stat_type]:
-				rand_resultant_type[area_type].push_back(stats_node_atlas_position[stat_type])
+			# determine number of each stat type
+			weighted_flactuation = round(rand_weight[area_type][stat_type] * (randf_range(-0.25, 0.25) + randf_range(-0.25, 0.25) + randf_range(-0.25, 0.25) + randf_range(-0.25, 0.25)))
+			rand_resultant_amount.push_back(area_amount[area_type][stat_type] + weighted_flactuation)
 			
-		# assign y variables to texture region of empty node type, where y is the remaining unchanged nodes
-		for number in empty_type:
-			rand_resultant_type[area_type].push_back(empty_node_atlas_position)
+		# determine number of empty type
+		rand_resultant_amount.push_back(area_nodes[area_type].size() - rand_resultant_amount.size())
+
+		# create array of Vector2 positions for each nexus nodes in area
+		for i in 8:
+			for j in rand_resultant_amount[i]:
+				rand_resultant_types.push_back(stats_node_atlas_position[i])
+
+		for i in rand_resultant_amount[8]:
+			rand_resultant_types.push_back(empty_node_atlas_position)
 
 		# shuffle area array
-		rand_resultant_type[area_type].shuffle()
+		rand_resultant_types.shuffle()
 
-		for array_index in area_nodes[area_type].size():
-			# temp_texture_region = temp_texture.get_region()
-			nexus_nodes[area_nodes[area_type][array_index]].texture.region = Rect2(rand_resultant_type[area_type][array_index], Vector2(32, 32))
+		index_counter = 0
+		for temp_node_index in area_nodes[area_type]:
+			nexus_nodes[temp_node_index].texture.region = Rect2(rand_resultant_types[index_counter], Vector2(32, 32))
+			index_counter += 1
 
 		replacables.clear()
 
@@ -217,9 +198,6 @@ func stat_nodes_randomizer():
 		for temp_node_index in area_nodes[area_type]:
 			temp_adjacents.clear()
 			same_count = 0
-
-			print(same_count)
-
 			# if node is empty
 			if nexus_nodes[temp_node_index].texture.region != Rect2(Vector2(0, 0), Vector2(32, 32)):
 				# determine adjacent nodes
@@ -230,8 +208,6 @@ func stat_nodes_randomizer():
 					# if adjacent node exists and has a same type neighbour, add 1 to count
 					if (adjacent > -1) && (adjacent < 767) && nexus_nodes[adjacent].texture.region == Rect2(Vector2(0, 0), Vector2(32, 32)):
 						same_count += 1
-				
-				print(same_count)
 
 				# add node to replacables
 				if same_count < 3:
@@ -264,9 +240,9 @@ func stat_nodes_randomizer():
 	# save randomized textures
 	for node in nexus_nodes:
 		if node.texture.region.position in stats_node_atlas_position:
-			GlobalSettings.nexus_default_atlas_positions.push_back(node.texture.region.position)
+			GlobalSettings.nexus_randomized_atlas_positions.push_back(node.texture.region.position)
 		else:
-			GlobalSettings.nexus_default_atlas_positions.push_back(Vector2.ZERO)
+			GlobalSettings.nexus_randomized_atlas_positions.push_back(Vector2.ZERO)
 			
 	for node in nexus_nodes:
 		if node.texture.region.position == Vector2(32, 0): null_nodes.push_back(node.get_index()) # null
@@ -275,6 +251,33 @@ func stat_nodes_randomizer():
 			elif node.texture.region.position.x == 32: key_nodes[1].push_back(node.get_index()) # clover
 			elif node.texture.region.position.x == 64: key_nodes[2].push_back(node.get_index()) # heart
 			elif node.texture.region.position.x == 96: key_nodes[3].push_back(node.get_index()) # spade
+
+	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
+	# HP, MP, DEF, SHD, ATK, INT, SPD, AGI
+	const default_area_stats_qualities := [[0, 0, 0, 0, 0, 0, 0, 0],
+										   [1, 2, 0, 2, 0, 2, 1, 1],
+										   [0, 0, 0, 0, 0, 0, 0, 0],
+										   [1, 2, 0, 2, 0, 2, 1, 1],
+										   [0, 0, 0, 0, 0, 0, 0, 0],
+										   [0, 0, 0, 0, 0, 0, 1, 1],
+										   [0, 0, 0, 0, 0, 0, 1, 1],
+										   [0, 0, 0, 0, 0, 0, 0, 0],
+										   [1, 1, 1, 1, 1, 1, 2, 2],
+										   [0, 0, 0, 0, 0, 0, 0, 0],
+										   [2, 1, 2, 0, 2, 0, 1, 1],
+										   [1, 0, 1, 1, 0, 0, 0, 0]]
+
+	# HP, MP, DEF, SHD, ATK, INT, SPD, AGI, EMPTY
+	const default_stats_qualities := {
+	0: [[200, 200, 300], [200, 200, 300, 300, 300, 400], [300, 300, 400]],
+	1: [[10, 10, 20], [10, 10, 20, 20, 40], [20, 20, 40]],
+	2: [[5, 10], [5, 10, 10, 15], [10, 15]],
+	3: [[5, 10], [5, 10, 10, 15], [10, 15]],
+	4: [[5, 5, 5, 10], [5, 10], [10]],
+	5: [[5, 5, 5, 10], [5, 10], [10]],
+	6: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4], [3, 4]],
+	7: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4], [3, 4]]
+	}
 
 	for i in 767:
 		nodes_quality.push_back(0)
@@ -348,20 +351,9 @@ func update_nexus_player(player):
 		get_node("UnlockableNodes").add_child(unlockable_instance)
 		unlockable_instance.position = nexus_nodes[node_index].position
 	
-	print(nodes_unlockable[current_nexus_player])
-	print(get_node("UnlockableNodes").get_children())
-	for node in get_node("UnlockableNodes").get_children():
-		print(node.position)
-	
 	nexus_player_node.position = nexus_nodes[last_nodes[current_nexus_player]].position + Vector2(16, 16)
 	nexus_player_node.get_node("Sprite2D").show()
 	nexus_player_node.get_node("Sprite2D2").hide()
-
-	var i = 0
-	for node in nexus_nodes:
-		if node.texture.region.position == empty_node_atlas_position:
-			i += 1
-	print(i)
 
 func unlock_node():
 	# if current nexus node is in current player unlockables, and node is not a null node
