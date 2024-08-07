@@ -82,7 +82,7 @@ func snap_to_target(initial_position):
 		snap_node = null
 		snap_distance = INF
 
-	for temp_next in temp_adjacents: if (temp_next > -1) && (temp_next < 767):
+	for temp_next in temp_adjacents: if (temp_next > -1) && (temp_next < 768):
 		if fmod(temp_next, 32) < 16:
 			second_temp_adjacents = [temp_next - 32, temp_next - 17, temp_next - 16, temp_next + 15, temp_next + 16, temp_next + 32]
 		else:
@@ -92,7 +92,7 @@ func snap_to_target(initial_position):
 			snap_node = nexus.nexus_nodes[temp_next]
 			snap_distance = initial_position.distance_to(nexus.nexus_nodes[temp_next].position + Vector2(16, 16))
 		
-		for second_temp_next in second_temp_adjacents: if (second_temp_next > -1) && (second_temp_next < 767):
+		for second_temp_next in second_temp_adjacents: if (second_temp_next > -1) && (second_temp_next < 768):
 			if initial_position.distance_to(nexus.nexus_nodes[second_temp_next].position + Vector2(16, 16)) < snap_distance && nexus.nexus_nodes[second_temp_next].texture.region.position != nexus.null_node_atlas_position:
 				snap_node = nexus.nexus_nodes[second_temp_next]
 				snap_distance = initial_position.distance_to(nexus.nexus_nodes[second_temp_next].position + Vector2(16, 16))
