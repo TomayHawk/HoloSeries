@@ -113,8 +113,8 @@ func update_character_selector():
 		i += 1
 
 func _on_character_selector_button_pressed(extra_arg_0):
-	print(character_selector_origin_player_nodes[extra_arg_0])
-	print(nexus_player.character_index[extra_arg_0])
+	# print(character_selector_origin_player_nodes[extra_arg_0])
+	# print(nexus_player.character_index[extra_arg_0])
 	nexus_player.update_nexus_player(extra_arg_0)
 
 func _on_unlock_pressed():
@@ -165,9 +165,9 @@ func update_inventory_buttons():
 					inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
 			else:
 				inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
-			print(i)
-			print(nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position)
-			print(inventory_options_valid_node_atlas_positions[i][0])
+			# print(i)
+			# print(nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position)
+			# print(inventory_options_valid_node_atlas_positions[i][0])
 
 func attempt_unlock():
 	nexus.unlock_node()
@@ -199,7 +199,7 @@ func convert(target_type_position):
 				nexus.nodes_converted_quality[nexus.current_nexus_player].push_back(nexus.converted_stats_qualities[i])
 				break
 
-	print(target_type_position)
+	# print(target_type_position)
 	nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position = target_type_position
 	nexus.unlock_node()
 
@@ -209,5 +209,6 @@ func _on_button_mouse_entered():
 func _on_button_mouse_exited():
 	GlobalSettings.mouse_in_zoom_area = true
 
-func _on_scroll_container_gui_input(event):
-	print("event", event)
+func _on_scroll_container_gui_input(_event):
+	# print("event", event)
+	pass
