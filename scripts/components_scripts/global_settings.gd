@@ -278,9 +278,9 @@ func change_scene(next_scene_index, spawn_index):
 
 # display combat ui
 func combat_ui_display():
-	if !GlobalSettings.in_combat:
+	if !in_combat:
 		if combat_ui_control_node.modulate.a != 1.0: combat_ui_control_node.modulate.a = 1.0
-		elif GlobalSettings.leaving_combat_timer_node.is_stopped(): combat_ui_control_node.modulate.a = 0.0
+		elif leaving_combat_timer_node.is_stopped(): combat_ui_control_node.modulate.a = 0.0
 
 func update_main_player(next_main_player_node):
 	current_main_player_node.is_current_main_player = false
@@ -292,6 +292,12 @@ func update_main_player(next_main_player_node):
 	camera_node.position = Vector2.ZERO
 
 	empty_entities_request()
+
+func update_camera_node():
+	current_camera_node = camera_node
+	camera_node.position = Vector2.ZERO
+	camera_node.zoom = Vector2(1.0, 1.0)
+	target_zoom = Vector2(1.0, 1.0)
 
 func display_nexus():
 	on_nexus = true

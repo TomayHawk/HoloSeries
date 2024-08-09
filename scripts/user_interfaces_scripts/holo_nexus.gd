@@ -374,68 +374,54 @@ func return_adjacents(temp_node_index):
 func update_nexus_player(player):
 	current_nexus_player = player
 
-	# disable all textures
-	for node in nexus_nodes:
-		node.modulate = Color(0.25, 0.25, 0.25, 1)
-
-	# update null node textures
-	for node_index in null_nodes:
-		nexus_nodes[node_index].modulate = Color(0.2, 0.2, 0.2, 1)
-
-	# update unlocked textures
-	for node_index in nodes_unlocked[current_nexus_player]:
-		nexus_nodes[node_index].modulate = Color(1, 1, 1, 1)
-
-	# update key textures
-	for key_type in 4:
-		for node_index in key_nodes[key_type]:
-			nexus_nodes[node_index].modulate = Color(0.33, 0.33, 0.33, 1)
-
 	# clear unlockable textures
 	for past_unlockable_nodes in get_node("UnlockableNodes").get_children():
 		past_unlockable_nodes.queue_free()
 
-	# update unlockable textures
-	for node_index in nodes_unlockable[current_nexus_player]:
-		unlockable_instance = unlockable_load.instantiate()
-		unlockable_instance.name = str(node_index)
-		get_node("UnlockableNodes").add_child(unlockable_instance)
-		unlockable_instance.position = nexus_nodes[node_index].position
+	index_counter = 0
+	for node in nexus_nodes:
+		# update null node textures, unlocked textures and locked textures
+		if index_counter in null_nodes:
+			nexus_nodes[index_counter].modulate = Color(0.2, 0.2, 0.2, 1)
+		elif index_counter in nodes_unlocked[current_nexus_player]:
+			nexus_nodes[index_counter].modulate = Color(1, 1, 1, 1)
+		else:
+			node.modulate = Color(0.25, 0.25, 0.25, 1)
+			# check unlock availability
+			if index_counter in nodes_unlockable[current_nexus_player]:
+				unlockable_instance = unlockable_load.instantiate()
+				unlockable_instance.name = str(index_counter)
+				get_node("UnlockableNodes").add_child(unlockable_instance)
+				unlockable_instance.position = nexus_nodes[index_counter].position
+		index_counter += 1
 	
+	# update key textures
+	for key_type in 4:
+		for temp_node_index in key_nodes[key_type]:
+			nexus_nodes[temp_node_index].modulate = Color(0.33, 0.33, 0.33, 1)
+
 	nexus_player_node.position = nexus_nodes[last_nodes[current_nexus_player]].position + Vector2(16, 16)
 	nexus_player_node.get_node("Sprite2D").show()
 	nexus_player_node.get_node("Sprite2D2").hide()
 
 func unlock_node():
-	# if current nexus node is in current player unlockables, and node is not a null node
-	if last_nodes[current_nexus_player] in nodes_unlockable[current_nexus_player] && nexus_nodes[last_nodes[current_nexus_player]].texture.region.position != null_node_atlas_position:
-		# add node index to unlocked
+	# if unlockable, unlock node
+	if last_nodes[current_nexus_player] in nodes_unlockable[current_nexus_player]:
 		nodes_unlocked[current_nexus_player].push_back(last_nodes[current_nexus_player])
-		# remove node index from unlockables
 		nodes_unlockable[current_nexus_player].erase(last_nodes[current_nexus_player])
-		# remove node unlockables outline
+		# remove unlockables outline
 		get_node("UnlockableNodes").remove_child(get_node("UnlockableNodes").get_node(str(last_nodes[current_nexus_player])))
 
 		# update unlocked node texture
 		nexus_nodes[last_nodes[current_nexus_player]].modulate = Color(1, 1, 1, 1)
 
 		# for each adjacent node
-		for adjacent in return_adjacents(last_nodes[current_nexus_player]):
-			# if node is not unlocked and node exists
-			if !(adjacent in nodes_unlocked[current_nexus_player]) && nexus_nodes[adjacent].texture.region.position != null_node_atlas_position && (adjacent > -1) && (adjacent < 768):
-				var second_temp_adjacents = []
-				
-				# determine index differences to second adjacent nodes (nodes adjacent to adjacent nodes)
-				if (adjacent % 32) < 16:
-					for second_temp_index in adjacents_index[0]:
-						second_temp_adjacents.push_back(adjacent + second_temp_index)
-				else:
-					for second_temp_index in adjacents_index[1]:
-						second_temp_adjacents.push_back(adjacent + second_temp_index)
-
+		for adjacent in return_adjacents(last_nodes[current_nexus_player]).duplicate():
+			# if node is not unlocked and node is not null
+			if !(adjacent in nodes_unlocked[current_nexus_player]) && nexus_nodes[adjacent].texture.region.position != null_node_atlas_position:
 				# for each second adjacent nodes
-				for second_adjacent in second_temp_adjacents:
-					# if second adjacent is unlocked, is not original node, and is not in unlockables array
+				for second_adjacent in return_adjacents(adjacent):
+					# if second adjacent is unlocked, is not the original node, and is not in unlockables array
 					if (second_adjacent in nodes_unlocked[current_nexus_player]) && (second_adjacent != last_nodes[current_nexus_player]) && !(adjacent in nodes_unlockable[current_nexus_player]):
 						# add adjacent node to unlockables
 						nodes_unlockable[current_nexus_player].push_back(adjacent)
@@ -447,7 +433,7 @@ func unlock_node():
 						unlockable_instance.position = nexus_nodes[adjacent].position
 
 func exit_nexus():
-	GlobalSettings.unlocked_nodes = nodes_unlocked.duplicate()
+	GlobalSettings.nexus_nodes_unlocked = nodes_unlocked.duplicate()
 
 	# for each unlocked player
 	for player_index in 4:
@@ -467,9 +453,6 @@ func exit_nexus():
 							GlobalSettings.unlocked_stats_nodes[player_index][texture_region_index] += 1
 							break
 
-	GlobalSettings.target_zoom = Vector2(1.0, 1.0)
-	GlobalSettings.camera_node.zoom = Vector2(1.0, 1.0)
-	GlobalSettings.current_camera_node = GlobalSettings.camera_node
-	GlobalSettings.camera_node.reparent(GlobalSettings.current_main_player_node)
-	GlobalSettings.camera_node.position = Vector2.ZERO
+	# update camera
+	GlobalSettings.update_camera_node()
 	queue_free()
