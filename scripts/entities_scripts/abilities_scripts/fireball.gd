@@ -12,6 +12,8 @@ const damage := 10
 var move_direction := Vector2.ZERO
 var nodes_in_blast_area: Array[Node] = []
 
+var autoaim = preload("res://scripts/entities_scripts/abilities_scripts/abilities_function/autoaim_closest_enemy.gd")
+
 func _ready():
 	set_physics_process(false)
 	
@@ -26,16 +28,7 @@ func _ready():
 	
 	# if alt is pressed, auto-aim closest enemy
 	if Input.is_action_pressed("alt") && GlobalSettings.entities_available.size() != 0:
-		var temp_distance = INF
-		var selected_enemy = null
-
-		for entity_node in GlobalSettings.entities_available:
-			if position.distance_to(entity_node.position) < temp_distance:
-				temp_distance = position.distance_to(entity_node.position)
-				selected_enemy = entity_node
-			
-		GlobalSettings.entities_chosen.push_back(selected_enemy)
-		GlobalSettings.choose_entities()
+		autoaim.auto_aim(position)
 
 func _physics_process(delta):
 	# blast on collision
@@ -65,7 +58,7 @@ func area_impact():
 	# deal damage to each enemy in blast radius
 	for enemy_node in nodes_in_blast_area:
 		var temp_damage = CombatEntitiesComponent.magic_damage_calculator(damage * damage_stats_multiplier, caster_node.player_stats_node, enemy_node.enemy_stats_node)
-		enemy_node.enemy_stats_node.update_health(-temp_damage[0], temp_damage[1], move_direction, 0.5)
+		enemy_node.enemy_stats_node.update_health(-temp_damage[0], temp_damage[1], Vector2.ZERO, 0)
 	queue_free()
 
 func _on_blast_radius_body_entered(body):

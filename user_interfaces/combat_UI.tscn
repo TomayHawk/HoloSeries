@@ -122,7 +122,6 @@ theme_override_font_sizes/font_size = 8
 text = "Item"
 
 [node name="SkillVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/ScrollContainer/MarginContainer"]
-visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
@@ -144,6 +143,12 @@ layout_mode = 2
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 text = "Taunt"
+
+[node name="PlayDice" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+text = "Play Dice"
 
 [node name="BuffVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/ScrollContainer/MarginContainer"]
 visible = false
@@ -1182,12 +1187,17 @@ one_shot = true
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer/Taunt" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer/Taunt" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer/Taunt" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer/PlayDice" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer/PlayDice" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer/PlayDice" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer/PlayDice" to="." method="instantiate_ability" binds= [3]]
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/BuffVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/BuffVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/BuffVBoxContainer/Item" to="." method="button_pressed"]
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/DebuffVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/DebuffVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/DebuffVBoxContainer/Item" to="." method="button_pressed"]
+[connection signal="button_down" from="Control/CombatOptions2/ScrollContainer/MarginContainer/WhiteVBoxContainer/Heal" to="." method="_on_heal_button_down"]
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/WhiteVBoxContainer/Heal" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/WhiteVBoxContainer/Heal" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/WhiteVBoxContainer/Heal" to="." method="button_pressed"]
@@ -1202,6 +1212,7 @@ one_shot = true
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/WhiteVBoxContainer/Regen" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/WhiteVBoxContainer/Regen" to="." method="button_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/WhiteVBoxContainer/Regen" to="." method="instantiate_ability" binds= [1]]
+[connection signal="button_down" from="Control/CombatOptions2/ScrollContainer/MarginContainer/BlackVBoxContainer/Fireball" to="." method="_on_fireball_button_down"]
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/BlackVBoxContainer/Fireball" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/BlackVBoxContainer/Fireball" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/BlackVBoxContainer/Fireball" to="." method="button_pressed"]

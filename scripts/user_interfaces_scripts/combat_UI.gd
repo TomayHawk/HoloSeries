@@ -11,7 +11,8 @@ extends CanvasLayer
 
 @onready var abilities_load: Array[Resource] = [load("res://entities/abilities/fireball.tscn"),
 												load("res://entities/abilities/regen.tscn"),
-												load("res://entities/abilities/heal.tscn")]
+												load("res://entities/abilities/heal.tscn"),
+												load("res://entities/abilities/play_dice.tscn")]
 
 var tween
 
@@ -88,10 +89,12 @@ func hide_combat_options_2():
 		mode.hide()
 
 # CombatOptions2	
-'''
-0: Fireball
-1: Regen
-'''
+
+#0: Fireball
+#1: Regen
+#2: Heal
+#3: Play Dice
+
 # create ability nodes
 func instantiate_ability(ability_index):
 	# create and add ability instance to abilities node
