@@ -3,6 +3,7 @@ extends CharacterBody2D
 @onready var caster_node := GlobalSettings.current_main_player_node
 @onready var time_left_node := $TimeLeft
 
+const mana_cost := 10
 const speed := 90
 const damage := 10
 
@@ -12,23 +13,19 @@ const damage := 10
 var move_direction := Vector2.ZERO
 var nodes_in_blast_area: Array[Node] = []
 
-var autoaim = preload("res://scripts/entities_scripts/abilities_scripts/abilities_function/autoaim_closest_enemy.gd")
-
 func _ready():
-	set_physics_process(false)
-	
-	GlobalSettings.request_entities(self, "initiate_fireball", 1, "all_enemies_on_screen")
-	print(GlobalSettings.entities_available.size())
-	print(GlobalSettings.locked_enemy_node == null)
-	if GlobalSettings.entities_available.size() == 0 && GlobalSettings.locked_enemy_node == null: queue_free()
-
 	# disabled while selecting target
-	##### hide()
-	$AnimatedSprite2D.play("shoot")
+	set_physics_process(false)
+	hide()
 	
+	# request target entity
+	GlobalSettings.request_entities(self, "initiate_fireball", 1, "all_enemies_on_screen")
+	
+	if GlobalSettings.entities_available.size() == 0 && GlobalSettings.locked_enemy_node == null:
+		queue_free()
 	# if alt is pressed, auto-aim closest enemy
-	if Input.is_action_pressed("alt") && GlobalSettings.entities_available.size() != 0:
-		autoaim.auto_aim(position)
+	elif Input.is_action_pressed("alt") && GlobalSettings.entities_available.size() != 0:
+		CombatEntitiesComponent.target_entity("distance_least", caster_node)
 
 func _physics_process(delta):
 	# blast on collision
@@ -37,11 +34,11 @@ func _physics_process(delta):
 
 # run after entity selection with GlobalSettings.choose_entities()
 func initiate_fireball(chosen_node):
-	# check mana sufficiency
-	if caster_node.player_stats_node.mana < 10 || !caster_node.player_stats_node.alive:
+	# check caster status and mana sufficiency
+	if caster_node.player_stats_node.mana < mana_cost || !caster_node.player_stats_node.alive:
 		queue_free()
 	else:
-		caster_node.player_stats_node.update_mana(-10)
+		caster_node.player_stats_node.update_mana(-mana_cost)
 
 		# set position, move direction and velocity
 		position = caster_node.position + Vector2(0, -7)
@@ -49,16 +46,17 @@ func initiate_fireball(chosen_node):
 		velocity = move_direction * speed * speed_stats_multiplier
 
 		# begin despawn timer
+		$AnimatedSprite2D.play("shoot")
+		set_physics_process(true)
 		time_left_node.start()
 		show()
-		set_physics_process(true)
 
 # blast
 func area_impact():
 	# deal damage to each enemy in blast radius
 	for enemy_node in nodes_in_blast_area:
 		var temp_damage = CombatEntitiesComponent.magic_damage_calculator(damage * damage_stats_multiplier, caster_node.player_stats_node, enemy_node.enemy_stats_node)
-		enemy_node.enemy_stats_node.update_health(-temp_damage[0], temp_damage[1], Vector2.ZERO, 0)
+		enemy_node.enemy_stats_node.update_health(-temp_damage[0], temp_damage[1], move_direction, 0.5)
 	queue_free()
 
 func _on_blast_radius_body_entered(body):

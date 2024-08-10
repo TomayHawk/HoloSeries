@@ -38,7 +38,7 @@ func _physics_process(_delta):
 # deal damage to enemy (called by enemy)
 func update_health(amount, types, knockback_direction, knockback_weight):
 	# invincibility check
-	if enemy_node.invincible:
+	if enemy_node.invincible || health <= 0:
 		amount = 0
 	elif amount < 0:
 		enemy_node.invincible = true

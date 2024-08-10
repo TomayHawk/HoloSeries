@@ -78,7 +78,7 @@ func magic_heal_calculator(input_amount, origin_entity_stats_node):
 
 func damage_display(value, display_position, types):
 	var display = Label.new()
-	display.global_position = display_position
+	display.global_position = display_position + Vector2(randf_range(-5, 5), randf_range(-5, 5))
 	display.text = str(abs(value))
 	display.z_index = 5
 	display.label_settings = LabelSettings.new()
@@ -121,6 +121,7 @@ func target_entity(type, origin_node):
 	sign_indicator = 1
 	target_entity_node = null
 
+	# choose closest entity
 	if type == "distance_least":
 		for entity_node in GlobalSettings.entities_available:
 			if origin_node.position.distance_to(entity_node.position) < compared_quality:
@@ -130,17 +131,21 @@ func target_entity(type, origin_node):
 		GlobalSettings.entities_chosen.push_back(target_entity_node)
 		GlobalSettings.choose_entities()
 		return
-	elif type == "health_most":
+
+	# fix "most" to "least" with negative signs (positive number -> negative number)
+	if type == "health_most":
 		type = "health"
 		compared_quality = 0.0
 		sign_indicator = -1
 
+	# create array for all available node qualities
 	for entity_node in GlobalSettings.entities_available:
 		if entity_node.is_in_group("party"):
 			comparing_qualities.push_back(sign_indicator * entity_node.player_stats_node.get(type))
 		else:
 			comparing_qualities.push_back(sign_indicator * entity_node.enemy_stats_node.get(type))
 
+	# choose entity with least of chosen quality
 	counter = 0
 	for entity_quality in comparing_qualities:
 		if entity_quality < compared_quality:
@@ -148,5 +153,8 @@ func target_entity(type, origin_node):
 			target_entity_node = GlobalSettings.entities_available[counter]
 		counter += 1
 
+	# choose entities if fulfilled required number
 	GlobalSettings.entities_chosen.push_back(target_entity_node)
-	GlobalSettings.choose_entities()
+	GlobalSettings.entities_chosen_count += 1
+	if GlobalSettings.entities_request_count == GlobalSettings.entities_chosen_count:
+		GlobalSettings.choose_entities()

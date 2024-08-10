@@ -6,6 +6,7 @@ extends Node2D
 
 var target_player_stats_node: Node = null
 
+const mana_cost := 20
 # 7 times
 var regen_count := 7
 # 2% each time
@@ -15,30 +16,23 @@ var heal_amount := 10.0
 ##### need to add stats multipliers
 
 func _ready():
-	GlobalSettings.request_entities(self, "initiate_regen", 1, "players_alive")
-	if GlobalSettings.entities_available.size() == 0: queue_free()
-
 	hide()
 
+	# request target entity
+	GlobalSettings.request_entities(self, "initiate_regen", 1, "players_alive")
+	
+	if GlobalSettings.entities_available.size() == 0:
+		queue_free()
 	# if alt is pressed, auto-aim player with lowest health
-	if Input.is_action_pressed("alt"):
-		var temp_health = 0
-		var selected_player = null
-
-		for entity_node in GlobalSettings.entities_available:
-			if entity_node.player_stats_node.health < temp_health:
-				temp_health = entity_node.player_stats_node.health
-				selected_player = entity_node
-
-		GlobalSettings.entities_chosen.push_back(selected_player)
-		GlobalSettings.choose_entities()
+	elif Input.is_action_pressed("alt"):
+		CombatEntitiesComponent.target_entity("health", caster_node)
 
 func initiate_regen(chosen_node):
-	# check mana sufficiency
-	if caster_node.player_stats_node.mana < 20:
+	# check caster status and mana sufficiency
+	if caster_node.player_stats_node.mana < mana_cost || !caster_node.player_stats_node.alive:
 		queue_free()
 	else:
-		caster_node.player_stats_node.update_mana( - 20)
+		caster_node.player_stats_node.update_mana(-mana_cost)
 		show()
 
 		target_player_stats_node = chosen_node.player_stats_node

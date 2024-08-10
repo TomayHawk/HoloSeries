@@ -1,51 +1,54 @@
 extends Node2D
 
 @onready var caster_node := GlobalSettings.current_main_player_node
+@onready var interval_timer := $Interval
 
-var autoaim = preload("res://scripts/entities_scripts/abilities_scripts/abilities_function/autoaim_closest_enemy.gd")
-var require_mana = 50
-var base_damage = 5
+const mana_cost := 1 # 50 (temporarily changed)
+const base_damage := 5
 
-# Called when the node enters the scene tree for the first time.
+var dice_results: Array[int] = []
+var dice_damage := 0.0
+var duplicates := -1
+
 func _ready():
-	GlobalSettings.request_entities(self, "initiate_playdice", 1, "all_enemies_on_screen")
-	if GlobalSettings.entities_available.size() == 0: queue_free()
-	
 	# disabled while selecting target
-	hide()
 	set_physics_process(false)
+	hide()
+
+	# request target entity
+	GlobalSettings.request_entities(self, "initiate_play_dice", 1, "all_enemies_on_screen")
 	
+	if GlobalSettings.entities_available.size() == 0:
+		queue_free()
 	# if alt is pressed, auto-aim closest enemy
-	if Input.is_action_pressed("alt") && GlobalSettings.entities_available.size() != 0:
-		autoaim.auto_aim(position)
+	elif Input.is_action_pressed("alt") && GlobalSettings.entities_available.size() != 0:
+		CombatEntitiesComponent.target_entity("distance_least", caster_node)
 	
-func initiate_playdice(chosen_node):
-	#check mana sufficiency
-	if caster_node.player_stats_node.mana < require_mana || !caster_node.player_stats_node.alive:
-		queue_free()
-	else:
-		caster_node.player_stats_node.update_mana(-require_mana)
-		# Me thinking either fixed damage or level up increase damage
-		#var temp_damage = CombatEntitiesComponent.magic_damage_calculator(damage, caster_node.player_stats_node, chosen_node.enemy_stats_node)
-		#chosen_node.enemy_stats_node.update_health(-temp_damage[0], temp_damage[1], Vector2.ZERO, 0)
+func initiate_play_dice(chosen_node):
+	# check caster status and mana sufficiency
+	if caster_node.player_stats_node.mana > mana_cost && caster_node.player_stats_node.alive:
+		caster_node.player_stats_node.update_mana(-mana_cost)
+
+		# roll 1 to 17 dice
+		for i in (1 + (caster_node.player_stats_node.speed + caster_node.player_stats_node.agility) / 32):
+			duplicates = -1
+			dice_results.push_back(randi() % 7)
+			### here dice animation from 0 to 19, 20 side dice
+			dice_damage = base_damage / 2.0 * dice_results[-1]
 		
-		var damage = damage()
-		#fixed damage
-		chosen_node.enemy_stats_node.update_health(-damage, [], Vector2.ZERO, 0)
-		queue_free()
-		
-func damage():
-	var dice = randi() % 20 # d20
-	var damage
-	print("value: ", dice)
-	
-	### here dice animation from 0 to 19, 20 side dice
-	if dice == 0: # dice roll 1, critical missed
-		damage = 0
-	else:
-		damage = base_damage * (dice + 1)
-	
-	if dice == 19: # critical hit
-		damage = pow(damage, 2)
-		
-	return damage
+			# double damage for each duplicate
+			for dice in dice_results: if dice == dice_results[-1]:
+				duplicates += 1
+				dice_damage *= 2
+			
+			# check for "6"
+			if dice_results[-1] == 6: dice_damage *= 1.5
+
+			# check for 5 dice duplicates
+			if duplicates == 4: dice_damage *= 2
+
+			interval_timer.start()
+			chosen_node.enemy_stats_node.update_health(-dice_damage, [], Vector2.ZERO, 0.0)
+			await interval_timer.timeout
+
+	queue_free()
