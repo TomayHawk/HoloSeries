@@ -80,19 +80,20 @@ func stat_nodes_randomizer():
 
 	index_counter = 0
 	for temp_node in nexus_nodes:
-		if temp_node.modulate == Color(1, 0, 1, 1): area_nodes[0].push_back(index_counter) # white magic (pink)
-		elif temp_node.modulate == Color(1, 0.501961, 0.501961, 1): area_nodes[1].push_back(index_counter) # white magic 2 (light coral)
-		elif temp_node.modulate == Color(0.501961, 0, 1, 1): area_nodes[2].push_back(index_counter) # black magic (purple)
-		elif temp_node.modulate == Color(0.501961, 0, 0.501961, 1): area_nodes[3].push_back(index_counter) # black magic 2 (dark magenta)
-		elif temp_node.modulate == Color(1, 0, 0, 1): area_nodes[4].push_back(index_counter) # summon (red)
-		elif temp_node.modulate == Color(1, 1, 0, 1): area_nodes[5].push_back(index_counter) # buff (yellow)
-		elif temp_node.modulate == Color(0.501961, 1, 1, 1): area_nodes[6].push_back(index_counter) # debuff (light blue)
-		elif temp_node.modulate == Color(1, 0.501961, 0, 1): area_nodes[7].push_back(index_counter) # skills (orange)
-		elif temp_node.modulate == Color(0.501961, 0.501961, 0, 1): area_nodes[8].push_back(index_counter) # skills 2 (olive)
-		elif temp_node.modulate == Color(0, 1, 0, 1): area_nodes[9].push_back(index_counter) # physical (green)
-		elif temp_node.modulate == Color(0, 0.501961, 0, 1): area_nodes[10].push_back(index_counter) # physical 2 (dark green)
-		elif temp_node.modulate == Color(0, 0.501961, 1, 1): area_nodes[11].push_back(index_counter) # tank (blue)
-		elif temp_node.modulate == Color(1, 1, 1, 1): ability_nodes.push_back(index_counter) # ability nodes
+		match temp_node.modulate:
+			Color(1, 0, 1, 1): area_nodes[0].push_back(index_counter) # white magic (pink)
+			Color(1, 0.501961, 0.501961, 1): area_nodes[1].push_back(index_counter) # white magic 2 (light coral)
+			Color(0.501961, 0, 1, 1): area_nodes[2].push_back(index_counter) # black magic (purple)
+			Color(0.501961, 0, 0.501961, 1): area_nodes[3].push_back(index_counter) # black magic 2 (dark magenta)
+			Color(1, 0, 0, 1): area_nodes[4].push_back(index_counter) # summon (red)
+			Color(1, 1, 0, 1): area_nodes[5].push_back(index_counter) # buff (yellow)
+			Color(0.501961, 1, 1, 1): area_nodes[6].push_back(index_counter) # debuff (light blue)
+			Color(1, 0.501961, 0, 1): area_nodes[7].push_back(index_counter) # skills (orange)
+			Color(0.501961, 0.501961, 0, 1): area_nodes[8].push_back(index_counter) # skills 2 (olive)
+			Color(0, 1, 0, 1): area_nodes[9].push_back(index_counter) # physical (green)
+			Color(0, 0.501961, 0, 1): area_nodes[10].push_back(index_counter) # physical 2 (dark green)
+			Color(0, 0.501961, 1, 1): area_nodes[11].push_back(index_counter) # tank (blue)
+			Color(1, 1, 1, 1): ability_nodes.push_back(index_counter) # ability nodes
 		index_counter += 1
 
 	# randomizer base number
@@ -289,12 +290,12 @@ func stat_nodes_randomizer():
 			GlobalSettings.nexus_randomized_atlas_positions.push_back(Vector2.ZERO)
 			
 	for node in nexus_nodes:
-		if node.texture.region.position == Vector2(32, 0): null_nodes.push_back(node.get_index()) # null
-		elif node.texture.region.position.y == 96: # keys
-			if node.texture.region.position.x == 0: key_nodes[0].push_back(node.get_index()) # diamond
-			elif node.texture.region.position.x == 32: key_nodes[1].push_back(node.get_index()) # clover
-			elif node.texture.region.position.x == 64: key_nodes[2].push_back(node.get_index()) # heart
-			elif node.texture.region.position.x == 96: key_nodes[3].push_back(node.get_index()) # spade
+		match node.texture.region.position:
+			null_node_atlas_position: null_nodes.push_back(node.get_index()) # null
+			key_node_atlas_position[0]: key_nodes[0].push_back(node.get_index()) # diamond
+			key_node_atlas_position[1]: key_nodes[1].push_back(node.get_index()) # clover
+			key_node_atlas_position[2]: key_nodes[2].push_back(node.get_index()) # heart
+			key_node_atlas_position[3]: key_nodes[3].push_back(node.get_index()) # spade
 
 	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
 	# HP, MP, DEF, SHD, ATK, INT, SPD, AGI

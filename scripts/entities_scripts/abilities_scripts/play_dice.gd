@@ -8,7 +8,6 @@ const base_damage := 5
 
 var dice_results: Array[int] = []
 var dice_damage := 0.0
-var duplicates := -1
 
 func _ready():
 	# disabled while selecting target
@@ -31,21 +30,17 @@ func initiate_play_dice(chosen_node):
 
 		# roll 1 to 17 dice
 		for i in (1 + (caster_node.player_stats_node.speed + caster_node.player_stats_node.agility) / 32):
-			duplicates = -1
 			dice_results.push_back(randi() % 7)
-			### here dice animation from 0 to 19, 20 side dice
 			dice_damage = base_damage / 2.0 * dice_results[-1]
 		
 			# double damage for each duplicate
-			for dice in dice_results: if dice == dice_results[-1]:
-				duplicates += 1
-				dice_damage *= 2
+			dice_damage *= 2 * dice_results.count(dice_results[-1])
 			
 			# check for "6"
 			if dice_results[-1] == 6: dice_damage *= 1.5
 
 			# check for 5 dice duplicates
-			if duplicates == 4: dice_damage *= 2
+			if dice_results.count(dice_results[-1]) == 5: dice_damage *= 2
 
 			interval_timer.start()
 			chosen_node.enemy_stats_node.update_health(-dice_damage, [], Vector2.ZERO, 0.0)
