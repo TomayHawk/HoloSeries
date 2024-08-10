@@ -5,6 +5,12 @@ var damage_display_node: Node = null
 var temp_types: Array[String] = []
 var output_amount := 0.0
 
+var counter := 0
+var sign_indicator := 1
+var compared_quality := 0.0
+var comparing_qualities: Array[int] = []
+var target_entity_node: Node = null
+
 func physical_damage_calculator(input_damage, origin_entity_stats_node, target_entity_stats_node):
 	temp_types.clear()
 	
@@ -20,13 +26,13 @@ func physical_damage_calculator(input_damage, origin_entity_stats_node, target_e
 	output_amount *= origin_entity_stats_node.level / (target_entity_stats_node.level + (origin_entity_stats_node.level * (1 + (target_entity_stats_node.defence * 1.0 / 1500))))
 
 	# randomizer
-	output_amount = output_amount * randf_range(0.97, 1.03) + randf_range( - input_damage / 10, input_damage / 10)
+	output_amount = output_amount * randf_range(0.97, 1.03) + randf_range(-input_damage / 10, input_damage / 10)
 
 	# clamp
 	output_amount = clamp(output_amount, 0, 99999)
 
 	# max 25% miss if not critical
-	if temp_types.is_empty()&&randf() < (target_entity_stats_node.agility / 1028):
+	if temp_types.is_empty() && randf() < (target_entity_stats_node.agility / 1028):
 		output_amount = 0
 
 	return [output_amount, temp_types]
@@ -47,13 +53,13 @@ func magic_damage_calculator(input_damage, origin_entity_stats_node, target_enti
 	output_amount *= origin_entity_stats_node.level / (target_entity_stats_node.level + (origin_entity_stats_node.level * (1 + (target_entity_stats_node.shield * 1.0 / 1500))))
 
 	# randomizer
-	output_amount = output_amount * randf_range(0.97, 1.03) + randf_range( - input_damage / 10, input_damage / 10)
+	output_amount = output_amount * randf_range(0.97, 1.03) + randf_range(-input_damage / 10, input_damage / 10)
 
 	# clamp
 	output_amount = clamp(output_amount, 0, 99999)
 
 	# max 25% miss if not critical
-	if temp_types.is_empty()&&randf() < (target_entity_stats_node.speed / 1028):
+	if temp_types.is_empty() && randf() < (target_entity_stats_node.speed / 1028):
 		output_amount = 0
 
 	return [output_amount, temp_types]
@@ -63,7 +69,7 @@ func magic_heal_calculator(input_amount, origin_entity_stats_node):
 	output_amount = input_amount * (1 + (origin_entity_stats_node.intelligence * 0.05))
 
 	# randomizer
-	output_amount = output_amount * randf_range(0.97, 1.03) + randf_range( - input_amount / 10, input_amount / 10)
+	output_amount = output_amount * randf_range(0.97, 1.03) + randf_range(-input_amount / 10, input_amount / 10)
 
 	# clamp
 	output_amount = clamp(output_amount, 0, 99999)
@@ -108,3 +114,39 @@ func damage_display(value, display_position, types):
 
 	await tween.finished
 	display.queue_free()
+
+func target_entity(type, origin_node):
+	comparing_qualities.clear()
+	compared_quality = INF
+	sign_indicator = 1
+	target_entity_node = null
+
+	if type == "distance_least":
+		for entity_node in GlobalSettings.entities_available:
+			if origin_node.position.distance_to(entity_node.position) < compared_quality:
+				compared_quality = origin_node.position.distance_to(entity_node.position)
+				target_entity_node = entity_node
+
+		GlobalSettings.entities_chosen.push_back(target_entity_node)
+		GlobalSettings.choose_entities()
+		return
+	elif type == "health_most":
+		type = "health"
+		compared_quality = 0.0
+		sign_indicator = -1
+
+	for entity_node in GlobalSettings.entities_available:
+		if entity_node.is_in_group("party"):
+			comparing_qualities.push_back(sign_indicator * entity_node.player_stats_node.get(type))
+		else:
+			comparing_qualities.push_back(sign_indicator * entity_node.enemy_stats_node.get(type))
+
+	counter = 0
+	for entity_quality in comparing_qualities:
+		if entity_quality < compared_quality:
+			compared_quality = entity_quality
+			target_entity_node = GlobalSettings.entities_available[counter]
+		counter += 1
+
+	GlobalSettings.entities_chosen.push_back(target_entity_node)
+	GlobalSettings.choose_entities()

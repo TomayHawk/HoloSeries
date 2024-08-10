@@ -6,8 +6,6 @@ var autoaim = preload("res://scripts/entities_scripts/abilities_scripts/abilitie
 var require_mana = 50
 var base_damage = 5
 
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GlobalSettings.request_entities(self, "initiate_playdice", 1, "all_enemies_on_screen")
@@ -37,15 +35,15 @@ func initiate_playdice(chosen_node):
 		queue_free()
 		
 func damage():
-	var dice = randi()%20 #d20
+	var dice = randi() % 20 # d20
 	var damage
 	print("value: ", dice)
 	
 	### here dice animation from 0 to 19, 20 side dice
-	if dice == 0: #dice roll 1, critical missed
+	if dice == 0: # dice roll 1, critical missed
 		damage = 0
 	else:
-		damage = base_damage * (dice+1)
+		damage = base_damage * (dice + 1)
 	
 	if dice == 19: # critical hit
 		damage = pow(damage, 2)
