@@ -82,7 +82,6 @@ var unlocked_players: Array[bool] = [true, true, true, true, true]
 var nexus_camera_node: Node = null
 var on_nexus := false
 var nexus_character_selector_node: Node = null
-var unlocked_ability_nodes: Array[Array] = [[], [], [], [], [], [], [], [], [], []]
 var unlocked_stats_nodes: Array[Array] = [[0, 0, 0, 0, 0, 0, 0, 0],
 										  [0, 0, 0, 0, 0, 0, 0, 0],
 										  [0, 0, 0, 0, 0, 0, 0, 0],

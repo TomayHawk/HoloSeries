@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 @onready var nexus := get_parent()
 @onready var nexus_ui_node := nexus.get_node("HoloNexusUI")
+@onready var nexus_player_outline_node := $Outline
+@onready var nexus_player_crosshair_node := $Crosshair
 
 @onready var character_index: int = GlobalSettings.current_main_player_node.character_specifics_node.character_index
 
@@ -39,8 +41,8 @@ func _physics_process(_delta):
 			nexus.last_nodes[nexus.current_nexus_player] = snap_node.get_index()
 			position = snap_position
 
-			$Sprite2D.show()
-			$Sprite2D2.hide()
+			nexus_player_outline_node.show()
+			nexus_player_crosshair_node.hide()
 
 			nexus_ui_node.update_nexus_ui()
 	else:
@@ -54,8 +56,8 @@ func _physics_process(_delta):
 			if speed < speed_max: speed += 1
 			if on_node:
 				on_node = false
-				$Sprite2D.hide()
-				$Sprite2D2.show()
+				nexus_player_outline_node.hide()
+				nexus_player_crosshair_node.show()
 
 	move_and_slide()
 

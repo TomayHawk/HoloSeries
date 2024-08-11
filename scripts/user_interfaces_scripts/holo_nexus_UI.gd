@@ -156,18 +156,15 @@ func update_inventory_buttons():
 	for i in 26:
 		if GlobalSettings.nexus_inventory[i] == 0:
 			inventory_items_nodes[i].hide()
-		else:
-			if nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position in inventory_options_valid_node_atlas_positions[i][0]:
-				inventory_items_nodes[i].modulate = Color(1, 1, 1, 1)
-				if i < 14 && nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]:
-					inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
-				elif i > 16 || i == 14 && !(nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]):
-					inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
-			else:
+		elif nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position in inventory_options_valid_node_atlas_positions[i][0]:
+			if i < 14 && nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]:
 				inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
-			# print(i)
-			# print(nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position)
-			# print(inventory_options_valid_node_atlas_positions[i][0])
+			elif i > 16 || i == 14 && nexus.last_nodes[nexus.current_nexus_player] not in nexus.nodes_unlocked[nexus.current_nexus_player]:
+				inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
+			else:
+				inventory_items_nodes[i].modulate = Color(1, 1, 1, 1)
+		else:
+			inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
 
 func attempt_unlock():
 	nexus.unlock_node()
