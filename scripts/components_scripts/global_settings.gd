@@ -122,6 +122,9 @@ var entities_chosen: Array[Node] = []
 # inventory
 var nexus_inventory: Array[int] = [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1]
 
+# save
+var current_save: int = -1
+
 func _ready():
 	set_physics_process(false)
 	game_options_node.hide()
