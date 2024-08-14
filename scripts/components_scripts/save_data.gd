@@ -10,6 +10,7 @@ var saves := [
 	"standby": [2],
 	"current_main_player": 0,
 	"current_main_player_position": Vector2(0, 0),
+	"inventory": [],
 	"nexus_last_nodes": [167, 154, 333, 523, 132],
 	"nexus_unlocked": [],
 	"nexus_unlockables": [],
@@ -17,7 +18,6 @@ var saves := [
 	"nexus_converted": [],
 	"nexus_converted_type": [],
 	"nexus_converted_quality": [],
-	"inventory": [],
 	"nexus_inventory": []
 	}
 ]
@@ -35,6 +35,7 @@ func save(save_file):
 		"standby": [2],
 		"current_main_player": 0,
 		"current_main_player_position": Vector2(0, 0),
+		"inventory": [],
 		"nexus_last_nodes": [167, 154, 333, 523, 132],
 		"nexus_unlocked": [],
 		"nexus_unlockables": [],
@@ -42,7 +43,6 @@ func save(save_file):
 		"nexus_converted": [],
 		"nexus_converted_type": [],
 		"nexus_converted_quality": [],
-		"inventory": [],
 		"nexus_inventory": []
 	}
 

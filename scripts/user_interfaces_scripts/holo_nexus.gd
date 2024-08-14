@@ -434,4 +434,7 @@ func exit_nexus():
 	# update camera
 	GlobalSettings.update_camera_node()
 
+	# save nexus
+	GlobalSettings.save(GlobalSettings.save.temp_save)
+	
 	queue_free()

@@ -23,12 +23,6 @@ var current_main_player_node: Node = null
 						   "res://scenes/world_scene_2.tscn",
 						   "res://scenes/dungeon_scene_1.tscn"]
 
-@onready var character_names := ["Tokino Sora",
-								 "AZKi",
-								 "Roboco",
-								 "Aki Rosenthal",
-								 "Himemori Luna"]
-
 @onready var character_specifics_paths := ["res://entities/character_specifics/sora.tscn",
 										   "res://entities/character_specifics/azki.tscn",
 										   "res://entities/character_specifics/roboco.tscn",
@@ -123,6 +117,7 @@ var entities_chosen: Array[Node] = []
 var nexus_inventory: Array[int] = [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1]
 
 # save
+var save_data_node = null
 var current_save: int = -1
 
 func _ready():
@@ -229,6 +224,7 @@ func start_game():
 			nexus_nodes_unlocked[i] = standby_player_nodes[i].character_specifics_node.default_unlocked_nexus_nodes.duplicate()
 		i += 1
 
+	##### ????
 	i = 0
 	for character_index in party_player_character_index:
 		for player_node in standby_player_nodes:
@@ -246,10 +242,13 @@ func start_game():
 	party_player_nodes[0].position = spawn_positions[0]
 
 	for player_node in party_player_nodes:
+		player_node.add_to_group("party")
 		if player_node != current_main_player_node:
 			player_node.position = current_main_player_node.position + (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
+		
 	
 	for player_node in standby_player_nodes:
+		player_node.add_to_group("standby")
 		player_node.set_physics_process(false)
 		player_node.hide()
 	
@@ -263,6 +262,9 @@ func start_game():
 	combat_inputs_available = true
 
 	mouse_in_zoom_area = true
+
+func save(save_file):
+	save_data_node.save(save_file)
 
 # change scene (called from scenes)
 func change_scene(next_scene_index, spawn_index):
