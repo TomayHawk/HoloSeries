@@ -117,8 +117,7 @@ var entities_chosen: Array[Node] = []
 var nexus_inventory: Array[int] = [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1]
 
 # save
-var save_data_node = null
-var current_save: int = -1
+var current_save := -1
 
 func _ready():
 	set_physics_process(false)
@@ -206,65 +205,13 @@ func esc_input():
 		combat_inputs_available = false
 		game_paused = true
 
-func start_game():
-	# instantiate WorldScene1
-	get_tree().call_deferred("change_scene_to_file", scene_paths[0])
-
-	var i = 0
-	for character_unlocked in unlocked_players:
-		if character_unlocked:
-			# create base player
-			standby_player_nodes.push_back(load(base_player_path).instantiate())
-			# attach character specifics
-			standby_player_nodes[i].add_child(load(character_specifics_paths[i]).instantiate())
-			# put player in Standby
-			standby_node.add_child(standby_player_nodes[i])
-			standby_player_nodes[i].player_stats_node.update_stats()
-			##### add unlocked nodes (should be erased after adding "unlock character")
-			nexus_nodes_unlocked[i] = standby_player_nodes[i].character_specifics_node.default_unlocked_nexus_nodes.duplicate()
-		i += 1
-
-	##### ????
-	i = 0
-	for character_index in party_player_character_index:
-		for player_node in standby_player_nodes:
-			if player_node.character_specifics_node.character_index == character_index:
-				party_player_nodes.push_back(player_node)
-				standby_player_nodes.erase(player_node)
-				player_node.reparent(party_node)
-				party_player_nodes[i].player_stats_node.update_stats()
-				combat_ui_node.character_name_label_nodes[i].text = party_player_nodes[i].character_specifics_node.character_name
-				break
-		i += 1
-	
-	current_main_player_node = party_player_nodes[0]
-	update_main_player(current_main_player_node)
-	party_player_nodes[0].position = spawn_positions[0]
-
-	for player_node in party_player_nodes:
-		player_node.add_to_group("party")
-		if player_node != current_main_player_node:
-			player_node.position = current_main_player_node.position + (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
-		
-	
-	for player_node in standby_player_nodes:
-		player_node.add_to_group("standby")
-		player_node.set_physics_process(false)
-		player_node.hide()
-	
-	i = 3
-	for party_player_empty in (4 - party_player_nodes.size()):
-		combat_ui_node.players_info_nodes[i].hide()
-		combat_ui_node.players_progress_bar_nodes[i].hide()
-		i -= 1
+func start_game(save_data_node, save_file):
+	save_data_node.load_file(save_file)
 
 	combat_ui_node.update_character_selector()
 	combat_inputs_available = true
 
 	mouse_in_zoom_area = true
-
-func save(save_file):
-	save_data_node.save(save_file)
 
 # change scene (called from scenes)
 func change_scene(next_scene_index, spawn_index):
