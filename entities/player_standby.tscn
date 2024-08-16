@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8hnrf1l0dfw0"]
+
+[ext_resource type="Script" path="res://scripts/entities_scripts/player_standby.gd" id="1_cdm3u"]
+[ext_resource type="PackedScene" uid="uid://bba5o3t2xufxm" path="res://components/player_stats_component.tscn" id="2_vpg0f"]
+
+[node name="PlayerStandby" type="Node2D"]
+position = Vector2(2e+06, 2e+06)
+script = ExtResource("1_cdm3u")
+
+[node name="PlayerStatsComponent" parent="." instance=ExtResource("2_vpg0f")]
+
+[node name="KnockbackTimer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true

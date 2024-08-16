@@ -11,12 +11,12 @@ extends Node2D
 
 # character information
 @onready var last_nodes: Array[int] = GlobalSettings.nexus_last_nodes.duplicate()
-@onready var nodes_unlocked: Array[Array] = GlobalSettings.nexus_nodes_unlocked.duplicate()
-@onready var nodes_unlockable: Array[Array] = GlobalSettings.nexus_nodes_unlockable.duplicate()
-@onready var nodes_quality: Array[int] = GlobalSettings.nexus_nodes_quality.duplicate()
-@onready var nodes_converted: Array[Array] = GlobalSettings.nexus_nodes_converted.duplicate()
-@onready var nodes_converted_type: Array[Array] = GlobalSettings.nexus_nodes_converted_type.duplicate()
-@onready var nodes_converted_quality: Array[Array] = GlobalSettings.nexus_nodes_converted_quality.duplicate()
+@onready var nodes_unlocked: Array[Array] = GlobalSettings.nexus_unlocked.duplicate()
+@onready var nodes_unlockable: Array[Array] = GlobalSettings.nexus_unlockablea.duplicate()
+@onready var nodes_quality: Array[int] = GlobalSettings.nexus_quality.duplicate()
+@onready var nodes_converted: Array[Array] = GlobalSettings.nexus_converted.duplicate()
+@onready var nodes_converted_type: Array[Array] = GlobalSettings.nexus_converted_type.duplicate()
+@onready var nodes_converted_quality: Array[Array] = GlobalSettings.nexus_converted_quality.duplicate()
 
 @onready var unlockable_load := load("res://resources/nexus_unlockables.tscn")
 var unlockable_instance: Node = null
@@ -433,8 +433,4 @@ func exit_nexus():
 
 	# update camera
 	GlobalSettings.update_camera_node()
-
-	# save nexus
-	GlobalSettings.save(GlobalSettings.save_data_node.temp_save)
-
 	queue_free()

@@ -6,14 +6,14 @@ extends Node
 
 @onready var combat_ui_node := GlobalSettings.combat_ui_node
 
-@onready var health_bar_node := player_node.get_node("HealthBar")
-@onready var mana_bar_node := player_node.get_node("ManaBar")
-@onready var stamina_bar_node := player_node.get_node("StaminaBar")
+@onready var health_bar_node := $HealthBar
+@onready var mana_bar_node := $ManaBar
+@onready var stamina_bar_node := $StaminaBar
 
 @onready var knockback_timer := player_node.get_node("KnockbackTimer")
 
 # player variables
-var party_index := 0
+var party_index := -1
 var alive := true
 var stamina_slow_recovery := false
 
@@ -61,18 +61,14 @@ func _physics_process(_delta):
 			update_stamina(0.25)
 		else:
 			update_stamina(0.5)
+	
+	if mana == max_mana && stamina == max_stamina:
+		set_physics_process(false)
 
 func update_stats():
-	var i = 0
-	for party_player_node in GlobalSettings.party_player_nodes:
-		if player_node == party_player_node:
-			party_index = i
-			break
-		i += 1
-
 	# set max stats
-	max_health = character_specifics_node.default_max_health
-	max_mana = character_specifics_node.default_max_mana
+	max_health = character_specifics_node.default_max_health + GlobalSettings.nexus_stats[character_specifics_node.character_index][0]
+	max_mana = character_specifics_node.default_max_mana + GlobalSettings.nexus_stats[character_specifics_node.character_index][1]
 	max_stamina = character_specifics_node.default_max_stamina
 
 	# set stats bars max values
@@ -80,18 +76,13 @@ func update_stats():
 	mana_bar_node.max_value = max_mana
 	stamina_bar_node.max_value = max_stamina
 
-	# update stats
-	update_health(0, [], Vector2.ZERO, 0.0)
-	update_mana(0)
-	update_stamina(0)
-
 	level = character_specifics_node.default_level
-	defence = character_specifics_node.default_defence
-	shield = character_specifics_node.default_shield
-	strength = character_specifics_node.default_strength
-	intelligence = character_specifics_node.default_intelligence
-	speed = character_specifics_node.default_speed
-	agility = character_specifics_node.default_agility
+	defence = character_specifics_node.default_defence + GlobalSettings.nexus_stats[character_specifics_node.character_index][2]
+	shield = character_specifics_node.default_shield + GlobalSettings.nexus_stats[character_specifics_node.character_index][3]
+	strength = character_specifics_node.default_strength + GlobalSettings.nexus_stats[character_specifics_node.character_index][4]
+	intelligence = character_specifics_node.default_intelligence + GlobalSettings.nexus_stats[character_specifics_node.character_index][5]
+	speed = character_specifics_node.default_speed + GlobalSettings.nexus_stats[character_specifics_node.character_index][6]
+	agility = character_specifics_node.default_agility + GlobalSettings.nexus_stats[character_specifics_node.character_index][7]
 	crit_chance = character_specifics_node.default_crit_chance
 	crit_damage = character_specifics_node.default_crit_damage
 
@@ -103,6 +94,13 @@ func update_stats():
 	player_node.sprinting_stamina_consumption = 0.8 - (agility * 0.00048828125)
 
 	player_node.dash_time = 0.2 * (1 - (agility * 0.000625))
+
+	# update stats
+	if player_node in GlobalSettings.party_player_nodes:
+		party_index = player_node.get_index()
+		update_health(0, [], Vector2.ZERO, 0.0)
+		update_mana(0)
+		update_stamina(0)
 
 func update_health(value, types, knockback_direction, knockback_weight):
 	if alive:
@@ -153,6 +151,8 @@ func update_mana(value):
 		mana_bar_node.visible = mana < max_mana
 		combat_ui_node.update_mana_label(party_index, mana)
 
+		if mana < max_mana: set_physics_process(true)
+
 func update_stamina(value):
 	if alive:
 		# update stamina bar
@@ -167,6 +167,8 @@ func update_stamina(value):
 		elif stamina == max_stamina:
 			stamina_slow_recovery = false
 			stamina_bar_node.modulate = Color(1, 0.5, 0, 1)
+		
+		if stamina < max_stamina: set_physics_process(true)
 
 func trigger_death():
 	# stop player process

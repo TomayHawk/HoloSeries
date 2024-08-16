@@ -7,9 +7,9 @@
 bg_color = Color(0.0313726, 0.678431, 0.72549, 1)
 
 [node name="MainMenu" type="Node2D"]
+script = ExtResource("1_tgs5c")
 
 [node name="MainMenuOptions" type="CanvasLayer" parent="."]
-script = ExtResource("1_tgs5c")
 
 [node name="MenuMargin" type="MarginContainer" parent="MainMenuOptions"]
 anchors_preset = 7
@@ -143,10 +143,10 @@ text = "New Game"
 
 [node name="SaveData" parent="." instance=ExtResource("2_t5weu")]
 
-[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/PlayButton" to="MainMenuOptions" method="_on_play_button_pressed"]
-[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/MultiplayerButton" to="MainMenuOptions" method="_on_multiplayer_button_pressed"]
-[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/SavesButton" to="MainMenuOptions" method="_on_saves_button_pressed"]
-[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/MiniGamesButton" to="MainMenuOptions" method="_on_mini_games_button_pressed"]
-[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/AchievementsButton" to="MainMenuOptions" method="_on_achievements_button_pressed"]
-[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/LeaderboardsButton" to="MainMenuOptions" method="_on_leaderboards_button_pressed"]
-[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/SettingsButton" to="MainMenuOptions" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/MultiplayerButton" to="." method="_on_multiplayer_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/SavesButton" to="." method="_on_saves_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/MiniGamesButton" to="." method="_on_mini_games_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/AchievementsButton" to="." method="_on_achievements_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/LeaderboardsButton" to="." method="_on_leaderboards_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]

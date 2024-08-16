@@ -17,17 +17,9 @@ var current_main_player_node: Node = null
 @onready var camera_node := $Camera2D
 @onready var leaving_combat_timer_node := $LeavingCombatTimer
 
-@onready var base_player_path := "res://entities/player.tscn"
-
 @onready var scene_paths := ["res://scenes/world_scene_1.tscn",
 						   "res://scenes/world_scene_2.tscn",
 						   "res://scenes/dungeon_scene_1.tscn"]
-
-@onready var character_specifics_paths := ["res://entities/character_specifics/sora.tscn",
-										   "res://entities/character_specifics/azki.tscn",
-										   "res://entities/character_specifics/roboco.tscn",
-										   "res://entities/character_specifics/akirose.tscn",
-										   "res://entities/character_specifics/luna.tscn"]
 
 @onready var entity_highlights_paths := ["res://resources/entity_highlights/enemy_highlight.tscn",
 										"res://resources/entity_highlights/enemy_marker.tscn",
@@ -66,36 +58,34 @@ scene spawn locations
 """
 
 # player variables
-var party_player_character_index := [0, 4, 3, -1]
 var party_player_nodes: Array[Node] = []
 var standby_player_nodes: Array[Node] = []
 
-var unlocked_players: Array[bool] = [true, true, true, true, true]
+var unlocked_characters := []
+var character_levels := []
+var character_experiences := []
 
 # nexus variables
 var nexus_camera_node: Node = null
 var on_nexus := false
 var nexus_character_selector_node: Node = null
-var unlocked_stats_nodes: Array[Array] = [[0, 0, 0, 0, 0, 0, 0, 0],
-										  [0, 0, 0, 0, 0, 0, 0, 0],
-										  [0, 0, 0, 0, 0, 0, 0, 0],
-										  [0, 0, 0, 0, 0, 0, 0, 0],
-										  [0, 0, 0, 0, 0, 0, 0, 0],
-										  [0, 0, 0, 0, 0, 0, 0, 0],
-										  [0, 0, 0, 0, 0, 0, 0, 0],
-										  [0, 0, 0, 0, 0, 0, 0, 0],
-										  [0, 0, 0, 0, 0, 0, 0, 0],
-										  [0, 0, 0, 0, 0, 0, 0, 0]]
-var nexus_not_randomized := true
-var nexus_randomized_atlas_positions: Array[Vector2] = []
+# HP, MP, DEF, SHD, ATK, INT, SPD, AGI
+var nexus_stats := [[0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0]]
 
-var nexus_last_nodes: Array[int] = [167, 154, 333, 523, 132]
-var nexus_nodes_unlocked: Array[Array] = [[], [], [], [], []]
-var nexus_nodes_unlockable: Array[Array] = [[], [], [], [], []]
-var nexus_nodes_quality: Array[int] = []
-var nexus_nodes_converted: Array[Array] = [[], [], [], [], []]
-var nexus_nodes_converted_type: Array[Array] = [[], [], [], [], []]
-var nexus_nodes_converted_quality: Array[Array] = [[], [], [], [], []]
+var nexus_not_randomized := true
+var nexus_randomized_atlas_positions := []
+
+var nexus_last_nodes := []
+var nexus_unlocked := [[], [], [], [], []]
+var nexus_unlockables := [[], [], [], [], []]
+var nexus_quality := []
+var nexus_converted := [[], [], [], [], []]
+var nexus_converted_type := [[], [], [], [], []]
+var nexus_converted_quality := [[], [], [], [], []]
 
 # combat variables
 var in_combat := false
@@ -114,7 +104,8 @@ var entities_chosen_count := 0
 var entities_chosen: Array[Node] = []
 
 # inventory
-var nexus_inventory: Array[int] = [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1]
+var inventory := []
+var nexus_inventory := []
 
 # save
 var current_save := -1
@@ -206,11 +197,9 @@ func esc_input():
 		game_paused = true
 
 func start_game(save_data_node, save_file):
-	save_data_node.load_file(save_file)
-
+	save_data_node.load(save_file)
 	combat_ui_node.update_character_selector()
 	combat_inputs_available = true
-
 	mouse_in_zoom_area = true
 
 # change scene (called from scenes)
