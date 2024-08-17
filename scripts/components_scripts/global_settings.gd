@@ -60,6 +60,7 @@ scene spawn locations
 # player variables
 var party_player_nodes: Array[Node] = []
 var standby_player_nodes: Array[Node] = []
+var standby_character_indices := []
 
 var unlocked_characters := []
 var character_levels := []
