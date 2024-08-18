@@ -4,7 +4,7 @@ extends Node2D
 
 func _on_play_button_pressed():
 	GlobalSettings.start_game(save_data_node, save_data_node.last_save)
-	queue_free()
+	# queue_free()
 
 func _on_saves_button_pressed():
 	pass

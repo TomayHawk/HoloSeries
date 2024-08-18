@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 # node variables
 @onready var player_node := get_parent()
@@ -97,6 +97,7 @@ func update_stats():
 
 	# update stats
 	if player_node in GlobalSettings.party_player_nodes:
+		print(player_node.get_index())
 		party_index = player_node.get_index()
 		update_health(0, [], Vector2.ZERO, 0.0)
 		update_mana(0)
@@ -149,6 +150,7 @@ func update_mana(value):
 		mana = clamp(mana + value, 0, max_mana)
 		mana_bar_node.value = mana
 		mana_bar_node.visible = mana < max_mana
+		print("mana bar visibility", mana < max_mana)
 		combat_ui_node.update_mana_label(party_index, mana)
 
 		if mana < max_mana: set_physics_process(true)
@@ -159,6 +161,7 @@ func update_stamina(value):
 		stamina = clamp(stamina + value, 0, max_stamina)
 		stamina_bar_node.value = stamina
 		stamina_bar_node.visible = stamina < max_stamina
+		print("stamina bar visibility", stamina < max_stamina)
 
 		# deal with slow recovery
 		if stamina == 0:

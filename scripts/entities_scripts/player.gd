@@ -1,13 +1,13 @@
 extends CharacterBody2D
 
 # node variables
-@onready var player_stats_node := $PlayerStatsComponent
+@onready var player_stats_node := get_node("PlayerStatsComponent")
 @onready var attack_shape_node := $AttackShape
 @onready var navigation_agent_node := $NavigationAgent2D
 @onready var obstacle_check_node := $ObstacleCheck
 
-@onready var character_specifics_node := $CharacterSpecifics
-@onready var animation_node := $CharacterSpecifics/Animation
+@onready var character_specifics_node := get_node("CharacterSpecifics")
+@onready var animation_node := get_node("CharacterSpecifics/Animation")
 
 # timer nodes
 @onready var attack_cooldown_node := $AttackCooldown
@@ -79,11 +79,11 @@ func _physics_process(delta):
 		if player_stats_node.stamina > 0 && !player_stats_node.stamina_slow_recovery:
 			# dash
 			if Input.is_action_just_pressed("dash") && !dashing:
-				player_stats_node.stamina -= dash_stamina_consumption
+				player_stats_node.update_stamina(-dash_stamina_consumption)
 				dash()
 			# sprint
 			elif Input.is_action_pressed("dash"):
-				player_stats_node.stamina -= sprinting_stamina_consumption
+				player_stats_node.update_stamina(-sprinting_stamina_consumption)
 				sprinting = true
 			elif sprinting:
 				sprinting = false

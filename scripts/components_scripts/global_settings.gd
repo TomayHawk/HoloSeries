@@ -205,7 +205,7 @@ func start_game(save_data_node, save_file):
 
 # change scene (called from scenes)
 func change_scene(next_scene_index, spawn_index):
-	party_node.call_deferred("reparent", GlobalSettings)
+	party_node.call_deferred("reparent", self)
 	
 	get_tree().call_deferred("change_scene_to_file", scene_paths[next_scene_index])
 

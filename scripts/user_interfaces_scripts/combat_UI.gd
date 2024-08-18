@@ -6,7 +6,6 @@ extends CanvasLayer
 @onready var combat_options_2_modes := $Control/CombatOptions2/ScrollContainer/MarginContainer.get_children()
 @onready var players_info_nodes := $Control/CharacterInfos/VBoxContainer.get_children()
 @onready var players_progress_bar_nodes := $Control/CharacterInfos/Control.get_children()
-@onready var temp_character_selector_player_container_node := $CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer
 @onready var character_selector_player_nodes := $CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer.get_children()
 
 @onready var abilities_load: Array[Resource] = [load("res://entities/abilities/fireball.tscn"),
@@ -45,6 +44,8 @@ func _ready():
 # CombatUI health text update
 func update_health_label(party_index, health):
 	players_health_label_nodes[party_index].text = str(floor(health))
+	print("health label", players_health_label_nodes[party_index].visible)
+	print("parent", $Control/CharacterInfos/VBoxContainer.visible)
 
 func update_mana_label(party_index, mana):
 	players_mana_label_nodes[party_index].text = str(floor(mana))
@@ -137,37 +138,23 @@ func _on_control_mouse_exited():
 	GlobalSettings.mouse_in_zoom_area = true
 
 func _on_character_selector_button_pressed(extra_arg_0):
-	var i = 0
-	var temp_position = Vector2.ZERO
-	
-	for party_character_index in GlobalSettings.party_player_character_index:
-		if GlobalSettings.current_main_player_node.character_specifics_node.character_index == party_character_index:
-			break
-		i += 1
+	GlobalSettings.current_main_player_node.character_specifics_node.reparent(GlobalSettings.standby_node)
+	GlobalSettings.current_main_player_node.player_stats_node.reparent(GlobalSettings.standby_node)
+	GlobalSettings.standby_player_nodes[extra_arg_0].character_specifics_node.reparent(GlobalSettings.current_main_player_node)
+	GlobalSettings.standby_player_nodes[extra_arg_0].player_stats_node.reparent(GlobalSettings.current_main_player_node)
+	GlobalSettings.standby_node.get_node("CharacterSpecifics").reparent(GlobalSettings.standby_player_nodes[extra_arg_0])
+	GlobalSettings.standby_node.get_node("PlayerStatsComponent").reparent(GlobalSettings.standby_player_nodes[extra_arg_0])
 
-	GlobalSettings.party_player_character_index[i] = GlobalSettings.standby_player_nodes[extra_arg_0].character_specifics_node.character_index
+	GlobalSettings.current_main_player_node.player_stats_node = GlobalSettings.current_main_player_node.get_node("PlayerStatsComponent")
+	GlobalSettings.current_main_player_node.character_specifics_node = GlobalSettings.current_main_player_node.get_node("CharacterSpecifics")
+	GlobalSettings.current_main_player_node.animation_node = GlobalSettings.current_main_player_node.get_node("CharacterSpecifics/Animation")
+	GlobalSettings.current_main_player_node.character_specifics_node.position = Vector2.ZERO
 
-	GlobalSettings.current_main_player_node.set_physics_process(false)
-	GlobalSettings.current_main_player_node.hide()
-	GlobalSettings.current_main_player_node.reparent(GlobalSettings.standby_node)
-	GlobalSettings.standby_player_nodes.push_back(GlobalSettings.current_main_player_node)
-	GlobalSettings.party_player_nodes.erase(GlobalSettings.current_main_player_node)
-
-	temp_position = GlobalSettings.current_main_player_node.position + Vector2(0, 0.01)
-	
-	GlobalSettings.current_main_player_node.position = Vector2(2000000, 2000000)
-
-	GlobalSettings.update_main_player(GlobalSettings.standby_player_nodes[extra_arg_0])
-
-	GlobalSettings.current_main_player_node.position = temp_position
-
-	GlobalSettings.standby_player_nodes.erase(GlobalSettings.current_main_player_node)
-
-	GlobalSettings.current_main_player_node.set_physics_process(true)
-	GlobalSettings.current_main_player_node.show()
-	GlobalSettings.current_main_player_node.reparent(GlobalSettings.party_node)
-	GlobalSettings.party_player_nodes.insert(i, GlobalSettings.current_main_player_node)
+	GlobalSettings.standby_player_nodes[extra_arg_0].player_stats_node = GlobalSettings.standby_player_nodes[extra_arg_0].get_node("PlayerStatsComponent")
+	GlobalSettings.standby_player_nodes[extra_arg_0].character_specifics_node = GlobalSettings.standby_player_nodes[extra_arg_0].get_node("CharacterSpecifics")
+	GlobalSettings.standby_player_nodes[extra_arg_0].character_specifics_node.position = Vector2.ZERO
 
 	GlobalSettings.current_main_player_node.player_stats_node.update_stats()
+	
 	character_name_label_nodes[GlobalSettings.current_main_player_node.player_stats_node.party_index].text = GlobalSettings.current_main_player_node.character_specifics_node.character_name
 	update_character_selector()

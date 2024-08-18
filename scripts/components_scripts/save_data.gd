@@ -93,18 +93,17 @@ func load(save_file):
 									  "res://entities/character_specifics/luna.tscn"]
 	var player_standby_path := "res://entities/player_standby.tscn"
 
-	var party_node = GlobalSettings.party_node
 	var party_player_nodes = GlobalSettings.party_player_nodes
 	var player_node: Node = null
-
+	
 	# create party characters
 	for character_index in saves[save_file]["party"]:
 		# create base player, attach character specifics, add character to party node, update player stats, add player to "party" group
 		player_node = load(base_player_path).instantiate()
-		party_player_nodes.push_back(player_node)
-		
 		player_node.add_child(load(character_specifics_paths[character_index]).instantiate())
-		party_node.add_child(player_node)
+
+		party_player_nodes.push_back(player_node)
+		GlobalSettings.party_node.add_child(player_node)
 		player_node.player_stats_node.update_stats()
 		player_node.add_to_group("party")
 		GlobalSettings.combat_ui_node.character_name_label_nodes[party_player_nodes.size() - 1].text = party_player_nodes[party_player_nodes.size() - 1].character_specifics_node.character_name
@@ -119,13 +118,13 @@ func load(save_file):
 	
 	for character_index in saves[save_file]["standby"]:
 		player_node = load(player_standby_path).instantiate()
+		player_node.add_child(load(character_specifics_paths[character_index]).instantiate())
 		GlobalSettings.standby_player_nodes.push_back(player_node)
 		GlobalSettings.standby_node.add_child(player_node)
-		player_node.add_child(load(character_specifics_paths[character_index]).instantiate())
-		GlobalSettings.player_node.player_stats_node.update_stats()
+		player_node.player_stats_node.update_stats()
 
 	# hide unused character info slots
 	for i in 4:
-		if i <= party_player_nodes.size():
+		if i >= party_player_nodes.size():
 			GlobalSettings.combat_ui_node.players_info_nodes[i].hide()
 			GlobalSettings.combat_ui_node.players_progress_bar_nodes[i].hide()
