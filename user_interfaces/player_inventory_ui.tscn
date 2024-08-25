@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://cjuro6l8pppiv"]
+[gd_scene load_steps=4 format=3 uid="uid://cjuro6l8pppiv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fc3sm"]
 bg_color = Color(0.235294, 0.235294, 0.235294, 0.752941)
@@ -8,6 +8,10 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0.615686, 1, 1, 0.321569)
 border_blend = true
+
+[sub_resource type="Theme" id="Theme_a7okr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7h4p0"]
 
 [node name="PlayerInventoryUI" type="CanvasLayer"]
 
@@ -42,169 +46,273 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_fc3sm")
 
 [node name="TabContainer" type="TabContainer" parent="Control/MarginContainer"]
 layout_mode = 2
+theme = SubResource("Theme_a7okr")
 theme_override_constants/side_margin = 4
 theme_override_font_sizes/font_size = 8
+theme_override_styles/tab_selected = SubResource("StyleBoxFlat_7h4p0")
 tab_focus_mode = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/TabContainer"]
+[node name="Combat Items" type="MarginContainer" parent="Control/MarginContainer/TabContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Control/MarginContainer/TabContainer/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/MarginContainer/TabContainer/Combat Items"]
 layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
 
-[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer"]
+[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
 columns = 2
 
-[node name="Button" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
-text = "First"
+text = " "
 clip_text = true
 
-[node name="Button2" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Label" type="Label" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_right = -23.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 8
+text = "Potion"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 105.0
+offset_right = -36.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 8
+text = ":"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 106.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 8
+text = "XXX"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button2" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button3" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button3" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button4" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button4" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button5" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button5" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button6" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button6" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button7" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button7" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button8" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button8" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button9" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button9" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button10" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button10" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button11" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button11" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button12" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button12" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button13" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button13" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button14" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button14" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button15" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button15" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button16" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button16" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button17" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button17" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button18" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button18" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button19" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button19" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button20" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button20" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="MarginContainer2" type="MarginContainer" parent="Control/MarginContainer/TabContainer"]
+[node name="Button21" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button22" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button23" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button24" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button25" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button26" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button27" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button28" type="Button" parent="Control/MarginContainer/TabContainer/Combat Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Equipment" type="MarginContainer" parent="Control/MarginContainer/TabContainer"]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 16
@@ -212,157 +320,245 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Control/MarginContainer/TabContainer/MarginContainer2"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/MarginContainer/TabContainer/Equipment"]
 layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
 
-[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer"]
+[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
 columns = 2
 
-[node name="Button" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
-text = "Second"
+text = " Sword"
+clip_text = true
 
-[node name="Button2" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-focus_mode = 1
+[node name="Label" type="Label" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_right = -23.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_font_sizes/font_size = 8
+text = "Potion                               :"
+vertical_alignment = 1
 
-[node name="Button3" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-focus_mode = 1
+[node name="Label2" type="Label" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 106.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_font_sizes/font_size = 8
+text = "XXX"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Button4" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-focus_mode = 1
-theme_override_font_sizes/font_size = 8
-
-[node name="Button5" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-focus_mode = 1
-theme_override_font_sizes/font_size = 8
-
-[node name="Button6" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-focus_mode = 1
-theme_override_font_sizes/font_size = 8
-
-[node name="Button7" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button2" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button8" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button3" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button9" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button4" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button10" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button5" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button11" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button6" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button12" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button7" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button13" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button8" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button14" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button9" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button15" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button10" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button16" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button11" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button17" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button12" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button18" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button13" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button19" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button14" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button20" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer2/ScrollContainer/GridContainer"]
+[node name="Button15" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="MarginContainer3" type="MarginContainer" parent="Control/MarginContainer/TabContainer"]
+[node name="Button16" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button17" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button18" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button19" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button20" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button21" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button22" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button23" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button24" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button25" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button26" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button27" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button28" type="Button" parent="Control/MarginContainer/TabContainer/Equipment/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Nexus Items" type="MarginContainer" parent="Control/MarginContainer/TabContainer"]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 16
@@ -370,151 +566,238 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Control/MarginContainer/TabContainer/MarginContainer3"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/MarginContainer/TabContainer/Nexus Items"]
 layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
 
-[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer"]
+[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
 columns = 2
 
-[node name="Button" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
-text = "Third"
+text = " "
 clip_text = true
 
-[node name="Button2" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Label" type="Label" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_right = -23.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 8
+text = "Item                                  :"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 106.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 8
+text = "XXX"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button2" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button3" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button3" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button4" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button4" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button5" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button5" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button6" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button6" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button7" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button7" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button8" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button8" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button9" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button9" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button10" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button10" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button11" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button11" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button12" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button12" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button13" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button13" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button14" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button14" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button15" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button15" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button16" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button16" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button17" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button17" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button18" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button18" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button19" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button19" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
 
-[node name="Button20" type="Button" parent="Control/MarginContainer/TabContainer/MarginContainer3/ScrollContainer/GridContainer"]
+[node name="Button20" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button21" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button22" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button23" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button24" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button25" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button26" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button27" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 8
+
+[node name="Button28" type="Button" parent="Control/MarginContainer/TabContainer/Nexus Items/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

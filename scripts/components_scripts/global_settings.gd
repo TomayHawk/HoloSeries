@@ -114,7 +114,6 @@ var current_save := -1
 func _ready():
 	set_physics_process(false)
 	game_options_node.hide()
-	text_box_node.hide()
 
 func _physics_process(delta):
 	if target_zoom.x != current_camera_node.zoom.x:
