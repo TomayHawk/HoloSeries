@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cjuro6l8pppiv"]
+[gd_scene load_steps=5 format=3 uid="uid://cjuro6l8pppiv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fc3sm"]
 bg_color = Color(0.235294, 0.235294, 0.235294, 0.752941)
@@ -12,6 +12,18 @@ border_blend = true
 [sub_resource type="Theme" id="Theme_a7okr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7h4p0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ndo58"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.25, 0.25, 0.25, 1)
+border_color = Color(0.1, 0.1, 0.1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [node name="PlayerInventoryUI" type="CanvasLayer"]
 
@@ -803,3 +815,39 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control"]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/MarginContainer2"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ndo58")
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer2/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Button" type="Button" parent="Control/MarginContainer2/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="Control/MarginContainer2/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button3" type="Button" parent="Control/MarginContainer2/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button4" type="Button" parent="Control/MarginContainer2/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button5" type="Button" parent="Control/MarginContainer2/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button6" type="Button" parent="Control/MarginContainer2/ScrollContainer/VBoxContainer"]
+layout_mode = 2
