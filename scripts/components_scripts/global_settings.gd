@@ -167,6 +167,10 @@ func full_screen_toggle():
 # esc inputs
 func esc_input():
 	if on_nexus:
+		if get_tree().root.get_node("HoloNexus").nexus_ui_node.inventory_node.visible:
+			get_tree().root.get_node("HoloNexus").nexus_ui_node.inventory_node.hide()
+			get_tree().root.get_node("HoloNexus").nexus_ui_node.update_nexus_ui()
+			return
 		get_tree().paused = false
 		show()
 		combat_ui_node.show()
@@ -176,7 +180,6 @@ func esc_input():
 		combat_inputs_available = true
 		nexus_inputs_available = false
 		get_tree().root.get_node("HoloNexus").call_deferred("exit_nexus")
-
 	elif requesting_entities:
 		empty_entities_request()
 	elif combat_ui_character_selector_node.visible:

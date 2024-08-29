@@ -381,7 +381,7 @@ offset_left = 17.0
 offset_right = 145.0
 offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
-text = "Nobility Crystal"
+text = "Love Crystal"
 vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LoveCrystal"]
@@ -1423,3 +1423,21 @@ vertical_alignment = 1
 [connection signal="mouse_exited" from="Control/Options2/MarginContainer/VBoxContainer/Cancel" to="." method="_on_button_mouse_exited"]
 [connection signal="pressed" from="Control/Options2/MarginContainer/VBoxContainer/Cancel" to="." method="_on_cancel_pressed"]
 [connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_character_selector_button_pressed" binds= [0]]
+[connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2" to="." method="_on_character_selector_button_pressed" binds= [1]]
+[connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3" to="." method="_on_character_selector_button_pressed" binds= [2]]
+[connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4" to="." method="_on_character_selector_button_pressed" binds= [3]]
+[connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5" to="." method="_on_character_selector_button_pressed" binds= [4]]
+[connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6" to="." method="_on_character_selector_button_pressed" binds= [5]]

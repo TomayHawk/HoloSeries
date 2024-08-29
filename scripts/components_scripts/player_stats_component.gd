@@ -46,7 +46,7 @@ var temp_bar_percentage := 1.0
 func _ready():
 	update_stats()
 
-	update_health(99999, ["break_limit"], Vector2.ZERO, 0.0)
+	update_health(99999, ["hidden", "break_limit"], Vector2.ZERO, 0.0)
 	update_mana(9999)
 	update_stamina(999)
 
@@ -98,7 +98,7 @@ func update_stats():
 	# update stats
 	if player_node in GlobalSettings.party_player_nodes:
 		party_index = player_node.get_index()
-		update_health(0, [], Vector2.ZERO, 0.0)
+		update_health(0, ["hidden"], Vector2.ZERO, 0.0)
 		update_mana(0)
 		update_stamina(0)
 

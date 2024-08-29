@@ -1,5 +1,6 @@
 extends Node2D
 
+var current_nexus_player := 0
 
 @onready var nexus_nodes := $NexusNodes.get_children()
 @onready var nexus_player_node := $NexusPlayer
@@ -7,7 +8,6 @@ extends Node2D
 @onready var nexus_player_crosshair_node := $NexusPlayer/Crosshair
 @onready var nexus_ui_node := $HoloNexusUI
 @onready var nexus_unlockables_node := $UnlockableNodes
-@onready var current_nexus_player: int = GlobalSettings.current_main_player_node.character_specifics_node.character_index
 
 # character information
 @onready var last_nodes = GlobalSettings.nexus_last_nodes.duplicate()
@@ -72,7 +72,7 @@ func _ready():
 			index_counter += 1
 
 	# update current player and allies in character selector
-	update_nexus_player(current_nexus_player)
+	update_nexus_player(GlobalSettings.current_main_player_node.character_specifics_node.character_index)
 	nexus_ui_node.update_character_selector()
 
 func stat_nodes_randomizer():
@@ -355,19 +355,21 @@ func update_nexus_player(player):
 		node.texture.region.position = GlobalSettings.nexus_randomized_atlas_positions[index_counter]
 
 		# update texture positions for converted nodes
-		if index_counter in nodes_converted[current_nexus_player]:
-			node.texture.region.position = nodes_converted_type[current_nexus_player][nodes_converted_type[current_nexus_player].find(index_counter)]
+		if index_counter in nodes_converted[player]:
+			node.texture.region.position = nodes_converted_type[player][nodes_converted_type[player].find(index_counter)]
 
 		# modulate null nodes, unlocked nodes and locked nodes
 		if index_counter in null_nodes:
 			nexus_nodes[index_counter].modulate = Color(0.2, 0.2, 0.2, 1)
-		elif index_counter in nodes_unlocked[current_nexus_player]:
+		elif index_counter in nodes_unlocked[player]:
+			print(index_counter)
 			nexus_nodes[index_counter].modulate = Color(1, 1, 1, 1)
 		else:
 			node.modulate = Color(0.25, 0.25, 0.25, 1)
 			
 			# check and outline unlockables
-			if index_counter in nodes_unlockable[current_nexus_player]:
+			if index_counter in nodes_unlockable[player]:
+				print(index_counter)
 				unlockable_instance = unlockable_load.instantiate()
 				unlockable_instance.name = str(index_counter)
 				nexus_unlockables_node.add_child(unlockable_instance)
@@ -381,7 +383,7 @@ func update_nexus_player(player):
 			nexus_nodes[temp_node_index].modulate = Color(0.33, 0.33, 0.33, 1)
 
 	# update player position
-	nexus_player_node.position = nexus_nodes[last_nodes[current_nexus_player]].position + Vector2(16, 16)
+	nexus_player_node.position = nexus_nodes[last_nodes[player]].position + Vector2(16, 16)
 	nexus_player_outline_node.show()
 	nexus_player_crosshair_node.hide()
 

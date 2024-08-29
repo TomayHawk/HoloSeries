@@ -77,6 +77,9 @@ func magic_heal_calculator(input_amount, origin_entity_stats_node):
 	return output_amount
 
 func damage_display(value, display_position, types):
+	if types.has("hidden"):
+		return
+
 	var display = Label.new()
 	display.global_position = display_position + Vector2(randf_range(-5, 5), randf_range(-5, 5))
 	display.text = str(abs(value))
