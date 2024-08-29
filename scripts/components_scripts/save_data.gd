@@ -6,7 +6,7 @@ var saves := [
 	{
 	"save_index": 0,
 	"current_scene_path": "res://scenes/world_scene_1.tscn",
-	"unlocked_characters": [true, true, true, false, true],
+	"unlocked_characters": [0, 1, 2, 4],
 	"party": [0, 4, 2],
 	"standby": [1],
 	"current_main_player": 4,
@@ -18,11 +18,11 @@ var saves := [
 	"nexus_randomized_atlas_positions": [],
 	"nexus_last_nodes": [167, 154, 333, 0, 132],
 	"nexus_unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]],
-	"nexus_unlockables": [],
+	"nexus_unlockables": [[151, 199], [171, 138], [301, 316, 348], [], [116, 164]],
 	"nexus_quality": [],
-	"nexus_converted": [],
-	"nexus_converted_type": [],
-	"nexus_converted_quality": [],
+	"nexus_converted": [[], [], [], [], []],
+	"nexus_converted_type": [[], [], [], [], []],
+	"nexus_converted_quality": [[], [], [], [], []],
 	"nexus_stats": [[0, 0, 0, 0, 0, 0, 0, 0],
 					[0, 0, 0, 0, 0, 0, 0, 0],
 					[0, 0, 0, 0, 0, 0, 0, 0],
@@ -85,13 +85,13 @@ func load(save_file):
 	GlobalSettings.nexus_stats = saves[save_file]["nexus_stats"].duplicate()
 	GlobalSettings.nexus_inventory = saves[save_file]["nexus_inventory"].duplicate()
 	
-	var base_player_path := "res://entities/player.tscn"
+	var base_player_path := "res://entities/players/player.tscn"
 	var character_specifics_paths := ["res://entities/character_specifics/sora.tscn",
 									  "res://entities/character_specifics/azki.tscn",
 									  "res://entities/character_specifics/roboco.tscn",
 									  "res://entities/character_specifics/akirose.tscn",
 									  "res://entities/character_specifics/luna.tscn"]
-	var player_standby_path := "res://entities/player_standby.tscn"
+	var player_standby_path := "res://entities/players/player_standby.tscn"
 
 	var party_player_nodes = GlobalSettings.party_player_nodes
 	var player_node: Node = null

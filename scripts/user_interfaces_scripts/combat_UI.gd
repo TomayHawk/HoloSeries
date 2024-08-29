@@ -44,8 +44,6 @@ func _ready():
 # CombatUI health text update
 func update_health_label(party_index, health):
 	players_health_label_nodes[party_index].text = str(floor(health))
-	print("health label", players_health_label_nodes[party_index].visible)
-	print("parent", $Control/CharacterInfos/VBoxContainer.visible)
 
 func update_mana_label(party_index, mana):
 	players_mana_label_nodes[party_index].text = str(floor(mana))
@@ -128,12 +126,10 @@ func use_temp_kill_item(chosen_player_node):
 	chosen_player_node.player_stats_node.update_health(-99999, ["break_limit"], Vector2.ZERO, 0.0)
 
 func _on_control_mouse_entered():
-	print("enter")
 	GlobalSettings.mouse_in_attack_area = false
 	GlobalSettings.mouse_in_zoom_area = false
 
 func _on_control_mouse_exited():
-	print("exit")
 	GlobalSettings.mouse_in_attack_area = true
 	GlobalSettings.mouse_in_zoom_area = true
 

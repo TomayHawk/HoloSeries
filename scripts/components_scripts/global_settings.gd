@@ -234,6 +234,7 @@ func update_main_player(next_main_player_node):
 	empty_entities_request()
 
 func update_camera_node():
+	camera_node.reparent(current_main_player_node)
 	current_camera_node = camera_node
 	camera_node.position = Vector2.ZERO
 	camera_node.zoom = Vector2(1.0, 1.0)
@@ -302,7 +303,6 @@ func request_entities(origin_node, target_command, request_count, request_entity
 		entities_available = party_player_nodes.duplicate() + enemy_nodes_in_combat.duplicate()
 	elif request_entity_type == "all_enemies_on_screen":
 		entities_available = current_scene_node.get_node("Enemies").get_children().duplicate()
-		print(entities_available)
 	elif request_entity_type == "all_entities_on_screen":
 		entities_available = party_player_nodes.duplicate() + current_scene_node.get_node("Enemies").get_children().duplicate()
 

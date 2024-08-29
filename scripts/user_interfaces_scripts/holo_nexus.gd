@@ -10,13 +10,13 @@ extends Node2D
 @onready var current_nexus_player: int = GlobalSettings.current_main_player_node.character_specifics_node.character_index
 
 # character information
-@onready var last_nodes: Array[int] = GlobalSettings.nexus_last_nodes.duplicate()
-@onready var nodes_unlocked: Array[Array] = GlobalSettings.nexus_unlocked.duplicate()
-@onready var nodes_unlockable: Array[Array] = GlobalSettings.nexus_unlockablea.duplicate()
-@onready var nodes_quality: Array[int] = GlobalSettings.nexus_quality.duplicate()
-@onready var nodes_converted: Array[Array] = GlobalSettings.nexus_converted.duplicate()
-@onready var nodes_converted_type: Array[Array] = GlobalSettings.nexus_converted_type.duplicate()
-@onready var nodes_converted_quality: Array[Array] = GlobalSettings.nexus_converted_quality.duplicate()
+@onready var last_nodes = GlobalSettings.nexus_last_nodes.duplicate()
+@onready var nodes_unlocked = GlobalSettings.nexus_unlocked.duplicate()
+@onready var nodes_unlockable = GlobalSettings.nexus_unlockables.duplicate()
+@onready var nodes_quality = GlobalSettings.nexus_quality.duplicate()
+@onready var nodes_converted = GlobalSettings.nexus_converted.duplicate()
+@onready var nodes_converted_type = GlobalSettings.nexus_converted_type.duplicate()
+@onready var nodes_converted_quality = GlobalSettings.nexus_converted_quality.duplicate()
 
 @onready var unlockable_load := load("res://resources/nexus_unlockables.tscn")
 var unlockable_instance: Node = null
@@ -68,7 +68,7 @@ func _ready():
 		index_counter = 0
 		for node in nexus_nodes:
 			if node.texture.region.position == empty_node_atlas_position:
-				node.texture.region.position = GlobalSettings.nexus_default_atlas_positions[index_counter]
+				node.texture.region.position = GlobalSettings.nexus_randomized_atlas_positions[index_counter]
 			index_counter += 1
 
 	# update current player and allies in character selector
@@ -210,11 +210,10 @@ func stat_nodes_randomizer():
 					nodes_quality[node_index] = default_stats_qualities[i][default_area_stats_qualities[area_type][i]][randi() % default_stats_qualities[i][default_area_stats_qualities[area_type][i]].size()]
 
 	# for each unlocked player, determine all unlockables
-	for player_index in GlobalSettings.unlocked_players.size():
-		if GlobalSettings.unlocked_players[player_index]:
-			for node_index in nodes_unlocked[player_index]:
-				# check for adjacent unlockables
-				check_adjacent_unlockables(node_index, player_index)
+	for character_index in GlobalSettings.unlocked_characters:
+		for node_index in nodes_unlocked[character_index]:
+			# check for adjacent unlockables
+			check_adjacent_unlockables(node_index, character_index)
 
 func stat_nodes_secondary_randomizer(area_nodes):
 	var empty_adjacents_count := 0
@@ -421,15 +420,16 @@ func check_adjacent_unlockables(origin_index, player):
 					break
 
 func exit_nexus():
-	GlobalSettings.nexus_nodes_unlocked = nodes_unlocked.duplicate()
+	GlobalSettings.nexus_unlocked = nodes_unlocked.duplicate()
+	GlobalSettings.nexus_quality = nodes_quality.duplicate()
 
 	# for each player, count unlocked stat nodes
-	for player_index in GlobalSettings.unlocked_players.size():
-		GlobalSettings.unlocked_stats_nodes[player_index] = [0, 0, 0, 0, 0, 0, 0, 0]
+	for character_index in GlobalSettings.unlocked_characters:
+		GlobalSettings.nexus_stats[character_index] = [0, 0, 0, 0, 0, 0, 0, 0]
 
-		for unlocked_index in nodes_unlocked[player_index]:
+		for unlocked_index in nodes_unlocked[character_index]:
 			if stats_node_atlas_position.find(nexus_nodes[unlocked_index].texture.region.position) != -1:
-				GlobalSettings.unlocked_stats_nodes[player_index][stats_node_atlas_position.find(nexus_nodes[unlocked_index].texture.region.position)] += 1
+				GlobalSettings.nexus_stats[character_index][stats_node_atlas_position.find(nexus_nodes[unlocked_index].texture.region.position)] += 1
 
 	# update camera
 	GlobalSettings.update_camera_node()

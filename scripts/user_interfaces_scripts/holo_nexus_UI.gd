@@ -72,7 +72,7 @@ func _ready():
 
 func _input(event):
 	if event is InputEventMouseButton && event.is_double_click():
-		print(event.is_double_click())
+		print("double click ", event.is_double_click())
 
 func update_nexus_ui():
 	var node_quality_string = str(nexus.nodes_quality[nexus.last_nodes[nexus.current_nexus_player]])
@@ -113,8 +113,6 @@ func update_character_selector():
 		i += 1
 
 func _on_character_selector_button_pressed(extra_arg_0):
-	# print(character_selector_origin_player_nodes[extra_arg_0])
-	# print(nexus_player.character_index[extra_arg_0])
 	nexus_player.update_nexus_player(extra_arg_0)
 
 func _on_unlock_pressed():
@@ -196,7 +194,6 @@ func convert(target_type_position):
 				nexus.nodes_converted_quality[nexus.current_nexus_player].push_back(nexus.converted_stats_qualities[i])
 				break
 
-	# print(target_type_position)
 	nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position = target_type_position
 	nexus.unlock_node()
 
@@ -207,5 +204,4 @@ func _on_button_mouse_exited():
 	GlobalSettings.mouse_in_zoom_area = true
 
 func _on_scroll_container_gui_input(_event):
-	# print("event", event)
 	pass

@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://c5o6bi43j562b"]
 
-[ext_resource type="Script" path="res://scripts/entities_scripts/player.gd" id="1_euq10"]
-[ext_resource type="PackedScene" uid="uid://bba5o3t2xufxm" path="res://components/player_stats_component.tscn" id="2_66p30"]
+[ext_resource type="Script" path="res://scripts/entities_scripts/players_scripts/player.gd" id="1_nqeof"]
+[ext_resource type="PackedScene" uid="uid://bba5o3t2xufxm" path="res://components/player_stats_component.tscn" id="2_bdkfa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
 size = Vector2(16, 7)
@@ -21,7 +21,7 @@ y_sort_enabled = true
 collision_mask = 79
 input_pickable = true
 motion_mode = 1
-script = ExtResource("1_euq10")
+script = ExtResource("1_nqeof")
 
 [node name="MovementHitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_n3b4m")
@@ -60,7 +60,7 @@ collision_mask = 14
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 debug_enabled = true
 
-[node name="PlayerStatsComponent" parent="." instance=ExtResource("2_66p30")]
+[node name="PlayerStatsComponent" parent="." instance=ExtResource("2_bdkfa")]
 
 [node name="AttackCooldown" type="Timer" parent="."]
 wait_time = 0.5
