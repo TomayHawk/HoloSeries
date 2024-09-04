@@ -66,3 +66,36 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 12
 text = "v"
+
+[node name="DialogueOptionsContainer" type="MarginContainer" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -105.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Panel" type="Panel" parent="DialogueOptionsContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogueOptionsContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Button" type="Button" parent="DialogueOptionsContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="DialogueOptionsContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Button3" type="Button" parent="DialogueOptionsContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Button4" type="Button" parent="DialogueOptionsContainer/MarginContainer"]
+layout_mode = 2
