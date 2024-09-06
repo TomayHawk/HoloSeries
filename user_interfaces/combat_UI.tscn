@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cow4d6dq0c31v"]
+[gd_scene load_steps=12 format=3 uid="uid://cow4d6dq0c31v"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_w0nri"]
 [ext_resource type="Texture2D" uid="uid://dxnu3xke1bx8l" path="res://art/characters/Untitled_Artwork (1).png" id="2_diyiq"]
@@ -20,27 +20,32 @@ VScrollBar/icons/increment_pressed = null
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_k0k2u"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4s7fn"]
-bg_color = Color(0.423529, 0.631373, 0.741176, 0.858824)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_251lu"]
+bg_color = Color(0.156863, 0.235294, 0.313726, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6buve"]
-bg_color = Color(0.709804, 0.776471, 0.854902, 0.858824)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ahdal"]
+bg_color = Color(0.156863, 0.235294, 0.313726, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x11mp"]
-bg_color = Color(0.423529, 0.631373, 0.741176, 0.858824)
-border_color = Color(0.811765, 0.811765, 0.811765, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0mjp5"]
+bg_color = Color(0.156863, 0.235294, 0.313726, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x66qc"]
+bg_color = Color(0.156863, 0.235294, 0.313726, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05wxr"]
 bg_color = Color(0.235294, 0.235294, 0.235294, 0.752941)
@@ -419,27 +424,40 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = SubResource("StyleBoxFlat_4s7fn")
-theme_override_styles/hover = SubResource("StyleBoxFlat_6buve")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_x11mp")
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Attack"
 
 [node name="Special" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Special"
 
 [node name="Skill" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Skill"
 
 [node name="Buff" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Buff
 "
 
@@ -447,30 +465,50 @@ text = "Buff
 layout_mode = 2
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Debuff"
 
 [node name="WhiteMagic" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "White Magic"
 
 [node name="BlackMagic" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Black Magic"
 
 [node name="Summon" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Summon"
 
 [node name="Items" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 focus_mode = 1
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Items"
 
 [node name="CharacterInfos" type="MarginContainer" parent="Control"]
@@ -1231,16 +1269,16 @@ one_shot = true
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/Potion" to="." method="request_entities" binds= ["use_potion", 1, "players_alive"]]
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion" to="." method="use_max_potion"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion" to="." method="use_max_potion"]
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="button_pressed"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="request_entities" binds= ["use_phoenix_burger", 1, "players_dead"]]
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton" to="." method="use_reset_button"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton" to="." method="use_reset_button"]
 [connection signal="mouse_entered" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem" to="." method="button_pressed"]
@@ -1249,8 +1287,8 @@ one_shot = true
 [connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer" to="." method="_on_control_mouse_exited"]
 [connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
 [connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="button_pressed"]
+[connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
 [connection signal="mouse_entered" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Special" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Special" to="." method="_on_control_mouse_entered"]
 [connection signal="pressed" from="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Special" to="." method="button_pressed"]
