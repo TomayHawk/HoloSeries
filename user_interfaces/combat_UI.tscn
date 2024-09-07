@@ -1,10 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://cow4d6dq0c31v"]
+[gd_scene load_steps=11 format=3 uid="uid://cow4d6dq0c31v"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_w0nri"]
 [ext_resource type="Texture2D" uid="uid://dxnu3xke1bx8l" path="res://art/characters/Untitled_Artwork (1).png" id="2_diyiq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhv31"]
-bg_color = Color(0.235294, 0.235294, 0.235294, 0.709804)
+bg_color = Color(0.156863, 0.235294, 0.313726, 0.501961)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -28,33 +28,29 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ahdal"]
-bg_color = Color(0.156863, 0.235294, 0.313726, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0mjp5"]
-bg_color = Color(0.156863, 0.235294, 0.313726, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x66qc"]
-bg_color = Color(0.156863, 0.235294, 0.313726, 1)
+bg_color = Color(0.2, 0.301961, 0.4, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05wxr"]
-bg_color = Color(0.235294, 0.235294, 0.235294, 0.752941)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.615686, 1, 1, 0.321569)
-border_blend = true
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0mjp5"]
+bg_color = Color(0.156863, 0.235294, 0.313726, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x66qc"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -121,9 +117,15 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Item" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/SpecialVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Item"
 
 [node name="SkillVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/ScrollContainer/MarginContainer"]
@@ -132,27 +134,51 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="LifeDrain" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Life Drain"
 
 [node name="ManaDrain" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Mana Drain"
 
 [node name="Taunt" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Taunt"
 
 [node name="PlayDice" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/SkillVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Play Dice"
 
 [node name="BuffVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/ScrollContainer/MarginContainer"]
@@ -162,9 +188,15 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Item" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/BuffVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Item"
 
 [node name="DebuffVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/ScrollContainer/MarginContainer"]
@@ -174,9 +206,15 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Item" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/DebuffVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Item"
 
 [node name="WhiteVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/ScrollContainer/MarginContainer"]
@@ -186,27 +224,51 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Heal" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/WhiteVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Heal"
 
 [node name="Protect" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/WhiteVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Protect"
 
 [node name="Haste" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/WhiteVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Haste"
 
 [node name="Regen" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/WhiteVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Regen"
 
 [node name="BlackVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/ScrollContainer/MarginContainer"]
@@ -216,21 +278,39 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Fireball" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/BlackVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Fireball"
 
 [node name="Poison" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/BlackVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Poison"
 
 [node name="Slowness" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/BlackVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Slowness"
 
 [node name="SummonVBoxContainer" type="VBoxContainer" parent="Control/CombatOptions2/ScrollContainer/MarginContainer"]
@@ -240,9 +320,15 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Item" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/SummonVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Item"
 
 [node name="ItemsGridContainer" type="GridContainer" parent="Control/CombatOptions2/ScrollContainer/MarginContainer"]
@@ -253,10 +339,16 @@ theme_override_constants/v_separation = 0
 columns = 2
 
 [node name="Potion" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = " "
 alignment = 0
 
@@ -280,10 +372,16 @@ text = "Potion"
 vertical_alignment = 1
 
 [node name="MaxPotion" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = " "
 
 [node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion"]
@@ -306,10 +404,16 @@ text = "MAX Potion"
 vertical_alignment = 1
 
 [node name="PhoenixBurger" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = " "
 alignment = 0
 
@@ -333,9 +437,15 @@ text = "Phoenix Burger"
 vertical_alignment = 1
 
 [node name="ResetButton" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = " "
 
 [node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton"]
@@ -358,9 +468,15 @@ text = "Reset Button"
 vertical_alignment = 1
 
 [node name="TempKillItem" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0mjp5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = " "
 
 [node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem"]
@@ -423,6 +539,7 @@ theme_override_constants/separation = 0
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
@@ -431,8 +548,10 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Attack"
 
 [node name="Special" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
@@ -441,8 +560,10 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Special"
 
 [node name="Skill" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
@@ -451,8 +572,10 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Skill"
 
 [node name="Buff" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
@@ -462,8 +585,10 @@ text = "Buff
 "
 
 [node name="Debuff" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
@@ -472,8 +597,10 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Debuff"
 
 [node name="WhiteMagic" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
@@ -482,8 +609,10 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "White Magic"
 
 [node name="BlackMagic" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
@@ -492,8 +621,10 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Black Magic"
 
 [node name="Summon" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
@@ -502,8 +633,10 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_x66qc")
 text = "Summon"
 
 [node name="Items" type="Button" parent="Control/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = SubResource("StyleBoxFlat_251lu")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ahdal")
@@ -529,7 +662,6 @@ theme_override_constants/margin_bottom = 16
 
 [node name="Panel" type="Panel" parent="Control/CharacterInfos"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_05wxr")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CharacterInfos"]
 layout_mode = 2
