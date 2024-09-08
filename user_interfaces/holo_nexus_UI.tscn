@@ -1,10 +1,46 @@
-[gd_scene load_steps=7 format=3 uid="uid://wsunon4ilt68"]
+[gd_scene load_steps=11 format=3 uid="uid://wsunon4ilt68"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/holo_nexus_ui.gd" id="1_602ku"]
 [ext_resource type="Texture2D" uid="uid://dxnu3xke1bx8l" path="res://art/characters/Untitled_Artwork (1).png" id="2_38u1l"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_01no7"]
 bg_color = Color(0.235294, 0.235294, 0.235294, 0.709804)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ox3j3"]
+bg_color = Color(0.156863, 0.235294, 0.313726, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h0afk"]
+bg_color = Color(0.2, 0.301961, 0.4, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exuv5"]
+bg_color = Color(0.156863, 0.235294, 0.313726, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_emryr"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fqi28"]
 bg_color = Color(0.235294, 0.235294, 0.235294, 0.709804)
@@ -69,23 +105,51 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Unlock" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = "Unlock"
 
 [node name="Upgrade" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = "Upgrade"
 
 [node name="Awaken" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = "Awaken"
 
 [node name="Items" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = "Items"
 
 [node name="NexusInventory" type="MarginContainer" parent="Control"]
@@ -122,8 +186,15 @@ size_flags_vertical = 3
 theme_override_constants/separation = 0
 
 [node name="LifeCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 alignment = 0
 
@@ -154,8 +225,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MagicCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MagicCrystal"]
@@ -185,8 +263,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DexterityCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DexterityCrystal"]
@@ -216,8 +301,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TalentCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TalentCrystal"]
@@ -247,8 +339,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BlessedCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/BlessedCrystal"]
@@ -278,8 +377,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AbyssalCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AbyssalCrystal"]
@@ -309,8 +415,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="StarCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarCrystal"]
@@ -340,8 +453,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ProsperityCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ProsperityCrystal"]
@@ -371,8 +491,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="LoveCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LoveCrystal"]
@@ -402,8 +529,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="NobilityCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/NobilityCrystal"]
@@ -433,8 +567,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SunlightCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SunlightCrystal"]
@@ -464,8 +605,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="StarlightCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarlightCrystal"]
@@ -495,8 +643,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MoonlightCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MoonlightCrystal"]
@@ -526,8 +681,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DreamCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DreamCrystal"]
@@ -557,8 +719,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ReturnCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ReturnCrystal"]
@@ -588,8 +757,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ShareCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShareCrystal"]
@@ -619,8 +795,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="InstantCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/InstantCrystal"]
@@ -650,8 +833,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HealthCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/HealthCrystal"]
@@ -681,8 +871,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ManaCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ManaCrystal"]
@@ -712,8 +909,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DefenceCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DefenceCrystal"]
@@ -743,8 +947,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ShieldCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShieldCrystal"]
@@ -774,8 +985,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AttackCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AttackCrystal"]
@@ -805,8 +1023,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="IntelligenceCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/IntelligenceCrystal"]
@@ -836,8 +1061,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SpeedCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SpeedCrystal"]
@@ -867,8 +1099,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AgilityCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AgilityCrystal"]
@@ -898,8 +1137,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ClearCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox3j3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h0afk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exuv5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_emryr")
 text = " "
 
 [node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ClearCrystal"]
@@ -969,45 +1215,6 @@ theme_override_font_sizes/font_size = 12
 text = "Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text."
 autowrap_mode = 2
 clip_text = true
-
-[node name="Options2" type="MarginContainer" parent="Control"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -132.0
-offset_right = 232.0
-grow_vertical = 0
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_constants/margin_left = 96
-theme_override_constants/margin_bottom = 128
-
-[node name="Panel" type="Panel" parent="Control/Options2"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_01no7")
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/Options2"]
-layout_mode = 2
-theme_override_constants/margin_left = 3
-theme_override_constants/margin_top = 3
-theme_override_constants/margin_right = 3
-theme_override_constants/margin_bottom = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/Options2/MarginContainer"]
-clip_contents = true
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="UseItem" type="Button" parent="Control/Options2/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "Use Item"
-
-[node name="Cancel" type="Button" parent="Control/Options2/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "Cancel"
 
 [node name="NexusCharacterSelector" type="Control" parent="."]
 layout_mode = 3
@@ -1416,12 +1623,6 @@ vertical_alignment = 1
 [connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ClearCrystal" to="." method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ClearCrystal" to="." method="_on_button_mouse_exited"]
 [connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ClearCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [25]]
-[connection signal="mouse_entered" from="Control/Options2/MarginContainer/VBoxContainer/UseItem" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/Options2/MarginContainer/VBoxContainer/UseItem" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/Options2/MarginContainer/VBoxContainer/UseItem" to="." method="_on_use_item_pressed"]
-[connection signal="mouse_entered" from="Control/Options2/MarginContainer/VBoxContainer/Cancel" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/Options2/MarginContainer/VBoxContainer/Cancel" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/Options2/MarginContainer/VBoxContainer/Cancel" to="." method="_on_cancel_pressed"]
 [connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer" to="." method="_on_button_mouse_entered"]
 [connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_button_mouse_exited"]

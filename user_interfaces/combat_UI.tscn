@@ -1,10 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://cow4d6dq0c31v"]
+[gd_scene load_steps=12 format=3 uid="uid://cow4d6dq0c31v"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_w0nri"]
 [ext_resource type="Texture2D" uid="uid://dxnu3xke1bx8l" path="res://art/characters/Untitled_Artwork (1).png" id="2_diyiq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhv31"]
-bg_color = Color(0.156863, 0.235294, 0.313726, 0.501961)
+bg_color = Color(0.352941, 0.498039, 0.752941, 0.25098)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -51,6 +51,13 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_86uai"]
+bg_color = Color(0.25098, 0.627451, 0.752941, 0.12549)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -651,8 +658,8 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -239.0
-offset_top = -104.0
+offset_left = -250.0
+offset_top = -88.0
 grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 8
@@ -662,6 +669,7 @@ theme_override_constants/margin_bottom = 16
 
 [node name="Panel" type="Panel" parent="Control/CharacterInfos"]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_86uai")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CharacterInfos"]
 layout_mode = 2
@@ -669,8 +677,9 @@ theme_override_constants/separation = 0
 
 [node name="Character1" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 14
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CharacterInfos/VBoxContainer/Character1"]
 clip_contents = true
@@ -710,7 +719,6 @@ text = "MP"
 vertical_alignment = 1
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
-custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 
 [node name="ManaAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer/MarginContainer2"]
@@ -724,8 +732,9 @@ vertical_alignment = 1
 
 [node name="Character2" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 14
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CharacterInfos/VBoxContainer/Character2"]
 clip_contents = true
@@ -764,7 +773,6 @@ theme_override_font_sizes/font_size = 8
 text = "MP"
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
-custom_minimum_size = Vector2(29, 0)
 layout_mode = 2
 
 [node name="ManaAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer/MarginContainer2"]
@@ -778,8 +786,9 @@ vertical_alignment = 1
 
 [node name="Character3" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 14
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CharacterInfos/VBoxContainer/Character3"]
 clip_contents = true
@@ -818,7 +827,6 @@ theme_override_font_sizes/font_size = 8
 text = "MP"
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
-custom_minimum_size = Vector2(29, 0)
 layout_mode = 2
 
 [node name="ManaAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer/MarginContainer2"]
@@ -832,8 +840,9 @@ vertical_alignment = 1
 
 [node name="Character4" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 14
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CharacterInfos/VBoxContainer/Character4"]
 clip_contents = true
@@ -872,7 +881,6 @@ theme_override_font_sizes/font_size = 8
 text = "MP"
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
-custom_minimum_size = Vector2(29, 0)
 layout_mode = 2
 
 [node name="ManaAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/MarginContainer2"]
@@ -889,37 +897,37 @@ layout_mode = 2
 
 [node name="ProgressBar1" type="ProgressBar" parent="Control/CharacterInfos/Control"]
 layout_mode = 2
-offset_left = 8.0
-offset_top = 21.0
-offset_right = 386.0
-offset_bottom = 25.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 388.0
+offset_bottom = 20.0
 scale = Vector2(0.5, 0.5)
 show_percentage = false
 
 [node name="ProgressBar2" type="ProgressBar" parent="Control/CharacterInfos/Control"]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 41.0
-offset_right = 386.0
-offset_bottom = 45.0
+offset_left = 16.0
+offset_top = 32.0
+offset_right = 388.0
+offset_bottom = 36.0
 scale = Vector2(0.5, 0.5)
 show_percentage = false
 
 [node name="ProgressBar3" type="ProgressBar" parent="Control/CharacterInfos/Control"]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 61.0
-offset_right = 386.0
-offset_bottom = 65.0
+offset_left = 16.0
+offset_top = 48.0
+offset_right = 388.0
+offset_bottom = 52.0
 scale = Vector2(0.5, 0.5)
 show_percentage = false
 
 [node name="ProgressBar4" type="ProgressBar" parent="Control/CharacterInfos/Control"]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 81.0
-offset_right = 386.0
-offset_bottom = 85.0
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 388.0
+offset_bottom = 68.0
 scale = Vector2(0.5, 0.5)
 show_percentage = false
 
