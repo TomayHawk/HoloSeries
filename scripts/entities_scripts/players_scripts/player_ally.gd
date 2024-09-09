@@ -63,36 +63,11 @@ var temp_distance_to_main_player := 0.0
 var temp_move_direction := Vector2.ZERO
 var temp_possible_directions: Array[int] = [0, 1, 2, 3, 4, 5, 6, 7]
 var temp_comparator := 0.0
-
-func _ready():
-	animation_node.play("front_idle")
 	
 func _physics_process(delta):
 	temp_distance_to_main_player = position.distance_to(GlobalSettings.current_main_player_node.position)
-	# if player
-	if is_current_main_player:
-		# attack
-		if !attacking && GlobalSettings.can_attempt_attack:
-			attack()
-
-		# dash / sprint
-		if player_stats_node.stamina > 0 && !player_stats_node.stamina_slow_recovery:
-			# dash
-			if Input.is_action_just_pressed("dash") && !dashing:
-				player_stats_node.update_stamina(-dash_stamina_consumption)
-				dash()
-			# sprint
-			elif Input.is_action_pressed("dash"):
-				player_stats_node.update_stamina(-sprinting_stamina_consumption)
-				sprinting = true
-			elif sprinting:
-				sprinting = false
-		else: sprinting = false
-
-		player_movement(delta)
-
 	# if ally in combat
-	elif GlobalSettings.in_combat && ally_enemy_in_attack_area && temp_distance_to_main_player < 250:
+	if GlobalSettings.in_combat && ally_enemy_in_attack_area && temp_distance_to_main_player < 250:
 
 		moving = false
 		velocity = Vector2.ZERO
@@ -117,32 +92,6 @@ func _physics_process(delta):
 		velocity = knockback_direction * 200 * (1 - (0.4 - $KnockbackTimer.get_time_left()) / 0.4) * knockback_weight
 
 	move_and_slide()
-
-# movement functions
-func player_movement(delta):
-	# movement inputs
-	current_move_direction = Input.get_vector("left", "right", "up", "down")
-	velocity = current_move_direction * speed * delta
-	
-	if velocity != Vector2.ZERO:
-		moving = true
-		last_move_direction = current_move_direction
-	else: moving = false
-
-	choose_animation()
-
-	# dash
-	if dashing:
-		if moving == true:
-			velocity += current_move_direction * dash_speed * delta * (1 - (dash_time - dash_cooldown_node.get_time_left()) / dash_time)
-		else:
-			moving = true
-			velocity = last_move_direction * dash_speed * delta * (1 - (dash_time - dash_cooldown_node.get_time_left()) / dash_time)
-	# sprint
-	elif sprinting: velocity *= sprint_multiplier
-
-	# if attacking, reduce speed
-	if attacking: velocity /= 2
 
 func ally_movement(delta):
 	ally_direction_ready = false
@@ -231,39 +180,6 @@ func ally_movement(delta):
 
 	choose_animation()
 
-func dash():
-	dashing = true
-	dash_cooldown_node.start(dash_time)
-
-# combat functions
-func attack():
-	attacking = true
-	character_specifics_node.regular_attack()
-
-func choose_animation():
-	if attacking:
-		if abs(attack_direction.x) >= abs(attack_direction.y):
-			if attack_direction.x > 0:
-				animation_node.play("right_attack")
-			else:
-				animation_node.play("left_attack")
-		elif attack_direction.y > 0:
-			animation_node.play("front_attack")
-		else:
-			animation_node.play("back_attack")
-	else:
-		if moving:
-			if current_move_direction.x > 0: animation_node.play("right_walk")
-			elif current_move_direction.x < 0: animation_node.play("left_walk")
-			elif current_move_direction.y > 0: animation_node.play("front_walk")
-			else: animation_node.play("back_walk")
-		else:
-			if abs(last_move_direction.x) >= abs(last_move_direction.y):
-				if last_move_direction.x > 0: animation_node.play("right_idle")
-				else: animation_node.play("left_idle")
-			elif last_move_direction.y > 0: animation_node.play("front_idle")
-			else: animation_node.play("back_idle")
-
 func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -272,15 +188,12 @@ func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 				GlobalSettings.entities_chosen_count += 1
 				if GlobalSettings.entities_request_count == GlobalSettings.entities_chosen_count:
 					GlobalSettings.choose_entities()
-			elif !is_current_main_player && player_stats_node.alive:
+			elif player_stats_node.alive:
 				GlobalSettings.update_main_player(self)
 
 func _on_interaction_area_body_entered(body):
-	# npc can be interacted
-	if is_current_main_player && body.has_method("area_status"):
-		body.area_status(true)
 	# enemy is inside attack
-	elif !is_current_main_player && body.has_method("choose_player"):
+	if body.has_method("choose_player"):
 		ally_enemy_nodes_in_attack_area.push_back(body)
 		ally_enemy_in_attack_area = true
 		
@@ -289,22 +202,10 @@ func _on_interaction_area_body_entered(body):
 		ally_direction_ready = true
 
 func _on_interaction_area_body_exited(body):
-	# npc cannot be interacted
-	if is_current_main_player:
-		if body.has_method("area_status"):
-			body.area_status(false)
 	# enemy is outside attack area
 	if body.has_method("choose_player"):
 		ally_enemy_nodes_in_attack_area.erase(body)
 		if ally_enemy_nodes_in_attack_area.is_empty(): ally_enemy_in_attack_area = false
-
-func _on_attack_cooldown_timeout():
-	attacking = false
-	last_move_direction = attack_direction
-	choose_animation()
-
-func _on_dash_cooldown_timeout():
-	dashing = false
 
 func _on_ally_attack_cooldown_timeout():
 	ally_attack_ready = true
@@ -327,16 +228,3 @@ func _on_ally_direction_cooldown_timeout():
 
 func _on_ally_pause_timer_timeout():
 	ally_direction_ready = true
-
-func _on_knockback_timer_timeout():
-	taking_knockback = false
-
-func _on_death_timer_timeout():
-	animation_node.pause()
-
-func _on_combat_hit_box_area_mouse_entered():
-	if GlobalSettings.requesting_entities:
-		GlobalSettings.mouse_in_attack_area = false
-
-func _on_combat_hit_box_area_mouse_exited():
-	GlobalSettings.mouse_in_attack_area = true
