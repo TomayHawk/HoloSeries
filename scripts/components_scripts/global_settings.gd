@@ -39,7 +39,7 @@ var target_zoom := Vector2(1.0, 1.0)
 var zoom_interval := 0.0
 var mouse_in_zoom_area := false
 var game_paused := false
-var player_can_attack := false
+var can_attempt_attack := false
 var mouse_in_attack_area := true
 var combat_inputs_available := false
 var nexus_inputs_available := false
@@ -125,7 +125,7 @@ func _physics_process(delta):
 
 func _input(_event):
 	if Input.is_action_just_pressed("action") && mouse_in_attack_area && !requesting_entities:
-		player_can_attack = true
+		can_attempt_attack = true
 		call_deferred("reset_action_availability")
 	elif Input.is_action_just_pressed("esc"): esc_input()
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
@@ -146,14 +146,23 @@ func _input(_event):
 		elif Input.is_action_just_released("tab"): nexus_character_selector_node.hide()
 
 func reset_action_availability():
-	player_can_attack = false
+	can_attempt_attack = false
 
-func update_nodes(scene_node):
-	current_scene_node = scene_node
-	abilities_node = current_scene_node.get_node_or_null("Abilities")
-	CombatEntitiesComponent.damage_display_node = current_scene_node.get_node_or_null("DamageDisplay")
+func update_nodes(scene_node, type):
+	match type:
+		"change_scene":
+			current_scene_node = scene_node
+			abilities_node = current_scene_node.get_node_or_null("Abilities")
+	
+			##### damage display can stay in global settings instead of each scene	
+			CombatEntitiesComponent.damage_display_node = current_scene_node.get_node_or_null("DamageDisplay")
 
-	party_node.reparent(current_scene_node)
+			##### party node can stay in GlobalSettings
+			party_node.reparent(current_scene_node)
+		"enter_nexus":
+			pass
+		"exit_nexus":
+			pass
 
 # toggle full screen
 func full_screen_toggle():
@@ -171,12 +180,9 @@ func esc_input():
 			get_tree().root.get_node("HoloNexus").nexus_ui_node.inventory_node.hide()
 			get_tree().root.get_node("HoloNexus").nexus_ui_node.update_nexus_ui()
 			return
-		get_tree().paused = false
-		show()
-		combat_ui_node.show()
-		current_scene_node.show()
+			
+ 		pause_game(false, "")
 		on_nexus = false
-		game_paused = false
 		combat_inputs_available = true
 		nexus_inputs_available = false
 		get_tree().root.get_node("HoloNexus").call_deferred("exit_nexus")
@@ -199,6 +205,27 @@ func esc_input():
 		combat_inputs_available = false
 		game_paused = true
 
+func pause_game(to_pause, type):
+	game_paused = to_pause
+	get_tree.paused = to_pause
+	visible = !to_pause
+	current_scene_node = !to_pause
+	game_options_node = !to_pause
+	combat_ui_node = !to_pause
+	text_box_node = !to_pause
+	
+	match type:
+		"in_scene":
+			pass
+		"in_dialogue":
+			pass
+		"in_cutscene":
+			pass
+		"in_settings":
+			pass
+		"in_nexus":
+			pass			
+			
 func start_game(save_data_node, save_file):
 	save_data_node.load(save_file)
 	combat_ui_node.update_character_selector()
@@ -242,17 +269,6 @@ func update_camera_node():
 	camera_node.position = Vector2.ZERO
 	camera_node.zoom = Vector2(1.0, 1.0)
 	target_zoom = Vector2(1.0, 1.0)
-
-func display_nexus():
-	on_nexus = true
-	get_tree().paused = true
-	get_tree().root.add_child(load(nexus_path).instantiate())
-	
-	current_scene_node.hide()
-	game_options_node.hide()
-	combat_ui_node.hide()
-	text_box_node.hide()
-	hide()
 
 func enter_combat():
 	if !in_combat || leaving_combat:
