@@ -42,6 +42,7 @@ func initiate_play_dice(chosen_node):
 			# check for 5 dice duplicates
 			if dice_results.count(dice_results[-1]) == 5: dice_damage *= 2
 
+			##### want to accelerate for each iteration
 			interval_timer.start()
 			chosen_node.enemy_stats_node.update_health(-dice_damage, [], Vector2.ZERO, 0.0)
 			await interval_timer.timeout
