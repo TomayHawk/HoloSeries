@@ -56,6 +56,11 @@ var temp_comparator := 0.0
 func _ready():
 	animation_node.play("front_idle")
 
+func update_nodes():
+    player_stats_node = get_node("PlayerStatsComponent")
+    character_specifics_node = get_node("CharacterSpecifics")
+    animation_node = get_node("CharacterSpecifics/Animation")
+
 func dash():
 	dashing = true
 	dash_cooldown_node.start(dash_time)

@@ -118,6 +118,11 @@ func _physics_process(delta):
 
 	move_and_slide()
 
+func update_nodes():
+    player_stats_node = get_node("PlayerStatsComponent")
+    character_specifics_node = get_node("CharacterSpecifics")
+    animation_node = get_node("CharacterSpecifics/Animation")
+
 # movement functions
 func player_movement(delta):
 	# movement inputs

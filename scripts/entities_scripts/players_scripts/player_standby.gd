@@ -16,3 +16,7 @@ var dash_time := 0.0
 var taking_knockback := false
 var knockback_direction := Vector2.ZERO
 var knockback_weight := 0.0
+
+func update_nodes():
+    player_stats_node = get_node("PlayerStatsComponent")
+    character_specifics_node = get_node("CharacterSpecifics")
