@@ -1,0 +1,14 @@
+extends Timer
+
+@onready var ability_node := get_parent()
+var intervals_left := 1
+
+func start_timer(intervals, interval_wait_time):
+    intervals_left = intervals
+    set_wait_time(interval_wait_time)
+
+func _on_timer_timeout():
+    intervals -= 1
+    ability_node.trigger_dot()
+    if intervals == 0: ability_node.queue_free()
+ 
