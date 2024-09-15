@@ -54,7 +54,9 @@ var inventory_items_quantity_label: Array[Node] = []
 	25: [nexus.stats_node_atlas_position.duplicate(), "Converts a stats node into an empty node.", "convert", nexus.empty_node_atlas_position]
 }
 
-const stats_node_descriptions := [[]]
+const stats_type_description := ["Health Point", "Mana Point", "Defence", "Shield", "Attack", "Intelligence", "Speed", "Agility"]
+const key_type_description := ["Star", "Prosperity", "Love", "Nobility"]
+const ability_type_description := ["", "", "", "", "", "", "", "", "", ""]
 
 func _ready():
 	for i in 6:
@@ -74,15 +76,26 @@ func _input(event):
 	if event is InputEventMouseButton && event.is_double_click():
 		print("double click ", event.is_double_click())
 
-func update_nexus_ui():
-	var node_quality_string = str(nexus.nodes_quality[nexus.last_nodes[nexus.current_nexus_player]])
-	if node_quality_string == "0":
-		descriptions_label_node.text = "photosynthesis"
-	else:
-		descriptions_label_node.text = "Gain " + node_quality_string + " " + "STATS" + "."
 
-	options_node.show()
-	descriptions_node.show()
+func update_nexus_ui():
+    var node_quality_string = str(nexus.nodes_quality[nexus.last_nodes[nexus.current_nexus_player]])
+    var node_atlas_position = nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position
+
+    if node_quality_string == "0":
+        if node_atlas_position == nexus.empty_node_atlas_position:
+            descriptions_label_node.text = "Empty Node."
+        elif node_atlas_position == nexus.null_node_atlas_position:
+            descriptions_label_node.text = "Null Node."
+        elif nexus.key_node_atlas_position.has(node_atlas_position):
+            descriptions_label_node.text = "Requires " + key_type_description[nexus.key_node_atlas_position.find(node_atlas_position)] + " Crystal to Unlock."
+        elif nexus.ability_node_atlas_position.has(node_atlas_position):
+            descriptions_label_node.text = "Unlock " + "[Ability Name]" + "."
+    else:
+        descriptions_label_node.text = "Gain " + node_quality_string + " " + stats_type_description[nexus.stats_node_atlas_position.find(node_atlas_position)] + "."
+
+    options_node.show()
+    descriptions_node.show()
+
 
 func hide_all():
 	options_node.hide()
