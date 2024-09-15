@@ -65,7 +65,16 @@ func _physics_process(_delta):
 	if mana == max_mana && stamina == max_stamina:
 		set_physics_process(false)
 
+func update_nodes():
+    player_node = get_parent()
+    character_specifics_node = player_node.get_node("CharacterSpecifics")
+    knockback_timer = player_node.get_node("KnockbackTimer")
+    position = Vector2.ZERO
+
 func update_stats():
+	##### not necessary?
+	player_node = get_parent()
+	
 	# set max stats
 	max_health = character_specifics_node.default_max_health + GlobalSettings.nexus_stats[character_specifics_node.character_index][0]
 	max_mana = character_specifics_node.default_max_mana + GlobalSettings.nexus_stats[character_specifics_node.character_index][1]
