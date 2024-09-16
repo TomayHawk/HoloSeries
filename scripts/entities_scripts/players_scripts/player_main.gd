@@ -75,8 +75,7 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-# movement functions
-func player_movement(delta):
+func movement(delta):
 	# movement inputs
 	current_move_direction = Input.get_vector("left", "right", "up", "down")
 	velocity = current_move_direction * speed * delta

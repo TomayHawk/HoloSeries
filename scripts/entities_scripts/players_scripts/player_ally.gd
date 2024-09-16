@@ -93,7 +93,7 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-func ally_movement(delta):
+func movement(delta):
 	ally_direction_ready = false
 	moving = true
 	temp_ally_speed = ally_speed
