@@ -1,0 +1,2 @@
+##### receive DOT
+##### decreased stats
