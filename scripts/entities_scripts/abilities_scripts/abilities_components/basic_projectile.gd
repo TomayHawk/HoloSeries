@@ -11,6 +11,6 @@ func _physics_process(delta):
 	if ability_node.move_and_collide(velocity * delta) != null: ability_node.projectile_collision()
 
 func initiate_projectile(set_position, set_direction, set_speed):
-	position = set_position
+	ability_node.position = set_position
 	velocity = set_direction * set_speed
 	set_physics_process(true)	

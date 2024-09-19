@@ -1,9 +1,11 @@
 extends CharacterBody2D
 
 @onready var caster_node := GlobalSettings.current_main_player_node
-@onready var damage_stats_multiplier: float = 1 + (GlobalSettings.current_main_player_node.player_stats_node.intelligence / 500)
+@onready var 
+@onready var basic_projectile_node := $BasicProjectile
+@onready var area_of_effect_node := $AreaOfEffect
 
-const damage := 10
+const base_damage := 10
 
 func _ready():
 	# disabled while selecting target
@@ -21,10 +23,17 @@ func _ready():
 
 # run after entity selection with GlobalSettings.choose_entities()
 func initiate_fireball(chosen_node):
-		# begin despawn timer
-		$AnimatedSprite2D.play("shoot")
-		set_physics_process(true)
-		time_left_node.start()
-		show()
+	# begin despawn timer
+	$AnimatedSprite2D.play("shoot")
+	set_physics_process(true)
+	time_left_node.start()
+	show()
 
-
+var temp_damage = CombatEntitiesComponent.magic_damage_calculator(damage * damage_stats_multiplier, caster_node.player_stats_node, enemy_node.enemy_stats_node)
+@onready var damage_multiplier: float = 1 + (GlobalSettings.current_main_player_node.player_stats_node.intelligence / 500)
+@onready var projectile_speed_multiplier: float = 1 + (get_parent().caster_node.player_stats_node.intelligence / 1000) + (get_parent().caster_node.player_stats_node.speed / 256)
+		enemy_node.enemy_stats_node.update_health(-temp_damage[0], temp_damage[1], move_direction, 0.5)
+	queue_free()
+	
+func projectile_collision():
+		
