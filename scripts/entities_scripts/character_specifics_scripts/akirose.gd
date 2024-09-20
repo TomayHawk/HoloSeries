@@ -22,11 +22,20 @@ const default_unlocked_nexus_nodes: Array[int] = [491, 522, 523]
 const regular_attack_damage := 13
 var temp_regular_attack_damage := 13.0
 
+##### move attack nodes to character specifics
 @onready var player_node = get_parent()
 @onready var player_stats_node = player_node.get_node("PlayerStatsComponent")
 @onready var attack_shape_node = player_node.get_node("AttackShape")
 @onready var attack_cooldown_node = player_node.get_node("AttackCooldown")
 @onready var ally_attack_cooldown_node = player_node.get_node("AllyAttackCooldown")
+
+func update_nodes():
+    player_node = get_parent()
+    player_stats_node = player_node.get_node("PlayerStatsComponent")
+    attack_shape_node = player_node.get_node("AttackShape")
+    attack_cooldown_node = player_node.get_node("AttackCooldown")
+    ally_attack_cooldown_node = player_node.get_node("AllyAttackCooldown")
+    position = Vector2.ZERO
 
 func regular_attack():
 	if player_node.is_current_main_player: player_node.attack_direction = (get_global_mouse_position() - player_node.position).normalized()
