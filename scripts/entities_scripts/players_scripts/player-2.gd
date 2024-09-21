@@ -57,9 +57,9 @@ func _ready():
 	animation_node.play("front_idle")
 
 func update_nodes():
-    player_stats_node = get_node("PlayerStatsComponent")
-    character_specifics_node = get_node("CharacterSpecifics")
-    animation_node = get_node("CharacterSpecifics/Animation")
+	player_stats_node = get_node("PlayerStatsComponent")
+	character_specifics_node = get_node("CharacterSpecifics")
+	animation_node = get_node("CharacterSpecifics/Animation")
 
 func dash():
 	dashing = true
@@ -114,7 +114,6 @@ func _on_combat_hit_box_area_mouse_entered():
 
 func _on_combat_hit_box_area_mouse_exited():
 	GlobalSettings.mouse_in_attack_area = true
-
 
 
 ##### need dynamic signals

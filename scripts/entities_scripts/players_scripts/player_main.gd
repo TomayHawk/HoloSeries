@@ -47,19 +47,19 @@ var knockback_direction := Vector2.ZERO
 var knockback_weight := 0.0
 	
 func _physics_process(delta):
-	temp_distance_to_main_player = position.distance_to(GlobalSettings.current_main_player_node.position)
 	# if player
 	if is_current_main_player:
 		# attack
 		if !attacking && GlobalSettings.can_attempt_attack:
-			attack()
+			pass
+			##### attack()
 
 		# dash / sprint
 		if player_stats_node.stamina > 0 && !player_stats_node.stamina_slow_recovery:
 			# dash
 			if Input.is_action_just_pressed("dash") && !dashing:
 				player_stats_node.update_stamina(-dash_stamina_consumption)
-				dash()
+				##### dash()
 			# sprint
 			elif Input.is_action_pressed("dash"):
 				player_stats_node.update_stamina(-sprinting_stamina_consumption)
@@ -68,7 +68,7 @@ func _physics_process(delta):
 				sprinting = false
 		else: sprinting = false
 
-		player_movement(delta)
+		##### player_movement(delta)
 
 	if taking_knockback:
 		velocity = knockback_direction * 200 * (1 - (0.4 - $KnockbackTimer.get_time_left()) / 0.4) * knockback_weight
@@ -85,7 +85,7 @@ func movement(delta):
 		last_move_direction = current_move_direction
 	else: moving = false
 
-	choose_animation()
+	##### choose_animation()
 
 	# dash
 	if dashing:
@@ -122,4 +122,4 @@ func _on_interaction_area_body_exited(body):
 func _on_attack_cooldown_timeout():
 	attacking = false
 	last_move_direction = attack_direction
-	choose_animation()
+	##### choose_animation()

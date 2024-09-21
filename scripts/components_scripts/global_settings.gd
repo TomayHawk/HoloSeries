@@ -180,8 +180,7 @@ func esc_input():
 			get_tree().root.get_node("HoloNexus").nexus_ui_node.inventory_node.hide()
 			get_tree().root.get_node("HoloNexus").nexus_ui_node.update_nexus_ui()
 			return
-			
- 		pause_game(false, "")
+		pause_game(false, "")
 		on_nexus = false
 		combat_inputs_available = true
 		nexus_inputs_available = false
@@ -207,7 +206,7 @@ func esc_input():
 
 func pause_game(to_pause, type):
 	game_paused = to_pause
-	get_tree.paused = to_pause
+	get_tree().paused = to_pause
 	visible = !to_pause
 	current_scene_node = !to_pause
 	game_options_node = !to_pause
@@ -224,7 +223,7 @@ func pause_game(to_pause, type):
 		"in_settings":
 			pass
 		"in_nexus":
-			pass			
+			pass
 			
 func start_game(save_data_node, save_file):
 	save_data_node.load(save_file)

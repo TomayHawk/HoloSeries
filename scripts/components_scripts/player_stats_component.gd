@@ -4,7 +4,7 @@ extends Node2D
 @onready var player_node := get_parent()
 @onready var character_specifics_node := player_node.get_node("CharacterSpecifics")
 
-@onready var combat_ui_node := GlobalSettings.combat_ui_node
+@onready var combat_ui_node = GlobalSettings.combat_ui_node
 
 @onready var health_bar_node := $HealthBar
 @onready var mana_bar_node := $ManaBar
@@ -66,10 +66,10 @@ func _physics_process(_delta):
 		set_physics_process(false)
 
 func update_nodes():
-    player_node = get_parent()
-    character_specifics_node = player_node.get_node("CharacterSpecifics")
-    knockback_timer = player_node.get_node("KnockbackTimer")
-    position = Vector2.ZERO
+	player_node = get_parent()
+	character_specifics_node = player_node.get_node("CharacterSpecifics")
+	knockback_timer = player_node.get_node("KnockbackTimer")
+	position = Vector2.ZERO
 
 func update_stats():
 	##### not necessary?

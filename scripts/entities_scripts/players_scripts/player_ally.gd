@@ -82,11 +82,15 @@ func _physics_process(delta):
 				ally_target_enemy_node = enemy
 
 		last_move_direction = (ally_target_enemy_node.position - position).normalized()
-		if ally_attack_ready: attack()
+		if ally_attack_ready:
+			pass
+			##### attack()
 
-		choose_animation()
+		##### choose_animation()
 	# if ally can move
-	elif ally_direction_ready && !attacking: ally_movement(delta)
+	elif ally_direction_ready && !attacking:
+		pass
+		##### ally_movement(delta)
 
 	if taking_knockback:
 		velocity = knockback_direction * 200 * (1 - (0.4 - $KnockbackTimer.get_time_left()) / 0.4) * knockback_weight
@@ -178,7 +182,7 @@ func movement(delta):
 
 	last_move_direction = current_move_direction
 
-	choose_animation()
+	##### choose_animation()
 
 func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
@@ -224,7 +228,7 @@ func _on_ally_direction_cooldown_timeout():
 		else:
 			ally_direction_ready = true
 	
-	choose_animation()
+	##### choose_animation()
 
 func _on_ally_pause_timer_timeout():
 	ally_direction_ready = true

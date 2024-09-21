@@ -38,30 +38,30 @@ func physical_damage_calculator(input_damage, origin_entity_stats_node, target_e
 	return [output_amount, temp_types]
 
 func magic_damage_calculator(input_damage, origin_entity_stats_node, target_entity_stats_node):
-    temp_types.clear()
-    
-    ##### planning to have a different calculation
-    # base damage 
-    output_amount = input_damage + (origin_entity_stats_node.intelligence * 2) + (input_damage * origin_entity_stats_node.intelligence * 0.05)
+	temp_types.clear()
+	
+	##### planning to have a different calculation
+	# base damage 
+	output_amount = input_damage + (origin_entity_stats_node.intelligence * 2) + (input_damage * origin_entity_stats_node.intelligence * 0.05)
 
-    # crit chance
-    if randf() < origin_entity_stats_node.crit_chance:
-        output_amount *= (1 + origin_entity_stats_node.crit_damage)
-        temp_types.push_back("critical")
+	# crit chance
+	if randf() < origin_entity_stats_node.crit_chance:
+		output_amount *= (1 + origin_entity_stats_node.crit_damage)
+		temp_types.push_back("critical")
 
-    # damage reduction
-    output_amount *= origin_entity_stats_node.level / (target_entity_stats_node.level + (origin_entity_stats_node.level * (1 + (target_entity_stats_node.shield * 1.0 / 1500))))
-    # randomizer
-    output_amount = output_amount * randf_range(0.97, 1.03) + randf_range(-input_damage / 10, input_damage / 10)
-    # clamp
-    output_amount = clamp(output_amount, 0, 99999)
+	# damage reduction
+	output_amount *= origin_entity_stats_node.level / (target_entity_stats_node.level + (origin_entity_stats_node.level * (1 + (target_entity_stats_node.shield * 1.0 / 1500))))
+	# randomizer
+	output_amount = output_amount * randf_range(0.97, 1.03) + randf_range(-input_damage / 10, input_damage / 10)
+	# clamp
+	output_amount = clamp(output_amount, 0, 99999)
 
-    # max 25% miss if not critical
-    if temp_types.is_empty() && randf() < (target_entity_stats_node.speed / 1028):
-        temp_types.push_back("miss")
-        output_amount = 0
+	# max 25% miss if not critical
+	if temp_types.is_empty() && randf() < (target_entity_stats_node.speed / 1028):
+		temp_types.push_back("miss")
+		output_amount = 0
 
-    return [output_amount, temp_types]
+	return [output_amount, temp_types]
 
 func magic_heal_calculator(input_amount, origin_entity_stats_node):
 	# base damage 

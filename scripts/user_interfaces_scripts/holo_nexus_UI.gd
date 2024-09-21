@@ -78,23 +78,23 @@ func _input(event):
 
 
 func update_nexus_ui():
-    var node_quality_string = str(nexus.nodes_quality[nexus.last_nodes[nexus.current_nexus_player]])
-    var node_atlas_position = nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position
+	var node_quality_string = str(nexus.nodes_quality[nexus.last_nodes[nexus.current_nexus_player]])
+	var node_atlas_position = nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position
 
-    if node_quality_string == "0":
-        if node_atlas_position == nexus.empty_node_atlas_position:
-            descriptions_label_node.text = "Empty Node."
-        elif node_atlas_position == nexus.null_node_atlas_position:
-            descriptions_label_node.text = "Null Node."
-        elif nexus.key_node_atlas_position.has(node_atlas_position):
-            descriptions_label_node.text = "Requires " + key_type_description[nexus.key_node_atlas_position.find(node_atlas_position)] + " Crystal to Unlock."
-        elif nexus.ability_node_atlas_position.has(node_atlas_position):
-            descriptions_label_node.text = "Unlock " + "[Ability Name]" + "."
-    else:
-        descriptions_label_node.text = "Gain " + node_quality_string + " " + stats_type_description[nexus.stats_node_atlas_position.find(node_atlas_position)] + "."
+	if node_quality_string == "0":
+		if node_atlas_position == nexus.empty_node_atlas_position:
+			descriptions_label_node.text = "Empty Node."
+		elif node_atlas_position == nexus.null_node_atlas_position:
+			descriptions_label_node.text = "Null Node."
+		elif nexus.key_node_atlas_position.has(node_atlas_position):
+			descriptions_label_node.text = "Requires " + key_type_description[nexus.key_node_atlas_position.find(node_atlas_position)] + " Crystal to Unlock."
+		elif nexus.ability_node_atlas_position.has(node_atlas_position):
+			descriptions_label_node.text = "Unlock " + "[Ability Name]" + "."
+	else:
+		descriptions_label_node.text = "Gain " + node_quality_string + " " + stats_type_description[nexus.stats_node_atlas_position.find(node_atlas_position)] + "."
 
-    options_node.show()
-    descriptions_node.show()
+	options_node.show()
+	descriptions_node.show()
 
 
 func hide_all():

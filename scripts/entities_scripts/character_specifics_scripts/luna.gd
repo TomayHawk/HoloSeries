@@ -30,12 +30,12 @@ var temp_regular_attack_damage := 13.0
 @onready var ally_attack_cooldown_node = player_node.get_node("AllyAttackCooldown")
 
 func update_nodes():
-    player_node = get_parent()
-    player_stats_node = player_node.get_node("PlayerStatsComponent")
-    attack_shape_node = player_node.get_node("AttackShape")
-    attack_cooldown_node = player_node.get_node("AttackCooldown")
-    ally_attack_cooldown_node = player_node.get_node("AllyAttackCooldown")
-    position = Vector2.ZERO
+	player_node = get_parent()
+	player_stats_node = player_node.get_node("PlayerStatsComponent")
+	attack_shape_node = player_node.get_node("AttackShape")
+	attack_cooldown_node = player_node.get_node("AttackCooldown")
+	ally_attack_cooldown_node = player_node.get_node("AllyAttackCooldown")
+	position = Vector2.ZERO
 
 func regular_attack():
 	if player_node.is_current_main_player: player_node.attack_direction = (get_global_mouse_position() - player_node.position).normalized()
