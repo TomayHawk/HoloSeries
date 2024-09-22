@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/scenes_scripts/world_scene_2.gd" id="1_t7xfg"]
 [ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tileSets/physics.png" id="2_dtv6v"]
 [ext_resource type="PackedScene" uid="uid://dlxkifgl6lq80" path="res://entities/npcs/npc_kobo.tscn" id="5_poic2"]
-[ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/nousagi.tscn" id="9_do2gu"]
+[ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/enemy_specifics/nousagi.tscn" id="9_do2gu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_abh37"]
 texture = ExtResource("1_7s6yp")

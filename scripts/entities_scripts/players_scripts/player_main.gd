@@ -46,7 +46,7 @@ var taking_knockback := false
 var knockback_direction := Vector2.ZERO
 var knockback_weight := 0.0
 	
-func _physics_process(delta):
+func _physics_process(_delta):
 	# if player
 	if is_current_main_player:
 		# attack

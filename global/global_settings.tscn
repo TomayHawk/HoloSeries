@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://dwjnjoaxlsqc8"]
+
+[ext_resource type="Script" path="res://scripts/global_scripts/global_settings.gd" id="1_mpwj3"]
+[ext_resource type="PackedScene" uid="uid://cf2ifm4k70avn" path="res://user_interfaces/game_options.tscn" id="3_afjlo"]
+[ext_resource type="PackedScene" uid="uid://cow4d6dq0c31v" path="res://user_interfaces/combat_ui.tscn" id="3_s0tbo"]
+[ext_resource type="PackedScene" uid="uid://bfgttyngrxknk" path="res://user_interfaces/text_box.tscn" id="4_tvnta"]
+
+[node name="GlobalSettings" type="Node2D"]
+process_mode = 3
+y_sort_enabled = true
+script = ExtResource("1_mpwj3")
+
+[node name="GameOptions" parent="." instance=ExtResource("3_afjlo")]
+
+[node name="CombatUI" parent="." instance=ExtResource("3_s0tbo")]
+process_mode = 1
+
+[node name="TextBox" parent="." instance=ExtResource("4_tvnta")]
+process_mode = 1
+
+[node name="LeavingCombatTimer" type="Timer" parent="."]
+process_mode = 1
+wait_time = 2.0
+one_shot = true
+
+[node name="Party" type="Node2D" parent="."]
+process_mode = 1
+y_sort_enabled = true
+
+[node name="Standby" type="Node2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+process_mode = 1
+position_smoothing_enabled = true
+
+[connection signal="timeout" from="LeavingCombatTimer" to="." method="_on_leaving_combat_timer_timeout"]

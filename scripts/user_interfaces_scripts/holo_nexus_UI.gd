@@ -4,7 +4,6 @@ extends CanvasLayer
 @onready var nexus_player := nexus.get_node("NexusPlayer")
 
 @onready var options_node := $Control/Options
-@onready var options_2_node := $Control/Options2
 
 @onready var character_selector_node := $NexusCharacterSelector
 
@@ -101,7 +100,6 @@ func hide_all():
 	options_node.hide()
 	descriptions_node.hide()
 	inventory_node.hide()
-	options_2_node.hide()
 
 func update_character_selector():
 	for button in character_selector_player_nodes:
@@ -141,11 +139,9 @@ func _on_items_pressed():
 	inventory_node.show()
 
 func _on_use_item_pressed():
-	options_2_node.hide()
 	options_node.show()
 
 func _on_cancel_pressed():
-	options_2_node.hide()
 	options_node.show()
 
 # nexus inventory button signals

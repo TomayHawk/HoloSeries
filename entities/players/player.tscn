@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://c5o6bi43j562b"]
 
 [ext_resource type="Script" path="res://scripts/entities_scripts/players_scripts/player.gd" id="1_nqeof"]
-[ext_resource type="PackedScene" uid="uid://bba5o3t2xufxm" path="res://components/player_stats_component.tscn" id="2_bdkfa"]
+[ext_resource type="PackedScene" uid="uid://bba5o3t2xufxm" path="res://entities/players/player_stats_component.tscn" id="2_bdkfa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
 size = Vector2(16, 7)

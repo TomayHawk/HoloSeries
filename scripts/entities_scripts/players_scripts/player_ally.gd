@@ -64,7 +64,7 @@ var temp_move_direction := Vector2.ZERO
 var temp_possible_directions: Array[int] = [0, 1, 2, 3, 4, 5, 6, 7]
 var temp_comparator := 0.0
 	
-func _physics_process(delta):
+func _physics_process(_delta):
 	temp_distance_to_main_player = position.distance_to(GlobalSettings.current_main_player_node.position)
 	# if ally in combat
 	if GlobalSettings.in_combat && ally_enemy_in_attack_area && temp_distance_to_main_player < 250:

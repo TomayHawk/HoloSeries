@@ -1,9 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://dloiivto6pr0f"]
+[gd_scene load_steps=15 format=3 uid="uid://2uwd6qdjq1m4"]
 
 [ext_resource type="Texture2D" uid="uid://cpkqlu48vt85m" path="res://art/characters/slime.png" id="1_boyp2"]
 [ext_resource type="Script" path="res://scripts/entities_scripts/abilities_scripts/fireball.gd" id="1_g8rfi"]
+[ext_resource type="PackedScene" uid="uid://dl4lxtmyhiro0" path="res://entities/abilities/abilities_components/area_of_effect.tscn" id="3_hc2jg"]
+[ext_resource type="PackedScene" uid="uid://cc4iyosf7xy6a" path="res://entities/abilities/abilities_components/basic_projectile.tscn" id="4_ygyed"]
+[ext_resource type="PackedScene" uid="uid://copvkqerjm2fx" path="res://entities/abilities/abilities_components/damage_over_time.tscn" id="5_4887n"]
+[ext_resource type="PackedScene" uid="uid://bknnh8cqfuu10" path="res://entities/abilities/abilities_components/ability_despawn_component.tscn" id="6_iors1"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_emmkl"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_qkq14"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i3foy"]
 atlas = ExtResource("1_boyp2")
@@ -29,7 +33,7 @@ region = Rect2(128, 32, 32, 32)
 atlas = ExtResource("1_boyp2")
 region = Rect2(160, 32, 32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_55pnf"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_m0lm0"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -55,35 +59,21 @@ animations = [{
 "speed": 3.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_tjnnp"]
-
 [node name="Fireball" type="CharacterBody2D"]
-collision_layer = 0
-collision_mask = 72
 script = ExtResource("1_g8rfi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_emmkl")
+shape = SubResource("CircleShape2D_qkq14")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_55pnf")
+sprite_frames = SubResource("SpriteFrames_m0lm0")
 animation = &"shoot"
 
-[node name="BlastRadius" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 64
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BlastRadius"]
+[node name="AreaOfEffect" parent="." instance=ExtResource("3_hc2jg")]
 scale = Vector2(1.5, 1.5)
-shape = SubResource("CircleShape2D_tjnnp")
 
-[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+[node name="AbilityDespawnComponent" parent="." instance=ExtResource("6_iors1")]
 
-[node name="TimeLeft" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
+[node name="BasicProjectile" parent="." instance=ExtResource("4_ygyed")]
 
-[connection signal="body_entered" from="BlastRadius" to="." method="_on_blast_radius_body_entered"]
-[connection signal="body_exited" from="BlastRadius" to="." method="_on_blast_radius_body_exited"]
-[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
-[connection signal="timeout" from="TimeLeft" to="." method="_on_time_left_timeout"]
+[node name="DamageOverTime" parent="." instance=ExtResource("5_4887n")]
