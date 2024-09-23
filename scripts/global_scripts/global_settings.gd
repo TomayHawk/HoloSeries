@@ -149,23 +149,32 @@ func _input(_event):
 func reset_action_availability():
 	can_attempt_attack = false
 
-func update_nodes(scene_node, type):
+func update_nodes(type, extra_arg_0):
 	match type:
+		"update_main_player":
+			current_main_player_node.is_current_main_player = false
+			current_main_player_node = extra_arg_0
+			current_main_player_node.is_current_main_player = true
+			camera_node.reparent(current_main_player_node)
+			camera_node.position = Vector2.ZERO
+			empty_entities_request()
 		"change_scene":
-			current_scene_node = scene_node
+			current_scene_node = extra_arg_0
 			abilities_node = current_scene_node.get_node_or_null("Abilities")
-	
 			##### damage display can stay in global settings instead of each scene	
 			CombatEntitiesComponent.damage_display_node = current_scene_node.get_node_or_null("DamageDisplay")
-
 			##### party node can stay in GlobalSettings
 			party_node.reparent(current_scene_node)
 		"enter_nexus":
 			pass
 		"exit_nexus":
-			pass
+			camera_node.reparent(current_main_player_node)
+			current_camera_node = camera_node
+			camera_node.position = Vector2.ZERO
+			camera_node.zoom = Vector2(1.0, 1.0)
+			target_zoom = Vector2(1.0, 1.0)
 
-# toggle full screen
+# full screen inputs
 func full_screen_toggle():
 	if !currently_full_screen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
@@ -251,24 +260,6 @@ func combat_ui_display():
 	if !in_combat:
 		if combat_ui_control_node.modulate.a != 1.0: combat_ui_control_node.modulate.a = 1.0
 		elif leaving_combat_timer_node.is_stopped(): combat_ui_control_node.modulate.a = 0.0
-
-func update_main_player(next_main_player_node):
-	current_main_player_node.is_current_main_player = false
-
-	current_main_player_node = next_main_player_node
-
-	current_main_player_node.is_current_main_player = true
-	camera_node.reparent(current_main_player_node)
-	camera_node.position = Vector2.ZERO
-
-	empty_entities_request()
-
-func update_camera_node():
-	camera_node.reparent(current_main_player_node)
-	current_camera_node = camera_node
-	camera_node.position = Vector2.ZERO
-	camera_node.zoom = Vector2(1.0, 1.0)
-	target_zoom = Vector2(1.0, 1.0)
 
 func enter_combat():
 	if !in_combat || leaving_combat:

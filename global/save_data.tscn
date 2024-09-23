@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://scripts/global_scripts/save_data.gd" id="1_hs5df"]
 
-[node name="SaveData" type="Node2D"]
+[node name="SaveData" type="Node"]
 script = ExtResource("1_hs5df")

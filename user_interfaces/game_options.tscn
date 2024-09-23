@@ -6,7 +6,6 @@
 bg_color = Color(0.0313726, 0.678431, 0.72549, 1)
 
 [node name="GameOptions" type="CanvasLayer"]
-process_mode = 3
 script = ExtResource("1_3ijke")
 
 [node name="Control" type="Control" parent="."]

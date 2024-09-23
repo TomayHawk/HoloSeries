@@ -34,7 +34,7 @@ func initiate_fireball(_chosen_node):
 		# begin despawn timer
 		$AnimatedSprite2D.play("shoot")
 		set_physics_process(true)
-		##### time_left_node.start()
+		time_left_node.start()
 		show()
 
 ##### var temp_damage = CombatEntitiesComponent.magic_damage_calculator(damage * damage_stats_multiplier, caster_node.player_stats_node, enemy_node.enemy_stats_node)
@@ -64,19 +64,7 @@ func _physics_process(delta):
 
 # run after entity selection with GlobalSettings.choose_entities()
 func initiate_fireball(chosen_node):
-	# check caster status and mana sufficiency
-	if caster_node.player_stats_node.mana < mana_cost || !caster_node.player_stats_node.alive:
-		queue_free()
-	else:
-		caster_node.player_stats_node.update_mana(-mana_cost)
-
-		# set position, move direction and velocity
-		position = caster_node.position + Vector2(0, -7)
-		move_direction = (chosen_node.position - position).normalized()
-		velocity = move_direction * speed * speed_stats_multiplier
-
-		# begin despawn timer
-		$AnimatedSprite2D.play("shoot")
-		set_physics_process(true)
-		time_left_node.start()
-		show()
+	# set position, move direction and velocity
+	position = caster_node.position + Vector2(0, -7)
+	move_direction = (chosen_node.position - position).normalized()
+	velocity = move_direction * speed * speed_stats_multiplier

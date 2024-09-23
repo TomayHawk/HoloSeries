@@ -432,5 +432,5 @@ func exit_nexus():
 				GlobalSettings.nexus_stats[character_index][stats_node_atlas_position.find(nexus_nodes[unlocked_index].texture.region.position)] += 1
 
 	# update camera
-	GlobalSettings.update_camera_node()
+	GlobalSettings.update_nodes("exit_nexus", false)
 	queue_free()
