@@ -25,7 +25,7 @@ func _ready():
 		CombatEntitiesComponent.target_entity("distance_least", caster_node)
 
 # run after entity selection with GlobalSettings.choose_entities()
-func initiate_fireball(_chosen_node):
+func initiate_fireball(chosen_node: Node):
 	if player_stats_node.mana < mana_cost || !player_stats_node.alive:
 		queue_free()
 	else:
@@ -33,8 +33,9 @@ func initiate_fireball(_chosen_node):
 		
 		# begin despawn timer
 		$AnimatedSprite2D.play("shoot")
-		set_physics_process(true)
 		time_left_node.start()
+		# run after entity selection with GlobalSettings.choose_entities()
+		basic_projectile_node.initiate_projectile(caster_node.position + Vector2(0, -7), (chosen_node.position - caster_node.position - Vector2(0, -7)).normalized(), 90.0)
 		show()
 
 ##### var temp_damage = CombatEntitiesComponent.magic_damage_calculator(damage * damage_stats_multiplier, caster_node.player_stats_node, enemy_node.enemy_stats_node)
@@ -56,15 +57,3 @@ const damage := 10
 
 var move_direction := Vector2.ZERO
 var nodes_in_blast_area: Array[Node] = []
-
-func _physics_process(delta):
-	# blast on collision
-	var collision_information = move_and_collide(velocity * delta)
-	if collision_information != null: area_impact()
-
-# run after entity selection with GlobalSettings.choose_entities()
-func initiate_fireball(chosen_node):
-	# set position, move direction and velocity
-	position = caster_node.position + Vector2(0, -7)
-	move_direction = (chosen_node.position - position).normalized()
-	velocity = move_direction * speed * speed_stats_multiplier

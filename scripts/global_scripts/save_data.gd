@@ -86,11 +86,11 @@ func load(save_file):
 	GlobalSettings.nexus_inventory = saves[save_file]["nexus_inventory"].duplicate()
 	
 	var base_player_path := "res://entities/players/player.tscn"
-	var character_specifics_paths := ["res://entities/character_specifics/sora.tscn",
-									  "res://entities/character_specifics/azki.tscn",
-									  "res://entities/character_specifics/roboco.tscn",
-									  "res://entities/character_specifics/akirose.tscn",
-									  "res://entities/character_specifics/luna.tscn"]
+	var character_specifics_paths := ["res://entities/players/character_specifics/sora.tscn",
+									  "res://entities/players/character_specifics/azki.tscn",
+									  "res://entities/players/character_specifics/roboco.tscn",
+									  "res://entities/players/character_specifics/akirose.tscn",
+									  "res://entities/players/character_specifics/luna.tscn"]
 	var player_standby_path := "res://entities/players/player_standby.tscn"
 
 	var party_player_nodes = GlobalSettings.party_player_nodes
@@ -112,7 +112,7 @@ func load(save_file):
 		player_node.position = saves[save_file]["current_main_player_position"]
 		if character_index == saves[save_file]["current_main_player"]:
 			GlobalSettings.current_main_player_node = player_node
-			GlobalSettings.update_main_player(player_node)
+			GlobalSettings.update_nodes("update_main_player", player_node)
 		else:
 			player_node.position += (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
 	

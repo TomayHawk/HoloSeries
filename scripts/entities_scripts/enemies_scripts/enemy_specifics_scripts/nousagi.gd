@@ -11,7 +11,7 @@ extends CharacterBody2D
 
 @onready var enemy_marker_path := "res://resources/entity_highlights/enemy_marker.tscn"
 
-@onready var nousagi_load := load("res://entities/enemies/nousagi.tscn")
+@onready var nousagi_load := load("res://entities/enemies/enemy_specifics/nousagi.tscn")
 
 var speed := 4500.0
 
