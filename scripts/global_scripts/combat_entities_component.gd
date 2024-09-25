@@ -11,6 +11,10 @@ var compared_quality := 0.0
 var comparing_qualities: Array[int] = []
 var target_entity_node: Node = null
 
+var in_combat
+var leaving_combat
+var requesting_entities
+
 func physical_damage_calculator(input_damage, origin_entity_stats_node, target_entity_stats_node):
 	temp_types.clear()
 	
@@ -160,3 +164,97 @@ func target_entity(type, origin_node):
 	GlobalSettings.entities_chosen_count += 1
 	if GlobalSettings.entities_request_count == GlobalSettings.entities_chosen_count:
 		GlobalSettings.choose_entities()
+
+func enter_combat():
+	if !in_combat || leaving_combat:
+		in_combat = true
+		leaving_combat = false
+		if leaving_combat_timer_node.is_stopped():
+			# fade in combat UI
+			combat_ui_node.combat_ui_control_tween(1)
+			##### begin combat bgm
+		else:
+			leaving_combat_timer_node.stop()
+
+func attempt_leave_combat():
+	if in_combat && leaving_combat_timer_node.is_stopped():
+		leaving_combat = true
+		leaving_combat_timer_node.start(2)
+
+func leave_combat():
+	in_combat = false
+	leaving_combat = false
+	leaving_combat_timer_node.stop()
+	enemy_nodes_in_combat.clear()
+	combat_ui_node.combat_ui_control_tween(0)
+	locked_enemy_node = null
+
+func request_entities(origin_node, target_command, request_count, request_entity_type):
+	empty_entities_request()
+	requesting_entities = true
+	entities_request_origin_node = origin_node
+	entities_request_target_command_string = target_command
+	entities_request_count = request_count
+
+	entities_available = get_tree().get_nodes_in_group(request_entity_type)
+
+	if request_entity_type == "party_players":
+		entities_available = party_player_nodes.duplicate()
+	elif request_entity_type == "ally_players":
+		entities_available = party_player_nodes.duplicate()
+		entities_available.erase(current_main_player_node)
+	elif request_entity_type == "players_alive":
+		for player in party_player_nodes:
+			if player.player_stats_node.alive:
+				entities_available.push_back(player)
+	elif request_entity_type == "players_dead":
+		for player in party_player_nodes:
+			if !player.player_stats_node.alive:
+				entities_available.push_back(player)
+	elif request_entity_type == "enemies_in_combat":
+		entities_available = enemy_nodes_in_combat.duplicate()
+	elif request_entity_type == "all_entities_in_combat":
+		entities_available = party_player_nodes.duplicate() + enemy_nodes_in_combat.duplicate()
+	elif request_entity_type == "all_enemies_on_screen":
+		entities_available = current_scene_node.get_node("Enemies").get_children().duplicate()
+	elif request_entity_type == "all_entities_on_screen":
+		entities_available = party_player_nodes.duplicate() + current_scene_node.get_node("Enemies").get_children().duplicate()
+
+	for entity in entities_available:
+		if entity.has_method("ally_movement"): # #### need grouping
+			entity.add_child(load(entity_highlights_paths[6]).instantiate())
+		elif entity.has_method("choose_player"):
+			entity.add_child(load(entity_highlights_paths[0]).instantiate())
+
+	if (entities_request_count == 1) && (locked_enemy_node != null) && (locked_enemy_node in entities_available):
+		entities_chosen.push_back(locked_enemy_node)
+		choose_entities()
+
+func choose_entities():
+	if entities_chosen.size() == 1:
+		entities_request_origin_node.call(entities_request_target_command_string, entities_chosen.duplicate()[0])
+	else:
+		entities_request_origin_node.call(entities_request_target_command_string, entities_chosen.duplicate())
+	empty_entities_request()
+
+func empty_entities_request():
+	requesting_entities = false
+	
+	if entities_request_origin_node != null && entities_request_origin_node.get_parent() == abilities_node && entities_chosen.size() != entities_request_count:
+		entities_request_origin_node.queue_free()
+
+	for entity in entities_available:
+		if is_instance_valid(entity):
+			if entity.has_method("ally_movement"): # #### need grouping
+				entity.remove_child(entity.get_node("PlayerHighlight"))
+			elif entity.has_method("choose_player"):
+				entity.remove_child(entity.get_node("EnemyHighlight"))
+
+	entities_request_count = 0
+	entities_available.clear()
+	entities_chosen_count = 0
+	entities_chosen.clear()
+
+func _on_leaving_combat_timer_timeout():
+	if enemy_nodes_in_combat.is_empty():
+		leave_combat()

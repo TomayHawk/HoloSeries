@@ -25,7 +25,7 @@ func _ready():
 		CombatEntitiesComponent.target_entity("distance_least", caster_node)
 
 # run after entity selection with GlobalSettings.choose_entities()
-func initiate_fireball(chosen_node: Node):
+func initiate_fireball(chosen_node):
 	if player_stats_node.mana < mana_cost || !player_stats_node.alive:
 		queue_free()
 	else:

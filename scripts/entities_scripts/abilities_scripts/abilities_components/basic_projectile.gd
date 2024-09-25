@@ -7,10 +7,10 @@ var velocity := Vector2.ZERO
 func _ready():
 	set_physics_process(false)
 
-func _physics_process(delta: float):
+func _physics_process(delta):
 	if ability_node.move_and_collide(velocity * delta) != null: ability_node.projectile_collision()
 
-func initiate_projectile(set_position: Vector2, set_direction: Vector2, set_speed: float):
+func initiate_projectile(set_position, set_direction, set_speed):
 	ability_node.position = set_position
 	velocity = set_direction * set_speed
 	set_physics_process(true)

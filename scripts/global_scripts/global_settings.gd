@@ -260,7 +260,7 @@ func combat_ui_display():
 	if !in_combat:
 		if combat_ui_control_node.modulate.a != 1.0: combat_ui_control_node.modulate.a = 1.0
 		elif leaving_combat_timer_node.is_stopped(): combat_ui_control_node.modulate.a = 0.0
-
+##### move to CombatEntitiesComponent from here
 func enter_combat():
 	if !in_combat || leaving_combat:
 		in_combat = true
