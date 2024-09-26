@@ -208,7 +208,7 @@ func trigger_death():
 	if player_node == GlobalSettings.current_main_player_node:
 		for party_player_node in GlobalSettings.party_player_nodes:
 			if party_player_node.player_stats_node.alive:
-				GlobalSettings.update_main_player(party_player_node)
+				GlobalSettings.update_nodes("update_main_player", party_player_node)
 
 func revive():
 	alive = true

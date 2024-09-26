@@ -156,22 +156,22 @@ func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			if Input.is_action_pressed("alt"):
-				if GlobalSettings.locked_enemy_node != null:
-					GlobalSettings.locked_enemy_node.remove_child(GlobalSettings.locked_enemy_node.get_node("EnemyMarker"))
-					GlobalSettings.locked_enemy_node = null
-				GlobalSettings.locked_enemy_node = self
+				if CombatEntitiesComponent.locked_enemy_node != null:
+					CombatEntitiesComponent.locked_enemy_node.remove_child(CombatEntitiesComponent.locked_enemy_node.get_node("EnemyMarker"))
+					CombatEntitiesComponent.locked_enemy_node = null
+				CombatEntitiesComponent.locked_enemy_node = self
 				add_child(load(enemy_marker_path).instantiate())
-			if GlobalSettings.requesting_entities && (self in GlobalSettings.entities_available) && !(self in GlobalSettings.entities_chosen):
-				GlobalSettings.entities_chosen.push_back(self)
-				GlobalSettings.entities_chosen_count += 1
-				if GlobalSettings.entities_request_count == GlobalSettings.entities_chosen_count:
-					GlobalSettings.choose_entities()
+			if CombatEntitiesComponent.requesting_entities && (self in CombatEntitiesComponent.entities_available) && !(self in CombatEntitiesComponent.entities_chosen):
+				CombatEntitiesComponent.entities_chosen.push_back(self)
+				CombatEntitiesComponent.entities_chosen_count += 1
+				if CombatEntitiesComponent.entities_request_count == CombatEntitiesComponent.entities_chosen_count:
+					CombatEntitiesComponent.choose_entities()
 
 func _on_detection_area_body_entered(body):
 	if base_enemy_node.alive == true && body.player_stats_node.alive:
-		GlobalSettings.enter_combat()
+		CombatEntitiesComponent.enter_combat()
 		players_exist_in_detection_area = true
-		if !GlobalSettings.enemy_nodes_in_combat.has(self): GlobalSettings.enemy_nodes_in_combat.push_back(self)
+		if !CombatEntitiesComponent.enemy_nodes_in_combat.has(self): CombatEntitiesComponent.enemy_nodes_in_combat.push_back(self)
 		if !player_nodes_in_detection_area.has(body): player_nodes_in_detection_area.push_back(body)
 
 func _on_detection_area_body_exited(body):
@@ -180,19 +180,19 @@ func _on_detection_area_body_exited(body):
 	player_nodes_in_detection_area.erase(body)
 
 	if player_nodes_in_detection_area.is_empty():
-		if GlobalSettings.locked_enemy_node == self: GlobalSettings.locked_enemy_node = null
-		GlobalSettings.enemy_nodes_in_combat.erase(self)
+		if CombatEntitiesComponent.locked_enemy_node == self: CombatEntitiesComponent.locked_enemy_node = null
+		CombatEntitiesComponent.enemy_nodes_in_combat.erase(self)
 		players_exist_in_detection_area = false
 
-	if GlobalSettings.enemy_nodes_in_combat.is_empty():
-		GlobalSettings.attempt_leave_combat()
+	if CombatEntitiesComponent.enemy_nodes_in_combat.is_empty():
+		CombatEntitiesComponent.attempt_leave_combat()
 
 func _on_attack_area_body_entered(body):
 	if base_enemy_node.alive == true && body.player_stats_node.alive:
-		GlobalSettings.enter_combat()
+		CombatEntitiesComponent.enter_combat()
 		players_exist_in_detection_area = true
 		players_exist_in_attack_area = true
-		if !GlobalSettings.enemy_nodes_in_combat.has(self): GlobalSettings.enemy_nodes_in_combat.push_back(self)
+		if !CombatEntitiesComponent.enemy_nodes_in_combat.has(self): CombatEntitiesComponent.enemy_nodes_in_combat.push_back(self)
 		if !player_nodes_in_detection_area.has(body): player_nodes_in_detection_area.push_back(body)
 		if !player_nodes_in_attack_area.has(body): player_nodes_in_attack_area.push_back(body)
 
@@ -215,14 +215,14 @@ func _on_invincibility_frame_timeout():
 	invincible = false
 
 func _on_death_timer_timeout():
-	GlobalSettings.enemy_nodes_in_combat.erase(self)
-	if GlobalSettings.locked_enemy_node == self: GlobalSettings.locked_enemy_node = null
-	if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
+	CombatEntitiesComponent.enemy_nodes_in_combat.erase(self)
+	if CombatEntitiesComponent.locked_enemy_node == self: CombatEntitiesComponent.locked_enemy_node = null
+	if CombatEntitiesComponent.enemy_nodes_in_combat.is_empty(): CombatEntitiesComponent.attempt_leave_combat()
 	queue_free()
 
 func _on_combat_hit_box_area_mouse_entered():
-	if GlobalSettings.requesting_entities:
-		GlobalSettings.mouse_in_attack_area = false
+	if CombatEntitiesComponent.requesting_entities:
+		CombatEntitiesComponent.mouse_in_attack_area = false
 
 func _on_combat_hit_box_area_mouse_exited():
-	GlobalSettings.mouse_in_attack_area = true
+	CombatEntitiesComponent.mouse_in_attack_area = true

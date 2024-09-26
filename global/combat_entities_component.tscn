@@ -4,3 +4,7 @@
 
 [node name="CombatEntitiesComponent" type="Node"]
 script = ExtResource("1_y8t08")
+
+[node name="LeavingCombatTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true

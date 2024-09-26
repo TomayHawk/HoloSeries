@@ -11,9 +11,9 @@ func _ready():
 	hide()
 
 	# request target entity
-	GlobalSettings.request_entities(self, "initiate_heal", 1, "players_alive")
+	CombatEntitiesComponent.request_entities(self, "initiate_heal", 1, "players_alive")
 	
-	if GlobalSettings.entities_available.size() == 0:
+	if CombatEntitiesComponent.entities_available.size() == 0:
 		queue_free()
 	# if alt is pressed, auto-aim player with lowest health
 	elif Input.is_action_pressed("alt"):

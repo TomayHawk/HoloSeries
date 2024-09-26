@@ -67,7 +67,7 @@ func update_character_selector():
 		i += 1
 
 func button_pressed():
-	GlobalSettings.empty_entities_request()
+	CombatEntitiesComponent.empty_entities_request()
 
 # CombatOptions1 (Basic Attack)
 func _on_attack_pressed():
@@ -101,7 +101,7 @@ func instantiate_ability(ability_index):
 
 # request entities for items (target_command, request_count, request_entity_type)
 func request_entities(extra_arg_0, extra_arg_1, extra_arg_2):
-	GlobalSettings.request_entities(self, extra_arg_0, extra_arg_1, extra_arg_2)
+	CombatEntitiesComponent.request_entities(self, extra_arg_0, extra_arg_1, extra_arg_2)
 
 # use items
 func use_potion(chosen_player_node):

@@ -16,15 +16,15 @@ func _ready():
 	hide()
 	
 	# request target entity
-	GlobalSettings.request_entities(self, "initiate_fireball", 1, "all_enemies_on_screen")
+	CombatEntitiesComponent.request_entities(self, "initiate_fireball", 1, "all_enemies_on_screen")
 	
-	if GlobalSettings.entities_available.size() == 0 && GlobalSettings.locked_enemy_node == null:
+	if CombatEntitiesComponent.entities_available.size() == 0 && CombatEntitiesComponent.locked_enemy_node == null:
 		queue_free()
 	# if alt is pressed, auto-aim closest enemy
-	elif Input.is_action_pressed("alt") && GlobalSettings.entities_available.size() != 0:
+	elif Input.is_action_pressed("alt") && CombatEntitiesComponent.entities_available.size() != 0:
 		CombatEntitiesComponent.target_entity("distance_least", caster_node)
 
-# run after entity selection with GlobalSettings.choose_entities()
+# run after entity selection with CombatEntitiesComponent.choose_entities()
 func initiate_fireball(chosen_node):
 	if player_stats_node.mana < mana_cost || !player_stats_node.alive:
 		queue_free()
@@ -34,7 +34,7 @@ func initiate_fireball(chosen_node):
 		# begin despawn timer
 		$AnimatedSprite2D.play("shoot")
 		time_left_node.start()
-		# run after entity selection with GlobalSettings.choose_entities()
+		# run after entity selection with CombatEntitiesComponent.choose_entities()
 		basic_projectile_node.initiate_projectile(caster_node.position + Vector2(0, -7), (chosen_node.position - caster_node.position - Vector2(0, -7)).normalized(), 90.0)
 		show()
 

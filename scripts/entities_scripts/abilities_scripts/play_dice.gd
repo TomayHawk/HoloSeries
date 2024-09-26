@@ -15,12 +15,12 @@ func _ready():
 	hide()
 
 	# request target entity
-	GlobalSettings.request_entities(self, "initiate_play_dice", 1, "all_enemies_on_screen")
+	CombatEntitiesComponent.request_entities(self, "initiate_play_dice", 1, "all_enemies_on_screen")
 	
-	if GlobalSettings.entities_available.size() == 0:
+	if CombatEntitiesComponent.entities_available.size() == 0:
 		queue_free()
 	# if alt is pressed, auto-aim closest enemy
-	elif Input.is_action_pressed("alt") && GlobalSettings.entities_available.size() != 0:
+	elif Input.is_action_pressed("alt") && CombatEntitiesComponent.entities_available.size() != 0:
 		CombatEntitiesComponent.target_entity("distance_least", caster_node)
 	
 func initiate_play_dice(chosen_node):

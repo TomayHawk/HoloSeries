@@ -9,7 +9,7 @@ func _process(_delta):
 	# if interaction button pressed
 	# if not in a dialogue
 	# if not in combat	
-	if Input.is_action_just_pressed("interact")&&(!GlobalSettings.text_box_node.textbox_container.is_visible())&&!GlobalSettings.in_combat:
+	if Input.is_action_just_pressed("interact") && (!GlobalSettings.text_box_node.textbox_container.is_visible()) && !CombatEntitiesComponent.in_combat:
 		# start dialogue
 		GlobalSettings.text_box_node.start_text()
 		run_dialogue()

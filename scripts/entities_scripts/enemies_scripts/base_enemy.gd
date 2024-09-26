@@ -71,9 +71,9 @@ func update_health(amount, types, knockback_direction, knockback_weight):
 func trigger_death():
 	alive = false
 	
-	GlobalSettings.enemy_nodes_in_combat.erase(enemy_node)
-	if GlobalSettings.locked_enemy_node == enemy_node: GlobalSettings.locked_enemy_node = null
-	if GlobalSettings.enemy_nodes_in_combat.is_empty(): GlobalSettings.attempt_leave_combat()
+	CombatEntitiesComponent.enemy_nodes_in_combat.erase(enemy_node)
+	if CombatEntitiesComponent.locked_enemy_node == enemy_node: CombatEntitiesComponent.locked_enemy_node = null
+	if CombatEntitiesComponent.enemy_nodes_in_combat.is_empty(): CombatEntitiesComponent.attempt_leave_combat()
 
 	enemy_node.set_physics_process(false)
 	enemy_node.animation_node.play("death")

@@ -67,7 +67,7 @@ var temp_comparator := 0.0
 func _physics_process(_delta):
 	temp_distance_to_main_player = position.distance_to(GlobalSettings.current_main_player_node.position)
 	# if ally in combat
-	if GlobalSettings.in_combat && ally_enemy_in_attack_area && temp_distance_to_main_player < 250:
+	if CombatEntitiesComponent.in_combat && ally_enemy_in_attack_area && temp_distance_to_main_player < 250:
 
 		moving = false
 		velocity = Vector2.ZERO
@@ -102,11 +102,11 @@ func movement(delta):
 	moving = true
 	temp_ally_speed = ally_speed
 
-	if GlobalSettings.in_combat && !GlobalSettings.leaving_combat && temp_distance_to_main_player < 250:
+	if CombatEntitiesComponent.in_combat && !CombatEntitiesComponent.leaving_combat && temp_distance_to_main_player < 250:
 		# distance to target
 		temp_comparator = INF
 		# evaluate enemy distances
-		for enemy in GlobalSettings.enemy_nodes_in_combat:
+		for enemy in CombatEntitiesComponent.enemy_nodes_in_combat:
 			# target enemy with shortest distance
 			if position.distance_to(enemy.position) < temp_comparator:
 				temp_comparator = position.distance_to(enemy.position)
@@ -133,7 +133,7 @@ func movement(delta):
 		if temp_distance_to_main_player > 300:
 			temp_ally_speed = ally_speed * 2
 	
-	if GlobalSettings.current_main_player_node.sprinting && !GlobalSettings.in_combat && temp_distance_to_main_player > 120 && GlobalSettings.current_main_player_node.moving:
+	if GlobalSettings.current_main_player_node.sprinting && !CombatEntitiesComponent.in_combat && temp_distance_to_main_player > 120 && GlobalSettings.current_main_player_node.moving:
 		temp_ally_speed = GlobalSettings.current_main_player_node.speed * sprint_multiplier
 
 	# assume currently facing obstacle
@@ -187,13 +187,13 @@ func movement(delta):
 func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if GlobalSettings.requesting_entities && self in GlobalSettings.entities_available && !(self in GlobalSettings.entities_chosen):
-				GlobalSettings.entities_chosen.push_back(self)
-				GlobalSettings.entities_chosen_count += 1
-				if GlobalSettings.entities_request_count == GlobalSettings.entities_chosen_count:
-					GlobalSettings.choose_entities()
+			if CombatEntitiesComponent.requesting_entities && self in CombatEntitiesComponent.entities_available && !(self in CombatEntitiesComponent.entities_chosen):
+				CombatEntitiesComponent.entities_chosen.push_back(self)
+				CombatEntitiesComponent.entities_chosen_count += 1
+				if CombatEntitiesComponent.entities_request_count == CombatEntitiesComponent.entities_chosen_count:
+					CombatEntitiesComponent.choose_entities()
 			elif player_stats_node.alive:
-				GlobalSettings.update_main_player(self)
+				GlobalSettings.update_nodes("update_main_player", self)
 
 func _on_interaction_area_body_entered(body):
 	# enemy is inside attack
@@ -218,7 +218,7 @@ func _on_ally_direction_cooldown_timeout():
 	velocity = Vector2.ZERO
 	moving = false
 
-	if GlobalSettings.in_combat && !GlobalSettings.leaving_combat:
+	if CombatEntitiesComponent.in_combat && !CombatEntitiesComponent.leaving_combat:
 		ally_direction_ready = true
 	else:
 		if temp_distance_to_main_player < 70:

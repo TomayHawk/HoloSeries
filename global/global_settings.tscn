@@ -16,10 +16,6 @@ script = ExtResource("1_mpwj3")
 
 [node name="TextBox" parent="." instance=ExtResource("4_tvnta")]
 
-[node name="LeavingCombatTimer" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
-
 [node name="Party" type="Node2D" parent="."]
 process_mode = 1
 y_sort_enabled = true
@@ -28,5 +24,3 @@ y_sort_enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
-
-[connection signal="timeout" from="LeavingCombatTimer" to="." method="_on_leaving_combat_timer_timeout"]

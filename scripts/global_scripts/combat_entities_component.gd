@@ -1,5 +1,14 @@
 extends Node
 
+@onready var entity_highlights_paths := ["res://resources/entity_highlights/enemy_highlight.tscn",
+										"res://resources/entity_highlights/enemy_marker.tscn",
+										"res://resources/entity_highlights/entity_highlight.tscn",
+										"res://resources/entity_highlights/entity_marker.tscn",
+										"res://resources/entity_highlights/invalid_highlight.tscn",
+										"res://resources/entity_highlights/invalid_marker.tscn",
+										"res://resources/entity_highlights/player_highlight.tscn",
+										"res://resources/entity_highlights/player_marker.tscn"]
+
 var damage_display_node: Node = null
 
 var temp_types: Array[String] = []
@@ -11,9 +20,20 @@ var compared_quality := 0.0
 var comparing_qualities: Array[int] = []
 var target_entity_node: Node = null
 
-var in_combat
-var leaving_combat
-var requesting_entities
+var in_combat := false
+var leaving_combat := false
+@onready var leaving_combat_timer_node := $LeavingCombatTimer
+
+var enemy_nodes_in_combat: Array[Node] = []
+var locked_enemy_node: Node = null
+var requesting_entities := false
+var entities_request_origin_node: Node = null
+var entities_request_target_command_string := ""
+var entities_request_count := 0
+var entities_available: Array[Node] = []
+var entities_chosen: Array[Node] = []
+var entities_chosen_count := 0
+var abilities_node: Node = null
 
 func physical_damage_calculator(input_damage, origin_entity_stats_node, target_entity_stats_node):
 	temp_types.clear()
@@ -129,13 +149,13 @@ func target_entity(type, origin_node):
 
 	# choose closest entity
 	if type == "distance_least":
-		for entity_node in GlobalSettings.entities_available:
+		for entity_node in entities_available:
 			if origin_node.position.distance_to(entity_node.position) < compared_quality:
 				compared_quality = origin_node.position.distance_to(entity_node.position)
 				target_entity_node = entity_node
 
-		GlobalSettings.entities_chosen.push_back(target_entity_node)
-		GlobalSettings.choose_entities()
+		entities_chosen.push_back(target_entity_node)
+		choose_entities()
 		return
 
 	# fix "most" to "least" with negative signs (positive number -> negative number)
@@ -145,7 +165,7 @@ func target_entity(type, origin_node):
 		sign_indicator = -1
 
 	# create array for all available node qualities
-	for entity_node in GlobalSettings.entities_available:
+	for entity_node in entities_available:
 		if entity_node.is_in_group("party"):
 			comparing_qualities.push_back(sign_indicator * entity_node.player_stats_node.get(type))
 		else:
@@ -156,14 +176,14 @@ func target_entity(type, origin_node):
 	for entity_quality in comparing_qualities:
 		if entity_quality < compared_quality:
 			compared_quality = entity_quality
-			target_entity_node = GlobalSettings.entities_available[counter]
+			target_entity_node = entities_available[counter]
 		counter += 1
 
 	# choose entities if fulfilled required number
-	GlobalSettings.entities_chosen.push_back(target_entity_node)
-	GlobalSettings.entities_chosen_count += 1
-	if GlobalSettings.entities_request_count == GlobalSettings.entities_chosen_count:
-		GlobalSettings.choose_entities()
+	entities_chosen.push_back(target_entity_node)
+	entities_chosen_count += 1
+	if entities_request_count == entities_chosen_count:
+		choose_entities()
 
 func enter_combat():
 	if !in_combat || leaving_combat:
@@ -171,7 +191,7 @@ func enter_combat():
 		leaving_combat = false
 		if leaving_combat_timer_node.is_stopped():
 			# fade in combat UI
-			combat_ui_node.combat_ui_control_tween(1)
+			GlobalSettings.combat_ui_node.combat_ui_control_tween(1)
 			##### begin combat bgm
 		else:
 			leaving_combat_timer_node.stop()
@@ -186,7 +206,7 @@ func leave_combat():
 	leaving_combat = false
 	leaving_combat_timer_node.stop()
 	enemy_nodes_in_combat.clear()
-	combat_ui_node.combat_ui_control_tween(0)
+	GlobalSettings.combat_ui_node.combat_ui_control_tween(0)
 	locked_enemy_node = null
 
 func request_entities(origin_node, target_command, request_count, request_entity_type):
@@ -199,26 +219,26 @@ func request_entities(origin_node, target_command, request_count, request_entity
 	entities_available = get_tree().get_nodes_in_group(request_entity_type)
 
 	if request_entity_type == "party_players":
-		entities_available = party_player_nodes.duplicate()
+		entities_available = GlobalSettings.party_player_nodes.duplicate()
 	elif request_entity_type == "ally_players":
-		entities_available = party_player_nodes.duplicate()
-		entities_available.erase(current_main_player_node)
+		entities_available = GlobalSettings.party_player_nodes.duplicate()
+		entities_available.erase(GlobalSettings.current_main_player_node)
 	elif request_entity_type == "players_alive":
-		for player in party_player_nodes:
+		for player in GlobalSettings.party_player_nodes:
 			if player.player_stats_node.alive:
 				entities_available.push_back(player)
 	elif request_entity_type == "players_dead":
-		for player in party_player_nodes:
+		for player in GlobalSettings.party_player_nodes:
 			if !player.player_stats_node.alive:
 				entities_available.push_back(player)
 	elif request_entity_type == "enemies_in_combat":
 		entities_available = enemy_nodes_in_combat.duplicate()
 	elif request_entity_type == "all_entities_in_combat":
-		entities_available = party_player_nodes.duplicate() + enemy_nodes_in_combat.duplicate()
+		entities_available = GlobalSettings.party_player_nodes.duplicate() + enemy_nodes_in_combat.duplicate()
 	elif request_entity_type == "all_enemies_on_screen":
-		entities_available = current_scene_node.get_node("Enemies").get_children().duplicate()
+		entities_available = GlobalSettings.current_scene_node.get_node("Enemies").get_children().duplicate()
 	elif request_entity_type == "all_entities_on_screen":
-		entities_available = party_player_nodes.duplicate() + current_scene_node.get_node("Enemies").get_children().duplicate()
+		entities_available = GlobalSettings.party_player_nodes.duplicate() + GlobalSettings.current_scene_node.get_node("Enemies").get_children().duplicate()
 
 	for entity in entities_available:
 		if entity.has_method("ally_movement"): # #### need grouping

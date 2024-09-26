@@ -109,7 +109,7 @@ func _on_death_timer_timeout():
 	animation_node.pause()
 
 func _on_combat_hit_box_area_mouse_entered():
-	if GlobalSettings.requesting_entities:
+	if CombatEntitiesComponent.requesting_entities:
 		GlobalSettings.mouse_in_attack_area = false
 
 func _on_combat_hit_box_area_mouse_exited():

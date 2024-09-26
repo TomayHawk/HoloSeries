@@ -103,11 +103,11 @@ func movement(delta):
 func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if GlobalSettings.requesting_entities && self in GlobalSettings.entities_available && !(self in GlobalSettings.entities_chosen):
-				GlobalSettings.entities_chosen.push_back(self)
-				GlobalSettings.entities_chosen_count += 1
-				if GlobalSettings.entities_request_count == GlobalSettings.entities_chosen_count:
-					GlobalSettings.choose_entities()
+			if CombatEntitiesComponent.requesting_entities && self in CombatEntitiesComponent.entities_available && !(self in CombatEntitiesComponent.entities_chosen):
+				CombatEntitiesComponent.entities_chosen.push_back(self)
+				CombatEntitiesComponent.entities_chosen_count += 1
+				if CombatEntitiesComponent.entities_request_count == CombatEntitiesComponent.entities_chosen_count:
+					CombatEntitiesComponent.choose_entities()
 
 func _on_interaction_area_body_entered(body):
 	# npc can be interacted
