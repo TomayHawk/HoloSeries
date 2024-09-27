@@ -1,13 +1,13 @@
 extends CharacterBody2D
 
 @onready var enemies_node := get_parent()
-@onready var base_enemy_node := $BaseEnemyComponent
+@onready var base_enemy_node := $BaseEnemy
 
 @onready var animation_node := $Animation
-@onready var navigation_agent_node := $NavigationAgent2D
-@onready var attack_cooldown_node := $AttackCooldown
+@onready var navigation_agent_node := $BaseEnemy/NavigationAgent2D
+@onready var attack_cooldown_node := $BaseEnemy/AttackCooldown
 @onready var summon_cooldown_node := $SummonCooldown
-@onready var knockback_timer_node := $KnockbackTimer
+@onready var knockback_timer_node := $BaseEnemy/KnockbackTimer
 
 @onready var enemy_marker_path := "res://resources/entity_highlights/enemy_marker.tscn"
 
@@ -77,7 +77,6 @@ func _physics_process(delta):
 						summon_nousagi()
 					else:
 						animation_node.play("attack")
-					
 			# else determine move direction
 			else:
 				# move towards player if any player in detection area
@@ -200,29 +199,12 @@ func _on_attack_area_body_exited(body):
 	player_nodes_in_attack_area.erase(body)
 	if player_nodes_in_attack_area.is_empty(): players_exist_in_attack_area = false
 
-func _on_attack_cooldown_timeout():
-	attack_ready = true
-
 func _on_summon_timer_timeout():
 	summon_ready = true
 
-func _on_knockback_timer_timeout():
-	animation_node.play("walk")
-	taking_knockback = false
-	knockback_weight = 0.0
-
-func _on_invincibility_frame_timeout():
-	invincible = false
-
-func _on_death_timer_timeout():
-	CombatEntitiesComponent.enemy_nodes_in_combat.erase(self)
-	if CombatEntitiesComponent.locked_enemy_node == self: CombatEntitiesComponent.locked_enemy_node = null
-	if CombatEntitiesComponent.enemy_nodes_in_combat.is_empty(): CombatEntitiesComponent.attempt_leave_combat()
-	queue_free()
-
 func _on_combat_hit_box_area_mouse_entered():
 	if CombatEntitiesComponent.requesting_entities:
-		CombatEntitiesComponent.mouse_in_attack_area = false
+		GlobalSettings.mouse_in_attack_area = false
 
 func _on_combat_hit_box_area_mouse_exited():
-	CombatEntitiesComponent.mouse_in_attack_area = true
+	GlobalSettings.mouse_in_attack_area = true

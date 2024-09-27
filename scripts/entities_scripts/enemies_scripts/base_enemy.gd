@@ -1,11 +1,11 @@
-extends Node
+extends Node2D
 
 # enemy node
 @onready var enemy_node := get_parent()
-@onready var knockback_timer_node := enemy_node.get_node("KnockbackTimer")
-@onready var invincibility_frame_node := enemy_node.get_node("InvincibilityFrame")
+@onready var knockback_timer_node := $KnockbackTimer
+@onready var invincibility_frame_node := $InvulnerabilityTimer
 
-@onready var health_bar_node := enemy_node.get_node("HealthBar")
+@onready var health_bar_node := $HealthBar
 
 # health variables
 var alive := true
@@ -30,10 +30,6 @@ var crit_damage := 0.50
 func _ready():
 	health_bar_node.max_value = max_health
 	update_health(0, [], enemy_node.position, 0.0)
-	set_physics_process(false)
-
-func _physics_process(_delta):
-	enemy_node.move_and_slide()
 
 # deal damage to enemy (called by enemy)
 func update_health(amount, types, knockback_direction, knockback_weight):
@@ -80,3 +76,20 @@ func trigger_death():
 	enemy_node.get_node("DeathTimer").start(0.3)
 	enemy_node.velocity = enemy_node.knockback_direction * 200
 	set_physics_process(true)
+
+func _on_attack_cooldown_timeout():
+	enemy_node.attack_ready = true
+
+func _on_knockback_timer_timeout():
+	enemy_node.animation_node.play("walk")
+	enemy_node.taking_knockback = false
+	enemy_node.knockback_weight = 0.0
+
+func _on_invulnerability_timer_timeout():
+	enemy_node.invincible = false
+
+func _on_death_timer_timeout():
+	CombatEntitiesComponent.enemy_nodes_in_combat.erase(self)
+	if CombatEntitiesComponent.locked_enemy_node == self: CombatEntitiesComponent.locked_enemy_node = null
+	if CombatEntitiesComponent.enemy_nodes_in_combat.is_empty(): CombatEntitiesComponent.attempt_leave_combat()
+	queue_free()

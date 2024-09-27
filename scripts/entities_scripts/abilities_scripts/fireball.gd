@@ -1,9 +1,9 @@
-extends RigidBody2D
+extends CharacterBody2D
 
 @export var base_damage: int = 10
 
 @onready var caster_node: Node = GlobalSettings.current_main_player_node
-@onready var player_stats_node: Node = get_parent().caster_node.player_stats_node
+@onready var player_stats_node: Node = GlobalSettings.current_main_player_node.player_stats_node
 
 @onready var area_of_effect_node := $AreaOfEffect
 @onready var ability_despawn_node := $AbilityDespawnComponent

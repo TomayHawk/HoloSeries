@@ -1,6 +1,7 @@
-[gd_scene load_steps=27 format=3 uid="uid://du2d3fhraj8fe"]
+[gd_scene load_steps=28 format=3 uid="uid://du2d3fhraj8fe"]
 
 [ext_resource type="Script" path="res://scripts/entities_scripts/enemies_scripts/enemy_specifics_scripts/nousagi.gd" id="1_on7pi"]
+[ext_resource type="PackedScene" uid="uid://b7o2cmo4lhoma" path="res://entities/enemies/base_enemy.tscn" id="2_x265f"]
 [ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/characters/Nousagi.png" id="3_jdaaw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sw4lu"]
@@ -185,6 +186,8 @@ motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_on7pi")
 
+[node name="BaseEnemy" parent="." instance=ExtResource("2_x265f")]
+
 [node name="MovementHitBox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_sw4lu")
@@ -210,6 +213,9 @@ position = Vector2(35, 0)
 [node name="DamageShape" type="CollisionShape2D" parent="AttackArea"]
 scale = Vector2(1.5, 1.5)
 shape = SubResource("CircleShape2D_k2v4m")
+
+[node name="SummonCooldown" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="input_event" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_input_event"]
 [connection signal="mouse_entered" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_mouse_entered"]

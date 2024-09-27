@@ -112,7 +112,7 @@ func _input(_event):
 			target_zoom = clamp(target_zoom - Vector2(0.05, 0.05), Vector2(0.5, 0.5), Vector2(1.5, 1.5))
 			set_physics_process(true)
 	elif combat_inputs_available:
-		if Input.is_action_just_pressed("display_combat_UI"): CombatEntitiesComponent.combat_ui_display()
+		if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
 		elif Input.is_action_just_pressed("tab"): combat_ui_character_selector_node.show()
 		elif Input.is_action_just_released("tab"): combat_ui_character_selector_node.hide()
 	elif nexus_inputs_available:

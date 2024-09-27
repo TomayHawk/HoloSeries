@@ -97,7 +97,7 @@ func hide_combat_options_2():
 # create ability nodes
 func instantiate_ability(ability_index):
 	# create and add ability instance to abilities node
-	GlobalSettings.abilities_node.add_child(abilities_load[ability_index].instantiate())
+	CombatEntitiesComponent.abilities_node.add_child(abilities_load[ability_index].instantiate())
 
 # request entities for items (target_command, request_count, request_entity_type)
 func request_entities(extra_arg_0, extra_arg_1, extra_arg_2):

@@ -1,10 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://b7o2cmo4lhoma"]
+[gd_scene load_steps=4 format=3 uid="uid://b7o2cmo4lhoma"]
 
 [ext_resource type="Script" path="res://scripts/entities_scripts/enemies_scripts/base_enemy.gd" id="1_e24kv"]
-[ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/enemy_specifics/nousagi.tscn" id="2_c5ne0"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_a0wb7"]
-size = Vector2(22, 8)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_528bm"]
 radius = 150.0
@@ -12,12 +8,8 @@ radius = 150.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_l12kd"]
 radius = 35.0
 
-[node name="BaseEnemy" type="CharacterBody2D"]
+[node name="BaseEnemy" type="Node2D"]
 script = ExtResource("1_e24kv")
-
-[node name="MovementHitBox" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
-shape = SubResource("RectangleShape2D_a0wb7")
 
 [node name="DetectionArea" type="Area2D" parent="."]
 collision_layer = 0
@@ -59,4 +51,7 @@ one_shot = true
 wait_time = 0.3
 one_shot = true
 
-[node name="Nousagi" parent="." instance=ExtResource("2_c5ne0")]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
+[connection signal="timeout" from="KnockbackTimer" to="." method="_on_knockback_timer_timeout"]
+[connection signal="timeout" from="InvulnerabilityTimer" to="." method="_on_invulnerability_timer_timeout"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]
