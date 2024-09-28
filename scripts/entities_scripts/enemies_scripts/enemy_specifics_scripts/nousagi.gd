@@ -20,12 +20,6 @@ var current_animation := ""
 var current_frame := 0
 var last_frame := 1
 
-# player variables
-var players_exist_in_detection_area := false
-var player_nodes_in_detection_area: Array[Node] = []
-var players_exist_in_attack_area := false
-var player_nodes_in_attack_area: Array[Node] = []
-
 # combat variables
 var attack_ready := true
 var summon_ready := false
@@ -55,7 +49,7 @@ func _physics_process(delta):
 	current_frame = animation_node.get_frame()
 	
 	# choose a player if player exists in detection area
-	if players_exist_in_detection_area: choose_player()
+	if base_enemy_node.players_exist_in_detection_area: choose_player()
 
 	# if on first physics game tick of current animation frame
 	if current_frame != last_frame:
@@ -63,13 +57,13 @@ func _physics_process(delta):
 			velocity = Vector2(0, 0)
 
 			# remove all dead players from detection arrays
-			for player_node in player_nodes_in_detection_area:
+			for player_node in base_enemy_node.player_nodes_in_detection_area:
 				if !player_node.player_stats_node.alive:
-					_on_detection_area_body_exited(player_node)
-					_on_attack_area_body_exited(player_node)
+					base_enemy_node._on_detection_area_body_exited(player_node)
+					base_enemy_node._on_attack_area_body_exited(player_node)
 			
 			# attack or idle if any player in attack area
-			if players_exist_in_attack_area:
+			if base_enemy_node.players_exist_in_attack_area:
 				animation_node.play("idle")
 				if attack_ready:
 					# summon nousagi (1 / 3 or 10.00%)
@@ -80,7 +74,7 @@ func _physics_process(delta):
 			# else determine move direction
 			else:
 				# move towards player if any player in detection area
-				if players_exist_in_detection_area:
+				if base_enemy_node.players_exist_in_detection_area:
 					navigation_agent_node.target_position = target_player_node.position
 					move_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
 				# else move in a random direction
@@ -91,7 +85,7 @@ func _physics_process(delta):
 		elif current_frame == 3:
 			if current_animation == "attack":
 				# attack player
-				if players_exist_in_attack_area:
+				if base_enemy_node.players_exist_in_attack_area:
 					attack_direction = (target_player_node.position - position).normalized()
 					var damage = CombatEntitiesComponent.physical_damage_calculator(13, base_enemy_node, target_player_node.player_stats_node)
 					target_player_node.player_stats_node.update_health(-damage[0], damage[1], attack_direction, 0.4) # attack player (damage)
@@ -101,7 +95,7 @@ func _physics_process(delta):
 			elif current_animation == "walk":
 				velocity = move_direction * speed * delta
 
-		if players_exist_in_attack_area: velocity = Vector2(0, 0)
+		if base_enemy_node.players_exist_in_attack_area: velocity = Vector2(0, 0)
 
 	# check knockback
 	if taking_knockback:
@@ -113,10 +107,10 @@ func _physics_process(delta):
 		if target_player_node != null:
 			animation_node.flip_h = (target_player_node.position - position).x < 0
 		# switch to attack when ready
-		if players_exist_in_attack_area && attack_ready:
+		if base_enemy_node.players_exist_in_attack_area && attack_ready:
 			animation_node.play("attack")
 		# switch to walk when outside attack mode
-		elif !players_exist_in_attack_area:
+		elif !base_enemy_node.players_exist_in_attack_area:
 			animation_node.play("walk")
 
 	last_frame = current_frame
@@ -127,10 +121,10 @@ func choose_player():
 	target_player_health = INF
 
 	# determine targetable player nodes
-	if players_exist_in_attack_area:
-		targetable_player_nodes = player_nodes_in_attack_area.duplicate()
+	if base_enemy_node.players_exist_in_attack_area:
+		targetable_player_nodes = base_enemy_node.player_nodes_in_attack_area.duplicate()
 	else:
-		targetable_player_nodes = player_nodes_in_detection_area.duplicate()
+		targetable_player_nodes = base_enemy_node.player_nodes_in_detection_area.duplicate()
 
 	# target player with lowest health
 	for player_node in targetable_player_nodes:
@@ -166,38 +160,6 @@ func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 				if CombatEntitiesComponent.entities_request_count == CombatEntitiesComponent.entities_chosen_count:
 					CombatEntitiesComponent.choose_entities()
 
-func _on_detection_area_body_entered(body):
-	if base_enemy_node.alive == true && body.player_stats_node.alive:
-		CombatEntitiesComponent.enter_combat()
-		players_exist_in_detection_area = true
-		if !CombatEntitiesComponent.enemy_nodes_in_combat.has(self): CombatEntitiesComponent.enemy_nodes_in_combat.push_back(self)
-		if !player_nodes_in_detection_area.has(body): player_nodes_in_detection_area.push_back(body)
-
-func _on_detection_area_body_exited(body):
-	_on_attack_area_body_exited(body)
-
-	player_nodes_in_detection_area.erase(body)
-
-	if player_nodes_in_detection_area.is_empty():
-		if CombatEntitiesComponent.locked_enemy_node == self: CombatEntitiesComponent.locked_enemy_node = null
-		CombatEntitiesComponent.enemy_nodes_in_combat.erase(self)
-		players_exist_in_detection_area = false
-
-	if CombatEntitiesComponent.enemy_nodes_in_combat.is_empty():
-		CombatEntitiesComponent.attempt_leave_combat()
-
-func _on_attack_area_body_entered(body):
-	if base_enemy_node.alive == true && body.player_stats_node.alive:
-		CombatEntitiesComponent.enter_combat()
-		players_exist_in_detection_area = true
-		players_exist_in_attack_area = true
-		if !CombatEntitiesComponent.enemy_nodes_in_combat.has(self): CombatEntitiesComponent.enemy_nodes_in_combat.push_back(self)
-		if !player_nodes_in_detection_area.has(body): player_nodes_in_detection_area.push_back(body)
-		if !player_nodes_in_attack_area.has(body): player_nodes_in_attack_area.push_back(body)
-
-func _on_attack_area_body_exited(body):
-	player_nodes_in_attack_area.erase(body)
-	if player_nodes_in_attack_area.is_empty(): players_exist_in_attack_area = false
 
 func _on_summon_timer_timeout():
 	summon_ready = true

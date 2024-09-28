@@ -169,7 +169,7 @@ func target_entity(type, origin_node):
 		if entity_node.is_in_group("party"):
 			comparing_qualities.push_back(sign_indicator * entity_node.player_stats_node.get(type))
 		else:
-			comparing_qualities.push_back(sign_indicator * entity_node.enemy_stats_node.get(type))
+			comparing_qualities.push_back(sign_indicator * entity_node.base_enemy_node.get(type))
 
 	# choose entity with least of chosen quality
 	counter = 0
@@ -187,6 +187,7 @@ func target_entity(type, origin_node):
 
 func enter_combat():
 	if !in_combat || leaving_combat:
+		print("entering")
 		in_combat = true
 		leaving_combat = false
 		if leaving_combat_timer_node.is_stopped():
@@ -198,6 +199,7 @@ func enter_combat():
 
 func attempt_leave_combat():
 	if in_combat && leaving_combat_timer_node.is_stopped():
+		print("attempting")
 		leaving_combat = true
 		leaving_combat_timer_node.start(2)
 

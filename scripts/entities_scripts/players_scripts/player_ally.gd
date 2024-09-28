@@ -77,8 +77,8 @@ func _physics_process(_delta):
 		# determine enemy health
 		for enemy in ally_enemy_nodes_in_attack_area:
 			# target enemy with lowest health
-			if enemy.enemy_stats_node.health < temp_comparator:
-				temp_comparator = enemy.enemy_stats_node.health
+			if enemy.base_enemy_node.health < temp_comparator:
+				temp_comparator = enemy.base_enemy_node.health
 				ally_target_enemy_node = enemy
 
 		last_move_direction = (ally_target_enemy_node.position - position).normalized()

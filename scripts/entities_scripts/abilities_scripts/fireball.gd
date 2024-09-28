@@ -38,10 +38,10 @@ func initiate_fireball(chosen_node):
 		basic_projectile_node.initiate_projectile(caster_node.position + Vector2(0, -7), (chosen_node.position - caster_node.position - Vector2(0, -7)).normalized(), 90.0)
 		show()
 
-##### var temp_damage = CombatEntitiesComponent.magic_damage_calculator(damage * damage_stats_multiplier, caster_node.player_stats_node, enemy_node.enemy_stats_node)
+##### var temp_damage = CombatEntitiesComponent.magic_damage_calculator(damage * damage_stats_multiplier, caster_node.player_stats_node, enemy_node.base_enemy_node)
 ##### @onready var damage_multiplier: float = 1 + (GlobalSettings.current_main_player_node.player_stats_node.intelligence / 500)
 ##### @onready var projectile_speed_multiplier: float = 1 + (get_parent().caster_node.player_stats_node.intelligence / 1000) + (get_parent().caster_node.player_stats_node.speed / 256)
-##### 		enemy_node.enemy_stats_node.update_health(-temp_damage[0], temp_damage[1], move_direction, 0.5)
+##### 		enemy_node.base_enemy_node.update_health(-temp_damage[0], temp_damage[1], move_direction, 0.5)
 ##### 	queue_free()
 	
 ##### func projectile_collision():

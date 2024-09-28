@@ -209,6 +209,7 @@ shape = SubResource("RectangleShape2D_2uydh")
 
 [node name="AttackArea" type="Area2D" parent="."]
 position = Vector2(35, 0)
+collision_layer = 0
 
 [node name="DamageShape" type="CollisionShape2D" parent="AttackArea"]
 scale = Vector2(1.5, 1.5)

@@ -93,7 +93,6 @@ func _physics_process(delta):
 
 	# if ally in combat
 	elif CombatEntitiesComponent.in_combat && ally_enemy_in_attack_area && temp_distance_to_main_player < 250:
-
 		moving = false
 		velocity = Vector2.ZERO
 
@@ -102,10 +101,10 @@ func _physics_process(delta):
 		# determine enemy health
 		for enemy in ally_enemy_nodes_in_attack_area:
 			# target enemy with lowest health
-			if enemy.enemy_stats_node.health < temp_comparator:
-				temp_comparator = enemy.enemy_stats_node.health
+			if enemy.base_enemy_node.health < temp_comparator:
+				temp_comparator = enemy.base_enemy_node.health
 				ally_target_enemy_node = enemy
-
+		
 		last_move_direction = (ally_target_enemy_node.position - position).normalized()
 		if ally_attack_ready: attack()
 
@@ -168,7 +167,7 @@ func ally_movement(delta):
 			navigation_agent_node.target_position = GlobalSettings.current_main_player_node.position
 		else:
 			navigation_agent_node.target_position = ally_target_enemy_node.position
-			
+
 		current_move_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
 		ally_direction_cooldown_node.start(randf_range(0.2, 0.4))
 	elif temp_distance_to_main_player < 80:

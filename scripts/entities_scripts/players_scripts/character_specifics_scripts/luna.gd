@@ -42,8 +42,8 @@ func regular_attack():
 	else:
 		var temp_enemy_health = INF
 		for enemy_node in player_node.ally_enemy_nodes_in_attack_area:
-			if enemy_node.enemy_stats_node.health < temp_enemy_health:
-				temp_enemy_health = enemy_node.enemy_stats_node.health
+			if enemy_node.base_enemy_node.health < temp_enemy_health:
+				temp_enemy_health = enemy_node.base_enemy_node.health
 				player_node.attack_direction = (enemy_node.position - player_node.position).normalized()
 		player_node.ally_attack_ready = false
 		ally_attack_cooldown_node.start(randf_range(2, 3))

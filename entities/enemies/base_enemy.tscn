@@ -18,6 +18,7 @@ collision_layer = 0
 shape = SubResource("CircleShape2D_528bm")
 
 [node name="AttackArea" type="Area2D" parent="."]
+collision_layer = 0
 
 [node name="AttackShape" type="CollisionShape2D" parent="AttackArea"]
 shape = SubResource("CircleShape2D_l12kd")
@@ -48,9 +49,12 @@ wait_time = 0.05
 one_shot = true
 
 [node name="DeathTimer" type="Timer" parent="."]
-wait_time = 0.3
 one_shot = true
 
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="KnockbackTimer" to="." method="_on_knockback_timer_timeout"]
 [connection signal="timeout" from="InvulnerabilityTimer" to="." method="_on_invulnerability_timer_timeout"]

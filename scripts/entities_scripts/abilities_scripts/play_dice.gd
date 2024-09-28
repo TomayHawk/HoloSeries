@@ -44,7 +44,7 @@ func initiate_play_dice(chosen_node):
 
 			##### want to accelerate for each iteration
 			interval_timer.start()
-			chosen_node.enemy_stats_node.update_health(-dice_damage, [], Vector2.ZERO, 0.0)
+			chosen_node.base_enemy_node.update_health(-dice_damage, [], Vector2.ZERO, 0.0)
 			await interval_timer.timeout
 
 	queue_free()
