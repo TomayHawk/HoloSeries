@@ -134,12 +134,12 @@ func _on_control_mouse_exited():
 	GlobalSettings.mouse_in_zoom_area = true
 
 func _on_character_selector_button_pressed(extra_arg_0):
-	GlobalSettings.current_main_player_node.character_specifics_node.reparent(GlobalSettings.standby_node)
 	GlobalSettings.current_main_player_node.player_stats_node.reparent(GlobalSettings.standby_node)
-	GlobalSettings.standby_player_nodes[extra_arg_0].character_specifics_node.reparent(GlobalSettings.current_main_player_node)
+	GlobalSettings.current_main_player_node.character_specifics_node.reparent(GlobalSettings.standby_node)
 	GlobalSettings.standby_player_nodes[extra_arg_0].player_stats_node.reparent(GlobalSettings.current_main_player_node)
-	GlobalSettings.standby_node.get_node("CharacterSpecifics").reparent(GlobalSettings.standby_player_nodes[extra_arg_0])
+	GlobalSettings.standby_player_nodes[extra_arg_0].character_specifics_node.reparent(GlobalSettings.current_main_player_node)
 	GlobalSettings.standby_node.get_node("PlayerStatsComponent").reparent(GlobalSettings.standby_player_nodes[extra_arg_0])
+	GlobalSettings.standby_node.get_node("CharacterSpecifics").reparent(GlobalSettings.standby_player_nodes[extra_arg_0])
 
 	GlobalSettings.current_main_player_node.update_nodes()
 	GlobalSettings.current_main_player_node.player_stats_node.update_nodes()
@@ -149,7 +149,7 @@ func _on_character_selector_button_pressed(extra_arg_0):
 	GlobalSettings.standby_player_nodes[extra_arg_0].player_stats_node.update_nodes()
 	GlobalSettings.standby_player_nodes[extra_arg_0].character_specifics_node.update_nodes()
 
-	character_name_label_nodes[GlobalSettings.current_main_player_node.player_stats_node.party_index].text = GlobalSettings.current_main_player_node.character_specifics_node.character_name
 	GlobalSettings.current_main_player_node.player_stats_node.update_stats()
+	character_name_label_nodes[GlobalSettings.current_main_player_node.player_stats_node.party_index].text = GlobalSettings.current_main_player_node.character_specifics_node.character_name
 	
 	update_character_selector()

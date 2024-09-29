@@ -59,16 +59,13 @@ var character_experiences := []
 var nexus_camera_node: Node = null
 var on_nexus := false
 var nexus_character_selector_node: Node = null
-# HP, MP, DEF, SHD, ATK, INT, SPD, AGI
 var nexus_stats := [[0, 0, 0, 0, 0, 0, 0, 0],
 					[0, 0, 0, 0, 0, 0, 0, 0],
 					[0, 0, 0, 0, 0, 0, 0, 0],
 					[0, 0, 0, 0, 0, 0, 0, 0],
 					[0, 0, 0, 0, 0, 0, 0, 0]]
-
 var nexus_not_randomized := true
 var nexus_randomized_atlas_positions := []
-
 var nexus_last_nodes := []
 var nexus_unlocked := [[], [], [], [], []]
 var nexus_unlockables := [[], [], [], [], []]
@@ -92,7 +89,6 @@ func _physics_process(delta):
 	if target_zoom.x != current_camera_node.zoom.x:
 		zoom_interval += delta * 0.1
 		current_camera_node.zoom = current_camera_node.zoom.lerp(target_zoom, zoom_interval)
-		print(current_camera_node.zoom)
 	else:
 		zoom_interval = 0.0
 		set_physics_process(false)
@@ -105,11 +101,11 @@ func _input(_event):
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
 	elif Input.is_action_just_pressed("scroll_up") && mouse_in_zoom_area:
 		if current_camera_node.zoom.x < 1.5:
-			target_zoom = clamp(target_zoom + Vector2(0.05, 0.05), Vector2(0.5, 0.5), Vector2(1.5, 1.5))
+			target_zoom = clamp(target_zoom + Vector2(0.05, 0.05), Vector2(0.8, 0.8), Vector2(1.4, 1.4))
 			set_physics_process(true)
 	elif Input.is_action_just_pressed("scroll_down") && mouse_in_zoom_area:
 		if current_camera_node.zoom.x > 0.5:
-			target_zoom = clamp(target_zoom - Vector2(0.05, 0.05), Vector2(0.5, 0.5), Vector2(1.5, 1.5))
+			target_zoom = clamp(target_zoom - Vector2(0.05, 0.05), Vector2(0.8, 0.8), Vector2(1.4, 1.4))
 			set_physics_process(true)
 	elif combat_inputs_available:
 		if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
@@ -163,7 +159,7 @@ func esc_input():
 			get_tree().root.get_node("HoloNexus").nexus_ui_node.inventory_node.hide()
 			get_tree().root.get_node("HoloNexus").nexus_ui_node.update_nexus_ui()
 			return
-		pause_game(false, "")
+		pause_game(false, "in_nexus")
 		on_nexus = false
 		combat_inputs_available = true
 		nexus_inputs_available = false
@@ -206,7 +202,7 @@ func pause_game(to_pause, type):
 		"in_settings":
 			pass
 		"in_nexus":
-			pass
+			game_options_node.visible = false
 			
 func start_game(save_data_node, save_file):
 	save_data_node.load(save_file)

@@ -5,16 +5,14 @@ extends CanvasLayer
 
 @onready var options_node := $Control/Options
 
-@onready var character_selector_node := $NexusCharacterSelector
-
-@onready var character_selector_player_nodes := $NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer.get_children()
-
 @onready var inventory_node := $Control/NexusInventory
 @onready var inventory_items_nodes := $Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer.get_children()
 
 @onready var descriptions_node := $Control/DescriptionsContainer
-
 @onready var descriptions_label_node := $Control/DescriptionsContainer/MarginContainer/HBoxContainer/TextArea
+
+@onready var character_selector_node := $NexusCharacterSelector
+@onready var character_selector_player_nodes := $NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer.get_children()
 
 var character_selector_name_nodes: Array[Node] = []
 var character_selector_level_nodes: Array[Node] = []
@@ -217,3 +215,4 @@ func _on_scroll_container_gui_input(_event):
 
 func _on_character_selector_button_pressed(extra_arg_0):
 	nexus.update_nexus_player(character_selector_character_indices[extra_arg_0])
+	update_character_selector()

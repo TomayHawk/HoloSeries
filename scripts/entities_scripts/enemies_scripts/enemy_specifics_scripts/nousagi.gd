@@ -9,8 +9,6 @@ extends CharacterBody2D
 @onready var summon_cooldown_node := $SummonCooldown
 @onready var knockback_timer_node := $BaseEnemy/KnockbackTimer
 
-@onready var enemy_marker_path := "res://resources/entity_highlights/enemy_marker.tscn"
-
 @onready var nousagi_load := load("res://entities/enemies/enemy_specifics/nousagi.tscn")
 
 var speed := 4500.0
@@ -144,29 +142,5 @@ func summon_nousagi():
 	summon_cooldown_node.start(randf_range(15, 20))
 	summon_ready = false
 
-# left click handler
-func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if Input.is_action_pressed("alt"):
-				if CombatEntitiesComponent.locked_enemy_node != null:
-					CombatEntitiesComponent.locked_enemy_node.remove_child(CombatEntitiesComponent.locked_enemy_node.get_node("EnemyMarker"))
-					CombatEntitiesComponent.locked_enemy_node = null
-				CombatEntitiesComponent.locked_enemy_node = self
-				add_child(load(enemy_marker_path).instantiate())
-			if CombatEntitiesComponent.requesting_entities && (self in CombatEntitiesComponent.entities_available) && !(self in CombatEntitiesComponent.entities_chosen):
-				CombatEntitiesComponent.entities_chosen.push_back(self)
-				CombatEntitiesComponent.entities_chosen_count += 1
-				if CombatEntitiesComponent.entities_request_count == CombatEntitiesComponent.entities_chosen_count:
-					CombatEntitiesComponent.choose_entities()
-
-
 func _on_summon_timer_timeout():
 	summon_ready = true
-
-func _on_combat_hit_box_area_mouse_entered():
-	if CombatEntitiesComponent.requesting_entities:
-		GlobalSettings.mouse_in_attack_area = false
-
-func _on_combat_hit_box_area_mouse_exited():
-	GlobalSettings.mouse_in_attack_area = true

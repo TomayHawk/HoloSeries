@@ -344,6 +344,7 @@ func return_adjacents(temp_node_index):
 
 func update_nexus_player(player):
 	current_nexus_player = player
+	nexus_player_node.character_index = player
 
 	# clear unlockable textures
 	for past_unlockable_nodes in nexus_unlockables_node.get_children():

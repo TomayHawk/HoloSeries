@@ -8,7 +8,7 @@ func _ready():
 	set_physics_process(false)
 
 func _physics_process(delta):
-	if ability_node.move_and_collide(velocity * delta) != null: ability_node.projectile_collision()
+	if ability_node.move_and_collide(velocity * delta) != null: ability_node.projectile_collision(velocity.normalized())
 
 func initiate_projectile(set_position, set_direction, set_speed):
 	ability_node.position = set_position

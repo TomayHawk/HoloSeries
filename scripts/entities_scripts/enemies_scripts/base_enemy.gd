@@ -2,10 +2,10 @@ extends Node2D
 
 # enemy node
 @onready var enemy_node := get_parent()
+@onready var health_bar_node := $HealthBar
 @onready var knockback_timer_node := $KnockbackTimer
 @onready var invincibility_frame_node := $InvulnerabilityTimer
-
-@onready var health_bar_node := $HealthBar
+@onready var enemy_marker_path := "res://resources/entity_highlights/enemy_marker.tscn"
 
 # health variables
 var alive := true
@@ -75,6 +75,7 @@ func update_health(amount, types, knockback_direction, knockback_weight):
 
 func trigger_death():
 	alive = false
+	health_bar_node.visible = false
 	
 	CombatEntitiesComponent.enemy_nodes_in_combat.erase(enemy_node)
 	if CombatEntitiesComponent.locked_enemy_node == enemy_node: CombatEntitiesComponent.locked_enemy_node = null
@@ -85,6 +86,29 @@ func trigger_death():
 	get_node("DeathTimer").start(0.3)
 	enemy_node.velocity = enemy_node.knockback_direction * 200
 	set_physics_process(true)
+
+# left click handler
+func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			if Input.is_action_pressed("alt"):
+				if CombatEntitiesComponent.locked_enemy_node != null:
+					CombatEntitiesComponent.locked_enemy_node.remove_child(CombatEntitiesComponent.locked_enemy_node.get_node("EnemyMarker"))
+					CombatEntitiesComponent.locked_enemy_node = null
+				CombatEntitiesComponent.locked_enemy_node = enemy_node
+				add_child(load(enemy_marker_path).instantiate())
+			if CombatEntitiesComponent.requesting_entities && (enemy_node in CombatEntitiesComponent.entities_available) && !(enemy_node in CombatEntitiesComponent.entities_chosen):
+				CombatEntitiesComponent.entities_chosen.push_back(enemy_node)
+				CombatEntitiesComponent.entities_chosen_count += 1
+				if CombatEntitiesComponent.entities_request_count == CombatEntitiesComponent.entities_chosen_count:
+					CombatEntitiesComponent.choose_entities()
+
+func _on_combat_hit_box_area_mouse_entered():
+	if CombatEntitiesComponent.requesting_entities:
+		GlobalSettings.mouse_in_attack_area = false
+
+func _on_combat_hit_box_area_mouse_exited():
+	GlobalSettings.mouse_in_attack_area = true
 
 func _on_detection_area_body_entered(body):
 	if alive == true && body.player_stats_node.alive:
@@ -133,5 +157,6 @@ func _on_invulnerability_timer_timeout():
 func _on_death_timer_timeout():
 	CombatEntitiesComponent.enemy_nodes_in_combat.erase(enemy_node)
 	if CombatEntitiesComponent.locked_enemy_node == enemy_node: CombatEntitiesComponent.locked_enemy_node = null
-	if CombatEntitiesComponent.enemy_nodes_in_combat.is_empty(): CombatEntitiesComponent.attempt_leave_combat()
+	if CombatEntitiesComponent.enemy_nodes_in_combat.is_empty():
+		CombatEntitiesComponent.attempt_leave_combat()
 	enemy_node.queue_free()

@@ -218,6 +218,6 @@ shape = SubResource("CircleShape2D_k2v4m")
 [node name="SummonCooldown" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="input_event" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_input_event"]
-[connection signal="mouse_entered" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_mouse_entered"]
-[connection signal="mouse_exited" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_mouse_exited"]
+[connection signal="input_event" from="CombatHitBoxArea" to="BaseEnemy" method="_on_combat_hit_box_area_input_event"]
+[connection signal="mouse_entered" from="CombatHitBoxArea" to="BaseEnemy" method="_on_combat_hit_box_area_mouse_entered"]
+[connection signal="mouse_exited" from="CombatHitBoxArea" to="BaseEnemy" method="_on_combat_hit_box_area_mouse_exited"]

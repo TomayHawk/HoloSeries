@@ -1,10 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://2uwd6qdjq1m4"]
+[gd_scene load_steps=14 format=3 uid="uid://2uwd6qdjq1m4"]
 
 [ext_resource type="Texture2D" uid="uid://cpkqlu48vt85m" path="res://art/characters/slime.png" id="1_boyp2"]
 [ext_resource type="Script" path="res://scripts/entities_scripts/abilities_scripts/fireball.gd" id="1_g8rfi"]
 [ext_resource type="PackedScene" uid="uid://dl4lxtmyhiro0" path="res://entities/abilities/abilities_components/area_of_effect.tscn" id="3_hc2jg"]
 [ext_resource type="PackedScene" uid="uid://cc4iyosf7xy6a" path="res://entities/abilities/abilities_components/basic_projectile.tscn" id="4_ygyed"]
-[ext_resource type="PackedScene" uid="uid://copvkqerjm2fx" path="res://entities/abilities/abilities_components/damage_over_time.tscn" id="5_4887n"]
 [ext_resource type="PackedScene" uid="uid://bknnh8cqfuu10" path="res://entities/abilities/abilities_components/ability_despawn_component.tscn" id="6_iors1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qkq14"]
@@ -60,6 +59,8 @@ animations = [{
 }]
 
 [node name="Fireball" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 64
 script = ExtResource("1_g8rfi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -75,5 +76,3 @@ scale = Vector2(1.5, 1.5)
 [node name="AbilityDespawnComponent" parent="." instance=ExtResource("6_iors1")]
 
 [node name="BasicProjectile" parent="." instance=ExtResource("4_ygyed")]
-
-[node name="DamageOverTime" parent="." instance=ExtResource("5_4887n")]

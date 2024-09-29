@@ -187,7 +187,6 @@ func target_entity(type, origin_node):
 
 func enter_combat():
 	if !in_combat || leaving_combat:
-		print("entering")
 		in_combat = true
 		leaving_combat = false
 		if leaving_combat_timer_node.is_stopped():
@@ -199,7 +198,6 @@ func enter_combat():
 
 func attempt_leave_combat():
 	if in_combat && leaving_combat_timer_node.is_stopped():
-		print("attempting")
 		leaving_combat = true
 		leaving_combat_timer_node.start(2)
 
