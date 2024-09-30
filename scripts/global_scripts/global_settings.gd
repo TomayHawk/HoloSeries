@@ -22,6 +22,13 @@ var current_main_player_node: Node = null
 
 @onready var nexus_path := "res://user_interfaces/holo_nexus.tscn"
 
+@onready var background_music_path := {
+	"beach_bgm": "res://music/asmarafulldemo.mp3",
+	"dungeon_bgm": "res://music/shunkandemo3.mp3"
+}
+
+@onready var audio_stream_player_node := $AudioStreamPlayer
+
 # settings variables
 @onready var current_camera_node := $Camera2D
 var target_zoom := Vector2(1.0, 1.0)
@@ -203,15 +210,9 @@ func pause_game(to_pause, type):
 			pass
 		"in_nexus":
 			game_options_node.visible = false
-			
-func start_game(save_data_node, save_file):
-	save_data_node.load(save_file)
-	combat_ui_node.update_character_selector()
-	combat_inputs_available = true
-	mouse_in_zoom_area = true
-
+		
 # change scene (called from scenes)
-func change_scene(next_scene_index, spawn_index):
+func change_scene(next_scene_index, spawn_index, bgm):
 	party_node.call_deferred("reparent", self)
 	
 	get_tree().call_deferred("change_scene_to_file", scene_paths[next_scene_index])
@@ -223,6 +224,10 @@ func change_scene(next_scene_index, spawn_index):
 	
 	mouse_in_zoom_area = true
 	CombatEntitiesComponent.leave_combat()
+
+	if audio_stream_player_node.stream != background_music_path[bgm]:
+		audio_stream_player_node.stream = load(background_music_path[bgm])
+		audio_stream_player_node.play()
 
 # display combat ui
 func combat_ui_display():

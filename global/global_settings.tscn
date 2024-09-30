@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dwjnjoaxlsqc8"]
+[gd_scene load_steps=6 format=3 uid="uid://dwjnjoaxlsqc8"]
 
 [ext_resource type="Script" path="res://scripts/global_scripts/global_settings.gd" id="1_mpwj3"]
 [ext_resource type="PackedScene" uid="uid://cf2ifm4k70avn" path="res://user_interfaces/game_options.tscn" id="3_afjlo"]
 [ext_resource type="PackedScene" uid="uid://cow4d6dq0c31v" path="res://user_interfaces/combat_ui.tscn" id="3_s0tbo"]
 [ext_resource type="PackedScene" uid="uid://bfgttyngrxknk" path="res://user_interfaces/text_box.tscn" id="4_tvnta"]
+[ext_resource type="AudioStream" uid="uid://dymq3bfkggqi8" path="res://music/asmarafulldemo.mp3" id="5_k0r70"]
 
 [node name="GlobalSettings" type="Node2D"]
 process_mode = 3
@@ -11,6 +12,7 @@ y_sort_enabled = true
 script = ExtResource("1_mpwj3")
 
 [node name="GameOptions" parent="." instance=ExtResource("3_afjlo")]
+visible = false
 
 [node name="CombatUI" parent="." instance=ExtResource("3_s0tbo")]
 
@@ -24,3 +26,6 @@ y_sort_enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_k0r70")
