@@ -128,3 +128,7 @@ func load(save_file):
 		if i >= party_player_nodes.size():
 			GlobalSettings.combat_ui_node.players_info_nodes[i].hide()
 			GlobalSettings.combat_ui_node.players_progress_bar_nodes[i].hide()
+
+	GlobalSettings.combat_ui_node.update_character_selector()
+	GlobalSettings.combat_inputs_available = true
+	GlobalSettings.mouse_in_zoom_area = true

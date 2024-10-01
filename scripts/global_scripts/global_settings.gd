@@ -90,7 +90,6 @@ var current_save := -1
 
 func _ready():
 	set_physics_process(false)
-	game_options_node.hide()
 
 func _physics_process(delta):
 	if target_zoom.x != current_camera_node.zoom.x:
@@ -178,11 +177,18 @@ func esc_input():
 	elif combat_ui_combat_options_2_node.visible:
 		combat_ui_node.hide_combat_options_2()
 	elif game_paused:
-		game_options_node.hide()
-		combat_ui_node.show()
-		get_tree().paused = false
-		combat_inputs_available = true
-		game_paused = false
+		if game_options_node.settings_node.visible:
+			game_options_node.settings_node.hide()
+			game_options_node.options_node.show()
+			if GlobalSettings.current_save == -1:
+				get_parent().get_node("MainMenu").main_menu_options_node.show()
+				esc_input()
+		else:
+			game_options_node.hide()
+			combat_ui_node.show()
+			get_tree().paused = false
+			combat_inputs_available = true
+			game_paused = false
 	else:
 		game_options_node.show()
 		combat_ui_node.hide()
@@ -225,12 +231,12 @@ func change_scene(next_scene_index, spawn_index, bgm):
 	mouse_in_zoom_area = true
 	CombatEntitiesComponent.leave_combat()
 
-	if audio_stream_player_node.stream != background_music_path[bgm]:
+	if audio_stream_player_node.stream.resource_path != background_music_path[bgm]:
 		audio_stream_player_node.stream = load(background_music_path[bgm])
 		audio_stream_player_node.play()
 
 # display combat ui
 func combat_ui_display():
-	if !CombatEntitiesComponent.in_combat:
+	if !CombatEntitiesComponent.in_combat && GlobalSettings.current_save != -1:
 		if combat_ui_control_node.modulate.a != 1.0: combat_ui_control_node.modulate.a = 1.0
 		elif CombatEntitiesComponent.leaving_combat_timer_node.is_stopped(): combat_ui_control_node.modulate.a = 0.0

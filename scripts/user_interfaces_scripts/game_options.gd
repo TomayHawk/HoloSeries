@@ -1,6 +1,84 @@
 extends CanvasLayer
 
+@onready var options_node := $Control/OptionsMargin
+@onready var settings_node := $Control/SettingsMargin
+
+@onready var screen_resolution_option_button_node := $Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/ScreenResolutionOptionButton
+
+func _ready():
+	hide()
+	settings_node.hide()
+	
+	$Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/MasterVolumeHSlider.value = AudioServer.get_bus_volume_db(0)
+	$Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/MusicVolumeHSlider.value = AudioServer.get_bus_volume_db(1)
+
+	const resolution_options: Array[Vector2i] = [Vector2i(640, 480),
+    											 Vector2i(800, 600),
+    											 Vector2i(1024, 768),
+    											 Vector2i(1280, 720),
+    											 Vector2i(1280, 800),
+    											 Vector2i(1280, 960),
+    											 Vector2i(1280, 1024),
+    											 Vector2i(1366, 768),
+    											 Vector2i(1440, 900),
+    											 Vector2i(1600, 900),
+    											 Vector2i(1600, 1200),
+    											 Vector2i(1680, 1050),
+    											 Vector2i(1920, 1080),
+    											 Vector2i(1920, 1200),
+    											 Vector2i(2560, 1080),
+    											 Vector2i(2560, 1440),
+    											 Vector2i(3200, 1800),
+    											 Vector2i(3440, 1440),
+    											 Vector2i(3840, 1600),
+    											 Vector2i(3840, 2160),
+    											 Vector2i(5120, 2160),
+    											 Vector2i(5120, 2880),
+    											 Vector2i(7680, 4320)]
+
+	var resolution_max := DisplayServer.screen_get_size()
+	var resolution_current := DisplayServer.window_get_size()
+
+	for resolution in resolution_options:
+		if (resolution.x <= resolution_max.x) && (resolution.y <= resolution_max.y):
+			screen_resolution_option_button_node.add_item(str(resolution.x) + " x " + str(resolution.y))
+			if resolution == resolution_current:
+				screen_resolution_option_button_node.selected = screen_resolution_option_button_node.get_item_count() - 1
+
+func _on_characters_pressed():
+	pass
+
 func _on_holo_nexus_pressed():
 	GlobalSettings.pause_game(true, "in_nexus")
 	GlobalSettings.on_nexus = true
 	get_tree().root.add_child(load(GlobalSettings.nexus_path).instantiate())
+
+func _on_inventory_pressed():
+	pass
+
+func _on_settings_pressed():
+	options_node.hide()
+	settings_node.show()
+
+func _on_full_screen_check_button_toggled(_toggled_on):
+	GlobalSettings.full_screen_toggle()
+
+func _on_option_button_item_selected(index):
+	var resolution_max = DisplayServer.screen_get_size()
+	var resolution_dimensions = screen_resolution_option_button_node.get_item_text(index).split(" x ")
+	resolution_dimensions = Vector2i(int(resolution_dimensions[0]), int(resolution_dimensions[1]))
+
+	if (resolution_dimensions.x == resolution_max.x) && (resolution_dimensions.y == resolution_max.y):
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		GlobalSettings.currently_full_screen = true
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		GlobalSettings.currently_full_screen = false
+		DisplayServer.window_set_size(resolution_dimensions)
+		DisplayServer.window_set_position((resolution_max - resolution_dimensions) / 2)
+
+func _on_master_volume_h_slider_value_changed(value):
+	AudioServer.set_bus_volume_db(0, linear_to_db(value))
+
+func _on_music_volume_h_slider_value_changed(value):
+	AudioServer.set_bus_volume_db(1, linear_to_db(value))

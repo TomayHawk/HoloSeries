@@ -1,17 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://810cm81280q3"]
+[gd_scene load_steps=8 format=3 uid="uid://810cm81280q3"]
 
-[ext_resource type="Script" path="res://scripts/user_interfaces_scripts/main_menu_options.gd" id="1_tgs5c"]
+[ext_resource type="Script" path="res://scripts/user_interfaces_scripts/main_menu.gd" id="1_tgs5c"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://resources/button_style/dark_blue_button_normal.tres" id="2_55lvy"]
+[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://resources/panel_style/blue_translucent_panel.tres" id="2_jdk0e"]
 [ext_resource type="PackedScene" uid="uid://bf0axxpugmryp" path="res://global/save_data.tscn" id="2_t5weu"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j2h6w"]
-bg_color = Color(0.0313726, 0.678431, 0.72549, 1)
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://resources/button_style/dark_blue_button_hover.tres" id="3_pj10e"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://resources/button_style/dark_blue_button_pressed.tres" id="4_3fkh3"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://resources/button_style/dark_blue_button_focus.tres" id="5_yjj58"]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_tgs5c")
 
 [node name="MainMenuOptions" type="CanvasLayer" parent="."]
 
-[node name="MenuMargin" type="MarginContainer" parent="MainMenuOptions"]
+[node name="OptionsMenuMargin" type="MarginContainer" parent="MainMenuOptions"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -24,57 +26,110 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/margin_bottom = 32
 
-[node name="Panel" type="Panel" parent="MainMenuOptions/MenuMargin"]
+[node name="Panel" type="Panel" parent="MainMenuOptions/OptionsMenuMargin"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_j2h6w")
+theme_override_styles/panel = ExtResource("2_jdk0e")
 
-[node name="OptionsMargin" type="MarginContainer" parent="MainMenuOptions/MenuMargin"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenuOptions/OptionsMenuMargin"]
 layout_mode = 2
 theme_override_constants/margin_left = 6
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuOptions/MenuMargin/OptionsMargin"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuOptions/OptionsMenuMargin/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="PlayButton" type="Button" parent="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer"]
+[node name="PlayButton" type="Button" parent="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/focus = ExtResource("5_yjj58")
 text = "NG/Continue"
 
-[node name="MultiplayerButton" type="Button" parent="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer"]
+[node name="MultiplayerButton" type="Button" parent="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/focus = ExtResource("5_yjj58")
+disabled = true
 text = "Multiplayer"
 
-[node name="SavesButton" type="Button" parent="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer"]
+[node name="SavesButton" type="Button" parent="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/focus = ExtResource("5_yjj58")
 text = "Saves"
 
-[node name="MiniGamesButton" type="Button" parent="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer"]
+[node name="MiniGamesButton" type="Button" parent="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/focus = ExtResource("5_yjj58")
+disabled = true
 text = "Mini Games"
 
-[node name="AchievementsButton" type="Button" parent="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer"]
+[node name="AchievementsButton" type="Button" parent="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/focus = ExtResource("5_yjj58")
+disabled = true
 text = "Achievements"
 
-[node name="LeaderboardsButton" type="Button" parent="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer"]
+[node name="LeaderboardsButton" type="Button" parent="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/focus = ExtResource("5_yjj58")
+disabled = true
 text = "Leaderboards"
 
-[node name="SettingsButton" type="Button" parent="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer"]
+[node name="SettingsButton" type="Button" parent="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/focus = ExtResource("5_yjj58")
 text = "Settings"
 
-[node name="SavesMargin" type="MarginContainer" parent="MainMenuOptions"]
+[node name="SavesMenuMargin" type="MarginContainer" parent="MainMenuOptions"]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -88,65 +143,118 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 64
 theme_override_constants/margin_bottom = 32
 
-[node name="Panel" type="Panel" parent="MainMenuOptions/SavesMargin"]
+[node name="Panel" type="Panel" parent="MainMenuOptions/SavesMenuMargin"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_j2h6w")
+theme_override_styles/panel = ExtResource("2_jdk0e")
 
-[node name="OptionsMargin" type="MarginContainer" parent="MainMenuOptions/SavesMargin"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenuOptions/SavesMenuMargin"]
 layout_mode = 2
 theme_override_constants/margin_left = 6
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuOptions/SavesMargin/OptionsMargin"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuOptions/SavesMenuMargin/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="FirstSaveButton" type="Button" parent="MainMenuOptions/SavesMargin/OptionsMargin/VBoxContainer"]
+[node name="FirstSaveButton" type="Button" parent="MainMenuOptions/SavesMenuMargin/MarginContainer/VBoxContainer"]
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/focus = ExtResource("5_yjj58")
 text = "First Save"
 
-[node name="SecondSaveButton" type="Button" parent="MainMenuOptions/SavesMargin/OptionsMargin/VBoxContainer"]
+[node name="SecondSaveButton" type="Button" parent="MainMenuOptions/SavesMenuMargin/MarginContainer/VBoxContainer"]
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/focus = ExtResource("5_yjj58")
 text = "Second Save"
 
-[node name="ThirdSaveButton" type="Button" parent="MainMenuOptions/SavesMargin/OptionsMargin/VBoxContainer"]
+[node name="ThirdSaveButton" type="Button" parent="MainMenuOptions/SavesMenuMargin/MarginContainer/VBoxContainer"]
 layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/focus = ExtResource("5_yjj58")
 text = "Third Save"
 
-[node name="OptionsMargin" type="MarginContainer" parent="MainMenuOptions/SavesMargin/OptionsMargin"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenuOptions/SavesMenuMargin/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenuOptions/SavesMenuMargin/MarginContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainMenuOptions/SavesMargin/OptionsMargin/OptionsMargin"]
+[node name="BackButton" type="Button" parent="MainMenuOptions/SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
-size_flags_vertical = 8
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/focus = ExtResource("5_yjj58")
+text = "Back"
 
-[node name="ContinueButton" type="Button" parent="MainMenuOptions/SavesMargin/OptionsMargin/OptionsMargin/HBoxContainer"]
+[node name="ContinueButton" type="Button" parent="MainMenuOptions/SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/focus = ExtResource("5_yjj58")
 text = "Continue"
 
-[node name="EditButton" type="Button" parent="MainMenuOptions/SavesMargin/OptionsMargin/OptionsMargin/HBoxContainer"]
+[node name="EditButton" type="Button" parent="MainMenuOptions/SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/focus = ExtResource("5_yjj58")
 text = "Edit"
 
-[node name="NewGameButton" type="Button" parent="MainMenuOptions/SavesMargin/OptionsMargin/OptionsMargin/HBoxContainer"]
+[node name="NewGameButton" type="Button" parent="MainMenuOptions/SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/focus = ExtResource("5_yjj58")
 text = "New Game"
 
 [node name="SaveData" parent="." instance=ExtResource("2_t5weu")]
 
-[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/MultiplayerButton" to="." method="_on_multiplayer_button_pressed"]
-[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/SavesButton" to="." method="_on_saves_button_pressed"]
-[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/MiniGamesButton" to="." method="_on_mini_games_button_pressed"]
-[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/AchievementsButton" to="." method="_on_achievements_button_pressed"]
-[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/LeaderboardsButton" to="." method="_on_leaderboards_button_pressed"]
-[connection signal="pressed" from="MainMenuOptions/MenuMargin/OptionsMargin/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer/MultiplayerButton" to="." method="_on_multiplayer_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer/SavesButton" to="." method="_on_saves_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer/MiniGamesButton" to="." method="_on_mini_games_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer/AchievementsButton" to="." method="_on_achievements_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer/LeaderboardsButton" to="." method="_on_leaderboards_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MainMenuOptions/SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
