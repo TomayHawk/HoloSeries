@@ -94,7 +94,7 @@ region = Rect2(64, 0, 32, 32)
 atlas = ExtResource("4_dbcyv")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_h50o6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ohsc"]
 atlas = ExtResource("4_dbcyv")
 region = Rect2(0, 0, 32, 32)
 
@@ -3304,7 +3304,7 @@ offset_left = -320.0
 offset_top = -286.0
 offset_right = -288.0
 offset_bottom = -254.0
-texture = SubResource("AtlasTexture_h50o6")
+texture = SubResource("AtlasTexture_0ohsc")
 
 [node name="N17" type="TextureRect" parent="NexusNodes"]
 modulate = Color(1, 1, 0, 1)
