@@ -31,5 +31,8 @@ func _on_leaderboards_button_pressed():
 
 func _on_settings_button_pressed():
 	main_menu_options_node.hide()
-	GlobalSettings.esc_input()
+	GlobalSettings.game_options_node.show()
+	GlobalSettings.combat_ui_node.hide()
+	GlobalSettings.combat_inputs_available = false
+	GlobalSettings.game_paused = true
 	GlobalSettings.game_options_node._on_settings_pressed()

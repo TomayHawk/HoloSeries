@@ -1,36 +1,35 @@
 extends Node2D
 
-var currently_full_screen := false
-
-var current_scene_node: Node = null
-
-var current_main_player_node: Node = null
-
-@onready var party_node := $Party
-@onready var standby_node := $Standby
 @onready var game_options_node := $GameOptions
 @onready var combat_ui_node := $CombatUI
+@onready var text_box_node := $TextBox
+@onready var party_node := $Party
+@onready var standby_node := $Standby
+@onready var camera_node := $Camera2D
+@onready var audio_stream_player_node := $AudioStreamPlayer
+
 @onready var combat_ui_control_node := $CombatUI/Control
 @onready var combat_ui_combat_options_2_node := $CombatUI/Control/CombatOptions2
 @onready var combat_ui_character_selector_node := $CombatUI/CharacterSelector
-@onready var text_box_node := $TextBox
-@onready var camera_node := $Camera2D
 
 @onready var scene_paths := ["res://scenes/world_scene_1.tscn",
 						   "res://scenes/world_scene_2.tscn",
 						   "res://scenes/dungeon_scene_1.tscn"]
-
-@onready var nexus_path := "res://user_interfaces/holo_nexus.tscn"
 
 @onready var background_music_path := {
 	"beach_bgm": "res://music/asmarafulldemo.mp3",
 	"dungeon_bgm": "res://music/shunkandemo3.mp3"
 }
 
-@onready var audio_stream_player_node := $AudioStreamPlayer
+@onready var nexus_path := "res://user_interfaces/holo_nexus.tscn"
 
 # settings variables
 @onready var current_camera_node := $Camera2D
+
+var currently_full_screen := false
+var current_scene_node: Node = null
+var current_main_player_node: Node = null
+
 var target_zoom := Vector2(1.0, 1.0)
 var zoom_interval := 0.0
 var mouse_in_zoom_area := false
@@ -63,7 +62,6 @@ var character_levels := []
 var character_experiences := []
 
 # nexus variables
-var nexus_camera_node: Node = null
 var on_nexus := false
 var nexus_character_selector_node: Node = null
 var nexus_stats := [[0, 0, 0, 0, 0, 0, 0, 0],
@@ -189,7 +187,7 @@ func esc_input():
 			get_tree().paused = false
 			combat_inputs_available = true
 			game_paused = false
-	else:
+	elif GlobalSettings.current_save != -1:
 		game_options_node.show()
 		combat_ui_node.hide()
 		get_tree().paused = true
