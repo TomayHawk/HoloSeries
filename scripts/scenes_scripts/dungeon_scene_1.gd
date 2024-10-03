@@ -5,4 +5,4 @@ func _ready():
 
 func _on_world_scene_2_transit_body_entered(body):
 	if body == GlobalSettings.current_main_player_node:
-		GlobalSettings.change_scene(1, 3, "beach_bgm")
+		GlobalSettings.change_scene("world_scene_2", 3, "beach_bgm")

@@ -3145,6 +3145,7 @@ scale = Vector2(0.3, 0.3)
 shape = SubResource("RectangleShape2D_0pahd")
 
 [node name="Camera2D" type="Camera2D" parent="NexusPlayer"]
+enabled = false
 limit_left = -679
 limit_top = -592
 limit_right = 681

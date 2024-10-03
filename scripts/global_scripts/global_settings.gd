@@ -12,20 +12,20 @@ extends Node2D
 @onready var combat_ui_combat_options_2_node := $CombatUI/Control/CombatOptions2
 @onready var combat_ui_character_selector_node := $CombatUI/CharacterSelector
 
-@onready var scene_paths := ["res://scenes/world_scene_1.tscn",
-						   "res://scenes/world_scene_2.tscn",
-						   "res://scenes/dungeon_scene_1.tscn"]
+const scene_paths := {
+	"world_scene_1": "res://scenes/world_scene_1.tscn",
+	"world_scene_2": "res://scenes/world_scene_2.tscn",
+	"dungeon_scene_1": "res://scenes/dungeon_scene_1.tscn"
+}
 
-@onready var background_music_path := {
+const background_music_paths := {
 	"beach_bgm": "res://music/asmarafulldemo.mp3",
 	"dungeon_bgm": "res://music/shunkandemo3.mp3"
 }
 
-@onready var nexus_path := "res://user_interfaces/holo_nexus.tscn"
+const nexus_path := "res://user_interfaces/holo_nexus.tscn"
 
 # settings variables
-@onready var current_camera_node := $Camera2D
-
 var currently_full_screen := false
 var current_scene_node: Node = null
 var current_main_player_node: Node = null
@@ -90,9 +90,9 @@ func _ready():
 	set_physics_process(false)
 
 func _physics_process(delta):
-	if target_zoom.x != current_camera_node.zoom.x:
+	if target_zoom.x != camera_node.zoom.x:
 		zoom_interval += delta * 0.1
-		current_camera_node.zoom = current_camera_node.zoom.lerp(target_zoom, zoom_interval)
+		camera_node.zoom = camera_node.zoom.lerp(target_zoom, zoom_interval)
 	else:
 		zoom_interval = 0.0
 		set_physics_process(false)
@@ -104,11 +104,11 @@ func _input(_event):
 	elif Input.is_action_just_pressed("esc"): esc_input()
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
 	elif Input.is_action_just_pressed("scroll_up") && mouse_in_zoom_area:
-		if current_camera_node.zoom.x < 1.5:
+		if camera_node.zoom.x < 1.5:
 			target_zoom = clamp(target_zoom + Vector2(0.05, 0.05), Vector2(0.8, 0.8), Vector2(1.4, 1.4))
 			set_physics_process(true)
 	elif Input.is_action_just_pressed("scroll_down") && mouse_in_zoom_area:
-		if current_camera_node.zoom.x > 0.5:
+		if camera_node.zoom.x > 0.5:
 			target_zoom = clamp(target_zoom - Vector2(0.05, 0.05), Vector2(0.8, 0.8), Vector2(1.4, 1.4))
 			set_physics_process(true)
 	elif combat_inputs_available:
@@ -121,6 +121,48 @@ func _input(_event):
 
 func reset_action_availability():
 	can_attempt_attack = false
+
+# full screen inputs
+func full_screen_toggle():
+	if !currently_full_screen:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		currently_full_screen = true
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		currently_full_screen = false
+
+# esc inputs
+func esc_input():
+	if on_nexus:
+		if get_tree().root.get_node("HoloNexus").nexus_ui_node.inventory_node.visible:
+			get_tree().root.get_node("HoloNexus").nexus_ui_node.inventory_node.hide()
+			get_tree().root.get_node("HoloNexus").nexus_ui_node.update_nexus_ui()
+			return
+		update_nodes("exit_nexus", false)
+	elif CombatEntitiesComponent.requesting_entities:
+		CombatEntitiesComponent.empty_entities_request()
+	elif combat_ui_combat_options_2_node.visible:
+		combat_ui_node.hide_combat_options_2()
+	elif game_paused:
+		if game_options_node.settings_node.visible:
+			game_options_node.settings_node.hide()
+			game_options_node.options_node.show()
+			if GlobalSettings.current_save == -1:
+				get_parent().get_node("MainMenu").main_menu_options_node.show()
+				esc_input()
+		else:
+			game_options_node.hide()
+			combat_ui_node.show()
+			get_tree().paused = false
+			combat_inputs_available = true
+			game_paused = false
+	elif GlobalSettings.current_save != -1:
+		game_options_node.show()
+		combat_ui_node.hide()
+		combat_ui_character_selector_node.hide()
+		get_tree().paused = true
+		combat_inputs_available = false
+		game_paused = true
 
 func update_nodes(type, extra_arg_0):
 	match type:
@@ -141,58 +183,24 @@ func update_nodes(type, extra_arg_0):
 		"enter_nexus":
 			pass
 		"exit_nexus":
-			camera_node.reparent(current_main_player_node)
-			current_camera_node = camera_node
+			game_paused = false
+			get_tree().paused = false
+			visible = true
+			current_scene_node.visible = true
+			game_options_node.visible = false
+			combat_ui_node.visible = true
+			text_box_node.visible = true
+			on_nexus = false
+			combat_inputs_available = true
+			nexus_inputs_available = false
+			get_tree().root.get_node("HoloNexus").call_deferred("exit_nexus")
+
+			camera_node.enabled = false
+			camera_node = current_main_player_node.get_node("Camera2D")
+			camera_node.enabled = true
 			camera_node.position = Vector2.ZERO
 			camera_node.zoom = Vector2(1.0, 1.0)
 			target_zoom = Vector2(1.0, 1.0)
-
-# full screen inputs
-func full_screen_toggle():
-	if !currently_full_screen:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-		currently_full_screen = true
-	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		currently_full_screen = false
-
-# esc inputs
-func esc_input():
-	if on_nexus:
-		if get_tree().root.get_node("HoloNexus").nexus_ui_node.inventory_node.visible:
-			get_tree().root.get_node("HoloNexus").nexus_ui_node.inventory_node.hide()
-			get_tree().root.get_node("HoloNexus").nexus_ui_node.update_nexus_ui()
-			return
-		pause_game(false, "in_nexus")
-		on_nexus = false
-		combat_inputs_available = true
-		nexus_inputs_available = false
-		get_tree().root.get_node("HoloNexus").call_deferred("exit_nexus")
-	elif CombatEntitiesComponent.requesting_entities:
-		CombatEntitiesComponent.empty_entities_request()
-	elif combat_ui_character_selector_node.visible:
-		combat_ui_character_selector_node.hide()
-	elif combat_ui_combat_options_2_node.visible:
-		combat_ui_node.hide_combat_options_2()
-	elif game_paused:
-		if game_options_node.settings_node.visible:
-			game_options_node.settings_node.hide()
-			game_options_node.options_node.show()
-			if GlobalSettings.current_save == -1:
-				get_parent().get_node("MainMenu").main_menu_options_node.show()
-				esc_input()
-		else:
-			game_options_node.hide()
-			combat_ui_node.show()
-			get_tree().paused = false
-			combat_inputs_available = true
-			game_paused = false
-	elif GlobalSettings.current_save != -1:
-		game_options_node.show()
-		combat_ui_node.hide()
-		get_tree().paused = true
-		combat_inputs_available = false
-		game_paused = true
 
 func pause_game(to_pause, type):
 	game_paused = to_pause
@@ -216,10 +224,10 @@ func pause_game(to_pause, type):
 			game_options_node.visible = false
 		
 # change scene (called from scenes)
-func change_scene(next_scene_index, spawn_index, bgm):
+func change_scene(next_scene, spawn_index, bgm):
 	party_node.call_deferred("reparent", self)
 	
-	get_tree().call_deferred("change_scene_to_file", scene_paths[next_scene_index])
+	get_tree().call_deferred("change_scene_to_file", scene_paths[next_scene])
 
 	current_main_player_node.position = spawn_positions[spawn_index]
 
@@ -229,8 +237,8 @@ func change_scene(next_scene_index, spawn_index, bgm):
 	mouse_in_zoom_area = true
 	CombatEntitiesComponent.leave_combat()
 
-	if audio_stream_player_node.stream.resource_path != background_music_path[bgm]:
-		audio_stream_player_node.stream = load(background_music_path[bgm])
+	if audio_stream_player_node.stream.resource_path != background_music_paths[bgm]:
+		audio_stream_player_node.stream = load(background_music_paths[bgm])
 		audio_stream_player_node.play()
 
 # display combat ui

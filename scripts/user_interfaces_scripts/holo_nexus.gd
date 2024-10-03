@@ -52,8 +52,10 @@ var index_counter := 0
 
 func _ready():
 	# update camera settings
-	GlobalSettings.current_camera_node = nexus_player_node.get_node("Camera2D")
-	GlobalSettings.current_camera_node.zoom = Vector2(1.0, 1.0)
+	GlobalSettings.camera_node.enabled = false
+	GlobalSettings.camera_node = nexus_player_node.get_node("Camera2D")
+	GlobalSettings.camera_node.enabled = true
+	GlobalSettings.camera_node.zoom = Vector2(1.0, 1.0)
 	GlobalSettings.target_zoom = Vector2(1.0, 1.0)
 	GlobalSettings.mouse_in_zoom_area = true
 

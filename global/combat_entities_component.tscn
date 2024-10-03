@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/global_scripts/combat_entities_component.gd" id="1_y8t08"]
 
 [node name="CombatEntitiesComponent" type="Node"]
+process_mode = 3
 script = ExtResource("1_y8t08")
 
 [node name="LeavingCombatTimer" type="Timer" parent="."]
