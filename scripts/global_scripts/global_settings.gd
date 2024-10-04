@@ -170,6 +170,7 @@ func update_nodes(type, extra_arg_0):
 			current_main_player_node.is_current_main_player = false
 			current_main_player_node = extra_arg_0
 			current_main_player_node.is_current_main_player = true
+			print("update main")
 			camera_node.reparent(current_main_player_node)
 			camera_node.position = Vector2.ZERO
 			CombatEntitiesComponent.empty_entities_request()
@@ -193,14 +194,14 @@ func update_nodes(type, extra_arg_0):
 			on_nexus = false
 			combat_inputs_available = true
 			nexus_inputs_available = false
-			get_tree().root.get_node("HoloNexus").call_deferred("exit_nexus")
-
 			camera_node.enabled = false
 			camera_node = current_main_player_node.get_node("Camera2D")
 			camera_node.enabled = true
 			camera_node.position = Vector2.ZERO
 			camera_node.zoom = Vector2(1.0, 1.0)
 			target_zoom = Vector2(1.0, 1.0)
+
+			get_tree().root.get_node("HoloNexus").call_deferred("exit_nexus")
 
 func pause_game(to_pause, type):
 	game_paused = to_pause

@@ -27,11 +27,6 @@ const adjacents_index: Array[Array] = [[-64, -49, -48, -33, -32, -31, -17, -16, 
 									   [-64, -48, -47, -33, -32, -31, -16, -15, -1, 1, 16, 17, 31, 32, 33, 48, 49, 64]]
 
 func _physics_process(_delta):
-	# reparent camera
-	GlobalSettings.camera_node.reparent(self)
-	GlobalSettings.camera_node.position = Vector2(0, 0)
-
-
 	# deccelerate towards target position while snapping
 	if snapping:
 		# deccelerate if remaining distance is larger than 1 pixel

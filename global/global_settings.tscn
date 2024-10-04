@@ -29,5 +29,4 @@ position_smoothing_enabled = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_k0r70")
-autoplay = true
 bus = &"Music"

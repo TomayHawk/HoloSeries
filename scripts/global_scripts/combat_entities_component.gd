@@ -35,6 +35,14 @@ var entities_chosen: Array[Node] = []
 var entities_chosen_count := 0
 var abilities_node: Node = null
 
+var i = 60
+
+func _process(_delta):
+	if i == 0 && GlobalSettings.current_save != -1:
+		# print(GlobalSettings.current_main_player_node.get_children())
+		i = 60
+	i -= 1
+
 func physical_damage_calculator(input_damage, origin_entity_stats_node, target_entity_stats_node):
 	temp_types.clear()
 	
