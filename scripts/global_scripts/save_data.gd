@@ -132,3 +132,5 @@ func load(save_file):
 	GlobalSettings.combat_ui_node.update_character_selector()
 	GlobalSettings.combat_inputs_available = true
 	GlobalSettings.mouse_in_zoom_area = true
+
+	GlobalSettings.start_bgm("beach_bgm")

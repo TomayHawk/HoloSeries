@@ -211,6 +211,152 @@ max_value = 1.0
 step = 0.001
 value = 1.0
 
+[node name="StatsMargin" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="Control/StatsMargin"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_1g56o")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/StatsMargin"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="GridContainer" type="GridContainer" parent="Control/StatsMargin/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 13
+theme_override_constants/v_separation = 1
+columns = 2
+
+[node name="Character" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Character"
+
+[node name="CharacterValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+
+[node name="Level" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Level"
+
+[node name="LevelValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+
+[node name="Health" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Health"
+
+[node name="HealthValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+
+[node name="Mana" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Mana"
+
+[node name="ManaValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+
+[node name="Stamina" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Stamina"
+
+[node name="StaminaValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+
+[node name="Defence" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Defence"
+
+[node name="DefenceValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+
+[node name="Shield" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Shield"
+
+[node name="ShieldValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+
+[node name="Strength" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Strength"
+
+[node name="StrengthValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+
+[node name="Intelligence" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Intelligence"
+
+[node name="IntelligenceValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+
+[node name="Speed" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Speed"
+
+[node name="SpeedValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+
+[node name="Agility" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Agility"
+
+[node name="AgilityValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+
+[node name="CritChance" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Crit Chance"
+
+[node name="CritChanceValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+
+[node name="CritDamage" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Crit Damage"
+
+[node name="CritDamageValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+
 [connection signal="pressed" from="Control/OptionsMargin/MarginContainer/VBoxContainer/Characters" to="." method="_on_characters_pressed"]
 [connection signal="pressed" from="Control/OptionsMargin/MarginContainer/VBoxContainer/HoloNexus" to="." method="_on_holo_nexus_pressed"]
 [connection signal="pressed" from="Control/OptionsMargin/MarginContainer/VBoxContainer/Inventory" to="." method="_on_inventory_pressed"]

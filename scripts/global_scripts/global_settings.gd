@@ -150,6 +150,12 @@ func esc_input():
 			if GlobalSettings.current_save == -1:
 				get_parent().get_node("MainMenu").main_menu_options_node.show()
 				esc_input()
+		elif game_options_node.stats_node.visible:
+			game_options_node.stats_node.hide()
+			game_options_node.options_node.show()
+			if GlobalSettings.current_save == -1:
+				get_parent().get_node("MainMenu").main_menu_options_node.show()
+				esc_input()
 		else:
 			game_options_node.hide()
 			combat_ui_node.show()
@@ -170,7 +176,6 @@ func update_nodes(type, extra_arg_0):
 			current_main_player_node.is_current_main_player = false
 			current_main_player_node = extra_arg_0
 			current_main_player_node.is_current_main_player = true
-			print("update main")
 			camera_node.reparent(current_main_player_node)
 			camera_node.position = Vector2.ZERO
 			CombatEntitiesComponent.empty_entities_request()
@@ -238,9 +243,25 @@ func change_scene(next_scene, spawn_index, bgm):
 	mouse_in_zoom_area = true
 	CombatEntitiesComponent.leave_combat()
 
+	start_bgm(bgm)
+
+func start_bgm(bgm):
 	if audio_stream_player_node.stream.resource_path != background_music_paths[bgm]:
+		var temp_audio_stream_player_node := audio_stream_player_node
+		temp_audio_stream_player_node.name = "TempAudioStreamPlayer"
+		var tween_1 := create_tween()
+		tween_1.tween_property(temp_audio_stream_player_node, "volume_db", -80, 3.0).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
+
+		audio_stream_player_node = AudioStreamPlayer.new()
+		add_child(audio_stream_player_node)
 		audio_stream_player_node.stream = load(background_music_paths[bgm])
+		audio_stream_player_node.volume_db = -80
 		audio_stream_player_node.play()
+		var tween_2 := create_tween()
+		tween_2.tween_property(audio_stream_player_node, "volume_db", AudioServer.get_bus_volume_db(1), 4.0).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+
+		await tween_2.finished
+		temp_audio_stream_player_node.queue_free()
 
 # display combat ui
 func combat_ui_display():

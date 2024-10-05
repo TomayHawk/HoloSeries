@@ -2,12 +2,16 @@ extends CanvasLayer
 
 @onready var options_node := $Control/OptionsMargin
 @onready var settings_node := $Control/SettingsMargin
+@onready var stats_node := $Control/StatsMargin
 
 @onready var screen_resolution_option_button_node := $Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/ScreenResolutionOptionButton
+
+@onready var stats_label_nodes := $Control/StatsMargin/MarginContainer/GridContainer.get_children()
 
 func _ready():
 	hide()
 	settings_node.hide()
+	stats_node.hide()
 	
 	$Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/MasterVolumeHSlider.value = AudioServer.get_bus_volume_db(0)
 	$Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/MusicVolumeHSlider.value = AudioServer.get_bus_volume_db(1)
@@ -46,7 +50,24 @@ func _ready():
 				screen_resolution_option_button_node.selected = screen_resolution_option_button_node.get_item_count() - 1
 
 func _on_characters_pressed():
-	pass
+	options_node.hide()
+	stats_node.show()
+
+	var player_stats_node = GlobalSettings.current_main_player_node.player_stats_node
+
+	stats_label_nodes[1].text = GlobalSettings.current_main_player_node.character_specifics_node.character_name
+	stats_label_nodes[3].text = str(round(player_stats_node.level))
+	stats_label_nodes[5].text = str(round(player_stats_node.health)) + " / " + str(round(player_stats_node.max_health))
+	stats_label_nodes[7].text = str(round(player_stats_node.mana)) + " / " + str(round(player_stats_node.max_mana))
+	stats_label_nodes[9].text = str(round(player_stats_node.stamina)) + " / " + str(round(player_stats_node.max_stamina))
+	stats_label_nodes[11].text = str(round(player_stats_node.defence))
+	stats_label_nodes[13].text = str(round(player_stats_node.shield))
+	stats_label_nodes[15].text = str(round(player_stats_node.strength))
+	stats_label_nodes[17].text = str(round(player_stats_node.intelligence))
+	stats_label_nodes[19].text = str(round(player_stats_node.speed))
+	stats_label_nodes[21].text = str(round(player_stats_node.agility))
+	stats_label_nodes[23].text = str(round(player_stats_node.crit_chance * 100)) + "%"
+	stats_label_nodes[25].text = str(round(player_stats_node.crit_damage * 100)) + "%"
 
 func _on_holo_nexus_pressed():
 	GlobalSettings.pause_game(true, "in_nexus")
