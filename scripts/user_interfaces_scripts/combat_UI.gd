@@ -58,7 +58,7 @@ func update_character_selector():
 		button.hide()
 
 	var i = 0
-	for player in GlobalSettings.standby_player_nodes:
+	for player in GlobalSettings.standby_node.get_children():
 		character_selector_player_nodes[i].show()
 		character_selector_name_nodes[i].text = player.character_specifics_node.character_name
 		character_selector_level_nodes[i].text = "Lvl " + str(player.player_stats_node.level).pad_zeros(3)
@@ -108,7 +108,7 @@ func use_potion(chosen_player_node):
 	chosen_player_node.player_stats_node.update_health(200, [], Vector2.ZERO, 0.0)
 
 func use_max_potion():
-	for player in GlobalSettings.party_player_nodes:
+	for player in GlobalSettings.party_node.get_children():
 		if player.player_stats_node.alive:
 			player.player_stats_node.update_health(99999, ["break_limit"], Vector2.ZERO, 0.0)
 
@@ -117,7 +117,7 @@ func use_phoenix_burger(chosen_player_node):
 	chosen_player_node.player_stats_node.update_health(chosen_player_node.player_stats_node.max_health * 0.25, ["break_limit"], Vector2.ZERO, 0.0)
 
 func use_reset_button():
-	for player in GlobalSettings.party_player_nodes:
+	for player in GlobalSettings.party_node.get_children():
 		if !player.player_stats_node.alive:
 			player.player_stats_node.revive()
 			player.player_stats_node.update_health(player.player_stats_node.max_health, ["break_limit"], Vector2.ZERO, 0.0)
@@ -127,27 +127,27 @@ func use_temp_kill_item(chosen_player_node):
 
 func _on_control_mouse_entered():
 	GlobalSettings.mouse_in_attack_area = false
-	GlobalSettings.mouse_in_zoom_area = false
+	GlobalSettings.can_zoom = false
 
 func _on_control_mouse_exited():
 	GlobalSettings.mouse_in_attack_area = true
-	GlobalSettings.mouse_in_zoom_area = true
+	GlobalSettings.can_zoom = true
 
 func _on_character_selector_button_pressed(extra_arg_0):
 	GlobalSettings.current_main_player_node.player_stats_node.reparent(GlobalSettings.standby_node)
 	GlobalSettings.current_main_player_node.character_specifics_node.reparent(GlobalSettings.standby_node)
-	GlobalSettings.standby_player_nodes[extra_arg_0].player_stats_node.reparent(GlobalSettings.current_main_player_node)
-	GlobalSettings.standby_player_nodes[extra_arg_0].character_specifics_node.reparent(GlobalSettings.current_main_player_node)
-	GlobalSettings.standby_node.get_node("PlayerStatsComponent").reparent(GlobalSettings.standby_player_nodes[extra_arg_0])
-	GlobalSettings.standby_node.get_node("CharacterSpecifics").reparent(GlobalSettings.standby_player_nodes[extra_arg_0])
+	GlobalSettings.standby_node.get_child(extra_arg_0).player_stats_node.reparent(GlobalSettings.current_main_player_node)
+	GlobalSettings.standby_node.get_child(extra_arg_0).character_specifics_node.reparent(GlobalSettings.current_main_player_node)
+	GlobalSettings.standby_node.get_node("PlayerStatsComponent").reparent(GlobalSettings.standby_node.get_child(extra_arg_0))
+	GlobalSettings.standby_node.get_node("CharacterSpecifics").reparent(GlobalSettings.standby_node.get_child(extra_arg_0))
 
 	GlobalSettings.current_main_player_node.update_nodes()
 	GlobalSettings.current_main_player_node.player_stats_node.update_nodes()
 	GlobalSettings.current_main_player_node.character_specifics_node.update_nodes()
 	
-	GlobalSettings.standby_player_nodes[extra_arg_0].update_nodes()
-	GlobalSettings.standby_player_nodes[extra_arg_0].player_stats_node.update_nodes()
-	GlobalSettings.standby_player_nodes[extra_arg_0].character_specifics_node.update_nodes()
+	GlobalSettings.standby_node.get_child(extra_arg_0).update_nodes()
+	GlobalSettings.standby_node.get_child(extra_arg_0).player_stats_node.update_nodes()
+	GlobalSettings.standby_node.get_child(extra_arg_0).character_specifics_node.update_nodes()
 
 	GlobalSettings.current_main_player_node.player_stats_node.update_stats()
 	character_name_label_nodes[GlobalSettings.current_main_player_node.player_stats_node.party_index].text = GlobalSettings.current_main_player_node.character_specifics_node.character_name

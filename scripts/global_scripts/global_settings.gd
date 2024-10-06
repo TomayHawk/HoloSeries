@@ -32,7 +32,7 @@ var current_main_player_node: Node = null
 
 var target_zoom := Vector2(1.0, 1.0)
 var zoom_interval := 0.0
-var mouse_in_zoom_area := false
+var can_zoom := true
 var game_paused := false
 var can_attempt_attack := false
 var mouse_in_attack_area := true
@@ -53,8 +53,6 @@ scene spawn locations
 """
 
 # player variables
-var party_player_nodes: Array[Node] = []
-var standby_player_nodes: Array[Node] = []
 var standby_character_indices := []
 
 var unlocked_characters := []
@@ -103,11 +101,11 @@ func _input(_event):
 		call_deferred("reset_action_availability")
 	elif Input.is_action_just_pressed("esc"): esc_input()
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
-	elif Input.is_action_just_pressed("scroll_up") && mouse_in_zoom_area:
+	elif Input.is_action_just_pressed("scroll_up") && can_zoom:
 		if camera_node.zoom.x < 1.5:
 			target_zoom = clamp(target_zoom + Vector2(0.05, 0.05), Vector2(0.8, 0.8), Vector2(1.4, 1.4))
 			set_physics_process(true)
-	elif Input.is_action_just_pressed("scroll_down") && mouse_in_zoom_area:
+	elif Input.is_action_just_pressed("scroll_down") && can_zoom:
 		if camera_node.zoom.x > 0.5:
 			target_zoom = clamp(target_zoom - Vector2(0.05, 0.05), Vector2(0.8, 0.8), Vector2(1.4, 1.4))
 			set_physics_process(true)
@@ -187,7 +185,16 @@ func update_nodes(type, extra_arg_0):
 			##### party node can stay in GlobalSettings
 			party_node.reparent(current_scene_node)
 		"enter_nexus":
-			pass
+			game_paused = true
+			get_tree().paused = true
+			visible = false
+			current_scene_node.visible = false
+			game_options_node.visible = false
+			combat_ui_node.visible = false
+			text_box_node.visible = false
+
+			on_nexus = true
+			get_tree().root.add_child(load(nexus_path).instantiate())
 		"exit_nexus":
 			game_paused = false
 			get_tree().paused = false
@@ -199,6 +206,7 @@ func update_nodes(type, extra_arg_0):
 			on_nexus = false
 			combat_inputs_available = true
 			nexus_inputs_available = false
+			
 			camera_node.enabled = false
 			camera_node = current_main_player_node.get_node("Camera2D")
 			camera_node.enabled = true
@@ -207,27 +215,6 @@ func update_nodes(type, extra_arg_0):
 			target_zoom = Vector2(1.0, 1.0)
 
 			get_tree().root.get_node("HoloNexus").call_deferred("exit_nexus")
-
-func pause_game(to_pause, type):
-	game_paused = to_pause
-	get_tree().paused = to_pause
-	visible = !to_pause
-	current_scene_node.visible = !to_pause
-	game_options_node.visible = !to_pause
-	combat_ui_node.visible = !to_pause
-	text_box_node.visible = !to_pause
-	
-	match type:
-		"in_scene":
-			pass
-		"in_dialogue":
-			pass
-		"in_cutscene":
-			pass
-		"in_settings":
-			pass
-		"in_nexus":
-			game_options_node.visible = false
 		
 # change scene (called from scenes)
 func change_scene(next_scene, spawn_index, bgm):
@@ -237,10 +224,10 @@ func change_scene(next_scene, spawn_index, bgm):
 
 	current_main_player_node.position = spawn_positions[spawn_index]
 
-	for player_node in party_player_nodes: if player_node != current_main_player_node:
+	for player_node in party_node.get_children(): if player_node != current_main_player_node:
 		player_node.position = spawn_positions[spawn_index] + (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
 	
-	mouse_in_zoom_area = true
+	can_zoom = true
 	CombatEntitiesComponent.leave_combat()
 
 	start_bgm(bgm)

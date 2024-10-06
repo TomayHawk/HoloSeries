@@ -107,7 +107,7 @@ func update_character_selector():
 	character_selector_origin_player_nodes.clear()
 	character_selector_character_indices.clear()
 
-	for player in GlobalSettings.party_player_nodes:
+	for player in GlobalSettings.party_node.get_children() + GlobalSettings.standby_node.get_children():
 		if player.character_specifics_node.character_index != nexus_player.character_index:
 			character_selector_player_nodes[i].show()
 			character_selector_name_nodes[i].text = player.character_specifics_node.character_name
@@ -115,11 +115,6 @@ func update_character_selector():
 			character_selector_origin_player_nodes.push_back(player)
 			character_selector_character_indices.push_back(player.character_specifics_node.character_index)
 			i += 1
-	for player in GlobalSettings.standby_player_nodes:
-		character_selector_player_nodes[i].show()
-		character_selector_name_nodes[i].text = player.character_specifics_node.character_name
-		character_selector_level_nodes[i].text = "Lvl " + str(player.player_stats_node.level).pad_zeros(3)
-		i += 1
 
 func _on_unlock_pressed():
 	if nexus_player.velocity == Vector2.ZERO:
@@ -205,10 +200,10 @@ func convert(target_type_position):
 	nexus.unlock_node()
 
 func _on_button_mouse_entered():
-	GlobalSettings.mouse_in_zoom_area = false
+	GlobalSettings.can_zoom = false
 
 func _on_button_mouse_exited():
-	GlobalSettings.mouse_in_zoom_area = true
+	GlobalSettings.can_zoom = true
 
 func _on_scroll_container_gui_input(_event):
 	pass

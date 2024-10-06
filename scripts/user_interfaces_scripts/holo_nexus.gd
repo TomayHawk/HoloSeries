@@ -57,7 +57,7 @@ func _ready():
 	GlobalSettings.camera_node.enabled = true
 	GlobalSettings.camera_node.zoom = Vector2(1.0, 1.0)
 	GlobalSettings.target_zoom = Vector2(1.0, 1.0)
-	GlobalSettings.mouse_in_zoom_area = true
+	GlobalSettings.can_zoom = true
 
 	# toggle nexus inputs
 	GlobalSettings.nexus_inputs_available = true

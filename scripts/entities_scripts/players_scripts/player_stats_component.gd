@@ -105,7 +105,7 @@ func update_stats():
 	player_node.dash_time = 0.2 * (1 - (agility * 0.000625))
 
 	# update stats
-	if player_node in GlobalSettings.party_player_nodes:
+	if player_node in GlobalSettings.party_node.get_children():
 		party_index = player_node.get_index()
 		update_health(0, ["hidden"], Vector2.ZERO, 0.0)
 		update_mana(0)
@@ -206,7 +206,7 @@ func trigger_death():
 	
 	# update main player if the player is main player
 	if player_node == GlobalSettings.current_main_player_node:
-		for party_player_node in GlobalSettings.party_player_nodes:
+		for party_player_node in GlobalSettings.party_node.get_children():
 			if party_player_node.player_stats_node.alive:
 				GlobalSettings.update_nodes("update_main_player", party_player_node)
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cf2ifm4k70avn"]
+[gd_scene load_steps=13 format=3 uid="uid://cf2ifm4k70avn"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/game_options.gd" id="1_3ijke"]
 [ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://resources/panel_style/blue_translucent_panel.tres" id="2_1g56o"]
@@ -23,6 +23,20 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_x1ttm"]
+load_path = "res://.godot/imported/holonexus_.png-619b29bf0c8b4aea3d719f26db2e2f7e.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d5pia"]
+atlas = SubResource("CompressedTexture2D_x1ttm")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_15qb8"]
+load_path = "res://.godot/imported/holonexus_.png-619b29bf0c8b4aea3d719f26db2e2f7e.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vvxm4"]
+atlas = SubResource("CompressedTexture2D_15qb8")
+region = Rect2(64, 0, 32, 32)
 
 [node name="GameOptions" type="CanvasLayer"]
 script = ExtResource("1_3ijke")
@@ -231,131 +245,193 @@ theme_override_styles/panel = ExtResource("2_1g56o")
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/margin_left = 64
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_bottom = 0
+theme_override_constants/margin_right = 64
 
-[node name="GridContainer" type="GridContainer" parent="Control/StatsMargin/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/StatsMargin/MarginContainer"]
 layout_mode = 2
+size_flags_vertical = 4
+alignment = 1
+
+[node name="LeftButton" type="TextureButton" parent="Control/StatsMargin/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_d5pia")
+
+[node name="GridContainer" type="GridContainer" parent="Control/StatsMargin/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 6
 theme_override_constants/h_separation = 13
 theme_override_constants/v_separation = 1
 columns = 2
 
-[node name="Character" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="Character" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
 text = "Character"
 
-[node name="CharacterValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="CharacterValue" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
+horizontal_alignment = 2
 
-[node name="Level" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="Level" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
 text = "Level"
 
-[node name="LevelValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="LevelValue" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
+horizontal_alignment = 2
 
-[node name="Health" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="Health" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
 text = "Health"
 
-[node name="HealthValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="HealthValue" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
+horizontal_alignment = 2
 
-[node name="Mana" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="Mana" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
 text = "Mana"
 
-[node name="ManaValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="ManaValue" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
+horizontal_alignment = 2
 
-[node name="Stamina" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="Stamina" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
 text = "Stamina"
 
-[node name="StaminaValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="StaminaValue" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
+horizontal_alignment = 2
 
-[node name="Defence" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="Defence" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
 text = "Defence"
 
-[node name="DefenceValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="DefenceValue" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
+horizontal_alignment = 2
 
-[node name="Shield" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="Shield" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
 text = "Shield"
 
-[node name="ShieldValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="ShieldValue" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
+horizontal_alignment = 2
 
-[node name="Strength" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="Strength" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
 text = "Strength"
 
-[node name="StrengthValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="StrengthValue" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
+horizontal_alignment = 2
 
-[node name="Intelligence" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="Intelligence" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
 text = "Intelligence"
 
-[node name="IntelligenceValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="IntelligenceValue" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
+horizontal_alignment = 2
 
-[node name="Speed" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="Speed" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
 text = "Speed"
 
-[node name="SpeedValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="SpeedValue" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
+horizontal_alignment = 2
 
-[node name="Agility" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="Agility" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
 text = "Agility"
 
-[node name="AgilityValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="AgilityValue" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
+horizontal_alignment = 2
 
-[node name="CritChance" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="CritChance" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
 text = "Crit Chance"
 
-[node name="CritChanceValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="CritChanceValue" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
+horizontal_alignment = 2
 
-[node name="CritDamage" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="CritDamage" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
 text = "Crit Damage"
 
-[node name="CritDamageValue" type="Label" parent="Control/StatsMargin/MarginContainer/GridContainer"]
+[node name="CritDamageValue" type="Label" parent="Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 7
+horizontal_alignment = 2
+
+[node name="RightButton" type="TextureButton" parent="Control/StatsMargin/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_vvxm4")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/StatsMargin/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [connection signal="pressed" from="Control/OptionsMargin/MarginContainer/VBoxContainer/Characters" to="." method="_on_characters_pressed"]
 [connection signal="pressed" from="Control/OptionsMargin/MarginContainer/VBoxContainer/HoloNexus" to="." method="_on_holo_nexus_pressed"]
@@ -365,3 +441,5 @@ theme_override_font_sizes/font_size = 7
 [connection signal="item_selected" from="Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/ScreenResolutionOptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="value_changed" from="Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/MasterVolumeHSlider" to="." method="_on_master_volume_h_slider_value_changed"]
 [connection signal="value_changed" from="Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/MusicVolumeHSlider" to="." method="_on_music_volume_h_slider_value_changed"]
+[connection signal="pressed" from="Control/StatsMargin/MarginContainer/HBoxContainer/LeftButton" to="." method="_on_left_button_pressed"]
+[connection signal="pressed" from="Control/StatsMargin/MarginContainer/HBoxContainer/RightButton" to="." method="_on_right_button_pressed"]

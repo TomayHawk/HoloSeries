@@ -6,7 +6,10 @@ extends CanvasLayer
 
 @onready var screen_resolution_option_button_node := $Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/ScreenResolutionOptionButton
 
-@onready var stats_label_nodes := $Control/StatsMargin/MarginContainer/GridContainer.get_children()
+@onready var stats_label_nodes := $Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer.get_children()
+
+var player_stats_nodes: Array[Node] = []
+var current_stats := -1
 
 func _ready():
 	hide()
@@ -49,30 +52,34 @@ func _ready():
 			if resolution == resolution_current:
 				screen_resolution_option_button_node.selected = screen_resolution_option_button_node.get_item_count() - 1
 
+func update_player_stats_nodes():
+	stats_label_nodes[1].text = player_stats_nodes[current_stats].get_parent().character_specifics_node.character_name
+	stats_label_nodes[3].text = str(round(player_stats_nodes[current_stats].level))
+	stats_label_nodes[5].text = str(round(player_stats_nodes[current_stats].health)) + " / " + str(round(player_stats_nodes[current_stats].max_health))
+	stats_label_nodes[7].text = str(round(player_stats_nodes[current_stats].mana)) + " / " + str(round(player_stats_nodes[current_stats].max_mana))
+	stats_label_nodes[9].text = str(round(player_stats_nodes[current_stats].stamina)) + " / " + str(round(player_stats_nodes[current_stats].max_stamina))
+	stats_label_nodes[11].text = str(round(player_stats_nodes[current_stats].defence))
+	stats_label_nodes[13].text = str(round(player_stats_nodes[current_stats].shield))
+	stats_label_nodes[15].text = str(round(player_stats_nodes[current_stats].strength))
+	stats_label_nodes[17].text = str(round(player_stats_nodes[current_stats].intelligence))
+	stats_label_nodes[19].text = str(round(player_stats_nodes[current_stats].speed))
+	stats_label_nodes[21].text = str(round(player_stats_nodes[current_stats].agility))
+	stats_label_nodes[23].text = str(round(player_stats_nodes[current_stats].crit_chance * 100)) + "%"
+	stats_label_nodes[25].text = str(round(player_stats_nodes[current_stats].crit_damage * 100)) + "%"
+
 func _on_characters_pressed():
 	options_node.hide()
 	stats_node.show()
 
-	var player_stats_node = GlobalSettings.current_main_player_node.player_stats_node
+	player_stats_nodes.clear()
+	for player_node in GlobalSettings.party_node.get_children() + GlobalSettings.standby_node.get_children():
+		player_stats_nodes.push_back(player_node.player_stats_node)
 
-	stats_label_nodes[1].text = GlobalSettings.current_main_player_node.character_specifics_node.character_name
-	stats_label_nodes[3].text = str(round(player_stats_node.level))
-	stats_label_nodes[5].text = str(round(player_stats_node.health)) + " / " + str(round(player_stats_node.max_health))
-	stats_label_nodes[7].text = str(round(player_stats_node.mana)) + " / " + str(round(player_stats_node.max_mana))
-	stats_label_nodes[9].text = str(round(player_stats_node.stamina)) + " / " + str(round(player_stats_node.max_stamina))
-	stats_label_nodes[11].text = str(round(player_stats_node.defence))
-	stats_label_nodes[13].text = str(round(player_stats_node.shield))
-	stats_label_nodes[15].text = str(round(player_stats_node.strength))
-	stats_label_nodes[17].text = str(round(player_stats_node.intelligence))
-	stats_label_nodes[19].text = str(round(player_stats_node.speed))
-	stats_label_nodes[21].text = str(round(player_stats_node.agility))
-	stats_label_nodes[23].text = str(round(player_stats_node.crit_chance * 100)) + "%"
-	stats_label_nodes[25].text = str(round(player_stats_node.crit_damage * 100)) + "%"
+	current_stats = GlobalSettings.current_main_player_node.player_stats_node.party_index
+	update_player_stats_nodes()
 
 func _on_holo_nexus_pressed():
-	GlobalSettings.pause_game(true, "in_nexus")
-	GlobalSettings.on_nexus = true
-	get_tree().root.add_child(load(GlobalSettings.nexus_path).instantiate())
+	GlobalSettings.update_nodes("enter_nexus", null)
 
 func _on_inventory_pressed():
 	pass
@@ -103,3 +110,17 @@ func _on_master_volume_h_slider_value_changed(value):
 
 func _on_music_volume_h_slider_value_changed(value):
 	AudioServer.set_bus_volume_db(1, linear_to_db(value))
+
+func _on_left_button_pressed():
+	if current_stats != 0:
+		current_stats -= 1
+		update_player_stats_nodes()
+	else:
+		print("disable button")
+
+func _on_right_button_pressed():
+	if current_stats != player_stats_nodes.size() - 1:
+		current_stats += 1
+		update_player_stats_nodes()
+	else:
+		print("disable button")

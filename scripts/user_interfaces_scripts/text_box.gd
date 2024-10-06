@@ -11,7 +11,8 @@ var tween
 
 # update nodes and disable text on ready
 func _ready():
-	hide_text()
+	textbox_container.hide()
+	end_symbol.hide()
 	set_process(false)
 
 func _process(_delta):
@@ -36,7 +37,7 @@ func start_text():
 	set_process(true)
 	GlobalSettings.game_paused = true
 
-	for player_node in GlobalSettings.party_player_nodes:
+	for player_node in GlobalSettings.party_node.get_children():
 		player_node.set_physics_process(false)
 
 		#update player animation in case alive and not "idle"
@@ -52,7 +53,7 @@ func hide_text():
 	textbox_container.hide()
 	end_symbol.hide()
 	label.text = ""
-	for player_node in GlobalSettings.party_player_nodes:
+	for player_node in GlobalSettings.party_node.get_children():
 		if player_node.player_stats_node.alive:
 			player_node.set_physics_process(true)
 	GlobalSettings.game_paused = false

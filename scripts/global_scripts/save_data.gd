@@ -57,7 +57,7 @@ func save(save_file):
 		"nexus_inventory": GlobalSettings.nexus_inventory.duplicate()
 	}
 
-	for player_node in GlobalSettings.party_player_nodes:
+	for player_node in GlobalSettings.party_node.get_children():
 		saves[save_file]["party"].push_back(GlobalSettings.player_node.character_specifics_node.character_index)
 
 func load(save_file):
@@ -93,7 +93,7 @@ func load(save_file):
 									  "res://entities/players/character_specifics/luna.tscn"]
 	var player_standby_path := "res://entities/players/player_standby.tscn"
 
-	var party_player_nodes = GlobalSettings.party_player_nodes
+	var party_player_nodes = GlobalSettings.party_node.get_children()
 	var player_node: Node = null
 	
 	# create party characters
@@ -119,7 +119,6 @@ func load(save_file):
 	for character_index in saves[save_file]["standby"]:
 		player_node = load(player_standby_path).instantiate()
 		player_node.add_child(load(character_specifics_paths[character_index]).instantiate())
-		GlobalSettings.standby_player_nodes.push_back(player_node)
 		GlobalSettings.standby_node.add_child(player_node)
 		player_node.player_stats_node.update_stats()
 
@@ -131,6 +130,5 @@ func load(save_file):
 
 	GlobalSettings.combat_ui_node.update_character_selector()
 	GlobalSettings.combat_inputs_available = true
-	GlobalSettings.mouse_in_zoom_area = true
 
 	GlobalSettings.start_bgm("beach_bgm")

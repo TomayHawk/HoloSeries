@@ -227,26 +227,26 @@ func request_entities(origin_node, target_command, request_count, request_entity
 	entities_available = get_tree().get_nodes_in_group(request_entity_type)
 
 	if request_entity_type == "party_players":
-		entities_available = GlobalSettings.party_player_nodes.duplicate()
+		entities_available = GlobalSettings.party_node.get_children()
 	elif request_entity_type == "ally_players":
-		entities_available = GlobalSettings.party_player_nodes.duplicate()
+		entities_available = GlobalSettings.party_node.get_children()
 		entities_available.erase(GlobalSettings.current_main_player_node)
 	elif request_entity_type == "players_alive":
-		for player in GlobalSettings.party_player_nodes:
+		for player in GlobalSettings.party_node.get_children():
 			if player.player_stats_node.alive:
 				entities_available.push_back(player)
 	elif request_entity_type == "players_dead":
-		for player in GlobalSettings.party_player_nodes:
+		for player in GlobalSettings.party_node.get_children():
 			if !player.player_stats_node.alive:
 				entities_available.push_back(player)
 	elif request_entity_type == "enemies_in_combat":
 		entities_available = enemy_nodes_in_combat.duplicate()
 	elif request_entity_type == "all_entities_in_combat":
-		entities_available = GlobalSettings.party_player_nodes.duplicate() + enemy_nodes_in_combat.duplicate()
+		entities_available = GlobalSettings.party_node.get_children() + enemy_nodes_in_combat.duplicate()
 	elif request_entity_type == "all_enemies_on_screen":
 		entities_available = GlobalSettings.current_scene_node.get_node("Enemies").get_children().duplicate()
 	elif request_entity_type == "all_entities_on_screen":
-		entities_available = GlobalSettings.party_player_nodes.duplicate() + GlobalSettings.current_scene_node.get_node("Enemies").get_children().duplicate()
+		entities_available = GlobalSettings.party_node.get_children() + GlobalSettings.current_scene_node.get_node("Enemies").get_children().duplicate()
 
 	for entity in entities_available:
 		if entity.has_method("ally_movement"): # #### need grouping
