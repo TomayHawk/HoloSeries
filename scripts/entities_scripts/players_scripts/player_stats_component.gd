@@ -12,6 +12,8 @@ extends Node2D
 
 @onready var knockback_timer := player_node.get_node("KnockbackTimer")
 
+@onready var ultimate_bar_node: Node = GlobalSettings.combat_ui_node.players_progress_bar_nodes[0]
+
 # player variables
 var party_index := -1
 var alive := true
@@ -23,10 +25,12 @@ var level := 1
 var max_health := 200.0
 var max_mana := 10.0
 var max_stamina := 100.0
+var max_ultimate_gauge := 100
 
 var health := 200.0
 var mana := 10.0
 var stamina := 100.0
+var ultimate_gauge := 0
 
 var defence := 10.0
 var shield := 10.0
@@ -110,6 +114,7 @@ func update_stats():
 		update_health(0, ["hidden"], Vector2.ZERO, 0.0)
 		update_mana(0)
 		update_stamina(0)
+		ultimate_bar_node = GlobalSettings.combat_ui_node.players_progress_bar_nodes[party_index]
 
 func update_health(value, types, knockback_direction, knockback_weight):
 	if alive:
@@ -131,9 +136,9 @@ func update_health(value, types, knockback_direction, knockback_weight):
 		combat_ui_node.update_health_label(party_index, health)
 
 		if value < 0:
-			CombatEntitiesComponent.damage_display(floor(value), player_node.position + Vector2(0, -7), ["player_damage"])
+			CombatEntitiesComponent.damage_display(floor(value), player_node.position + Vector2(0, -7), types + ["player_damage"])
 		elif value > 0:
-			CombatEntitiesComponent.damage_display(floor(value), player_node.position + Vector2(0, -7), ["heal"])
+			CombatEntitiesComponent.damage_display(floor(value), player_node.position + Vector2(0, -7), types + ["heal"])
 
 		# knockback handling
 		if knockback_direction != Vector2.ZERO:
@@ -179,16 +184,23 @@ func update_stamina(value):
 		
 		if stamina < max_stamina: set_physics_process(true)
 
+func update_ultimate_gauge(value):
+	if alive:
+		ultimate_gauge = clamp(ultimate_gauge + value, 0, max_ultimate_gauge)
+		ultimate_bar_node.value = ultimate_gauge
+
+		ultimate_bar_node.modulate.g = (130.0 - ultimate_gauge) / max_ultimate_gauge
+
 func trigger_death():
 	# stop player process
 	player_node.set_physics_process(false)
 
 	# groups
-	player_node.remove_from_group("alive")
+	player_node.remove_from_group("players_alive")
+	player_node.add_to_group("players_dead")
 
 	# start death animation
 	alive = false
-	player_node.animation_node.set_speed_scale(1.0)
 	player_node.animation_node.play("death")
 	player_node.death_timer_node.start(0.5)
 
@@ -203,15 +215,24 @@ func trigger_death():
 	# avoid choose_animation() triggers
 	player_node.attack_cooldown_node.stop()
 	player_node.ally_direction_cooldown_node.stop()
+	player_node.ally_direction_ready = true
+	player_node.attacking = false
 	
 	# update main player if the player is main player
 	if player_node == GlobalSettings.current_main_player_node:
 		for party_player_node in GlobalSettings.party_node.get_children():
 			if party_player_node.player_stats_node.alive:
-				GlobalSettings.update_nodes("update_main_player", party_player_node)
+				GlobalSettings.update_main_player(party_player_node)
 
 func revive():
-	alive = true
-	player_node.add_to_group("alive")
+	update_health(0, ["hidden"], Vector2.ZERO, 0.0)
+	update_mana(0)
+	update_stamina(0)
+
+	player_node.remove_from_group("players_dead")
+	player_node.add_to_group("players_alive")
+	
 	player_node.set_physics_process(true)
 	player_node.animation_node.play("front_idle")
+	
+	alive = true

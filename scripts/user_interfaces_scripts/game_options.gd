@@ -6,7 +6,10 @@ extends CanvasLayer
 
 @onready var screen_resolution_option_button_node := $Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/ScreenResolutionOptionButton
 
-@onready var stats_label_nodes := $Control/StatsMargin/MarginContainer/HBoxContainer/GridContainer.get_children()
+@onready var stats_label_nodes := $Control/StatsMargin/MarginContainer/HBoxContainer/MarginContainer/GridContainer.get_children()
+@onready var stats_left_button_node := $Control/StatsMargin/MarginContainer/HBoxContainer/LeftButton
+@onready var stats_right_button_node := $Control/StatsMargin/MarginContainer/HBoxContainer/RightButton
+
 
 var player_stats_nodes: Array[Node] = []
 var current_stats := -1
@@ -67,6 +70,9 @@ func update_player_stats_nodes():
 	stats_label_nodes[23].text = str(round(player_stats_nodes[current_stats].crit_chance * 100)) + "%"
 	stats_label_nodes[25].text = str(round(player_stats_nodes[current_stats].crit_damage * 100)) + "%"
 
+func _on_resume_pressed():
+	GlobalSettings.esc_input()
+
 func _on_characters_pressed():
 	options_node.hide()
 	stats_node.show()
@@ -76,10 +82,11 @@ func _on_characters_pressed():
 		player_stats_nodes.push_back(player_node.player_stats_node)
 
 	current_stats = GlobalSettings.current_main_player_node.player_stats_node.party_index
-	update_player_stats_nodes()
+	_on_left_button_pressed()
+	_on_right_button_pressed()
 
 func _on_holo_nexus_pressed():
-	GlobalSettings.update_nodes("enter_nexus", null)
+	GlobalSettings.nexus(true)
 
 func _on_inventory_pressed():
 	pass
@@ -115,12 +122,21 @@ func _on_left_button_pressed():
 	if current_stats != 0:
 		current_stats -= 1
 		update_player_stats_nodes()
-	else:
-		print("disable button")
+		stats_right_button_node.modulate.a = 1.0
+		stats_right_button_node.disabled = false
+	if current_stats == 0:
+		stats_left_button_node.modulate.a = 0.0
+		stats_left_button_node.disabled = true
 
 func _on_right_button_pressed():
 	if current_stats != player_stats_nodes.size() - 1:
 		current_stats += 1
 		update_player_stats_nodes()
-	else:
-		print("disable button")
+		stats_left_button_node.modulate.a = 1.0
+		stats_left_button_node.disabled = false
+	if current_stats == player_stats_nodes.size() - 1:
+		stats_right_button_node.modulate.a = 0.0
+		stats_right_button_node.disabled = true
+
+func _on_exit_to_title_pressed():
+	pass

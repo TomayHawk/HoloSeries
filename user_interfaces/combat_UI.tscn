@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cow4d6dq0c31v"]
+[gd_scene load_steps=12 format=3 uid="uid://cow4d6dq0c31v"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_w0nri"]
 [ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://resources/button_style/dark_blue_button_normal.tres" id="2_1ddg2"]
@@ -8,6 +8,11 @@
 [ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://resources/button_style/dark_blue_button_pressed.tres" id="4_ywh4v"]
 [ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://resources/button_style/dark_blue_button_focus.tres" id="5_kyyya"]
 [ext_resource type="StyleBox" uid="uid://r8tef0pv2fig" path="res://resources/panel_style/light_blue_translucent_panel.tres" id="7_c1xwy"]
+[ext_resource type="StyleBox" uid="uid://lvj1g05bns5d" path="res://resources/progress_bar_style/ultimate_gauge_progress_bar_fill.tres" id="8_nba1j"]
+[ext_resource type="Texture2D" uid="uid://tk7auwj6h8sf" path="res://resources/progress_bar_style/ultimate_gauge_progress_bar_fill_2.tres" id="9_0n8tn"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uloh4"]
+texture = ExtResource("9_0n8tn")
 
 [node name="CombatUI" type="CanvasLayer"]
 script = ExtResource("1_w0nri")
@@ -276,7 +281,6 @@ theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Item"
 
 [node name="ItemsGridContainer" type="GridContainer" parent="Control/CombatOptions2/ScrollContainer/MarginContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
@@ -293,8 +297,16 @@ theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/focus = ExtResource("5_kyyya")
-text = " "
 alignment = 0
+
+[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/Potion"]
+layout_mode = 0
+offset_left = 6.0
+offset_right = 68.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "Potion"
+vertical_alignment = 1
 
 [node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/Potion"]
 layout_mode = 0
@@ -304,15 +316,6 @@ offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "999"
 horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/Potion"]
-layout_mode = 0
-offset_left = 6.0
-offset_right = 68.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "Potion"
 vertical_alignment = 1
 
 [node name="MaxPotion" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer"]
@@ -328,6 +331,15 @@ theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = " "
 
+[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion"]
+layout_mode = 0
+offset_left = 6.0
+offset_right = 68.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "MAX Potion"
+vertical_alignment = 1
+
 [node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion"]
 layout_mode = 0
 offset_left = 74.0
@@ -336,15 +348,6 @@ offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "111"
 horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/MaxPotion"]
-layout_mode = 0
-offset_left = 6.0
-offset_right = 68.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "MAX Potion"
 vertical_alignment = 1
 
 [node name="PhoenixBurger" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer"]
@@ -361,6 +364,15 @@ theme_override_styles/focus = ExtResource("5_kyyya")
 text = " "
 alignment = 0
 
+[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger"]
+layout_mode = 0
+offset_left = 6.0
+offset_right = 68.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "Phoenix Burger"
+vertical_alignment = 1
+
 [node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger"]
 layout_mode = 0
 offset_left = 74.0
@@ -369,15 +381,6 @@ offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "99"
 horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/PhoenixBurger"]
-layout_mode = 0
-offset_left = 6.0
-offset_right = 68.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "Phoenix Burger"
 vertical_alignment = 1
 
 [node name="ResetButton" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer"]
@@ -392,6 +395,15 @@ theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = " "
 
+[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton"]
+layout_mode = 0
+offset_left = 6.0
+offset_right = 68.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "Reset Button"
+vertical_alignment = 1
+
 [node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton"]
 layout_mode = 0
 offset_left = 74.0
@@ -400,15 +412,6 @@ offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "1"
 horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/ResetButton"]
-layout_mode = 0
-offset_left = 6.0
-offset_right = 68.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "Reset Button"
 vertical_alignment = 1
 
 [node name="TempKillItem" type="Button" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer"]
@@ -423,6 +426,15 @@ theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = " "
 
+[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem"]
+layout_mode = 0
+offset_left = 6.0
+offset_right = 68.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "Temp Kill Item"
+vertical_alignment = 1
+
 [node name="Quantity" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem"]
 layout_mode = 0
 offset_left = 74.0
@@ -431,15 +443,6 @@ offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
 text = "9"
 horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label" type="Label" parent="Control/CombatOptions2/ScrollContainer/MarginContainer/ItemsGridContainer/TempKillItem"]
-layout_mode = 0
-offset_left = 6.0
-offset_right = 68.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "Temp Kill Item"
 vertical_alignment = 1
 
 [node name="CombatOptions" type="MarginContainer" parent="Control"]
@@ -601,19 +604,23 @@ grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 8
 size_flags_vertical = 4
+mouse_filter = 2
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 16
 
 [node name="Panel" type="Panel" parent="Control/CharacterInfos"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_styles/panel = ExtResource("7_c1xwy")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CharacterInfos"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="Character1" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 14
@@ -621,6 +628,7 @@ theme_override_constants/margin_right = 14
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CharacterInfos/VBoxContainer/Character1"]
 clip_contents = true
 layout_mode = 2
+mouse_filter = 2
 
 [node name="CharacterName" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character1/HBoxContainer"]
 custom_minimum_size = Vector2(80, 0)
@@ -669,6 +677,7 @@ vertical_alignment = 1
 
 [node name="Character2" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 14
@@ -676,6 +685,7 @@ theme_override_constants/margin_right = 14
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CharacterInfos/VBoxContainer/Character2"]
 clip_contents = true
 layout_mode = 2
+mouse_filter = 2
 
 [node name="CharacterName" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
 custom_minimum_size = Vector2(80, 0)
@@ -693,6 +703,7 @@ text = "HP"
 [node name="MarginContainer" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_right = 8
 
 [node name="HealthAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer/MarginContainer"]
@@ -711,6 +722,7 @@ text = "MP"
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="ManaAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character2/HBoxContainer/MarginContainer2"]
 layout_mode = 2
@@ -723,6 +735,7 @@ vertical_alignment = 1
 
 [node name="Character3" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 14
@@ -730,6 +743,7 @@ theme_override_constants/margin_right = 14
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CharacterInfos/VBoxContainer/Character3"]
 clip_contents = true
 layout_mode = 2
+mouse_filter = 2
 
 [node name="CharacterName" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
 custom_minimum_size = Vector2(80, 0)
@@ -747,6 +761,7 @@ text = "HP"
 [node name="MarginContainer" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_right = 8
 
 [node name="HealthAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer/MarginContainer"]
@@ -765,6 +780,7 @@ text = "MP"
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="ManaAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character3/HBoxContainer/MarginContainer2"]
 layout_mode = 2
@@ -777,6 +793,7 @@ vertical_alignment = 1
 
 [node name="Character4" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 14
@@ -784,6 +801,7 @@ theme_override_constants/margin_right = 14
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CharacterInfos/VBoxContainer/Character4"]
 clip_contents = true
 layout_mode = 2
+mouse_filter = 2
 
 [node name="CharacterName" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
 custom_minimum_size = Vector2(80, 0)
@@ -801,13 +819,14 @@ text = "HP"
 [node name="MarginContainer" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_right = 8
 
 [node name="HealthAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 8
-text = "99999"
+text = "#####"
 horizontal_alignment = 2
 vertical_alignment = 1
 
@@ -819,53 +838,66 @@ text = "MP"
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="ManaAmount" type="Label" parent="Control/CharacterInfos/VBoxContainer/Character4/HBoxContainer/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 8
-text = "9999
-"
+text = "####"
 horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="Control" type="Control" parent="Control/CharacterInfos"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="ProgressBar1" type="ProgressBar" parent="Control/CharacterInfos/Control"]
+modulate = Color(0.815686, 1, 0, 1)
 layout_mode = 2
 offset_left = 16.0
 offset_top = 16.0
 offset_right = 388.0
 offset_bottom = 20.0
 scale = Vector2(0.5, 0.5)
+mouse_filter = 2
+theme_override_styles/fill = ExtResource("8_nba1j")
 show_percentage = false
 
 [node name="ProgressBar2" type="ProgressBar" parent="Control/CharacterInfos/Control"]
+modulate = Color(0.815686, 1, 0, 1)
 layout_mode = 0
 offset_left = 16.0
 offset_top = 32.0
 offset_right = 388.0
 offset_bottom = 36.0
 scale = Vector2(0.5, 0.5)
+mouse_filter = 2
+theme_override_styles/fill = SubResource("StyleBoxTexture_uloh4")
 show_percentage = false
 
 [node name="ProgressBar3" type="ProgressBar" parent="Control/CharacterInfos/Control"]
+modulate = Color(0.815686, 1, 0, 1)
 layout_mode = 0
 offset_left = 16.0
 offset_top = 48.0
 offset_right = 388.0
 offset_bottom = 52.0
 scale = Vector2(0.5, 0.5)
+mouse_filter = 2
+theme_override_styles/fill = ExtResource("8_nba1j")
 show_percentage = false
 
 [node name="ProgressBar4" type="ProgressBar" parent="Control/CharacterInfos/Control"]
+modulate = Color(0.815686, 1, 0, 1)
 layout_mode = 0
 offset_left = 16.0
 offset_top = 64.0
 offset_right = 388.0
 offset_bottom = 68.0
 scale = Vector2(0.5, 0.5)
+mouse_filter = 2
+theme_override_styles/fill = ExtResource("8_nba1j")
 show_percentage = false
 
 [node name="CharacterSelector" type="Control" parent="."]
