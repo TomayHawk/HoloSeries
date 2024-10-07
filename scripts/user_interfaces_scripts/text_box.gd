@@ -68,7 +68,7 @@ func display_text():
 	label.text = text_queue.pop_front()
 	label.visible_characters = 0
 	# start new text animation
-	tween = get_tree().create_tween()
+	tween = create_tween()
 	tween.tween_property(label, "visible_ratio", 1.0, len(label.text) * 0.04)
 	state_ready = false
 	# wait until text ends
