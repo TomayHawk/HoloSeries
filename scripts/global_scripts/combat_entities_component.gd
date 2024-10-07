@@ -9,7 +9,8 @@ extends Node
 										"res://resources/entity_highlights/player_highlight.tscn",
 										"res://resources/entity_highlights/player_marker.tscn"]
 
-var damage_display_node: Node = null
+@onready var damage_display_node := $DamageDisplay
+@onready var abilities_node := $Abilities
 
 var temp_types: Array[String] = []
 var output_amount := 0.0
@@ -33,7 +34,6 @@ var entities_request_count := 0
 var entities_available: Array[Node] = []
 var entities_chosen: Array[Node] = []
 var entities_chosen_count := 0
-var abilities_node: Node = null
 
 var i = 60
 
@@ -140,7 +140,7 @@ func damage_display(value, display_position, types):
 	await display.resized
 	display.pivot_offset = Vector2(display.size / 2)
 	
-	var tween = get_tree().create_tween()
+	var tween = display.create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(display, "position:y", display.position.y - 24, 0.25).set_ease(Tween.EASE_OUT)
 	tween.tween_property(display, "position:y", display.position.y - 16, 0.25).set_ease(Tween.EASE_IN).set_delay(0.25)
@@ -231,22 +231,14 @@ func request_entities(origin_node, target_command, request_count, request_entity
 	elif request_entity_type == "ally_players":
 		entities_available = GlobalSettings.party_node.get_children()
 		entities_available.erase(GlobalSettings.current_main_player_node)
-	elif request_entity_type == "players_alive":
-		for player in GlobalSettings.party_node.get_children():
-			if player.player_stats_node.alive:
-				entities_available.push_back(player)
-	elif request_entity_type == "players_dead":
-		for player in GlobalSettings.party_node.get_children():
-			if !player.player_stats_node.alive:
-				entities_available.push_back(player)
 	elif request_entity_type == "enemies_in_combat":
 		entities_available = enemy_nodes_in_combat.duplicate()
 	elif request_entity_type == "all_entities_in_combat":
 		entities_available = GlobalSettings.party_node.get_children() + enemy_nodes_in_combat.duplicate()
 	elif request_entity_type == "all_enemies_on_screen":
-		entities_available = GlobalSettings.current_scene_node.get_node("Enemies").get_children().duplicate()
+		entities_available = get_tree().current_scene.get_node("Enemies").get_children().duplicate()
 	elif request_entity_type == "all_entities_on_screen":
-		entities_available = GlobalSettings.party_node.get_children() + GlobalSettings.current_scene_node.get_node("Enemies").get_children().duplicate()
+		entities_available = GlobalSettings.party_node.get_children() + get_tree().current_scene.get_node("Enemies").get_children().duplicate()
 
 	for entity in entities_available:
 		if entity.has_method("ally_movement"): # #### need grouping

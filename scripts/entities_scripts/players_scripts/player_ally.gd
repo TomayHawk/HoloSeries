@@ -193,7 +193,7 @@ func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 				if CombatEntitiesComponent.entities_request_count == CombatEntitiesComponent.entities_chosen_count:
 					CombatEntitiesComponent.choose_entities()
 			elif player_stats_node.alive:
-				GlobalSettings.update_nodes("update_main_player", self)
+				GlobalSettings.update_main_player(self)
 
 func _on_interaction_area_body_entered(body):
 	# enemy is inside attack

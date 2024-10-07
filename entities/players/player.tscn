@@ -16,7 +16,7 @@ size = Vector2(10, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cqtsv"]
 
-[node name="Player" type="CharacterBody2D" groups=["players"]]
+[node name="Player" type="CharacterBody2D" groups=["players", "players_alive"]]
 y_sort_enabled = true
 collision_mask = 79
 input_pickable = true

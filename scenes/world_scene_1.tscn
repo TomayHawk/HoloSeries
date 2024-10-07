@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://dyvmrtl5c0ad3"]
+[gd_scene load_steps=14 format=3 uid="uid://dyvmrtl5c0ad3"]
 
 [ext_resource type="Script" path="res://scripts/scenes_scripts/world_scene_1.gd" id="1_4rgc2"]
 [ext_resource type="Texture2D" uid="uid://c5bvpekwpv6rw" path="res://art/tileSets/plains.png" id="1_7j0j2"]
 [ext_resource type="Texture2D" uid="uid://btj1vfgsejh7f" path="res://art/objects/objects.png" id="2_nnwlk"]
 [ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tileSets/physics.png" id="4_kndtx"]
+[ext_resource type="PackedScene" uid="uid://7rma740sfkgc" path="res://entities/items/ultimate_orb.tscn" id="6_ih84p"]
 [ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/enemy_specifics/nousagi.tscn" id="9_tem7v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5688q"]
@@ -687,9 +688,28 @@ y_sort_enabled = true
 [node name="Nousagi" parent="Enemies" instance=ExtResource("9_tem7v")]
 position = Vector2(200, -100)
 
-[node name="Abilities" type="Node2D" parent="."]
-y_sort_enabled = true
+[node name="UltimateOrb" parent="." instance=ExtResource("6_ih84p")]
+position = Vector2(-86, -147)
 
-[node name="DamageDisplay" type="Node2D" parent="."]
+[node name="UltimateOrb2" parent="." instance=ExtResource("6_ih84p")]
+position = Vector2(-142, -150)
+
+[node name="UltimateOrb3" parent="." instance=ExtResource("6_ih84p")]
+position = Vector2(-115, -127)
+
+[node name="UltimateOrb4" parent="." instance=ExtResource("6_ih84p")]
+position = Vector2(-171, -130)
+
+[node name="UltimateOrb5" parent="." instance=ExtResource("6_ih84p")]
+position = Vector2(-77, -176)
+
+[node name="UltimateOrb6" parent="." instance=ExtResource("6_ih84p")]
+position = Vector2(-133, -179)
+
+[node name="UltimateOrb7" parent="." instance=ExtResource("6_ih84p")]
+position = Vector2(-106, -156)
+
+[node name="UltimateOrb8" parent="." instance=ExtResource("6_ih84p")]
+position = Vector2(-162, -159)
 
 [connection signal="body_entered" from="WorldScene2Transit" to="." method="_on_world_scene_2_transit_body_entered"]

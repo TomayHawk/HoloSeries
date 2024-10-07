@@ -35,7 +35,7 @@ var saves := [
 func save(save_file):
 	saves[save_file] = {
 		"save_index": saves[save_file]["save_index"],
-		"current_scene_path": GlobalSettings.current_scene_node.get_path(), ## ### need to fix
+		"current_scene_path": get_tree().current_scene.get_path(), ## ### need to fix
 		"unlocked_characters": GlobalSettings.unlocked_characters.duplicate(),
 		"party": [],
 		"standby": GlobalSettings.standby_character_indices.duplicate(),
@@ -112,7 +112,7 @@ func load(save_file):
 		player_node.position = saves[save_file]["current_main_player_position"]
 		if character_index == saves[save_file]["current_main_player"]:
 			GlobalSettings.current_main_player_node = player_node
-			GlobalSettings.update_nodes("update_main_player", player_node)
+			GlobalSettings.update_main_player(player_node)
 		else:
 			player_node.position += (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
 	

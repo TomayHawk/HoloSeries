@@ -341,9 +341,4 @@ collision_mask = 0
 position = Vector2(-280, -44.5)
 shape = SubResource("RectangleShape2D_pan47")
 
-[node name="Abilities" type="Node2D" parent="."]
-y_sort_enabled = true
-
-[node name="DamageDisplay" type="Node2D" parent="."]
-
 [connection signal="body_entered" from="WorldScene2Transit" to="." method="_on_world_scene_2_transit_body_entered"]

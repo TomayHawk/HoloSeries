@@ -50,7 +50,7 @@ func update_mana_label(party_index, mana):
 
 # CombatUI control visibility animation
 func combat_ui_control_tween(target_visibility_value):
-	tween = get_tree().create_tween()
+	tween = create_tween()
 	await tween.tween_property(control_node, "modulate:a", target_visibility_value, 0.2).finished
 
 func update_character_selector():
@@ -120,10 +120,10 @@ func use_reset_button():
 	for player in GlobalSettings.party_node.get_children():
 		if !player.player_stats_node.alive:
 			player.player_stats_node.revive()
-			player.player_stats_node.update_health(player.player_stats_node.max_health, ["break_limit"], Vector2.ZERO, 0.0)
+			player.player_stats_node.update_health(player.player_stats_node.max_health, ["break_limit", "hidden"], Vector2.ZERO, 0.0)
 
 func use_temp_kill_item(chosen_player_node):
-	chosen_player_node.player_stats_node.update_health(-99999, ["break_limit"], Vector2.ZERO, 0.0)
+	chosen_player_node.player_stats_node.update_health(-99999, ["break_limit", "hidden"], Vector2.ZERO, 0.0)
 
 func _on_control_mouse_entered():
 	GlobalSettings.mouse_in_attack_area = false

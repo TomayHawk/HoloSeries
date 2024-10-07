@@ -50,14 +50,12 @@ const adjacents_index: Array[Array] = [[-32, -17, -16, 15, 16, 32], [-32, -16, -
 var temp_adjacents: Array[int] = []
 var index_counter := 0
 
+var scene_camera_zoom := Vector2(1.0, 1.0)
+
 func _ready():
-	# update camera settings
-	GlobalSettings.camera_node.enabled = false
-	GlobalSettings.camera_node = nexus_player_node.get_node("Camera2D")
-	GlobalSettings.camera_node.enabled = true
-	GlobalSettings.camera_node.zoom = Vector2(1.0, 1.0)
-	GlobalSettings.target_zoom = Vector2(1.0, 1.0)
-	GlobalSettings.can_zoom = true
+	##### nexus camera limit (-679, -592, 681, 592)
+	scene_camera_zoom = GlobalSettings.camera_node.zoom
+	GlobalSettings.update_camera(nexus_player_node, true, Vector2(1.0, 1.0), 3)
 
 	# toggle nexus inputs
 	GlobalSettings.nexus_inputs_available = true
@@ -434,4 +432,5 @@ func exit_nexus():
 			if stats_node_atlas_position.find(nexus_nodes[unlocked_index].texture.region.position) != -1:
 				GlobalSettings.nexus_stats[character_index][stats_node_atlas_position.find(nexus_nodes[unlocked_index].texture.region.position)] += 1
 
+	GlobalSettings.update_camera(GlobalSettings.current_main_player_node, true, scene_camera_zoom, -1)
 	queue_free()
