@@ -494,5 +494,5 @@ y_sort_enabled = true
 position = Vector2(-1, 3)
 scale = Vector2(1.25, 1.25)
 sprite_frames = SubResource("SpriteFrames_qsfsi")
-animation = &"front_idle"
+animation = &"left_attack"
 offset = Vector2(0, -12.5)

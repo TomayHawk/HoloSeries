@@ -51,9 +51,14 @@ func regular_attack():
 	attack_shape_node.set_target_position(player_node.attack_direction * 20)
 
 	attack_cooldown_node.start(0.5)
+
+	player_node.can_register = true
 	attack_shape_node.force_shapecast_update()
 
+func regular_attack_register():
+	print("register")
 	var enemy_body = null
+
 	if attack_shape_node.is_colliding():
 		for collision_index in attack_shape_node.get_collision_count():
 			enemy_body = attack_shape_node.get_collider(collision_index).get_parent()
@@ -65,3 +70,6 @@ func regular_attack():
 				temp_regular_attack_damage = regular_attack_damage
 			var damage = CombatEntitiesComponent.physical_damage_calculator(temp_regular_attack_damage, player_stats_node, enemy_body.base_enemy_node)
 			enemy_body.base_enemy_node.update_health(-damage[0], damage[1], player_node.attack_direction, knockback_weight)
+		GlobalSettings.camera_node.screen_shake(0.1, 1, 30, true)
+
+	player_node.can_register = false
