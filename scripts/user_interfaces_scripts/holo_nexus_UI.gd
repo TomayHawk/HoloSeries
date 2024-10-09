@@ -200,10 +200,10 @@ func convert(target_type_position):
 	nexus.unlock_node()
 
 func _on_button_mouse_entered():
-	GlobalSettings.can_zoom = false
+	GlobalSettings.camera_node.can_zoom = false
 
 func _on_button_mouse_exited():
-	GlobalSettings.can_zoom = true
+	GlobalSettings.camera_node.can_zoom = true
 
 func _on_scroll_container_gui_input(_event):
 	pass

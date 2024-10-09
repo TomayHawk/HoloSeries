@@ -7,6 +7,7 @@ extends Node2D
 @onready var combat_ui_node = GlobalSettings.combat_ui_node
 
 @onready var health_bar_node := $HealthBar
+@onready var shield_bar_node := $ShieldBar
 @onready var mana_bar_node := $ManaBar
 @onready var stamina_bar_node := $StaminaBar
 

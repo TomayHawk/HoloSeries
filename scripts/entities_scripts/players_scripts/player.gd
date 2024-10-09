@@ -64,7 +64,7 @@ var temp_move_direction := Vector2.ZERO
 var temp_possible_directions: Array[int] = [0, 1, 2, 3, 4, 5, 6, 7]
 var temp_comparator := 0.0
 
-var can_register := false
+var attack_register := ""
 
 func _ready():
 	animation_node.play("front_idle")
@@ -116,15 +116,9 @@ func _physics_process(delta):
 
 	if taking_knockback:
 		velocity = knockback_direction * 200 * (1 - (0.4 - $KnockbackTimer.get_time_left()) / 0.4) * knockback_weight
-	
-	if attacking && is_current_main_player:
-		print(can_register)
-		print(animation_node.get_frame())
-		print(animation_node.get_animation())
 
-	if can_register && animation_node.get_frame() == 1 && animation_node.get_animation() in ["right_attack", "left_attack", "front_attack", "back_attack"]:
-		print("register")
-		character_specifics_node.regular_attack_register()
+	if attack_register != "" && animation_node.get_frame() == 1 && animation_node.get_animation() in ["right_attack", "left_attack", "front_attack", "back_attack"]:
+		character_specifics_node.call(attack_register)
 
 	move_and_slide()
 

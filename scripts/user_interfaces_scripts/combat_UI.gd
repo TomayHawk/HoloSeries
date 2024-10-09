@@ -127,11 +127,11 @@ func use_temp_kill_item(chosen_player_node):
 
 func _on_control_mouse_entered():
 	GlobalSettings.mouse_in_attack_area = false
-	GlobalSettings.can_zoom = false
+	GlobalSettings.camera_node.can_zoom = false
 
 func _on_control_mouse_exited():
 	GlobalSettings.mouse_in_attack_area = true
-	GlobalSettings.can_zoom = true
+	GlobalSettings.camera_node.can_zoom = true
 
 func _on_character_selector_button_pressed(extra_arg_0):
 	GlobalSettings.current_main_player_node.player_stats_node.reparent(GlobalSettings.standby_node)

@@ -25,15 +25,10 @@ const background_music_paths := {
 
 const nexus_path := "res://user_interfaces/holo_nexus.tscn"
 
-const camera_limits: Array[Array] = [[-10000000, -10000000, 10000000, 10000000], [-10000000, -10000000, 10000000, 10000000], [-10000000, -10000000, 10000000, 10000000], [-679, -592, 681, 592]] # [[-208, -288, 224, 64], [-640, -352, 640, 352], [-576, -144, 128, 80], [-679, -592, 681, 592]]
-
 # settings variables
 var currently_full_screen := false
 var current_main_player_node: Node = null
 
-var target_zoom := Vector2(1.0, 1.0)
-var zoom_interval := 0.0
-var can_zoom := true
 var game_paused := false
 var can_attempt_attack := false
 var mouse_in_attack_area := true
@@ -87,29 +82,18 @@ var current_save := -1
 func _ready():
 	set_physics_process(false)
 
-func _physics_process(delta):
-	if target_zoom.x != camera_node.zoom.x:
-		zoom_interval += delta * 0.1
-		camera_node.zoom = camera_node.zoom.lerp(target_zoom, zoom_interval)
-	else:
-		zoom_interval = 0.0
-		set_physics_process(false)
-
 func _input(_event):
-	if Input.is_action_just_pressed("action") && mouse_in_attack_area && !CombatEntitiesComponent.requesting_entities:
-		can_attempt_attack = true
-		await get_tree().process_frame
-		can_attempt_attack = false
+	if Input.is_action_just_pressed("action"):
+		if mouse_in_attack_area && !CombatEntitiesComponent.requesting_entities:
+			can_attempt_attack = true
+			await get_tree().process_frame
+			can_attempt_attack = false
 	elif Input.is_action_just_pressed("esc"): esc_input()
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
-	elif Input.is_action_just_pressed("scroll_up") && can_zoom:
-		if camera_node.zoom.x < 1.5:
-			target_zoom = clamp(target_zoom + Vector2(0.05, 0.05), Vector2(0.8, 0.8), Vector2(1.4, 1.4))
-			set_physics_process(true)
-	elif Input.is_action_just_pressed("scroll_down") && can_zoom:
-		if camera_node.zoom.x > 0.5:
-			target_zoom = clamp(target_zoom - Vector2(0.05, 0.05), Vector2(0.8, 0.8), Vector2(1.4, 1.4))
-			set_physics_process(true)
+	elif Input.is_action_just_pressed("scroll_up"):
+		camera_node.zoom_input(1.5, 1)
+	elif Input.is_action_just_pressed("scroll_down"):
+		camera_node.zoom_input(0.5, -1)
 	elif combat_inputs_available:
 		if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
 		elif Input.is_action_just_pressed("tab"): combat_ui_character_selector_node.show()
@@ -183,7 +167,7 @@ func change_scene(next_scene, scene_index, spawn_index, bgm):
 
 	start_bgm(bgm)
 
-	update_camera(current_main_player_node, true, target_zoom, scene_index)
+	camera_node.update_camera(current_main_player_node, true, camera_node.target_zoom, scene_index)
 
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -194,26 +178,8 @@ func update_main_player(next_main_player_node):
 	current_main_player_node.is_current_main_player = false
 	current_main_player_node = next_main_player_node
 	current_main_player_node.is_current_main_player = true
-	update_camera(current_main_player_node, can_zoom, target_zoom, -1)
+	camera_node.update_camera(current_main_player_node, camera_node.can_zoom, camera_node.target_zoom, -1)
 	CombatEntitiesComponent.empty_entities_request()
-
-func update_camera(next_camera_parent, temp_can_zoom, camera_zoom, scene):
-	camera_node.reparent(next_camera_parent)
-	camera_node.position_smoothing_enabled = false
-	camera_node.position = Vector2.ZERO
-	
-	camera_node.zoom = camera_zoom
-	target_zoom = camera_zoom
-	can_zoom = temp_can_zoom
-
-	if scene != -1:
-		camera_node.limit_left = camera_limits[scene][0]
-		camera_node.limit_top = camera_limits[scene][1]
-		camera_node.limit_right = camera_limits[scene][2]
-		camera_node.limit_bottom = camera_limits[scene][3]
-	
-	await get_tree().process_frame
-	camera_node.position_smoothing_enabled = true
 	
 func nexus(to_nexus):
 	game_paused = to_nexus
