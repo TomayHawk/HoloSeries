@@ -187,12 +187,14 @@ wall_min_slide_angle = 0.0
 script = ExtResource("1_on7pi")
 
 [node name="BaseEnemy" parent="." instance=ExtResource("2_x265f")]
+unique_name_in_owner = true
 
 [node name="MovementHitBox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_sw4lu")
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
 y_sort_enabled = true
 position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_7htyj")
@@ -216,6 +218,7 @@ scale = Vector2(1.5, 1.5)
 shape = SubResource("CircleShape2D_k2v4m")
 
 [node name="SummonCooldown" type="Timer" parent="."]
+unique_name_in_owner = true
 one_shot = true
 
 [connection signal="input_event" from="CombatHitBoxArea" to="BaseEnemy" method="_on_combat_hit_box_area_input_event"]

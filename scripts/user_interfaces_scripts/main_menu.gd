@@ -1,10 +1,10 @@
 extends Node2D
 
-@onready var main_menu_options_node := $MainMenuOptions
+@onready var main_menu_options_node := %MainMenuOptions
+@onready var options_menu_node := %OptionsMenuMargin
+@onready var saves_menu_node := %SavesMenuMargin
 
-@onready var save_data_node := $SaveData
-@onready var options_menu_node := $MainMenuOptions/OptionsMenuMargin
-@onready var saves_menu_node := $MainMenuOptions/SavesMenuMargin
+@onready var save_data_node := %SaveData
 
 func _on_play_button_pressed():
 	save_data_node.load(save_data_node.last_save)

@@ -6,5 +6,6 @@
 script = ExtResource("1_y8mcu")
 
 [node name="Interval" type="Timer" parent="."]
+unique_name_in_owner = true
 wait_time = 0.1
 one_shot = true

@@ -1,13 +1,13 @@
 extends CharacterBody2D
 
 @onready var enemies_node := get_parent()
-@onready var base_enemy_node := $BaseEnemy
+@onready var base_enemy_node := %BaseEnemy
 
-@onready var animation_node := $Animation
-@onready var navigation_agent_node := $BaseEnemy/NavigationAgent2D
-@onready var attack_cooldown_node := $BaseEnemy/AttackCooldown
-@onready var summon_cooldown_node := $SummonCooldown
-@onready var knockback_timer_node := $BaseEnemy/KnockbackTimer
+@onready var animation_node := %Animation
+@onready var navigation_agent_node := %BaseEnemy/NavigationAgent2D
+@onready var attack_cooldown_node := %BaseEnemy/AttackCooldown
+@onready var summon_cooldown_node := %SummonCooldown
+@onready var knockback_timer_node := %BaseEnemy/KnockbackTimer
 
 @onready var nousagi_load := load("res://entities/enemies/enemy_specifics/nousagi.tscn")
 

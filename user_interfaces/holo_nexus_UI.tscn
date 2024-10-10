@@ -28,6 +28,7 @@ offset_bottom = 720.0
 scale = Vector2(0.5, 0.5)
 
 [node name="Options" type="MarginContainer" parent="Control"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -104,7 +105,8 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = "Items"
 
-[node name="NexusInventory" type="MarginContainer" parent="Control"]
+[node name="InventoryMargin" type="MarginContainer" parent="Control"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 2
@@ -116,29 +118,30 @@ grow_vertical = 0
 theme_override_constants/margin_left = 128
 theme_override_constants/margin_bottom = 64
 
-[node name="Panel" type="Panel" parent="Control/NexusInventory"]
+[node name="Panel" type="Panel" parent="Control/InventoryMargin"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_gx1i3")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/NexusInventory"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/InventoryMargin"]
 layout_mode = 2
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Control/NexusInventory/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/InventoryMargin/MarginContainer"]
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/NexusInventory/MarginContainer/ScrollContainer"]
+[node name="InventoryVBoxContainer" type="VBoxContainer" parent="Control/InventoryMargin/MarginContainer/ScrollContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="LifeCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="LifeCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -151,7 +154,7 @@ theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 alignment = 0
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LifeCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/LifeCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -160,7 +163,7 @@ theme_override_font_sizes/font_size = 12
 text = "Life Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LifeCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/LifeCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -177,7 +180,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MagicCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="MagicCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -189,7 +192,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MagicCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/MagicCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -198,7 +201,7 @@ theme_override_font_sizes/font_size = 12
 text = "Magic Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MagicCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/MagicCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -215,7 +218,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DexterityCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="DexterityCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -227,7 +230,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DexterityCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DexterityCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -236,7 +239,7 @@ theme_override_font_sizes/font_size = 12
 text = "Dexterity Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DexterityCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DexterityCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -253,7 +256,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TalentCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="TalentCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -265,7 +268,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TalentCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/TalentCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -274,7 +277,7 @@ theme_override_font_sizes/font_size = 12
 text = "Talent Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TalentCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/TalentCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -291,7 +294,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BlessedCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="BlessedCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -303,7 +306,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/BlessedCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/BlessedCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -312,7 +315,7 @@ theme_override_font_sizes/font_size = 12
 text = "Blessed Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/BlessedCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/BlessedCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -329,7 +332,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AbyssalCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="AbyssalCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -341,7 +344,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AbyssalCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AbyssalCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -350,7 +353,7 @@ theme_override_font_sizes/font_size = 12
 text = "Abyssal Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AbyssalCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AbyssalCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -367,7 +370,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StarCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="StarCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -379,7 +382,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/StarCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -388,7 +391,7 @@ theme_override_font_sizes/font_size = 12
 text = "Star Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/StarCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -405,7 +408,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ProsperityCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="ProsperityCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -417,7 +420,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ProsperityCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ProsperityCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -426,7 +429,7 @@ theme_override_font_sizes/font_size = 12
 text = "Prosperity Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ProsperityCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ProsperityCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -443,7 +446,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LoveCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="LoveCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -455,7 +458,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LoveCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/LoveCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -464,7 +467,7 @@ theme_override_font_sizes/font_size = 12
 text = "Love Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LoveCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/LoveCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -481,7 +484,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="NobilityCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="NobilityCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -493,7 +496,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/NobilityCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/NobilityCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -502,7 +505,7 @@ theme_override_font_sizes/font_size = 12
 text = "Nobility Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/NobilityCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/NobilityCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -519,7 +522,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SunlightCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="SunlightCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -531,7 +534,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SunlightCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/SunlightCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -540,7 +543,7 @@ theme_override_font_sizes/font_size = 12
 text = "Sunlight Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SunlightCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/SunlightCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -557,7 +560,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StarlightCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="StarlightCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -569,7 +572,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarlightCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/StarlightCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -578,7 +581,7 @@ theme_override_font_sizes/font_size = 12
 text = "Starlight Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarlightCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/StarlightCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -595,7 +598,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MoonlightCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="MoonlightCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -607,7 +610,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MoonlightCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/MoonlightCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -616,7 +619,7 @@ theme_override_font_sizes/font_size = 12
 text = "Moonlight Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MoonlightCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/MoonlightCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -633,7 +636,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DreamCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="DreamCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -645,7 +648,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DreamCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DreamCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -654,7 +657,7 @@ theme_override_font_sizes/font_size = 12
 text = "Dream Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DreamCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DreamCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -671,7 +674,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ReturnCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="ReturnCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -683,7 +686,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ReturnCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ReturnCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -692,7 +695,7 @@ theme_override_font_sizes/font_size = 12
 text = "Return Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ReturnCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ReturnCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -709,7 +712,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ShareCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="ShareCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -721,7 +724,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShareCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ShareCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -730,7 +733,7 @@ theme_override_font_sizes/font_size = 12
 text = "Share Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShareCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ShareCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -747,7 +750,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="InstantCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="InstantCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -759,7 +762,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/InstantCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/InstantCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -768,7 +771,7 @@ theme_override_font_sizes/font_size = 12
 text = "Instant Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/InstantCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/InstantCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -785,7 +788,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HealthCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="HealthCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -797,7 +800,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/HealthCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/HealthCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -806,7 +809,7 @@ theme_override_font_sizes/font_size = 12
 text = "Health Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/HealthCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/HealthCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -823,7 +826,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ManaCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="ManaCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -835,7 +838,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ManaCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ManaCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -844,7 +847,7 @@ theme_override_font_sizes/font_size = 12
 text = "Mana Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ManaCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ManaCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -861,7 +864,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DefenceCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="DefenceCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -873,7 +876,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DefenceCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DefenceCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -882,7 +885,7 @@ theme_override_font_sizes/font_size = 12
 text = "Defence Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DefenceCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DefenceCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -899,7 +902,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ShieldCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="ShieldCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -911,7 +914,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShieldCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ShieldCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -920,7 +923,7 @@ theme_override_font_sizes/font_size = 12
 text = "Shield Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShieldCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ShieldCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -937,7 +940,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AttackCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="AttackCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -949,7 +952,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AttackCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AttackCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -958,7 +961,7 @@ theme_override_font_sizes/font_size = 12
 text = "Attack Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AttackCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AttackCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -975,7 +978,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="IntelligenceCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="IntelligenceCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -987,7 +990,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/IntelligenceCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/IntelligenceCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -996,7 +999,7 @@ theme_override_font_sizes/font_size = 12
 text = "Intelligence Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/IntelligenceCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/IntelligenceCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -1013,7 +1016,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SpeedCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="SpeedCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -1025,7 +1028,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SpeedCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/SpeedCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -1034,7 +1037,7 @@ theme_override_font_sizes/font_size = 12
 text = "Speed Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SpeedCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/SpeedCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -1051,7 +1054,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AgilityCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="AgilityCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -1063,7 +1066,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AgilityCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AgilityCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -1072,7 +1075,7 @@ theme_override_font_sizes/font_size = 12
 text = "Agility Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AgilityCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AgilityCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -1089,7 +1092,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ClearCrystal" type="Button" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="ClearCrystal" type="Button" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -1101,7 +1104,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="Label" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ClearCrystal"]
+[node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ClearCrystal"]
 layout_mode = 0
 offset_left = 17.0
 offset_right = 145.0
@@ -1110,7 +1113,7 @@ theme_override_font_sizes/font_size = 12
 text = "Clear Crystal"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ClearCrystal"]
+[node name="Label2" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ClearCrystal"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -1127,7 +1130,8 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DescriptionsContainer" type="MarginContainer" parent="Control"]
+[node name="DescriptionsMargin" type="MarginContainer" parent="Control"]
+unique_name_in_owner = true
 layout_mode = 1
 offset_right = 1280.0
 offset_bottom = 105.0
@@ -1138,28 +1142,29 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 0
 
-[node name="Panel" type="Panel" parent="Control/DescriptionsContainer"]
+[node name="Panel" type="Panel" parent="Control/DescriptionsMargin"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_k5cw7")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/DescriptionsContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/DescriptionsMargin"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/DescriptionsContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/DescriptionsMargin/MarginContainer"]
 layout_mode = 2
 
-[node name="TextStart" type="Label" parent="Control/DescriptionsContainer/MarginContainer/HBoxContainer"]
+[node name="DescriptionsTextStartLabel" type="Label" parent="Control/DescriptionsMargin/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 12
 text = "*  "
 
-[node name="TextArea" type="Label" parent="Control/DescriptionsContainer/MarginContainer/HBoxContainer"]
+[node name="DescriptionsTextAreaLabel" type="Label" parent="Control/DescriptionsMargin/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(1199, 57)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1169,11 +1174,12 @@ text = "Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample 
 autowrap_mode = 2
 clip_text = true
 
-[node name="NexusCharacterSelector" type="Control" parent="."]
+[node name="CharacterSelector" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector"]
 layout_mode = 1
 offset_right = 208.0
 offset_bottom = 155.0
@@ -1181,29 +1187,30 @@ scale = Vector2(0.99279, 0.997135)
 theme_override_constants/margin_left = 48
 theme_override_constants/margin_top = 56
 
-[node name="Panel" type="Panel" parent="NexusCharacterSelector/MarginContainer"]
+[node name="Panel" type="Panel" parent="CharacterSelector/MarginContainer"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_gx1i3")
 
-[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CharacterSelector/MarginContainer/MarginContainer"]
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer"]
+[node name="CharacterSelectorVBoxContainer" type="VBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 2
 
-[node name="Character1" type="Button" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Character1" type="Button" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer"]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
@@ -1214,7 +1221,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character1"]
 layout_mode = 2
 offset_right = 308.0
 offset_bottom = 55.0
@@ -1222,32 +1229,32 @@ scale = Vector2(0.5, 0.5)
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character1/MarginContainer"]
 clip_contents = true
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character1/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
 
-[node name="TextureRect" type="TextureRect" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character1/MarginContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource("2_38u1l")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character1/MarginContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="CharacterName" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="CharacterName" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character1/MarginContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Character"
 vertical_alignment = 1
 
-[node name="Level" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1/MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="Level" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character1/MarginContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -1256,7 +1263,7 @@ text = "Lvl ###"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Character2" type="Button" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Character2" type="Button" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer"]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
@@ -1267,7 +1274,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character2"]
 layout_mode = 2
 offset_right = 308.0
 offset_bottom = 55.0
@@ -1275,32 +1282,32 @@ scale = Vector2(0.5, 0.5)
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character2/MarginContainer"]
 clip_contents = true
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character2/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
 
-[node name="TextureRect" type="TextureRect" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character2/MarginContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource("2_38u1l")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character2/MarginContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="CharacterName" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="CharacterName" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character2/MarginContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Character"
 vertical_alignment = 1
 
-[node name="Level" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2/MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="Level" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character2/MarginContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -1309,7 +1316,7 @@ text = "Lvl ###"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Character3" type="Button" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Character3" type="Button" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer"]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
@@ -1320,7 +1327,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character3"]
 layout_mode = 2
 offset_right = 308.0
 offset_bottom = 55.0
@@ -1328,32 +1335,32 @@ scale = Vector2(0.5, 0.5)
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character3/MarginContainer"]
 clip_contents = true
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character3/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
 
-[node name="TextureRect" type="TextureRect" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character3/MarginContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource("2_38u1l")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character3/MarginContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="CharacterName" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="CharacterName" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character3/MarginContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Character"
 vertical_alignment = 1
 
-[node name="Level" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3/MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="Level" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character3/MarginContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -1362,7 +1369,7 @@ text = "Lvl ###"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Character4" type="Button" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Character4" type="Button" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer"]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
@@ -1373,7 +1380,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character4"]
 layout_mode = 2
 offset_right = 308.0
 offset_bottom = 55.0
@@ -1381,32 +1388,32 @@ scale = Vector2(0.5, 0.5)
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character4/MarginContainer"]
 clip_contents = true
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character4/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
 
-[node name="TextureRect" type="TextureRect" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character4/MarginContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource("2_38u1l")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character4/MarginContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="CharacterName" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="CharacterName" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character4/MarginContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Character"
 vertical_alignment = 1
 
-[node name="Level" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4/MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="Level" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character4/MarginContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -1415,7 +1422,7 @@ text = "Lvl ###"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Character5" type="Button" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Character5" type="Button" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer"]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
@@ -1426,7 +1433,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character5"]
 layout_mode = 2
 offset_right = 308.0
 offset_bottom = 55.0
@@ -1434,32 +1441,32 @@ scale = Vector2(0.5, 0.5)
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character5/MarginContainer"]
 clip_contents = true
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character5/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
 
-[node name="TextureRect" type="TextureRect" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character5/MarginContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource("2_38u1l")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5/MarginContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character5/MarginContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="CharacterName" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5/MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="CharacterName" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character5/MarginContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Character"
 vertical_alignment = 1
 
-[node name="Level" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5/MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="Level" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character5/MarginContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -1468,7 +1475,7 @@ text = "Lvl ###"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Character6" type="Button" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Character6" type="Button" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer"]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
@@ -1479,7 +1486,7 @@ theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/focus = ExtResource("5_7271n")
 text = " "
 
-[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character6"]
 layout_mode = 2
 offset_right = 308.0
 offset_bottom = 55.0
@@ -1487,32 +1494,32 @@ scale = Vector2(0.5, 0.5)
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character6/MarginContainer"]
 clip_contents = true
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character6/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
 
-[node name="TextureRect" type="TextureRect" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character6/MarginContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource("2_38u1l")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6/MarginContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character6/MarginContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="CharacterName" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6/MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="CharacterName" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character6/MarginContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Character"
 vertical_alignment = 1
 
-[node name="Level" type="Label" parent="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6/MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="Level" type="Label" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character6/MarginContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -1533,101 +1540,101 @@ vertical_alignment = 1
 [connection signal="mouse_entered" from="Control/Options/MarginContainer/VBoxContainer/Items" to="." method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="Control/Options/MarginContainer/VBoxContainer/Items" to="." method="_on_button_mouse_exited"]
 [connection signal="pressed" from="Control/Options/MarginContainer/VBoxContainer/Items" to="." method="_on_items_pressed"]
-[connection signal="gui_input" from="Control/NexusInventory/MarginContainer/ScrollContainer" to="." method="_on_scroll_container_gui_input"]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LifeCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LifeCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LifeCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [0]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MagicCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MagicCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MagicCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [1]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DexterityCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DexterityCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DexterityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [2]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TalentCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TalentCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/TalentCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [3]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/BlessedCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/BlessedCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/BlessedCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [4]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AbyssalCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AbyssalCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AbyssalCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [5]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [6]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ProsperityCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ProsperityCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ProsperityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [7]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LoveCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LoveCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/LoveCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [8]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/NobilityCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/NobilityCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/NobilityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [9]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SunlightCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SunlightCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SunlightCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [10]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarlightCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarlightCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/StarlightCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [11]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MoonlightCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MoonlightCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/MoonlightCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [12]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DreamCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DreamCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DreamCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [13]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ReturnCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ReturnCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ReturnCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [14]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShareCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShareCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShareCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [15]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/InstantCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/InstantCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/InstantCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [16]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/HealthCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/HealthCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/HealthCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [17]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ManaCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ManaCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ManaCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [18]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DefenceCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DefenceCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/DefenceCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [19]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShieldCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShieldCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ShieldCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [20]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AttackCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AttackCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AttackCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [21]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/IntelligenceCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/IntelligenceCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/IntelligenceCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [22]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SpeedCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SpeedCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/SpeedCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [23]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AgilityCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AgilityCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/AgilityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [24]]
-[connection signal="mouse_entered" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ClearCrystal" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ClearCrystal" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer/ClearCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [25]]
-[connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character1" to="." method="_on_character_selector_button_pressed" binds= [0]]
-[connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character2" to="." method="_on_character_selector_button_pressed" binds= [1]]
-[connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character3" to="." method="_on_character_selector_button_pressed" binds= [2]]
-[connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character4" to="." method="_on_character_selector_button_pressed" binds= [3]]
-[connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character5" to="." method="_on_character_selector_button_pressed" binds= [4]]
-[connection signal="mouse_entered" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6" to="." method="_on_button_mouse_exited"]
-[connection signal="pressed" from="NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer/Character6" to="." method="_on_character_selector_button_pressed" binds= [5]]
+[connection signal="gui_input" from="Control/InventoryMargin/MarginContainer/ScrollContainer" to="." method="_on_scroll_container_gui_input"]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/LifeCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/LifeCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/LifeCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [0]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/MagicCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/MagicCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/MagicCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [1]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DexterityCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DexterityCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DexterityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [2]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/TalentCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/TalentCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/TalentCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [3]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/BlessedCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/BlessedCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/BlessedCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [4]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AbyssalCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AbyssalCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AbyssalCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [5]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/StarCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/StarCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/StarCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [6]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ProsperityCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ProsperityCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ProsperityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [7]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/LoveCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/LoveCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/LoveCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [8]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/NobilityCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/NobilityCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/NobilityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [9]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/SunlightCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/SunlightCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/SunlightCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [10]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/StarlightCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/StarlightCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/StarlightCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [11]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/MoonlightCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/MoonlightCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/MoonlightCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [12]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DreamCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DreamCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DreamCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [13]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ReturnCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ReturnCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ReturnCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [14]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ShareCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ShareCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ShareCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [15]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/InstantCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/InstantCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/InstantCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [16]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/HealthCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/HealthCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/HealthCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [17]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ManaCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ManaCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ManaCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [18]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DefenceCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DefenceCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DefenceCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [19]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ShieldCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ShieldCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ShieldCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [20]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AttackCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AttackCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AttackCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [21]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/IntelligenceCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/IntelligenceCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/IntelligenceCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [22]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/SpeedCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/SpeedCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/SpeedCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [23]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AgilityCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AgilityCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AgilityCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [24]]
+[connection signal="mouse_entered" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ClearCrystal" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ClearCrystal" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ClearCrystal" to="." method="_on_nexus_inventory_item_pressed" binds= [25]]
+[connection signal="mouse_entered" from="CharacterSelector/MarginContainer/MarginContainer" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_entered" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character1" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character1" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character1" to="." method="_on_character_selector_button_pressed" binds= [0]]
+[connection signal="mouse_entered" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character2" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character2" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character2" to="." method="_on_character_selector_button_pressed" binds= [1]]
+[connection signal="mouse_entered" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character3" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character3" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character3" to="." method="_on_character_selector_button_pressed" binds= [2]]
+[connection signal="mouse_entered" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character4" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character4" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character4" to="." method="_on_character_selector_button_pressed" binds= [3]]
+[connection signal="mouse_entered" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character5" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character5" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character5" to="." method="_on_character_selector_button_pressed" binds= [4]]
+[connection signal="mouse_entered" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character6" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character6" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character6" to="." method="_on_character_selector_button_pressed" binds= [5]]

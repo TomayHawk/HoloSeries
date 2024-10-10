@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var ability_node := get_parent()
-@onready var despawn_timer_node := $DespawnTimer
+@onready var despawn_timer_node := %DespawnTimer
 
 var temp_time_left := 1.0
 var offscreen_time_left := 1.0

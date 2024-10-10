@@ -31,14 +31,14 @@ func initiate_fireball(chosen_node):
 	else:
 		player_stats_node.update_mana(-mana_cost)
 		# begin despawn timer
-		$AnimatedSprite2D.play("shoot")
+		%AnimatedSprite2D.play("shoot")
 		# run after entity selection with CombatEntitiesComponent.choose_entities()
-		$BasicProjectile.initiate_projectile(caster_node.position + Vector2(0, -7), (chosen_node.position - caster_node.position - Vector2(0, -7)).normalized(), projectile_speed * speed_multiplier)
-		$AbilityDespawnComponent.start_timer(5.0, 0.5)
+		%BasicProjectile.initiate_projectile(caster_node.position + Vector2(0, -7), (chosen_node.position - caster_node.position - Vector2(0, -7)).normalized(), projectile_speed * speed_multiplier)
+		%AbilityDespawnComponent.start_timer(5.0, 0.5)
 		show()
 	
 func projectile_collision(move_direction):
-	for enemy_node in $AreaOfEffect.area_of_effect("enemies"):
+	for enemy_node in %AreaOfEffect.area_of_effect("enemies"):
 		var temp_damage = CombatEntitiesComponent.magic_damage_calculator(base_damage * damage_multiplier, caster_node.player_stats_node, enemy_node.base_enemy_node)
 		enemy_node.base_enemy_node.update_health(-temp_damage[0], temp_damage[1], move_direction, 0.5)
 	queue_free()

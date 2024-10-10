@@ -67,12 +67,16 @@ script = ExtResource("1_g8rfi")
 shape = SubResource("CircleShape2D_qkq14")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_m0lm0")
 animation = &"shoot"
 
 [node name="AreaOfEffect" parent="." instance=ExtResource("3_hc2jg")]
+unique_name_in_owner = true
 scale = Vector2(1.5, 1.5)
 
 [node name="AbilityDespawnComponent" parent="." instance=ExtResource("6_iors1")]
+unique_name_in_owner = true
 
 [node name="BasicProjectile" parent="." instance=ExtResource("4_ygyed")]
+unique_name_in_owner = true

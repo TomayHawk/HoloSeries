@@ -1,8 +1,8 @@
 extends CanvasLayer
 
-@onready var textbox_container := $TextBoxContainer
-@onready var end_symbol := $TextBoxContainer/MarginContainer/HBoxContainer/TextEnd
-@onready var label := $TextBoxContainer/MarginContainer/HBoxContainer/TextArea
+@onready var textbox_container := %TextBoxMargin
+@onready var end_symbol := %TextEndLabel
+@onready var label := %TextAreaLabel
 
 var state_ready := true
 var state_end := false

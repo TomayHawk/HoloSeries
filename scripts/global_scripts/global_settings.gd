@@ -1,16 +1,19 @@
 extends Node2D
 
-@onready var game_options_node := $GameOptions
-@onready var combat_ui_node := $CombatUI
-@onready var text_box_node := $TextBox
-@onready var party_node := $Party
-@onready var standby_node := $Standby
-@onready var camera_node := $Camera2D
-@onready var audio_stream_player_node := $AudioStreamPlayer
+@onready var tree := get_tree()
+@onready var root := get_tree().root
 
-@onready var combat_ui_control_node := $CombatUI/Control
-@onready var combat_ui_combat_options_2_node := $CombatUI/Control/CombatOptions2
-@onready var combat_ui_character_selector_node := $CombatUI/CharacterSelector
+@onready var game_options_node := %GameOptionsUI
+@onready var combat_ui_node := %CombatUI
+@onready var text_box_node := %TextBoxUI
+@onready var party_node := %Party
+@onready var standby_node := %Standby
+@onready var camera_node := %Camera2D
+@onready var audio_stream_player_node := %AudioStreamPlayer
+
+@onready var combat_ui_control_node := %CombatUI/CombatUIControl
+@onready var combat_ui_combat_options_2_node := %CombatUI/CombatUIControl/CombatOptions2
+@onready var combat_ui_character_selector_node := %CombatUI/CharacterSelector
 
 const scene_paths := {
 	"world_scene_1": "res://scenes/world_scene_1.tscn",
@@ -55,6 +58,7 @@ var character_levels := []
 var character_experiences := []
 
 # nexus variables
+var nexus_node: Node = null
 var on_nexus := false
 var nexus_character_selector_node: Node = null
 var nexus_stats := [[0, 0, 0, 0, 0, 0, 0, 0],
@@ -86,7 +90,7 @@ func _input(_event):
 	if Input.is_action_just_pressed("action"):
 		if mouse_in_attack_area && !CombatEntitiesComponent.requesting_entities:
 			can_attempt_attack = true
-			await get_tree().process_frame
+			await tree.process_frame
 			can_attempt_attack = false
 	elif Input.is_action_just_pressed("esc"): esc_input()
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
@@ -114,9 +118,9 @@ func full_screen_toggle():
 # esc inputs
 func esc_input():
 	if on_nexus:
-		if get_tree().root.get_node("HoloNexus").nexus_ui_node.inventory_node.visible:
-			get_tree().root.get_node("HoloNexus").nexus_ui_node.inventory_node.hide()
-			get_tree().root.get_node("HoloNexus").nexus_ui_node.update_nexus_ui()
+		if nexus_node.nexus_ui_node.inventory_node.visible:
+			nexus_node.nexus_ui_node.inventory_node.hide()
+			nexus_node.nexus_ui_node.update_nexus_ui()
 			return
 		nexus(false)
 	elif CombatEntitiesComponent.requesting_entities:
@@ -128,25 +132,25 @@ func esc_input():
 			game_options_node.settings_node.hide()
 			game_options_node.options_node.show()
 			if current_save == -1:
-				get_parent().get_node("MainMenu").main_menu_options_node.show()
+				tree.current_scene.main_menu_options_node.show()
 				esc_input()
 		elif game_options_node.stats_node.visible:
 			game_options_node.stats_node.hide()
 			game_options_node.options_node.show()
 			if current_save == -1:
-				get_parent().get_node("MainMenu").main_menu_options_node.show()
+				tree.current_scene.main_menu_options_node.show()
 				esc_input()
 		else:
 			game_options_node.hide()
 			combat_ui_node.show()
-			get_tree().paused = false
+			tree.paused = false
 			combat_inputs_available = true
 			game_paused = false
 	elif current_save != -1:
 		game_options_node.show()
 		combat_ui_node.hide()
 		combat_ui_character_selector_node.hide()
-		get_tree().paused = true
+		tree.paused = true
 		combat_inputs_available = false
 		game_paused = true
 
@@ -156,7 +160,7 @@ func change_scene(next_scene, scene_index, spawn_index, bgm):
 		node.queue_free()
 
 	party_node.call_deferred("reparent", self)
-	get_tree().call_deferred("change_scene_to_file", scene_paths[next_scene])
+	tree.call_deferred("change_scene_to_file", scene_paths[next_scene])
 
 	current_main_player_node.position = spawn_positions[spawn_index]
 
@@ -169,10 +173,10 @@ func change_scene(next_scene, scene_index, spawn_index, bgm):
 
 	camera_node.update_camera(current_main_player_node, true, camera_node.target_zoom, scene_index)
 
-	await get_tree().process_frame
-	await get_tree().process_frame
+	await tree.process_frame
+	await tree.process_frame
 	
-	party_node.reparent(get_tree().current_scene)
+	party_node.reparent(tree.current_scene)
 
 func update_main_player(next_main_player_node):
 	current_main_player_node.is_current_main_player = false
@@ -183,9 +187,9 @@ func update_main_player(next_main_player_node):
 	
 func nexus(to_nexus):
 	game_paused = to_nexus
-	get_tree().paused = to_nexus
+	tree.paused = to_nexus
 	visible = !to_nexus
-	get_tree().current_scene.visible = !to_nexus
+	tree.current_scene.visible = !to_nexus
 	game_options_node.visible = !to_nexus
 	combat_ui_node.visible = !to_nexus
 	text_box_node.visible = !to_nexus
@@ -194,9 +198,9 @@ func nexus(to_nexus):
 	nexus_inputs_available = to_nexus
 
 	if to_nexus:
-		get_tree().root.add_child(load(nexus_path).instantiate())
+		root.add_child(load(nexus_path).instantiate())
 	else:
-		get_tree().root.get_node("HoloNexus").call_deferred("exit_nexus")
+		nexus_node.call_deferred("exit_nexus")
 		
 func start_bgm(bgm):
 	if audio_stream_player_node.stream.resource_path != background_music_paths[bgm]:

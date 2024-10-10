@@ -1,18 +1,18 @@
 extends CanvasLayer
 
 @onready var nexus := get_parent()
-@onready var nexus_player := nexus.get_node("NexusPlayer")
+@onready var nexus_player := get_parent().get_node("NexusPlayer")
 
-@onready var options_node := $Control/Options
+@onready var options_node := %Options
 
-@onready var inventory_node := $Control/NexusInventory
-@onready var inventory_items_nodes := $Control/NexusInventory/MarginContainer/ScrollContainer/VBoxContainer.get_children()
+@onready var inventory_node := %InventoryMargin
+@onready var inventory_items_nodes := %InventoryVBoxContainer.get_children()
 
-@onready var descriptions_node := $Control/DescriptionsContainer
-@onready var descriptions_label_node := $Control/DescriptionsContainer/MarginContainer/HBoxContainer/TextArea
+@onready var descriptions_node := %DescriptionsMargin
+@onready var descriptions_label_node := %DescriptionsTextAreaLabel
 
-@onready var character_selector_node := $NexusCharacterSelector
-@onready var character_selector_player_nodes := $NexusCharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer.get_children()
+@onready var character_selector_node := %CharacterSelector
+@onready var character_selector_player_nodes := %CharacterSelectorVBoxContainer.get_children()
 
 var character_selector_name_nodes: Array[Node] = []
 var character_selector_level_nodes: Array[Node] = []
@@ -57,11 +57,11 @@ const ability_type_description := ["", "", "", "", "", "", "", "", "", ""]
 
 func _ready():
 	for i in 6:
-		character_selector_name_nodes.push_back(character_selector_player_nodes[i].get_node("MarginContainer/HBoxContainer/HBoxContainer/CharacterName"))
-		character_selector_level_nodes.push_back(character_selector_player_nodes[i].get_node("MarginContainer/HBoxContainer/HBoxContainer/Level"))
+		character_selector_name_nodes.push_back(character_selector_player_nodes[i].get_node_or_null("MarginContainer/HBoxContainer/HBoxContainer/CharacterName"))
+		character_selector_level_nodes.push_back(character_selector_player_nodes[i].get_node_or_null("MarginContainer/HBoxContainer/HBoxContainer/Level"))
 	
 	for i in 26:
-		inventory_items_quantity_label.push_back(inventory_items_nodes[i].get_node("Label2"))
+		inventory_items_quantity_label.push_back(inventory_items_nodes[i].get_node_or_null("Label2"))
 		inventory_items_quantity_label[i].text = str(GlobalSettings.nexus_inventory[i])
 	
 	call_deferred("update_inventory_buttons")
@@ -72,7 +72,6 @@ func _ready():
 func _input(event):
 	if event is InputEventMouseButton && event.is_double_click():
 		print("double click ", event.is_double_click())
-
 
 func update_nexus_ui():
 	var node_quality_string = str(nexus.nodes_quality[nexus.last_nodes[nexus.current_nexus_player]])
@@ -92,7 +91,6 @@ func update_nexus_ui():
 
 	options_node.show()
 	descriptions_node.show()
-
 
 func hide_all():
 	options_node.hide()

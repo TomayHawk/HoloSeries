@@ -1,12 +1,12 @@
 extends CanvasLayer
 
-@onready var control_node := $Control
-@onready var combat_options_2_node := $Control/CombatOptions2
-@onready var character_selector_node := $CharacterSelector
-@onready var combat_options_2_modes := $Control/CombatOptions2/ScrollContainer/MarginContainer.get_children()
-@onready var players_info_nodes := $Control/CharacterInfos/VBoxContainer.get_children()
-@onready var players_progress_bar_nodes := $Control/CharacterInfos/Control.get_children()
-@onready var character_selector_player_nodes := $CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/VBoxContainer.get_children()
+@onready var control_node := %CombatUIControl
+@onready var combat_options_2_node := %CombatOptions2
+@onready var character_selector_node := %CharacterSelector
+@onready var combat_options_2_modes := %Options2Margin.get_children()
+@onready var players_info_nodes := %CharacterInfosVBoxContainer.get_children()
+@onready var players_progress_bar_nodes := %ProgressBarControl.get_children()
+@onready var character_selector_player_nodes := %CharacterSelectorVBoxContainer.get_children()
 
 @onready var abilities_load: Array[Resource] = [load("res://entities/abilities/fireball.tscn"),
 												load("res://entities/abilities/regen.tscn"),

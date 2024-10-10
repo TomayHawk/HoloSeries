@@ -2,9 +2,9 @@ extends Node2D
 
 # enemy node
 @onready var enemy_node := get_parent()
-@onready var health_bar_node := $HealthBar
-@onready var knockback_timer_node := $KnockbackTimer
-@onready var invincibility_frame_node := $InvulnerabilityTimer
+@onready var health_bar_node := %HealthBar
+@onready var knockback_timer_node := %KnockbackTimer
+@onready var invincibility_frame_node := %InvulnerabilityTimer
 @onready var enemy_marker_path := "res://resources/entity_highlights/enemy_marker.tscn"
 
 # health variables

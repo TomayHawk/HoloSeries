@@ -2,10 +2,11 @@ extends Node2D
 
 @onready var player_stats_node := get_node("PlayerStatsComponent")
 @onready var character_specifics_node := get_node("CharacterSpecifics")
-@onready var attack_shape_node := $AttackShape
-@onready var attack_cooldown_node := $AttackCooldown
-@onready var ally_attack_cooldown_node := $AllyAttackCooldown
-@onready var death_timer_node := $DeathTimer
+@onready var attack_shape_node := %AttackShape
+@onready var attack_cooldown_node := %AttackCooldown
+@onready var ally_attack_cooldown_node := %AllyAttackCooldown
+@onready var knockback_timer_node := %KnockbackTimer
+@onready var death_timer_node := %DeathTimer
 
 var speed := 0.0
 var ally_speed := 0.0

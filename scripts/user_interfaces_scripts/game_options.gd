@@ -1,14 +1,14 @@
 extends CanvasLayer
 
-@onready var options_node := $Control/OptionsMargin
-@onready var settings_node := $Control/SettingsMargin
-@onready var stats_node := $Control/StatsMargin
+@onready var options_node := %OptionsMargin
+@onready var settings_node := %SettingsMargin
+@onready var stats_node := %StatsMargin
 
-@onready var screen_resolution_option_button_node := $Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/ScreenResolutionOptionButton
+@onready var screen_resolution_option_button_node := %ScreenResolutionOptionButton
 
-@onready var stats_label_nodes := $Control/StatsMargin/MarginContainer/HBoxContainer/MarginContainer/GridContainer.get_children()
-@onready var stats_left_button_node := $Control/StatsMargin/MarginContainer/HBoxContainer/LeftButton
-@onready var stats_right_button_node := $Control/StatsMargin/MarginContainer/HBoxContainer/RightButton
+@onready var stats_label_nodes := %StatsMarginGridContainer.get_children()
+@onready var stats_left_button_node := %StatsLeftButton
+@onready var stats_right_button_node := %StatsRightButton
 
 
 var player_stats_nodes: Array[Node] = []
@@ -19,8 +19,8 @@ func _ready():
 	settings_node.hide()
 	stats_node.hide()
 	
-	$Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/MasterVolumeHSlider.value = AudioServer.get_bus_volume_db(0)
-	$Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/MusicVolumeHSlider.value = AudioServer.get_bus_volume_db(1)
+	%MasterVolumeHSlider.value = AudioServer.get_bus_volume_db(0)
+	%MusicVolumeHSlider.value = AudioServer.get_bus_volume_db(1)
 
 	const resolution_options: Array[Vector2i] = [Vector2i(640, 480),
     											 Vector2i(800, 600),

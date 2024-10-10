@@ -1,21 +1,22 @@
 extends CharacterBody2D
 
 # node variables
-@onready var player_stats_node := get_node("PlayerStatsComponent")
-@onready var attack_shape_node := $AttackShape
-@onready var navigation_agent_node := $NavigationAgent2D
-@onready var obstacle_check_node := $ObstacleCheck
+@onready var player_stats_node := get_node_or_null("PlayerStatsComponent")
+@onready var attack_shape_node := %AttackShape
+@onready var navigation_agent_node := %NavigationAgent2D
+@onready var obstacle_check_node := %ObstacleCheck
 
-@onready var character_specifics_node := get_node("CharacterSpecifics")
-@onready var animation_node := get_node("CharacterSpecifics/Animation")
+@onready var character_specifics_node := get_node_or_null("CharacterSpecifics")
+@onready var animation_node := get_node_or_null("CharacterSpecifics/Animation")
 
 # timer nodes
-@onready var attack_cooldown_node := $AttackCooldown
-@onready var dash_cooldown_node := $DashCooldown
-@onready var ally_attack_cooldown_node := $AllyAttackCooldown
-@onready var ally_direction_cooldown_node := $AllyDirectionCooldown
-@onready var ally_pause_timer_node := $AllyPauseTimer
-@onready var death_timer_node := $DeathTimer
+@onready var attack_cooldown_node := %AttackCooldown
+@onready var dash_cooldown_node := %DashCooldown
+@onready var ally_attack_cooldown_node := %AllyAttackCooldown
+@onready var ally_direction_cooldown_node := %AllyDirectionCooldown
+@onready var ally_pause_timer_node := %AllyPauseTimer
+@onready var knockback_timer_node := %KnockbackTimer
+@onready var death_timer_node := %DeathTimer
 
 # speed variables
 var speed := 7000.0
@@ -115,7 +116,7 @@ func _physics_process(delta):
 	elif ally_direction_ready && !attacking: ally_movement(delta)
 
 	if taking_knockback:
-		velocity = knockback_direction * 200 * (1 - (0.4 - $KnockbackTimer.get_time_left()) / 0.4) * knockback_weight
+		velocity = knockback_direction * 200 * (1 - (0.4 - knockback_timer_node.get_time_left()) / 0.4) * knockback_weight
 
 	if attack_register != "" && animation_node.get_frame() == 1 && animation_node.get_animation() in ["right_attack", "left_attack", "front_attack", "back_attack"]:
 		character_specifics_node.call(attack_register)
@@ -123,9 +124,9 @@ func _physics_process(delta):
 	move_and_slide()
 
 func update_nodes():
-	player_stats_node = get_node("PlayerStatsComponent")
-	character_specifics_node = get_node("CharacterSpecifics")
-	animation_node = get_node("CharacterSpecifics/Animation")
+	player_stats_node = get_node_or_null("PlayerStatsComponent")
+	character_specifics_node = get_node_or_null("CharacterSpecifics")
+	animation_node = get_node_or_null("CharacterSpecifics/Animation")
 
 # movement functions
 func player_movement(delta):

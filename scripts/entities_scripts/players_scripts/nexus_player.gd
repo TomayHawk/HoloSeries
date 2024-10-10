@@ -1,9 +1,10 @@
 extends CharacterBody2D
 
 @onready var nexus := get_parent()
-@onready var nexus_ui_node := nexus.get_node("HoloNexusUI")
-@onready var nexus_player_outline_node := $Outline
-@onready var nexus_player_crosshair_node := $Crosshair
+@onready var nexus_ui_node: Node = get_parent().get_node("HoloNexusUI")
+
+@onready var nexus_player_outline_node := %PlayerOutline
+@onready var nexus_player_crosshair_node := %PlayerCrosshair
 
 @onready var character_index: int = GlobalSettings.current_main_player_node.character_specifics_node.character_index
 

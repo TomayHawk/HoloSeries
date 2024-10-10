@@ -17,6 +17,7 @@ linear_damp = 5.0
 script = ExtResource("1_s1gto")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(4.76837e-07, -2.38419e-07)
 scale = Vector2(0.0759494, 0.0526316)
 texture = ExtResource("1_sfuvp")
@@ -25,6 +26,7 @@ texture = ExtResource("1_sfuvp")
 shape = SubResource("RectangleShape2D_cs6gg")
 
 [node name="Area2D" type="Area2D" parent="."]
+unique_name_in_owner = true
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]

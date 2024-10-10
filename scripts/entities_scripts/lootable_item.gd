@@ -18,8 +18,8 @@ func _physics_process(delta):
     if get_colliding_bodies().size() != 0: loot()
 
 func instantiate_item(texture_path, area_scale, id, attraction_strength, temp_can_leave_attraction):
-    $Sprite2D.texture = load(texture_path)
-    $Area2D.CollisionShape2D.scale = area_scale
+    %Sprite2D.texture = load(texture_path)
+    %Area2D.CollisionShape2D.scale = area_scale
     
     item_id = id
     attraction = attraction_strength

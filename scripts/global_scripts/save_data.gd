@@ -35,7 +35,7 @@ var saves := [
 func save(save_file):
 	saves[save_file] = {
 		"save_index": saves[save_file]["save_index"],
-		"current_scene_path": get_tree().current_scene.get_path(), ## ### need to fix
+		"current_scene_path": GlobalSettings.tree.current_scene.get_path(), ## ### need to fix
 		"unlocked_characters": GlobalSettings.unlocked_characters.duplicate(),
 		"party": [],
 		"standby": GlobalSettings.standby_character_indices.duplicate(),
@@ -65,7 +65,7 @@ func load(save_file):
 	last_save = saves[save_file]["save_index"]
 
 	# instantiate WorldScene1
-	get_tree().call_deferred("change_scene_to_file", saves[save_file]["current_scene_path"])
+	GlobalSettings.tree.call_deferred("change_scene_to_file", saves[save_file]["current_scene_path"])
 	
 	# update Global variables
 	GlobalSettings.unlocked_characters = saves[save_file]["unlocked_characters"].duplicate()

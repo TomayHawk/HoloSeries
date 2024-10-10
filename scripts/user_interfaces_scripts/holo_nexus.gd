@@ -2,12 +2,12 @@ extends Node2D
 
 var current_nexus_player := 0
 
-@onready var nexus_nodes := $NexusNodes.get_children()
-@onready var nexus_player_node := $NexusPlayer
-@onready var nexus_player_outline_node := $NexusPlayer/Outline
-@onready var nexus_player_crosshair_node := $NexusPlayer/Crosshair
-@onready var nexus_ui_node := $HoloNexusUI
-@onready var nexus_unlockables_node := $UnlockableNodes
+@onready var nexus_nodes := %NexusNodes.get_children()
+@onready var nexus_player_node := %NexusPlayer
+@onready var nexus_player_outline_node := %PlayerOutline
+@onready var nexus_player_crosshair_node := %PlayerCrosshair
+@onready var nexus_ui_node := %HoloNexusUI
+@onready var nexus_unlockables_node := %UnlockableNodes
 
 # character information
 @onready var last_nodes = GlobalSettings.nexus_last_nodes.duplicate()
@@ -58,8 +58,9 @@ func _ready():
 	GlobalSettings.camera_node.update_camera(nexus_player_node, true, Vector2(1.0, 1.0), 3)
 
 	# toggle nexus inputs
+	GlobalSettings.nexus_node = self
 	GlobalSettings.nexus_inputs_available = true
-	GlobalSettings.nexus_character_selector_node = get_node("HoloNexusUI/NexusCharacterSelector")
+	GlobalSettings.nexus_character_selector_node = %HoloNexusUI/CharacterSelector
 
 	# update board
 	if GlobalSettings.nexus_not_randomized:
@@ -433,4 +434,5 @@ func exit_nexus():
 				GlobalSettings.nexus_stats[character_index][stats_node_atlas_position.find(nexus_nodes[unlocked_index].texture.region.position)] += 1
 
 	GlobalSettings.camera_node.update_camera(GlobalSettings.current_main_player_node, true, scene_camera_zoom, -1)
+	GlobalSettings.nexus_node = null
 	queue_free()

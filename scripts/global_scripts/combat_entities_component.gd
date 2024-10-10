@@ -9,8 +9,8 @@ extends Node
 										"res://resources/entity_highlights/player_highlight.tscn",
 										"res://resources/entity_highlights/player_marker.tscn"]
 
-@onready var damage_display_node := $DamageDisplay
-@onready var abilities_node := $Abilities
+@onready var abilities_node := %Abilities
+@onready var damage_display_node := %DamageDisplay
 
 var temp_types: Array[String] = []
 var output_amount := 0.0
@@ -23,7 +23,7 @@ var target_entity_node: Node = null
 
 var in_combat := false
 var leaving_combat := false
-@onready var leaving_combat_timer_node := $LeavingCombatTimer
+@onready var leaving_combat_timer_node := %LeavingCombatTimer
 
 var enemy_nodes_in_combat: Array[Node] = []
 var locked_enemy_node: Node = null
@@ -218,7 +218,7 @@ func request_entities(origin_node, target_command, request_count, request_entity
 	entities_request_target_command_string = target_command
 	entities_request_count = request_count
 
-	entities_available = get_tree().get_nodes_in_group(request_entity_type)
+	entities_available = GlobalSettings.tree.get_nodes_in_group(request_entity_type)
 
 	if request_entity_type == "party_players":
 		entities_available = GlobalSettings.party_node.get_children()
@@ -230,9 +230,9 @@ func request_entities(origin_node, target_command, request_count, request_entity
 	elif request_entity_type == "all_entities_in_combat":
 		entities_available = GlobalSettings.party_node.get_children() + enemy_nodes_in_combat.duplicate()
 	elif request_entity_type == "all_enemies_on_screen":
-		entities_available = get_tree().current_scene.get_node("Enemies").get_children().duplicate()
+		entities_available = GlobalSettings.tree.current_scene.get_node("Enemies").get_children().duplicate()
 	elif request_entity_type == "all_entities_on_screen":
-		entities_available = GlobalSettings.party_node.get_children() + get_tree().current_scene.get_node("Enemies").get_children().duplicate()
+		entities_available = GlobalSettings.party_node.get_children() + GlobalSettings.tree.current_scene.get_node("Enemies").get_children().duplicate()
 
 	for entity in entities_available:
 		if entity.has_method("ally_movement"): # #### need grouping
@@ -260,9 +260,9 @@ func empty_entities_request():
 	for entity in entities_available:
 		if is_instance_valid(entity):
 			if entity.has_method("ally_movement"): # #### need grouping
-				entity.remove_child(entity.get_node("PlayerHighlight"))
+				entity.remove_child(entity.get_node_or_null("PlayerHighlight"))
 			elif entity.has_method("choose_player"):
-				entity.remove_child(entity.get_node("EnemyHighlight"))
+				entity.remove_child(entity.get_node_or_null("EnemyHighlight"))
 
 	entities_request_count = 0
 	entities_available.clear()

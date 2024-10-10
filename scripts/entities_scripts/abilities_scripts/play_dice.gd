@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var caster_node := GlobalSettings.current_main_player_node
-@onready var interval_timer := $Interval
+@onready var interval_timer := %Interval
 
 const mana_cost := 1 # 50 (temporarily changed)
 const base_damage := 5

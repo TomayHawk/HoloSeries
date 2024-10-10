@@ -2,16 +2,16 @@ extends Node2D
 
 # node variables
 @onready var player_node := get_parent()
-@onready var character_specifics_node := player_node.get_node("CharacterSpecifics")
+@onready var character_specifics_node := get_parent().get_node("CharacterSpecifics")
 
 @onready var combat_ui_node = GlobalSettings.combat_ui_node
 
-@onready var health_bar_node := $HealthBar
-@onready var shield_bar_node := $ShieldBar
-@onready var mana_bar_node := $ManaBar
-@onready var stamina_bar_node := $StaminaBar
+@onready var health_bar_node := %HealthBar
+@onready var shield_bar_node := %ShieldBar
+@onready var mana_bar_node := %ManaBar
+@onready var stamina_bar_node := %StaminaBar
 
-@onready var knockback_timer := player_node.get_node("KnockbackTimer")
+@onready var knockback_timer_node := get_parent().get_node("KnockbackTimer")
 
 @onready var ultimate_bar_node: Node = GlobalSettings.combat_ui_node.players_progress_bar_nodes[0]
 
@@ -73,7 +73,7 @@ func _physics_process(_delta):
 func update_nodes():
 	player_node = get_parent()
 	character_specifics_node = player_node.get_node("CharacterSpecifics")
-	knockback_timer = player_node.get_node("KnockbackTimer")
+	knockback_timer_node = player_node.get_node("KnockbackTimer")
 	position = Vector2.ZERO
 
 func update_stats():
@@ -146,7 +146,7 @@ func update_health(value, types, knockback_direction, knockback_weight):
 			player_node.taking_knockback = true
 			player_node.knockback_direction = knockback_direction
 			player_node.knockback_weight = knockback_weight
-			knockback_timer.start(0.4)
+			knockback_timer_node.start(0.4)
 
 		# check death
 		if health == 0:

@@ -26,6 +26,7 @@ collision_layer = 0
 shape = SubResource("CircleShape2D_l12kd")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
 modulate = Color(1, 0.337255, 0.211765, 1)
 z_index = 1
 offset_left = -11.0269
@@ -43,10 +44,12 @@ debug_enabled = true
 one_shot = true
 
 [node name="KnockbackTimer" type="Timer" parent="."]
+unique_name_in_owner = true
 wait_time = 0.4
 one_shot = true
 
 [node name="InvulnerabilityTimer" type="Timer" parent="."]
+unique_name_in_owner = true
 wait_time = 0.05
 one_shot = true
 

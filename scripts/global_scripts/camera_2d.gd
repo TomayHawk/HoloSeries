@@ -1,6 +1,6 @@
 extends Camera2D
 
-@onready var timer_node := $Timer
+@onready var timer_node := %ShakeTimer
 
 const camera_limits: Array[Array] = [[-10000000, -10000000, 10000000, 10000000],
 									 [-10000000, -10000000, 10000000, 10000000],
@@ -54,13 +54,13 @@ func update_camera(next_camera_parent, temp_can_zoom, camera_zoom, scene):
 		limit_top = camera_limits[scene][1]
 		limit_right = camera_limits[scene][2]
 		limit_bottom = camera_limits[scene][3]
-	
-	await get_tree().process_frame
+
+	await GlobalSettings.tree.process_frame
 	position_smoothing_enabled = true
 
 func screen_shake(duration, intervals, intensity, camera_speed, pause_game):
 	if pause_game:
-		get_tree().paused = true
+		GlobalSettings.tree.paused = true
 	shaking = true
 	screen_shake_intervals = intervals
 	screen_shake_intensity = intensity
@@ -77,8 +77,8 @@ func zoom_input(zoom_limit, value_sign):
 
 func _on_timer_timeout():
 	if !zooming: set_physics_process(false)
-	if get_tree().paused:
-		get_tree().paused = false
+	if GlobalSettings.tree.paused:
+		GlobalSettings.tree.paused = false
 	position_smoothing_speed = 5
 	position = Vector2.ZERO
 	shaking = false

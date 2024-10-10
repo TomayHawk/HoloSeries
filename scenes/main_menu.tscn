@@ -12,8 +12,10 @@
 script = ExtResource("1_tgs5c")
 
 [node name="MainMenuOptions" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
 
 [node name="OptionsMenuMargin" type="MarginContainer" parent="MainMenuOptions"]
+unique_name_in_owner = true
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -130,6 +132,7 @@ theme_override_styles/focus = ExtResource("5_yjj58")
 text = "Settings"
 
 [node name="SavesMenuMargin" type="MarginContainer" parent="MainMenuOptions"]
+unique_name_in_owner = true
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -249,6 +252,7 @@ theme_override_styles/focus = ExtResource("5_yjj58")
 text = "New Game"
 
 [node name="SaveData" parent="." instance=ExtResource("2_t5weu")]
+unique_name_in_owner = true
 
 [connection signal="pressed" from="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer/MultiplayerButton" to="." method="_on_multiplayer_button_pressed"]

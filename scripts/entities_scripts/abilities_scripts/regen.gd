@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var caster_node := GlobalSettings.current_main_player_node
 
-@onready var regen_timer_node := $Timer
+@onready var regen_timer_node := %Timer
 
 var target_player_stats_node: Node = null
 
