@@ -30,7 +30,6 @@ func _process(_delta):
 			tween.kill()
 			label.set_visible_ratio(1.0)
 			state_end = true
-			end_symbol.text = "v"
 			end_symbol.show()
 
 func start_text():
@@ -44,11 +43,11 @@ func start_text():
 		if player_node.player_stats_node.alive:
 			if player_node.last_move_direction.x > 0: player_node.animation_node.play("right_idle")
 			elif player_node.last_move_direction.x < 0: player_node.animation_node.play("left_idle")
-			elif player_node.last_move_direction.y > 0: player_node.animation_node.play("front_idle")
-			else: player_node.animation_node.play("back_idle")
+			elif player_node.last_move_direction.y > 0: player_node.animation_node.play("up_idle")
+			else: player_node.animation_node.play("down_idle")
 	
 	textbox_container.show()
-		
+
 func hide_text():
 	textbox_container.hide()
 	end_symbol.hide()
@@ -71,6 +70,7 @@ func display_text():
 	tween = create_tween()
 	tween.tween_property(label, "visible_ratio", 1.0, len(label.text) * 0.04)
 	state_ready = false
+	end_symbol.hide()
 	# wait until text ends
 	await tween.finished
 	state_end = true

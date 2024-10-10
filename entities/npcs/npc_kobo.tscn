@@ -44,7 +44,6 @@ size = Vector2(22, 8.25)
 
 [node name="NpcKobo" type="StaticBody2D"]
 y_sort_enabled = true
-position = Vector2(-50, -50)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_hn0bh")

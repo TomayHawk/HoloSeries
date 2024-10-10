@@ -234,6 +234,6 @@ func revive():
 	player_node.add_to_group("players_alive")
 	
 	player_node.set_physics_process(true)
-	player_node.animation_node.play("front_idle")
+	player_node.animation_node.play("up_idle")
 	
 	alive = true

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://7rma740sfkgc"]
 
-[ext_resource type="Script" path="res://scripts/entities_scripts/lootable_item.gd" id="1_s1gto"]
+[ext_resource type="Script" path="res://scripts/entities_scripts/items_scripts/lootable_item.gd" id="1_s1gto"]
 [ext_resource type="Texture2D" uid="uid://dcrqirbjsm8rx" path="res://art/temp_shirakami.png" id="1_sfuvp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cs6gg"]
