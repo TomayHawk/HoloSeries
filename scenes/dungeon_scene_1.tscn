@@ -327,7 +327,7 @@ shape = SubResource("RectangleShape2D_qojuv")
 y_sort_enabled = true
 
 [node name="Nousagi" parent="Enemies" instance=ExtResource("12_hviyt")]
-position = Vector2(-368, -6)
+position = Vector2(-458, -15)
 
 [node name="Entities" type="Node2D" parent="."]
 y_sort_enabled = true

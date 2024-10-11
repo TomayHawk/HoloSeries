@@ -506,6 +506,4 @@ script = ExtResource("1_3bvwi")
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_qsfsi")
 animation = &"down_idle"
-frame = 1
-frame_progress = 0.564591
 offset = Vector2(0, -12.5)

@@ -18,37 +18,6 @@ extends CharacterBody2D
 @onready var knockback_timer_node := %KnockbackTimer
 @onready var death_timer_node := %DeathTimer
 
-enum direction_states {UP, DOWN, LEFT, RIGHT}
-enum movement_states {IDLE, WALK, DASH, SPRINT}
-enum combat_states {NOT_IN_ATTACK_POSITION, IN_ATTACK_POSITION, CAN_ATTACK, ATTACKING}
-enum attack_states {NO_ATTACK, NORMAL_ATTACK, ULTIMATE_ATTACK}
-
-var animations: Array[String] = ["up_idle", "down_idle", "left_idle", "right_idle",
-								 "up_walk", "down_walk", "left_walk", "right_walk",
-								 "up_attack", "down_attack", "left_attack", "right_attack",
-								 "death"]
-
-var current_direction := direction_states.UP:
-	set(next_direction):
-		if current_direction == next_direction:
-			return
-		if current_combat == combat_states.ATTACKING:
-			animation_node.play(animations[next_direction + 8])
-		elif current_movement != movement_states.IDLE:
-			animation_node.play(animations[next_direction + 4])
-		else:
-			animation_node.play(animations[next_direction])
-
-var current_movement := movement_states.IDLE:
-	set(next_movement):
-		pass
-var current_combat := combat_states.NOT_IN_ATTACK_POSITION:
-	set(next_combat):
-		pass
-var current_attack := attack_states.NO_ATTACK:
-	set(next_attack):
-		pass
-
 # speed variables
 var speed := 7000.0
 var ally_speed := 6000.0
@@ -282,32 +251,13 @@ func attack():
 	character_specifics_node.regular_attack()
 
 func choose_animation():
-	if current_move_direction.x > 0 && current_move_direction.y > 0:
-		current_direction = direction_states.RIGHT
-	elif current_move_direction.x > 0 && current_move_direction.y == 0:
-		current_direction = direction_states.RIGHT
-	elif current_move_direction.x > 0 && current_move_direction.y < 0:
-		current_direction = direction_states.RIGHT
-	elif current_move_direction.x < 0 && current_move_direction.y > 0:
-		current_direction = direction_states.LEFT
-	elif current_move_direction.x < 0 && current_move_direction.y == 0:
-		current_direction = direction_states.LEFT
-	elif current_move_direction.x < 0 && current_move_direction.y < 0:
-		current_direction = direction_states.LEFT
-	elif current_move_direction.x == 0 && current_move_direction.y > 0:
-		current_direction = direction_states.DOWN
-	elif current_move_direction.x == 0 && current_move_direction.y < 0:
-		current_direction = direction_states.UP
-
-'''
-func choose_animation():
 	if attacking:
 		if abs(attack_direction.x) >= abs(attack_direction.y):
 			if attack_direction.x > 0:
 				animation_node.play("right_attack")
 			else:
 				animation_node.play("left_attack")
-		elif attack_direction.y > 0:
+		elif attack_direction.y < 0:
 			animation_node.play("up_attack")
 		else:
 			animation_node.play("down_attack")
@@ -315,15 +265,14 @@ func choose_animation():
 		if moving:
 			if current_move_direction.x > 0: animation_node.play("right_walk")
 			elif current_move_direction.x < 0: animation_node.play("left_walk")
-			elif current_move_direction.y > 0: animation_node.play("up_walk")
+			elif current_move_direction.y < 0: animation_node.play("up_walk")
 			else: animation_node.play("down_walk")
 		else:
 			if abs(last_move_direction.x) >= abs(last_move_direction.y):
 				if last_move_direction.x > 0: animation_node.play("right_idle")
 				else: animation_node.play("left_idle")
-			elif last_move_direction.y > 0: animation_node.play("up_idle")
+			elif last_move_direction.y < 0: animation_node.play("up_idle")
 			else: animation_node.play("down_idle")
-'''
 
 func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:

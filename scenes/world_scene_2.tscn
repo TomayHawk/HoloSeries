@@ -87,27 +87,28 @@ position = Vector2(31, 28)
 shape = SubResource("RectangleShape2D_u5vm7")
 
 [node name="NpcKobo" parent="." instance=ExtResource("5_poic2")]
+position = Vector2(-52, -83)
 
 [node name="Enemies" type="Node2D" parent="."]
 y_sort_enabled = true
 
 [node name="Nousagi" parent="Enemies" instance=ExtResource("9_do2gu")]
-position = Vector2(249, -35)
+position = Vector2(232, 158)
 
 [node name="Nousagi2" parent="Enemies" instance=ExtResource("9_do2gu")]
-position = Vector2(296, 73)
+position = Vector2(279, 266)
 
 [node name="Nousagi3" parent="Enemies" instance=ExtResource("9_do2gu")]
-position = Vector2(373, -25)
+position = Vector2(356, 168)
 
 [node name="Nousagi4" parent="Enemies" instance=ExtResource("9_do2gu")]
-position = Vector2(339, -128)
+position = Vector2(322, 65)
 
 [node name="Nousagi5" parent="Enemies" instance=ExtResource("9_do2gu")]
-position = Vector2(403, 50)
+position = Vector2(386, 243)
 
 [node name="Nousagi6" parent="Enemies" instance=ExtResource("9_do2gu")]
-position = Vector2(453, -79)
+position = Vector2(436, 114)
 
 [connection signal="body_entered" from="WorldScene1Transit" to="." method="_on_world_scene_1_transit_body_entered"]
 [connection signal="body_entered" from="DungeonScene1Transit" to="." method="_on_dungeon_scene_1_transit_body_entered"]

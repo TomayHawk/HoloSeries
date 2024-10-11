@@ -686,7 +686,7 @@ shape = SubResource("RectangleShape2D_h76rv")
 y_sort_enabled = true
 
 [node name="Nousagi" parent="Enemies" instance=ExtResource("9_tem7v")]
-position = Vector2(200, -100)
+position = Vector2(166, -196)
 
 [node name="UltimateOrb" parent="." instance=ExtResource("6_ih84p")]
 position = Vector2(-86, -147)

@@ -450,5 +450,5 @@ script = ExtResource("1_5w7ib")
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_qsfsi")
-animation = &"down_idle"
+animation = &"down_attack"
 offset = Vector2(0, -19.5)
