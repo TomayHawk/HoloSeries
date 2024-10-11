@@ -142,5 +142,13 @@ func summon_nousagi():
 	summon_cooldown_node.start(randf_range(15, 20))
 	summon_ready = false
 
+func trigger_true_death():
+	var item
+	for i in 3:
+		item = GlobalSettings.base_item_load.instantiate()
+		add_child(item)
+		item.instantiate_item("res://art/temp_shirakami.png", 2.0, 0, 1000, true)
+		item.position = position + Vector2(5 * randf_range(-1, 1), 5 * randf_range(-1, 1)) * 5
+
 func _on_summon_timer_timeout():
 	summon_ready = true

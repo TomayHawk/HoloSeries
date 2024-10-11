@@ -77,6 +77,7 @@ var nexus_converted_type := [[], [], [], [], []]
 var nexus_converted_quality := [[], [], [], [], []]
 
 # inventory
+var base_item_load := load("res://entities/items/base_item.tscn")
 var inventory := []
 var nexus_inventory := []
 
@@ -84,6 +85,8 @@ var nexus_inventory := []
 var current_save := -1
 
 func _ready():
+	for i in 100:
+		inventory.push_back(0)
 	set_physics_process(false)
 
 func _input(_event):

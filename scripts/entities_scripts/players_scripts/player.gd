@@ -19,10 +19,10 @@ extends CharacterBody2D
 @onready var death_timer_node := %DeathTimer
 
 # speed variables
-var speed := 7000.0
-var ally_speed := 6000.0
+@export var speed := 7000.0
+@export var ally_speed := 6000.0
+@export var dash_speed := 30000.0
 var temp_ally_speed := 6000.0
-var dash_speed := 30000.0
 const sprint_multiplier := 1.25
 
 # player node information variables

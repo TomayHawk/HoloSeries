@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-var item_id := 0
+var item_id := -1
 var attraction := 1000
 var can_leave_attraction := false
 
@@ -17,13 +17,13 @@ func _physics_process(delta):
     apply_central_impulse(distance_least() * delta)
     if get_colliding_bodies().size() != 0: loot()
 
-func instantiate_item(texture_path, area_scale, id, attraction_strength, temp_can_leave_attraction):
+func instantiate_item(texture_path, area_scale, id, attraction_strength, item_can_leave_attraction):
     %Sprite2D.texture = load(texture_path)
     %Area2D.CollisionShape2D.scale = area_scale
     
     item_id = id
     attraction = attraction_strength
-    can_leave_attraction = temp_can_leave_attraction
+    can_leave_attraction = item_can_leave_attraction
 
 func distance_least():
     temp_distance = INF
@@ -35,6 +35,9 @@ func distance_least():
     return (temp_player_node.position - position).normalized() * attraction
 
 func loot():
+    if item_id != -1:
+        GlobalSettings.inventory[-1] += 1
+
     queue_free()
 
     # orb script

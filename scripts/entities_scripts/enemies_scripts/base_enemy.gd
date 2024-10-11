@@ -159,4 +159,5 @@ func _on_death_timer_timeout():
 	if CombatEntitiesComponent.locked_enemy_node == enemy_node: CombatEntitiesComponent.locked_enemy_node = null
 	if CombatEntitiesComponent.enemy_nodes_in_combat.is_empty():
 		CombatEntitiesComponent.attempt_leave_combat()
+	enemy_node.trigger_true_death()
 	enemy_node.queue_free()
