@@ -8,6 +8,7 @@ extends Node2D
 @onready var text_box_node := %TextBoxUI
 @onready var party_node := %Party
 @onready var standby_node := %Standby
+@onready var pick_up_items := %PickUpItems
 @onready var camera_node := %Camera2D
 @onready var audio_stream_player_node := %AudioStreamPlayer
 

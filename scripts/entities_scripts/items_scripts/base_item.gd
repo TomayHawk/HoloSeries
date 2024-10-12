@@ -1,8 +1,8 @@
 extends RigidBody2D
 
-var item_id := -1
-var attraction := 1000
-var can_leave_attraction := false
+@export var item_id := -1
+@export var attraction := 1000
+@export var can_leave_attraction := false
 
 var player_nodes: Array[Node] = []
 var player_in_range := false
@@ -19,7 +19,7 @@ func _physics_process(delta):
 
 func instantiate_item(texture_path, area_scale, id, attraction_strength, item_can_leave_attraction):
     %Sprite2D.texture = load(texture_path)
-    %Area2D.CollisionShape2D.scale = area_scale
+    %PickUpAreaShape.scale = area_scale
     
     item_id = id
     attraction = attraction_strength
@@ -38,10 +38,9 @@ func loot():
     if item_id != -1:
         GlobalSettings.inventory[-1] += 1
 
-    queue_free()
-
     # orb script
     get_colliding_bodies()[0].player_stats_node.update_ultimate_gauge(10)
+    queue_free()
 
 func _on_area_2d_body_entered(body):
     if !player_nodes.has(body):

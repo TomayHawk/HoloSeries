@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends RigidBody2D
 
 @export var base_damage := 10
 @export var mana_cost := 10
@@ -41,7 +41,8 @@ func projectile_collision(move_direction):
 	for enemy_node in %AreaOfEffect.area_of_effect("enemies"):
 		var temp_damage = CombatEntitiesComponent.magic_damage_calculator(base_damage * damage_multiplier, caster_node.player_stats_node, enemy_node.base_enemy_node)
 		enemy_node.base_enemy_node.update_health(-temp_damage[0], temp_damage[1], move_direction, 0.5)
+	
 	queue_free()
 
 func despawn_timeout():
-	projectile_collision(velocity.normalized())
+	projectile_collision(%BasicProjectile.velocity.normalized())

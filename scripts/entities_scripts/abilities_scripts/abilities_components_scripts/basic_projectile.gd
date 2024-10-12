@@ -3,7 +3,6 @@ extends Node
 @onready var ability_node := get_parent()
 var velocity := Vector2.ZERO
 
-##### set in Godot
 func _ready():
 	set_physics_process(false)
 
