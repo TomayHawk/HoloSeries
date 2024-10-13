@@ -38,6 +38,8 @@ func initiate_fireball(chosen_node):
 		show()
 	
 func projectile_collision(move_direction):
+	GlobalSettings.camera_node.screen_shake(0.1, 1, 30, 5, false)
+
 	for enemy_node in %AreaOfEffect.area_of_effect("enemies"):
 		var temp_damage = CombatEntitiesComponent.magic_damage_calculator(base_damage * damage_multiplier, caster_node.player_stats_node, enemy_node.base_enemy_node)
 		enemy_node.base_enemy_node.update_health(-temp_damage[0], temp_damage[1], move_direction, 0.5)
