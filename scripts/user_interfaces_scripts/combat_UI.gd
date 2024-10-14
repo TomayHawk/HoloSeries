@@ -13,6 +13,8 @@ extends CanvasLayer
 												load("res://entities/abilities/heal.tscn"),
 												load("res://entities/abilities/play_dice.tscn")]
 
+var items_quantities_nodes: Array[Node] = []
+
 var tween
 
 var character_name_label_nodes: Array[Node] = []
@@ -40,6 +42,8 @@ func _ready():
 
 	for button in character_selector_player_nodes:
 		button.hide()
+	
+	items_quantities_nodes = %ItemsGridContainer.get_children()
 
 # CombatUI health text update
 func update_health_label(party_index, health):
@@ -105,24 +109,29 @@ func request_entities(extra_arg_0, extra_arg_1, extra_arg_2):
 
 # use items
 func use_potion(chosen_player_node):
+	GlobalSettings.inventory[0] -= 1
 	chosen_player_node.player_stats_node.update_health(200, [], Vector2.ZERO, 0.0)
 
 func use_max_potion():
+	GlobalSettings.inventory[1] -= 1
 	for player in GlobalSettings.party_node.get_children():
 		if player.player_stats_node.alive:
 			player.player_stats_node.update_health(99999, ["break_limit"], Vector2.ZERO, 0.0)
 
 func use_phoenix_burger(chosen_player_node):
+	GlobalSettings.inventory[2] -= 1
 	chosen_player_node.player_stats_node.revive()
 	chosen_player_node.player_stats_node.update_health(chosen_player_node.player_stats_node.max_health * 0.25, ["break_limit"], Vector2.ZERO, 0.0)
 
 func use_reset_button():
+	GlobalSettings.inventory[3] -= 1
 	for player in GlobalSettings.party_node.get_children():
 		if !player.player_stats_node.alive:
 			player.player_stats_node.revive()
 			player.player_stats_node.update_health(player.player_stats_node.max_health, ["break_limit", "hidden"], Vector2.ZERO, 0.0)
 
 func use_temp_kill_item(chosen_player_node):
+	GlobalSettings.inventory[4] -= 1
 	chosen_player_node.player_stats_node.update_health(-99999, ["break_limit", "hidden"], Vector2.ZERO, 0.0)
 
 func _on_control_mouse_entered():
