@@ -79,7 +79,8 @@ var nexus_converted_quality := [[], [], [], [], []]
 
 # inventory
 var base_item_load := load("res://entities/items/base_item.tscn")
-var inventory := []
+var inventory := [999, 99, 99, 99, 999]
+var combat_inventory := [123, 45, 6, 78, 999]
 var nexus_inventory := []
 
 # save
@@ -98,10 +99,8 @@ func _input(_event):
 			can_attempt_attack = false
 	elif Input.is_action_just_pressed("esc"): esc_input()
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
-	elif Input.is_action_just_pressed("scroll_up"):
-		camera_node.zoom_input(1.5, 1)
-	elif Input.is_action_just_pressed("scroll_down"):
-		camera_node.zoom_input(0.5, -1)
+	elif Input.is_action_just_pressed("scroll_up"): camera_node.zoom_input(1.5, 1)
+	elif Input.is_action_just_pressed("scroll_down"): camera_node.zoom_input(0.5, -1)
 	elif combat_inputs_available:
 		if Input.is_action_just_pressed("display_combat_UI"): combat_ui_display()
 		elif Input.is_action_just_pressed("tab"): combat_ui_character_selector_node.show()
@@ -171,6 +170,7 @@ func change_scene(next_scene, scene_index, spawn_index, bgm):
 	for player_node in party_node.get_children(): if player_node != current_main_player_node:
 		player_node.position = spawn_positions[spawn_index] + (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
 	
+	CombatEntitiesComponent.empty_entities_request()
 	CombatEntitiesComponent.leave_combat()
 
 	start_bgm(bgm)

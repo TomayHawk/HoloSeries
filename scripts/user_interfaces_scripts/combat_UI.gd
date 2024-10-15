@@ -43,7 +43,10 @@ func _ready():
 	for button in character_selector_player_nodes:
 		button.hide()
 	
-	items_quantities_nodes = %ItemsGridContainer.get_children()
+	for button in %ItemsGridContainer.get_children():
+		items_quantities_nodes.push_back(button.get_node("Quantity"))
+	
+	update_items_quantities()
 
 # CombatUI health text update
 func update_health_label(party_index, health):
@@ -56,6 +59,13 @@ func update_mana_label(party_index, mana):
 func combat_ui_control_tween(target_visibility_value):
 	tween = create_tween()
 	await tween.tween_property(control_node, "modulate:a", target_visibility_value, 0.2).finished
+
+func update_items_quantities():
+	for item_index in GlobalSettings.combat_inventory.size():
+		items_quantities_nodes[item_index].text = str(GlobalSettings.combat_inventory[item_index])
+
+		if GlobalSettings.combat_inventory[item_index] == 0:
+			items_quantities_nodes[item_index].get_parent().hide()
 
 func update_character_selector():
 	for button in character_selector_player_nodes:
@@ -103,35 +113,42 @@ func instantiate_ability(ability_index):
 	# create and add ability instance to abilities node
 	CombatEntitiesComponent.abilities_node.add_child(abilities_load[ability_index].instantiate())
 
+func use_item(extra_arg_0):
+	if GlobalSettings.combat_inventory[extra_arg_0] == 0:
+		items_quantities_nodes[extra_arg_0].get_parent().hide()
+		return false
+
+	GlobalSettings.combat_inventory[extra_arg_0] -= 1
+	items_quantities_nodes[extra_arg_0].text = str(GlobalSettings.combat_inventory[extra_arg_0])
+	return true
+
 # request entities for items (target_command, request_count, request_entity_type)
 func request_entities(extra_arg_0, extra_arg_1, extra_arg_2):
 	CombatEntitiesComponent.request_entities(self, extra_arg_0, extra_arg_1, extra_arg_2)
 
 # use items
 func use_potion(chosen_player_node):
-	GlobalSettings.inventory[0] -= 1
+	if !use_item(0): return
 	chosen_player_node.player_stats_node.update_health(200, [], Vector2.ZERO, 0.0)
 
 func use_max_potion():
-	GlobalSettings.inventory[1] -= 1
 	for player in GlobalSettings.party_node.get_children():
 		if player.player_stats_node.alive:
 			player.player_stats_node.update_health(99999, ["break_limit"], Vector2.ZERO, 0.0)
 
 func use_phoenix_burger(chosen_player_node):
-	GlobalSettings.inventory[2] -= 1
+	if !use_item(2): return
 	chosen_player_node.player_stats_node.revive()
 	chosen_player_node.player_stats_node.update_health(chosen_player_node.player_stats_node.max_health * 0.25, ["break_limit"], Vector2.ZERO, 0.0)
 
 func use_reset_button():
-	GlobalSettings.inventory[3] -= 1
 	for player in GlobalSettings.party_node.get_children():
 		if !player.player_stats_node.alive:
 			player.player_stats_node.revive()
 			player.player_stats_node.update_health(player.player_stats_node.max_health, ["break_limit", "hidden"], Vector2.ZERO, 0.0)
 
 func use_temp_kill_item(chosen_player_node):
-	GlobalSettings.inventory[4] -= 1
+	if !use_item(4): return
 	chosen_player_node.player_stats_node.update_health(-99999, ["break_limit", "hidden"], Vector2.ZERO, 0.0)
 
 func _on_control_mouse_entered():

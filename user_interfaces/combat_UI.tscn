@@ -81,6 +81,7 @@ theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Item"
 
 [node name="SkillVBoxContainer" type="VBoxContainer" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin"]
+visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
@@ -187,6 +188,15 @@ theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Heal"
 
+[node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Heal"]
+offset_left = 148.0
+offset_right = 186.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "8"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Protect" type="Button" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
@@ -198,6 +208,15 @@ theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Protect"
+
+[node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Protect"]
+offset_left = 148.0
+offset_right = 186.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Haste" type="Button" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
@@ -211,6 +230,15 @@ theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Haste"
 
+[node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Haste"]
+offset_left = 148.0
+offset_right = 186.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Regen" type="Button" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
@@ -223,8 +251,16 @@ theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Regen"
 
+[node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Regen"]
+offset_left = 148.0
+offset_right = 186.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="BlackVBoxContainer" type="VBoxContainer" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin"]
-visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
@@ -241,6 +277,15 @@ theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Fireball"
 
+[node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer/Fireball"]
+offset_left = 148.0
+offset_right = 186.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Poison" type="Button" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
@@ -253,6 +298,15 @@ theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Poison"
 
+[node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer/Poison"]
+offset_left = 148.0
+offset_right = 186.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Slowness" type="Button" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
@@ -264,6 +318,15 @@ theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Slowness"
+
+[node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer/Slowness"]
+offset_left = 148.0
+offset_right = 186.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="SummonVBoxContainer" type="VBoxContainer" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin"]
 visible = false
@@ -284,6 +347,8 @@ theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Item"
 
 [node name="ItemsGridContainer" type="GridContainer" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
@@ -1408,6 +1473,7 @@ one_shot = true
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/MaxPotion" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/MaxPotion" to="." method="button_pressed"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/MaxPotion" to="." method="use_max_potion"]
+[connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/MaxPotion" to="." method="use_item" binds= [1]]
 [connection signal="mouse_entered" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/PhoenixBurger" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/PhoenixBurger" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/PhoenixBurger" to="." method="button_pressed"]
@@ -1416,6 +1482,7 @@ one_shot = true
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/ResetButton" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/ResetButton" to="." method="button_pressed"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/ResetButton" to="." method="use_reset_button"]
+[connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/ResetButton" to="." method="use_item" binds= [3]]
 [connection signal="mouse_entered" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/TempKillItem" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/TempKillItem" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/TempKillItem" to="." method="button_pressed"]
