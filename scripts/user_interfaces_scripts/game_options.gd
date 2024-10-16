@@ -62,7 +62,7 @@ func update_player_stats_nodes():
 	stats_label_nodes[7].text = str(round(player_stats_nodes[current_stats].mana)) + " / " + str(round(player_stats_nodes[current_stats].max_mana))
 	stats_label_nodes[9].text = str(round(player_stats_nodes[current_stats].stamina)) + " / " + str(round(player_stats_nodes[current_stats].max_stamina))
 	stats_label_nodes[11].text = str(round(player_stats_nodes[current_stats].defence))
-	stats_label_nodes[13].text = str(round(player_stats_nodes[current_stats].shield))
+	stats_label_nodes[13].text = str(round(player_stats_nodes[current_stats].ward))
 	stats_label_nodes[15].text = str(round(player_stats_nodes[current_stats].strength))
 	stats_label_nodes[17].text = str(round(player_stats_nodes[current_stats].intelligence))
 	stats_label_nodes[19].text = str(round(player_stats_nodes[current_stats].speed))

@@ -5,7 +5,8 @@ extends CanvasLayer
 @onready var character_selector_node := %CharacterSelector
 @onready var combat_options_2_modes := %Options2Margin.get_children()
 @onready var players_info_nodes := %CharacterInfosVBoxContainer.get_children()
-@onready var players_progress_bar_nodes := %ProgressBarControl.get_children()
+@onready var ultimate_progress_bar_nodes := %UltimateProgressBarControl.get_children()
+@onready var shield_progress_bar_nodes := %ShieldProgressBarControl.get_children()
 @onready var character_selector_player_nodes := %CharacterSelectorVBoxContainer.get_children()
 
 @onready var abilities_load: Array[Resource] = [load("res://entities/abilities/fireball.tscn"),

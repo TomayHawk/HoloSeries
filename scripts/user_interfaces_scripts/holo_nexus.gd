@@ -22,7 +22,7 @@ var current_nexus_player := 0
 var unlockable_instance: Node = null
 
 # nexus atlas positions
-# HP, MP, DEF, SHD, ATK, INT, SPD, AGI
+# HP, MP, DEF, WRD, ATK, INT, SPD, AGI
 # diamond, clover, heart, spade
 # skills, white magic, black magic
 const empty_node_atlas_position := Vector2(0, 0)
@@ -101,7 +101,7 @@ func stat_nodes_randomizer():
 		index_counter += 1
 
 	# randomizer base number
-	# HP, MP, DEF, SHD, ATK, INT, SPD, AGI, EMPTY
+	# HP, MP, DEF, WRD, ATK, INT, SPD, AGI, EMPTY
 	const area_amount: Array[Array] = [[6, 11, 2, 5, 2, 6, 2, 2],
 									   [3, 4, 1, 2, 0, 2, 0, 0],
 									   [11, 18, 3, 4, 3, 10, 3, 3],
@@ -174,7 +174,7 @@ func stat_nodes_randomizer():
 			key_node_atlas_position[3]: key_nodes[3].push_back(node.get_index()) # spade
 
 	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
-	# HP, MP, DEF, SHD, ATK, INT, SPD, AGI
+	# HP, MP, DEF, WRD, ATK, INT, SPD, AGI
 	const default_area_stats_qualities := [[0, 0, 0, 0, 0, 0, 0, 0],
 										   [1, 2, 0, 2, 0, 2, 1, 1],
 										   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -188,7 +188,7 @@ func stat_nodes_randomizer():
 										   [2, 1, 2, 0, 2, 0, 1, 1],
 										   [1, 0, 1, 1, 0, 0, 0, 0]]
 
-	# HP, MP, DEF, SHD, ATK, INT, SPD, AGI, EMPTY
+	# HP, MP, DEF, WRD, ATK, INT, SPD, AGI, EMPTY
 	const default_stats_qualities := {
 	0: [[200, 200, 300], [200, 200, 300, 300, 300, 400], [300, 300, 400]],
 	1: [[10, 10, 20], [10, 10, 20, 20, 40], [20, 20, 40]],

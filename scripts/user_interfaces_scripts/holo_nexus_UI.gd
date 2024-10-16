@@ -24,7 +24,7 @@ var inventory_items_quantity_label: Array[Node] = []
 
 @onready var inventory_options_valid_node_atlas_positions := {
 	0: [[nexus.stats_node_atlas_position[0], nexus.stats_node_atlas_position[2], nexus.stats_node_atlas_position[4]], "Unlocks HP, DEF and ATK nodes.", "attempt_unlock"],
-	1: [[nexus.stats_node_atlas_position[1], nexus.stats_node_atlas_position[3], nexus.stats_node_atlas_position[5]], "Unlocks MP, SHD and INT nodes.", "attempt_unlock"],
+	1: [[nexus.stats_node_atlas_position[1], nexus.stats_node_atlas_position[3], nexus.stats_node_atlas_position[5]], "Unlocks MP, WRD and INT nodes.", "attempt_unlock"],
 	2: [[nexus.stats_node_atlas_position[6], nexus.stats_node_atlas_position[7]], "Unlocks SPD and AGI nodes.", "attempt_unlock"],
 	3: [[nexus.ability_node_atlas_position[0]], "Unlocks Skill nodes.", "attempt_unlock"],
 	4: [[nexus.ability_node_atlas_position[1]], "Unlocks White Magic nodes.", "attempt_unlock"],
@@ -43,7 +43,7 @@ var inventory_items_quantity_label: Array[Node] = []
 	17: [[nexus.empty_node_atlas_position], "Converts an empty node into an HP node.", "convert", nexus.stats_node_atlas_position[0]],
 	18: [[nexus.empty_node_atlas_position], "Converts an empty node into an MP node.", "convert", nexus.stats_node_atlas_position[1]],
 	19: [[nexus.empty_node_atlas_position], "Converts an empty node into a DEF node.", "convert", nexus.stats_node_atlas_position[2]],
-	20: [[nexus.empty_node_atlas_position], "Converts an empty node into a SHD node.", "convert", nexus.stats_node_atlas_position[3]],
+	20: [[nexus.empty_node_atlas_position], "Converts an empty node into a WRD node.", "convert", nexus.stats_node_atlas_position[3]],
 	21: [[nexus.empty_node_atlas_position], "Converts an empty node into an ATK node.", "convert", nexus.stats_node_atlas_position[4]],
 	22: [[nexus.empty_node_atlas_position], "Converts an empty node into an INT node.", "convert", nexus.stats_node_atlas_position[5]],
 	23: [[nexus.empty_node_atlas_position], "Converts an empty node into a SPD node.", "convert", nexus.stats_node_atlas_position[6]],
@@ -51,7 +51,7 @@ var inventory_items_quantity_label: Array[Node] = []
 	25: [nexus.stats_node_atlas_position.duplicate(), "Converts a stats node into an empty node.", "convert", nexus.empty_node_atlas_position]
 }
 
-const stats_type_description := ["Health Point", "Mana Point", "Defence", "Shield", "Attack", "Intelligence", "Speed", "Agility"]
+const stats_type_description := ["Health Point", "Mana Point", "Defence", "Ward", "Attack", "Intelligence", "Speed", "Agility"]
 const key_type_description := ["Star", "Prosperity", "Love", "Nobility"]
 const ability_type_description := ["", "", "", "", "", "", "", "", "", ""]
 

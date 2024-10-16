@@ -76,7 +76,7 @@ func magic_damage_calculator(input_damage, origin_entity_stats_node, target_enti
 		temp_types.push_back("critical")
 
 	# damage reduction
-	output_amount *= origin_entity_stats_node.level / (target_entity_stats_node.level + (origin_entity_stats_node.level * (1 + (target_entity_stats_node.shield * 1.0 / 1500))))
+	output_amount *= origin_entity_stats_node.level / (target_entity_stats_node.level + (origin_entity_stats_node.level * (1 + (target_entity_stats_node.ward * 1.0 / 1500))))
 	# randomizer
 	output_amount = output_amount * randf_range(0.97, 1.03) + randf_range(-input_damage / 10, input_damage / 10)
 	# clamp

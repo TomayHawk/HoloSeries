@@ -126,7 +126,8 @@ func load(save_file):
 	for i in 4:
 		if i >= party_player_nodes.size():
 			GlobalSettings.combat_ui_node.players_info_nodes[i].hide()
-			GlobalSettings.combat_ui_node.players_progress_bar_nodes[i].hide()
+			GlobalSettings.combat_ui_node.ultimate_progress_bar_nodes[i].hide()
+			GlobalSettings.combat_ui_node.shield_progress_bar_nodes[i].hide()
 
 	GlobalSettings.combat_ui_node.update_character_selector()
 	GlobalSettings.combat_inputs_available = true

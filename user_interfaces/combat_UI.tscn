@@ -189,6 +189,7 @@ theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Heal"
 
 [node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Heal"]
+layout_mode = 0
 offset_left = 148.0
 offset_right = 186.0
 offset_bottom = 20.0
@@ -210,6 +211,7 @@ theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Protect"
 
 [node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Protect"]
+layout_mode = 0
 offset_left = 148.0
 offset_right = 186.0
 offset_bottom = 20.0
@@ -231,6 +233,7 @@ theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Haste"
 
 [node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Haste"]
+layout_mode = 0
 offset_left = 148.0
 offset_right = 186.0
 offset_bottom = 20.0
@@ -252,6 +255,7 @@ theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Regen"
 
 [node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Regen"]
+layout_mode = 0
 offset_left = 148.0
 offset_right = 186.0
 offset_bottom = 20.0
@@ -278,6 +282,7 @@ theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Fireball"
 
 [node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer/Fireball"]
+layout_mode = 0
 offset_left = 148.0
 offset_right = 186.0
 offset_bottom = 20.0
@@ -299,6 +304,7 @@ theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Poison"
 
 [node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer/Poison"]
+layout_mode = 0
 offset_left = 148.0
 offset_right = 186.0
 offset_bottom = 20.0
@@ -320,6 +326,7 @@ theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Slowness"
 
 [node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer/Slowness"]
+layout_mode = 0
 offset_left = 148.0
 offset_right = 186.0
 offset_bottom = 20.0
@@ -917,12 +924,57 @@ text = "####"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="ProgressBarControl" type="Control" parent="CombatUIControl/CharacterInfos"]
+[node name="ShieldProgressBarControl" type="Control" parent="CombatUIControl/CharacterInfos"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 
-[node name="ProgressBar1" type="ProgressBar" parent="CombatUIControl/CharacterInfos/ProgressBarControl"]
+[node name="ProgressBar1" type="ProgressBar" parent="CombatUIControl/CharacterInfos/ShieldProgressBarControl"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 15.0
+offset_right = 760.0
+offset_bottom = 19.0
+scale = Vector2(0.25, 0.25)
+mouse_filter = 2
+show_percentage = false
+
+[node name="ProgressBar2" type="ProgressBar" parent="CombatUIControl/CharacterInfos/ShieldProgressBarControl"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 31.0
+offset_right = 760.0
+offset_bottom = 35.0
+scale = Vector2(0.25, 0.25)
+mouse_filter = 2
+show_percentage = false
+
+[node name="ProgressBar3" type="ProgressBar" parent="CombatUIControl/CharacterInfos/ShieldProgressBarControl"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 47.0
+offset_right = 760.0
+offset_bottom = 51.0
+scale = Vector2(0.25, 0.25)
+mouse_filter = 2
+show_percentage = false
+
+[node name="ProgressBar4" type="ProgressBar" parent="CombatUIControl/CharacterInfos/ShieldProgressBarControl"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 63.0
+offset_right = 760.0
+offset_bottom = 67.0
+scale = Vector2(0.25, 0.25)
+mouse_filter = 2
+show_percentage = false
+
+[node name="UltimateProgressBarControl" type="Control" parent="CombatUIControl/CharacterInfos"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ProgressBar1" type="ProgressBar" parent="CombatUIControl/CharacterInfos/UltimateProgressBarControl"]
 modulate = Color(0.815686, 1, 0, 1)
 layout_mode = 2
 offset_left = 16.0
@@ -934,7 +986,7 @@ mouse_filter = 2
 theme_override_styles/fill = ExtResource("8_nba1j")
 show_percentage = false
 
-[node name="ProgressBar2" type="ProgressBar" parent="CombatUIControl/CharacterInfos/ProgressBarControl"]
+[node name="ProgressBar2" type="ProgressBar" parent="CombatUIControl/CharacterInfos/UltimateProgressBarControl"]
 modulate = Color(0.815686, 1, 0, 1)
 layout_mode = 0
 offset_left = 16.0
@@ -946,7 +998,7 @@ mouse_filter = 2
 theme_override_styles/fill = SubResource("StyleBoxTexture_uloh4")
 show_percentage = false
 
-[node name="ProgressBar3" type="ProgressBar" parent="CombatUIControl/CharacterInfos/ProgressBarControl"]
+[node name="ProgressBar3" type="ProgressBar" parent="CombatUIControl/CharacterInfos/UltimateProgressBarControl"]
 modulate = Color(0.815686, 1, 0, 1)
 layout_mode = 0
 offset_left = 16.0
@@ -958,7 +1010,7 @@ mouse_filter = 2
 theme_override_styles/fill = ExtResource("8_nba1j")
 show_percentage = false
 
-[node name="ProgressBar4" type="ProgressBar" parent="CombatUIControl/CharacterInfos/ProgressBarControl"]
+[node name="ProgressBar4" type="ProgressBar" parent="CombatUIControl/CharacterInfos/UltimateProgressBarControl"]
 modulate = Color(0.815686, 1, 0, 1)
 layout_mode = 0
 offset_left = 16.0
@@ -1525,8 +1577,10 @@ one_shot = true
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="button_pressed"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_combat_options_1_pressed" binds= [7]]
-[connection signal="mouse_entered" from="CombatUIControl/CharacterInfos/ProgressBarControl" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatUIControl/CharacterInfos/ProgressBarControl" to="." method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="CombatUIControl/CharacterInfos/ShieldProgressBarControl" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatUIControl/CharacterInfos/ShieldProgressBarControl" to="." method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="CombatUIControl/CharacterInfos/UltimateProgressBarControl" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatUIControl/CharacterInfos/UltimateProgressBarControl" to="." method="_on_control_mouse_exited"]
 [connection signal="mouse_entered" from="CharacterSelector/MarginContainer/MarginContainer" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CharacterSelector/MarginContainer/MarginContainer" to="." method="_on_control_mouse_exited"]
 [connection signal="mouse_entered" from="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character1" to="." method="_on_control_mouse_entered"]

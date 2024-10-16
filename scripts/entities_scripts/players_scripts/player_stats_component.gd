@@ -13,7 +13,8 @@ extends Node2D
 
 @onready var knockback_timer_node := get_parent().get_node("KnockbackTimer")
 
-@onready var ultimate_bar_node: Node = GlobalSettings.combat_ui_node.players_progress_bar_nodes[0]
+@onready var combat_ui_ultimate_bar_node: Node = GlobalSettings.combat_ui_node.ultimate_progress_bar_nodes[0]
+@onready var combat_ui_shield_bar_node: Node = GlobalSettings.combat_ui_node.shield_progress_bar_nodes[0]
 
 # player variables
 var party_index := -1
@@ -21,29 +22,31 @@ var alive := true
 var stamina_slow_recovery := false
 
 # stats variables
-var level := 1
+var level := 1 # max 999
 
-var max_health := 200.0
-var max_mana := 10.0
-var max_stamina := 100.0
-var max_ultimate_gauge := 100
+var max_health := 200.0 # max 99999
+var max_mana := 10.0 # max 9999
+var max_stamina := 100.0 # max 500
+var max_ultimate_gauge := 100 # max 100
+var max_shield := 100 # max 100
 
-var health := 200.0
-var mana := 10.0
-var stamina := 100.0
-var ultimate_gauge := 0
+var health := 200.0 # max 99999
+var mana := 10.0 # max 9999
+var stamina := 100.0 # max 500
+var ultimate_gauge := 0 # max 100
+var shield := 0 # max 100
 
-var defence := 10.0
-var shield := 10.0
-var strength := 10.0
-var intelligence := 10.0
-var speed := 0.0
-var agility := 0.0
-var crit_chance := 0.05
-var crit_damage := 0.50
+var defence := 10.0 # max 1000
+var ward := 10.0 # max 1000
+var strength := 10.0 # max 1000
+var intelligence := 10.0 # max 1000
+var speed := 0.0 # max 256
+var agility := 0.0 # max 256
+var crit_chance := 0.05 # max INF
+var crit_damage := 0.50 # max INF
 
-var weapon_strength := 0.0
-var attack_multiplier := 1.0
+var weapon_strength := 0.0 # max INF
+var attack_multiplier := 1.0 # max INF
 
 # temporary variables
 var temp_bar_percentage := 1.0
@@ -89,10 +92,11 @@ func update_stats():
 	health_bar_node.max_value = max_health
 	mana_bar_node.max_value = max_mana
 	stamina_bar_node.max_value = max_stamina
+	shield_bar_node.max_value = max_shield
 
 	level = character_specifics_node.default_level
 	defence = character_specifics_node.default_defence + GlobalSettings.nexus_stats[character_specifics_node.character_index][2]
-	shield = character_specifics_node.default_shield + GlobalSettings.nexus_stats[character_specifics_node.character_index][3]
+	ward = character_specifics_node.default_ward + GlobalSettings.nexus_stats[character_specifics_node.character_index][3]
 	strength = character_specifics_node.default_strength + GlobalSettings.nexus_stats[character_specifics_node.character_index][4]
 	intelligence = character_specifics_node.default_intelligence + GlobalSettings.nexus_stats[character_specifics_node.character_index][5]
 	speed = character_specifics_node.default_speed + GlobalSettings.nexus_stats[character_specifics_node.character_index][6]
@@ -115,7 +119,10 @@ func update_stats():
 		update_health(0, ["hidden"], Vector2.ZERO, 0.0)
 		update_mana(0)
 		update_stamina(0)
-		ultimate_bar_node = GlobalSettings.combat_ui_node.players_progress_bar_nodes[party_index]
+		combat_ui_ultimate_bar_node = GlobalSettings.combat_ui_node.ultimate_progress_bar_nodes[party_index]
+		combat_ui_shield_bar_node = GlobalSettings.combat_ui_node.shield_progress_bar_nodes[party_index]
+		combat_ui_ultimate_bar_node.max_value = max_ultimate_gauge
+		combat_ui_shield_bar_node.max_value = max_shield
 
 func update_health(value, types, knockback_direction, knockback_weight):
 	if alive:
@@ -188,9 +195,15 @@ func update_stamina(value):
 func update_ultimate_gauge(value):
 	if alive:
 		ultimate_gauge = clamp(ultimate_gauge + value, 0, max_ultimate_gauge)
-		ultimate_bar_node.value = ultimate_gauge
+		combat_ui_ultimate_bar_node.value = ultimate_gauge
 
-		ultimate_bar_node.modulate.g = (130.0 - ultimate_gauge) / max_ultimate_gauge
+		combat_ui_ultimate_bar_node.modulate.g = (130.0 - ultimate_gauge) / max_ultimate_gauge
+
+func update_shield(value):
+	if alive:
+		shield = clamp(shield + value, 0, max_shield)
+		combat_ui_shield_bar_node.value = shield
+		shield_bar_node.value = shield
 
 func trigger_death():
 	# stop player process

@@ -18,7 +18,7 @@ var mana := 10.0
 var stamina := 100.0
 
 var defence := 10.0
-var shield := 10.0
+var ward := 10.0
 var strength := 10.0
 var intelligence := 10.0
 var speed := 0.0
