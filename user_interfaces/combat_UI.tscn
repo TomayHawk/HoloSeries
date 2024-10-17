@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cow4d6dq0c31v"]
+[gd_scene load_steps=13 format=3 uid="uid://cow4d6dq0c31v"]
 
 [ext_resource type="Script" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_w0nri"]
 [ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://resources/button_style/dark_blue_button_normal.tres" id="2_1ddg2"]
@@ -8,8 +8,9 @@
 [ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://resources/button_style/dark_blue_button_pressed.tres" id="4_ywh4v"]
 [ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://resources/button_style/dark_blue_button_focus.tres" id="5_kyyya"]
 [ext_resource type="StyleBox" uid="uid://r8tef0pv2fig" path="res://resources/panel_style/light_blue_translucent_panel.tres" id="7_c1xwy"]
-[ext_resource type="StyleBox" uid="uid://lvj1g05bns5d" path="res://resources/progress_bar_style/ultimate_gauge_progress_bar_fill.tres" id="8_nba1j"]
-[ext_resource type="Texture2D" uid="uid://tk7auwj6h8sf" path="res://resources/progress_bar_style/ultimate_gauge_progress_bar_fill_2.tres" id="9_0n8tn"]
+[ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://resources/progress_bar_style/shield_progress_bar_fill.tres" id="8_l3ddx"]
+[ext_resource type="StyleBox" uid="uid://lvj1g05bns5d" path="res://resources/progress_bar_style/ultimate_progress_bar_fill.tres" id="8_nba1j"]
+[ext_resource type="Texture2D" uid="uid://tk7auwj6h8sf" path="res://resources/progress_bar_style/ultimate_progress_bar_fill_2.tres" id="9_0n8tn"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uloh4"]
 texture = ExtResource("9_0n8tn")
@@ -937,6 +938,7 @@ offset_right = 760.0
 offset_bottom = 19.0
 scale = Vector2(0.25, 0.25)
 mouse_filter = 2
+theme_override_styles/fill = ExtResource("8_l3ddx")
 show_percentage = false
 
 [node name="ProgressBar2" type="ProgressBar" parent="CombatUIControl/CharacterInfos/ShieldProgressBarControl"]
@@ -947,6 +949,7 @@ offset_right = 760.0
 offset_bottom = 35.0
 scale = Vector2(0.25, 0.25)
 mouse_filter = 2
+theme_override_styles/fill = ExtResource("8_l3ddx")
 show_percentage = false
 
 [node name="ProgressBar3" type="ProgressBar" parent="CombatUIControl/CharacterInfos/ShieldProgressBarControl"]
@@ -957,6 +960,7 @@ offset_right = 760.0
 offset_bottom = 51.0
 scale = Vector2(0.25, 0.25)
 mouse_filter = 2
+theme_override_styles/fill = ExtResource("8_l3ddx")
 show_percentage = false
 
 [node name="ProgressBar4" type="ProgressBar" parent="CombatUIControl/CharacterInfos/ShieldProgressBarControl"]
@@ -967,6 +971,7 @@ offset_right = 760.0
 offset_bottom = 67.0
 scale = Vector2(0.25, 0.25)
 mouse_filter = 2
+theme_override_styles/fill = ExtResource("8_l3ddx")
 show_percentage = false
 
 [node name="UltimateProgressBarControl" type="Control" parent="CombatUIControl/CharacterInfos"]

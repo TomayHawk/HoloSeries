@@ -1,13 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bba5o3t2xufxm"]
 
 [ext_resource type="Script" path="res://scripts/entities_scripts/players_scripts/player_stats_component.gd" id="1_1867d"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h7e1k"]
-bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+[ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://resources/progress_bar_style/shield_progress_bar_fill.tres" id="2_esmen"]
 
 [node name="PlayerStatsComponent" type="Node2D"]
 script = ExtResource("1_1867d")
@@ -35,7 +29,7 @@ offset_right = 190.0
 offset_bottom = -17.0
 scale = Vector2(0.1, 0.1)
 theme_override_font_sizes/font_size = 8
-theme_override_styles/fill = SubResource("StyleBoxFlat_h7e1k")
+theme_override_styles/fill = ExtResource("2_esmen")
 max_value = 200.0
 value = 150.0
 show_percentage = false
