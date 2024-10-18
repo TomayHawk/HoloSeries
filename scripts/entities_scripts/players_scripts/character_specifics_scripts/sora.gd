@@ -22,6 +22,8 @@ const default_unlocked_nexus_nodes: Array[int] = [135, 167, 182]
 const regular_attack_damage := 13
 var temp_regular_attack_damage := 13.0
 
+var dash_attack := false
+
 ##### move attack nodes to character specifics
 @onready var player_node = get_parent()
 @onready var player_stats_node = get_parent().get_node("PlayerStatsComponent")
@@ -51,6 +53,9 @@ func regular_attack():
 				player_node.attack_direction = (enemy_node.position - player_node.position).normalized()
 		player_node.ally_attack_ready = false
 		ally_attack_cooldown_node.start(randf_range(2, 3))
+
+	if player_node.dashing:
+		dash_attack = true
 	
 	attack_shape_node.set_target_position(player_node.attack_direction * 20)
 
@@ -61,16 +66,18 @@ func regular_attack():
 
 func regular_attack_register():
 	var enemy_body = null
+	var knockback_weight = 1.0
+
+	if dash_attack:
+		temp_regular_attack_damage = regular_attack_damage * 1.5
+		knockback_weight = 1.5
+		dash_attack = false
+	else:
+		temp_regular_attack_damage = regular_attack_damage
 
 	if attack_shape_node.is_colliding():
 		for collision_index in attack_shape_node.get_collision_count():
 			enemy_body = attack_shape_node.get_collider(collision_index).get_parent()
-			var knockback_weight = 1.0
-			if player_node.dashing:
-				temp_regular_attack_damage = regular_attack_damage * 1.5
-				knockback_weight = 1.5
-			else:
-				temp_regular_attack_damage = regular_attack_damage
 			var damage = CombatEntitiesComponent.physical_damage_calculator(temp_regular_attack_damage, player_stats_node, enemy_body.base_enemy_node)
 			enemy_body.base_enemy_node.update_health(-damage[0], damage[1], player_node.attack_direction, knockback_weight)
 		GlobalSettings.camera_node.screen_shake(0.1, 1, 30, 5, true)
@@ -90,6 +97,9 @@ func ultimate_attack():
 		player_node.ally_attack_ready = false
 		ally_attack_cooldown_node.start(randf_range(2, 3))
 	
+	if player_node.dashing:
+		dash_attack = true
+	
 	attack_shape_node.set_target_position(player_node.attack_direction * 20)
 
 	attack_cooldown_node.start(0.5)
@@ -99,16 +109,17 @@ func ultimate_attack():
 
 func ultimate_attack_register():
 	var enemy_body = null
+	var knockback_weight = 2.0
+	if dash_attack:
+		temp_regular_attack_damage = regular_attack_damage * 15
+		knockback_weight = 3.0
+		dash_attack = false
+	else:
+		temp_regular_attack_damage = regular_attack_damage * 10
 
 	if attack_shape_node.is_colliding():
 		for collision_index in attack_shape_node.get_collision_count():
 			enemy_body = attack_shape_node.get_collider(collision_index).get_parent()
-			var knockback_weight = 2.0
-			if player_node.dashing:
-				temp_regular_attack_damage = regular_attack_damage * 15
-				knockback_weight = 3.0
-			else:
-				temp_regular_attack_damage = regular_attack_damage * 10
 			var damage = CombatEntitiesComponent.physical_damage_calculator(temp_regular_attack_damage, player_stats_node, enemy_body.base_enemy_node)
 			enemy_body.base_enemy_node.update_health(-damage[0], damage[1], player_node.attack_direction, knockback_weight)
 		GlobalSettings.camera_node.screen_shake(0.3, 10, 30, 100, true)
