@@ -12,6 +12,8 @@ extends Node
 @onready var abilities_node := %Abilities
 @onready var damage_display_node := %DamageDisplay
 
+var base_item_load := load("res://entities/items/base_item.tscn")
+
 var temp_types: Array[String] = []
 var output_amount := 0.0
 
@@ -36,6 +38,8 @@ var entities_chosen: Array[Node] = []
 var entities_chosen_count := 0
 
 var i = 60
+
+@onready var pick_up_items_node: Node = %PickUpItems
 
 func physical_damage_calculator(input_damage, origin_entity_stats_node, target_entity_stats_node):
 	temp_types.clear()
@@ -268,6 +272,26 @@ func empty_entities_request():
 	entities_available.clear()
 	entities_chosen_count = 0
 	entities_chosen.clear()
+
+func clear_entities(clear_abilities, clear_pick_up_items, clear_damage_display):
+	for node in (abilities_node.get_children() if clear_abilities else []) + \
+				(pick_up_items_node.get_children() if clear_pick_up_items else []) + \
+				(damage_display_node.get_children() if clear_damage_display else []):
+
+		node.queue_free()
+
+func toggle_movement(can_move):
+	GlobalSettings.game_paused = !can_move ## ### want to use enums
+	# disable player movements
+	for player_node in GlobalSettings.party_node.get_children():
+		if player_node.player_stats_node.alive: continue
+		player_node.set_physics_process(can_move)
+		if can_move: continue
+		# players enter idle animations
+		if player_node.last_move_direction.x > 0: player_node.animation_node.play("right_idle")
+		elif player_node.last_move_direction.x < 0: player_node.animation_node.play("left_idle")
+		elif player_node.last_move_direction.y > 0: player_node.animation_node.play("up_idle")
+		else: player_node.animation_node.play("down_idle")
 
 func _on_leaving_combat_timer_timeout():
 	if enemy_nodes_in_combat.is_empty():

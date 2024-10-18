@@ -8,7 +8,6 @@ extends Node2D
 @onready var text_box_node := %TextBoxUI
 @onready var party_node := %Party
 @onready var standby_node := %Standby
-@onready var pick_up_items := %PickUpItems
 @onready var camera_node := %Camera2D
 @onready var audio_stream_player_node := %AudioStreamPlayer
 
@@ -78,7 +77,6 @@ var nexus_converted_type := [[], [], [], [], []]
 var nexus_converted_quality := [[], [], [], [], []]
 
 # inventory
-var base_item_load := load("res://entities/items/base_item.tscn")
 var inventory := [999, 99, 99, 99, 999]
 var combat_inventory := [123, 45, 6, 78, 999]
 var nexus_inventory := []
@@ -159,8 +157,7 @@ func esc_input():
 
 # change scene (called from scenes)
 func change_scene(next_scene, scene_index, spawn_index, bgm):
-	for node in CombatEntitiesComponent.damage_display_node.get_children() + CombatEntitiesComponent.abilities_node.get_children():
-		node.queue_free()
+	CombatEntitiesComponent.clear_entities(true, true, true)
 
 	party_node.call_deferred("reparent", self)
 	tree.call_deferred("change_scene_to_file", scene_paths[next_scene])

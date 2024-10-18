@@ -9,6 +9,9 @@ script = ExtResource("1_y8t08")
 [node name="Abilities" type="Node2D" parent="."]
 unique_name_in_owner = true
 
+[node name="PickUpItems" type="Node2D" parent="."]
+unique_name_in_owner = true
+
 [node name="DamageDisplay" type="Node2D" parent="."]
 unique_name_in_owner = true
 

@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dwjnjoaxlsqc8"]
+[gd_scene load_steps=7 format=3 uid="uid://dwjnjoaxlsqc8"]
 
 [ext_resource type="Script" path="res://scripts/global_scripts/global_settings.gd" id="1_mpwj3"]
 [ext_resource type="PackedScene" uid="uid://cf2ifm4k70avn" path="res://user_interfaces/game_options_ui.tscn" id="3_afjlo"]
 [ext_resource type="PackedScene" uid="uid://cow4d6dq0c31v" path="res://user_interfaces/combat_ui.tscn" id="3_s0tbo"]
 [ext_resource type="PackedScene" uid="uid://bfgttyngrxknk" path="res://user_interfaces/text_box_ui.tscn" id="4_tvnta"]
-[ext_resource type="Script" path="res://scripts/global_scripts/pick_up_items.gd" id="5_3ovtt"]
 [ext_resource type="AudioStream" uid="uid://dymq3bfkggqi8" path="res://music/asmarafulldemo.mp3" id="5_k0r70"]
 [ext_resource type="Script" path="res://scripts/global_scripts/camera_2d.gd" id="5_uxnr8"]
 
@@ -30,10 +29,6 @@ y_sort_enabled = true
 
 [node name="Standby" type="Node2D" parent="."]
 unique_name_in_owner = true
-
-[node name="PickUpItems" type="Node2D" parent="."]
-unique_name_in_owner = true
-script = ExtResource("5_3ovtt")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true

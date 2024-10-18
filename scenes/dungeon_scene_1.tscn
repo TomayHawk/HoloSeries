@@ -288,11 +288,11 @@ physics_layer_1/collision_layer = 0
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_peis2")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qojuv"]
-size = Vector2(128, 16)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pan47"]
 size = Vector2(28, 23)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qojuv"]
+size = Vector2(128, 16)
 
 [node name="DungeonScene1" type="Node2D"]
 y_sort_enabled = true
@@ -316,12 +316,17 @@ tile_set = SubResource("TileSet_k5v2m")
 format = 2
 layer_0/tile_data = PackedInt32Array(-131106, 65536, 0, -131105, 65536, 0, -131104, 65536, 0, -131103, 65536, 0, -131102, 65536, 0, -131101, 65536, 0, -131100, 65536, 0, -131099, 65536, 0, -131098, 65536, 0, -131097, 65536, 0, -131096, 65536, 0, -131095, 65536, 0, -131094, 65536, 0, -131093, 65536, 0, -131092, 65536, 0, -131091, 65536, 0, -131090, 65536, 0, -131089, 65536, 0, -131088, 65536, 0, -131087, 65536, 0, -131086, 65536, 0, -131085, 65536, 0, -65570, 65536, 0, -34, 65536, 0, 65502, 65536, 0, 131038, 65536, 0, 196574, 65536, 0, -65569, 65536, 0, -33, 65536, 0, 65503, 65536, 0, 131039, 65536, 0, 196575, 65536, 0, -65568, 65536, 0, -32, 65536, 0, 65504, 65536, 0, 131040, 65536, 0, 196576, 65536, 0, -65567, 65536, 0, -31, 65536, 0, 65505, 65536, 0, 131041, 65536, 0, 196577, 65536, 0, -65566, 65536, 0, -30, 65536, 0, 65506, 65536, 0, 131042, 65536, 0, 196578, 65536, 0, -65565, 65536, 0, -29, 65536, 0, 65507, 65536, 0, 131043, 65536, 0, 196579, 65536, 0, -65564, 65536, 0, -28, 65536, 0, 65508, 65536, 0, 131044, 65536, 0, 196580, 65536, 0, -65563, 65536, 0, -27, 65536, 0, 65509, 65536, 0, 131045, 65536, 0, 196581, 65536, 0, -65562, 65536, 0, -26, 65536, 0, 65510, 65536, 0, 131046, 65536, 0, 196582, 65536, 0, -65561, 65536, 0, -25, 65536, 0, 65511, 65536, 0, 131047, 65536, 0, 196583, 65536, 0, -65560, 65536, 0, -24, 65536, 0, 65512, 65536, 0, 131048, 65536, 0, 196584, 65536, 0, -65559, 65536, 0, -23, 65536, 0, 65513, 65536, 0, 131049, 65536, 0, 196585, 65536, 0, -65558, 65536, 0, -22, 65536, 0, 65514, 65536, 0, 131050, 65536, 0, 196586, 65536, 0, -65557, 65536, 0, -21, 65536, 0, 65515, 65536, 0, 131051, 65536, 0, 196587, 65536, 0, -65556, 65536, 0, -20, 65536, 0, 65516, 65536, 0, 131052, 65536, 0, 196588, 65536, 0, -65555, 65536, 0, -19, 65536, 0, 65517, 65536, 0, 131053, 65536, 0, 196589, 65536, 0, -65554, 65536, 0, -18, 65536, 0, 65518, 65536, 0, 131054, 65536, 0, 196590, 65536, 0, -65553, 65536, 0, -17, 65536, 0, 65519, 65536, 0, 131055, 65536, 0, 196591, 65536, 0, -65552, 65536, 0, -16, 65536, 0, 65520, 65536, 0, 131056, 65536, 0, 196592, 65536, 0, -65551, 65536, 0, -15, 65536, 0, 65521, 65536, 0, 131057, 65536, 0, 196593, 65536, 0, -65550, 65536, 0, -14, 65536, 0, 65522, 65536, 0, 131058, 65536, 0, 196594, 65536, 0, -65549, 65536, 0, -13, 65536, 0, 65523, 65536, 0, 131059, 65536, 0, 196595, 65536, 0)
 
-[node name="WorldScene2Transit" type="Area2D" parent="."]
-position = Vector2(0, 72)
-collision_layer = 8
+[node name="WorldEntities" type="Node2D" parent="."]
+y_sort_enabled = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldScene2Transit"]
-shape = SubResource("RectangleShape2D_qojuv")
+[node name="Chest" type="StaticBody2D" parent="WorldEntities"]
+scale = Vector2(1.25803, 1)
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldEntities/Chest"]
+position = Vector2(-280, -44.5)
+shape = SubResource("RectangleShape2D_pan47")
 
 [node name="Enemies" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -329,16 +334,11 @@ y_sort_enabled = true
 [node name="Nousagi" parent="Enemies" instance=ExtResource("12_hviyt")]
 position = Vector2(-458, -15)
 
-[node name="Entities" type="Node2D" parent="."]
-y_sort_enabled = true
+[node name="WorldScene2Transit" type="Area2D" parent="."]
+position = Vector2(0, 72)
+collision_layer = 8
 
-[node name="Chest" type="StaticBody2D" parent="Entities"]
-scale = Vector2(1.25803, 1)
-collision_layer = 0
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Chest"]
-position = Vector2(-280, -44.5)
-shape = SubResource("RectangleShape2D_pan47")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldScene2Transit"]
+shape = SubResource("RectangleShape2D_qojuv")
 
 [connection signal="body_entered" from="WorldScene2Transit" to="." method="_on_world_scene_2_transit_body_entered"]
