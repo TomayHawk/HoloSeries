@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://hslarfanqw43"]
+
+[ext_resource type="Script" path="res://scripts/entities_scripts/players_scripts/player_ally.gd" id="1_eq1ci"]
+
+[node name="PlayerAlly" type="Node2D"]
+script = ExtResource("1_eq1ci")

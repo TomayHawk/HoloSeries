@@ -1,4 +1,6 @@
-extends CharacterBody2D
+extends Node2D
+
+@onready var player_base := get_parent()
 
 # node variables
 @onready var player_stats_node := get_node_or_null("PlayerStatsComponent")
@@ -19,9 +21,9 @@ extends CharacterBody2D
 @onready var death_timer_node := %DeathTimer
 
 # speed variables
-@export var speed := 7000.0
-@export var ally_speed := 6000.0
-@export var dash_speed := 30000.0
+var speed := 7000.0
+var ally_speed := 6000.0
+var dash_speed := 30000.0
 var temp_ally_speed := 6000.0
 const sprint_multiplier := 1.25
 
@@ -75,7 +77,7 @@ func _physics_process(delta):
 	# if player
 	if is_current_main_player:
 		# attack
-		if !attacking && GlobalSettings.can_attempt_attack:
+		if !attacking && GlobalSettings.attempt_attack:
 			attack()
 
 		# dash / sprint
@@ -97,7 +99,7 @@ func _physics_process(delta):
 	# if ally in combat
 	elif CombatEntitiesComponent.in_combat && ally_enemy_in_attack_area && temp_distance_to_main_player < 250:
 		moving = false
-		velocity = Vector2.ZERO
+		player_base.velocity = Vector2.ZERO
 
 		# target health
 		temp_comparator = INF
@@ -116,12 +118,12 @@ func _physics_process(delta):
 	elif ally_direction_ready && !attacking: ally_movement(delta)
 
 	if taking_knockback:
-		velocity = knockback_direction * 200 * (1 - (0.4 - knockback_timer_node.get_time_left()) / 0.4) * knockback_weight
+		player_base.velocity = knockback_direction * 200 * (1 - (0.4 - knockback_timer_node.get_time_left()) / 0.4) * knockback_weight
 
 	if attack_register != "" && animation_node.get_frame() == 1:
 		character_specifics_node.call(attack_register)
 
-	move_and_slide()
+	player_base.move_and_slide()
 
 func update_nodes():
 	player_stats_node = get_node_or_null("PlayerStatsComponent")
@@ -132,9 +134,9 @@ func update_nodes():
 func player_movement(delta):
 	# movement inputs
 	current_move_direction = Input.get_vector("left", "right", "up", "down")
-	velocity = current_move_direction * speed * delta
+	player_base.velocity = current_move_direction * speed * delta
 	
-	if velocity != Vector2.ZERO:
+	if player_base.velocity != Vector2.ZERO:
 		moving = true
 		last_move_direction = current_move_direction
 	else: moving = false
@@ -144,15 +146,15 @@ func player_movement(delta):
 	# dash
 	if dashing:
 		if moving == true:
-			velocity += current_move_direction * dash_speed * delta * (1 - (dash_time - dash_cooldown_node.get_time_left()) / dash_time)
+			player_base.velocity += current_move_direction * dash_speed * delta * (1 - (dash_time - dash_cooldown_node.get_time_left()) / dash_time)
 		else:
 			moving = true
-			velocity = last_move_direction * dash_speed * delta * (1 - (dash_time - dash_cooldown_node.get_time_left()) / dash_time)
+			player_base.velocity = last_move_direction * dash_speed * delta * (1 - (dash_time - dash_cooldown_node.get_time_left()) / dash_time)
 	# sprint
-	elif sprinting: velocity *= sprint_multiplier
+	elif sprinting: player_base.velocity *= sprint_multiplier
 
 	# if attacking, reduce speed
-	if attacking: velocity /= 2
+	if attacking: player_base.velocity /= 2
 
 func ally_movement(delta):
 	ally_direction_ready = false
@@ -235,7 +237,7 @@ func ally_movement(delta):
 		else:
 			ray_cast_obstacles = false
 
-	velocity = current_move_direction * temp_ally_speed * delta
+	player_base.velocity = current_move_direction * temp_ally_speed * delta
 
 	last_move_direction = current_move_direction
 
@@ -294,7 +296,7 @@ func _on_interaction_area_body_entered(body):
 		ally_enemy_nodes_in_attack_area.push_back(body)
 		ally_enemy_in_attack_area = true
 		
-		velocity = Vector2.ZERO
+		player_base.velocity = Vector2.ZERO
 		moving = false
 		ally_direction_ready = true
 
@@ -320,7 +322,7 @@ func _on_ally_attack_cooldown_timeout():
 	ally_attack_ready = true
 
 func _on_ally_direction_cooldown_timeout():
-	velocity = Vector2.ZERO
+	player_base.velocity = Vector2.ZERO
 	moving = false
 
 	if CombatEntitiesComponent.in_combat && !CombatEntitiesComponent.leaving_combat:

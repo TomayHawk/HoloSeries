@@ -33,7 +33,7 @@ var currently_full_screen := false
 var current_main_player_node: Node = null
 
 var game_paused := false
-var can_attempt_attack := false
+var attempt_attack := false
 var mouse_in_attack_area := true
 var combat_inputs_available := false
 var nexus_inputs_available := false
@@ -92,9 +92,8 @@ func _ready():
 func _input(_event):
 	if Input.is_action_just_pressed("action"):
 		if mouse_in_attack_area && !CombatEntitiesComponent.requesting_entities:
-			can_attempt_attack = true
-			await tree.process_frame
-			can_attempt_attack = false
+			if current_main_player_node == null: return
+			current_main_player_node.current_attack_state = current_main_player_node.attack_states.ATTACK
 	elif Input.is_action_just_pressed("esc"): esc_input()
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
 	elif Input.is_action_just_pressed("scroll_up"): camera_node.zoom_input(1.5, 1)

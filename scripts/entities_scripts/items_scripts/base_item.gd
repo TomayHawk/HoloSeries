@@ -1,8 +1,8 @@
 extends RigidBody2D
 
-@export var item_id := -1
-@export var attraction := 1000
-@export var can_leave_attraction := false
+var item_id := -1
+var attraction := 1000
+var can_leave_attraction := false
 
 var player_nodes: Array[Node] = []
 var player_in_range := false

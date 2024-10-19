@@ -1,8 +1,8 @@
 extends RigidBody2D
 
-@export var base_damage := 10
-@export var mana_cost := 10
-@export var projectile_speed := 90
+var base_damage := 10
+var mana_cost := 10
+var projectile_speed := 90
 
 @onready var damage_multiplier: float = 1 + (GlobalSettings.current_main_player_node.player_stats_node.intelligence / 500)
 @onready var speed_multiplier: float = 1 + (GlobalSettings.current_main_player_node.player_stats_node.intelligence / 1000) + (GlobalSettings.current_main_player_node.player_stats_node.speed / 256)

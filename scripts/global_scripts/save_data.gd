@@ -85,7 +85,7 @@ func load(save_file):
 	GlobalSettings.nexus_stats = saves[save_file]["nexus_stats"].duplicate()
 	GlobalSettings.nexus_inventory = saves[save_file]["nexus_inventory"].duplicate()
 	
-	var base_player_path := "res://entities/players/player.tscn"
+	var base_player_path := "res://entities/players/player_base.tscn"
 	var character_specifics_paths := ["res://entities/players/character_specifics/sora.tscn",
 									  "res://entities/players/character_specifics/azki.tscn",
 									  "res://entities/players/character_specifics/roboco.tscn",
