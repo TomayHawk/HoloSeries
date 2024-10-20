@@ -3,6 +3,7 @@ extends Node2D
 # node variables
 @onready var player_node := get_parent()
 @onready var character_specifics_node := get_parent().get_node("CharacterSpecifics")
+@onready var attack_timer_node := get_parent().get_node("AttackTimer")
 
 @onready var combat_ui_node = GlobalSettings.combat_ui_node
 
@@ -70,7 +71,7 @@ func _physics_process(_delta):
 		else:
 			update_stamina(0.5)
 	
-	if mana == max_mana && stamina == max_stamina:
+	if mana == max_mana and stamina == max_stamina:
 		set_physics_process(false)
 
 func update_nodes():
@@ -104,9 +105,9 @@ func update_stats():
 	crit_chance = character_specifics_node.default_crit_chance
 	crit_damage = character_specifics_node.default_crit_damage
 
-	player_node.speed = 7000 + (50 * speed)
-	player_node.ally_speed = 6000 + (30 * speed)
-	player_node.dash_speed = 30000 + (150 * speed)
+	player_node.walk_speed = 7000 + (50 * speed)
+	##### player_node.ally_speed = 6000 + (30 * speed)
+	# player_node.dash_speed = 30000 + (150 * speed)
 
 	player_node.dash_stamina_consumption = 35 - (agility * 0.0625)
 	player_node.sprinting_stamina_consumption = 0.8 - (agility * 0.00048828125)
@@ -140,7 +141,7 @@ func update_health(value, types, knockback_direction, knockback_weight):
 		# update health bar
 		health = clamp(health + value, 0, max_health)
 		health_bar_node.value = health
-		health_bar_node.visible = health > 0 && health < max_health
+		health_bar_node.visible = health > 0 and health < max_health
 		combat_ui_node.update_health_label(party_index, health)
 
 		if value < 0:
@@ -150,7 +151,7 @@ func update_health(value, types, knockback_direction, knockback_weight):
 
 		# knockback handling
 		if knockback_direction != Vector2.ZERO:
-			player_node.taking_knockback = true
+			player_node.current_move_state = player_node.MoveState.KNOCKBACK
 			player_node.knockback_direction = knockback_direction
 			player_node.knockback_weight = knockback_weight
 			knockback_timer_node.start(0.4)
@@ -186,6 +187,7 @@ func update_stamina(value):
 		if stamina == 0:
 			stamina_slow_recovery = true
 			stamina_bar_node.modulate = Color(0.5, 0, 0, 1)
+			player_node.current_move_state = player_node.MoveState.WALK
 		elif stamina == max_stamina:
 			stamina_slow_recovery = false
 			stamina_bar_node.modulate = Color(1, 0.5, 0, 1)
@@ -227,9 +229,9 @@ func trigger_death():
 	stamina_bar_node.visible = false
 
 	# avoid choose_animation() triggers
-	player_node.attack_cooldown_node.stop()
-	player_node.ally_direction_cooldown_node.stop()
-	player_node.ally_direction_ready = true
+	attack_timer_node.stop()
+	##### player_node.ally_direction_timer_node.stop()
+	##### player_node.ally_direction_ready = true
 	player_node.attacking = false
 	
 	# update main player if the player is main player

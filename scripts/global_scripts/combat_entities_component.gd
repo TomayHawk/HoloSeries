@@ -62,7 +62,7 @@ func physical_damage_calculator(input_damage, origin_entity_stats_node, target_e
 	output_amount = clamp(output_amount, 0, 99999)
 
 	# max 25% miss if not critical
-	if temp_types.is_empty() && randf() < (target_entity_stats_node.agility / 1028):
+	if temp_types.is_empty() and randf() < (target_entity_stats_node.agility / 1028):
 		output_amount = 0
 
 	return [output_amount, temp_types]
@@ -87,7 +87,7 @@ func magic_damage_calculator(input_damage, origin_entity_stats_node, target_enti
 	output_amount = clamp(output_amount, 0, 99999)
 
 	# max 25% miss if not critical
-	if temp_types.is_empty() && randf() < (target_entity_stats_node.speed / 1028):
+	if temp_types.is_empty() and randf() < (target_entity_stats_node.speed / 1028):
 		temp_types.push_back("miss")
 		output_amount = 0
 
@@ -192,7 +192,7 @@ func target_entity(type, origin_node):
 		choose_entities()
 
 func enter_combat():
-	if !in_combat || leaving_combat:
+	if !in_combat or leaving_combat:
 		in_combat = true
 		leaving_combat = false
 		if leaving_combat_timer_node.is_stopped():
@@ -203,7 +203,7 @@ func enter_combat():
 			leaving_combat_timer_node.stop()
 
 func attempt_leave_combat():
-	if in_combat && leaving_combat_timer_node.is_stopped():
+	if in_combat and leaving_combat_timer_node.is_stopped():
 		leaving_combat = true
 		leaving_combat_timer_node.start(2)
 
@@ -244,7 +244,7 @@ func request_entities(origin_node, target_command, request_count, request_entity
 		elif entity.has_method("choose_player"):
 			entity.add_child(load(entity_highlights_paths[0]).instantiate())
 
-	if (entities_request_count == 1) && (locked_enemy_node != null) && (locked_enemy_node in entities_available):
+	if (entities_request_count == 1) and (locked_enemy_node != null) and (locked_enemy_node in entities_available):
 		entities_chosen.push_back(locked_enemy_node)
 		choose_entities()
 
@@ -258,7 +258,7 @@ func choose_entities():
 func empty_entities_request():
 	requesting_entities = false
 	
-	if entities_request_origin_node != null && entities_request_origin_node.get_parent() == abilities_node && entities_chosen.size() != entities_request_count:
+	if entities_request_origin_node != null and entities_request_origin_node.get_parent() == abilities_node and entities_chosen.size() != entities_request_count:
 		entities_request_origin_node.queue_free()
 
 	for entity in entities_available:
@@ -279,6 +279,15 @@ func clear_entities(clear_abilities, clear_pick_up_items, clear_damage_display):
 				(damage_display_node.get_children() if clear_damage_display else []):
 
 		node.queue_free()
+
+func choose_entity(entity_node, is_ally, is_alive):
+	if requesting_entities and entity_node in entities_available and !(entity_node in entities_chosen):
+		entities_chosen.push_back(entity_node)
+		entities_chosen_count += 1
+		if entities_request_count == entities_chosen_count:
+			choose_entities()
+	elif is_ally and is_alive:
+		GlobalSettings.update_main_player(entity_node)
 
 func toggle_movement(can_move):
 	GlobalSettings.game_paused = !can_move ## ### want to use enums

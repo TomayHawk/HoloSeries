@@ -26,17 +26,17 @@ var dash_attack := false
 
 ##### move attack nodes to character specifics
 @onready var player_node = get_parent()
-@onready var player_stats_node = get_parent().get_node("PlayerStatsComponent")
-@onready var attack_shape_node = get_parent().get_node("AttackShape")
-@onready var attack_cooldown_node = get_parent().get_node("AttackCooldown")
-@onready var ally_attack_cooldown_node = get_parent().get_node("AllyAttackCooldown")
+@onready var player_stats_node = get_parent().get_node_or_null("PlayerStatsComponent")
+@onready var attack_shape_node = get_parent().get_node_or_null("AttackShape")
+@onready var attack_timer_node = get_parent().get_node_or_null("AttackTimer")
+@onready var ally_attack_cooldown_node = get_parent().get_node_or_null("PlayerAlly/AllyAttackCooldown")
 
 func update_nodes():
 	player_node = get_parent()
-	player_stats_node = get_parent().get_node("PlayerStatsComponent")
-	attack_shape_node = get_parent().get_node("AttackShape")
-	attack_cooldown_node = get_parent().get_node("AttackCooldown")
-	ally_attack_cooldown_node = get_parent().get_node("AllyAttackCooldown")
+	player_stats_node = get_parent().get_node_or_null("PlayerStatsComponent")
+	attack_shape_node = get_parent().get_node_or_null("AttackShape")
+	attack_timer_node = get_parent().get_node_or_null("AttackTimer")
+	ally_attack_cooldown_node = get_parent().get_node_or_null("PlayerAlly/AllyAttackCooldown")
 	position = Vector2.ZERO
 
 func regular_attack():
@@ -54,12 +54,12 @@ func regular_attack():
 		player_node.ally_attack_ready = false
 		ally_attack_cooldown_node.start(randf_range(2, 3))
 
-	if player_node.dashing:
+	if player_node.current_move_state == player_node.MoveState.DASH:
 		dash_attack = true
 	
 	attack_shape_node.set_target_position(player_node.attack_direction * 20)
 
-	attack_cooldown_node.start(0.5)
+	attack_timer_node.start(0.5)
 
 	player_node.attack_register = "regular_attack_register"
 	attack_shape_node.force_shapecast_update()
@@ -97,12 +97,12 @@ func ultimate_attack():
 		player_node.ally_attack_ready = false
 		ally_attack_cooldown_node.start(randf_range(2, 3))
 	
-	if player_node.dashing:
+	if player_node.current_move_state == player_node.MoveState.DASH:
 		dash_attack = true
 	
 	attack_shape_node.set_target_position(player_node.attack_direction * 20)
 
-	attack_cooldown_node.start(0.5)
+	attack_timer_node.start(0.5)
 
 	player_node.attack_register = "ultimate_attack_register"
 	attack_shape_node.force_shapecast_update()

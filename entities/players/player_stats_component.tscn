@@ -19,6 +19,7 @@ theme_override_font_sizes/font_size = 8
 max_value = 200.0
 value = 150.0
 show_percentage = false
+metadata/_edit_use_anchors_ = true
 
 [node name="ShieldBar" type="ProgressBar" parent="."]
 unique_name_in_owner = true
@@ -33,6 +34,7 @@ theme_override_styles/fill = ExtResource("2_esmen")
 max_value = 200.0
 value = 150.0
 show_percentage = false
+metadata/_edit_use_anchors_ = true
 
 [node name="ManaBar" type="ProgressBar" parent="."]
 unique_name_in_owner = true
@@ -47,6 +49,7 @@ theme_override_font_sizes/font_size = 8
 max_value = 200.0
 value = 150.0
 show_percentage = false
+metadata/_edit_use_anchors_ = true
 
 [node name="StaminaBar" type="ProgressBar" parent="."]
 unique_name_in_owner = true
@@ -61,3 +64,4 @@ theme_override_font_sizes/font_size = 8
 max_value = 200.0
 value = 150.0
 show_percentage = false
+metadata/_edit_use_anchors_ = true
