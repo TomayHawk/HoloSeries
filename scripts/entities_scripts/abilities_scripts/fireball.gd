@@ -18,15 +18,15 @@ func _ready():
 	# request target entity
 	CombatEntitiesComponent.request_entities(self, "initiate_fireball", 1, "all_enemies_on_screen")
 	
-	if CombatEntitiesComponent.entities_available.size() == 0 && CombatEntitiesComponent.locked_enemy_node == null:
+	if CombatEntitiesComponent.entities_available.size() == 0 and CombatEntitiesComponent.locked_enemy_node == null:
 		queue_free()
 	# if alt is pressed, auto-aim closest enemy
-	elif Input.is_action_pressed("alt") && CombatEntitiesComponent.entities_available.size() != 0:
+	elif Input.is_action_pressed("alt") and CombatEntitiesComponent.entities_available.size() != 0:
 		CombatEntitiesComponent.target_entity("distance_least", caster_node)
 
 # run after entity selection with CombatEntitiesComponent.choose_entities()
 func initiate_fireball(chosen_node):
-	if player_stats_node.mana < mana_cost || !player_stats_node.alive:
+	if player_stats_node.mana < mana_cost or !player_stats_node.alive:
 		queue_free()
 	else:
 		player_stats_node.update_mana(-mana_cost)

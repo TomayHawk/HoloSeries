@@ -90,7 +90,7 @@ func _on_attack_pressed():
 
 # CombatOptions1
 func _on_combat_options_1_pressed(extra_arg_0):
-	if combat_options_2_node.visible && combat_options_2_modes[extra_arg_0].visible:
+	if combat_options_2_node.visible and combat_options_2_modes[extra_arg_0].visible:
 		hide_combat_options_2()
 	else:
 		hide_combat_options_2()

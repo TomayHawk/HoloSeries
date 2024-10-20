@@ -91,9 +91,8 @@ func _ready():
 
 func _input(_event):
 	if Input.is_action_just_pressed("action"):
-		if mouse_in_attack_area && !CombatEntitiesComponent.requesting_entities:
-			if current_main_player_node == null: return
-			current_main_player_node.current_attack_state = current_main_player_node.attack_states.ATTACK
+		if mouse_in_attack_area and !CombatEntitiesComponent.requesting_entities and current_main_player_node != null:
+			current_main_player_node.current_attack_state = current_main_player_node.AttackState.ATTACK
 	elif Input.is_action_just_pressed("esc"): esc_input()
 	elif Input.is_action_just_pressed("full_screen"): full_screen_toggle()
 	elif Input.is_action_just_pressed("scroll_up"): camera_node.zoom_input(1.5, 1)
@@ -223,6 +222,6 @@ func start_bgm(bgm):
 
 # display combat ui
 func combat_ui_display():
-	if !CombatEntitiesComponent.in_combat && current_save != -1:
+	if !CombatEntitiesComponent.in_combat and current_save != -1:
 		if combat_ui_control_node.modulate.a != 1.0: combat_ui_control_node.modulate.a = 1.0
 		elif CombatEntitiesComponent.leaving_combat_timer_node.is_stopped(): combat_ui_control_node.modulate.a = 0.0

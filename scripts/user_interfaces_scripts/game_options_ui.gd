@@ -50,7 +50,7 @@ func _ready():
 	var resolution_current := DisplayServer.window_get_size()
 
 	for resolution in resolution_options:
-		if (resolution.x <= resolution_max.x) && (resolution.y <= resolution_max.y):
+		if (resolution.x <= resolution_max.x) and (resolution.y <= resolution_max.y):
 			screen_resolution_option_button_node.add_item(str(resolution.x) + " x " + str(resolution.y))
 			if resolution == resolution_current:
 				screen_resolution_option_button_node.selected = screen_resolution_option_button_node.get_item_count() - 1
@@ -103,7 +103,7 @@ func _on_option_button_item_selected(index):
 	var resolution_dimensions = screen_resolution_option_button_node.get_item_text(index).split(" x ")
 	resolution_dimensions = Vector2i(int(resolution_dimensions[0]), int(resolution_dimensions[1]))
 
-	if (resolution_dimensions.x == resolution_max.x) && (resolution_dimensions.y == resolution_max.y):
+	if (resolution_dimensions.x == resolution_max.x) and (resolution_dimensions.y == resolution_max.y):
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 		GlobalSettings.currently_full_screen = true
 	else:

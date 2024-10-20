@@ -43,7 +43,7 @@ func _physics_process(_delta):
 # deal damage to enemy (called by enemy)
 func update_health(amount, types, knockback_direction, knockback_weight):
 	# invincibility check
-	if enemy_node.invincible || health <= 0:
+	if enemy_node.invincible or health <= 0:
 		amount = 0
 	elif amount < 0:
 		enemy_node.invincible = true
@@ -97,7 +97,7 @@ func _on_combat_hit_box_area_input_event(_viewport, event, _shape_idx):
 					CombatEntitiesComponent.locked_enemy_node = null
 				CombatEntitiesComponent.locked_enemy_node = enemy_node
 				add_child(load(enemy_marker_path).instantiate())
-			if CombatEntitiesComponent.requesting_entities && (enemy_node in CombatEntitiesComponent.entities_available) && !(enemy_node in CombatEntitiesComponent.entities_chosen):
+			if CombatEntitiesComponent.requesting_entities and (enemy_node in CombatEntitiesComponent.entities_available) and !(enemy_node in CombatEntitiesComponent.entities_chosen):
 				CombatEntitiesComponent.entities_chosen.push_back(enemy_node)
 				CombatEntitiesComponent.entities_chosen_count += 1
 				if CombatEntitiesComponent.entities_request_count == CombatEntitiesComponent.entities_chosen_count:
@@ -111,7 +111,7 @@ func _on_combat_hit_box_area_mouse_exited():
 	GlobalSettings.mouse_in_attack_area = true
 
 func _on_detection_area_body_entered(body):
-	if alive == true && body.player_stats_node.alive:
+	if alive == true and body.player_stats_node.alive:
 		CombatEntitiesComponent.enter_combat()
 		players_exist_in_detection_area = true
 		if !CombatEntitiesComponent.enemy_nodes_in_combat.has(enemy_node): CombatEntitiesComponent.enemy_nodes_in_combat.push_back(enemy_node)
@@ -131,7 +131,7 @@ func _on_detection_area_body_exited(body):
 		CombatEntitiesComponent.attempt_leave_combat()
 
 func _on_attack_area_body_entered(body):
-	if alive == true && body.player_stats_node.alive:
+	if alive == true and body.player_stats_node.alive:
 		CombatEntitiesComponent.enter_combat()
 		players_exist_in_detection_area = true
 		players_exist_in_attack_area = true

@@ -282,7 +282,7 @@ func stat_nodes_secondary_randomizer(area_nodes):
 						temp_position = nexus_nodes[second_temp_node_index].texture.region.position
 						need_match = false
 						break
-			if need_match && replacing_type_three_stat_nodes.size() > 0:
+			if need_match and replacing_type_three_stat_nodes.size() > 0:
 				for second_temp_node_index in replacing_type_three_stat_nodes:
 					if nexus_nodes[second_temp_node_index].texture.region.position not in temp_adjacents_types:
 						temp_match = second_temp_node_index
@@ -291,8 +291,8 @@ func stat_nodes_secondary_randomizer(area_nodes):
 						break
 			if need_match:
 				for second_temp_node_index in area_nodes:
-					if need_match && second_temp_node_index not in replacing_empty_nodes && second_temp_node_index not in replacing_type_two_stat_nodes:
-						if nexus_nodes[second_temp_node_index].texture.region.position != empty_node_atlas_position && nexus_nodes[second_temp_node_index].texture.region.position not in temp_adjacents_types:
+					if need_match and (second_temp_node_index not in replacing_empty_nodes) and (second_temp_node_index not in replacing_type_two_stat_nodes):
+						if nexus_nodes[second_temp_node_index].texture.region.position != empty_node_atlas_position and nexus_nodes[second_temp_node_index].texture.region.position not in temp_adjacents_types:
 							temp_match = second_temp_node_index
 							temp_position = nexus_nodes[second_temp_node_index].texture.region.position
 							need_match = false
@@ -338,7 +338,7 @@ func return_adjacents(temp_node_index):
 		for temp_index in adjacents_index[1]: temp_adjacents.push_back(temp_node_index + temp_index)
 
 	for temp_index in temp_adjacents.duplicate():
-		if (temp_index < 0) || (temp_index > 767):
+		if (temp_index < 0) or (temp_index > 767):
 			temp_adjacents.erase(temp_index)
 
 	return temp_adjacents
@@ -406,11 +406,11 @@ func check_adjacent_unlockables(origin_index, player):
 	# for each adjacent node
 	for adjacent in return_adjacents(origin_index).duplicate():
 		# if node is not unlocked and node is not null
-		if adjacent not in nodes_unlocked[player] && nexus_nodes[adjacent].texture.region.position != null_node_atlas_position:
+		if adjacent not in nodes_unlocked[player] and nexus_nodes[adjacent].texture.region.position != null_node_atlas_position:
 			# check if adjacent has at least 2 unlocked neighbors
 			for second_adjacent in return_adjacents(adjacent):
 				# if second adjacent is unlocked, is not the original node, and adjacent is not in unlockables
-				if (second_adjacent in nodes_unlocked[player]) && (second_adjacent != origin_index) && adjacent not in nodes_unlockable[player]:
+				if (second_adjacent in nodes_unlocked[player]) and (second_adjacent != origin_index) and adjacent not in nodes_unlockable[player]:
 					# add adjacent node to unlockables
 					nodes_unlockable[player].push_back(adjacent)
 

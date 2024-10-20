@@ -21,7 +21,7 @@ func _ready():
 
 func initiate_heal(chosen_node):
 	# check caster status and mana sufficiency
-	if caster_node.player_stats_node.mana > mana_cost && caster_node.player_stats_node.alive:
+	if caster_node.player_stats_node.mana > mana_cost and caster_node.player_stats_node.alive:
 		caster_node.player_stats_node.update_mana(-mana_cost)
 
 		# heal chosen node

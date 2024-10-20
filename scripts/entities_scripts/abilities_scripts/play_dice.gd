@@ -20,12 +20,12 @@ func _ready():
 	if CombatEntitiesComponent.entities_available.size() == 0:
 		queue_free()
 	# if alt is pressed, auto-aim closest enemy
-	elif Input.is_action_pressed("alt") && CombatEntitiesComponent.entities_available.size() != 0:
+	elif Input.is_action_pressed("alt") and CombatEntitiesComponent.entities_available.size() != 0:
 		CombatEntitiesComponent.target_entity("distance_least", caster_node)
 	
 func initiate_play_dice(chosen_node):
 	# check caster status and mana sufficiency
-	if caster_node.player_stats_node.mana > mana_cost && caster_node.player_stats_node.alive:
+	if caster_node.player_stats_node.mana > mana_cost and caster_node.player_stats_node.alive:
 		caster_node.player_stats_node.update_mana(-mana_cost)
 
 		# roll 1 to 17 dice

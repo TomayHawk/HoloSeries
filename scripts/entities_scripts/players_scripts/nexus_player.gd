@@ -51,7 +51,7 @@ func _physics_process(_delta):
 		move_direction = Input.get_vector("left", "right", "up", "down")
 		velocity = move_direction * speed
 		# if not on node, and not moving, set speed to default and snap to nearest node
-		if !on_node && velocity == Vector2.ZERO:
+		if !on_node and velocity == Vector2.ZERO:
 			speed = 150
 			snap_to_target(position)
 		elif velocity != Vector2.ZERO:
@@ -86,12 +86,12 @@ func snap_to_target(initial_position):
 		snap_distance = INF
 
 	for temp_adjacent in nexus.return_adjacents(temp_near).duplicate():
-		if initial_position.distance_to(nexus.nexus_nodes[temp_adjacent].position + Vector2(16, 16)) < snap_distance && nexus.nexus_nodes[temp_adjacent].texture.region.position != nexus.null_node_atlas_position:
+		if initial_position.distance_to(nexus.nexus_nodes[temp_adjacent].position + Vector2(16, 16)) < snap_distance and nexus.nexus_nodes[temp_adjacent].texture.region.position != nexus.null_node_atlas_position:
 			snap_node = nexus.nexus_nodes[temp_adjacent]
 			snap_distance = initial_position.distance_to(nexus.nexus_nodes[temp_adjacent].position + Vector2(16, 16))
 		
 		for second_temp_adjacent in nexus.return_adjacents(temp_adjacent):
-			if initial_position.distance_to(nexus.nexus_nodes[second_temp_adjacent].position + Vector2(16, 16)) < snap_distance && nexus.nexus_nodes[second_temp_adjacent].texture.region.position != nexus.null_node_atlas_position:
+			if initial_position.distance_to(nexus.nexus_nodes[second_temp_adjacent].position + Vector2(16, 16)) < snap_distance and nexus.nexus_nodes[second_temp_adjacent].texture.region.position != nexus.null_node_atlas_position:
 				snap_node = nexus.nexus_nodes[second_temp_adjacent]
 				snap_distance = initial_position.distance_to(nexus.nexus_nodes[second_temp_adjacent].position + Vector2(16, 16))
 

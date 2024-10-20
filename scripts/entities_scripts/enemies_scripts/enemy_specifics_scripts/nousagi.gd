@@ -65,7 +65,7 @@ func _physics_process(delta):
 				animation_node.play("idle")
 				if attack_ready:
 					# summon nousagi (1 / 3 or 10.00%)
-					if summon_ready && randi() % 10 == 0:
+					if summon_ready and randi() % 10 == 0:
 						summon_nousagi()
 					else:
 						animation_node.play("attack")
@@ -105,7 +105,7 @@ func _physics_process(delta):
 		if target_player_node != null:
 			animation_node.flip_h = (target_player_node.position - position).x < 0
 		# switch to attack when ready
-		if base_enemy_node.players_exist_in_attack_area && attack_ready:
+		if base_enemy_node.players_exist_in_attack_area and attack_ready:
 			animation_node.play("attack")
 		# switch to walk when outside attack mode
 		elif !base_enemy_node.players_exist_in_attack_area:

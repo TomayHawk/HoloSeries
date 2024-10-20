@@ -70,7 +70,7 @@ func _ready():
 	hide_all()
 
 func _input(event):
-	if event is InputEventMouseButton && event.is_double_click():
+	if event is InputEventMouseButton and event.is_double_click():
 		print("double click ", event.is_double_click())
 
 func update_nexus_ui():
@@ -139,7 +139,7 @@ func _on_cancel_pressed():
 func _on_nexus_inventory_item_pressed(extra_arg_0):
 	descriptions_label_node.text = inventory_options_valid_node_atlas_positions[extra_arg_0][1]
 	# if player is not moving and inventory is not empty
-	if nexus_player.velocity == Vector2.ZERO && GlobalSettings.nexus_inventory[extra_arg_0] != 0 && inventory_items_nodes[extra_arg_0].modulate == Color(1, 1, 1, 1):
+	if nexus_player.velocity == Vector2.ZERO and GlobalSettings.nexus_inventory[extra_arg_0] != 0 and inventory_items_nodes[extra_arg_0].modulate == Color(1, 1, 1, 1):
 		# wait for double click
 
 		# call appropriate function
@@ -155,9 +155,9 @@ func update_inventory_buttons():
 		if GlobalSettings.nexus_inventory[i] == 0:
 			inventory_items_nodes[i].hide()
 		elif nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position in inventory_options_valid_node_atlas_positions[i][0]:
-			if i < 14 && nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]:
+			if i < 14 and nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]:
 				inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
-			elif i > 16 || i == 14 && nexus.last_nodes[nexus.current_nexus_player] not in nexus.nodes_unlocked[nexus.current_nexus_player]:
+			elif i > 16 or i == 14 and nexus.last_nodes[nexus.current_nexus_player] not in nexus.nodes_unlocked[nexus.current_nexus_player]:
 				inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
 			else:
 				inventory_items_nodes[i].modulate = Color(1, 1, 1, 1)
@@ -175,7 +175,7 @@ func teleport(type):
 			valid = true
 	elif type == "ally":
 		for player_index in nexus.nodes_unlocked.size():
-			if player_index != nexus.current_nexus_player && nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[player_index]:
+			if player_index != nexus.current_nexus_player and nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[player_index]:
 				valid = true
 	elif type == "any":
 		valid = true
