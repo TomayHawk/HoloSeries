@@ -48,9 +48,12 @@ var current_face_direction := Direction.UP:
 		if !player_stats_node.alive: return
 		current_face_direction = next_direction
 		if current_move_state == MoveState.KNOCKBACK: return
-		elif current_attack_state == AttackState.ATTACK: animation_node.play(directions[current_face_direction][4])
+		elif current_attack_state == AttackState.ATTACK:
+			print(attack_face_direction)
+			animation_node.play(directions[attack_face_direction][4])
 		elif current_move_state == MoveState.IDLE: animation_node.play(directions[current_face_direction][2])
 		else: animation_node.play(directions[current_face_direction][3])
+var attack_face_direction := Direction.UP
 
 var current_move_direction := Direction.UP:
 	set(next_direction):
@@ -76,9 +79,11 @@ var current_attack_state := AttackState.READY:
 		current_attack_state = next_attack_state
 		if current_attack_state != AttackState.ATTACK: return
 		character_specifics_node.regular_attack()
-		current_move_direction = Direction.UP if attack_direction.y < 0 else Direction.DOWN
+		print(attack_face_direction)
+		attack_face_direction = Direction.UP if attack_direction.y < 0 else Direction.DOWN
 		if abs(attack_direction.x) < abs(attack_direction.y): return
-		current_move_direction = Direction.LEFT if attack_direction.x < 0 else Direction.RIGHT
+		attack_face_direction = Direction.LEFT if attack_direction.x < 0 else Direction.RIGHT
+		current_face_direction = current_face_direction
 
 func _ready():
 	animation_node.play(directions[current_face_direction][2])
