@@ -85,12 +85,24 @@ var current_attack_state := AttackState.READY:
 		attack_face_direction = Direction.LEFT if attack_direction.x < 0 else Direction.RIGHT
 		current_face_direction = current_face_direction
 
+# PlayerAlly
+@onready var obstacle_check_node := %ObstacleCheck
+@onready var navigation_agent_node := %NavigationAgent2D
+@onready var ally_move_cooldown_node := %AllyMoveCooldown
+
+var ally_can_move := true
+var ally_can_attack := true
+var ally_in_attack_position := true
+var enemy_nodes_in_attack_area := []
+
 func _ready():
 	animation_node.play(directions[current_face_direction][2])
 	
 func _physics_process(delta):
-	# movement inputs
-	velocity = Input.get_vector("left", "right", "up", "down")
+	if is_current_main_player:
+		velocity = Input.get_vector("left", "right", "up", "down")
+	else:
+		pass
 
 	# update states and animations
 	if velocity == Vector2.ZERO:
@@ -103,16 +115,20 @@ func _physics_process(delta):
 	velocity *= walk_speed * delta
 
 	match current_move_state:
-		MoveState.KNOCKBACK: velocity = knockback_direction * 200 * (1 - (0.4 - knockback_timer_node.get_time_left()) / 0.4) * knockback_weight
-		MoveState.DASH: velocity *= dash_multiplier * (1 - (dash_time - dash_timer_node.get_time_left()) / dash_time)
+		MoveState.KNOCKBACK:
+			velocity = knockback_direction * 200 * (1 - (0.4 - knockback_timer_node.get_time_left()) / 0.4) * knockback_weight
+		MoveState.DASH:
+			velocity *= dash_multiplier * (1 - (dash_time - dash_timer_node.get_time_left()) / dash_time)
 		MoveState.SPRINT:
 			velocity *= sprint_multiplier
 			player_stats_node.update_stamina(-sprinting_stamina_consumption)
 
-	if current_attack_state == AttackState.ATTACK: velocity /= 2
+	if current_attack_state == AttackState.ATTACK:
+		velocity /= 2
 
 	# attack register if attacking
-	if attack_register != "" and animation_node.get_frame() == 1: character_specifics_node.call(attack_register)
+	if attack_register != "" and animation_node.get_frame() == 1:
+		character_specifics_node.call(attack_register)
 
 	# move
 	move_and_slide()
@@ -140,21 +156,58 @@ func _on_combat_hit_box_area_mouse_exited():
 	GlobalSettings.mouse_in_attack_area = true
 
 func _on_interaction_area_body_entered(body):
-	if is_current_main_player and body.is_in_group("npcs"):
-		body.interaction_area(true)
+	if is_current_main_player:
+		if body.is_in_group("npcs"):
+			body.interaction_area(true)
+
+	if body.has_method("choose_player"):
+		enemy_nodes_in_attack_area.push_back(body)
+		current_move_state = MoveState.IDLE
+		velocity = Vector2.ZERO
+		ally_in_attack_position = true
+		ally_can_move = true
 
 func _on_interaction_area_body_exited(body):
-	if is_current_main_player and body.is_in_group("npcs"):
-		body.interaction_area(false)
+	if is_current_main_player:
+		if body.is_in_group("npcs"):
+			body.interaction_area(false)
+
+	if body.has_method("choose_player"):
+		enemy_nodes_in_attack_area.erase(body)
+		if enemy_nodes_in_attack_area.is_empty():
+			ally_in_attack_position = false
 
 func _on_attack_timer_timeout():
 	current_attack_state = AttackState.READY
 
 func _on_knockback_timer_timeout():
-	current_move_state = MoveState.WALK if Input.get_vector("left", "right", "up", "down") != Vector2.ZERO else MoveState.IDLE
+	if Input.get_vector("left", "right", "up", "down") != Vector2.ZERO:
+		current_move_state = MoveState.WALK
+	else:
+		current_move_state = MoveState.IDLE
 
 func _on_dash_timer_timeout():
-	current_move_state = MoveState.SPRINT if Input.is_action_pressed("dash") else MoveState.WALK
+	if Input.is_action_pressed("dash"):
+		current_move_state = MoveState.SPRINT
+	else:
+		current_move_state = MoveState.WALK
 
 func _on_death_timer_timeout():
 	animation_node.pause()
+
+# PlayerAlly
+func _on_ally_move_cooldown_timeout():
+	current_move_state = MoveState.IDLE
+	velocity = Vector2.ZERO
+
+	if CombatEntitiesComponent.in_combat and !CombatEntitiesComponent.leaving_combat:
+		ally_can_move = true
+	elif position.distance_to(GlobalSettings.current_main_player_node.position) < 70:
+		ally_move_cooldown_node.start(randf_range(1.5, 2))
+	elif position.distance_to(GlobalSettings.current_main_player_node.position) < 100:
+		ally_move_cooldown_node.start(randf_range(0.7, 0.8))
+	else:
+		ally_can_move = true
+
+func _on_ally_attack_cooldown_timeout():
+	ally_can_attack = true

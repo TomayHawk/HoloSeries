@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c5o6bi43j562b"]
+[gd_scene load_steps=8 format=3 uid="uid://c5o6bi43j562b"]
 
 [ext_resource type="Script" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_rapl1"]
 [ext_resource type="PackedScene" uid="uid://bba5o3t2xufxm" path="res://entities/players/player_stats_component.tscn" id="2_qqh8d"]
@@ -10,6 +10,8 @@ size = Vector2(16, 7)
 size = Vector2(20, 29)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_swviq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r405m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hb5yx"]
 size = Vector2(10, 10)
@@ -41,6 +43,26 @@ scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_swviq")
 
 [node name="PlayerStatsComponent" parent="." instance=ExtResource("2_qqh8d")]
+
+[node name="PlayerAlly" type="Node2D" parent="."]
+
+[node name="ObstacleCheck" type="ShapeCast2D" parent="PlayerAlly"]
+unique_name_in_owner = true
+scale = Vector2(0.454765, 0.35)
+shape = SubResource("RectangleShape2D_r405m")
+target_position = Vector2(37.1429, 0)
+collision_mask = 14
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="PlayerAlly"]
+unique_name_in_owner = true
+debug_enabled = true
+
+[node name="AllyMoveCooldown" type="Timer" parent="PlayerAlly"]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="AllyAttackCooldown" type="Timer" parent="PlayerAlly"]
+one_shot = true
 
 [node name="AttackShape" type="ShapeCast2D" parent="."]
 unique_name_in_owner = true
@@ -75,6 +97,8 @@ one_shot = true
 [connection signal="mouse_exited" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_mouse_exited"]
 [connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
 [connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]
+[connection signal="timeout" from="PlayerAlly/AllyMoveCooldown" to="." method="_on_ally_move_cooldown_timeout"]
+[connection signal="timeout" from="PlayerAlly/AllyAttackCooldown" to="." method="_on_ally_attack_cooldown_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="KnockbackTimer" to="." method="_on_knockback_timer_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
