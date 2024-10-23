@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5o6bi43j562b"]
+[gd_scene load_steps=9 format=3 uid="uid://c5o6bi43j562b"]
 
 [ext_resource type="Script" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_rapl1"]
 [ext_resource type="PackedScene" uid="uid://bba5o3t2xufxm" path="res://entities/players/player_stats_component.tscn" id="2_qqh8d"]
+[ext_resource type="Script" path="res://scripts/entities_scripts/players_scripts/player_ally.gd" id="3_8r1k5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
 size = Vector2(16, 7)
@@ -45,6 +46,7 @@ shape = SubResource("CircleShape2D_swviq")
 [node name="PlayerStatsComponent" parent="." instance=ExtResource("2_qqh8d")]
 
 [node name="PlayerAlly" type="Node2D" parent="."]
+script = ExtResource("3_8r1k5")
 
 [node name="ObstacleCheck" type="ShapeCast2D" parent="PlayerAlly"]
 unique_name_in_owner = true
