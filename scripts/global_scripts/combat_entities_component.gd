@@ -224,24 +224,25 @@ func request_entities(origin_node, target_command, request_count, request_entity
 
 	entities_available = GlobalSettings.tree.get_nodes_in_group(request_entity_type)
 
-	if request_entity_type == "party_players":
-		entities_available = GlobalSettings.party_node.get_children()
-	elif request_entity_type == "ally_players":
-		entities_available = GlobalSettings.party_node.get_children()
-		entities_available.erase(GlobalSettings.current_main_player_node)
-	elif request_entity_type == "enemies_in_combat":
-		entities_available = enemy_nodes_in_combat.duplicate()
-	elif request_entity_type == "all_entities_in_combat":
-		entities_available = GlobalSettings.party_node.get_children() + enemy_nodes_in_combat.duplicate()
-	elif request_entity_type == "all_enemies_on_screen":
-		entities_available = GlobalSettings.tree.current_scene.get_node("Enemies").get_children().duplicate()
-	elif request_entity_type == "all_entities_on_screen":
-		entities_available = GlobalSettings.party_node.get_children() + GlobalSettings.tree.current_scene.get_node("Enemies").get_children().duplicate()
+	match request_entity_type:
+		"party_players":
+			entities_available = GlobalSettings.party_node.get_children()
+		"ally_players":
+			entities_available = GlobalSettings.party_node.get_children()
+			entities_available.erase(GlobalSettings.current_main_player_node)
+		"enemies_in_combat":
+			entities_available = enemy_nodes_in_combat.duplicate()
+		"all_entities_in_combat":
+			entities_available = GlobalSettings.party_node.get_children() + enemy_nodes_in_combat.duplicate()
+		"all_enemies_on_screen":
+			entities_available = GlobalSettings.tree.current_scene.get_node("Enemies").get_children().duplicate()
+		"all_entities_on_screen":
+			entities_available = GlobalSettings.party_node.get_children() + GlobalSettings.tree.current_scene.get_node("Enemies").get_children().duplicate()
 
 	for entity in entities_available:
-		if entity.has_method("ally_movement"): # #### need grouping
+		if entity.is_in_group("players"): # #### need grouping
 			entity.add_child(load(entity_highlights_paths[6]).instantiate())
-		elif entity.has_method("choose_player"):
+		elif entity.is_in_group("enemies"):
 			entity.add_child(load(entity_highlights_paths[0]).instantiate())
 
 	if (entities_request_count == 1) and (locked_enemy_node != null) and (locked_enemy_node in entities_available):
@@ -263,9 +264,9 @@ func empty_entities_request():
 
 	for entity in entities_available:
 		if is_instance_valid(entity):
-			if entity.has_method("ally_movement"): # #### need grouping
+			if entity.is_in_group("players"): # #### need grouping
 				entity.remove_child(entity.get_node_or_null("PlayerHighlight"))
-			elif entity.has_method("choose_player"):
+			elif entity.is_in_group("enemies"):
 				entity.remove_child(entity.get_node_or_null("EnemyHighlight"))
 
 	entities_request_count = 0

@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_rapl1"]
 [ext_resource type="PackedScene" uid="uid://bba5o3t2xufxm" path="res://entities/players/player_stats_component.tscn" id="2_qqh8d"]
-[ext_resource type="Script" path="res://scripts/entities_scripts/players_scripts/player_ally.gd" id="3_8r1k5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
 size = Vector2(16, 7)
@@ -12,7 +11,14 @@ size = Vector2(20, 29)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_swviq"]
 
+[sub_resource type="GDScript" id="GDScript_571to"]
+script/source = "extends Node2D
+
+@onready var player_node := get_parent()
+"
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r405m"]
+size = Vector2(16, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hb5yx"]
 size = Vector2(10, 10)
@@ -46,13 +52,12 @@ shape = SubResource("CircleShape2D_swviq")
 [node name="PlayerStatsComponent" parent="." instance=ExtResource("2_qqh8d")]
 
 [node name="PlayerAlly" type="Node2D" parent="."]
-script = ExtResource("3_8r1k5")
+script = SubResource("GDScript_571to")
 
 [node name="ObstacleCheck" type="ShapeCast2D" parent="PlayerAlly"]
 unique_name_in_owner = true
-scale = Vector2(0.454765, 0.35)
 shape = SubResource("RectangleShape2D_r405m")
-target_position = Vector2(37.1429, 0)
+target_position = Vector2(8, 0)
 collision_mask = 14
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="PlayerAlly"]

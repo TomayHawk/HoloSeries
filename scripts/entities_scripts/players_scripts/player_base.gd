@@ -3,7 +3,6 @@ extends CharacterBody2D
 @onready var player_stats_node := get_node_or_null("PlayerStatsComponent")
 @onready var character_specifics_node := get_node_or_null("CharacterSpecifics")
 @onready var animation_node := get_node_or_null("CharacterSpecifics/Animation")
-@onready var player_ally_node := %PlayerAlly
 @onready var attack_shape_node := %AttackShape
 @onready var dash_timer_node := %DashTimer
 @onready var knockback_timer_node := %KnockbackTimer
@@ -33,6 +32,7 @@ var directions := {
 	Direction.UP_RIGHT: [Direction.RIGHT, Vector2(1, -1).normalized(), "left_idle", "left_walk", "left_attack"],
 	Direction.DOWN_LEFT: [Direction.LEFT, Vector2(-1, 1).normalized(), "right_idle", "right_walk", "right_attack"],
 	Direction.DOWN_RIGHT: [Direction.RIGHT, Vector2(1, 1).normalized(), "right_idle", "right_walk", "right_attack"],
+	Vector2(0, 0): Direction.UP,
 	Vector2(0, -1): Direction.UP,
 	Vector2(0, 1): Direction.DOWN,
 	Vector2(-1, 0): Direction.LEFT,
@@ -68,11 +68,12 @@ var current_move_state := MoveState.IDLE:
 		if !player_stats_node.alive: return
 		current_move_state = next_move_state
 		current_face_direction = current_face_direction
+		if current_move_state == MoveState.IDLE: velocity = Vector2.ZERO
 		if current_move_state != MoveState.DASH: return
 		dash_timer_node.start(dash_time)
 		player_stats_node.update_stamina(-dash_stamina_consumption)
 
-enum AttackState {READY, ATTACK, WAIT}
+enum AttackState {READY, ATTACK}
 var current_attack_state := AttackState.READY:
 	set(next_attack_state):
 		if !player_stats_node.alive or current_attack_state == next_attack_state: return
@@ -90,33 +91,17 @@ var current_attack_state := AttackState.READY:
 @onready var navigation_agent_node := %NavigationAgent2D
 @onready var ally_move_cooldown_node := %AllyMoveCooldown
 
-var ally_can_move := true
-var ally_can_attack := true
-var ally_in_attack_position := true
-
-var target_enemy_node: Node = null
-var enemy_nodes_in_attack_area: Array[Node] = []
-
 var distance_to_main_player := 200.0
+var ally_can_move := true
 var temp_comparator := INF
-var enemy_direction := Vector2.ZERO
+var possible_directions: Array[Vector2] = [Vector2(0, -1), Vector2(0, 1), Vector2(-1, 0), Vector2(1, 0), Vector2(-1, -1).normalized(), Vector2(1, -1).normalized(), Vector2(-1, 1).normalized(), Vector2(1, 1).normalized()]
+var temp_direction := Vector2.ZERO
+var snapped_direction := Vector2.ZERO
 
-'''
-#####
-var ally_speed := 6000.0
-
-var ally_direction_ready := true
-var ray_cast_obstacles := true
-
-# combat variables (allies)
-var ally_attack_ready := true
-
-# temporary variables
-var temp_ally_speed := 6000.0
-
-var temp_move_direction := Vector2.ZERO
-var temp_possible_directions: Array[int] = [0, 1, 2, 3, 4, 5, 6, 7]
-'''
+var enemy_nodes_in_attack_area: Array[Node] = []
+var ally_can_attack := true
+var target_enemy_node: Node = null
+var ally_in_attack_position := false
 
 func _ready():
 	animation_node.play(directions[current_face_direction][2])
@@ -131,7 +116,6 @@ func _physics_process(delta):
 		if ally_in_attack_position and distance_to_main_player < 250:
 			# pause movement
 			current_move_state = MoveState.IDLE
-			velocity = Vector2.ZERO
 
 			# target enemy with lowest health
 			temp_comparator = INF
@@ -141,108 +125,82 @@ func _physics_process(delta):
 					target_enemy_node = enemy_node
 			
 			# attack if able
-			if ally_can_attack:
+			if current_attack_state == AttackState.READY:
 				current_attack_state = AttackState.ATTACK ## ### might have to change
 			# else face towards enemy
 			else:
-				enemy_direction = (target_enemy_node.position - position).normalized()
-				if abs(enemy_direction.x) < abs(enemy_direction.y):
-					if enemy_direction.y < 0:
+				temp_direction = (target_enemy_node.position - position).normalized()
+				if abs(temp_direction.x) < abs(temp_direction.y):
+					if temp_direction.y < 0:
 						current_face_direction = Direction.UP
 					else:
 						current_face_direction = Direction.DOWN
-				elif enemy_direction.x < 0:
+				elif temp_direction.x < 0:
 					current_face_direction = Direction.LEFT
 				else:
 					current_face_direction = Direction.RIGHT
-
 		# if ally can move
-		elif ally_direction_ready and !attacking:
-			ally_direction_ready = false
-			# moving = true
-			temp_ally_speed = ally_speed
+		elif ally_can_move and current_attack_state == AttackState.READY:
+			ally_can_move = false
 
 			if CombatEntitiesComponent.in_combat and !CombatEntitiesComponent.leaving_combat and distance_to_main_player < 250:
-				# distance to target
+				# target enemy with shortest distance
 				temp_comparator = INF
-				# evaluate enemy distances
-				for enemy in CombatEntitiesComponent.enemy_nodes_in_combat:
-					# target enemy with shortest distance
-					if position.distance_to(enemy.position) < temp_comparator:
-						temp_comparator = position.distance_to(enemy.position)
-						ally_target_enemy_node = enemy
+				for enemy_node in CombatEntitiesComponent.enemy_nodes_in_combat:
+					if position.distance_to(enemy_node.position) < temp_comparator:
+						temp_comparator = position.distance_to(enemy_node.position)
+						target_enemy_node = enemy_node
 				
-				if temp_comparator > 200 and temp_comparator > distance_to_main_player:
-					navigation_agent_node.target_position = GlobalSettings.current_main_position
+				if temp_comparator > 200:
+					navigation_agent_node.target_position = GlobalSettings.current_main_player_node.position
 				else:
-					navigation_agent_node.target_position = ally_target_enemy_node.position
+					navigation_agent_node.target_position = target_enemy_node.position
 
-				current_move_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
-				ally_direction_cooldown_node.start(randf_range(0.2, 0.4))
+				temp_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
+				ally_move_cooldown_node.start(randf_range(0.2, 0.4))
 			elif distance_to_main_player < 80:
-				current_move_direction = possible_directions[randi() % 8]
-				ally_direction_cooldown_node.start(randf_range(0.5, 0.7))
-				temp_ally_speed /= 1.5
+				temp_direction = Vector2(randf() * 2 - 1, randf() * 2 - 1)
+				ally_move_cooldown_node.start(randf_range(0.5, 0.7))
+				pass ## ### velocity /= 1.5
 			else:
-				navigation_agent_node.target_position = GlobalSettings.current_main_position
-				current_move_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
-				ally_direction_cooldown_node.start(randf_range(0.5, 0.7))
+				navigation_agent_node.target_position = GlobalSettings.current_main_player_node.position
+				temp_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
+				ally_move_cooldown_node.start(randf_range(0.5, 0.7))
 
 			if distance_to_main_player > 200:
-				temp_ally_speed *= (distance_to_main_player / 200)
+				pass ## ### velocity *= (distance_to_main_player / 200)
 				if distance_to_main_player > 300:
-					temp_ally_speed = ally_speed * 2
+					pass ## ### velocity *= 2
 			
-			if GlobalSettings.current_main_sprinting and !CombatEntitiesComponent.in_combat and distance_to_main_player > 120 and GlobalSettings.current_main_moving:
-				temp_ally_speed = GlobalSettings.current_main_speed * sprint_multiplier
+			if GlobalSettings.current_main_player_node.current_move_state == MoveState.SPRINT and !CombatEntitiesComponent.in_combat and distance_to_main_player > 120:
+				current_move_state = MoveState.SPRINT
+			
+			# snap to 8-way
+			possible_directions = [Vector2(0, -1), Vector2(0, 1), Vector2(-1, 0), Vector2(1, 0), Vector2(-1, -1).normalized(), Vector2(1, -1).normalized(), Vector2(-1, 1).normalized(), Vector2(1, 1).normalized()]
+			for direction in possible_directions:
+				if temp_direction.distance_to(direction) < 0.390180645:
+					snapped_direction = direction
 
-			# assume currently facing obstacle
-			ray_cast_obstacles = true
-			# each possible walk direction
-			temp_possible_directions = [0, 1, 2, 3, 4, 5, 6, 7]
-			temp_move_direction = current_move_direction
-
-			# while facing obstacles
-			while ray_cast_obstacles:
-				# distance to target direction
-				temp_comparator = INF
-				
-				# for each possible direction
-				for i in temp_possible_directions:
-					# if distance to snapped direction is shorter than current distance to snapped direction, set new snapped direction
-					if current_move_direction.distance_to(possible_directions[i]) < temp_comparator:
-						temp_comparator = current_move_direction.distance_to(possible_directions[i])
-						temp_move_direction = possible_directions[i]
-
-				current_move_direction = temp_move_direction
-
-				# check for obstacles
-				obstacle_check_node.set_target_position(current_move_direction * 20)
+			# check for obstacles
+			while true:
+				obstacle_check_node.set_target_position(snapped_direction * 8)
 				obstacle_check_node.force_shapecast_update()
 
-				# if facing obstacles
 				if obstacle_check_node.is_colliding():
-					# remove currently selected direction
-					for i in temp_possible_directions:
-						if current_move_direction == possible_directions[i]:
-							temp_possible_directions.erase(i)
-					
-					if temp_possible_directions.is_empty():
-						for i in 8:
-							if current_move_direction.distance_to(possible_directions[i]) < temp_comparator:
-								temp_comparator = current_move_direction.distance_to(possible_directions[i])
-								temp_move_direction = possible_directions[i]
-						current_move_direction = temp_move_direction
-
-						ray_cast_obstacles = false
+					possible_directions.erase(snapped_direction)
+					if possible_directions.is_empty():
+						current_move_state = MoveState.IDLE
+						break
+					# find next closest direction
+					temp_comparator = INF
+					for direction in possible_directions:
+						if temp_direction.distance_to(direction) < temp_comparator:
+							temp_comparator = temp_direction.distance_to(direction)
+							snapped_direction = direction
 				else:
-					ray_cast_obstacles = false
-
-			velocity = current_move_direction * temp_ally_speed * delta
-
-			current_move_direction = directions[velocity]
-
-			current_face_direction = current_face_direction
+					velocity = snapped_direction
+					current_move_direction = directions[velocity]
+					break
 
 	# update states and animations
 	if velocity == Vector2.ZERO:
@@ -303,7 +261,6 @@ func _on_interaction_area_body_entered(body):
 	if body.is_in_group("enemies"):
 		enemy_nodes_in_attack_area.push_back(body)
 		current_move_state = MoveState.IDLE
-		velocity = Vector2.ZERO
 		ally_in_attack_position = true
 		ally_can_move = true
 
@@ -338,7 +295,6 @@ func _on_death_timer_timeout():
 # PlayerAlly
 func _on_ally_move_cooldown_timeout():
 	current_move_state = MoveState.IDLE
-	velocity = Vector2.ZERO
 
 	if CombatEntitiesComponent.in_combat and !CombatEntitiesComponent.leaving_combat:
 		ally_can_move = true
@@ -350,4 +306,4 @@ func _on_ally_move_cooldown_timeout():
 		ally_can_move = true
 
 func _on_ally_attack_cooldown_timeout():
-	ally_can_attack = true
+	current_attack_state = AttackState.READY ## ### need to change CharacterSpecifics and Attacks for Allies

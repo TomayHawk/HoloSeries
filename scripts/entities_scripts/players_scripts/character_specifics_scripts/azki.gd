@@ -47,11 +47,11 @@ func regular_attack():
 	if player_node.is_current_main_player: player_node.attack_direction = (get_global_mouse_position() - player_node.position).normalized()
 	else:
 		var temp_enemy_health = INF
-		for enemy_node in player_node.ally_enemy_nodes_in_attack_area:
+		for enemy_node in player_node.enemy_nodes_in_attack_area:
 			if enemy_node.base_enemy_node.health < temp_enemy_health:
 				temp_enemy_health = enemy_node.base_enemy_node.health
 				player_node.attack_direction = (enemy_node.position - player_node.position).normalized()
-		player_node.ally_attack_ready = false
+		player_node.ally_can_attack = false
 		ally_attack_cooldown_node.start(randf_range(2, 3))
 
 	if player_node.current_move_state == player_node.MoveState.DASH:
@@ -90,11 +90,11 @@ func ultimate_attack():
 	if player_node.is_current_main_player: player_node.attack_direction = (get_global_mouse_position() - player_node.position).normalized()
 	else:
 		var temp_enemy_health = INF
-		for enemy_node in player_node.ally_enemy_nodes_in_attack_area:
+		for enemy_node in player_node.enemy_nodes_in_attack_area:
 			if enemy_node.base_enemy_node.health < temp_enemy_health:
 				temp_enemy_health = enemy_node.base_enemy_node.health
 				player_node.attack_direction = (enemy_node.position - player_node.position).normalized()
-		player_node.ally_attack_ready = false
+		player_node.ally_can_attack = false
 		ally_attack_cooldown_node.start(randf_range(2, 3))
 	
 	if player_node.current_move_state == player_node.MoveState.DASH:
