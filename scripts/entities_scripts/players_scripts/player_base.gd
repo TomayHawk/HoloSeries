@@ -49,7 +49,6 @@ var current_face_direction := Direction.UP:
 		current_face_direction = next_direction
 		if current_move_state == MoveState.KNOCKBACK: return
 		elif current_attack_state == AttackState.ATTACK:
-			print(attack_face_direction)
 			animation_node.play(directions[attack_face_direction][4])
 		elif current_move_state == MoveState.IDLE: animation_node.play(directions[current_face_direction][2])
 		else: animation_node.play(directions[current_face_direction][3])
@@ -80,7 +79,6 @@ var current_attack_state := AttackState.READY:
 		current_attack_state = next_attack_state
 		if current_attack_state != AttackState.ATTACK: return
 		character_specifics_node.regular_attack()
-		print(attack_face_direction)
 		attack_face_direction = Direction.UP if attack_direction.y < 0 else Direction.DOWN
 		if abs(attack_direction.x) < abs(attack_direction.y): return
 		attack_face_direction = Direction.LEFT if attack_direction.x < 0 else Direction.RIGHT
@@ -159,7 +157,7 @@ func _physics_process(delta):
 				temp_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
 				ally_move_cooldown_node.start(randf_range(0.2, 0.4))
 			elif distance_to_main_player < 80:
-				temp_direction = Vector2(randf() * 2 - 1, randf() * 2 - 1)
+				temp_direction = Vector2(randf() * 2 - 1, randf() * 2 - 1).normalized()
 				ally_move_cooldown_node.start(randf_range(0.5, 0.7))
 				pass ## ### velocity /= 1.5
 			else:
@@ -180,6 +178,7 @@ func _physics_process(delta):
 			for direction in possible_directions:
 				if temp_direction.distance_to(direction) < 0.390180645:
 					snapped_direction = direction
+					break
 
 			# check for obstacles
 			while true:
@@ -190,6 +189,8 @@ func _physics_process(delta):
 					possible_directions.erase(snapped_direction)
 					if possible_directions.is_empty():
 						current_move_state = MoveState.IDLE
+						velocity = snapped_direction
+						current_move_direction = directions[velocity]
 						break
 					# find next closest direction
 					temp_comparator = INF
@@ -200,6 +201,15 @@ func _physics_process(delta):
 				else:
 					velocity = snapped_direction
 					current_move_direction = directions[velocity]
+					break
+		else:
+			##### need to fix this
+			velocity = velocity.normalized()
+			possible_directions = [Vector2(-1, -1).normalized(), Vector2(1, -1).normalized(), Vector2(-1, 1).normalized(), Vector2(1, 1).normalized()]
+			for direction in possible_directions:
+				if velocity.distance_to(direction) < 0.390180645:
+					velocity = direction
+					print("this")
 					break
 
 	# update states and animations
