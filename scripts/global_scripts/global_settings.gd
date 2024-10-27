@@ -28,11 +28,13 @@ const background_music_paths := {
 
 const nexus_path := "res://user_interfaces/holo_nexus.tscn"
 
+enum EscState {MAIN_MENU, MAIN_MENU_SAVES, MAIN_MENU_SETTINGS, WORLD, COMBAT_OPTIONS_2, REQUESTING_ENTITIES, DIALOGUE, OPTIONS, SETTINGS, STATS_SETTINGS, NEXUS, NEXUS_INVENTORY}
+var esc_state := EscState.MAIN_MENU
+
 # settings variables
-var currently_full_screen := false
+var full_screen := false
 var current_main_player_node: Node = null
 
-var game_paused := false
 var attempt_attack := false
 var mouse_in_attack_area := true
 var combat_inputs_available := false
@@ -107,51 +109,87 @@ func _input(_event):
 
 # full screen inputs
 func full_screen_toggle():
-	if !currently_full_screen:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-		currently_full_screen = true
-	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		currently_full_screen = false
+	full_screen = !full_screen
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if full_screen else DisplayServer.WINDOW_MODE_WINDOWED)
 
 # esc inputs
 func esc_input():
 	if on_nexus:
 		if nexus_node.nexus_ui_node.inventory_node.visible:
-			nexus_node.nexus_ui_node.inventory_node.hide()
-			nexus_node.nexus_ui_node.update_nexus_ui()
-			return
-		nexus(false)
-	elif CombatEntitiesComponent.requesting_entities:
-		CombatEntitiesComponent.empty_entities_request()
-	elif combat_ui_combat_options_2_node.visible:
-		combat_ui_node.hide_combat_options_2()
-	elif game_paused:
-		if game_options_node.settings_node.visible:
-			game_options_node.settings_node.hide()
-			game_options_node.options_node.show()
-			if current_save == -1:
-				tree.current_scene.main_menu_options_node.show()
-				esc_input()
-		elif game_options_node.stats_node.visible:
-			game_options_node.stats_node.hide()
-			game_options_node.options_node.show()
-			if current_save == -1:
-				tree.current_scene.main_menu_options_node.show()
-				esc_input()
+			esc_state = EscState.NEXUS_INVENTORY
 		else:
+			esc_state = EscState.NEXUS
+	elif CombatEntitiesComponent.requesting_entities:
+		esc_state = EscState.REQUESTING_ENTITIES
+	elif combat_ui_combat_options_2_node.visible:
+		esc_state = EscState.COMBAT_OPTIONS_2
+	elif tree.paused:
+		if current_save == -1:
+			esc_state = EscState.MAIN_MENU_SETTINGS
+		elif game_options_node.settings_node.visible:
+			esc_state = EscState.SETTINGS
+		elif game_options_node.stats_node.visible:
+			esc_state = EscState.STATS_SETTINGS
+		else:
+			esc_state = EscState.OPTIONS
+	elif current_save != -1:
+		esc_state = EscState.WORLD
+
+	print(esc_state)
+	
+	match esc_state:
+		EscState.MAIN_MENU:
+			game_options_node.show()
+			game_options_node.options_node.hide()
+			game_options_node.settings_node.show()
+			tree.current_scene.main_menu_options_node.hide()
+			esc_state = EscState.MAIN_MENU_SETTINGS
+		EscState.MAIN_MENU_SAVES:
+			tree.current_scene.saves_menu_node.hide()
+			tree.current_scene.options_menu_node.show()
+			tree.current_scene.main_menu_options_node.show()
+			esc_state = EscState.MAIN_MENU
+		EscState.MAIN_MENU_SETTINGS:
+			game_options_node.hide()
+			game_options_node.options_node.show()
+			game_options_node.settings_node.hide()
+			tree.current_scene.main_menu_options_node.show()
+			esc_state = EscState.MAIN_MENU
+		EscState.WORLD:
+			game_options_node.show()
+			combat_ui_node.hide()
+			combat_ui_character_selector_node.hide()
+			tree.paused = true
+			combat_inputs_available = false
+			esc_state = EscState.OPTIONS
+		EscState.COMBAT_OPTIONS_2:
+			combat_ui_node.hide_combat_options_2()
+			esc_state = EscState.WORLD
+		EscState.REQUESTING_ENTITIES:
+			CombatEntitiesComponent.empty_entities_request()
+			esc_state = EscState.WORLD if combat_ui_combat_options_2_node.visible else EscState.COMBAT_OPTIONS_2
+		EscState.DIALOGUE:
+			pass
+		EscState.OPTIONS:
 			game_options_node.hide()
 			combat_ui_node.show()
 			tree.paused = false
 			combat_inputs_available = true
-			game_paused = false
-	elif current_save != -1:
-		game_options_node.show()
-		combat_ui_node.hide()
-		combat_ui_character_selector_node.hide()
-		tree.paused = true
-		combat_inputs_available = false
-		game_paused = true
+			esc_state = EscState.WORLD
+		EscState.SETTINGS:
+			game_options_node.settings_node.hide()
+			game_options_node.options_node.show()
+			esc_state = EscState.OPTIONS
+		EscState.STATS_SETTINGS:
+			game_options_node.stats_node.hide()
+			game_options_node.options_node.show()
+			esc_state = EscState.OPTIONS
+		EscState.NEXUS:
+			nexus(false)
+		EscState.NEXUS_INVENTORY:
+			nexus_node.nexus_ui_node.inventory_node.hide()
+			nexus_node.nexus_ui_node.update_nexus_ui()
+			esc_state = EscState.NEXUS
 
 # change scene (called from scenes)
 func change_scene(next_scene, scene_index, spawn_index, bgm):
@@ -185,7 +223,6 @@ func update_main_player(next_main_player_node):
 	CombatEntitiesComponent.empty_entities_request()
 	
 func nexus(to_nexus):
-	game_paused = to_nexus
 	tree.paused = to_nexus
 	visible = !to_nexus
 	tree.current_scene.visible = !to_nexus
@@ -198,8 +235,10 @@ func nexus(to_nexus):
 
 	if to_nexus:
 		root.add_child(load(nexus_path).instantiate())
+		esc_state = EscState.NEXUS
 	else:
 		nexus_node.call_deferred("exit_nexus")
+		esc_state = EscState.WORLD
 		
 func start_bgm(bgm):
 	if audio_stream_player_node.stream.resource_path != background_music_paths[bgm]:

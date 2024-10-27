@@ -209,7 +209,7 @@ func _physics_process(delta):
 			for direction in possible_directions:
 				if velocity.distance_to(direction) < 0.390180645:
 					velocity = direction
-					print("this")
+					##### print("this")
 					break
 
 	# update states and animations
@@ -242,6 +242,8 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _input(_event):
+	if !is_current_main_player: return
+	
 	if Input.is_action_just_pressed("dash") and player_stats_node.stamina > 25.0 and !player_stats_node.stamina_slow_recovery:
 		current_move_state = MoveState.DASH
 	elif Input.is_action_just_released("dash") and current_move_state == MoveState.DASH:
