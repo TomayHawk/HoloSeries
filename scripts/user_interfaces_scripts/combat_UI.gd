@@ -26,6 +26,8 @@ var character_selector_level_nodes: Array[Node] = []
 var character_selector_health_nodes: Array[Node] = []
 var character_selector_mana_nodes: Array[Node] = []
 
+var combat_inventory := [123, 45, 6, 78, 999]
+
 func _ready():
 	for i in 4:
 		character_name_label_nodes.push_back(players_info_nodes[i].get_node("HBoxContainer/CharacterName"))
@@ -90,12 +92,14 @@ func _on_attack_pressed():
 
 # CombatOptions1
 func _on_combat_options_1_pressed(extra_arg_0):
+	hide_combat_options_2()
 	if combat_options_2_node.visible and combat_options_2_modes[extra_arg_0].visible:
-		hide_combat_options_2()
+		return
+		##### GlobalSettings.esc_state = GlobalSettings.EscState.WORLD
 	else:
-		hide_combat_options_2()
 		combat_options_2_node.show()
 		combat_options_2_modes[extra_arg_0].show()
+		##### GlobalSettings.esc_state = GlobalSettings.EscState.COMBAT_OPTIONS_2
 
 func hide_combat_options_2():
 	combat_options_2_node.hide()
