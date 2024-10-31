@@ -75,10 +75,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Item"
 
 [node name="SkillVBoxContainer" type="VBoxContainer" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin"]
@@ -93,10 +93,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Life Drain"
 
 [node name="ManaDrain" type="Button" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SkillVBoxContainer"]
@@ -105,10 +105,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Mana Drain"
 
 [node name="Taunt" type="Button" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SkillVBoxContainer"]
@@ -117,10 +117,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Taunt"
 
 [node name="PlayDice" type="Button" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SkillVBoxContainer"]
@@ -129,10 +129,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Play Dice"
 
 [node name="BuffVBoxContainer" type="VBoxContainer" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin"]
@@ -147,10 +147,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Item"
 
 [node name="DebuffVBoxContainer" type="VBoxContainer" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin"]
@@ -165,10 +165,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Item"
 
 [node name="WhiteVBoxContainer" type="VBoxContainer" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin"]
@@ -183,10 +183,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Heal"
 
 [node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Heal"]
@@ -205,10 +205,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Protect"
 
 [node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Protect"]
@@ -227,10 +227,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Haste"
 
 [node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Haste"]
@@ -249,10 +249,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Regen"
 
 [node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Regen"]
@@ -276,10 +276,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Fireball"
 
 [node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer/Fireball"]
@@ -298,10 +298,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Poison"
 
 [node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer/Poison"]
@@ -320,10 +320,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Slowness"
 
 [node name="Cost" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer/Slowness"]
@@ -348,10 +348,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Item"
 
 [node name="ItemsGridContainer" type="GridContainer" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin"]
@@ -369,10 +369,10 @@ size_flags_horizontal = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 alignment = 0
 
 [node name="Label" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/Potion"]
@@ -401,10 +401,10 @@ size_flags_horizontal = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = " "
 
 [node name="Label" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/MaxPotion"]
@@ -433,10 +433,10 @@ size_flags_horizontal = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = " "
 alignment = 0
 
@@ -465,10 +465,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = " "
 
 [node name="Label" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/ResetButton"]
@@ -496,10 +496,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = " "
 
 [node name="Label" type="Label" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/TempKillItem"]
@@ -564,10 +564,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Attack"
 
 [node name="Special" type="Button" parent="CombatUIControl/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
@@ -576,10 +576,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Special"
 
 [node name="Skill" type="Button" parent="CombatUIControl/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
@@ -588,10 +588,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Skill"
 
 [node name="Buff" type="Button" parent="CombatUIControl/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
@@ -600,10 +600,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Buff
 "
 
@@ -613,10 +613,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Debuff"
 
 [node name="WhiteMagic" type="Button" parent="CombatUIControl/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
@@ -625,10 +625,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "White Magic"
 
 [node name="BlackMagic" type="Button" parent="CombatUIControl/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
@@ -637,10 +637,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Black Magic"
 
 [node name="Summon" type="Button" parent="CombatUIControl/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
@@ -649,10 +649,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Summon"
 
 [node name="Items" type="Button" parent="CombatUIControl/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
@@ -661,10 +661,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Items"
 
 [node name="CharacterInfos" type="MarginContainer" parent="CombatUIControl"]
@@ -1067,10 +1067,10 @@ theme_override_constants/separation = 2
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = " "
 
 [node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character1"]
@@ -1168,10 +1168,10 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = " "
 
 [node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character2"]
@@ -1269,10 +1269,10 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = " "
 
 [node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character3"]
@@ -1370,10 +1370,10 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = ExtResource("2_1ddg2")
 text = " "
 
 [node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character4"]

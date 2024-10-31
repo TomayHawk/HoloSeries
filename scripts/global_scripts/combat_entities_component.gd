@@ -231,7 +231,7 @@ func choose_entities():
 
 func empty_entities_request():
 	requesting_entities = false
-	GlobalSettings.esc_state = GlobalSettings.EscState.COMBAT_OPTIONS_2 if GlobalSettings.combat_ui_combat_options_2_node.visible else GlobalSettings.EscState.WORLD
+	GlobalSettings.esc_state = GlobalSettings.EscState.COMBAT_OPTIONS_2 if GlobalSettings.combat_ui_node.combat_options_2_node.visible else GlobalSettings.EscState.WORLD
 	if entities_request_origin_node != null and entities_request_origin_node.get_parent() == abilities_node and entities_chosen.size() != entities_request_count:
 		entities_request_origin_node.queue_free()
 	for entity in entities_available:

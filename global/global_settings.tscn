@@ -40,7 +40,7 @@ script = ExtResource("5_uxnr8")
 unique_name_in_owner = true
 one_shot = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="GlobalBgmPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("5_k0r70")
 autoplay = true

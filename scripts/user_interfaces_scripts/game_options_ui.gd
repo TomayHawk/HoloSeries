@@ -14,6 +14,11 @@ extends CanvasLayer
 var player_stats_nodes: Array[Node] = []
 var current_stats := -1
 
+var settings := {
+	"resolution": Vector2(1280, 720),
+	"full_screen": false
+}
+
 func _ready():
 	hide()
 	settings_node.hide()
@@ -22,29 +27,12 @@ func _ready():
 	%MasterVolumeHSlider.value = AudioServer.get_bus_volume_db(0)
 	%MusicVolumeHSlider.value = AudioServer.get_bus_volume_db(1)
 
-	const resolution_options: Array[Vector2i] = [Vector2i(640, 480),
-    											 Vector2i(800, 600),
-    											 Vector2i(1024, 768),
-    											 Vector2i(1280, 720),
-    											 Vector2i(1280, 800),
-    											 Vector2i(1280, 960),
-    											 Vector2i(1280, 1024),
-    											 Vector2i(1366, 768),
-    											 Vector2i(1440, 900),
-    											 Vector2i(1600, 900),
-    											 Vector2i(1600, 1200),
-    											 Vector2i(1680, 1050),
-    											 Vector2i(1920, 1080),
-    											 Vector2i(1920, 1200),
-    											 Vector2i(2560, 1080),
-    											 Vector2i(2560, 1440),
-    											 Vector2i(3200, 1800),
-    											 Vector2i(3440, 1440),
-    											 Vector2i(3840, 1600),
-    											 Vector2i(3840, 2160),
-    											 Vector2i(5120, 2160),
-    											 Vector2i(5120, 2880),
-    											 Vector2i(7680, 4320)]
+	const resolution_options: Array[Vector2i] = [Vector2i(640, 480), Vector2i(800, 600), Vector2i(1024, 768), Vector2i(1280, 720),
+												 Vector2i(1280, 800), Vector2i(1280, 960), Vector2i(1280, 1024), Vector2i(1366, 768),
+												 Vector2i(1440, 900), Vector2i(1600, 900), Vector2i(1600, 1200), Vector2i(1680, 1050),
+												 Vector2i(1920, 1080), Vector2i(1920, 1200), Vector2i(2560, 1080), Vector2i(2560, 1440),
+												 Vector2i(3200, 1800), Vector2i(3440, 1440), Vector2i(3840, 1600), Vector2i(3840, 2160),
+												 Vector2i(5120, 2160), Vector2i(5120, 2880), Vector2i(7680, 4320)]
 
 	var resolution_max := DisplayServer.screen_get_size()
 	var resolution_current := DisplayServer.window_get_size()
@@ -95,8 +83,12 @@ func _on_settings_pressed():
 	options_node.hide()
 	settings_node.show()
 
-func _on_full_screen_check_button_toggled(_toggled_on):
-	GlobalSettings.full_screen_toggle()
+func _on_full_screen_check_button_toggled(toggled):
+	if toggled == null:
+		%FullScreenCheckButton.button_pressed = !settings["full_screen"]
+		return
+	settings["full_screen"] = !settings["full_screen"]
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if settings["full_screen"] else DisplayServer.WINDOW_MODE_WINDOWED)
 
 func _on_option_button_item_selected(index):
 	var resolution_max = DisplayServer.screen_get_size()
@@ -105,10 +97,10 @@ func _on_option_button_item_selected(index):
 
 	if (resolution_dimensions.x == resolution_max.x) and (resolution_dimensions.y == resolution_max.y):
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-		GlobalSettings.currently_full_screen = true
+		settings["full_screen"] = true
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		GlobalSettings.currently_full_screen = false
+		settings["full_screen"] = false
 		DisplayServer.window_set_size(resolution_dimensions)
 		DisplayServer.window_set_position((resolution_max - resolution_dimensions) / 2)
 

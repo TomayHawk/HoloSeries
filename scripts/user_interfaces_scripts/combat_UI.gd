@@ -64,10 +64,10 @@ func combat_ui_control_tween(target_visibility_value):
 	await tween.tween_property(control_node, "modulate:a", target_visibility_value, 0.2).finished
 
 func update_items_quantities():
-	for item_index in GlobalSettings.combat_inventory.size():
-		items_quantities_nodes[item_index].text = str(GlobalSettings.combat_inventory[item_index])
+	for item_index in combat_inventory.size():
+		items_quantities_nodes[item_index].text = str(combat_inventory[item_index])
 
-		if GlobalSettings.combat_inventory[item_index] == 0:
+		if combat_inventory[item_index] == 0:
 			items_quantities_nodes[item_index].get_parent().hide()
 
 func update_character_selector():
@@ -119,12 +119,12 @@ func instantiate_ability(ability_index):
 	CombatEntitiesComponent.abilities_node.add_child(abilities_load[ability_index].instantiate())
 
 func use_item(extra_arg_0):
-	if GlobalSettings.combat_inventory[extra_arg_0] == 0:
+	if combat_inventory[extra_arg_0] == 0:
 		items_quantities_nodes[extra_arg_0].get_parent().hide()
 		return false
 
-	GlobalSettings.combat_inventory[extra_arg_0] -= 1
-	items_quantities_nodes[extra_arg_0].text = str(GlobalSettings.combat_inventory[extra_arg_0])
+	combat_inventory[extra_arg_0] -= 1
+	items_quantities_nodes[extra_arg_0].text = str(combat_inventory[extra_arg_0])
 	return true
 
 # request entities for items (target_command, request_count, request_entity_type)

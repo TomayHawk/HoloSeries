@@ -232,7 +232,8 @@ func trigger_death():
 	attack_timer_node.stop()
 	##### player_node.ally_direction_timer_node.stop()
 	##### player_node.ally_direction_ready = true
-	player_node.attacking = false
+	##### player_node.attacking = false
+	player_node.current_attack_state = player_node.AttackState.READY
 	
 	# update main player if the player is main player
 	if player_node == GlobalSettings.current_main_player_node:
