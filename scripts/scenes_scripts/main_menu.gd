@@ -3,8 +3,9 @@ extends Node2D
 @onready var main_menu_options_node := %MainMenuOptions
 @onready var options_menu_node := %OptionsMenuMargin
 @onready var saves_menu_node := %SavesMenuMargin
-
 @onready var save_data_node := %SaveData
+
+const camera_limits := [-10000000, -10000000, 10000000, 10000000]
 
 func _on_play_button_pressed():
 	save_data_node.load(save_data_node.last_save)

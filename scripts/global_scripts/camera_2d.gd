@@ -2,13 +2,6 @@ extends Camera2D
 
 @onready var timer_node := %ShakeTimer
 
-const camera_limits: Array[Array] = [[-10000000, -10000000, 10000000, 10000000],
-									 [-10000000, -10000000, 10000000, 10000000],
-									 [-10000000, -10000000, 10000000, 10000000],
-									 [-679, -592, 681, 592]]
-
-# [[-208, -288, 224, 64], [-640, -352, 640, 352], [-576, -144, 128, 80], [-679, -592, 681, 592]]
-
 var zooming := false
 var can_zoom := true
 var target_zoom := Vector2(1.0, 1.0)
@@ -18,6 +11,8 @@ var i := 0
 var shaking := false
 var screen_shake_intervals := 3
 var screen_shake_intensity := 30
+
+var next_camera_limits := [-10000000, -10000000, 10000000, 10000000]
 
 func _ready():
 	set_physics_process(false)
@@ -40,7 +35,7 @@ func _physics_process(delta):
 			zoom_weight = 0.0
 			if !shaking: set_physics_process(false)
 
-func update_camera(next_camera_parent, temp_can_zoom, camera_zoom, scene):
+func update_camera(next_camera_parent, temp_can_zoom, camera_zoom):
 	reparent(next_camera_parent)
 	position_smoothing_enabled = false
 	position = Vector2.ZERO
@@ -48,12 +43,6 @@ func update_camera(next_camera_parent, temp_can_zoom, camera_zoom, scene):
 	zoom = camera_zoom
 	target_zoom = camera_zoom
 	can_zoom = temp_can_zoom
-
-	if scene != -1:
-		limit_left = camera_limits[scene][0]
-		limit_top = camera_limits[scene][1]
-		limit_right = camera_limits[scene][2]
-		limit_bottom = camera_limits[scene][3]
 
 	await GlobalSettings.tree.process_frame
 	position_smoothing_enabled = true

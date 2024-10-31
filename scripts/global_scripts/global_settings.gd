@@ -15,17 +15,6 @@ extends Node2D
 @onready var combat_ui_combat_options_2_node := %CombatUI/CombatUIControl/CombatOptions2
 @onready var combat_ui_character_selector_node := %CombatUI/CharacterSelector
 
-const scene_paths := {
-	"world_scene_1": "res://scenes/world_scene_1.tscn",
-	"world_scene_2": "res://scenes/world_scene_2.tscn",
-	"dungeon_scene_1": "res://scenes/dungeon_scene_1.tscn"
-}
-
-const background_music_paths := {
-	"beach_bgm": "res://music/asmarafulldemo.mp3",
-	"dungeon_bgm": "res://music/shunkandemo3.mp3"
-}
-
 const nexus_path := "res://user_interfaces/holo_nexus.tscn"
 
 enum EscState {MAIN_MENU, MAIN_MENU_SAVES, MAIN_MENU_SETTINGS, WORLD, COMBAT_OPTIONS_2, REQUESTING_ENTITIES, DIALOGUE, OPTIONS, SETTINGS, STATS_SETTINGS, NEXUS, NEXUS_INVENTORY}
@@ -39,9 +28,6 @@ var attempt_attack := false
 var mouse_in_attack_area := true
 var combat_inputs_available := false
 var nexus_inputs_available := false
-
-# spawn positions and camera limits
-const spawn_positions: Array[Vector2] = [Vector2.ZERO, Vector2(0, -247), Vector2(0, 341), Vector2(31, -103), Vector2(0, 53)]
 
 """
 scene spawn locations
@@ -192,34 +178,37 @@ func esc_input():
 			esc_state = EscState.NEXUS
 
 # change scene (called from scenes)
-func change_scene(next_scene, scene_index, spawn_index, bgm):
+func change_scene(next_scene_path, spawn_position, bgm_path):
 	CombatEntitiesComponent.clear_entities(true, true, true)
 
 	party_node.call_deferred("reparent", self)
-	tree.call_deferred("change_scene_to_file", scene_paths[next_scene])
+	tree.call_deferred("change_scene_to_file", next_scene_path)
 
-	current_main_player_node.position = spawn_positions[spawn_index]
+	current_main_player_node.position = spawn_position
 
 	for player_node in party_node.get_children(): if player_node != current_main_player_node:
-		player_node.position = spawn_positions[spawn_index] + (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
+		player_node.position = spawn_position + (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
 	
 	CombatEntitiesComponent.empty_entities_request()
 	CombatEntitiesComponent.leave_combat()
 
-	start_bgm(bgm)
+	start_bgm(bgm_path)
 
-	camera_node.update_camera(current_main_player_node, true, camera_node.target_zoom, scene_index)
+	camera_node.update_camera(current_main_player_node, true, camera_node.target_zoom)
 
-	await tree.process_frame
-	await tree.process_frame
-	
-	party_node.reparent(tree.current_scene)
+func new_scene(current_scene, camera_limits):
+	camera_node.limit_left = camera_limits[0]
+	camera_node.limit_top = camera_limits[1]
+	camera_node.limit_right = camera_limits[2]
+	camera_node.limit_bottom = camera_limits[3]
+
+	party_node.reparent(current_scene)
 
 func update_main_player(next_main_player_node):
 	current_main_player_node.is_current_main_player = false
 	current_main_player_node = next_main_player_node
 	current_main_player_node.is_current_main_player = true
-	camera_node.update_camera(current_main_player_node, camera_node.can_zoom, camera_node.target_zoom, -1)
+	camera_node.update_camera(current_main_player_node, camera_node.can_zoom, camera_node.target_zoom)
 	CombatEntitiesComponent.empty_entities_request()
 	
 func nexus(to_nexus):
@@ -240,8 +229,8 @@ func nexus(to_nexus):
 		nexus_node.call_deferred("exit_nexus")
 		esc_state = EscState.WORLD
 		
-func start_bgm(bgm):
-	if audio_stream_player_node.stream.resource_path != background_music_paths[bgm]:
+func start_bgm(bgm_path):
+	if audio_stream_player_node.stream.resource_path != bgm_path:
 		var temp_audio_stream_player_node := audio_stream_player_node
 		temp_audio_stream_player_node.name = "TempAudioStreamPlayer"
 		var tween_1 := temp_audio_stream_player_node.create_tween()
@@ -249,7 +238,7 @@ func start_bgm(bgm):
 
 		audio_stream_player_node = AudioStreamPlayer.new()
 		add_child(audio_stream_player_node)
-		audio_stream_player_node.stream = load(background_music_paths[bgm])
+		audio_stream_player_node.stream = load(bgm_path)
 		audio_stream_player_node.bus = "Music"
 		audio_stream_player_node.volume_db = -80
 		audio_stream_player_node.play()

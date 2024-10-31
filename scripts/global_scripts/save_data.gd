@@ -132,4 +132,4 @@ func load(save_file):
 	GlobalSettings.combat_ui_node.update_character_selector()
 	GlobalSettings.combat_inputs_available = true
 
-	GlobalSettings.start_bgm("beach_bgm")
+	GlobalSettings.start_bgm("res://music/asmarafulldemo.mp3")
