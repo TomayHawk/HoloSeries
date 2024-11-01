@@ -35,17 +35,29 @@ func _physics_process(delta):
 			zoom_weight = 0.0
 			if !shaking: set_physics_process(false)
 
-func update_camera(next_camera_parent, temp_can_zoom, camera_zoom):
-	reparent(next_camera_parent)
-	position_smoothing_enabled = false
-	position = Vector2.ZERO
+##### shouldn't need this function
+func update_camera(next_parent, temp_can_zoom, next_zoom):
+	new_parent(next_parent)
+	force_zoom(next_zoom)
 	
-	zoom = camera_zoom
-	target_zoom = camera_zoom
 	can_zoom = temp_can_zoom
 
-	await GlobalSettings.tree.process_frame
+func new_parent(next_parent):
+	reparent(next_parent)
+	position = Vector2.ZERO
+
+func force_zoom(new_zoom):
+	position_smoothing_enabled = false
+	zoom = new_zoom
+	target_zoom = new_zoom
 	position_smoothing_enabled = true
+
+func new_limits(new_limits):
+	limit_left = new_limits[0]
+	limit_top = new_limits[1]
+	limit_right = new_limits[2]
+	limit_bottom = new_limits[3]
+	
 
 func screen_shake(duration, intervals, intensity, camera_speed, pause_game):
 	if pause_game:

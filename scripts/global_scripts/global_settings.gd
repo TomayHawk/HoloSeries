@@ -166,7 +166,7 @@ func esc_input():
 			nexus_node.nexus_ui_node.update_nexus_ui()
 			esc_state = EscState.NEXUS
 
-# change scene (called from scenes)
+# change scene (called from last scenes)
 func change_scene(next_scene_path, spawn_position, bgm_path):
 	CombatEntitiesComponent.clear_entities(true, true, true)
 
@@ -185,14 +185,15 @@ func change_scene(next_scene_path, spawn_position, bgm_path):
 
 	camera_node.update_camera(current_main_player_node, true, camera_node.target_zoom)
 
-func new_scene(current_scene, camera_limits):
-	camera_node.limit_left = camera_limits[0]
-	camera_node.limit_top = camera_limits[1]
-	camera_node.limit_right = camera_limits[2]
-	camera_node.limit_bottom = camera_limits[3]
+# change scene (called from new scenes)
+func new_scene(new_scene, camera_limits):
+	# update camera limits
+	camera_node.new_limits(camera_limits)
 
-	party_node.reparent(current_scene)
+	# update party parent node
+	party_node.reparent(new_scene)
 
+# update controlling character
 func update_main_player(next_main_player_node):
 	current_main_player_node.is_current_main_player = false
 	current_main_player_node = next_main_player_node

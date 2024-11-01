@@ -2,47 +2,100 @@ extends Node
 
 var last_save := 0
 
+var settings_save := {
+	"full_screen": false,
+	"resolution": false,
+	"window_position": false,
+	"master"
+}
+
 var saves := [
 	{
+	# global variables
 	"save_index": 0,
 	"inventory": [0, 0, 0],
 	"current_main_character_index": 4,
-
+	
+	# load variables
 	"current_scene_path": "res://scenes/world_scene_1.tscn",
 	"unlocked_characters": [0, 1, 2, 4],
 	"party": [0, 4, 2],
 	"current_main_player_position": Vector2(0, 0),
 	"character_levels": [0, 0, 0, 0, 0],
 	"character_experiences": [0.0, 0.0, 0.0, 0.0, 0.0],
-
-	"nexus": {
-				#!#!# "randomized_nodes": [[]], # [node, type, quality],
-				"last_nodes": [167, 154, 333, 0, 132],
-				"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]],
-				#!#!# "converted": [[[]], [[]], [[]], [[]], [[]]], # [node, type, quality],
-				"nexus_inventory": [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-
-				#!#!# remove below
-				"not_randomized": true,
-				"randomized_atlas_positions": [],
-				"quality": [],
-				"unlockables": [[151, 199], [171, 138], [301, 316, 348], [], [116, 164]],
-				"converted": [[], [], [], [], []],
-				"converted_type": [[], [], [], [], []],
-				"converted_quality": [[], [], [], [], []],
-				"stats": [[0, 0, 0, 0, 0, 0, 0, 0],
-						  [0, 0, 0, 0, 0, 0, 0, 0],
-						  [0, 0, 0, 0, 0, 0, 0, 0],
-						  [0, 0, 0, 0, 0, 0, 0, 0],
-						  [0, 0, 0, 0, 0, 0, 0, 0]]
-				#!#!#
-			 },
 	
+	"nexus": {
+		#!#!# "randomized_nodes": [[]], # [node, type, quality],
+		"last_nodes": [167, 154, 333, 0, 132],
+		"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]],
+		#!#!# "converted": [[[]], [[]], [[]], [[]], [[]]], # [node, type, quality],
+		"nexus_inventory": [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+		#!#!# remove below
+		"not_randomized": true,
+		"randomized_atlas_positions": [],
+		"quality": [],
+		"unlockables": [[151, 199], [171, 138], [301, 316, 348], [], [116, 164]],
+		"converted": [[], [], [], [], []],
+		"converted_type": [[], [], [], [], []],
+		"converted_quality": [[], [], [], [], []],
+		"stats": [[0, 0, 0, 0, 0, 0, 0, 0],
+				  [0, 0, 0, 0, 0, 0, 0, 0],
+				  [0, 0, 0, 0, 0, 0, 0, 0],
+				  [0, 0, 0, 0, 0, 0, 0, 0],
+				  [0, 0, 0, 0, 0, 0, 0, 0]]
+		#!#!#
+	},
 	#!#!# remove below
 	"standby": [1],
 	#!#!#
-	}
+	}, 
+	{},
+	{}
 ]
+
+func new_save(unlocked_characters, save_index):
+	while (save_index == -1 or saves[save_index] == {}):
+		save_index += 1
+		
+	saves[save_index] = {
+		"save_index": 0,
+		"inventory": [0, 0, 0],
+		"current_main_character_index": 4,
+			
+		"current_scene_path": "res://scenes/world_scene_1.tscn",
+		"unlocked_characters": [0, 1, 2, 4],
+		"party": [0, 4, 2],
+		"current_main_player_position": Vector2(0, 0),
+		"character_levels": [0, 0, 0, 0, 0],
+		"character_experiences": [0.0, 0.0, 0.0, 0.0, 0.0],
+
+		"nexus": {
+			#!#!# "randomized_nodes": [[]], # [node, type, quality],
+			"last_nodes": [167, 154, 333, 0, 132],
+			"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]],
+			#!#!# "converted": [[[]], [[]], [[]], [[]], [[]]], # [node, type, quality],
+			"nexus_inventory": [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+			#!#!# remove below
+			"not_randomized": true,
+			"randomized_atlas_positions": [],
+			"quality": [],
+			"unlockables": [[151, 199], [171, 138], [301, 316, 348], [], [116, 164]],
+			"converted": [[], [], [], [], []],
+			"converted_type": [[], [], [], [], []],
+			"converted_quality": [[], [], [], [], []],
+			"stats": [[0, 0, 0, 0, 0, 0, 0, 0],
+					  [0, 0, 0, 0, 0, 0, 0, 0],
+					  [0, 0, 0, 0, 0, 0, 0, 0],
+					  [0, 0, 0, 0, 0, 0, 0, 0],
+					  [0, 0, 0, 0, 0, 0, 0, 0]]
+			#!#!#
+		},
+		#!#!# remove below
+		"standby": [1],
+		#!#!#
+	}
+	
+	##### randomize nexus
 
 func save(save_file):
 	saves[save_file] = {

@@ -63,7 +63,7 @@ func _ready():
 	GlobalSettings.nexus_inputs_available = true
 	GlobalSettings.nexus_character_selector_node = %HoloNexusUI/CharacterSelector
 
-	# update board
+	# update board ##### should randomize board at start of game
 	if GlobalSettings.nexus_not_randomized:
 		stat_nodes_randomizer()
 	else:
@@ -71,7 +71,7 @@ func _ready():
 		for node in nexus_nodes:
 			if node.texture.region.position == empty_node_atlas_position:
 				node.texture.region.position = GlobalSettings.nexus_randomized_atlas_positions[index_counter]
-			index_counter += 1
+			index_counter += 1	
 
 	# update current player and allies in character selector
 	update_nexus_player(GlobalSettings.current_main_player_node.character_specifics_node.character_index)
@@ -100,6 +100,9 @@ func stat_nodes_randomizer():
 			Color(0, 0.501961, 1, 1): area_nodes[11].push_back(index_counter) # tank (blue)
 			Color(1, 1, 1, 1): ability_nodes.push_back(index_counter) # ability nodes
 		index_counter += 1
+
+	##### for randomizer
+	print(area_nodes)		
 
 	# randomizer base number
 	# HP, MP, DEF, WRD, ATK, INT, SPD, AGI, EMPTY
