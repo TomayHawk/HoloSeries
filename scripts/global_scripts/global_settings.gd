@@ -186,12 +186,9 @@ func change_scene(next_scene_path, spawn_position, bgm_path):
 	camera_node.update_camera(current_main_player_node, true, camera_node.target_zoom)
 
 # change scene (called from new scenes)
-func new_scene(new_scene, camera_limits):
-	# update camera limits
+func new_scene(scene, camera_limits):
 	camera_node.new_limits(camera_limits)
-
-	# update party parent node
-	party_node.reparent(new_scene)
+	party_node.reparent(scene)
 
 # update controlling character
 func update_main_player(next_main_player_node):

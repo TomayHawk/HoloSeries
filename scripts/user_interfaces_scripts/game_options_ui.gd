@@ -130,5 +130,5 @@ func _on_right_button_pressed():
 		stats_right_button_node.modulate.a = 0.0
 		stats_right_button_node.disabled = true
 
-func _on_exit_to_title_pressed():
-	pass
+func _on_exit_game_pressed():
+	pass # Replace with function body.

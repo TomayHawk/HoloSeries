@@ -50,13 +50,14 @@ func force_zoom(new_zoom):
 	position_smoothing_enabled = false
 	zoom = new_zoom
 	target_zoom = new_zoom
+	await GlobalSettings.tree.process_frame
 	position_smoothing_enabled = true
 
-func new_limits(new_limits):
-	limit_left = new_limits[0]
-	limit_top = new_limits[1]
-	limit_right = new_limits[2]
-	limit_bottom = new_limits[3]
+func new_limits(next_limits):
+	limit_left = next_limits[0]
+	limit_top = next_limits[1]
+	limit_right = next_limits[2]
+	limit_bottom = next_limits[3]
 	
 
 func screen_shake(duration, intervals, intensity, camera_speed, pause_game):

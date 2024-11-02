@@ -71,7 +71,7 @@ func _ready():
 		for node in nexus_nodes:
 			if node.texture.region.position == empty_node_atlas_position:
 				node.texture.region.position = GlobalSettings.nexus_randomized_atlas_positions[index_counter]
-			index_counter += 1	
+			index_counter += 1
 
 	# update current player and allies in character selector
 	update_nexus_player(GlobalSettings.current_main_player_node.character_specifics_node.character_index)
@@ -101,8 +101,25 @@ func stat_nodes_randomizer():
 			Color(1, 1, 1, 1): ability_nodes.push_back(index_counter) # ability nodes
 		index_counter += 1
 
+	print(ability_nodes)
 	##### for randomizer
-	print(area_nodes)		
+	##### [[132, 133, 134, 146, 147, 149, 163, 164, 165, 166, 179, 182, 196, 198, 199, 211, 212, 213, 214, 215, 228, 229, 231, 232, 243, 244, 245, 246, 247, 260, 261, 262, 264, 277, 278, 279, 280, 292, 294, 296, 309, 310, 311, 324, 325, 327, 328, 340],
+	#####  [258, 274, 291, 306, 307, 322, 323, 338, 339, 354, 356, 371, 386, 387, 388, 403, 419],
+	#####  [456, 504, 520, 521, 536, 537, 538, 553, 554, 555, 567, 568, 570, 584, 585, 586, 587, 599, 601, 602, 603, 615, 616, 619, 631, 632, 633, 634, 648, 649, 650, 658, 664, 666, 667, 674, 675, 680, 682, 690, 691, 693, 696, 697, 698, 706, 707, 708, 709, 710, 712, 713, 714, 721, 722, 723, 724, 725, 726, 728, 729, 737, 738, 740, 741, 742, 743, 744, 745, 746, 752, 753, 756, 758, 759, 760, 761],
+	#####  [484, 499, 530, 562, 564, 565, 579, 580, 594, 595, 596, 597, 598, 611, 612, 627, 628, 644, 645, 646, 660, 661, 677, 678],
+	#####  [326, 341, 342, 357, 373, 389, 390, 404, 406, 421, 423, 437, 438, 439, 453, 455, 469, 470, 471, 485, 486, 487, 500, 501, 502, 503, 517, 534, 535, 551, 566],
+	#####  [2, 3, 4, 7, 16, 17, 19, 20, 21, 22, 23, 24, 32, 33, 34, 36, 37, 38, 41, 48, 49, 50, 51, 53, 54, 55, 56, 64, 66, 67, 70, 71, 72, 73, 80, 81, 82, 83, 86, 87, 88, 89, 96, 97, 98, 99, 105, 106, 118, 119, 121, 129, 135, 136, 137, 138, 145, 151, 152, 153, 168, 169, 184, 185, 201, 233, 249, 265],
+	#####  [144, 160, 161, 176, 193, 208, 224, 240, 257, 272, 288, 304, 320, 336, 352, 384, 385, 400, 401, 417, 432, 433, 449, 464, 480, 496, 512, 528, 529, 544, 545, 560, 561, 577, 593, 608, 609, 610, 624, 625, 640, 641, 642, 657, 672, 704, 705],
+	#####  [10, 11, 12, 26, 42, 43, 44, 58, 59, 60, 75, 90, 92, 108, 123, 124, 139, 154, 155, 156, 171, 173, 187, 188, 189, 190, 191, 203, 205, 207, 218, 219, 220, 223, 235, 236, 237, 238, 239, 250, 252, 253, 254, 266, 267, 268, 269, 270, 282, 283, 284, 297, 298, 300, 314, 315, 329, 330, 331, 345, 346],
+	#####  [13, 15, 29, 30, 46, 61, 78, 93, 95, 110, 111, 126, 127, 142, 143, 159],
+	#####  [364, 376, 377, 378, 379, 380, 393, 394, 395, 396, 397, 408, 409, 410, 411, 412, 425, 426, 427, 429, 441, 442, 443, 444, 445, 459, 460, 461, 474, 475, 476, 477, 491, 493, 494, 507, 508, 509, 523, 524, 525, 526, 540, 541, 542, 557, 558, 559, 572, 573, 574, 575, 591, 604, 605, 606, 607, 621, 623, 636, 652, 684, 699],
+	#####  [638, 653, 654, 655, 668, 669, 670, 671, 685, 686, 687, 700, 701, 703, 716, 718, 719, 731, 732, 733, 734, 748, 749, 750, 764, 765, 766],
+	#####  [271, 286, 287, 316, 317, 318, 319, 333, 334, 335, 348, 349, 350, 351, 366, 367, 398, 399, 414, 415, 430, 431, 447, 463, 479, 495, 510, 511]]
+
+	##### [0, 1, 5, 8, 9, 14, 27, 31, 35, 39, 45, 47, 57, 76, 84, 94, 100, 101, 102, 104, 107, 109, 112, 113, 116, 130, 131, 140, 157, 167,
+	#####  170, 175, 180, 181, 192, 194, 204, 206, 216, 225, 227, 234, 242, 255, 256, 276, 285, 289, 293, 295, 299, 305, 313, 337, 344, 347,
+	#####  353, 355, 368, 374, 375, 383, 405, 418, 420, 424, 434, 448, 451, 452, 454, 458, 462, 466, 468, 472, 481, 482, 489, 505, 519, 522,
+	#####  531, 533, 543, 546, 547, 548, 556, 563, 576, 582, 590, 600, 618, 629, 630, 635, 637, 643, 656, 673, 676, 679, 681, 688, 727, 730, 736, 754, 755, 757, 762, 763, 767]
 
 	# randomizer base number
 	# HP, MP, DEF, WRD, ATK, INT, SPD, AGI, EMPTY
@@ -163,7 +180,118 @@ func stat_nodes_randomizer():
 			nexus_nodes[temp_node_index].texture.region.position = rand_resultant_types[index_counter]
 			index_counter += 1
 
-		stat_nodes_secondary_randomizer(area_nodes[area_type])
+		##### secondary randomizer
+		var empty_adjacents_count := 0
+		var same_adjacents_count := 0
+
+		var replacing_empty_nodes: Array[int] = []
+		var replacing_stat_nodes: Array[int] = []
+		var replacing_type_two_stat_nodes: Array[int] = []
+		var replacing_type_three_stat_nodes: Array[int] = []
+
+		var need_match = true
+		var temp_adjacents_types: Array[Vector2] = []
+		var temp_match: int = -1
+		var temp_position := Vector2.ZERO
+		
+		for i in 10:
+			replacing_empty_nodes.clear()
+			replacing_stat_nodes.clear()
+			replacing_type_two_stat_nodes.clear()
+			replacing_type_three_stat_nodes.clear()
+
+			# for each node in area
+			for temp_node_index in area_nodes[area_type]:
+				# add each empty node with (at least 2 empty adjacent nodes) to replacing_empty_nodes
+				if nexus_nodes[temp_node_index].texture.region.position == empty_node_atlas_position:
+					empty_adjacents_count = 0
+					for adjacent in return_adjacents(temp_node_index):
+						if nexus_nodes[adjacent].texture.region.position == empty_node_atlas_position:
+							empty_adjacents_count += 1
+						if empty_adjacents_count == 2:
+							replacing_empty_nodes.push_back(temp_node_index)
+							empty_adjacents_count = 0
+							break
+				# add each stat node to appropriate type of replacing_stat_nodes
+				else:
+					empty_adjacents_count = 0
+					same_adjacents_count = 0
+					for second_temp_node_index in return_adjacents(temp_node_index):
+						if nexus_nodes[second_temp_node_index].texture.region.position == empty_node_atlas_position:
+							empty_adjacents_count += 1
+						elif nexus_nodes[second_temp_node_index].texture.region.position == nexus_nodes[temp_node_index].texture.region.position:
+							same_adjacents_count += 1
+					if same_adjacents_count > 0:
+						if empty_adjacents_count < 2:
+							replacing_stat_nodes.push_back(temp_node_index) # at least 1 same type adjacent and at most 1 empty type adjacent
+						else:
+							replacing_type_two_stat_nodes.push_back(temp_node_index) # at least 1 same type adjacent and at least 2 empty type adjacents
+					elif empty_adjacents_count < 2:
+						replacing_type_three_stat_nodes.push_back(temp_node_index) # at most 1 empty type adjacents
+			
+			replacing_empty_nodes.shuffle()
+			replacing_stat_nodes.shuffle()
+			replacing_type_two_stat_nodes.shuffle()
+			replacing_type_three_stat_nodes.shuffle()
+
+			for temp_node_index in replacing_empty_nodes.duplicate():
+				need_match = true
+				temp_adjacents_types.clear()
+				for adjacent in return_adjacents(temp_node_index).duplicate():
+					temp_adjacents_types.push_back(nexus_nodes[adjacent].texture.region.position)
+				if replacing_stat_nodes.size() > 0:
+					for second_temp_node_index in replacing_stat_nodes:
+						if nexus_nodes[second_temp_node_index].texture.region.position not in temp_adjacents_types:
+							temp_match = second_temp_node_index
+							temp_position = nexus_nodes[second_temp_node_index].texture.region.position
+							need_match = false
+							break
+				if need_match and replacing_type_three_stat_nodes.size() > 0:
+					for second_temp_node_index in replacing_type_three_stat_nodes:
+						if nexus_nodes[second_temp_node_index].texture.region.position not in temp_adjacents_types:
+							temp_match = second_temp_node_index
+							temp_position = nexus_nodes[second_temp_node_index].texture.region.position
+							need_match = false
+							break
+				if need_match:
+					for second_temp_node_index in area_nodes[area_type]:
+						if need_match and (second_temp_node_index not in replacing_empty_nodes) and (second_temp_node_index not in replacing_type_two_stat_nodes):
+							if nexus_nodes[second_temp_node_index].texture.region.position != empty_node_atlas_position and nexus_nodes[second_temp_node_index].texture.region.position not in temp_adjacents_types:
+								temp_match = second_temp_node_index
+								temp_position = nexus_nodes[second_temp_node_index].texture.region.position
+								need_match = false
+
+								for second_adjacent in return_adjacents(temp_node_index):
+									if nexus_nodes[second_adjacent].texture.region.position == empty_node_atlas_position:
+										need_match = true
+
+				if !need_match:
+					nexus_nodes[temp_node_index].texture.region.position = nexus_nodes[temp_match].texture.region.position
+					nexus_nodes[temp_match].texture.region.position = empty_node_atlas_position
+					replacing_empty_nodes.erase(temp_node_index)
+					replacing_stat_nodes.erase(temp_match)
+					replacing_type_three_stat_nodes.erase(temp_match)
+		
+		area_nodes[area_type].shuffle()
+
+		for temp_node_index in area_nodes[area_type]:
+			if nexus_nodes[temp_node_index].texture.region.position != empty_node_atlas_position:
+				index_counter = 0
+
+				# count same type adjacent nodes
+				for adjacent in return_adjacents(temp_node_index).duplicate():
+					if nexus_nodes[adjacent].texture.region.position == nexus_nodes[temp_node_index].texture.region.position:
+						for second_temp_node_index in area_nodes[area_type]:
+							if nexus_nodes[second_temp_node_index].texture.region.position != nexus_nodes[temp_node_index].texture.region.position:
+								for second_adjacent in return_adjacents(second_temp_node_index):
+									if nexus_nodes[second_adjacent].texture.region.position == empty_node_atlas_position:
+										index_counter += 1
+
+										temp_position = nexus_nodes[temp_node_index].texture.region.position
+										nexus_nodes[temp_node_index].texture.region.position = nexus_nodes[second_temp_node_index].texture.region.position
+										nexus_nodes[second_temp_node_index].texture.region.position = temp_position
+										break
+						break
 	
 	# save randomized textures
 	for node in nexus_nodes:
@@ -219,119 +347,6 @@ func stat_nodes_randomizer():
 		for node_index in nodes_unlocked[character_index]:
 			# check for adjacent unlockables
 			check_adjacent_unlockables(node_index, character_index)
-
-func stat_nodes_secondary_randomizer(area_nodes):
-	var empty_adjacents_count := 0
-	var same_adjacents_count := 0
-
-	var replacing_empty_nodes: Array[int] = []
-	var replacing_stat_nodes: Array[int] = []
-	var replacing_type_two_stat_nodes: Array[int] = []
-	var replacing_type_three_stat_nodes: Array[int] = []
-
-	var need_match = true
-	var temp_adjacents_types: Array[Vector2] = []
-	var temp_match: int = -1
-	var temp_position := Vector2.ZERO
-	
-	for i in 10:
-		replacing_empty_nodes.clear()
-		replacing_stat_nodes.clear()
-		replacing_type_two_stat_nodes.clear()
-		replacing_type_three_stat_nodes.clear()
-
-		# for each node in area
-		for temp_node_index in area_nodes:
-			# add each empty node with (at least 2 empty adjacent nodes) to replacing_empty_nodes
-			if nexus_nodes[temp_node_index].texture.region.position == empty_node_atlas_position:
-				empty_adjacents_count = 0
-				for adjacent in return_adjacents(temp_node_index):
-					if nexus_nodes[adjacent].texture.region.position == empty_node_atlas_position:
-						empty_adjacents_count += 1
-					if empty_adjacents_count == 2:
-						replacing_empty_nodes.push_back(temp_node_index)
-						empty_adjacents_count = 0
-						break
-			# add each stat node to appropriate type of replacing_stat_nodes
-			else:
-				empty_adjacents_count = 0
-				same_adjacents_count = 0
-				for second_temp_node_index in return_adjacents(temp_node_index):
-					if nexus_nodes[second_temp_node_index].texture.region.position == empty_node_atlas_position:
-						empty_adjacents_count += 1
-					elif nexus_nodes[second_temp_node_index].texture.region.position == nexus_nodes[temp_node_index].texture.region.position:
-						same_adjacents_count += 1
-				if same_adjacents_count > 0:
-					if empty_adjacents_count < 2:
-						replacing_stat_nodes.push_back(temp_node_index) # at least 1 same type adjacent and at most 1 empty type adjacent
-					else:
-						replacing_type_two_stat_nodes.push_back(temp_node_index) # at least 1 same type adjacent and at least 2 empty type adjacents
-				elif empty_adjacents_count < 2:
-					replacing_type_three_stat_nodes.push_back(temp_node_index) # at most 1 empty type adjacents
-		
-		replacing_empty_nodes.shuffle()
-		replacing_stat_nodes.shuffle()
-		replacing_type_two_stat_nodes.shuffle()
-		replacing_type_three_stat_nodes.shuffle()
-
-		for temp_node_index in replacing_empty_nodes.duplicate():
-			need_match = true
-			temp_adjacents_types.clear()
-			for adjacent in return_adjacents(temp_node_index).duplicate():
-				temp_adjacents_types.push_back(nexus_nodes[adjacent].texture.region.position)
-			if replacing_stat_nodes.size() > 0:
-				for second_temp_node_index in replacing_stat_nodes:
-					if nexus_nodes[second_temp_node_index].texture.region.position not in temp_adjacents_types:
-						temp_match = second_temp_node_index
-						temp_position = nexus_nodes[second_temp_node_index].texture.region.position
-						need_match = false
-						break
-			if need_match and replacing_type_three_stat_nodes.size() > 0:
-				for second_temp_node_index in replacing_type_three_stat_nodes:
-					if nexus_nodes[second_temp_node_index].texture.region.position not in temp_adjacents_types:
-						temp_match = second_temp_node_index
-						temp_position = nexus_nodes[second_temp_node_index].texture.region.position
-						need_match = false
-						break
-			if need_match:
-				for second_temp_node_index in area_nodes:
-					if need_match and (second_temp_node_index not in replacing_empty_nodes) and (second_temp_node_index not in replacing_type_two_stat_nodes):
-						if nexus_nodes[second_temp_node_index].texture.region.position != empty_node_atlas_position and nexus_nodes[second_temp_node_index].texture.region.position not in temp_adjacents_types:
-							temp_match = second_temp_node_index
-							temp_position = nexus_nodes[second_temp_node_index].texture.region.position
-							need_match = false
-
-							for second_adjacent in return_adjacents(temp_node_index):
-								if nexus_nodes[second_adjacent].texture.region.position == empty_node_atlas_position:
-									need_match = true
-
-			if !need_match:
-				nexus_nodes[temp_node_index].texture.region.position = nexus_nodes[temp_match].texture.region.position
-				nexus_nodes[temp_match].texture.region.position = empty_node_atlas_position
-				replacing_empty_nodes.erase(temp_node_index)
-				replacing_stat_nodes.erase(temp_match)
-				replacing_type_three_stat_nodes.erase(temp_match)
-	
-	area_nodes.shuffle()
-
-	for temp_node_index in area_nodes:
-		if nexus_nodes[temp_node_index].texture.region.position != empty_node_atlas_position:
-			index_counter = 0
-
-			# count same type adjacent nodes
-			for adjacent in return_adjacents(temp_node_index).duplicate():
-				if nexus_nodes[adjacent].texture.region.position == nexus_nodes[temp_node_index].texture.region.position:
-					for second_temp_node_index in area_nodes:
-						if nexus_nodes[second_temp_node_index].texture.region.position != nexus_nodes[temp_node_index].texture.region.position:
-							for second_adjacent in return_adjacents(second_temp_node_index):
-								if nexus_nodes[second_adjacent].texture.region.position == empty_node_atlas_position:
-									index_counter += 1
-
-									temp_position = nexus_nodes[temp_node_index].texture.region.position
-									nexus_nodes[temp_node_index].texture.region.position = nexus_nodes[second_temp_node_index].texture.region.position
-									nexus_nodes[second_temp_node_index].texture.region.position = temp_position
-									break
-					break
 
 func return_adjacents(temp_node_index):
 	temp_adjacents.clear()

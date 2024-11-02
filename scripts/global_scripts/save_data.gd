@@ -6,14 +6,18 @@ var settings_save := {
 	"full_screen": false,
 	"resolution": false,
 	"window_position": false,
-	"master"
+	"master_volume": 0.0,
+	"music_volume": 0.0,
+	"language": 0, ## ### use enum
+	"zoom_sensitivity": 1.0,
+	"screen_shake_intensity": 1.0
 }
 
 var saves := [
 	{
 	# global variables
 	"save_index": 0,
-	"inventory": [0, 0, 0],
+	"inventory": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	"current_main_character_index": 4,
 	
 	# load variables
@@ -23,6 +27,8 @@ var saves := [
 	"current_main_player_position": Vector2(0, 0),
 	"character_levels": [0, 0, 0, 0, 0],
 	"character_experiences": [0.0, 0.0, 0.0, 0.0, 0.0],
+
+	"combat_inventory": [999, 99, 99, 99, 999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	
 	"nexus": {
 		#!#!# "randomized_nodes": [[]], # [node, type, quality],
@@ -48,12 +54,12 @@ var saves := [
 	#!#!# remove below
 	"standby": [1],
 	#!#!#
-	}, 
+	},
 	{},
 	{}
 ]
 
-func new_save(unlocked_characters, save_index):
+func new(unlocked_characters, save_index):
 	while (save_index == -1 or saves[save_index] == {}):
 		save_index += 1
 		
@@ -96,6 +102,8 @@ func new_save(unlocked_characters, save_index):
 	}
 	
 	##### randomize nexus
+	print(unlocked_characters)
+	load(save_index)
 
 func save(save_file):
 	saves[save_file] = {

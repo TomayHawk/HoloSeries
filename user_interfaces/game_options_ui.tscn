@@ -149,6 +149,18 @@ theme_override_styles/pressed = ExtResource("4_j43hc")
 theme_override_styles/normal = ExtResource("2_8w77s")
 text = "Settings"
 
+[node name="ExitGame" type="Button" parent="Control/OptionsMargin/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/focus = ExtResource("5_lugp5")
+theme_override_styles/hover = ExtResource("3_83rrm")
+theme_override_styles/pressed = ExtResource("4_j43hc")
+theme_override_styles/normal = ExtResource("2_8w77s")
+text = "Exit Game"
+
 [node name="SettingsMargin" type="MarginContainer" parent="Control"]
 unique_name_in_owner = true
 layout_mode = 1
@@ -522,6 +534,7 @@ texture_normal = SubResource("AtlasTexture_vvxm4")
 [connection signal="pressed" from="Control/OptionsMargin/MarginContainer/VBoxContainer/HoloNexus" to="." method="_on_holo_nexus_pressed"]
 [connection signal="pressed" from="Control/OptionsMargin/MarginContainer/VBoxContainer/Inventory" to="." method="_on_inventory_pressed"]
 [connection signal="pressed" from="Control/OptionsMargin/MarginContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Control/OptionsMargin/MarginContainer/VBoxContainer/ExitGame" to="." method="_on_exit_game_pressed"]
 [connection signal="toggled" from="Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/FullScreenCheckButton" to="." method="_on_full_screen_check_button_toggled"]
 [connection signal="item_selected" from="Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/ScreenResolutionOptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="value_changed" from="Control/SettingsMargin/MarginContainer/MarginContainer/GridContainer/MasterVolumeHSlider" to="." method="_on_master_volume_h_slider_value_changed"]
