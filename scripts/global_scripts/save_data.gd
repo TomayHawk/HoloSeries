@@ -209,6 +209,7 @@ func load(save_file):
 
 	GlobalSettings.start_bgm("res://music/asmarafulldemo.mp3")
 
+'''
 func stat_nodes_randomizer():
 	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
 	var area_nodes: Array[Array] = [[], [], [], [], [], [], [], [], [], [], [], []]
@@ -324,7 +325,7 @@ func stat_nodes_randomizer():
 		for node_index in area_nodes[area_type]:
 			for i in stats_node_atlas_position.size():
 				if nexus_nodes[node_index].texture.region.position == stats_node_atlas_position[i]:
-					nodes_quality[node_index] = default_stats_qualities[i][default_area_stats_qualities[area_type][i]][randi() % default_stats_qualities[i][default_area_stats_qualities[area_type][i]].size()]
+					nodes_quality[node_index] = default_stats_qualities[i][default_area_stats_qualities[area_type][i]][randi()% default_stats_qualities[i][default_area_stats_qualities[area_type][i]].size()]
 
 	# for each unlocked player, determine all unlockables
 	for character_index in GlobalSettings.unlocked_characters:
@@ -458,3 +459,4 @@ func return_adjacents(temp_node_index):
 			temp_adjacents.erase(temp_index)
 
 	return temp_adjacents
+'''
