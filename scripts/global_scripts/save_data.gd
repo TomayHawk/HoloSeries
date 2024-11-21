@@ -31,19 +31,14 @@ var saves := [
 	"combat_inventory": [999, 99, 99, 99, 999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	
 	"nexus": {
-		#!#!# "randomized_nodes": [[]], # [node, type, quality],
+		"randomized_atlas_positions": [],
+		"randomized_qualities": [],
 		"last_nodes": [167, 154, 333, 0, 132],
 		"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]],
-		#!#!# "converted": [[[]], [[]], [[]], [[]], [[]]], # [node, type, quality],
+		"converted": [[[]], [[]], [[]], [[]], [[]]], # [node, type, quality],
 		"nexus_inventory": [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
 		#!#!# remove below
-		"not_randomized": true,
-		"randomized_atlas_positions": [],
-		"quality": [],
 		"unlockables": [[151, 199], [171, 138], [301, 316, 348], [], [116, 164]],
-		"converted": [[], [], [], [], []],
-		"converted_type": [[], [], [], [], []],
-		"converted_quality": [[], [], [], [], []],
 		"stats": [[0, 0, 0, 0, 0, 0, 0, 0],
 				  [0, 0, 0, 0, 0, 0, 0, 0],
 				  [0, 0, 0, 0, 0, 0, 0, 0],
@@ -78,19 +73,14 @@ func new(unlocked_characters, save_index):
 		"character_experiences": [0.0, 0.0, 0.0, 0.0, 0.0],
 
 		"nexus": {
-			#!#!# "randomized_nodes": [[]], # [node, type, quality],
+			"randomized_atlas_positions": [],
+			"randomized_qualities": [],
 			"last_nodes": [167, 154, 333, 0, 132],
 			"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]],
-			#!#!# "converted": [[[]], [[]], [[]], [[]], [[]]], # [node, type, quality],
+			"converted": [[[]], [[]], [[]], [[]], [[]]], # [node, type, quality],
 			"nexus_inventory": [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
 			#!#!# remove below
-			"not_randomized": true,
-			"randomized_atlas_positions": [],
-			"quality": [],
 			"unlockables": [[151, 199], [171, 138], [301, 316, 348], [], [116, 164]],
-			"converted": [[], [], [], [], []],
-			"converted_type": [[], [], [], [], []],
-			"converted_quality": [[], [], [], [], []],
 			"stats": [[0, 0, 0, 0, 0, 0, 0, 0],
 					  [0, 0, 0, 0, 0, 0, 0, 0],
 					  [0, 0, 0, 0, 0, 0, 0, 0],
@@ -104,7 +94,6 @@ func new(unlocked_characters, save_index):
 	}
 	
 	##### randomize nexus
-	print(unlocked_characters)
 	load(save_index)
 
 func save(save_file):
@@ -120,15 +109,12 @@ func save(save_file):
 		"character_experiences": GlobalSettings.character_experiences.duplicate(),
 		"inventory": GlobalSettings.inventory.duplicate(),
 		"nexus": {
-					"not_randomized": GlobalSettings.nexus_not_randomized,
 					"randomized_atlas_positions": GlobalSettings.nexus_randomized_atlas_positions.duplicate(),
+					"randomized_qualities": GlobalSettings.nexus_randomized_qualities.duplicate(),
 					"last_nodes": GlobalSettings.nexus_last_nodes.duplicate(),
 					"unlocked": GlobalSettings.nexus_unlocked.duplicate(),
 					"unlockables": GlobalSettings.nexus_unlockables.duplicate(),
-					"quality": GlobalSettings.nexus_quality.duplicate(),
 					"converted": GlobalSettings.nexus_converted.duplicate(),
-					"converted_type": GlobalSettings.nexus_converted_type.duplicate(),
-					"converted_quality": GlobalSettings.nexus_converted_quality.duplicate(),
 					"stats": GlobalSettings.nexus_stats.duplicate(),
 					"nexus_inventory": GlobalSettings.nexus_inventory.duplicate()
 				 }
@@ -153,15 +139,12 @@ func load(save_file):
 	GlobalSettings.character_levels = saves[save_file]["character_levels"].duplicate()
 	GlobalSettings.character_experiences = saves[save_file]["character_experiences"].duplicate()
 	GlobalSettings.inventory = saves[save_file]["inventory"].duplicate()
-	GlobalSettings.nexus_not_randomized = saves[save_file]["nexus"]["not_randomized"]
 	GlobalSettings.nexus_randomized_atlas_positions = saves[save_file]["nexus"]["randomized_atlas_positions"].duplicate()
+	GlobalSettings.nexus_randomized_qualities = saves[save_file]["nexus"]["randomized_qualities"].duplicate()
 	GlobalSettings.nexus_last_nodes = saves[save_file]["nexus"]["last_nodes"].duplicate()
 	GlobalSettings.nexus_unlocked = saves[save_file]["nexus"]["unlocked"].duplicate()
 	GlobalSettings.nexus_unlockables = saves[save_file]["nexus"]["unlockables"].duplicate()
-	GlobalSettings.nexus_quality = saves[save_file]["nexus"]["quality"].duplicate()
 	GlobalSettings.nexus_converted = saves[save_file]["nexus"]["converted"].duplicate()
-	GlobalSettings.nexus_converted_type = saves[save_file]["nexus"]["converted_type"].duplicate()
-	GlobalSettings.nexus_converted_quality = saves[save_file]["nexus"]["converted_quality"].duplicate()
 	GlobalSettings.nexus_stats = saves[save_file]["nexus"]["stats"].duplicate()
 	GlobalSettings.nexus_inventory = saves[save_file]["nexus"]["nexus_inventory"].duplicate()
 	
@@ -214,7 +197,7 @@ func load(save_file):
 
 	GlobalSettings.start_bgm("res://music/asmarafulldemo.mp3")
 
-# randomizes all empty nodes
+# randomizes all empty nodes with randomized stat types and stat qualities
 func stat_nodes_randomizer(save_file):
 	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
 	var area_nodes: Array[Array] = [[132, 133, 134, 146, 147, 149, 163, 164, 165, 166, 179, 182, 196, 198, 199, 211, 212, 213, 214, 215, 228, 229, 231, 232, 243, 244, 245, 246, 247, 260, 261, 262, 264, 277, 278, 279, 280, 292, 294, 296, 309, 310, 311, 324, 325, 327, 328, 340],
@@ -267,9 +250,39 @@ func stat_nodes_randomizer(save_file):
 	var area_texture_positions_size := 0
 	var i := 0
 
+	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
+	# HP, MP, DEF, WRD, ATK, INT, SPD, AGI
+	const area_stats_qualities := [[0, 0, 0, 0, 0, 0, 0, 0],
+								   [1, 2, 0, 2, 0, 2, 1, 1],
+								   [0, 0, 0, 0, 0, 0, 0, 0],
+								   [1, 2, 0, 2, 0, 2, 1, 1],
+								   [0, 0, 0, 0, 0, 0, 0, 0],
+								   [0, 0, 0, 0, 0, 0, 1, 1],
+								   [0, 0, 0, 0, 0, 0, 1, 1],
+								   [0, 0, 0, 0, 0, 0, 0, 0],
+								   [1, 1, 1, 1, 1, 1, 2, 2],
+								   [0, 0, 0, 0, 0, 0, 0, 0],
+								   [2, 1, 2, 0, 2, 0, 1, 1],
+								   [1, 0, 1, 1, 0, 0, 0, 0]]
+
+	# HP, MP, DEF, WRD, ATK, INT, SPD, AGI, EMPTY
+	const stats_qualities := {
+	0: [[200, 200, 300], [200, 200, 300, 300, 300, 400], [300, 300, 400]],
+	1: [[10, 10, 20], [10, 10, 20, 20, 40], [20, 20, 40]],
+	2: [[5, 10], [5, 10, 10, 15], [10, 15]],
+	3: [[5, 10], [5, 10, 10, 15], [10, 15]],
+	4: [[5, 5, 5, 10], [5, 10], [10]],
+	5: [[5, 5, 5, 10], [5, 10], [10]],
+	6: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4], [3, 4]],
+	7: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4], [3, 4]]
+	}
+
+	var node_qualities := []
+
 	atlas_positions.clear()
 	for j in 768:
 		atlas_positions.push_back(Vector2(-1, -1))
+		node_qualities.push_back(0)
 
 	# for each area
 	for area_index in area_nodes.size():
@@ -286,11 +299,8 @@ func stat_nodes_randomizer(save_file):
 			for j in area_amount[area_index][stat_type]:
 				area_texture_positions.push_back(stats_node_atlas_position[stat_type])
 
-		print(area_size)
-		print(area_size - area_texture_positions.size() + 1)
 		for remaining_nodes in (area_size - area_texture_positions.size() + 1):
 			area_texture_positions.push_back(empty_node_atlas_position)
-		print("after ", area_size - area_texture_positions.size() + 1)
 
 		# find satifying stat type for each node
 		area_nodes[area_index].shuffle()
@@ -315,38 +325,7 @@ func stat_nodes_randomizer(save_file):
 
 	saves[save_file]["nexus"]["randomized_atlas_positions"] = atlas_positions.duplicate()
 
-	print(area_amount)
-
 	# randomize stat node qualities
-	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
-	# HP, MP, DEF, WRD, ATK, INT, SPD, AGI
-	const default_area_stats_qualities := [[0, 0, 0, 0, 0, 0, 0, 0],
-										   [1, 2, 0, 2, 0, 2, 1, 1],
-										   [0, 0, 0, 0, 0, 0, 0, 0],
-										   [1, 2, 0, 2, 0, 2, 1, 1],
-										   [0, 0, 0, 0, 0, 0, 0, 0],
-										   [0, 0, 0, 0, 0, 0, 1, 1],
-										   [0, 0, 0, 0, 0, 0, 1, 1],
-										   [0, 0, 0, 0, 0, 0, 0, 0],
-										   [1, 1, 1, 1, 1, 1, 2, 2],
-										   [0, 0, 0, 0, 0, 0, 0, 0],
-										   [2, 1, 2, 0, 2, 0, 1, 1],
-										   [1, 0, 1, 1, 0, 0, 0, 0]]
-
-	# HP, MP, DEF, WRD, ATK, INT, SPD, AGI, EMPTY
-	const default_stats_qualities := {
-	0: [[200, 200, 300], [200, 200, 300, 300, 300, 400], [300, 300, 400]],
-	1: [[10, 10, 20], [10, 10, 20, 20, 40], [20, 20, 40]],
-	2: [[5, 10], [5, 10, 10, 15], [10, 15]],
-	3: [[5, 10], [5, 10, 10, 15], [10, 15]],
-	4: [[5, 5, 5, 10], [5, 10], [10]],
-	5: [[5, 5, 5, 10], [5, 10], [10]],
-	6: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4], [3, 4]],
-	7: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4], [3, 4]]
-	}
-
-	var node_qualities := []
-
 	for j in 768:
 		node_qualities.push_back(0)
 
@@ -354,9 +333,9 @@ func stat_nodes_randomizer(save_file):
 		for node_index in area_nodes[area_index]:
 			for stat_index in stats_node_atlas_position.size():
 				if atlas_positions[node_index] == stats_node_atlas_position[stat_index]:
-					node_qualities[node_index] = default_stats_qualities[stat_index][default_area_stats_qualities[area_index][stat_index]][randi() % default_stats_qualities[stat_index][default_area_stats_qualities[area_index][stat_index]].size()]
+					node_qualities[node_index] = stats_qualities[stat_index][area_stats_qualities[area_index][stat_index]][randi() % stats_qualities[stat_index][area_stats_qualities[area_index][stat_index]].size()]
 
-	saves[save_file]["nexus"]["quality"] = node_qualities.duplicate()
+	saves[save_file]["nexus"]["randomized_qualities"] = node_qualities.duplicate()
 
 func has_illegal_adjacents(node_index):
 	const adjacents_index: Array[Array] = [[-32, -17, -16, 15, 16, 32], [-32, -16, -15, 16, 17, 32]]

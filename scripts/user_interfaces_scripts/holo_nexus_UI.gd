@@ -74,7 +74,7 @@ func _input(event):
 		print("double click ", event.is_double_click())
 
 func update_nexus_ui():
-	var node_quality_string = str(nexus.nodes_quality[nexus.last_nodes[nexus.current_nexus_player]])
+	var node_quality_string = str(nexus.nodes_qualities[nexus.last_nodes[nexus.current_nexus_player]])
 	var node_atlas_position = nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position
 
 	if node_quality_string == "0":
@@ -159,7 +159,7 @@ func update_inventory_buttons():
 		elif nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position in inventory_options_valid_node_atlas_positions[i][0]:
 			if i < 14 and nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]:
 				inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
-			elif i > 16 or i == 14 and nexus.last_nodes[nexus.current_nexus_player] not in nexus.nodes_unlocked[nexus.current_nexus_player]:
+			elif i > 16 and nexus.last_nodes[nexus.current_nexus_player] not in nexus.nodes_unlocked[nexus.current_nexus_player]:
 				inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
 			else:
 				inventory_items_nodes[i].modulate = Color(1, 1, 1, 1)
@@ -186,14 +186,14 @@ func teleport(type):
 		pass
 
 func convert(target_type_position):
-	nexus.nodes_converted_index[nexus.current_nexus_player].push_back(nexus.last_nodes[nexus.current_nexus_player])
-	nexus.nodes_converted_type[nexus.current_nexus_player].push_back(target_type_position)
+	
+	nexus.nodes_converted[nexus.current_nexus_player].push_back([nexus.last_nodes[nexus.current_nexus_player], target_type_position])
 	if nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position == nexus.empty_node_atlas_position:
-		nexus.nodes_converted_quality[nexus.current_nexus_player].push_back(0)
+		nexus.nodes_converted[nexus.current_nexus_player].back().push_back(0)
 	else:
 		for i in nexus.stats_node_atlas_position.size():
 			if nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position == nexus.stats_node_atlas_position[i]:
-				nexus.nodes_converted_quality[nexus.current_nexus_player].push_back(nexus.converted_stats_qualities[i])
+				nexus.nodes_converted[nexus.current_nexus_player].back().push_back(nexus.converted_stats_qualities[i])
 				break
 
 	nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position = target_type_position

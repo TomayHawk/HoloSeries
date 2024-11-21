@@ -80,7 +80,9 @@ var current_attack_state := AttackState.READY:
 		if current_attack_state != AttackState.ATTACK: return
 		character_specifics_node.regular_attack()
 		attack_face_direction = Direction.UP if attack_direction.y < 0 else Direction.DOWN
-		if abs(attack_direction.x) < abs(attack_direction.y): return
+		if abs(attack_direction.x) < abs(attack_direction.y):
+			current_face_direction = current_face_direction
+			return
 		attack_face_direction = Direction.LEFT if attack_direction.x < 0 else Direction.RIGHT
 		current_face_direction = current_face_direction
 
@@ -254,6 +256,9 @@ func update_nodes():
 	character_specifics_node = get_node_or_null("CharacterSpecifics")
 	animation_node = get_node_or_null("CharacterSpecifics/Animation")
 
+func animation():
+	pass
+
 func _on_combat_hit_box_area_input_event(_viewport, _event, _shape_idx):
 	if Input.is_action_just_pressed("action"):
 		CombatEntitiesComponent.choose_entity(self, !is_current_main_player, player_stats_node.alive)
@@ -288,6 +293,10 @@ func _on_interaction_area_body_exited(body):
 
 func _on_attack_timer_timeout():
 	current_attack_state = AttackState.READY
+	if velocity == Vector2(0, 0):
+		current_move_state = MoveState.IDLE
+	else:
+		current_move_state = MoveState.WALK
 
 func _on_knockback_timer_timeout():
 	if Input.get_vector("left", "right", "up", "down") != Vector2.ZERO:

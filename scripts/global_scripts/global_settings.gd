@@ -20,7 +20,8 @@ var current_main_player_node: Node = null
 var nexus_node: Node = null
 var nexus_character_selector_node: Node = null
 #!#!# var nexus := {
-#!#!#	"randomized_nodes": [[]], # [node, type, quality]
+#!#!#	"nexus_randomized_atlas_positions" : [],
+#!#!#	"nexus_randomized_qualities" : [],
 #!#!#	"last_nodes": [167, 154, 333, -1, 132],
 #!#!#	"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]],
 #!#!#	"converted": [[[]], [[]], [[]], [[]], [[]]], # [node, type, quality]
@@ -34,15 +35,12 @@ var nexus_stats := [[0, 0, 0, 0, 0, 0, 0, 0],
 					[0, 0, 0, 0, 0, 0, 0, 0],
 					[0, 0, 0, 0, 0, 0, 0, 0],
 					[0, 0, 0, 0, 0, 0, 0, 0]]
-var nexus_not_randomized := true
 var nexus_randomized_atlas_positions := []
+var nexus_randomized_qualities := []
 var nexus_last_nodes := []
 var nexus_unlocked := [[], [], [], [], []]
 var nexus_unlockables := [[], [], [], [], []]
-var nexus_quality := []
-var nexus_converted := [[], [], [], [], []]
-var nexus_converted_type := [[], [], [], [], []]
-var nexus_converted_quality := [[], [], [], [], []]
+var nexus_converted := [[[]], [[]], [[]], [[]], [[]]] # [node, type, quality]
 var nexus_inventory := []
 #!#!#
 
