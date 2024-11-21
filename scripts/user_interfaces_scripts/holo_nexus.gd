@@ -63,20 +63,21 @@ func _ready():
 	GlobalSettings.nexus_inputs_available = true
 	GlobalSettings.nexus_character_selector_node = %HoloNexusUI/CharacterSelector
 
-	# update board ##### should randomize board at start of game
-	if GlobalSettings.nexus_not_randomized:
-		stat_nodes_randomizer()
-	else:
-		index_counter = 0
-		for node in nexus_nodes:
-			if node.texture.region.position == empty_node_atlas_position:
-				node.texture.region.position = GlobalSettings.nexus_randomized_atlas_positions[index_counter]
-			index_counter += 1
+	# update board ##### should randomize board at start of game ##### block needs fixing
+	temp_function()
+	index_counter = 0
+	for node in nexus_nodes:
+		if node.texture.region.position == empty_node_atlas_position:
+			node.texture.region.position = GlobalSettings.nexus_randomized_atlas_positions[index_counter]
+		else:
+			GlobalSettings.nexus_randomized_atlas_positions[index_counter] = node.texture.region.position
+		index_counter += 1
 
 	# update current player and allies in character selector
 	update_nexus_player(GlobalSettings.current_main_player_node.character_specifics_node.character_index)
 	nexus_ui_node.update_character_selector()
 
+'''
 func stat_nodes_randomizer():
 	GlobalSettings.nexus_not_randomized = false
 
@@ -284,7 +285,10 @@ func stat_nodes_randomizer():
 	# save randomized textures
 	for node in nexus_nodes:
 		GlobalSettings.nexus_randomized_atlas_positions.push_back(node.texture.region.position)
-			
+
+'''
+
+func temp_function():
 	for node in nexus_nodes:
 		match node.texture.region.position:
 			null_node_atlas_position: null_nodes.push_back(node.get_index()) # null
@@ -292,43 +296,6 @@ func stat_nodes_randomizer():
 			key_node_atlas_position[1]: key_nodes[1].push_back(node.get_index()) # clover
 			key_node_atlas_position[2]: key_nodes[2].push_back(node.get_index()) # heart
 			key_node_atlas_position[3]: key_nodes[3].push_back(node.get_index()) # spade
-
-	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
-	# HP, MP, DEF, WRD, ATK, INT, SPD, AGI
-	const default_area_stats_qualities := [[0, 0, 0, 0, 0, 0, 0, 0],
-										   [1, 2, 0, 2, 0, 2, 1, 1],
-										   [0, 0, 0, 0, 0, 0, 0, 0],
-										   [1, 2, 0, 2, 0, 2, 1, 1],
-										   [0, 0, 0, 0, 0, 0, 0, 0],
-										   [0, 0, 0, 0, 0, 0, 1, 1],
-										   [0, 0, 0, 0, 0, 0, 1, 1],
-										   [0, 0, 0, 0, 0, 0, 0, 0],
-										   [1, 1, 1, 1, 1, 1, 2, 2],
-										   [0, 0, 0, 0, 0, 0, 0, 0],
-										   [2, 1, 2, 0, 2, 0, 1, 1],
-										   [1, 0, 1, 1, 0, 0, 0, 0]]
-
-	# HP, MP, DEF, WRD, ATK, INT, SPD, AGI, EMPTY
-	const default_stats_qualities := {
-	0: [[200, 200, 300], [200, 200, 300, 300, 300, 400], [300, 300, 400]],
-	1: [[10, 10, 20], [10, 10, 20, 20, 40], [20, 20, 40]],
-	2: [[5, 10], [5, 10, 10, 15], [10, 15]],
-	3: [[5, 10], [5, 10, 10, 15], [10, 15]],
-	4: [[5, 5, 5, 10], [5, 10], [10]],
-	5: [[5, 5, 5, 10], [5, 10], [10]],
-	6: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4], [3, 4]],
-	7: [[1, 1, 2, 2, 2, 3], [1, 2, 3, 3, 4], [3, 4]]
-	}
-
-	for i in 768:
-		nodes_quality.push_back(0)
-
-	# save amount
-	for area_type in area_nodes.size():
-		for node_index in area_nodes[area_type]:
-			for i in stats_node_atlas_position.size():
-				if nexus_nodes[node_index].texture.region.position == stats_node_atlas_position[i]:
-					nodes_quality[node_index] = default_stats_qualities[i][default_area_stats_qualities[area_type][i]][randi() % default_stats_qualities[i][default_area_stats_qualities[area_type][i]].size()]
 
 	# for each unlocked player, determine all unlockables
 	for character_index in GlobalSettings.unlocked_characters:
