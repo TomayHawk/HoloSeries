@@ -7,41 +7,63 @@ extends Node2D
 @onready var camera_node := %Camera2D
 @onready var global_bgm_node := %GlobalBgmPlayer
 
-enum EscState {MAIN_MENU, MAIN_MENU_SAVES, MAIN_MENU_SETTINGS, WORLD, COMBAT_OPTIONS_2, REQUESTING_ENTITIES, DIALOGUE, OPTIONS, SETTINGS, STATS_SETTINGS, NEXUS, NEXUS_INVENTORY}
-var esc_state := EscState.MAIN_MENU
+##### currently unused
+var current_save := {
+	# global variables
+	"save_index": 0,
+	"inventory": [999, 99, 99, 99, 999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	"current_main_character_index": 4,
+	
+	# load variables #!#!# probably don't need to be here
+	"current_scene_path": "res://scenes/world_scene_1.tscn",
+	"unlocked_characters": [0, 1, 2, 4],
+	"party": [0, 4, 2],
+	"current_main_player_position": Vector2(0, 0),
+	"character_levels": [0, 0, 0, 0, 0],
+	"character_experiences": [0.0, 0.0, 0.0, 0.0, 0.0],
+
+	"combat_inventory": [999, 99, 99, 99, 999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	
+	"nexus": {
+		"randomized_atlas_positions": [],
+		"randomized_qualities": [],
+		"last_nodes": [167, 154, 333, 0, 132],
+		"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]],
+		"converted": [[[]], [[]], [[]], [[]], [[]]], # [node, type, quality],
+		"nexus_inventory": [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+		#!#!# remove below
+		"unlockables": [[151, 199], [171, 138], [301, 316, 348], [], [116, 164]],
+		"stats": [[0, 0, 0, 0, 0, 0, 0, 0],
+				  [0, 0, 0, 0, 0, 0, 0, 0],
+				  [0, 0, 0, 0, 0, 0, 0, 0],
+				  [0, 0, 0, 0, 0, 0, 0, 0],
+				  [0, 0, 0, 0, 0, 0, 0, 0]]
+		#!#!#
+	}
+}
+
+enum Scene {MAIN_MENU, WORLD_SCENE_1, WORLD_SCENE_2, DUNGEON_SCENE_1, NEXUS}
+var scene := Scene.MAIN_MENU
+
+enum UIState {MAIN_MENU, MAIN_MENU_SAVES, MAIN_MENU_SETTINGS, WORLD, COMBAT_OPTIONS_2, REQUESTING_ENTITIES, DIALOGUE, OPTIONS, SETTINGS, STATS_SETTINGS, NEXUS, NEXUS_INVENTORY}
+var ui_state := UIState.MAIN_MENU
+
+var current_main_player_node: Node = null
 
 #!#!# var can_attack := false
-
-var save_index := -1
-var inventory := [999, 99, 99, 99, 999]
-var current_main_player_node: Node = null
 
 # nexus variables
 var nexus_node: Node = null
 var nexus_character_selector_node: Node = null
-#!#!# var nexus := {
-#!#!#	"nexus_randomized_atlas_positions" : [],
-#!#!#	"nexus_randomized_qualities" : [],
-#!#!#	"last_nodes": [167, 154, 333, -1, 132],
-#!#!#	"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]],
-#!#!#	"converted": [[[]], [[]], [[]], [[]], [[]]], # [node, type, quality]
-#!#!#	"nexus_inventory": [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1]
-#!#!# }
 
 #!#!# remove below
-var on_nexus := false
 var nexus_stats := [[0, 0, 0, 0, 0, 0, 0, 0],
 					[0, 0, 0, 0, 0, 0, 0, 0],
 					[0, 0, 0, 0, 0, 0, 0, 0],
 					[0, 0, 0, 0, 0, 0, 0, 0],
 					[0, 0, 0, 0, 0, 0, 0, 0]]
-var nexus_randomized_atlas_positions := []
-var nexus_randomized_qualities := []
-var nexus_last_nodes := []
-var nexus_unlocked := [[], [], [], [], []]
+
 var nexus_unlockables := [[], [], [], [], []]
-var nexus_converted := [[[]], [[]], [[]], [[]], [[]]] # [node, type, quality]
-var nexus_inventory := []
 #!#!#
 
 #!#!# remove below
@@ -52,7 +74,6 @@ var combat_inputs_available := false
 var nexus_inputs_available := false
 
 # player variables
-var standby_character_indices := []
 var unlocked_characters := []
 var character_levels := []
 var character_experiences := []
@@ -66,7 +87,7 @@ var character_experiences := []
 
 func _ready():
 	for i in 100:
-		inventory.push_back(0)
+		current_save["inventory"].push_back(0)
 	set_physics_process(false)
 
 func _input(_event):
@@ -87,82 +108,80 @@ func _input(_event):
 
 # esc inputs
 func esc_input():
-	if on_nexus:
+	if scene == Scene.NEXUS:
 		if nexus_node.nexus_ui_node.inventory_node.visible:
-			esc_state = EscState.NEXUS_INVENTORY
+			ui_state = UIState.NEXUS_INVENTORY
 		else:
-			esc_state = EscState.NEXUS
+			ui_state = UIState.NEXUS
 	elif CombatEntitiesComponent.requesting_entities:
-		esc_state = EscState.REQUESTING_ENTITIES
+		ui_state = UIState.REQUESTING_ENTITIES
 	elif combat_ui_node.combat_options_2_node.visible:
-		esc_state = EscState.COMBAT_OPTIONS_2
+		ui_state = UIState.COMBAT_OPTIONS_2
 	elif tree.paused:
-		if save_index == -1:
-			esc_state = EscState.MAIN_MENU_SETTINGS
+		if current_save["save_index"] == -1:
+			ui_state = UIState.MAIN_MENU_SETTINGS
 		elif game_options_node.settings_node.visible:
-			esc_state = EscState.SETTINGS
+			ui_state = UIState.SETTINGS
 		elif game_options_node.stats_node.visible:
-			esc_state = EscState.STATS_SETTINGS
+			ui_state = UIState.STATS_SETTINGS
 		else:
-			esc_state = EscState.OPTIONS
-	elif save_index != -1:
-		esc_state = EscState.WORLD
-
-	print(esc_state)
+			ui_state = UIState.OPTIONS
+	elif current_save["save_index"] != -1:
+		ui_state = UIState.WORLD
 	
-	match esc_state:
-		EscState.MAIN_MENU:
+	match ui_state:
+		UIState.MAIN_MENU:
 			game_options_node.show()
 			game_options_node.options_node.hide()
 			game_options_node.settings_node.show()
 			tree.current_scene.main_menu_options_node.hide()
-			esc_state = EscState.MAIN_MENU_SETTINGS
-		EscState.MAIN_MENU_SAVES:
+			ui_state = UIState.MAIN_MENU_SETTINGS
+		UIState.MAIN_MENU_SAVES:
 			tree.current_scene.saves_menu_node.hide()
 			tree.current_scene.options_menu_node.show()
 			tree.current_scene.main_menu_options_node.show()
-			esc_state = EscState.MAIN_MENU
-		EscState.MAIN_MENU_SETTINGS:
+			ui_state = UIState.MAIN_MENU
+		UIState.MAIN_MENU_SETTINGS:
 			game_options_node.hide()
 			game_options_node.options_node.show()
 			game_options_node.settings_node.hide()
 			tree.current_scene.main_menu_options_node.show()
-			esc_state = EscState.MAIN_MENU
-		EscState.WORLD:
+			ui_state = UIState.MAIN_MENU
+		UIState.WORLD:
 			game_options_node.show()
 			combat_ui_node.hide()
 			combat_ui_node.character_selector_node.hide()
 			tree.paused = true
 			combat_inputs_available = false
-			esc_state = EscState.OPTIONS
-		EscState.COMBAT_OPTIONS_2:
+			ui_state = UIState.OPTIONS
+		UIState.COMBAT_OPTIONS_2:
 			combat_ui_node.hide_combat_options_2()
-			esc_state = EscState.WORLD
-		EscState.REQUESTING_ENTITIES:
+			ui_state = UIState.WORLD
+		UIState.REQUESTING_ENTITIES:
 			CombatEntitiesComponent.empty_entities_request()
-			esc_state = EscState.WORLD if combat_ui_node.combat_options_2_node.visible else EscState.COMBAT_OPTIONS_2
-		EscState.DIALOGUE:
+			ui_state = UIState.WORLD if combat_ui_node.combat_options_2_node.visible else UIState.COMBAT_OPTIONS_2
+		UIState.DIALOGUE:
 			pass
-		EscState.OPTIONS:
+		UIState.OPTIONS:
 			game_options_node.hide()
 			combat_ui_node.show()
 			tree.paused = false
 			combat_inputs_available = true
-			esc_state = EscState.WORLD
-		EscState.SETTINGS:
+			ui_state = UIState.WORLD
+		UIState.SETTINGS:
 			game_options_node.settings_node.hide()
 			game_options_node.options_node.show()
-			esc_state = EscState.OPTIONS
-		EscState.STATS_SETTINGS:
+			ui_state = UIState.OPTIONS
+		UIState.STATS_SETTINGS:
 			game_options_node.stats_node.hide()
 			game_options_node.options_node.show()
-			esc_state = EscState.OPTIONS
-		EscState.NEXUS:
+			ui_state = UIState.OPTIONS
+		UIState.NEXUS:
 			nexus(false)
-		EscState.NEXUS_INVENTORY:
+		UIState.NEXUS_INVENTORY:
 			nexus_node.nexus_ui_node.inventory_node.hide()
 			nexus_node.nexus_ui_node.update_nexus_ui()
-			esc_state = EscState.NEXUS
+			ui_state = UIState.NEXUS
 
 # change scene (called from last scenes)
 func change_scene(next_scene_path, spawn_position, bgm_path):
@@ -184,9 +203,9 @@ func change_scene(next_scene_path, spawn_position, bgm_path):
 	camera_node.update_camera(current_main_player_node, true, camera_node.target_zoom)
 
 # change scene (called from new scenes)
-func new_scene(scene, camera_limits):
+func new_scene(next_scene, camera_limits):
 	camera_node.new_limits(camera_limits)
-	party_node.reparent(scene)
+	party_node.reparent(next_scene)
 
 # update controlling character
 func update_main_player(next_main_player_node):
@@ -203,16 +222,17 @@ func nexus(to_nexus):
 	game_options_node.visible = !to_nexus
 	combat_ui_node.visible = !to_nexus
 	text_box_node.visible = !to_nexus
-	on_nexus = to_nexus
 	combat_inputs_available = !to_nexus
 	nexus_inputs_available = to_nexus
 
 	if to_nexus:
 		root.add_child(load("res://user_interfaces/holo_nexus.tscn").instantiate())
-		esc_state = EscState.NEXUS
+		scene = Scene.NEXUS
+		ui_state = UIState.NEXUS
 	else:
 		nexus_node.call_deferred("exit_nexus")
-		esc_state = EscState.WORLD
+		scene = Scene.WORLD_SCENE_1 ## ### NEED TO CHANGE
+		ui_state = UIState.WORLD
 		
 func start_bgm(bgm_path):
 	if global_bgm_node.stream.resource_path != bgm_path:
@@ -235,6 +255,6 @@ func start_bgm(bgm_path):
 
 # display combat ui
 func combat_ui_display():
-	if !CombatEntitiesComponent.in_combat and save_index != -1:
+	if !CombatEntitiesComponent.in_combat and current_save["save_index"] != -1:
 		if combat_ui_node.control_node.modulate.a != 1.0: combat_ui_node.control_node.modulate.a = 1.0
 		elif CombatEntitiesComponent.leaving_combat_timer_node.is_stopped(): combat_ui_node.control_node.modulate.a = 0.0

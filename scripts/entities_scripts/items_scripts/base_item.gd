@@ -36,7 +36,7 @@ func distance_least():
 
 func loot():
 	if item_id != -1:
-		GlobalSettings.inventory[-1] += 1
+		GlobalSettings.current_save["inventory"][-1] += 1 ## ### ????
 
 	# orb script
 	get_colliding_bodies()[0].player_stats_node.update_ultimate_gauge(10)

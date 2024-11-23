@@ -62,7 +62,7 @@ func _ready():
 	
 	for i in 26:
 		inventory_items_quantity_label.push_back(inventory_items_nodes[i].get_node_or_null("Label2"))
-		inventory_items_quantity_label[i].text = str(GlobalSettings.nexus_inventory[i])
+		inventory_items_quantity_label[i].text = str(GlobalSettings.current_save["nexus"]["nexus_inventory"][i])
 	
 	call_deferred("update_inventory_buttons")
 	call_deferred("update_nexus_ui")
@@ -96,7 +96,7 @@ func hide_all():
 	options_node.hide()
 	descriptions_node.hide()
 	inventory_node.hide()
-	GlobalSettings.esc_state = GlobalSettings.EscState.NEXUS
+	GlobalSettings.ui_state = GlobalSettings.UIState.NEXUS
 
 func update_character_selector():
 	for button in character_selector_player_nodes:
@@ -129,7 +129,7 @@ func _on_items_pressed():
 	update_inventory_buttons()
 	options_node.hide()
 	inventory_node.show()
-	GlobalSettings.esc_state = GlobalSettings.EscState.NEXUS_INVENTORY
+	GlobalSettings.ui_state = GlobalSettings.UIState.NEXUS_INVENTORY
 
 func _on_use_item_pressed():
 	options_node.show()
@@ -141,7 +141,7 @@ func _on_cancel_pressed():
 func _on_nexus_inventory_item_pressed(extra_arg_0):
 	descriptions_label_node.text = inventory_options_valid_node_atlas_positions[extra_arg_0][1]
 	# if player is not moving and inventory is not empty
-	if nexus_player.velocity == Vector2.ZERO and GlobalSettings.nexus_inventory[extra_arg_0] != 0 and inventory_items_nodes[extra_arg_0].modulate == Color(1, 1, 1, 1):
+	if nexus_player.velocity == Vector2.ZERO and GlobalSettings.current_save["nexus"]["nexus_inventory"][extra_arg_0] != 0 and inventory_items_nodes[extra_arg_0].modulate == Color(1, 1, 1, 1):
 		# wait for double click
 
 		# call appropriate function
@@ -154,7 +154,7 @@ func _on_nexus_inventory_item_pressed(extra_arg_0):
 
 func update_inventory_buttons():
 	for i in 26:
-		if GlobalSettings.nexus_inventory[i] == 0:
+		if GlobalSettings.current_save["nexus"]["nexus_inventory"][i] == 0:
 			inventory_items_nodes[i].hide()
 		elif nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position in inventory_options_valid_node_atlas_positions[i][0]:
 			if i < 14 and nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]:

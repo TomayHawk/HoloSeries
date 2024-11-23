@@ -10,11 +10,11 @@ var current_nexus_player := 0
 @onready var nexus_unlockables_node := %UnlockableNodes
 
 # character information
-@onready var last_nodes = GlobalSettings.nexus_last_nodes.duplicate()
-@onready var nodes_unlocked = GlobalSettings.nexus_unlocked.duplicate()
+@onready var last_nodes = GlobalSettings.current_save["nexus"]["last_nodes"].duplicate()
+@onready var nodes_unlocked = GlobalSettings.current_save["nexus"]["unlocked"].duplicate()
 @onready var nodes_unlockable = GlobalSettings.nexus_unlockables.duplicate()
-@onready var nodes_qualities = GlobalSettings.nexus_randomized_qualities.duplicate()
-@onready var nodes_converted = GlobalSettings.nexus_converted.duplicate()
+@onready var nodes_qualities = GlobalSettings.current_save["nexus"]["randomized_qualities"].duplicate()
+@onready var nodes_converted = GlobalSettings.current_save["nexus"]["converted"].duplicate()
 
 @onready var unlockable_load := load("res://resources/nexus_unlockables.tscn")
 var unlockable_instance: Node = null
@@ -66,9 +66,9 @@ func _ready():
 	index_counter = 0
 	for node in nexus_nodes:
 		if node.texture.region.position == empty_node_atlas_position:
-			node.texture.region.position = GlobalSettings.nexus_randomized_atlas_positions[index_counter]
+			node.texture.region.position = GlobalSettings.current_save["nexus"]["randomized_atlas_positions"][index_counter]
 		else:
-			GlobalSettings.nexus_randomized_atlas_positions[index_counter] = node.texture.region.position
+			GlobalSettings.current_save["nexus"]["randomized_atlas_positions"][index_counter] = node.texture.region.position
 		index_counter += 1
 
 	# update current player and allies in character selector
@@ -115,7 +115,7 @@ func update_nexus_player(player):
 	index_counter = 0
 	for node in nexus_nodes:
 		# return to default texture positions
-		node.texture.region.position = GlobalSettings.nexus_randomized_atlas_positions[index_counter]
+		node.texture.region.position = GlobalSettings.current_save["nexus"]["randomized_atlas_positions"][index_counter]
 
 		# modulate null nodes, unlocked nodes and locked nodes
 		if index_counter in null_nodes:
@@ -136,7 +136,6 @@ func update_nexus_player(player):
 
 	# update converted nodes
 	##### need to update quality
-	print(nodes_converted)
 	if !nodes_converted[player][0].is_empty():
 		for converted_node in nodes_converted[player]:
 			nexus_nodes[converted_node[0]].texture.region.position = converted_node[1]
@@ -186,8 +185,8 @@ func check_adjacent_unlockables(origin_index, player):
 					break
 
 func exit_nexus():
-	GlobalSettings.nexus_unlocked = nodes_unlocked.duplicate()
-	GlobalSettings.nexus_randomized_qualities = nodes_qualities.duplicate()
+	GlobalSettings.current_save["nexus"]["unlocked"] = nodes_unlocked.duplicate()
+	GlobalSettings.current_save["nexus"]["randomized_qualities"] = nodes_qualities.duplicate()
 
 	# for each player, count unlocked stat nodes
 	for character_index in GlobalSettings.unlocked_characters:

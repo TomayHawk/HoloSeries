@@ -15,8 +15,14 @@ var player_stats_nodes: Array[Node] = []
 var current_stats := -1
 
 var settings := {
-	"resolution": Vector2(1280, 720),
-	"full_screen": false
+	"full_screen": false,
+	"resolution": Vector2i(1280, 720),
+	"window_position": false, ## ### need to update
+	"master_volume": 0.0,
+	"music_volume": 0.0,
+	"language": 0, ## ### use enum
+	"zoom_sensitivity": 1.0,
+	"screen_shake_intensity": 1.0
 }
 
 func _ready():

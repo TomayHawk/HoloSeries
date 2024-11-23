@@ -2,10 +2,10 @@ extends Node
 
 var last_save := 0
 
-var settings_save := {
+var settings := {
 	"full_screen": false,
-	"resolution": false,
-	"window_position": false,
+	"resolution": Vector2i(1280, 720),
+	"window_position": false, ## ### need to update
 	"master_volume": 0.0,
 	"music_volume": 0.0,
 	"language": 0, ## ### use enum
@@ -45,13 +45,8 @@ var saves := [
 				  [0, 0, 0, 0, 0, 0, 0, 0],
 				  [0, 0, 0, 0, 0, 0, 0, 0]]
 		#!#!#
-	},
-	#!#!# remove below
-	"standby": [1],
-	#!#!#
-	},
-	{},
-	{}
+	}
+	}
 ]
 
 var atlas_positions := []
@@ -75,7 +70,6 @@ func new(unlocked_characters, save_index):
 		"nexus": {
 			"randomized_atlas_positions": [],
 			"randomized_qualities": [],
-			"last_nodes": [167, 154, 333, 0, 132],
 			"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]],
 			"converted": [[[]], [[]], [[]], [[]], [[]]], # [node, type, quality],
 			"nexus_inventory": [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
@@ -87,10 +81,7 @@ func new(unlocked_characters, save_index):
 					  [0, 0, 0, 0, 0, 0, 0, 0],
 					  [0, 0, 0, 0, 0, 0, 0, 0]]
 			#!#!#
-		},
-		#!#!# remove below
-		"standby": [1],
-		#!#!#
+		}
 	}
 	
 	##### randomize nexus
@@ -102,21 +93,19 @@ func save(save_file):
 		"current_scene_path": GlobalSettings.tree.current_scene.get_path(), ## ### need to fix
 		"unlocked_characters": GlobalSettings.unlocked_characters.duplicate(),
 		"party": [],
-		"standby": GlobalSettings.standby_character_indices.duplicate(),
 		"current_main_character_index": GlobalSettings.current_main_player_node.character_specifics_node.character_index,
 		"current_main_player_position": GlobalSettings.current_main_player_node.position,
 		"character_levels": GlobalSettings.character_levels.duplicate(),
 		"character_experiences": GlobalSettings.character_experiences.duplicate(),
-		"inventory": GlobalSettings.inventory.duplicate(),
+		"inventory": GlobalSettings.current_save["inventory"].duplicate(),
 		"nexus": {
-					"randomized_atlas_positions": GlobalSettings.nexus_randomized_atlas_positions.duplicate(),
-					"randomized_qualities": GlobalSettings.nexus_randomized_qualities.duplicate(),
-					"last_nodes": GlobalSettings.nexus_last_nodes.duplicate(),
-					"unlocked": GlobalSettings.nexus_unlocked.duplicate(),
-					"unlockables": GlobalSettings.nexus_unlockables.duplicate(),
-					"converted": GlobalSettings.nexus_converted.duplicate(),
+					"randomized_atlas_positions": GlobalSettings.current_save["nexus"]["randomized_atlas_positions"].duplicate(),
+					"randomized_qualities": GlobalSettings.current_save["nexus"]["randomized_qualities"].duplicate(),
+					"last_nodes": GlobalSettings.current_save["nexus"]["last_nodes"].duplicate(),
+					"unlocked": GlobalSettings.current_save["nexus"]["unlocked"].duplicate(),
+					"converted": GlobalSettings.current_save["nexus"]["converted"].duplicate(),
 					"stats": GlobalSettings.nexus_stats.duplicate(),
-					"nexus_inventory": GlobalSettings.nexus_inventory.duplicate()
+					"nexus_inventory": GlobalSettings.current_save["nexus"]["nexus_inventory"].duplicate()
 				 }
 	}
 
@@ -124,7 +113,7 @@ func save(save_file):
 		saves[save_file]["party"].push_back(GlobalSettings.player_node.character_specifics_node.character_index)
 
 func load(save_file):
-	GlobalSettings.save_index = save_file
+	GlobalSettings.current_save["save_index"] = save_file
 	last_save = saves[save_file]["save_index"]
 
 	##### temporary
@@ -135,18 +124,16 @@ func load(save_file):
 	
 	# update Global variables
 	GlobalSettings.unlocked_characters = saves[save_file]["unlocked_characters"].duplicate()
-	GlobalSettings.standby_character_indices = saves[save_file]["standby"].duplicate()
 	GlobalSettings.character_levels = saves[save_file]["character_levels"].duplicate()
 	GlobalSettings.character_experiences = saves[save_file]["character_experiences"].duplicate()
-	GlobalSettings.inventory = saves[save_file]["inventory"].duplicate()
-	GlobalSettings.nexus_randomized_atlas_positions = saves[save_file]["nexus"]["randomized_atlas_positions"].duplicate()
-	GlobalSettings.nexus_randomized_qualities = saves[save_file]["nexus"]["randomized_qualities"].duplicate()
-	GlobalSettings.nexus_last_nodes = saves[save_file]["nexus"]["last_nodes"].duplicate()
-	GlobalSettings.nexus_unlocked = saves[save_file]["nexus"]["unlocked"].duplicate()
-	GlobalSettings.nexus_unlockables = saves[save_file]["nexus"]["unlockables"].duplicate()
-	GlobalSettings.nexus_converted = saves[save_file]["nexus"]["converted"].duplicate()
+	GlobalSettings.current_save["inventory"] = saves[save_file]["inventory"].duplicate()
+	GlobalSettings.current_save["nexus"]["randomized_atlas_positions"] = saves[save_file]["nexus"]["randomized_atlas_positions"].duplicate()
+	GlobalSettings.current_save["nexus"]["randomized_qualities"] = saves[save_file]["nexus"]["randomized_qualities"].duplicate()
+	GlobalSettings.current_save["nexus"]["last_nodes"] = saves[save_file]["nexus"]["last_nodes"].duplicate()
+	GlobalSettings.current_save["nexus"]["unlocked"] = saves[save_file]["nexus"]["unlocked"].duplicate()
+	GlobalSettings.current_save["nexus"]["converted"] = saves[save_file]["nexus"]["converted"].duplicate()
 	GlobalSettings.nexus_stats = saves[save_file]["nexus"]["stats"].duplicate()
-	GlobalSettings.nexus_inventory = saves[save_file]["nexus"]["nexus_inventory"].duplicate()
+	GlobalSettings.current_save["nexus"]["nexus_inventory"] = saves[save_file]["nexus"]["nexus_inventory"].duplicate()
 	
 	var base_player_path := "res://entities/players/player_base.tscn"
 	var character_specifics_paths := ["res://entities/players/character_specifics/sora.tscn",
@@ -159,6 +146,7 @@ func load(save_file):
 	var party_player_nodes = GlobalSettings.party_node.get_children()
 	var player_node: Node = null
 	
+	#!#!# need to optimize two blocks below 
 	# create party characters
 	for character_index in saves[save_file]["party"]:
 		# create base player, attach character specifics, add character to party node, update player stats, add player to "party" group
@@ -179,7 +167,8 @@ func load(save_file):
 		else:
 			player_node.position += (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
 	
-	for character_index in saves[save_file]["standby"]:
+	for character_index in saves[save_file]["unlocked_characters"]:
+		if character_index in saves[save_file]["party"]: continue # !#!# temporary code
 		player_node = load(player_standby_path).instantiate()
 		player_node.add_child(load(character_specifics_paths[character_index]).instantiate())
 		GlobalSettings.standby_node.add_child(player_node)
@@ -318,10 +307,12 @@ func stat_nodes_randomizer(save_file):
 					area_texture_positions.pop_at(area_texture_positions_size - 1 - i)
 					area_texture_positions_size -= 1
 					break
-			
-			if (i > area_size):
-				atlas_positions[node_index] = area_texture_positions.pop_at(randi() % (area_size))
+
+			print(i == area_texture_positions_size)
+			if (i > area_texture_positions_size):
+				atlas_positions[node_index] = area_texture_positions.pop_at(randi() % (area_texture_positions_size))
 				area_texture_positions_size -= 1
+				print("failed")
 
 	saves[save_file]["nexus"]["randomized_atlas_positions"] = atlas_positions.duplicate()
 
