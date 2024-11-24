@@ -5,7 +5,7 @@ extends Node2D
 @onready var character_specifics_node := get_parent().get_node("CharacterSpecifics")
 @onready var attack_timer_node := get_parent().get_node("AttackTimer")
 
-@onready var combat_ui_node = GlobalSettings.combat_ui_node
+@onready var CombatUi = GlobalSettings.CombatUi
 
 @onready var health_bar_node := %HealthBar
 @onready var shield_bar_node := %ShieldBar
@@ -14,8 +14,8 @@ extends Node2D
 
 @onready var knockback_timer_node := get_parent().get_node("KnockbackTimer")
 
-@onready var combat_ui_ultimate_bar_node: Node = GlobalSettings.combat_ui_node.ultimate_progress_bar_nodes[0]
-@onready var combat_ui_shield_bar_node: Node = GlobalSettings.combat_ui_node.shield_progress_bar_nodes[0]
+@onready var combat_ui_ultimate_bar_node: Node = CombatUi.ultimate_progress_bar_nodes[0]
+@onready var combat_ui_shield_bar_node: Node = CombatUi.shield_progress_bar_nodes[0]
 
 # player variables
 var party_index := -1
@@ -120,8 +120,8 @@ func update_stats():
 		update_health(0, ["hidden"], Vector2.ZERO, 0.0)
 		update_mana(0)
 		update_stamina(0)
-		combat_ui_ultimate_bar_node = GlobalSettings.combat_ui_node.ultimate_progress_bar_nodes[party_index]
-		combat_ui_shield_bar_node = GlobalSettings.combat_ui_node.shield_progress_bar_nodes[party_index]
+		combat_ui_ultimate_bar_node = CombatUi.ultimate_progress_bar_nodes[party_index]
+		combat_ui_shield_bar_node = CombatUi.shield_progress_bar_nodes[party_index]
 		combat_ui_ultimate_bar_node.max_value = max_ultimate_gauge
 		combat_ui_shield_bar_node.max_value = max_shield
 
@@ -142,7 +142,7 @@ func update_health(value, types, knockback_direction, knockback_weight):
 		health = clamp(health + value, 0, max_health)
 		health_bar_node.value = health
 		health_bar_node.visible = health > 0 and health < max_health
-		combat_ui_node.update_health_label(party_index, health)
+		CombatUi.update_health_label(party_index, health)
 
 		if value < 0:
 			CombatEntitiesComponent.damage_display(floor(value), player_node.position + Vector2(0, -7), types + ["player_damage"])
@@ -172,7 +172,7 @@ func update_mana(value):
 		mana = clamp(mana + value, 0, max_mana)
 		mana_bar_node.value = mana
 		mana_bar_node.visible = mana < max_mana
-		combat_ui_node.update_mana_label(party_index, mana)
+		CombatUi.update_mana_label(party_index, mana)
 
 		if mana < max_mana: set_physics_process(true)
 

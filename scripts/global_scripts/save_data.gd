@@ -157,7 +157,7 @@ func load(save_file):
 		GlobalSettings.party_node.add_child(player_node)
 		player_node.player_stats_node.update_stats()
 		player_node.add_to_group("party")
-		GlobalSettings.combat_ui_node.character_name_label_nodes[party_player_nodes.size() - 1].text = party_player_nodes[party_player_nodes.size() - 1].character_specifics_node.character_name
+		CombatUi.character_name_label_nodes[party_player_nodes.size() - 1].text = party_player_nodes[party_player_nodes.size() - 1].character_specifics_node.character_name
 		
 		# position character and determine main player node
 		player_node.position = saves[save_file]["current_main_player_position"]
@@ -177,11 +177,11 @@ func load(save_file):
 	# hide unused character info slots
 	for i in 4:
 		if i >= party_player_nodes.size():
-			GlobalSettings.combat_ui_node.players_info_nodes[i].hide()
-			GlobalSettings.combat_ui_node.ultimate_progress_bar_nodes[i].hide()
-			GlobalSettings.combat_ui_node.shield_progress_bar_nodes[i].hide()
+			CombatUi.players_info_nodes[i].hide()
+			CombatUi.ultimate_progress_bar_nodes[i].hide()
+			CombatUi.shield_progress_bar_nodes[i].hide()
 
-	GlobalSettings.combat_ui_node.update_character_selector()
+	CombatUi.update_character_selector()
 	GlobalSettings.combat_inputs_available = true
 
 	GlobalSettings.start_bgm("res://music/asmarafulldemo.mp3")

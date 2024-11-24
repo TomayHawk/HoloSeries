@@ -171,7 +171,7 @@ func enter_combat():
 		leaving_combat = false
 		if leaving_combat_timer_node.is_stopped():
 			# fade in combat UI
-			GlobalSettings.combat_ui_node.combat_ui_control_tween(1)
+			CombatUi.combat_ui_control_tween(1)
 			#!#!# GlobalSettings.CombatUi.combat_ui_control_tween(1)
 			##### begin combat bgm
 		else:
@@ -187,7 +187,7 @@ func leave_combat():
 	leaving_combat = false
 	leaving_combat_timer_node.stop()
 	enemy_nodes_in_combat.clear()
-	GlobalSettings.combat_ui_node.combat_ui_control_tween(0)
+	CombatUi.combat_ui_control_tween(0)
 	#!#!# GlobalSettings.CombatUi.combat_ui_control_tween(0)
 	locked_enemy_node = null
 
@@ -231,7 +231,7 @@ func choose_entities():
 
 func empty_entities_request():
 	requesting_entities = false
-	GlobalSettings.ui_state = GlobalSettings.UIState.COMBAT_OPTIONS_2 if GlobalSettings.combat_ui_node.combat_options_2_node.visible else GlobalSettings.UIState.WORLD
+	GlobalSettings.ui_state = GlobalSettings.UIState.COMBAT_OPTIONS_2 if CombatUi.combat_options_2_node.visible else GlobalSettings.UIState.WORLD
 	if entities_request_origin_node != null and entities_request_origin_node.get_parent() == abilities_node and entities_chosen.size() != entities_request_count:
 		entities_request_origin_node.queue_free()
 	for entity in entities_available:
