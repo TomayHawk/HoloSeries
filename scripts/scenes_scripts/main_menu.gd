@@ -14,12 +14,12 @@ func _on_multiplayer_button_pressed():
 	pass
 
 func _on_saves_button_pressed():
-	GlobalSettings.ui_state = GlobalSettings.UIState.MAIN_MENU_SAVES
+	GlobalSettings.ui_state = GlobalSettings.UiState.MAIN_MENU_SAVES
 	saves_menu_node.show()
 	options_menu_node.hide()
 
 func _on_back_button_pressed():
-	GlobalSettings.ui_state = GlobalSettings.UIState.MAIN_MENU
+	GlobalSettings.ui_state = GlobalSettings.UiState.MAIN_MENU
 	options_menu_node.show()
 	saves_menu_node.hide()
 

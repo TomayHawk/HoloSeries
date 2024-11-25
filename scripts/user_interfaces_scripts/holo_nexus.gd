@@ -12,7 +12,6 @@ var current_nexus_player := 0
 # character information
 @onready var last_nodes = GlobalSettings.current_save["nexus"]["last_nodes"].duplicate()
 @onready var nodes_unlocked = GlobalSettings.current_save["nexus"]["unlocked"].duplicate()
-@onready var nodes_unlockable = GlobalSettings.nexus_unlockables.duplicate()
 @onready var nodes_qualities = GlobalSettings.current_save["nexus"]["randomized_qualities"].duplicate()
 @onready var nodes_converted = GlobalSettings.current_save["nexus"]["converted"].duplicate()
 
@@ -32,6 +31,7 @@ const ability_node_atlas_position: Array[Vector2] = [Vector2(64, 0), Vector2(96,
 const converted_stats_qualities := [400, 40, 15, 15, 20, 20, 4, 4]
 
 # ability nodes
+var nodes_unlockable: Array[Array] = [[], [], [], [], []]
 var ability_nodes: Array[int] = []
 
 # non-stats nodes
@@ -190,11 +190,11 @@ func exit_nexus():
 
 	# for each player, count unlocked stat nodes
 	for character_index in GlobalSettings.unlocked_characters:
-		GlobalSettings.nexus_stats[character_index] = [0, 0, 0, 0, 0, 0, 0, 0]
+		GlobalSettings.current_save["nexus"]["stats"][character_index] = [0, 0, 0, 0, 0, 0, 0, 0]
 
 		for unlocked_index in nodes_unlocked[character_index]:
 			if stats_node_atlas_position.find(nexus_nodes[unlocked_index].texture.region.position) != -1:
-				GlobalSettings.nexus_stats[character_index][stats_node_atlas_position.find(nexus_nodes[unlocked_index].texture.region.position)] += 1
+				GlobalSettings.current_save["nexus"]["stats"][character_index][stats_node_atlas_position.find(nexus_nodes[unlocked_index].texture.region.position)] += 1
 
 	GlobalSettings.camera_node.update_camera(GlobalSettings.current_main_player_node, true, scene_camera_zoom)
 	GlobalSettings.nexus_node = null

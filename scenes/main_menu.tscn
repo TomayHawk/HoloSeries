@@ -49,10 +49,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/focus = ExtResource("5_yjj58")
 theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_styles/normal = ExtResource("2_55lvy")
 text = "NG/Continue"
 
 [node name="MultiplayerButton" type="Button" parent="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer"]
@@ -61,10 +61,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/focus = ExtResource("5_yjj58")
 theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_styles/normal = ExtResource("2_55lvy")
 disabled = true
 text = "Multiplayer"
 
@@ -74,10 +74,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/focus = ExtResource("5_yjj58")
 theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_styles/normal = ExtResource("2_55lvy")
 text = "Saves"
 
 [node name="MiniGamesButton" type="Button" parent="MainMenuOptions/OptionsMenuMargin/MarginContainer/VBoxContainer"]
@@ -86,10 +86,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/focus = ExtResource("5_yjj58")
 theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_styles/normal = ExtResource("2_55lvy")
 disabled = true
 text = "Mini Games"
 
@@ -99,10 +99,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/focus = ExtResource("5_yjj58")
 theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_styles/normal = ExtResource("2_55lvy")
 disabled = true
 text = "Achievements"
 
@@ -112,10 +112,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/focus = ExtResource("5_yjj58")
 theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_styles/normal = ExtResource("2_55lvy")
 disabled = true
 text = "Leaderboards"
 
@@ -125,10 +125,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/focus = ExtResource("5_yjj58")
 theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_styles/normal = ExtResource("2_55lvy")
 text = "Settings"
 
 [node name="SavesMenuMargin" type="MarginContainer" parent="MainMenuOptions"]
@@ -166,10 +166,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/focus = ExtResource("5_yjj58")
 theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_styles/normal = ExtResource("2_55lvy")
 text = "First Save"
 
 [node name="SecondSaveButton" type="Button" parent="MainMenuOptions/SavesMenuMargin/MarginContainer/VBoxContainer"]
@@ -177,10 +177,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/focus = ExtResource("5_yjj58")
 theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_styles/normal = ExtResource("2_55lvy")
 text = "Second Save"
 
 [node name="ThirdSaveButton" type="Button" parent="MainMenuOptions/SavesMenuMargin/MarginContainer/VBoxContainer"]
@@ -188,10 +188,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/focus = ExtResource("5_yjj58")
 theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_styles/normal = ExtResource("2_55lvy")
 text = "Third Save"
 
 [node name="MarginContainer" type="MarginContainer" parent="MainMenuOptions/SavesMenuMargin/MarginContainer"]
@@ -209,10 +209,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/focus = ExtResource("5_yjj58")
 theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_styles/normal = ExtResource("2_55lvy")
 text = "Back"
 
 [node name="ContinueButton" type="Button" parent="MainMenuOptions/SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer"]
@@ -221,10 +221,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/focus = ExtResource("5_yjj58")
 theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_styles/normal = ExtResource("2_55lvy")
 text = "Continue"
 
 [node name="EditButton" type="Button" parent="MainMenuOptions/SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer"]
@@ -233,10 +233,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/focus = ExtResource("5_yjj58")
 theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_styles/normal = ExtResource("2_55lvy")
 text = "Edit"
 
 [node name="NewGameButton" type="Button" parent="MainMenuOptions/SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer"]
@@ -245,10 +245,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/focus = ExtResource("5_yjj58")
 theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_styles/normal = ExtResource("2_55lvy")
 text = "New Game"
 
 [node name="SaveData" parent="." instance=ExtResource("2_t5weu")]

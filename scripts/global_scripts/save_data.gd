@@ -104,7 +104,7 @@ func save(save_file):
 					"last_nodes": GlobalSettings.current_save["nexus"]["last_nodes"].duplicate(),
 					"unlocked": GlobalSettings.current_save["nexus"]["unlocked"].duplicate(),
 					"converted": GlobalSettings.current_save["nexus"]["converted"].duplicate(),
-					"stats": GlobalSettings.nexus_stats.duplicate(),
+					"stats": GlobalSettings.current_save["nexus"]["stats"].duplicate(),
 					"nexus_inventory": GlobalSettings.current_save["nexus"]["nexus_inventory"].duplicate()
 				 }
 	}
@@ -132,7 +132,7 @@ func load(save_file):
 	GlobalSettings.current_save["nexus"]["last_nodes"] = saves[save_file]["nexus"]["last_nodes"].duplicate()
 	GlobalSettings.current_save["nexus"]["unlocked"] = saves[save_file]["nexus"]["unlocked"].duplicate()
 	GlobalSettings.current_save["nexus"]["converted"] = saves[save_file]["nexus"]["converted"].duplicate()
-	GlobalSettings.nexus_stats = saves[save_file]["nexus"]["stats"].duplicate()
+	GlobalSettings.current_save["nexus"]["stats"] = saves[save_file]["nexus"]["stats"].duplicate()
 	GlobalSettings.current_save["nexus"]["nexus_inventory"] = saves[save_file]["nexus"]["nexus_inventory"].duplicate()
 	
 	var base_player_path := "res://entities/players/player_base.tscn"
@@ -308,7 +308,6 @@ func stat_nodes_randomizer(save_file):
 					area_texture_positions_size -= 1
 					break
 
-			print(i == area_texture_positions_size)
 			if (i > area_texture_positions_size):
 				atlas_positions[node_index] = area_texture_positions.pop_at(randi() % (area_texture_positions_size))
 				area_texture_positions_size -= 1

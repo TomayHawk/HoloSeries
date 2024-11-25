@@ -39,6 +39,7 @@ atlas = SubResource("CompressedTexture2D_15qb8")
 region = Rect2(64, 0, 32, 32)
 
 [node name="GameOptionsUI" type="CanvasLayer"]
+process_mode = 3
 script = ExtResource("1_3ijke")
 
 [node name="Control" type="Control" parent="."]
@@ -163,6 +164,7 @@ text = "Exit Game"
 
 [node name="SettingsMargin" type="MarginContainer" parent="Control"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -307,6 +309,7 @@ value = 1.0
 
 [node name="StatsMargin" type="MarginContainer" parent="Control"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

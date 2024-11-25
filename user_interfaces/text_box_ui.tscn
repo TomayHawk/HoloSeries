@@ -96,10 +96,10 @@ size_flags_vertical = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_qm7ug")
+theme_override_styles/focus = ExtResource("5_yamgs")
 theme_override_styles/hover = ExtResource("3_52afj")
 theme_override_styles/pressed = ExtResource("4_im7rw")
-theme_override_styles/focus = ExtResource("5_yamgs")
+theme_override_styles/normal = ExtResource("2_qm7ug")
 text = " First"
 
 [node name="Button2" type="Button" parent="DialogueOptionsMargin/VBoxContainer"]
@@ -108,10 +108,10 @@ size_flags_vertical = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_qm7ug")
+theme_override_styles/focus = ExtResource("5_yamgs")
 theme_override_styles/hover = ExtResource("3_52afj")
 theme_override_styles/pressed = ExtResource("4_im7rw")
-theme_override_styles/focus = ExtResource("5_yamgs")
+theme_override_styles/normal = ExtResource("2_qm7ug")
 text = "Second"
 
 [node name="Button3" type="Button" parent="DialogueOptionsMargin/VBoxContainer"]
@@ -120,10 +120,10 @@ size_flags_vertical = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_qm7ug")
+theme_override_styles/focus = ExtResource("5_yamgs")
 theme_override_styles/hover = ExtResource("3_52afj")
 theme_override_styles/pressed = ExtResource("4_im7rw")
-theme_override_styles/focus = ExtResource("5_yamgs")
+theme_override_styles/normal = ExtResource("2_qm7ug")
 text = "Third"
 
 [node name="Button4" type="Button" parent="DialogueOptionsMargin/VBoxContainer"]
@@ -132,10 +132,10 @@ size_flags_vertical = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_qm7ug")
+theme_override_styles/focus = ExtResource("5_yamgs")
 theme_override_styles/hover = ExtResource("3_52afj")
 theme_override_styles/pressed = ExtResource("4_im7rw")
-theme_override_styles/focus = ExtResource("5_yamgs")
+theme_override_styles/normal = ExtResource("2_qm7ug")
 text = "Fourth"
 
 [node name="SpecialTextBoxMargin" type="MarginContainer" parent="."]

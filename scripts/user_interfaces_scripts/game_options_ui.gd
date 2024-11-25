@@ -80,6 +80,7 @@ func _on_characters_pressed():
 	_on_right_button_pressed()
 
 func _on_holo_nexus_pressed():
+	print("nexus")
 	GlobalSettings.nexus(true)
 
 func _on_inventory_pressed():

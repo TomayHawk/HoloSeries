@@ -172,7 +172,7 @@ func enter_combat():
 		if leaving_combat_timer_node.is_stopped():
 			# fade in combat UI
 			CombatUi.combat_ui_control_tween(1)
-			#!#!# GlobalSettings.CombatUi.combat_ui_control_tween(1)
+			#!#!# CombatUi.combat_ui_control_tween(1)
 			##### begin combat bgm
 		else:
 			leaving_combat_timer_node.stop()
@@ -188,13 +188,13 @@ func leave_combat():
 	leaving_combat_timer_node.stop()
 	enemy_nodes_in_combat.clear()
 	CombatUi.combat_ui_control_tween(0)
-	#!#!# GlobalSettings.CombatUi.combat_ui_control_tween(0)
+	#!#!# CombatUi.combat_ui_control_tween(0)
 	locked_enemy_node = null
 
 func request_entities(origin_node, target_command, request_count, request_entity_type):
 	empty_entities_request()
 	requesting_entities = true
-	GlobalSettings.ui_state = GlobalSettings.UIState.REQUESTING_ENTITIES
+	GlobalSettings.ui_state = GlobalSettings.UiState.REQUESTING_ENTITIES
 	entities_request_origin_node = origin_node
 	entities_request_target_command_string = target_command
 	entities_request_count = request_count
@@ -231,7 +231,7 @@ func choose_entities():
 
 func empty_entities_request():
 	requesting_entities = false
-	GlobalSettings.ui_state = GlobalSettings.UIState.COMBAT_OPTIONS_2 if CombatUi.combat_options_2_node.visible else GlobalSettings.UIState.WORLD
+	GlobalSettings.ui_state = GlobalSettings.UiState.COMBAT_OPTIONS_2 if CombatUi.combat_options_2_node.visible else GlobalSettings.UiState.WORLD
 	if entities_request_origin_node != null and entities_request_origin_node.get_parent() == abilities_node and entities_chosen.size() != entities_request_count:
 		entities_request_origin_node.queue_free()
 	for entity in entities_available:
@@ -261,7 +261,7 @@ func choose_entity(entity_node, is_ally, is_alive):
 		GlobalSettings.update_main_player(entity_node)
 
 func toggle_movement(can_move):
-	GlobalSettings.game_paused = !can_move ## ### want to use enums
+	# GlobalSettings.tree.paused = !can_move ## ### want to use enums
 	# disable player movements
 	for player_node in GlobalSettings.party_node.get_children():
 		if player_node.player_stats_node.alive: continue

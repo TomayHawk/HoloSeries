@@ -31,13 +31,13 @@ var current_save := {
 		"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]],
 		"converted": [[[]], [[]], [[]], [[]], [[]]], # [node, type, quality],
 		"nexus_inventory": [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-		#!#!# remove below
-		"unlockables": [[151, 199], [171, 138], [301, 316, 348], [], [116, 164]],
 		"stats": [[0, 0, 0, 0, 0, 0, 0, 0],
 				  [0, 0, 0, 0, 0, 0, 0, 0],
 				  [0, 0, 0, 0, 0, 0, 0, 0],
 				  [0, 0, 0, 0, 0, 0, 0, 0],
-				  [0, 0, 0, 0, 0, 0, 0, 0]]
+				  [0, 0, 0, 0, 0, 0, 0, 0]],
+		#!#!# remove below
+		"unlockables": [[151, 199], [171, 138], [301, 316, 348], [], [116, 164]]
 		#!#!#
 	}
 }
@@ -45,8 +45,8 @@ var current_save := {
 enum Scene {MAIN_MENU, WORLD_SCENE_1, WORLD_SCENE_2, DUNGEON_SCENE_1, NEXUS}
 var scene := Scene.MAIN_MENU
 
-enum UIState {MAIN_MENU, MAIN_MENU_SAVES, MAIN_MENU_SETTINGS, WORLD, COMBAT_OPTIONS_2, REQUESTING_ENTITIES, DIALOGUE, OPTIONS, SETTINGS, STATS_SETTINGS, NEXUS, NEXUS_INVENTORY}
-var ui_state := UIState.MAIN_MENU
+enum UiState {MAIN_MENU, MAIN_MENU_SAVES, MAIN_MENU_SETTINGS, WORLD, COMBAT_OPTIONS_2, REQUESTING_ENTITIES, DIALOGUE, OPTIONS, SETTINGS, STATS_SETTINGS, NEXUS, NEXUS_INVENTORY}
+var ui_state := UiState.MAIN_MENU
 
 var current_main_player_node: Node = null
 
@@ -55,16 +55,6 @@ var current_main_player_node: Node = null
 # nexus variables
 var nexus_node: Node = null
 var nexus_character_selector_node: Node = null
-
-#!#!# remove below
-var nexus_stats := [[0, 0, 0, 0, 0, 0, 0, 0],
-					[0, 0, 0, 0, 0, 0, 0, 0],
-					[0, 0, 0, 0, 0, 0, 0, 0],
-					[0, 0, 0, 0, 0, 0, 0, 0],
-					[0, 0, 0, 0, 0, 0, 0, 0]]
-
-var nexus_unlockables := [[], [], [], [], []]
-#!#!#
 
 #!#!# remove below
 # settings variables
@@ -78,12 +68,6 @@ var character_levels := []
 var character_experiences := []
 #!#!# remove below
 
-#!#!# make AutoLoad for these
-@onready var GameOptionsUi := %GameOptionsUI
-@onready var CombatUi := %CombatUI
-@onready var TextBoxUi := %TextBoxUI
-#!#!#
-
 func _ready():
 	for i in 100:
 		current_save["inventory"].push_back(0)
@@ -94,7 +78,7 @@ func _input(_event):
 		if mouse_in_attack_area and !CombatEntitiesComponent.requesting_entities and current_main_player_node != null:
 			current_main_player_node.current_attack_state = current_main_player_node.AttackState.ATTACK
 	elif Input.is_action_just_pressed("esc"): esc_input()
-	elif Input.is_action_just_pressed("full_screen"): GameOptionsUi._on_full_screen_check_button_toggled(null)
+	elif Input.is_action_just_pressed("full_screen"): GameOptions._on_full_screen_check_button_toggled(null)
 	elif Input.is_action_just_pressed("scroll_up"): camera_node.zoom_input(1.5, 1)
 	elif Input.is_action_just_pressed("scroll_down"): camera_node.zoom_input(0.5, -1)
 	elif combat_inputs_available:
@@ -109,78 +93,78 @@ func _input(_event):
 func esc_input():
 	if scene == Scene.NEXUS:
 		if nexus_node.nexus_ui_node.inventory_node.visible:
-			ui_state = UIState.NEXUS_INVENTORY
+			ui_state = UiState.NEXUS_INVENTORY
 		else:
-			ui_state = UIState.NEXUS
+			ui_state = UiState.NEXUS
 	elif CombatEntitiesComponent.requesting_entities:
-		ui_state = UIState.REQUESTING_ENTITIES
+		ui_state = UiState.REQUESTING_ENTITIES
 	elif CombatUi.combat_options_2_node.visible:
-		ui_state = UIState.COMBAT_OPTIONS_2
+		ui_state = UiState.COMBAT_OPTIONS_2
 	elif tree.paused:
 		if current_save["save_index"] == -1:
-			ui_state = UIState.MAIN_MENU_SETTINGS
-		elif GameOptionsUi.settings_node.visible:
-			ui_state = UIState.SETTINGS
-		elif GameOptionsUi.stats_node.visible:
-			ui_state = UIState.STATS_SETTINGS
+			ui_state = UiState.MAIN_MENU_SETTINGS
+		elif GameOptions.settings_node.visible:
+			ui_state = UiState.SETTINGS
+		elif GameOptions.stats_node.visible:
+			ui_state = UiState.STATS_SETTINGS
 		else:
-			ui_state = UIState.OPTIONS
+			ui_state = UiState.OPTIONS
 	elif current_save["save_index"] != -1:
-		ui_state = UIState.WORLD
+		ui_state = UiState.WORLD
 	
 	match ui_state:
-		UIState.MAIN_MENU:
-			GameOptionsUi.show()
-			GameOptionsUi.options_node.hide()
-			GameOptionsUi.settings_node.show()
+		UiState.MAIN_MENU:
+			GameOptions.show()
+			GameOptions.options_node.hide()
+			GameOptions.settings_node.show()
 			tree.current_scene.main_menu_options_node.hide()
-			ui_state = UIState.MAIN_MENU_SETTINGS
-		UIState.MAIN_MENU_SAVES:
+			ui_state = UiState.MAIN_MENU_SETTINGS
+		UiState.MAIN_MENU_SAVES:
 			tree.current_scene.saves_menu_node.hide()
 			tree.current_scene.options_menu_node.show()
 			tree.current_scene.main_menu_options_node.show()
-			ui_state = UIState.MAIN_MENU
-		UIState.MAIN_MENU_SETTINGS:
-			GameOptionsUi.hide()
-			GameOptionsUi.options_node.show()
-			GameOptionsUi.settings_node.hide()
+			ui_state = UiState.MAIN_MENU
+		UiState.MAIN_MENU_SETTINGS:
+			GameOptions.hide()
+			GameOptions.options_node.show()
+			GameOptions.settings_node.hide()
 			tree.current_scene.main_menu_options_node.show()
-			ui_state = UIState.MAIN_MENU
-		UIState.WORLD:
-			GameOptionsUi.show()
+			ui_state = UiState.MAIN_MENU
+		UiState.WORLD:
+			GameOptions.show()
 			CombatUi.hide()
 			CombatUi.character_selector_node.hide()
 			tree.paused = true
 			combat_inputs_available = false
-			ui_state = UIState.OPTIONS
-		UIState.COMBAT_OPTIONS_2:
+			ui_state = UiState.OPTIONS
+		UiState.COMBAT_OPTIONS_2:
 			CombatUi.hide_combat_options_2()
-			ui_state = UIState.WORLD
-		UIState.REQUESTING_ENTITIES:
+			ui_state = UiState.WORLD
+		UiState.REQUESTING_ENTITIES:
 			CombatEntitiesComponent.empty_entities_request()
-			ui_state = UIState.WORLD if CombatUi.combat_options_2_node.visible else UIState.COMBAT_OPTIONS_2
-		UIState.DIALOGUE:
+			ui_state = UiState.WORLD if CombatUi.combat_options_2_node.visible else UiState.COMBAT_OPTIONS_2
+		UiState.DIALOGUE:
 			pass
-		UIState.OPTIONS:
-			GameOptionsUi.hide()
+		UiState.OPTIONS:
+			GameOptions.hide()
 			CombatUi.show()
 			tree.paused = false
 			combat_inputs_available = true
-			ui_state = UIState.WORLD
-		UIState.SETTINGS:
-			GameOptionsUi.settings_node.hide()
-			GameOptionsUi.options_node.show()
-			ui_state = UIState.OPTIONS
-		UIState.STATS_SETTINGS:
-			GameOptionsUi.stats_node.hide()
-			GameOptionsUi.options_node.show()
-			ui_state = UIState.OPTIONS
-		UIState.NEXUS:
+			ui_state = UiState.WORLD
+		UiState.SETTINGS:
+			GameOptions.settings_node.hide()
+			GameOptions.options_node.show()
+			ui_state = UiState.OPTIONS
+		UiState.STATS_SETTINGS:
+			GameOptions.stats_node.hide()
+			GameOptions.options_node.show()
+			ui_state = UiState.OPTIONS
+		UiState.NEXUS:
 			nexus(false)
-		UIState.NEXUS_INVENTORY:
+		UiState.NEXUS_INVENTORY:
 			nexus_node.nexus_ui_node.inventory_node.hide()
 			nexus_node.nexus_ui_node.update_nexus_ui()
-			ui_state = UIState.NEXUS
+			ui_state = UiState.NEXUS
 
 # change scene (called from last scenes)
 func change_scene(next_scene_path, spawn_position, bgm_path):
@@ -218,20 +202,20 @@ func nexus(to_nexus):
 	tree.paused = to_nexus
 	visible = !to_nexus
 	tree.current_scene.visible = !to_nexus
-	GameOptionsUi.visible = !to_nexus
+	GameOptions.visible = !to_nexus
 	CombatUi.visible = !to_nexus
-	TextBoxUi.visible = !to_nexus
+	TextBox.visible = !to_nexus
 	combat_inputs_available = !to_nexus
 	nexus_inputs_available = to_nexus
 
 	if to_nexus:
 		root.add_child(load("res://user_interfaces/holo_nexus.tscn").instantiate())
 		scene = Scene.NEXUS
-		ui_state = UIState.NEXUS
+		ui_state = UiState.NEXUS
 	else:
 		nexus_node.call_deferred("exit_nexus")
 		scene = Scene.WORLD_SCENE_1 ## ### NEED TO CHANGE
-		ui_state = UIState.WORLD
+		ui_state = UiState.WORLD
 		
 func start_bgm(bgm_path):
 	if global_bgm_node.stream.resource_path != bgm_path:

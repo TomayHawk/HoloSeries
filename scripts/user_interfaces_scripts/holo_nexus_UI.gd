@@ -96,7 +96,7 @@ func hide_all():
 	options_node.hide()
 	descriptions_node.hide()
 	inventory_node.hide()
-	GlobalSettings.ui_state = GlobalSettings.UIState.NEXUS
+	GlobalSettings.ui_state = GlobalSettings.UiState.NEXUS
 
 func update_character_selector():
 	for button in character_selector_player_nodes:
@@ -129,7 +129,7 @@ func _on_items_pressed():
 	update_inventory_buttons()
 	options_node.hide()
 	inventory_node.show()
-	GlobalSettings.ui_state = GlobalSettings.UIState.NEXUS_INVENTORY
+	GlobalSettings.ui_state = GlobalSettings.UiState.NEXUS_INVENTORY
 
 func _on_use_item_pressed():
 	options_node.show()

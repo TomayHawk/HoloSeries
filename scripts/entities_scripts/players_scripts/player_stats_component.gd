@@ -5,8 +5,6 @@ extends Node2D
 @onready var character_specifics_node := get_parent().get_node("CharacterSpecifics")
 @onready var attack_timer_node := get_parent().get_node("AttackTimer")
 
-@onready var CombatUi = GlobalSettings.CombatUi
-
 @onready var health_bar_node := %HealthBar
 @onready var shield_bar_node := %ShieldBar
 @onready var mana_bar_node := %ManaBar
@@ -85,8 +83,8 @@ func update_stats():
 	player_node = get_parent()
 	
 	# set max stats
-	max_health = character_specifics_node.default_max_health + GlobalSettings.nexus_stats[character_specifics_node.character_index][0]
-	max_mana = character_specifics_node.default_max_mana + GlobalSettings.nexus_stats[character_specifics_node.character_index][1]
+	max_health = character_specifics_node.default_max_health + GlobalSettings.current_save["nexus"]["stats"][character_specifics_node.character_index][0]
+	max_mana = character_specifics_node.default_max_mana + GlobalSettings.current_save["nexus"]["stats"][character_specifics_node.character_index][1]
 	max_stamina = character_specifics_node.default_max_stamina
 
 	# set stats bars max values
@@ -96,12 +94,12 @@ func update_stats():
 	shield_bar_node.max_value = max_shield
 
 	level = character_specifics_node.default_level
-	defence = character_specifics_node.default_defence + GlobalSettings.nexus_stats[character_specifics_node.character_index][2]
-	ward = character_specifics_node.default_ward + GlobalSettings.nexus_stats[character_specifics_node.character_index][3]
-	strength = character_specifics_node.default_strength + GlobalSettings.nexus_stats[character_specifics_node.character_index][4]
-	intelligence = character_specifics_node.default_intelligence + GlobalSettings.nexus_stats[character_specifics_node.character_index][5]
-	speed = character_specifics_node.default_speed + GlobalSettings.nexus_stats[character_specifics_node.character_index][6]
-	agility = character_specifics_node.default_agility + GlobalSettings.nexus_stats[character_specifics_node.character_index][7]
+	defence = character_specifics_node.default_defence + GlobalSettings.current_save["nexus"]["stats"][character_specifics_node.character_index][2]
+	ward = character_specifics_node.default_ward + GlobalSettings.current_save["nexus"]["stats"][character_specifics_node.character_index][3]
+	strength = character_specifics_node.default_strength + GlobalSettings.current_save["nexus"]["stats"][character_specifics_node.character_index][4]
+	intelligence = character_specifics_node.default_intelligence + GlobalSettings.current_save["nexus"]["stats"][character_specifics_node.character_index][5]
+	speed = character_specifics_node.default_speed + GlobalSettings.current_save["nexus"]["stats"][character_specifics_node.character_index][6]
+	agility = character_specifics_node.default_agility + GlobalSettings.current_save["nexus"]["stats"][character_specifics_node.character_index][7]
 	crit_chance = character_specifics_node.default_crit_chance
 	crit_damage = character_specifics_node.default_crit_damage
 
