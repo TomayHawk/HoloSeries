@@ -7,7 +7,6 @@ extends Node2D
 @onready var camera_node := %Camera2D
 @onready var global_bgm_node := %GlobalBgmPlayer
 
-##### currently unused
 var current_save := {
 	# global variables
 	"save_index": 0,
@@ -61,12 +60,6 @@ var nexus_character_selector_node: Node = null
 var mouse_in_attack_area := true
 var combat_inputs_available := false
 var nexus_inputs_available := false
-
-# player variables
-var unlocked_characters := []
-var character_levels := []
-var character_experiences := []
-#!#!# remove below
 
 func _ready():
 	for i in 100:

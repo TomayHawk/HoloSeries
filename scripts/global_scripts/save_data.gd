@@ -37,13 +37,13 @@ var saves := [
 		"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]],
 		"converted": [[[]], [[]], [[]], [[]], [[]]], # [node, type, quality],
 		"nexus_inventory": [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-		#!#!# remove below
-		"unlockables": [[151, 199], [171, 138], [301, 316, 348], [], [116, 164]],
 		"stats": [[0, 0, 0, 0, 0, 0, 0, 0],
 				  [0, 0, 0, 0, 0, 0, 0, 0],
 				  [0, 0, 0, 0, 0, 0, 0, 0],
 				  [0, 0, 0, 0, 0, 0, 0, 0],
-				  [0, 0, 0, 0, 0, 0, 0, 0]]
+				  [0, 0, 0, 0, 0, 0, 0, 0]],
+		#!#!# remove below
+		"unlockables": [[151, 199], [171, 138], [301, 316, 348], [], [116, 164]]
 		#!#!#
 	}
 	}
@@ -91,12 +91,12 @@ func save(save_file):
 	saves[save_file] = {
 		"save_index": saves[save_file]["save_index"],
 		"current_scene_path": GlobalSettings.tree.current_scene.get_path(), ## ### need to fix
-		"unlocked_characters": GlobalSettings.unlocked_characters.duplicate(),
+		"unlocked_characters": GlobalSettings.current_save["nexus"]["unlocked_characters"].duplicate(),
 		"party": [],
 		"current_main_character_index": GlobalSettings.current_main_player_node.character_specifics_node.character_index,
 		"current_main_player_position": GlobalSettings.current_main_player_node.position,
-		"character_levels": GlobalSettings.character_levels.duplicate(),
-		"character_experiences": GlobalSettings.character_experiences.duplicate(),
+		"character_levels": GlobalSettings.current_save["nexus"]["character_levels"].duplicate(),
+		"character_experiences": GlobalSettings.current_save["nexus"]["character_experiences"].duplicate(),
 		"inventory": GlobalSettings.current_save["inventory"].duplicate(),
 		"nexus": {
 					"randomized_atlas_positions": GlobalSettings.current_save["nexus"]["randomized_atlas_positions"].duplicate(),
@@ -123,9 +123,9 @@ func load(save_file):
 	GlobalSettings.tree.call_deferred("change_scene_to_file", saves[save_file]["current_scene_path"])
 	
 	# update Global variables
-	GlobalSettings.unlocked_characters = saves[save_file]["unlocked_characters"].duplicate()
-	GlobalSettings.character_levels = saves[save_file]["character_levels"].duplicate()
-	GlobalSettings.character_experiences = saves[save_file]["character_experiences"].duplicate()
+	GlobalSettings.current_save["nexus"]["unlocked_characters"] = saves[save_file]["unlocked_characters"].duplicate()
+	GlobalSettings.current_save["nexus"]["character_levels"] = saves[save_file]["character_levels"].duplicate()
+	GlobalSettings.current_save["nexus"]["character_experiences"] = saves[save_file]["character_experiences"].duplicate()
 	GlobalSettings.current_save["inventory"] = saves[save_file]["inventory"].duplicate()
 	GlobalSettings.current_save["nexus"]["randomized_atlas_positions"] = saves[save_file]["nexus"]["randomized_atlas_positions"].duplicate()
 	GlobalSettings.current_save["nexus"]["randomized_qualities"] = saves[save_file]["nexus"]["randomized_qualities"].duplicate()

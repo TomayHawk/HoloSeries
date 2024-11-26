@@ -85,7 +85,7 @@ func temp_function():
 			key_node_atlas_position[3]: key_nodes[3].push_back(node.get_index()) # spade
 
 	# for each unlocked player, determine all unlockables
-	for character_index in GlobalSettings.unlocked_characters:
+	for character_index in GlobalSettings.current_save["nexus"]["unlocked_characters"]:
 		for node_index in nodes_unlocked[character_index]:
 			# check for adjacent unlockables
 			check_adjacent_unlockables(node_index, character_index)
@@ -189,7 +189,7 @@ func exit_nexus():
 	GlobalSettings.current_save["nexus"]["randomized_qualities"] = nodes_qualities.duplicate()
 
 	# for each player, count unlocked stat nodes
-	for character_index in GlobalSettings.unlocked_characters:
+	for character_index in GlobalSettings.current_save["nexus"]["unlocked_characters"]:
 		GlobalSettings.current_save["nexus"]["stats"][character_index] = [0, 0, 0, 0, 0, 0, 0, 0]
 
 		for unlocked_index in nodes_unlocked[character_index]:
