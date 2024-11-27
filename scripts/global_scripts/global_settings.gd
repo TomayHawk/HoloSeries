@@ -47,6 +47,10 @@ var scene := Scene.MAIN_MENU
 enum UiState {MAIN_MENU, MAIN_MENU_SAVES, MAIN_MENU_SETTINGS, WORLD, COMBAT_OPTIONS_2, REQUESTING_ENTITIES, DIALOGUE, OPTIONS, SETTINGS, STATS_SETTINGS, NEXUS, NEXUS_INVENTORY}
 var ui_state := UiState.MAIN_MENU
 
+#!#!# add more
+enum MouseState {BACKGROUND, WORLD}
+var mouse_state := MouseState.BACKGROUND
+
 var current_main_player_node: Node = null
 
 #!#!# var can_attack := false
