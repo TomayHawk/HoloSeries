@@ -51,6 +51,8 @@ var ui_state := UiState.MAIN_MENU
 enum MouseState {BACKGROUND, WORLD}
 var mouse_state := MouseState.BACKGROUND
 
+#!#!# 
+
 var current_main_player_node: Node = null
 
 #!#!# var can_attack := false
