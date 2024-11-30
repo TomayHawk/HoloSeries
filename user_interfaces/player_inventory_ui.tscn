@@ -525,3 +525,7 @@ theme_override_font_sizes/font_size = 8
 text = "XXX"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[connection signal="pressed" from="Control/HBoxContainer/ConsumablesButton" to="." method="_on_inventory_type_button_pressed" binds= [0]]
+[connection signal="pressed" from="Control/HBoxContainer/EquipmentsButton" to="." method="_on_inventory_type_button_pressed" binds= [1]]
+[connection signal="pressed" from="Control/HBoxContainer/KeyItemsButton" to="." method="_on_inventory_type_button_pressed" binds= [2]]
