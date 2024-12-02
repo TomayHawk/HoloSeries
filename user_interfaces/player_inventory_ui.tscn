@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cjuro6l8pppiv"]
+[gd_scene load_steps=7 format=3 uid="uid://cjuro6l8pppiv"]
 
 [ext_resource type="Script" path="res://user_interfaces/player_inventory_ui.gd" id="1_eeqt1"]
 [ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://resources/button_style/dark_blue_button_normal.tres" id="1_scxfq"]
 [ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://resources/button_style/dark_blue_button_hover.tres" id="2_55075"]
+[ext_resource type="Texture2D" uid="uid://dcrqirbjsm8rx" path="res://art/temp_shirakami.png" id="2_v43b1"]
 [ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://resources/button_style/dark_blue_button_pressed.tres" id="3_0wrh2"]
 [ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://resources/button_style/dark_blue_button_focus.tres" id="4_c52eb"]
 
@@ -19,7 +20,7 @@ grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+[node name="CategoryMarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -29,19 +30,47 @@ offset_right = 20.0
 offset_bottom = 40.0
 grow_horizontal = 2
 
-[node name="ConsumablesButton" type="Button" parent="Control/HBoxContainer"]
+[node name="Panel" type="Panel" parent="Control/CategoryMarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/CategoryMarginContainer"]
+layout_mode = 2
+
+[node name="LeftTextureButton" type="TextureButton" parent="Control/CategoryMarginContainer/HBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_v43b1")
+
+[node name="Label" type="Label" parent="Control/CategoryMarginContainer/HBoxContainer"]
 layout_mode = 2
 text = "Consumables"
 
-[node name="EquipmentsButton" type="Button" parent="Control/HBoxContainer"]
+[node name="RightTextureButton" type="TextureButton" parent="Control/CategoryMarginContainer/HBoxContainer"]
 layout_mode = 2
-text = "Equipments"
+texture_normal = ExtResource("2_v43b1")
 
-[node name="KeyItemsButton" type="Button" parent="Control/HBoxContainer"]
+[node name="SubCategoryMarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Control/SubCategoryMarginContainer"]
 layout_mode = 2
-text = "Key Items"
 
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/SubCategoryMarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/SubCategoryMarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="ItemsMarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -55,22 +84,22 @@ offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="Control/MarginContainer"]
+[node name="Panel" type="Panel" parent="Control/ItemsMarginContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/ItemsMarginContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Control/MarginContainer/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/ItemsMarginContainer/MarginContainer"]
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer/MarginContainer/ScrollContainer"]
+[node name="GridContainer" type="GridContainer" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -78,7 +107,7 @@ theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 2
 
-[node name="Button" type="Button" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button" type="Button" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -92,7 +121,7 @@ theme_override_styles/normal = ExtResource("1_scxfq")
 text = " "
 clip_text = true
 
-[node name="Label" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button"]
+[node name="Label" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -105,7 +134,7 @@ theme_override_font_sizes/font_size = 8
 text = "Item Name"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button"]
+[node name="Label2" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -120,7 +149,7 @@ text = ":"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button"]
+[node name="Label3" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -134,7 +163,7 @@ text = "XXX"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button2" type="Button" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button2" type="Button" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -148,7 +177,7 @@ theme_override_styles/normal = ExtResource("1_scxfq")
 text = " "
 clip_text = true
 
-[node name="Label" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button2"]
+[node name="Label" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -161,7 +190,7 @@ theme_override_font_sizes/font_size = 8
 text = "Item Name"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button2"]
+[node name="Label2" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -176,7 +205,7 @@ text = ":"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button2"]
+[node name="Label3" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -190,7 +219,7 @@ text = "XXX"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button3" type="Button" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button3" type="Button" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -204,7 +233,7 @@ theme_override_styles/normal = ExtResource("1_scxfq")
 text = " "
 clip_text = true
 
-[node name="Label" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button3"]
+[node name="Label" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button3"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -217,7 +246,7 @@ theme_override_font_sizes/font_size = 8
 text = "Item Name"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button3"]
+[node name="Label2" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button3"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -232,7 +261,7 @@ text = ":"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button3"]
+[node name="Label3" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button3"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -246,7 +275,7 @@ text = "XXX"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button4" type="Button" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button4" type="Button" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -260,7 +289,7 @@ theme_override_styles/normal = ExtResource("1_scxfq")
 text = " "
 clip_text = true
 
-[node name="Label" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button4"]
+[node name="Label" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button4"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -273,7 +302,7 @@ theme_override_font_sizes/font_size = 8
 text = "Item Name"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button4"]
+[node name="Label2" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button4"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -288,7 +317,7 @@ text = ":"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button4"]
+[node name="Label3" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button4"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -302,7 +331,7 @@ text = "XXX"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button5" type="Button" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button5" type="Button" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -316,7 +345,7 @@ theme_override_styles/normal = ExtResource("1_scxfq")
 text = " "
 clip_text = true
 
-[node name="Label" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button5"]
+[node name="Label" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button5"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -329,7 +358,7 @@ theme_override_font_sizes/font_size = 8
 text = "Item Name"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button5"]
+[node name="Label2" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button5"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -344,7 +373,7 @@ text = ":"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button5"]
+[node name="Label3" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button5"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -358,7 +387,7 @@ text = "XXX"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button6" type="Button" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button6" type="Button" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -372,7 +401,7 @@ theme_override_styles/normal = ExtResource("1_scxfq")
 text = " "
 clip_text = true
 
-[node name="Label" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button6"]
+[node name="Label" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button6"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -385,7 +414,7 @@ theme_override_font_sizes/font_size = 8
 text = "Item Name"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button6"]
+[node name="Label2" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button6"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -400,7 +429,7 @@ text = ":"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button6"]
+[node name="Label3" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button6"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -414,7 +443,7 @@ text = "XXX"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button7" type="Button" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button7" type="Button" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -428,7 +457,7 @@ theme_override_styles/normal = ExtResource("1_scxfq")
 text = " "
 clip_text = true
 
-[node name="Label" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button7"]
+[node name="Label" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button7"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -441,7 +470,7 @@ theme_override_font_sizes/font_size = 8
 text = "Item Name"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button7"]
+[node name="Label2" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button7"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -456,7 +485,7 @@ text = ":"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button7"]
+[node name="Label3" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button7"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -470,7 +499,7 @@ text = "XXX"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button8" type="Button" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer"]
+[node name="Button8" type="Button" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -484,7 +513,7 @@ theme_override_styles/normal = ExtResource("1_scxfq")
 text = " "
 clip_text = true
 
-[node name="Label" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button8"]
+[node name="Label" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button8"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -497,7 +526,7 @@ theme_override_font_sizes/font_size = 8
 text = "Item Name"
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button8"]
+[node name="Label2" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button8"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -512,7 +541,7 @@ text = ":"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="Control/MarginContainer/MarginContainer/ScrollContainer/GridContainer/Button8"]
+[node name="Label3" type="Label" parent="Control/ItemsMarginContainer/MarginContainer/ScrollContainer/GridContainer/Button8"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -526,6 +555,30 @@ text = "XXX"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="Control/HBoxContainer/ConsumablesButton" to="." method="_on_inventory_type_button_pressed" binds= [0]]
-[connection signal="pressed" from="Control/HBoxContainer/EquipmentsButton" to="." method="_on_inventory_type_button_pressed" binds= [1]]
-[connection signal="pressed" from="Control/HBoxContainer/KeyItemsButton" to="." method="_on_inventory_type_button_pressed" binds= [2]]
+[node name="DetailsMarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Control/DetailsMarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/DetailsMarginContainer"]
+layout_mode = 2
+
+[node name="ImageMarginContainer" type="MarginContainer" parent="Control/DetailsMarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="DescriptionMarginContainer" type="MarginContainer" parent="Control/DetailsMarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="StatsMarginContainer" type="MarginContainer" parent="Control/DetailsMarginContainer/MarginContainer"]
+layout_mode = 2
