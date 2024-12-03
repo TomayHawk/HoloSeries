@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://user_interfaces/player_inventory_ui.gd" id="1_eeqt1"]
 [ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://resources/button_style/dark_blue_button_normal.tres" id="1_scxfq"]
 [ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://resources/button_style/dark_blue_button_hover.tres" id="2_55075"]
-[ext_resource type="Texture2D" uid="uid://dcrqirbjsm8rx" path="res://art/temp_shirakami.png" id="2_v43b1"]
+[ext_resource type="Texture2D" uid="uid://dxnu3xke1bx8l" path="res://art/characters/Untitled_Artwork (1).png" id="2_y1m6w"]
 [ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://resources/button_style/dark_blue_button_pressed.tres" id="3_0wrh2"]
 [ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://resources/button_style/dark_blue_button_focus.tres" id="4_c52eb"]
 
@@ -21,24 +21,22 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="CategoryMarginContainer" type="MarginContainer" parent="Control"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
-grow_horizontal = 2
+layout_mode = 0
+offset_left = 64.0
+offset_top = 32.0
+offset_right = 416.0
+offset_bottom = 79.0
 
 [node name="Panel" type="Panel" parent="Control/CategoryMarginContainer"]
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CategoryMarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="LeftTextureButton" type="TextureButton" parent="Control/CategoryMarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("2_v43b1")
+texture_normal = ExtResource("2_y1m6w")
 
 [node name="Label" type="Label" parent="Control/CategoryMarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -46,43 +44,71 @@ text = "Consumables"
 
 [node name="RightTextureButton" type="TextureButton" parent="Control/CategoryMarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("2_v43b1")
+texture_normal = ExtResource("2_y1m6w")
 
 [node name="SubCategoryMarginContainer" type="MarginContainer" parent="Control"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -20.0
-offset_right = 40.0
-offset_bottom = 20.0
-grow_vertical = 2
+layout_mode = 0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 160.0
+offset_bottom = 328.0
 
 [node name="Panel" type="Panel" parent="Control/SubCategoryMarginContainer"]
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/SubCategoryMarginContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control/SubCategoryMarginContainer/MarginContainer"]
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Button" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Button3" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Button4" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Button5" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Button6" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Button7" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Button8" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 
 [node name="ItemsMarginContainer" type="MarginContainer" parent="Control"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -160.0
-offset_top = -120.0
-offset_right = 160.0
-offset_bottom = 120.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_left = 160.0
+offset_top = 64.0
+offset_right = 416.0
+offset_bottom = 252.0
 
 [node name="Panel" type="Panel" parent="Control/ItemsMarginContainer"]
 layout_mode = 2
@@ -556,29 +582,46 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DetailsMarginContainer" type="MarginContainer" parent="Control"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -20.0
-offset_bottom = 20.0
-grow_horizontal = 0
-grow_vertical = 2
+layout_mode = 0
+offset_left = 416.0
+offset_top = 32.0
+offset_right = 576.0
+offset_bottom = 328.0
 
 [node name="Panel" type="Panel" parent="Control/DetailsMarginContainer"]
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/DetailsMarginContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
 
 [node name="ImageMarginContainer" type="MarginContainer" parent="Control/DetailsMarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="Control/DetailsMarginContainer/MarginContainer/ImageMarginContainer"]
 layout_mode = 2
 
 [node name="DescriptionMarginContainer" type="MarginContainer" parent="Control/DetailsMarginContainer/MarginContainer"]
 layout_mode = 2
 
+[node name="Panel" type="Panel" parent="Control/DetailsMarginContainer/MarginContainer/DescriptionMarginContainer"]
+layout_mode = 2
+
 [node name="StatsMarginContainer" type="MarginContainer" parent="Control/DetailsMarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="Control/DetailsMarginContainer/MarginContainer/StatsMarginContainer"]
+layout_mode = 2
+
+[node name="???MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 252.0
+offset_right = 416.0
+offset_bottom = 328.0
+
+[node name="Panel" type="Panel" parent="Control/???MarginContainer"]
 layout_mode = 2
