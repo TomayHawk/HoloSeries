@@ -74,34 +74,79 @@ theme_override_constants/separation = 0
 [node name="Button" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/focus = ExtResource("4_c52eb")
+theme_override_styles/hover = ExtResource("2_55075")
+theme_override_styles/pressed = ExtResource("3_0wrh2")
+theme_override_styles/normal = ExtResource("1_scxfq")
+text = "Restoration"
 
 [node name="Button2" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/focus = ExtResource("4_c52eb")
+theme_override_styles/hover = ExtResource("2_55075")
+theme_override_styles/pressed = ExtResource("3_0wrh2")
+theme_override_styles/normal = ExtResource("1_scxfq")
+text = "Use Items"
 
 [node name="Button3" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/focus = ExtResource("4_c52eb")
+theme_override_styles/hover = ExtResource("2_55075")
+theme_override_styles/pressed = ExtResource("3_0wrh2")
+theme_override_styles/normal = ExtResource("1_scxfq")
 
 [node name="Button4" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/focus = ExtResource("4_c52eb")
+theme_override_styles/hover = ExtResource("2_55075")
+theme_override_styles/pressed = ExtResource("3_0wrh2")
+theme_override_styles/normal = ExtResource("1_scxfq")
+text = "Crystals"
 
 [node name="Button5" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/focus = ExtResource("4_c52eb")
+theme_override_styles/hover = ExtResource("2_55075")
+theme_override_styles/pressed = ExtResource("3_0wrh2")
+theme_override_styles/normal = ExtResource("1_scxfq")
+text = "Miscellaneous"
 
 [node name="Button6" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/focus = ExtResource("4_c52eb")
+theme_override_styles/hover = ExtResource("2_55075")
+theme_override_styles/pressed = ExtResource("3_0wrh2")
+theme_override_styles/normal = ExtResource("1_scxfq")
+text = "Keys"
 
 [node name="Button7" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/focus = ExtResource("4_c52eb")
+theme_override_styles/hover = ExtResource("2_55075")
+theme_override_styles/pressed = ExtResource("3_0wrh2")
+theme_override_styles/normal = ExtResource("1_scxfq")
 
 [node name="Button8" type="Button" parent="Control/SubCategoryMarginContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/focus = ExtResource("4_c52eb")
+theme_override_styles/hover = ExtResource("2_55075")
+theme_override_styles/pressed = ExtResource("3_0wrh2")
+theme_override_styles/normal = ExtResource("1_scxfq")
 
 [node name="ItemsMarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 0
