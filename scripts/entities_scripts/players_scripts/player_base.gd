@@ -93,10 +93,7 @@ var current_attack_state := AttackState.READY:
 
 var distance_to_main_player := 200.0
 var ally_can_move := true
-var temp_comparator := INF
 var possible_directions: Array[Vector2] = [Vector2(0, -1), Vector2(0, 1), Vector2(-1, 0), Vector2(1, 0), Vector2(-1, -1).normalized(), Vector2(1, -1).normalized(), Vector2(-1, 1).normalized(), Vector2(1, 1).normalized()]
-var temp_direction := Vector2.ZERO
-var snapped_direction := Vector2.ZERO
 
 var enemy_nodes_in_attack_area: Array[Node] = []
 var ally_can_attack := true
@@ -118,10 +115,10 @@ func _physics_process(delta):
 			current_move_state = MoveState.IDLE
 
 			# target enemy with lowest health
-			temp_comparator = INF
+			var enemy_health := INF
 			for enemy_node in enemy_nodes_in_attack_area:
-				if enemy_node.base_enemy_node.health < temp_comparator:
-					temp_comparator = enemy_node.base_enemy_node.health
+				if enemy_node.base_enemy_node.health < enemy_health:
+					enemy_health = enemy_node.base_enemy_node.health
 					target_enemy_node = enemy_node
 			
 			# attack if able
@@ -129,42 +126,43 @@ func _physics_process(delta):
 				current_attack_state = AttackState.ATTACK ## ### might have to change
 			# else face towards enemy
 			else:
-				temp_direction = (target_enemy_node.position - position).normalized()
-				if abs(temp_direction.x) < abs(temp_direction.y):
-					if temp_direction.y < 0:
+				var enemy_direction = (target_enemy_node.position - position).normalized()
+				if abs(enemy_direction.x) < abs(enemy_direction.y):
+					if enemy_direction.y < 0:
 						current_face_direction = Direction.UP
 					else:
 						current_face_direction = Direction.DOWN
-				elif temp_direction.x < 0:
+				elif enemy_direction.x < 0:
 					current_face_direction = Direction.LEFT
 				else:
 					current_face_direction = Direction.RIGHT
 		# if ally can move
 		elif ally_can_move and current_attack_state == AttackState.READY:
+			var target_direction := Vector2.ZERO
 			ally_can_move = false
 
 			if CombatEntitiesComponent.in_combat and !CombatEntitiesComponent.leaving_combat and distance_to_main_player < 250:
 				# target enemy with shortest distance
-				temp_comparator = INF
+				var enemy_distance := INF
 				for enemy_node in CombatEntitiesComponent.enemy_nodes_in_combat:
-					if position.distance_to(enemy_node.position) < temp_comparator:
-						temp_comparator = position.distance_to(enemy_node.position)
+					if position.distance_to(enemy_node.position) < enemy_distance:
+						enemy_distance = position.distance_to(enemy_node.position)
 						target_enemy_node = enemy_node
 				
-				if temp_comparator > 200:
+				if enemy_distance > 200:
 					navigation_agent_node.target_position = GlobalSettings.current_main_player_node.position
 				else:
 					navigation_agent_node.target_position = target_enemy_node.position
 
-				temp_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
+				target_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
 				ally_move_cooldown_node.start(randf_range(0.2, 0.4))
 			elif distance_to_main_player < 80:
-				temp_direction = Vector2(randf() * 2 - 1, randf() * 2 - 1).normalized()
+				target_direction = Vector2(randf() * 2 - 1, randf() * 2 - 1).normalized()
 				ally_move_cooldown_node.start(randf_range(0.5, 0.7))
 				pass ## ### velocity /= 1.5
 			else:
 				navigation_agent_node.target_position = GlobalSettings.current_main_player_node.position
-				temp_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
+				target_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
 				ally_move_cooldown_node.start(randf_range(0.5, 0.7))
 
 			if distance_to_main_player > 200:
@@ -175,10 +173,12 @@ func _physics_process(delta):
 			if GlobalSettings.current_main_player_node.current_move_state == MoveState.SPRINT and !CombatEntitiesComponent.in_combat and distance_to_main_player > 120:
 				current_move_state = MoveState.SPRINT
 			
+			var snapped_direction := Vector2.ZERO
+
 			# snap to 8-way
 			possible_directions = [Vector2(0, -1), Vector2(0, 1), Vector2(-1, 0), Vector2(1, 0), Vector2(-1, -1).normalized(), Vector2(1, -1).normalized(), Vector2(-1, 1).normalized(), Vector2(1, 1).normalized()]
 			for direction in possible_directions:
-				if temp_direction.distance_to(direction) < 0.390180645:
+				if target_direction.distance_to(direction) < 0.390180645:
 					snapped_direction = direction
 					break
 
@@ -195,10 +195,10 @@ func _physics_process(delta):
 						current_move_direction = directions[velocity]
 						break
 					# find next closest direction
-					temp_comparator = INF
+					var distance_to_direction := INF
 					for direction in possible_directions:
-						if temp_direction.distance_to(direction) < temp_comparator:
-							temp_comparator = temp_direction.distance_to(direction)
+						if target_direction.distance_to(direction) < distance_to_direction:
+							distance_to_direction = target_direction.distance_to(direction)
 							snapped_direction = direction
 				else:
 					velocity = snapped_direction

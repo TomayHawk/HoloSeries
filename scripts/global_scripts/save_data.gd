@@ -172,6 +172,7 @@ func stat_nodes_randomizer(save_file):
 									[271, 286, 287, 316, 317, 318, 319, 333, 334, 335, 348, 349, 350, 351, 366, 367, 398, 399, 414, 415, 430, 431, 447, 463, 479, 495, 510, 511]]
 
 	# area stat number
+	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
 	# Empty, HP, MP, DEF, WRD, ATK, INT, SPD, AGI, EMPTY
 	var area_amount: Array[Array] = [[6, 11, 2, 5, 2, 6, 2, 2],
 									 [3, 4, 1, 2, 0, 2, 0, 0],
@@ -186,6 +187,7 @@ func stat_nodes_randomizer(save_file):
 									 [5, 1, 2, 1, 4, 0, 2, 2],
 									 [8, 2, 3, 1, 2, 1, 0, 0]]
 
+	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
 	# area stat flactuation
 	const rand_weight: Array[Array] = [[2, 3, 1, 1, 1, 2, 1, 1],
 									   [1, 1, 0, 1, 0, 1, 0, 0],

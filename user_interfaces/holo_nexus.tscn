@@ -9959,3 +9959,4 @@ anchors_preset = 0
 
 [node name="HoloNexusUI" parent="." instance=ExtResource("6_jufqf")]
 unique_name_in_owner = true
+visible = false

@@ -63,10 +63,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = "Unlock"
 
 [node name="Upgrade" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
@@ -75,10 +75,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = "Upgrade"
 
 [node name="Awaken" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
@@ -87,10 +87,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = "Awaken"
 
 [node name="Items" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
@@ -99,10 +99,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = "Items"
 
 [node name="InventoryMargin" type="MarginContainer" parent="Control"]
@@ -147,10 +147,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 alignment = 0
 
@@ -186,10 +186,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/MagicCrystal"]
@@ -224,10 +224,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DexterityCrystal"]
@@ -262,10 +262,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/TalentCrystal"]
@@ -300,10 +300,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/BlessedCrystal"]
@@ -338,10 +338,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AbyssalCrystal"]
@@ -376,10 +376,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/StarCrystal"]
@@ -414,10 +414,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ProsperityCrystal"]
@@ -452,10 +452,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/LoveCrystal"]
@@ -490,10 +490,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/NobilityCrystal"]
@@ -528,10 +528,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/SunlightCrystal"]
@@ -566,10 +566,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/StarlightCrystal"]
@@ -604,10 +604,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/MoonlightCrystal"]
@@ -642,10 +642,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DreamCrystal"]
@@ -680,10 +680,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ReturnCrystal"]
@@ -718,10 +718,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ShareCrystal"]
@@ -756,10 +756,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/InstantCrystal"]
@@ -794,10 +794,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/HealthCrystal"]
@@ -832,10 +832,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ManaCrystal"]
@@ -870,10 +870,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/DefenceCrystal"]
@@ -908,10 +908,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ShieldCrystal"]
@@ -946,10 +946,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AttackCrystal"]
@@ -984,10 +984,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/IntelligenceCrystal"]
@@ -1022,10 +1022,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/SpeedCrystal"]
@@ -1060,10 +1060,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/AgilityCrystal"]
@@ -1098,10 +1098,10 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="Label" type="Label" parent="Control/InventoryMargin/MarginContainer/ScrollContainer/InventoryVBoxContainer/ClearCrystal"]
@@ -1215,10 +1215,10 @@ custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character1"]
@@ -1268,10 +1268,10 @@ custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character2"]
@@ -1321,10 +1321,10 @@ custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character3"]
@@ -1374,10 +1374,10 @@ custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character4"]
@@ -1427,10 +1427,10 @@ custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character5"]
@@ -1480,10 +1480,10 @@ custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/focus = ExtResource("5_7271n")
 theme_override_styles/hover = ExtResource("3_4ebr1")
 theme_override_styles/pressed = ExtResource("4_50b2e")
-theme_override_styles/focus = ExtResource("5_7271n")
+theme_override_styles/normal = ExtResource("2_k63ny")
 text = " "
 
 [node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer/Character6"]
