@@ -43,30 +43,30 @@ var directions := {
 	Vector2(1, 1).normalized(): Direction.DOWN_RIGHT
 }
 
-var current_face_direction := Direction.UP:
+var current_animation := Direction.UP:
 	set(next_direction):
 		if !player_stats_node.alive: return
-		current_face_direction = next_direction
+		current_animation = next_direction
 		if current_move_state == MoveState.KNOCKBACK: return
 		elif current_attack_state == AttackState.ATTACK:
 			animation_node.play(directions[attack_face_direction][4])
-		elif current_move_state == MoveState.IDLE: animation_node.play(directions[current_face_direction][2])
-		else: animation_node.play(directions[current_face_direction][3])
+		elif current_move_state == MoveState.IDLE: animation_node.play(directions[current_animation][2])
+		else: animation_node.play(directions[current_animation][3])
 var attack_face_direction := Direction.UP
 
-var current_move_direction := Direction.UP:
+var current_movement := Direction.UP:
 	set(next_direction):
 		if !player_stats_node.alive: return
-		current_move_direction = next_direction
+		current_movement = next_direction
 		if current_move_state == MoveState.IDLE: current_move_state = MoveState.WALK
-		current_face_direction = directions[current_move_direction][0]
+		current_animation = directions[current_movement][0]
 
 enum MoveState {IDLE, WALK, DASH, SPRINT, KNOCKBACK}
 var current_move_state := MoveState.IDLE:
 	set(next_move_state):
 		if !player_stats_node.alive: return
 		current_move_state = next_move_state
-		current_face_direction = current_face_direction
+		current_animation = current_animation
 		if current_move_state == MoveState.IDLE: velocity = Vector2.ZERO
 		if current_move_state != MoveState.DASH: return
 		dash_timer_node.start(dash_time)
@@ -81,10 +81,10 @@ var current_attack_state := AttackState.READY:
 		character_specifics_node.regular_attack()
 		attack_face_direction = Direction.UP if attack_direction.y < 0 else Direction.DOWN
 		if abs(attack_direction.x) < abs(attack_direction.y):
-			current_face_direction = current_face_direction
+			current_animation = current_animation
 			return
 		attack_face_direction = Direction.LEFT if attack_direction.x < 0 else Direction.RIGHT
-		current_face_direction = current_face_direction
+		current_animation = current_animation
 
 # PlayerAlly
 @onready var obstacle_check_node := %ObstacleCheck
@@ -101,7 +101,7 @@ var target_enemy_node: Node = null
 var ally_in_attack_position := false
 
 func _ready():
-	animation_node.play(directions[current_face_direction][2])
+	animation_node.play(directions[current_animation][2])
 	
 func _physics_process(delta):
 	if is_current_main_player:
@@ -129,13 +129,13 @@ func _physics_process(delta):
 				var enemy_direction = (target_enemy_node.position - position).normalized()
 				if abs(enemy_direction.x) < abs(enemy_direction.y):
 					if enemy_direction.y < 0:
-						current_face_direction = Direction.UP
+						current_animation = Direction.UP
 					else:
-						current_face_direction = Direction.DOWN
+						current_animation = Direction.DOWN
 				elif enemy_direction.x < 0:
-					current_face_direction = Direction.LEFT
+					current_animation = Direction.LEFT
 				else:
-					current_face_direction = Direction.RIGHT
+					current_animation = Direction.RIGHT
 		# if ally can move
 		elif ally_can_move and current_attack_state == AttackState.READY:
 			var target_direction := Vector2.ZERO
@@ -192,7 +192,7 @@ func _physics_process(delta):
 					if possible_directions.is_empty():
 						current_move_state = MoveState.IDLE
 						velocity = snapped_direction
-						current_move_direction = directions[velocity]
+						current_movement = directions[velocity]
 						break
 					# find next closest direction
 					var distance_to_direction := INF
@@ -202,7 +202,7 @@ func _physics_process(delta):
 							snapped_direction = direction
 				else:
 					velocity = snapped_direction
-					current_move_direction = directions[velocity]
+					current_movement = directions[velocity]
 					break
 		else:
 			##### need to fix this
@@ -218,8 +218,8 @@ func _physics_process(delta):
 	if velocity == Vector2.ZERO:
 		if current_move_state not in [MoveState.IDLE, MoveState.KNOCKBACK]:
 			current_move_state = MoveState.IDLE
-	elif current_move_direction != directions[velocity] or current_move_state == MoveState.IDLE:
-		current_move_direction = directions[velocity]
+	elif current_movement != directions[velocity] or current_move_state == MoveState.IDLE:
+		current_movement = directions[velocity]
 	
 	# update velocity
 	velocity *= walk_speed * delta
