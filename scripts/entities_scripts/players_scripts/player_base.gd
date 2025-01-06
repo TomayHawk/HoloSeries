@@ -45,39 +45,51 @@ var directions := {
 
 var current_animation := Direction.UP:
 	set(next_direction):
-		if !player_stats_node.alive: return
+		if !player_stats_node.alive:
+			return
 		current_animation = next_direction
-		if current_move_state == MoveState.KNOCKBACK: return
+		if current_move_state == MoveState.KNOCKBACK:
+			return
 		elif current_attack_state == AttackState.ATTACK:
 			animation_node.play(directions[attack_face_direction][4])
-		elif current_move_state == MoveState.IDLE: animation_node.play(directions[current_animation][2])
-		else: animation_node.play(directions[current_animation][3])
+		elif current_move_state == MoveState.IDLE:
+			animation_node.play(directions[current_animation][2])
+		else:
+			animation_node.play(directions[current_animation][3])
+
 var attack_face_direction := Direction.UP
 
 var current_movement := Direction.UP:
 	set(next_direction):
-		if !player_stats_node.alive: return
+		if !player_stats_node.alive:
+			return
 		current_movement = next_direction
-		if current_move_state == MoveState.IDLE: current_move_state = MoveState.WALK
+		if current_move_state == MoveState.IDLE:
+			current_move_state = MoveState.WALK
 		current_animation = directions[current_movement][0]
 
 enum MoveState {IDLE, WALK, DASH, SPRINT, KNOCKBACK}
 var current_move_state := MoveState.IDLE:
 	set(next_move_state):
-		if !player_stats_node.alive: return
+		if !player_stats_node.alive:
+			return
 		current_move_state = next_move_state
 		current_animation = current_animation
-		if current_move_state == MoveState.IDLE: velocity = Vector2.ZERO
-		if current_move_state != MoveState.DASH: return
+		if current_move_state == MoveState.IDLE:
+			velocity = Vector2.ZERO
+		if current_move_state != MoveState.DASH:
+			return
 		dash_timer_node.start(dash_time)
 		player_stats_node.update_stamina(-dash_stamina_consumption)
 
 enum AttackState {READY, ATTACK}
 var current_attack_state := AttackState.READY:
 	set(next_attack_state):
-		if !player_stats_node.alive or current_attack_state == next_attack_state: return
+		if !player_stats_node.alive or current_attack_state == next_attack_state:
+			return
 		current_attack_state = next_attack_state
-		if current_attack_state != AttackState.ATTACK: return
+		if current_attack_state != AttackState.ATTACK:
+			return
 		character_specifics_node.regular_attack()
 		attack_face_direction = Direction.UP if attack_direction.y < 0 else Direction.DOWN
 		if abs(attack_direction.x) < abs(attack_direction.y):
