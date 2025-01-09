@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/entities_scripts/npcs_scripts/npc_kobo.gd" id="1_hn0bh"]
 [ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/characters/Nousagi.png" id="2_1ia7d"]
+[ext_resource type="PackedScene" uid="uid://0efkvv5xqacu" path="res://entities/npcs/base_npc.tscn" id="2_40qv4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y10wm"]
 atlas = ExtResource("2_1ia7d")
@@ -39,14 +40,10 @@ animations = [{
 "speed": 4.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_v1dxh"]
-size = Vector2(22, 8.25)
-
-[node name="NpcKobo" type="StaticBody2D" groups=["npcs"]]
-y_sort_enabled = true
-collision_layer = 2
-collision_mask = 0
+[node name="NpcKobo" type="Node2D"]
 script = ExtResource("1_hn0bh")
+
+[node name="BaseNpc" parent="." instance=ExtResource("2_40qv4")]
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
@@ -56,8 +53,3 @@ sprite_frames = SubResource("SpriteFrames_0s1ce")
 animation = &"idle"
 autoplay = "idle"
 offset = Vector2(0, -10.5)
-
-[node name="CollisionHitBox" type="CollisionShape2D" parent="."]
-y_sort_enabled = true
-position = Vector2(0, 5)
-shape = SubResource("RectangleShape2D_v1dxh")

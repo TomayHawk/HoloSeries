@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://0efkvv5xqacu"]
+
+[ext_resource type="Script" path="res://scripts/entities_scripts/npcs_scripts/base_npc.gd" id="1_y7t5k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fbfvt"]
+
+[node name="BaseNpc" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_y7t5k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_fbfvt")
