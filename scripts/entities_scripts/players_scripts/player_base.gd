@@ -284,7 +284,7 @@ func _on_combat_hit_box_area_mouse_exited():
 
 func _on_interaction_area_body_entered(body):
 	if is_current_main_player:
-		if body.is_in_group("npcs"):
+		if body.is_in_group("npcs") || body.is_in_group("world_interactables"):
 			body.interaction_area(true)
 
 	if body.is_in_group("enemies"):
@@ -295,7 +295,7 @@ func _on_interaction_area_body_entered(body):
 
 func _on_interaction_area_body_exited(body):
 	if is_current_main_player:
-		if body.is_in_group("npcs"):
+		if body.is_in_group("npcs") || body.is_in_group("world_interactables"):
 			body.interaction_area(false)
 
 	if body.is_in_group("enemies"):

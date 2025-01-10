@@ -7,3 +7,5 @@
 script = ExtResource("1_43am6")
 
 [node name="BaseInteractable" parent="." instance=ExtResource("2_thscb")]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

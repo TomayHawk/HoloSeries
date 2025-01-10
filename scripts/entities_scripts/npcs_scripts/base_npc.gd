@@ -7,13 +7,11 @@ var area_active := false
 func _ready():
     set_process(false)
     npc_node.set_process(false)
-    npc_node.add_to_group("npcs")
-    add_to_group("npcs")
     
 func _input(_event):
     # if in interactable area, interaction button just pressed, not in a dialogue and not in combat, start dialogue
     if area_active and Input.is_action_just_pressed("interact") and !TextBox.textbox_container.is_visible() and !CombatEntitiesComponent.in_combat:
-        TextBox.text_queue += npc_node.dialogue;
+        TextBox.text_queue += npc_node.default_dialogue;
         TextBox.current_state = TextBox.Text.READY
 
 # triggered on npc entering/exiting player interaction area
