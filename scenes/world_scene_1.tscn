@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://dyvmrtl5c0ad3"]
+[gd_scene load_steps=16 format=4 uid="uid://dyvmrtl5c0ad3"]
 
 [ext_resource type="Script" path="res://scripts/scenes_scripts/world_scene_1.gd" id="1_4rgc2"]
 [ext_resource type="Texture2D" uid="uid://c5bvpekwpv6rw" path="res://art/tileSets/plains.png" id="1_7j0j2"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tileSets/physics.png" id="4_kndtx"]
 [ext_resource type="PackedScene" uid="uid://dthvymrd0k1my" path="res://entities/objects/chest.tscn" id="5_uih6u"]
 [ext_resource type="PackedScene" uid="uid://dlxkifgl6lq80" path="res://entities/npcs/npc_kobo.tscn" id="6_5ivv1"]
+[ext_resource type="PackedScene" uid="uid://nsnibaboaiaa" path="res://entities/objects/spawner.tscn" id="6_y50s5"]
 [ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/enemy_specifics/nousagi.tscn" id="9_tem7v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5688q"]
@@ -280,6 +281,9 @@ y_sort_enabled = true
 
 [node name="Chest" parent="Objects" instance=ExtResource("5_uih6u")]
 position = Vector2(-139, -86)
+
+[node name="Spawner" parent="Objects" instance=ExtResource("6_y50s5")]
+position = Vector2(-74, -54)
 
 [node name="Enemies" type="Node2D" parent="."]
 y_sort_enabled = true

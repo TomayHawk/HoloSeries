@@ -9,3 +9,7 @@ script = ExtResource("1_6p7cy")
 [node name="BaseInteractable" parent="." instance=ExtResource("2_opsxs")]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
