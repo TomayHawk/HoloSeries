@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcyrkvjaiy1go"]
+
+[ext_resource type="Script" path="res://scripts/entities_scripts/objects_scripts/save_point.gd" id="1_m3jwm"]
+[ext_resource type="PackedScene" uid="uid://s3lxokljwgge" path="res://entities/objects/base_interactable.tscn" id="2_6hkn5"]
+
+[node name="SavePoint" type="Node2D"]
+script = ExtResource("1_m3jwm")
+
+[node name="BaseInteractable" parent="." instance=ExtResource("2_6hkn5")]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

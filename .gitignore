@@ -1,5 +1,7 @@
 .godot
+.vscode
 art
+music
 project.godot
 scripts/.DS_Store
 .DS_Store
