@@ -103,14 +103,14 @@ var current_attack_state := AttackState.READY:
 @onready var navigation_agent_node := %NavigationAgent2D
 @onready var ally_move_cooldown_node := %AllyMoveCooldown
 
-var distance_to_main_player := 200.0
 var ally_can_move := true
-var possible_directions: Array[Vector2] = [Vector2(0, -1), Vector2(0, 1), Vector2(-1, 0), Vector2(1, 0), Vector2(-1, -1).normalized(), Vector2(1, -1).normalized(), Vector2(-1, 1).normalized(), Vector2(1, 1).normalized()]
-
-var enemy_nodes_in_attack_area: Array[Node] = []
 var ally_can_attack := true
-var target_enemy_node: Node = null
 var ally_in_attack_position := false
+
+##### can optimize?
+var possible_directions: Array[Vector2] = [Vector2(0, -1), Vector2(0, 1), Vector2(-1, 0), Vector2(1, 0), Vector2(-1, -1).normalized(), Vector2(1, -1).normalized(), Vector2(-1, 1).normalized(), Vector2(1, 1).normalized()]
+var enemy_nodes_in_attack_area: Array[Node] = []
+
 
 func _ready():
 	animation_node.play(directions[current_animation][2])
@@ -119,7 +119,7 @@ func _physics_process(delta):
 	if is_current_main_player:
 		velocity = Input.get_vector("left", "right", "up", "down")
 	else:
-		distance_to_main_player = position.distance_to(GlobalSettings.current_main_player_node.position)
+		var distance_to_main_player := position.distance_to(GlobalSettings.current_main_player_node.position)
 
 		# if ally in combat
 		if ally_in_attack_position and distance_to_main_player < 250:
@@ -127,6 +127,7 @@ func _physics_process(delta):
 			current_move_state = MoveState.IDLE
 
 			# target enemy with lowest health
+			var target_enemy_node: Node = null
 			var enemy_health := INF
 			for enemy_node in enemy_nodes_in_attack_area:
 				if enemy_node.base_enemy_node.health < enemy_health:
@@ -155,6 +156,7 @@ func _physics_process(delta):
 
 			if CombatEntitiesComponent.in_combat and !CombatEntitiesComponent.leaving_combat and distance_to_main_player < 250:
 				# target enemy with shortest distance
+				var target_enemy_node: Node = null
 				var enemy_distance := INF
 				for enemy_node in CombatEntitiesComponent.enemy_nodes_in_combat:
 					if position.distance_to(enemy_node.position) < enemy_distance:
@@ -230,7 +232,7 @@ func _physics_process(delta):
 	if velocity == Vector2.ZERO:
 		if current_move_state not in [MoveState.IDLE, MoveState.KNOCKBACK]:
 			current_move_state = MoveState.IDLE
-	elif current_movement != directions[velocity] or current_move_state == MoveState.IDLE:
+	elif current_movement != directions[velocity] or current_move_state == MoveState.IDLE: ## ### invalid dictionary key bug
 		current_movement = directions[velocity]
 	
 	# update velocity
@@ -327,6 +329,7 @@ func _on_death_timer_timeout():
 
 # PlayerAlly
 func _on_ally_move_cooldown_timeout():
+	var distance_to_main_player := position.distance_to(GlobalSettings.current_main_player_node.position)
 	current_move_state = MoveState.IDLE
 
 	if CombatEntitiesComponent.in_combat and !CombatEntitiesComponent.leaving_combat:
@@ -337,6 +340,8 @@ func _on_ally_move_cooldown_timeout():
 		ally_move_cooldown_node.start(randf_range(0.7, 0.8))
 	else:
 		ally_can_move = true
+
+	##### add teleport when far?
 
 func _on_ally_attack_cooldown_timeout():
 	current_attack_state = AttackState.READY ## ### need to change CharacterSpecifics and Attacks for Allies

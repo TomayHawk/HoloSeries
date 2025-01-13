@@ -77,7 +77,7 @@ func regular_attack_register():
 
 	if attack_shape_node.is_colliding():
 		for collision_index in attack_shape_node.get_collision_count():
-			enemy_body = attack_shape_node.get_collider(collision_index).get_parent()
+			enemy_body = attack_shape_node.get_collider(collision_index).get_parent() ## ### null instance bug need fix
 			var damage = CombatEntitiesComponent.physical_damage_calculator(temp_regular_attack_damage, player_stats_node, enemy_body.base_enemy_node)
 			enemy_body.base_enemy_node.update_health(-damage[0], damage[1], player_node.attack_direction, knockback_weight)
 		GlobalSettings.camera_node.screen_shake(0.1, 1, 30, 5, true)

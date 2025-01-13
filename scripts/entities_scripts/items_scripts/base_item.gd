@@ -4,11 +4,8 @@ var item_id := -1
 var attraction := 1000
 var can_leave_attraction := false
 
-var player_nodes: Array[Node] = []
+var player_nodes: Array[Node] = [] ## ### use groups instead
 var player_in_range := false
-
-var temp_player_node: Node = null
-var temp_distance := INF
 
 func _ready():
 	set_physics_process(false)
@@ -26,7 +23,9 @@ func instantiate_item(texture_path, area_scale, id, attraction_strength, item_ca
 	can_leave_attraction = item_can_leave_attraction
 
 func distance_least():
-	temp_distance = INF
+	var temp_player_node: Node = null
+	var temp_distance := INF
+	
 	for player_node in player_nodes:
 		if position.distance_to(player_node.position) < temp_distance:
 			temp_player_node = player_node

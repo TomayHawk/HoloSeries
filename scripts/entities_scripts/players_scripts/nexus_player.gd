@@ -19,10 +19,6 @@ var snap_node: Node = null
 const snap_speed := 600.0
 var snap_position := Vector2.ZERO
 var snap_direction := Vector2.ZERO
-var temp_snap_distance := 0.0
-var snap_distance := INF
-
-var nodes_on_screen: Array[Node] = []
 
 const adjacents_index: Array[Array] = [[-64, -49, -48, -33, -32, -31, -17, -16, -1, 1, 15, 16, 31, 32, 33, 47, 48, 64],
 									   [-64, -48, -47, -33, -32, -31, -16, -15, -1, 1, 16, 17, 31, 32, 33, 48, 49, 64]]
@@ -31,7 +27,7 @@ func _physics_process(_delta):
 	# deccelerate towards target position while snapping
 	if snapping:
 		# deccelerate if remaining distance is larger than 1 pixel
-		snap_distance = position.distance_to(snap_position)
+		var snap_distance := position.distance_to(snap_position)
 		if snap_distance > 1:
 			velocity = snap_distance * snap_speed * snap_direction / 40
 		# else snap and stop moving	
@@ -77,6 +73,8 @@ func snap_to_target(initial_position):
 		temp_near = clamp((temp_near + 16), 0, 767)
 	elif temp_near > 767:
 		temp_near = clamp((temp_near - 16), 0, 767)
+	
+	var snap_distance := INF
 
 	if nexus.nexus_nodes[temp_near].texture.region.position != nexus.null_node_atlas_position:
 		snap_node = nexus.nexus_nodes[temp_near]

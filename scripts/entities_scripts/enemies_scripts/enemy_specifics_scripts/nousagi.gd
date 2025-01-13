@@ -33,10 +33,7 @@ var knockback_weight := 0.0
 var invincible := false
 
 # temporary variables
-var targetable_player_nodes: Array[Node] = []
 var target_player_node: Node = null
-var target_player_health := INF
-var nousagi_instance: Node = null
 
 func _ready():
 	animation_node.play("walk")
@@ -115,8 +112,10 @@ func _physics_process(delta):
 	move_and_slide()
 
 func choose_player():
+	var targetable_player_nodes: Array[Node] = []
+	var target_player_health := INF
+
 	target_player_node = null
-	target_player_health = INF
 
 	# determine targetable player nodes
 	if base_enemy_node.players_exist_in_attack_area:
@@ -132,7 +131,7 @@ func choose_player():
 
 func summon_nousagi():
 	# create an instance of nousagi in enemies node
-	nousagi_instance = nousagi_load.instantiate()
+	var nousagi_instance: Node = nousagi_load.instantiate()
 	enemies_node.add_child(nousagi_instance)
 	nousagi_instance.position = position + Vector2(5 * randf_range(-1, 1), 5 * randf_range(-1, 1)) * 5
 	
