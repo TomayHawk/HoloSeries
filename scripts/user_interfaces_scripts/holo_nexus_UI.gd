@@ -64,10 +64,11 @@ func _ready():
 		inventory_items_quantity_label.push_back(inventory_items_nodes[i].get_node_or_null("Label2"))
 		inventory_items_quantity_label[i].text = str(GlobalSettings.current_save["nexus"]["nexus_inventory"][i])
 	
-	call_deferred("update_inventory_buttons")
-	call_deferred("update_nexus_ui")
-	character_selector_node.hide()
 	hide_all()
+	character_selector_node.hide()
+	call_deferred("update_character_selector")
+	call_deferred("update_nexus_ui")
+	call_deferred("update_inventory_buttons")
 
 func _input(event):
 	if event is InputEventMouseButton and event.is_double_click():

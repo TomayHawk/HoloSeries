@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var tree := get_tree()
-@onready var root := get_tree().root
+
 @onready var party_node := %Party
 @onready var standby_node := %Standby
 @onready var camera_node := %Camera2D
@@ -44,6 +44,7 @@ var current_save := {
 enum Scene {MAIN_MENU, WORLD_SCENE_1, WORLD_SCENE_2, DUNGEON_SCENE_1, NEXUS}
 var scene := Scene.MAIN_MENU
 
+##### might want to remove and reconsider
 enum UiState {MAIN_MENU, MAIN_MENU_SAVES, MAIN_MENU_SETTINGS, WORLD, COMBAT_OPTIONS_2, REQUESTING_ENTITIES, DIALOGUE, OPTIONS, SETTINGS, STATS_SETTINGS, NEXUS, NEXUS_INVENTORY}
 var ui_state := UiState.MAIN_MENU
 
@@ -68,9 +69,11 @@ var combat_inputs_available := false
 var nexus_inputs_available := false
 
 func _ready():
+	print("Start task at: ", Time.get_ticks_msec())
 	for i in 100:
 		current_save["inventory"].push_back(0)
 	set_physics_process(false)
+	print("End task at: ", Time.get_ticks_msec())
 
 func _input(_event):
 	if Input.is_action_just_pressed("action"):
@@ -85,6 +88,7 @@ func _input(_event):
 		elif Input.is_action_just_pressed("tab"): CombatUi.character_selector_node.show()
 		elif Input.is_action_just_released("tab"): CombatUi.character_selector_node.hide()
 	elif nexus_inputs_available:
+		print(nexus_inputs_available)
 		if Input.is_action_just_pressed("tab"): nexus_character_selector_node.show()
 		elif Input.is_action_just_released("tab"): nexus_character_selector_node.hide()
 
@@ -208,7 +212,7 @@ func nexus(to_nexus):
 	nexus_inputs_available = to_nexus
 
 	if to_nexus:
-		root.add_child(load("res://user_interfaces/holo_nexus.tscn").instantiate())
+		tree.root.add_child(load("res://user_interfaces/holo_nexus.tscn").instantiate())
 		scene = Scene.NEXUS
 		ui_state = UiState.NEXUS
 	else:

@@ -73,7 +73,6 @@ func _ready():
 
 	# update current player and allies in character selector
 	update_nexus_player(GlobalSettings.current_main_player_node.character_specifics_node.character_index)
-	nexus_ui_node.update_character_selector()
 
 func temp_function():
 	for node in nexus_nodes:
@@ -147,6 +146,7 @@ func update_nexus_player(player):
 
 	# update player position
 	nexus_player_node.position = nexus_nodes[last_nodes[player]].position + Vector2(16, 16)
+	nexus_player_node.snapping = false
 	nexus_player_outline_node.show()
 	nexus_player_crosshair_node.hide()
 
