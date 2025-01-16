@@ -1,10 +1,8 @@
 extends CanvasLayer
 
-@onready var textbox_container := %TextBoxMargin
-@onready var text_area := %TextAreaLabel
-@onready var end_symbol := %TextEndLabel
-
 enum Text {INACTIVE, READY, TYPING, END, WAITING}
+var text_owner_node: Node = null
+var text_owner_reply := ""
 var text_queue := []
 var tween
 
@@ -12,41 +10,71 @@ var current_state := Text.INACTIVE:
 	set(next_state):
 		# ignore same state, else update state
 		if current_state == next_state: return
-		current_state = next_state
-		if current_state == Text.READY:
+		if next_state == Text.READY:
 			# end dialogue on empty queue
 			if text_queue.size() == 0:
-				CombatEntitiesComponent.toggle_movement(true)
+				clearTextBox()
 				current_state = Text.INACTIVE
-				textbox_container.hide()
-				text_area.text = ""
-				end_symbol.hide()
+				CombatEntitiesComponent.toggle_movement(true)
 				return
 			# start dialogue on hidden text box
-			if !textbox_container.visible:
+			if isInactive():
 				CombatEntitiesComponent.toggle_movement(false)
-				textbox_container.show()
+				%TextBoxMargin.show()
 			# continue dialogue with animation
 			current_state = Text.TYPING
-			text_area.text = text_queue.pop_front()
-			text_area.visible_characters = 0
-			end_symbol.hide()
+			%TextAreaLabel.text = text_queue.pop_front()
+			%TextAreaLabel.visible_characters = 0
+			%TextEndLabel.hide()
 			tween = create_tween()
-			tween.tween_property(text_area, "visible_ratio", 1.0, len(text_area.text) * 0.04)
+			tween.tween_property(%TextAreaLabel, "visible_ratio", 1.0, len(%TextAreaLabel.text) * 0.04)
 			await tween.finished
-			current_state = Text.END
-		if current_state == Text.END:
+			next_state = Text.END
+		if next_state == Text.END:
 			# end current animation and display all text
 			tween.kill()
-			text_area.set_visible_ratio(1.0)
-			end_symbol.show()
+			%TextAreaLabel.set_visible_ratio(1.0)
+			%TextEndLabel.show()
+			current_state = Text.END
+
+			if text_queue.size() == 0 and text_owner_reply != "":
+				text_owner_node.call_deferred(text_owner_reply)
+				current_state = Text.WAITING
 
 func _ready():
-	textbox_container.hide()
-	end_symbol.hide()
-	text_area.text = ""
+	clearTextBox()
+	clearOptions()
 
 func _input(_event):
-	if current_state != Text.INACTIVE and Input.is_action_just_pressed("continue"):
-		if current_state == Text.TYPING: current_state = Text.END
-		elif current_state == Text.END: current_state = Text.READY
+	if !isInactive() and Input.is_action_just_pressed("continue"):
+		if current_state == Text.TYPING:
+			current_state = Text.END
+		elif current_state == Text.END:
+			current_state = Text.READY
+
+func clearTextBox():
+	%TextBoxMargin.hide()
+	%TextAreaLabel.text = ""
+	%TextEndLabel.hide()
+
+func clearOptions():
+	%OptionsMargin.hide()
+	for option_button in [%Option1Button, %Option2Button, %Option3Button, %Option4Button]:
+		option_button.text = ""
+		option_button.hide()
+
+func isInactive():
+	return current_state == Text.INACTIVE
+
+func requestResponse(options, reply_function):
+	%TextEndLabel.hide()
+	text_owner_reply = reply_function
+	var option_buttons := [%Option1Button, %Option2Button, %Option3Button, %Option4Button]
+	for optionIndex in options.size():
+		option_buttons[optionIndex].text = options[optionIndex]
+		option_buttons[optionIndex].show()
+	%OptionsMargin.show()
+
+func _on_option_button_pressed(extra_arg_0):
+	text_owner_node.call_deferred(text_owner_reply, extra_arg_0)
+	clearOptions()

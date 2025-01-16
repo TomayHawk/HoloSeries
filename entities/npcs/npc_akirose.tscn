@@ -1,0 +1,50 @@
+[gd_scene load_steps=9 format=3 uid="uid://cl846axs17iqn"]
+
+[ext_resource type="Script" path="res://scripts/entities_scripts/npcs_scripts/npc_akirose.gd" id="1_163lp"]
+[ext_resource type="PackedScene" uid="uid://0efkvv5xqacu" path="res://entities/npcs/base_npc.tscn" id="2_8j3lf"]
+[ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/characters/Nousagi.png" id="3_lb5bb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y10wm"]
+atlas = ExtResource("3_lb5bb")
+region = Rect2(0, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4gj0e"]
+atlas = ExtResource("3_lb5bb")
+region = Rect2(32, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07rst"]
+atlas = ExtResource("3_lb5bb")
+region = Rect2(64, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hh3mi"]
+atlas = ExtResource("3_lb5bb")
+region = Rect2(96, 0, 32, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f8vcp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y10wm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4gj0e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_07rst")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hh3mi")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}]
+
+[node name="NpcAkirose" type="Node2D"]
+script = ExtResource("1_163lp")
+
+[node name="BaseNpc" parent="." instance=ExtResource("2_8j3lf")]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_f8vcp")
+animation = &"idle"

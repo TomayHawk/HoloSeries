@@ -88,7 +88,6 @@ func _input(_event):
 		elif Input.is_action_just_pressed("tab"): CombatUi.character_selector_node.show()
 		elif Input.is_action_just_released("tab"): CombatUi.character_selector_node.hide()
 	elif nexus_inputs_available:
-		print(nexus_inputs_available)
 		if Input.is_action_just_pressed("tab"): nexus_character_selector_node.show()
 		elif Input.is_action_just_released("tab"): nexus_character_selector_node.hide()
 

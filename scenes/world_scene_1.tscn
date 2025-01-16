@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://dyvmrtl5c0ad3"]
+[gd_scene load_steps=18 format=4 uid="uid://dyvmrtl5c0ad3"]
 
 [ext_resource type="Script" path="res://scripts/scenes_scripts/world_scene_1.gd" id="1_4rgc2"]
 [ext_resource type="Texture2D" uid="uid://c5bvpekwpv6rw" path="res://art/tileSets/plains.png" id="1_7j0j2"]
@@ -7,7 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://dthvymrd0k1my" path="res://entities/objects/chest.tscn" id="5_uih6u"]
 [ext_resource type="PackedScene" uid="uid://dlxkifgl6lq80" path="res://entities/npcs/npc_kobo.tscn" id="6_5ivv1"]
 [ext_resource type="PackedScene" uid="uid://nsnibaboaiaa" path="res://entities/objects/spawner.tscn" id="6_y50s5"]
+[ext_resource type="PackedScene" uid="uid://bcyrkvjaiy1go" path="res://entities/objects/save_point.tscn" id="7_f7v21"]
 [ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/enemy_specifics/nousagi.tscn" id="9_tem7v"]
+[ext_resource type="PackedScene" uid="uid://cl846axs17iqn" path="res://entities/npcs/npc_akirose.tscn" id="10_nqrae"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5688q"]
 texture = ExtResource("1_7j0j2")
@@ -285,6 +287,8 @@ position = Vector2(-139, -86)
 [node name="Spawner" parent="Objects" instance=ExtResource("6_y50s5")]
 position = Vector2(-74, -54)
 
+[node name="SavePoint" parent="Objects" instance=ExtResource("7_f7v21")]
+
 [node name="Enemies" type="Node2D" parent="."]
 y_sort_enabled = true
 
@@ -302,5 +306,8 @@ collision_layer = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldScene2Transit"]
 shape = SubResource("RectangleShape2D_h76rv")
+
+[node name="NpcAkirose" parent="." instance=ExtResource("10_nqrae")]
+position = Vector2(164, 5)
 
 [connection signal="body_entered" from="WorldScene2Transit" to="." method="_on_world_scene_2_transit_body_entered"]
