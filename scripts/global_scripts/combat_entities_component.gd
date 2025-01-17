@@ -261,17 +261,25 @@ func choose_entity(entity_node, is_ally, is_alive):
 		GlobalSettings.update_main_player(entity_node)
 
 func toggle_movement(can_move):
-	# GlobalSettings.tree.paused = !can_move ## ### want to use enums
-	# disable player movements
-	for player_node in GlobalSettings.party_node.get_children():
-		if player_node.player_stats_node.alive: continue
+	# toggle players movements
+	for player_node in get_tree().get_nodes_in_group("players"): ## ### should use party players instead of all players
+		# ignore if not alive
+		if !player_node.player_stats_node.alive:
+			continue
+
 		player_node.set_physics_process(can_move)
-		if can_move: continue
-		# players enter idle animations
-		if player_node.last_move_direction.x > 0: player_node.animation_node.play("right_idle")
-		elif player_node.last_move_direction.x < 0: player_node.animation_node.play("left_idle")
-		elif player_node.last_move_direction.y > 0: player_node.animation_node.play("up_idle")
-		else: player_node.animation_node.play("down_idle")
+
+		# update animation
+		if !can_move:
+			player_node.current_move_state = player_node.MoveState.IDLE
+		
+	# toggle enemies movements
+	for enemy_node in get_tree().get_nodes_in_group("enemies"):
+		enemy_node.set_physics_process(can_move)
+
+		# update animation
+		if !can_move:
+			enemy_node.animation_node.play("idle")
 
 func _on_leaving_combat_timer_timeout():
 	if enemy_nodes_in_combat.is_empty():

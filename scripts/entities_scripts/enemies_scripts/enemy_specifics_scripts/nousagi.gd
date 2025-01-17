@@ -35,6 +35,8 @@ var invincible := false
 # temporary variables
 var target_player_node: Node = null
 
+############ add states
+
 func _ready():
 	animation_node.play("walk")
 
