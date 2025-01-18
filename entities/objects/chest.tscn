@@ -30,6 +30,7 @@ animations = [{
 script = ExtResource("1_us2di")
 
 [node name="BaseInteractable" parent="." instance=ExtResource("2_kl2yh")]
+collision_layer = 8
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(1.00304, 0.994179)

@@ -5,8 +5,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fbfvt"]
 
 [node name="BaseNpc" type="StaticBody2D" groups=["npcs"]]
-collision_layer = 2
-collision_mask = 0
+collision_layer = 4
+collision_mask = 13
 script = ExtResource("1_y7t5k")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

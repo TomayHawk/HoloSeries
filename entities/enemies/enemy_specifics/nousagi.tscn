@@ -180,8 +180,8 @@ size = Vector2(22, 16)
 
 [node name="Nousagi" type="CharacterBody2D" groups=["enemies"]]
 y_sort_enabled = true
-collision_layer = 64
-collision_mask = 207
+collision_layer = 2
+collision_mask = 91
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_on7pi")
@@ -203,7 +203,7 @@ autoplay = "idle"
 offset = Vector2(0, -12)
 
 [node name="CombatHitBoxArea" type="Area2D" parent="."]
-collision_layer = 64
+collision_layer = 2
 collision_mask = 0
 
 [node name="CombatHitBoxShape" type="CollisionShape2D" parent="CombatHitBoxArea"]
