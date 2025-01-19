@@ -9,7 +9,7 @@ size = Vector2(6, 6)
 [sub_resource type="CircleShape2D" id="CircleShape2D_j2ys2"]
 
 [node name="BaseItem" type="RigidBody2D"]
-collision_layer = 32
+collision_layer = 64
 gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 1

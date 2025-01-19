@@ -12,14 +12,12 @@ radius = 35.0
 script = ExtResource("1_e24kv")
 
 [node name="DetectionArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 
 [node name="DetectionShape" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("CircleShape2D_528bm")
 
 [node name="AttackArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 
 [node name="AttackShape" type="CollisionShape2D" parent="AttackArea"]
@@ -38,6 +36,7 @@ show_percentage = false
 metadata/_edit_use_anchors_ = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+navigation_layers = 2
 debug_enabled = true
 
 [node name="AttackCooldown" type="Timer" parent="."]

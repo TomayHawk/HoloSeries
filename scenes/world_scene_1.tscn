@@ -247,7 +247,7 @@ physics_layer_0/collision_layer = 8
 physics_layer_0/collision_mask = 0
 physics_layer_1/collision_layer = 128
 physics_layer_1/collision_mask = 0
-navigation_layer_0/layers = 1
+navigation_layer_0/layers = 3
 sources/1 = SubResource("TileSetAtlasSource_mif0s")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h76rv"]
@@ -287,6 +287,7 @@ position = Vector2(-139, -86)
 position = Vector2(-74, -54)
 
 [node name="SavePoint" parent="Objects" instance=ExtResource("7_f7v21")]
+position = Vector2(-194, -175)
 
 [node name="Enemies" type="Node2D" parent="."]
 y_sort_enabled = true
