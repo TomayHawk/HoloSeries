@@ -31,3 +31,8 @@ func recruit_answer(responseIndex):
 	TextBox.text_queue += [responses[responseIndex]]
 	TextBox.text_box_state = TextBox.TextBoxState.READY
 	TextBox.text_owner_reply = ""
+	if responseIndex == 0:
+		recruit_character()
+
+func recruit_character():
+	pass

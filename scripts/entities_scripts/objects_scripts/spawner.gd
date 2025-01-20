@@ -5,15 +5,19 @@ extends Node2D
 
 var player_can_interact := true
 
+func interact_conditions_met():
+    return (TextBox.text_box_state == TextBox.TextBoxState.INACTIVE)
+
+func interact_object():
+    if player_can_interact:
+        toggle_timer($Timer.is_stopped())
+        print($Timer.is_stopped())
+
 func toggle_timer(initiate):
     if initiate:
         $Timer.start()
     else:
         $Timer.stop()
-
-func interact_object():
-    if player_can_interact:
-        toggle_timer(!$Timer.paused)
 
 func _on_timer_timeout():
     var enemy_instance = enemy_load.instantiate()

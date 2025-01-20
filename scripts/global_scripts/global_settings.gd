@@ -15,7 +15,7 @@ var current_save := {
 	
 	# load variables #!#!# probably don't need to be here
 	"current_scene_path": "res://scenes/world_scene_1.tscn",
-	"unlocked_characters": [0, 1, 2, 4],
+	"standby": [1],
 	"party": [0, 4, 2],
 	"current_main_player_position": Vector2(0, 0),
 	"character_levels": [0, 0, 0, 0, 0],

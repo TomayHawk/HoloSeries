@@ -22,7 +22,7 @@ var saves := [
 	
 	# load variables
 	"current_scene_path": "res://scenes/world_scene_1.tscn",
-	"unlocked_characters": [0, 1, 2, 4],
+	"standby": [1],
 	"party": [0, 4, 2],
 	"current_main_player_position": Vector2(0, 0),
 	"character_levels": [0, 0, 0, 0, 0],
@@ -51,7 +51,7 @@ var saves := [
 
 var atlas_positions := []
 
-func new(unlocked_characters, save_index):
+func new(standby, save_index):
 	while (save_index == -1 or saves[save_index] == {}):
 		save_index += 1
 		
@@ -61,7 +61,7 @@ func new(unlocked_characters, save_index):
 		"current_main_character_index": 4,
 			
 		"current_scene_path": "res://scenes/world_scene_1.tscn",
-		"unlocked_characters": [0, 1, 2, 4],
+		"standby": [0, 1, 2, 4],
 		"party": [0, 4, 2],
 		"current_main_player_position": Vector2(0, 0),
 		"character_levels": [0, 0, 0, 0, 0],
@@ -125,7 +125,7 @@ func load(save_file):
 		player_node.player_stats_node.update_stats()
 		player_node.add_to_group("party")
 		CombatUi.character_name_label_nodes[party_player_nodes.size() - 1].text = party_player_nodes[party_player_nodes.size() - 1].character_specifics_node.character_name
-		
+
 		# position character and determine main player node
 		player_node.position = saves[save_file]["current_main_player_position"]
 		if character_index == saves[save_file]["current_main_character_index"]:
@@ -134,12 +134,12 @@ func load(save_file):
 		else:
 			player_node.position += (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
 	
-	for character_index in saves[save_file]["unlocked_characters"]:
-		if character_index in saves[save_file]["party"]: continue # !#!# temporary code
+	for character_index in saves[save_file]["standby"]:
 		player_node = load(player_standby_path).instantiate()
 		player_node.add_child(load(character_specifics_paths[character_index]).instantiate())
 		GlobalSettings.standby_node.add_child(player_node)
 		player_node.player_stats_node.update_stats()
+		
 
 	# hide unused character info slots
 	for i in 4:
