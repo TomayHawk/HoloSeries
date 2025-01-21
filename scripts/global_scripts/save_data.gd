@@ -110,21 +110,20 @@ func load(save_file):
 									  "res://entities/players/character_specifics/luna.tscn"]
 	var player_standby_path := "res://entities/players/player_standby.tscn"
 
-	var party_player_nodes = GlobalSettings.party_node.get_children()
 	var player_node: Node = null
 	
-	#!#!# need to optimize two blocks below 
+	#!#!# need to optimize two blocks below
 	# create party characters
 	for character_index in saves[save_file]["party"]:
 		# create base player, attach character specifics, add character to party node, update player stats, add player to "party" group
 		player_node = load(base_player_path).instantiate()
 		player_node.add_child(load(character_specifics_paths[character_index]).instantiate())
 
-		party_player_nodes.push_back(player_node)
+		GlobalSettings.party_node.get_children().push_back(player_node)
 		GlobalSettings.party_node.add_child(player_node)
 		player_node.player_stats_node.update_stats()
 		player_node.add_to_group("party")
-		CombatUi.character_name_label_nodes[party_player_nodes.size() - 1].text = party_player_nodes[party_player_nodes.size() - 1].character_specifics_node.character_name
+		CombatUi.character_name_label_nodes[GlobalSettings.party_node.get_children().size() - 1].text = player_node.character_specifics_node.character_name
 
 		# position character and determine main player node
 		player_node.position = saves[save_file]["current_main_player_position"]
@@ -143,7 +142,7 @@ func load(save_file):
 
 	# hide unused character info slots
 	for i in 4:
-		if i >= party_player_nodes.size():
+		if i >= GlobalSettings.party_node.get_children().size():
 			CombatUi.players_info_nodes[i].hide()
 			CombatUi.ultimate_progress_bar_nodes[i].hide()
 			CombatUi.shield_progress_bar_nodes[i].hide()

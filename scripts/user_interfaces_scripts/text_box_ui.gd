@@ -81,6 +81,8 @@ func requestResponse(options, reply_function):
 		option_buttons[optionIndex].show()
 	%OptionsMargin.show()
 
+func npcDialogue(owner_node, text_array):
+
 func _on_option_button_pressed(extra_arg_0):
 	text_owner_node.call_deferred(text_owner_reply, extra_arg_0)
 	clearOptions()
