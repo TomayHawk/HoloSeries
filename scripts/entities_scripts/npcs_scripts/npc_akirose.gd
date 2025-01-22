@@ -22,8 +22,7 @@ func default_dialogue():
 	TextBox.text_queue += ["Do you want to recruit me?"]
 	TextBox.text_box_state = TextBox.TextBoxState.READY
 	TextBox.text_owner_reply = "recruit_question"
-	resp = TextBox.initiate_dialogue_reply(self, ["Do you want to recruit me?"])
-	await
+	TextBox.initiate_dialogue_reply(self, ["Do you want to recruit me?"], ["Yes", "No", "Hell No"])
 
 func recruit_question():
 	TextBox.requestResponse(["Yes", "No", "Hell No"], "recruit_answer")

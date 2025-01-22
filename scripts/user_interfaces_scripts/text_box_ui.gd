@@ -2,7 +2,6 @@ extends CanvasLayer
 
 enum TextBoxState {INACTIVE, READY, TYPING, END, WAITING}
 var text_owner_node: Node = null
-var text_owner_reply := ""
 var text_queue := []
 var tween
 
@@ -72,16 +71,22 @@ func isInactive():
 	return text_box_state == TextBoxState.INACTIVE
 
 # show and update player dialogue options
-func requestResponse(options, reply_function):
+func requestResponse(owner_node, options):
 	%TextEndLabel.hide()
-	text_owner_reply = reply_function
 	var option_buttons := [%Option1Button, %Option2Button, %Option3Button, %Option4Button]
 	for optionIndex in options.size():
+		option_buttons[optionIndex].connect("pressed", Callable(owner_node, "one_of_four_buttons_pressed"))
 		option_buttons[optionIndex].text = options[optionIndex]
 		option_buttons[optionIndex].show()
 	%OptionsMargin.show()
 
-func npcDialogue(owner_node, text_array):
+func npcDialogue(owner_node, text_array, responses):
+	text_owner_node = owner_node
+	text_queue = text_array
+	text_box_state = TextBox.TextBoxState.READY
+
+	if responses.size() != 0:
+		requestResponse(text_owner_node, responses)
 
 func _on_option_button_pressed(extra_arg_0):
 	text_owner_node.call_deferred(text_owner_reply, extra_arg_0)
