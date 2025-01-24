@@ -1,6 +1,12 @@
 extends Node2D
 
-enum NpcState {NEVER_SPOKEN, REGULAR, SHOP_OPEN, SHOP_CLOSED, CAN_RECRUIT}
+enum NpcState {
+	NEVER_SPOKEN,
+	REGULAR,
+	SHOP_OPEN,
+	SHOP_CLOSED,
+	CAN_RECRUIT,
+}
 
 var npc_state := NpcState.CAN_RECRUIT
 
@@ -18,30 +24,38 @@ func initiate_dialogue():
 			default_dialogue()
 
 func default_dialogue():
-	TextBox.text_owner_node = self
-	TextBox.text_queue += ["Do you want to recruit me?"]
-	TextBox.text_box_state = TextBox.TextBoxState.READY
-	TextBox.text_owner_reply = "recruit_question"
-	TextBox.initiate_dialogue_reply(self, ["Do you want to recruit me?"], ["Yes", "No", "Hell No"])
+	var resp_index := 0
+	var responses := []
 
-func recruit_question():
-	TextBox.requestResponse(["Yes", "No", "Hell No"], "recruit_answer")
+	TextBox.npcDialogue(self, ["Do you want to recruit me?"], ["Yes", "No", "Hell No"])
+	
+	resp_index = await TextBox.option_selected
+	responses = [
+		[["Thank You!", "I will join your party."], []],
+		[["But Why"], ["Potato Salad", "French Fries"]],
+		[["????"], []],
+	]
+	
+	TextBox.npcDialogue(self, responses[resp_index][0], responses[resp_index][1]) ## ### WRONG
+	
+	if resp_index == 1:
+		resp_index = await TextBox.option_selected
+		responses = [
+			[["Thank You!", "I will join your party."], []],
+			[[], []],
+		] ## ### want textbox fade out animation
+		
+		TextBox.npcDialogue(self, responses[0][0], responses[0][1]) ## ### WRONG
 
-func recruit_answer(responseIndex):
-	const responses := [["Thank You!", "I will join your party."], "But Why", "????"]
-	TextBox.text_queue += [responses[responseIndex]]
-	match responseIndex:
-		0:
-			TextBox.text_queue
-		1:
-		2:
-	TextBox.text_box_state = TextBox.TextBoxState.READY
-	TextBox.text_owner_reply = ""
-	if responseIndex == 0:
-		if GlobalSettings.party_node.get_children().size() < 4 && GlobalSettings.standby_node.get_children().size() == 0:
-			recruit_character(true, "res://entities/players/player_base.tscn", GlobalSettings.party_node, "party_players", GlobalSettings.party_node.get_children().size())
-		else:
-			recruit_character(false, "res://entities/players/player_standby.tscn", GlobalSettings.standby_node, "standby_players", -1)
+	# end dialogue if not recruiting
+	if resp_index != 0:
+		return
+
+	# recruit character to either party or standby
+	if GlobalSettings.party_node.get_children().size() < 4 && GlobalSettings.standby_node.get_children().size() == 0:
+		recruit_character(true, "res://entities/players/player_base.tscn", GlobalSettings.party_node, "party_players", GlobalSettings.party_node.get_children().size())
+	else:
+		recruit_character(false, "res://entities/players/player_standby.tscn", GlobalSettings.standby_node, "standby_players", -1)
 
 func recruit_character(in_party, base_path, parent_node, group_name, party_index):
 	var player_node: Node = load(base_path).instantiate()

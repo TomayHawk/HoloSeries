@@ -1,8 +1,16 @@
 extends CanvasLayer
 
-enum TextBoxState {INACTIVE, READY, TYPING, END, WAITING}
+enum TextBoxState {
+	INACTIVE,
+	READY,
+	TYPING,
+	END,
+	WAITING,
+}
+
 var text_owner_node: Node = null
 var text_queue := []
+var text_options := []
 var tween
 
 var text_box_state := TextBoxState.INACTIVE:
@@ -38,8 +46,8 @@ var text_box_state := TextBoxState.INACTIVE:
 			text_box_state = TextBoxState.END
 
 			# check for response request
-			if text_queue.size() == 0 and text_owner_reply != "":
-				text_owner_node.call_deferred(text_owner_reply)
+			if text_queue.size() == 0 and text_options.size() != 0:
+				requestResponse()
 				text_box_state = TextBoxState.WAITING
 
 func _ready():
@@ -70,24 +78,25 @@ func clearOptions():
 func isInactive():
 	return text_box_state == TextBoxState.INACTIVE
 
-# show and update player dialogue options
-func requestResponse(owner_node, options):
-	%TextEndLabel.hide()
-	var option_buttons := [%Option1Button, %Option2Button, %Option3Button, %Option4Button]
-	for optionIndex in options.size():
-		option_buttons[optionIndex].connect("pressed", Callable(owner_node, "one_of_four_buttons_pressed"))
-		option_buttons[optionIndex].text = options[optionIndex]
-		option_buttons[optionIndex].show()
-	%OptionsMargin.show()
-
-func npcDialogue(owner_node, text_array, responses):
+func npcDialogue(owner_node: Node, text_array: Array[String], options: Array[String]):
 	text_owner_node = owner_node
 	text_queue = text_array
+	text_options = options
 	text_box_state = TextBox.TextBoxState.READY
 
-	if responses.size() != 0:
-		requestResponse(text_owner_node, responses)
+func requestResponse():
+	# Hide Text End Symbol
+	%TextEndLabel.hide()
 
-func _on_option_button_pressed(extra_arg_0):
-	text_owner_node.call_deferred(text_owner_reply, extra_arg_0)
+	# Connect, Update and Show Each Button
+	var option_buttons := [%Option1Button, %Option2Button, %Option3Button, %Option4Button]
+	for optionIndex in text_options.size():
+		option_buttons[optionIndex].text = text_options[optionIndex]
+		option_buttons[optionIndex].show()
+
+	# Show Options Container
+	%OptionsMargin.show()
+
+func _on_option_button_pressed(extra_arg_0: int):
+	emit_signal("option_selected", extra_arg_0)
 	clearOptions()
