@@ -1,18 +1,18 @@
 extends Node2D
 
-@onready var ability_node := get_parent()
+@onready var ability_node: Node = get_parent()
 var target_node: Node = null
-var velocity := Vector2(1, 1)
-var speed := 100.0
-var homing_strength := 20
+var velocity: Vector2 = Vector2(1, 1)
+var speed: float = 100.0
+var homing_strength: int = 20
 
 func _ready():
 	set_physics_process(false)
 
 func _physics_process(delta):
-
 	# Get the direction to the target
 	var direction = (target_node.global_position - global_position).normalized()
+	
 	# Adjust the current velocity to home in on the target
 	var current_velocity = velocity.normalized()
 	current_velocity = current_velocity.lerp(direction, homing_strength * delta)

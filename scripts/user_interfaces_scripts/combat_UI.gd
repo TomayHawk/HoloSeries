@@ -74,7 +74,7 @@ func update_character_selector():
 	for button in character_selector_player_nodes:
 		button.hide()
 
-	var i = 0
+	var i = 0 ## ### need to add character selector options as a resource
 	for player in GlobalSettings.standby_node.get_children():
 		character_selector_player_nodes[i].show()
 		character_selector_name_nodes[i].text = player.character_specifics_node.character_name

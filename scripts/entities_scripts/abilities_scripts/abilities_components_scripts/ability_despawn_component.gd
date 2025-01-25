@@ -1,23 +1,20 @@
 extends Node2D
 
-@onready var ability_node := get_parent()
-@onready var despawn_timer_node := %DespawnTimer
+var onscreen_time: float = 1.0
+var offscreen_time: float = 1.0
 
-var temp_time_left := 1.0
-var offscreen_time_left := 1.0
-
-func start_timer(set_time_left, set_offscreen_time_left):
-	temp_time_left = set_time_left
-	offscreen_time_left = set_offscreen_time_left
-	despawn_timer_node.set_wait_time(set_time_left)
-	despawn_timer_node.start()
+func start_timer(new_onscreen_time: float, new_offscreen_time: float):
+	onscreen_time = new_onscreen_time
+	offscreen_time = new_offscreen_time
+	%DespawnTimer.set_wait_time(new_onscreen_time)
+	%DespawnTimer.start()
 
 func _on_visible_on_screen_enabler_2d_screen_entered():
-	despawn_timer_node.set_wait_time(temp_time_left)
+	%DespawnTimer.set_wait_time(onscreen_time)
 
 func _on_visible_on_screen_enabler_2d_screen_exited():
-	temp_time_left = despawn_timer_node.time_left
-	despawn_timer_node.set_wait_time(offscreen_time_left)
+	onscreen_time = %DespawnTimer.time_left
+	%DespawnTimer.set_wait_time(offscreen_time)
 
 func _on_despawn_timer_timeout():
-	ability_node.despawn_timeout()
+	get_parent().despawn_timeout()

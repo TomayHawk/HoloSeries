@@ -27,7 +27,7 @@ func default_dialogue():
 	var resp_index := 0
 	var responses := []
 
-	TextBox.npcDialogue(self, ["Do you want to recruit me?"], ["Yes", "No", "Hell No"])
+	TextBox.npcDialogue(["Do you want to recruit me?"], ["Yes", "No", "Hell No"])
 	
 	resp_index = await TextBox.option_selected
 	responses = [
@@ -36,7 +36,7 @@ func default_dialogue():
 		[["????"], []],
 	]
 	
-	TextBox.npcDialogue(self, responses[resp_index][0], responses[resp_index][1]) ## ### WRONG
+	TextBox.npcDialogue(responses[resp_index][0], responses[resp_index][1])
 	
 	if resp_index == 1:
 		resp_index = await TextBox.option_selected
@@ -45,7 +45,7 @@ func default_dialogue():
 			[[], []],
 		] ## ### want textbox fade out animation
 		
-		TextBox.npcDialogue(self, responses[0][0], responses[0][1]) ## ### WRONG
+		TextBox.npcDialogue(responses[resp_index][0], responses[resp_index][1])
 
 	# end dialogue if not recruiting
 	if resp_index != 0:
@@ -75,4 +75,4 @@ func recruit_character(in_party, base_path, parent_node, group_name, party_index
 		GlobalSettings.current_save["party"].push_back()
 	else:
 		CombatUi.update_character_selector()
-		GlobalSettings.current_save["standby"].push_back()
+		GlobalSettings.current_save["standby"].push_back(player_node.character_specifics_node.character_index)

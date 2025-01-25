@@ -8,10 +8,11 @@ enum TextBoxState {
 	WAITING,
 }
 
-var text_owner_node: Node = null
 var text_queue := []
 var text_options := []
 var tween
+
+signal option_selected(option_index: int) ## ### THIS NEEDS TO BE USED SOMEWHERE ELSE IN SOME OTHER WAY
 
 var text_box_state := TextBoxState.INACTIVE:
 	set(next_state):
@@ -78,8 +79,7 @@ func clearOptions():
 func isInactive():
 	return text_box_state == TextBoxState.INACTIVE
 
-func npcDialogue(owner_node: Node, text_array: Array[String], options: Array[String]):
-	text_owner_node = owner_node
+func npcDialogue(text_array, options):
 	text_queue = text_array
 	text_options = options
 	text_box_state = TextBox.TextBoxState.READY
