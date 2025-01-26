@@ -9,10 +9,12 @@ extends CanvasLayer
 @onready var shield_progress_bar_nodes := %ShieldProgressBarControl.get_children()
 @onready var character_selector_player_nodes := %CharacterSelectorVBoxContainer.get_children()
 
-@onready var abilities_load: Array[Resource] = [load("res://entities/abilities/fireball.tscn"),
-												load("res://entities/abilities/regen.tscn"),
-												load("res://entities/abilities/heal.tscn"),
-												load("res://entities/abilities/play_dice.tscn")]
+@onready var abilities_load: Array[Resource] = [
+	load("res://entities/abilities/fireball.tscn"),
+	load("res://entities/abilities/regen.tscn"),
+	load("res://entities/abilities/heal.tscn"),
+	load("res://entities/abilities/play_dice.tscn"),
+]
 
 var items_quantities_nodes: Array[Node] = []
 
