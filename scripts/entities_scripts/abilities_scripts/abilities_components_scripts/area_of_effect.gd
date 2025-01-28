@@ -3,8 +3,10 @@ extends Area2D
 ## currently only masking "Enemies" layer,
 ## should add a function to change/add other entity layers
 
+## needs function to set area size
+
 # returns all nodes of a specific entity group in the AOE area
-func area_of_effect(entity_group: StringName):
+func area_of_effect(entity_group: StringName) -> Array[Node]:
 	var entities_in_area: Array[Node] = []
 	
 	for entity in get_overlapping_bodies():
