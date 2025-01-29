@@ -63,7 +63,7 @@ collision_layer = 128
 collision_mask = 2
 script = ExtResource("1_g8rfi")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="HitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_rd68m")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -74,9 +74,9 @@ animation = &"shoot"
 [node name="BasicProjectile" parent="." instance=ExtResource("4_ygyed")]
 unique_name_in_owner = true
 
-[node name="AreaOfEffect" parent="." instance=ExtResource("3_hc2jg")]
-unique_name_in_owner = true
-scale = Vector2(1.5, 1.5)
-
 [node name="AbilityDespawnComponent" parent="." instance=ExtResource("6_iors1")]
 unique_name_in_owner = true
+
+[node name="AreaOfEffect" parent="." instance=ExtResource("3_hc2jg")]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

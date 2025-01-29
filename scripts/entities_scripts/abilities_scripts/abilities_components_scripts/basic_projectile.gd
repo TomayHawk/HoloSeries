@@ -2,20 +2,15 @@ extends Node
 
 var velocity := Vector2.ZERO
 
-# initially disables physics processing
+# initially disables physics process
 func _ready() -> void:
 	set_physics_process(false)
 
-# when physics processing is enabled,
-# parent ability moves and checks for collision
-# when collision is detected,
-# goes to parent ability's projectile collision function
+# when physics process is enabled, moves in direction
 func _physics_process(delta: float) -> void:
-	if get_parent().move_and_collide(velocity * delta) != null:
-		get_parent().projectile_collision(velocity.normalized())
+	get_parent().position += velocity * delta
 
-# sets projectile velocity (direction and speed),
-# then enables physics processing
+# sets projectile velocity, then enables physics process
 func initiate_projectile(direction: Vector2, speed: float) -> void:
 	velocity = direction * speed
 	set_physics_process(true)

@@ -66,7 +66,7 @@ func physical_damage_calculator(input_damage, origin_entity_stats_node, target_e
 func magic_damage_calculator(input_damage, origin_entity_stats_node, target_entity_stats_node):
 	temp_types.clear()
 	##### planning to have a different calculation
-	# base damage 
+	# base damage
 	output_amount = input_damage + (origin_entity_stats_node.intelligence * 2) + (input_damage * origin_entity_stats_node.intelligence * 0.05)
 	# crit chance
 	if randf() < origin_entity_stats_node.crit_chance:
@@ -97,7 +97,7 @@ func damage_display(value, display_position, types):
 	if types.has("hidden"):
 		return
 	var display = Label.new()
-	display.global_position = display_position + Vector2(randf_range(-5, 5), randf_range(-5, 5))
+	display.position = display_position + Vector2(randf_range(-5, 5), randf_range(-5, 5))
 	display.text = str(abs(value))
 	display.z_index = 5
 	display.label_settings = LabelSettings.new()

@@ -9,8 +9,8 @@ var mana_cost: float = 8.0
 ## should this damage multiplier be here? (CombatEntitiesComponent.magic_damage_calculator already has a multiplier)
 ## @onready var damage_multiplier: float = 1 + (GlobalSettings.current_main_player_node.player_stats_node.intelligence / 500)
 
-@onready var caster_node: Node = GlobalSettings.current_main_player_node
-@onready var caster_stats_node: Node = caster_node.player_stats_node
+@onready var caster_node: Node2D = GlobalSettings.current_main_player_node
+@onready var caster_stats_node: Node2D = caster_node.player_stats_node
 
 func _ready() -> void:
 	hide()
@@ -44,11 +44,15 @@ func initiate_fireball(chosen_node) -> void:
 func projectile_collision(move_direction) -> void:
 	GlobalSettings.camera_node.screen_shake(0.1, 1, 30, 5, false)
 
-	for enemy_node in %AreaOfEffect.area_of_effect("enemies"):
+	for enemy_node in $AreaOfEffect.area_of_effect("enemies"):
 		var temp_damage = CombatEntitiesComponent.magic_damage_calculator(damage, caster_node.player_stats_node, enemy_node.base_enemy_node)
 		enemy_node.base_enemy_node.update_health(-temp_damage[0], temp_damage[1], move_direction, 0.5)
 	
 	queue_free()
 
 func despawn_timeout():
+	projectile_collision(%BasicProjectile.velocity.normalized())
+
+# on collision, 
+func _on_body_entered(_body: Node2D) -> void:
 	projectile_collision(%BasicProjectile.velocity.normalized())
