@@ -1,11 +1,12 @@
 extends Area2D
 
+var mana_cost: float = 8.0
 var damage: float = 10.0
 var speed: float = 90.0
-var mana_cost: float = 8.0
 
 ## should create an "ability queue" that clears when changing player or something (or caster dies)
 ## Combat UI has wrong mana description. need to fix
+
 ## should this damage multiplier be here? (CombatEntitiesComponent.magic_damage_calculator already has a multiplier)
 ## @onready var damage_multiplier: float = 1 + (GlobalSettings.current_main_player_node.player_stats_node.intelligence / 500)
 

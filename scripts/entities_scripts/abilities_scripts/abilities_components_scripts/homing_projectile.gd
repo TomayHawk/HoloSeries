@@ -1,39 +1,30 @@
-extends Node2D
+extends Area2D
 
-@onready var ability_node: Node = get_parent()
+var target_lost: bool = false
 var target_node: Node = null
-var velocity: Vector2 = Vector2(1, 1)
 var speed: float = 100.0
-var homing_strength: int = 20
 
-func _ready():
+func _ready() -> void:
 	set_physics_process(false)
 
-func _physics_process(delta):
-	# Get the direction to the target
-	var direction = (target_node.global_position - global_position).normalized()
+func _physics_process(delta: float) -> void:
+	if target_node == null || target_lost:
+		get_parent().position += speed * Vector2.RIGHT.rotated(rotation) * delta
+		return
 	
-	# Adjust the current velocity to home in on the target
-	var current_velocity = velocity.normalized()
-	current_velocity = current_velocity.lerp(direction, homing_strength * delta)
+	look_at(target_node.global_position)
+	position = position.move_toward(target_node.global_position, speed * delta)
 	
-	# Apply movement to the projectile
-	velocity = current_velocity * speed * delta
-	ability_node.move_and_collide(velocity)
-	
-	# Optionally, rotate the projectile to face the direction of movement
-	ability_node.rotation = velocity.angle()
-
-func initiate_homing_projectile(node):
-	velocity = ability_node.get_node("BasicProjectile").velocity
-	speed = velocity.x / velocity.normalized().x
+func initiate_homing_projectile(target: Node, initial_direction: Vector2, set_speed: float) -> void:
+	target_node = target
+	#initial_direction
+	speed = set_speed
 	set_physics_process(true)
-	target_node = node
 
-func _on_area_2d_body_entered(body):
+func _on_area_2d_body_entered(body) -> void:
 	if target_node == null:
 		initiate_homing_projectile(body)
 
-func _on_area_2d_body_exited(body):
+func _on_area_2d_body_exited(body) -> void:
 	if target_node == body:
 		set_physics_process(false)
