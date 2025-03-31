@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://cow4d6dq0c31v"]
 
-[ext_resource type="Script" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_w0nri"]
+[ext_resource type="Script" uid="uid://bp37cvmg20s6l" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_w0nri"]
 [ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://resources/button_style/dark_blue_button_normal.tres" id="2_1ddg2"]
 [ext_resource type="Texture2D" uid="uid://dxnu3xke1bx8l" path="res://art/characters/Untitled_Artwork (1).png" id="2_diyiq"]
 [ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://resources/panel_style/blue_translucent_panel.tres" id="2_ppn4a"]
@@ -15,7 +15,7 @@
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uloh4"]
 texture = ExtResource("9_0n8tn")
 
-[node name="CombatUI" type="CanvasLayer"]
+[node name="CombatUi" type="CanvasLayer"]
 script = ExtResource("1_w0nri")
 
 [node name="CombatUIControl" type="Control" parent="."]
@@ -64,12 +64,11 @@ theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
 [node name="SpecialVBoxContainer" type="VBoxContainer" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin"]
-visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Item" type="Button" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SpecialVBoxContainer"]
+[node name="RocketLauncher" type="Button" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SpecialVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -79,7 +78,7 @@ theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
-text = "Item"
+text = "Rocket Launcher"
 
 [node name="SkillVBoxContainer" type="VBoxContainer" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin"]
 visible = false
@@ -266,6 +265,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BlackVBoxContainer" type="VBoxContainer" parent="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin"]
+visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
@@ -422,7 +422,7 @@ offset_left = 74.0
 offset_right = 93.0
 offset_bottom = 20.0
 theme_override_font_sizes/font_size = 8
-text = "111"
+text = "69"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1472,9 +1472,10 @@ one_shot = true
 
 [connection signal="mouse_entered" from="CombatUIControl/CombatOptions2/ScrollContainer" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer" to="." method="_on_control_mouse_exited"]
-[connection signal="mouse_entered" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SpecialVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SpecialVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SpecialVBoxContainer/Item" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SpecialVBoxContainer/RocketLauncher" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SpecialVBoxContainer/RocketLauncher" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SpecialVBoxContainer/RocketLauncher" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SpecialVBoxContainer/RocketLauncher" to="." method="instantiate_ability" binds= [4]]
 [connection signal="mouse_entered" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SkillVBoxContainer/LifeDrain" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SkillVBoxContainer/LifeDrain" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/SkillVBoxContainer/LifeDrain" to="." method="button_pressed"]
@@ -1508,7 +1509,6 @@ one_shot = true
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Regen" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Regen" to="." method="button_pressed"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/WhiteVBoxContainer/Regen" to="." method="instantiate_ability" binds= [1]]
-[connection signal="button_down" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer/Fireball" to="." method="_on_fireball_button_down"]
 [connection signal="mouse_entered" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer/Fireball" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer/Fireball" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/BlackVBoxContainer/Fireball" to="." method="button_pressed"]
@@ -1525,7 +1525,7 @@ one_shot = true
 [connection signal="mouse_entered" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/Potion" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/Potion" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/Potion" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/Potion" to="." method="request_entities" binds= ["use_potion", 1, "players_alive"]]
+[connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/Potion" to="." method="request_entities" binds= ["use_potion"]]
 [connection signal="mouse_entered" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/MaxPotion" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/MaxPotion" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/MaxPotion" to="." method="button_pressed"]
@@ -1534,7 +1534,7 @@ one_shot = true
 [connection signal="mouse_entered" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/PhoenixBurger" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/PhoenixBurger" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/PhoenixBurger" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/PhoenixBurger" to="." method="request_entities" binds= ["use_phoenix_burger", 1, "players_dead"]]
+[connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/PhoenixBurger" to="." method="request_entities" binds= ["use_phoenix_burger"]]
 [connection signal="mouse_entered" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/ResetButton" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/ResetButton" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/ResetButton" to="." method="button_pressed"]
@@ -1543,7 +1543,7 @@ one_shot = true
 [connection signal="mouse_entered" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/TempKillItem" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/TempKillItem" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/TempKillItem" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/TempKillItem" to="." method="request_entities" binds= ["use_temp_kill_item", 1, "players_alive"]]
+[connection signal="pressed" from="CombatUIControl/CombatOptions2/ScrollContainer/Options2Margin/ItemsGridContainer/TempKillItem" to="." method="request_entities" binds= ["use_temp_kill_item"]]
 [connection signal="mouse_entered" from="CombatUIControl/CombatOptions/ScrollContainer" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatUIControl/CombatOptions/ScrollContainer" to="." method="_on_control_mouse_exited"]
 [connection signal="mouse_entered" from="CombatUIControl/CombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_entered"]

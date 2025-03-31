@@ -1,0 +1,181 @@
+[gd_scene load_steps=9 format=3 uid="uid://cf2ifm4k70avn"]
+
+[ext_resource type="Script" uid="uid://craf4jfsj1dm0" path="res://scripts/user_interfaces_scripts/settings_ui.gd" id="1_1rmu1"]
+[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://resources/panel_style/blue_translucent_panel.tres" id="2_jtsuj"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://resources/button_style/dark_blue_button_focus.tres" id="3_8qokm"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://resources/button_style/dark_blue_button_hover.tres" id="4_e6w0p"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://resources/button_style/dark_blue_button_pressed.tres" id="5_qqgge"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://resources/button_style/dark_blue_button_normal.tres" id="6_day15"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k1jdv"]
+border_width_left = 4
+border_width_top = 2
+border_width_right = 4
+border_width_bottom = 2
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6dtb0"]
+bg_color = Color(0.564706, 0.564706, 0.882353, 0.501961)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="SettingsUi" type="CanvasLayer"]
+layer = 20
+script = ExtResource("1_1rmu1")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 96
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 96
+theme_override_constants/margin_bottom = 64
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_jtsuj")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_bottom = 48
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_right = 48
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 256
+columns = 2
+
+[node name="FullScreenLabel" type="Label" parent="MarginContainer/MarginContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Full Screen"
+
+[node name="FullScreenCheckButton" type="CheckButton" parent="MarginContainer/MarginContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="ResolutionLabel" type="Label" parent="MarginContainer/MarginContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Resolution"
+
+[node name="ResolutionOptionButton" type="OptionButton" parent="MarginContainer/MarginContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("3_8qokm")
+theme_override_styles/hover_mirrored = ExtResource("4_e6w0p")
+theme_override_styles/hover = ExtResource("4_e6w0p")
+theme_override_styles/pressed_mirrored = ExtResource("5_qqgge")
+theme_override_styles/pressed = ExtResource("5_qqgge")
+theme_override_styles/normal_mirrored = ExtResource("6_day15")
+theme_override_styles/normal = ExtResource("6_day15")
+alignment = 1
+
+[node name="MasterVolumeLabel" type="Label" parent="MarginContainer/MarginContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Master Volume"
+
+[node name="MasterVolumeHSlider" type="HSlider" parent="MarginContainer/MarginContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+max_value = 1.0
+step = 0.01
+
+[node name="MusicVolumeLabel" type="Label" parent="MarginContainer/MarginContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Music Volume"
+
+[node name="MusicVolumeHSlider" type="HSlider" parent="MarginContainer/MarginContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_styles/slider = SubResource("StyleBoxFlat_k1jdv")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_6dtb0")
+max_value = 1.0
+step = 0.01
+
+[node name="LanguageLabel" type="Label" parent="MarginContainer/MarginContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Language (Inactive)"
+
+[node name="LanguageOptionButton" type="OptionButton" parent="MarginContainer/MarginContainer/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("3_8qokm")
+theme_override_styles/hover_mirrored = ExtResource("4_e6w0p")
+theme_override_styles/hover = ExtResource("4_e6w0p")
+theme_override_styles/pressed_mirrored = ExtResource("5_qqgge")
+theme_override_styles/pressed = ExtResource("5_qqgge")
+theme_override_styles/normal_mirrored = ExtResource("6_day15")
+theme_override_styles/normal = ExtResource("6_day15")
+alignment = 1
+
+[node name="ZoomSensitivityLabel" type="Label" parent="MarginContainer/MarginContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Zoom Sensitivity (Inactive)"
+
+[node name="ZoomSensitivityHSlider" type="HSlider" parent="MarginContainer/MarginContainer/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_styles/slider = SubResource("StyleBoxFlat_k1jdv")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_6dtb0")
+max_value = 1.0
+step = 0.001
+value = 1.0
+
+[node name="ScreenShakeIntensityLabel" type="Label" parent="MarginContainer/MarginContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Screen Shake Intensity (Inactive)"
+
+[node name="ScreenShakeIntensityHSlider" type="HSlider" parent="MarginContainer/MarginContainer/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_styles/slider = SubResource("StyleBoxFlat_k1jdv")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_6dtb0")
+max_value = 1.0
+step = 0.001
+value = 1.0
+
+[connection signal="toggled" from="MarginContainer/MarginContainer/MarginContainer/GridContainer/FullScreenCheckButton" to="." method="_on_full_screen_check_button_toggled"]
+[connection signal="item_selected" from="MarginContainer/MarginContainer/MarginContainer/GridContainer/ResolutionOptionButton" to="." method="_on_resolution_option_button_item_selected"]
+[connection signal="value_changed" from="MarginContainer/MarginContainer/MarginContainer/GridContainer/MasterVolumeHSlider" to="." method="_on_master_volume_h_slider_value_changed"]
+[connection signal="value_changed" from="MarginContainer/MarginContainer/MarginContainer/GridContainer/MusicVolumeHSlider" to="." method="_on_music_volume_h_slider_value_changed"]

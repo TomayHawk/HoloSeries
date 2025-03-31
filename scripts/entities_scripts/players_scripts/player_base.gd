@@ -1,347 +1,356 @@
-extends CharacterBody2D
+class_name PlayerBase extends EntityBase
 
-@onready var player_stats_node := get_node_or_null("PlayerStatsComponent")
-@onready var character_specifics_node := get_node_or_null("CharacterSpecifics")
-@onready var animation_node := get_node_or_null("CharacterSpecifics/Animation")
-@onready var attack_shape_node := %AttackShape
-@onready var dash_timer_node := %DashTimer
-@onready var knockback_timer_node := %KnockbackTimer
-@onready var death_timer_node := %DeathTimer
+var is_main_player: bool = false
 
-# player variables
-var is_current_main_player := false
-var walk_speed := 7000.0
-var dash_multiplier := 4.25
-var dash_time := 0.2
-var dash_stamina_consumption := 35.0
-var sprint_multiplier := 1.25
-var sprinting_stamina_consumption := 0.8
-var attack_direction := Vector2.ZERO
-var attack_register := ""
-var knockback_direction := Vector2.ZERO
-var knockback_weight := 0.0
+# movement variables
+var walk_speed: float = 70.0
+var sprint_multiplier: float = 1.25
+var sprint_stamina: float = 0.8
+var dash_multiplier: float = 8.0
+var dash_stamina: float = 35.0
+var dash_minimum_stamina: float = 25.0
+var dash_time: float = 0.2
+var attack_movement_multiplier: float = 0.3
 
-enum Direction {UP, DOWN, LEFT, RIGHT, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT}
-
-var directions := {
-	Direction.UP: [Direction.UP, Vector2(0, -1), "up_idle", "up_walk", "up_attack"],
-	Direction.DOWN: [Direction.DOWN, Vector2(0, 1), "down_idle", "down_walk", "down_attack"],
-	Direction.LEFT: [Direction.LEFT, Vector2(-1, 0), "left_idle", "left_walk", "left_attack"],
-	Direction.RIGHT: [Direction.RIGHT, Vector2(1, 0), "right_idle", "right_walk", "right_attack"],
-	Direction.UP_LEFT: [Direction.LEFT, Vector2(-1, -1).normalized(), "left_idle", "left_walk", "left_attack"],
-	Direction.UP_RIGHT: [Direction.RIGHT, Vector2(1, -1).normalized(), "left_idle", "left_walk", "left_attack"],
-	Direction.DOWN_LEFT: [Direction.LEFT, Vector2(-1, 1).normalized(), "right_idle", "right_walk", "right_attack"],
-	Direction.DOWN_RIGHT: [Direction.RIGHT, Vector2(1, 1).normalized(), "right_idle", "right_walk", "right_attack"],
-	Vector2(0, 0): Direction.UP,
-	Vector2(0, -1): Direction.UP,
-	Vector2(0, 1): Direction.DOWN,
-	Vector2(-1, 0): Direction.LEFT,
-	Vector2(1, 0): Direction.RIGHT,
-	Vector2(-1, -1).normalized(): Direction.UP_LEFT,
-	Vector2(1, -1).normalized(): Direction.UP_RIGHT,
-	Vector2(-1, 1).normalized(): Direction.DOWN_LEFT,
-	Vector2(1, 1).normalized(): Direction.DOWN_RIGHT
-}
-
-var current_animation := Direction.UP:
-	set(next_direction):
-		if !player_stats_node.alive:
-			return
-		current_animation = next_direction
-		if current_move_state == MoveState.KNOCKBACK:
-			return
-		elif current_attack_state == AttackState.ATTACK:
-			animation_node.play(directions[attack_face_direction][4])
-		elif current_move_state == MoveState.IDLE:
-			animation_node.play(directions[current_animation][2])
-		else:
-			animation_node.play(directions[current_animation][3])
-
-var attack_face_direction := Direction.UP
-
-var current_movement := Direction.UP:
-	set(next_direction):
-		if !player_stats_node.alive:
-			return
-		current_movement = next_direction
-		if current_move_state == MoveState.IDLE:
-			current_move_state = MoveState.WALK
-		current_animation = directions[current_movement][0]
-
-enum MoveState {IDLE, WALK, DASH, SPRINT, KNOCKBACK}
-var current_move_state := MoveState.IDLE:
-	set(next_move_state):
-		if !player_stats_node.alive:
-			return
-		current_move_state = next_move_state
-		current_animation = current_animation
-		if current_move_state == MoveState.IDLE:
-			velocity = Vector2.ZERO
-		if current_move_state != MoveState.DASH:
-			return
-		dash_timer_node.start(dash_time)
-		player_stats_node.update_stamina(-dash_stamina_consumption)
-
-enum AttackState {READY, ATTACK}
-var current_attack_state := AttackState.READY:
-	set(next_attack_state):
-		if !player_stats_node.alive or current_attack_state == next_attack_state:
-			return
-		current_attack_state = next_attack_state
-		if current_attack_state != AttackState.ATTACK:
-			return
-		character_specifics_node.regular_attack()
-		attack_face_direction = Direction.UP if attack_direction.y < 0 else Direction.DOWN
-		if abs(attack_direction.x) < abs(attack_direction.y):
-			current_animation = current_animation
-			return
-		attack_face_direction = Direction.LEFT if attack_direction.x < 0 else Direction.RIGHT
-		current_animation = current_animation
-
-# PlayerAlly
-@onready var obstacle_check_node := %ObstacleCheck
-@onready var navigation_agent_node := %NavigationAgent2D
-@onready var ally_move_cooldown_node := %AllyMoveCooldown
-
-var ally_can_move := true
-var ally_can_attack := true
-var ally_in_attack_position := false
-
-##### can optimize?
-var possible_directions: Array[Vector2] = [Vector2(0, -1), Vector2(0, 1), Vector2(-1, 0), Vector2(1, 0), Vector2(-1, -1).normalized(), Vector2(1, -1).normalized(), Vector2(-1, 1).normalized(), Vector2(1, 1).normalized()]
+# ally variables
+var ally_can_move: bool = true
+var ally_can_attack: bool = true
+var ally_in_attack_position: bool = false
 var enemy_nodes_in_attack_area: Array[Node] = []
 
+# knockback variables
+var knockback_direction: Vector2 = Vector2.ZERO
+var knockback_weight: float = 0.0
 
-func _ready():
-	animation_node.play(directions[current_animation][2])
-	
-func _physics_process(delta):
-	if is_current_main_player:
-		velocity = Input.get_vector("left", "right", "up", "down")
-	else:
-		var distance_to_main_player := position.distance_to(GlobalSettings.current_main_player_node.position)
+@onready var character_node: AnimatedSprite2D = get_node_or_null(^"CharacterBase")
 
-		# if ally in combat
-		if ally_in_attack_position and distance_to_main_player < 250:
-			# pause movement
-			current_move_state = MoveState.IDLE
+# ................................................................................
 
-			# target enemy with lowest health
-			var target_enemy_node: Node = null
-			var enemy_health := INF
-			for enemy_node in enemy_nodes_in_attack_area:
-				if enemy_node.base_enemy_node.health < enemy_health:
-					enemy_health = enemy_node.base_enemy_node.health
-					target_enemy_node = enemy_node
-			
-			# attack if able
-			if current_attack_state == AttackState.READY:
-				current_attack_state = AttackState.ATTACK ## ### might have to change
-			# else face towards enemy
-			else:
-				var enemy_direction = (target_enemy_node.position - position).normalized()
-				if abs(enemy_direction.x) < abs(enemy_direction.y):
-					if enemy_direction.y < 0:
-						current_animation = Direction.UP
-					else:
-						current_animation = Direction.DOWN
-				elif enemy_direction.x < 0:
-					current_animation = Direction.LEFT
-				else:
-					current_animation = Direction.RIGHT
-		# if ally can move
-		elif ally_can_move and current_attack_state == AttackState.READY:
-			var target_direction := Vector2.ZERO
-			ally_can_move = false
+# PROCESS LOOP AND INPUTS
 
-			if CombatEntitiesComponent.in_combat and !CombatEntitiesComponent.leaving_combat and distance_to_main_player < 250:
-				# target enemy with shortest distance
-				var target_enemy_node: Node = null
-				var enemy_distance := INF
-				for enemy_node in CombatEntitiesComponent.enemy_nodes_in_combat:
-					if position.distance_to(enemy_node.position) < enemy_distance:
-						enemy_distance = position.distance_to(enemy_node.position)
-						target_enemy_node = enemy_node
-				
-				if enemy_distance > 200:
-					navigation_agent_node.target_position = GlobalSettings.current_main_player_node.position
-				else:
-					navigation_agent_node.target_position = target_enemy_node.position
-
-				target_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
-				ally_move_cooldown_node.start(randf_range(0.2, 0.4))
-			elif distance_to_main_player < 80:
-				target_direction = Vector2(randf() * 2 - 1, randf() * 2 - 1).normalized()
-				ally_move_cooldown_node.start(randf_range(0.5, 0.7))
-				pass ## ### velocity /= 1.5
-			else:
-				navigation_agent_node.target_position = GlobalSettings.current_main_player_node.position
-				target_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
-				ally_move_cooldown_node.start(randf_range(0.5, 0.7))
-
-			if distance_to_main_player > 200:
-				pass ## ### velocity *= (distance_to_main_player / 200)
-				if distance_to_main_player > 300:
-					pass ## ### velocity *= 2
-			
-			if GlobalSettings.current_main_player_node.current_move_state == MoveState.SPRINT and !CombatEntitiesComponent.in_combat and distance_to_main_player > 120:
-				current_move_state = MoveState.SPRINT
-			
-			var snapped_direction := Vector2.ZERO
-
-			# snap to 8-way
-			possible_directions = [Vector2(0, -1), Vector2(0, 1), Vector2(-1, 0), Vector2(1, 0), Vector2(-1, -1).normalized(), Vector2(1, -1).normalized(), Vector2(-1, 1).normalized(), Vector2(1, 1).normalized()]
-			for direction in possible_directions:
-				if target_direction.distance_to(direction) < 0.390180645:
-					snapped_direction = direction
-					break
-
-			# check for obstacles
-			while true:
-				obstacle_check_node.set_target_position(snapped_direction * 8)
-				obstacle_check_node.force_shapecast_update()
-
-				if obstacle_check_node.is_colliding():
-					possible_directions.erase(snapped_direction)
-					if possible_directions.is_empty():
-						current_move_state = MoveState.IDLE
-						velocity = snapped_direction
-						current_movement = directions[velocity]
-						break
-					# find next closest direction
-					var distance_to_direction := INF
-					for direction in possible_directions:
-						if target_direction.distance_to(direction) < distance_to_direction:
-							distance_to_direction = target_direction.distance_to(direction)
-							snapped_direction = direction
-				else:
-					velocity = snapped_direction
-					current_movement = directions[velocity]
-					break
-		else:
-			##### need to fix this
-			velocity = velocity.normalized()
-			possible_directions = [Vector2(-1, -1).normalized(), Vector2(1, -1).normalized(), Vector2(-1, 1).normalized(), Vector2(1, 1).normalized()]
-			for direction in possible_directions:
-				if velocity.distance_to(direction) < 0.390180645:
-					velocity = direction
-					##### print("this")
-					break
-
-	# update states and animations
-	if velocity == Vector2.ZERO:
-		if current_move_state not in [MoveState.IDLE, MoveState.KNOCKBACK]:
-			current_move_state = MoveState.IDLE
-	elif current_movement != directions[velocity] or current_move_state == MoveState.IDLE: ## ### invalid dictionary key bug
-		current_movement = directions[velocity]
-	
-	# update velocity
-	velocity *= walk_speed * delta
-
-	match current_move_state:
-		MoveState.KNOCKBACK:
-			velocity = knockback_direction * 200 * (1 - (0.4 - knockback_timer_node.get_time_left()) / 0.4) * knockback_weight
-		MoveState.DASH:
-			velocity *= dash_multiplier * (1 - (dash_time - dash_timer_node.get_time_left()) / dash_time)
-		MoveState.SPRINT:
-			velocity *= sprint_multiplier
-			player_stats_node.update_stamina(-sprinting_stamina_consumption)
-
-	if current_attack_state == AttackState.ATTACK:
-		velocity /= 2
-
-	# attack register if attacking
-	if attack_register != "" and animation_node.get_frame() == 1:
-		character_specifics_node.call(attack_register)
-
-	# move
+func _physics_process(_delta: float) -> void:
+	if move_state == MoveState.KNOCKBACK:
+		update_velocity(knockback_direction)
+	elif is_main_player:
+		update_velocity(Input.get_vector(&"left", &"right", &"up", &"down"))
+	elif character_node:
+		character_node.ally_process()
 	move_and_slide()
 
-func _input(_event):
-	if !is_current_main_player: return
+func _input(_event: InputEvent) -> void:
+	if not is_main_player: return
 	
-	if Input.is_action_just_pressed("dash") and player_stats_node.stamina > 25.0 and !player_stats_node.stamina_slow_recovery:
-		current_move_state = MoveState.DASH
-	elif Input.is_action_just_released("dash") and current_move_state == MoveState.DASH:
-		current_move_state = MoveState.WALK
+	if Input.is_action_just_pressed(&"dash") and character_node.stamina > dash_minimum_stamina and not character_node.stamina_slow_recovery:
+		set_move_state(MoveState.DASH)
+		dash()
+	elif Input.is_action_just_released(&"dash") and move_state == MoveState.DASH:
+		set_move_state(MoveState.WALK)
 
-func update_nodes():
-	player_stats_node = get_node_or_null("PlayerStatsComponent")
-	character_specifics_node = get_node_or_null("CharacterSpecifics")
-	animation_node = get_node_or_null("CharacterSpecifics/Animation")
+# ................................................................................
 
-func animation():
-	pass
+# UPDATE VARIABLES
 
-func _on_combat_hit_box_area_input_event(_viewport, _event, _shape_idx):
-	if Input.is_action_just_pressed("action"):
-		CombatEntitiesComponent.choose_entity(self, !is_current_main_player, player_stats_node.alive)
+# called when switching characters
+func update_variables() -> void: # TODO
+	# movement variables
+	walk_speed = 70.0
+	sprint_multiplier = 1.25
+	sprint_stamina = 0.8
+	dash_multiplier = 8.0
+	dash_stamina = 35.0
+	dash_minimum_stamina = 25.0
+	dash_time = 0.2
+	attack_movement_multiplier = 0.3
 
-func _on_combat_hit_box_area_mouse_entered():
-	if CombatEntitiesComponent.requesting_entities:
-		GlobalSettings.mouse_in_attack_area = false
+	# ally variables
+	ally_can_move = true
+	ally_can_attack = true
+	ally_in_attack_position = false
 
-func _on_combat_hit_box_area_mouse_exited():
-	GlobalSettings.mouse_in_attack_area = true
+	# knockback variables
+	knockback_direction = Vector2.ZERO
+	knockback_weight = 0.0
 
-func _on_interaction_area_body_entered(body):
-	if is_current_main_player:
-		if body.is_in_group("npcs") || body.is_in_group("world_interactables"):
-			body.interaction_area(true)
+# ................................................................................
 
-	if body.is_in_group("enemies"):
-		enemy_nodes_in_attack_area.push_back(body)
-		current_move_state = MoveState.IDLE
-		ally_in_attack_position = true
-		ally_can_move = true
+# ANIMATION
 
-func _on_interaction_area_body_exited(body):
-	if is_current_main_player:
-		if body.is_in_group("npcs") || body.is_in_group("world_interactables"):
-			body.interaction_area(false)
+func update_animation() -> void:
+	if not character_node.alive or move_state == MoveState.KNOCKBACK: return
 
-	if body.is_in_group("enemies"):
-		enemy_nodes_in_attack_area.erase(body)
-		if enemy_nodes_in_attack_area.is_empty():
-			ally_in_attack_position = false
+	const animations: Dictionary[Directions, Array] = {
+		Directions.UP: [&"up_idle", &"up_walk", &"up_attack"],
+		Directions.DOWN: [&"down_idle", &"down_walk", &"down_attack"],
+		Directions.LEFT: [&"left_idle", &"left_walk", &"left_attack"],
+		Directions.RIGHT: [&"right_idle", &"right_walk", &"right_attack"],
+		Directions.UP_LEFT: [&"left_idle", &"left_walk", &"left_attack"],
+		Directions.DOWN_LEFT: [&"left_idle", &"left_walk", &"left_attack"],
+		Directions.UP_RIGHT: [&"right_idle", &"right_walk", &"right_attack"],
+		Directions.DOWN_RIGHT: [&"right_idle", &"right_walk", &"right_attack"],
+	}
 
-func _on_attack_timer_timeout():
-	current_attack_state = AttackState.READY
-	if velocity == Vector2(0, 0):
-		current_move_state = MoveState.IDLE
+	var next_animation: StringName = character_node.animation
+	var animation_speed: float = 1.0
+	
+	if attack_state == AttackState.ATTACKING:
+		var attack_face_direction: Directions
+		if abs(attack_direction.x) < abs(attack_direction.y):
+			attack_face_direction = Directions.UP if attack_direction.y < 0 else Directions.DOWN
+		else:
+			attack_face_direction = Directions.LEFT if attack_direction.x < 0 else Directions.RIGHT
+		next_animation = animations[attack_face_direction][2]
 	else:
-		current_move_state = MoveState.WALK
+		match move_state:
+			MoveState.IDLE:
+				next_animation = animations[move_direction][0]
+			MoveState.WALK:
+				next_animation = animations[move_direction][1]
+			MoveState.DASH:
+				next_animation = animations[move_direction][1]
+				animation_speed = 2.0
+			MoveState.SPRINT:
+				next_animation = animations[move_direction][1]
+				animation_speed = sprint_multiplier
+			MoveState.KNOCKBACK:
+				pass
+		
+	if next_animation != character_node.animation:
+		character_node.play(next_animation)
+	if animation_speed != character_node.speed_scale:
+		character_node.speed_scale = animation_speed
 
-func _on_knockback_timer_timeout():
-	if Input.get_vector("left", "right", "up", "down") != Vector2.ZERO:
-		current_move_state = MoveState.WALK
+# ................................................................................
+
+# MOVEMENTS
+
+func set_move_state(next_state: MoveState) -> void:
+	if move_state == next_state or not character_node.alive: return
+	move_state = next_state
+	update_animation()
+
+func set_move_direction(direction: Directions) -> void:
+	if move_direction == direction or not character_node.alive: return
+	move_direction = direction
+	update_animation()
+
+func update_velocity(direction: Vector2) -> void:
+	if direction == Vector2.ZERO:
+		set_move_state(MoveState.IDLE)
+		velocity = Vector2.ZERO
+		return
+	
+	if VECTOR_TO_DIRECTION.has(direction):
+		set_move_direction(VECTOR_TO_DIRECTION[direction])
+	 
+	var temp_velocity: Vector2 = direction * walk_speed
+
+	match move_state:
+		MoveState.IDLE:
+			set_move_state(MoveState.WALK)
+		MoveState.SPRINT:
+			temp_velocity *= sprint_multiplier
+			character_node.update_stamina(-sprint_stamina)
+		MoveState.DASH:
+			temp_velocity *= dash_multiplier * (1.0 - (dash_time - $DashTimer.get_time_left()) / dash_time)
+		MoveState.KNOCKBACK:
+			temp_velocity = knockback_direction * 200 * (1.0 - (0.4 - $KnockbackTimer.get_time_left()) / 0.4) * knockback_weight
+
+	if attack_state == AttackState.ATTACKING:
+		temp_velocity *= attack_movement_multiplier
+	
+	velocity = temp_velocity
+
+func dash() -> void:
+	$DashTimer.start(dash_time)
+	character_node.update_stamina(-dash_stamina)
+
+func dealt_knockback(direction: Vector2, weight: float = 1.0) -> void:
+	if move_state == MoveState.KNOCKBACK: return
+	if direction == Vector2.ZERO or weight == 0.0: return
+	set_move_state(MoveState.KNOCKBACK)
+	
+	knockback_direction = direction
+	knockback_weight = weight
+
+	get_node(^"KnockbackTimer").start(0.4)
+
+# ................................................................................
+
+# ATTACK
+
+func set_attack_state(next_state: AttackState) -> void:
+	if attack_state == next_state or not character_node.alive: return
+	# ally conditions
+	if not is_main_player:
+		#if not ally_can_attack:
+			#return
+		if attack_state != AttackState.READY and next_state == AttackState.ATTACKING:
+			return
+
+	attack_state = next_state
+
+	if attack_state == AttackState.ATTACKING: attempt_attack()
+
+	update_animation()
+
+func attempt_attack(attack_name: String = "") -> void:
+	if character_node != get_node_or_null("CharacterBase"):
+		set_attack_state(AttackState.READY) # TODO: depends
+		return
+	
+	if attack_name != "":
+		pass # call attack with conditions
+	elif character_node.auto_ultimate and character_node.ultimate_gauge == character_node.max_ultimate_gauge:
+		character_node.ultimate_attack()
 	else:
-		current_move_state = MoveState.IDLE
+		character_node.basic_attack()
 
-func _on_dash_timer_timeout():
-	if Input.is_action_pressed("dash"):
-		current_move_state = MoveState.SPRINT
+# TODO: need to implement
+func filter_nodes(initial_nodes: Array[EntityBase], get_stats_nodes: bool, origin_position: Vector2 = Vector2(-1.0, -1.0), range_min: float = -1.0, range_max: float = -1.0) -> Array[Node]:
+	var resultant_nodes: Array[Node] = []
+	var check_distance: bool = range_max > 0
+	
+	if check_distance:
+		range_min *= range_min
+		range_max *= range_max
+	
+	for entity_node in initial_nodes:
+		if check_distance:
+			var temp_distance: float = origin_position.distance_squared_to(entity_node.position)
+			if temp_distance < range_min or temp_distance > range_max:
+				continue
+		if entity_node is PlayerBase:
+			resultant_nodes.push_back(entity_node.character_node if get_stats_nodes else entity_node)
+		elif entity_node is BasicEnemyBase:
+			resultant_nodes.push_back(entity_node.base_enemy_node if get_stats_nodes else entity_node)
+	
+	return resultant_nodes
+
+# TODO: IMPLEMENTING RIGHT NOW
+func enter_attack_range() -> void:
+	if attack_state == AttackState.OUT_OF_RANGE:
+		attack_state = AttackState.READY
+	# TODO: COOLDOWN ?
+
+# TODO: IMPLEMENTING RIGHT NOW
+func exit_attack_range() -> void:
+	if attack_state == AttackState.READY:
+		attack_state = AttackState.OUT_OF_RANGE
+
+# ................................................................................
+
+# STAT BARS
+
+func update_health_bar(value: float, max_value: float) -> void:
+	$HealthBar.value = value
+	$HealthBar.max_value = max_value
+	$HealthBar.visible = value > 0.0 and value < max_value
+	
+	# modulate health bar
+	var temp_bar_percentage: float = value / max_value
+	$HealthBar.modulate = \
+			Color(0, 1, 0, 1) if temp_bar_percentage > 0.5 \
+			else Color(1, 1, 0, 1) if temp_bar_percentage > 0.2 \
+			else Color(1, 0, 0, 1)
+
+func update_mana_bar(value: float, max_value: float) -> void:
+	$ManaBar.value = value
+	$ManaBar.max_value = max_value
+	$ManaBar.visible = value < max_value
+
+func update_stamina_bar(value: float, max_value: float) -> void:
+	$StaminaBar.value = value
+	$StaminaBar.max_value = max_value
+	$StaminaBar.visible = value < max_value
+
+	# modulate stamina bar
+	if value == 0:
+		$StaminaBar.modulate = Color(0.5, 0, 0, 1)
+	elif value == max_value:
+		$StaminaBar.modulate = Color(1, 0.5, 0, 1)
+
+func update_shield_bar(value: float, max_value: float) -> void:
+	$ShieldBar.value = value
+	$ShieldBar.max_value = max_value
+	$ShieldBar.visible = value > 0
+
+# ................................................................................
+
+# DEATH
+
+func trigger_death() -> void:
+	# stop player process
+	set_physics_process(false)
+
+	# hide all stats bars
+	$HealthBar.hide()
+	$ManaBar.hide()
+	$StaminaBar.hide()
+
+	$DeathTimer.start(0.5)
+	character_node.play(&"death")
+	
+	# handle main player
+	if is_main_player:
+		var alive_party_players = Entities.entities_of_type[Entities.Type.PLAYERS_PARTY_ALIVE].call()
+		if alive_party_players.size() == 0:
+			print("GAME OVER") # TODO
+		else:
+			Players.update_main_player(alive_party_players[0])
+
+# ................................................................................
+
+func _on_combat_hit_box_area_input_event(_viewport: Node, _event: InputEvent, _shape_idx: int) -> void:
+	if Input.is_action_just_pressed(&"action"): # TODO
+		if Entities.requesting_entities and self in Entities.entities_available and not self in Entities.entities_chosen:
+			Entities.entities_chosen.push_back(self)
+			if Entities.entities_requested_count == Entities.entities_chosen.size():
+				Entities.choose_entities()
+		elif character_node.alive:
+			Players.update_main_player(self)
+
+func _on_combat_hit_box_area_mouse_entered() -> void:
+	if not is_main_player or self in Entities.entities_available:
+		Inputs.mouse_in_attack_position = false
+
+func _on_combat_hit_box_area_mouse_exited() -> void:
+	Inputs.mouse_in_attack_position = true
+
+func _on_interaction_area_body_entered(body: Node) -> void:
+	if is_main_player:
+		body.interaction_area(true)
+
+func _on_interaction_area_body_exited(body: Node) -> void:
+	if is_main_player:
+		body.interaction_area(false)
+
+func _on_knockback_timer_timeout() -> void:
+	set_move_state(MoveState.IDLE)
+
+func _on_dash_timer_timeout() -> void:
+	if Input.is_action_pressed(&"dash"):
+		set_move_state(MoveState.SPRINT)
 	else:
-		current_move_state = MoveState.WALK
+		set_move_state(MoveState.WALK)
 
-func _on_death_timer_timeout():
-	animation_node.pause()
+func _on_death_timer_timeout() -> void:
+	character_node.pause()
 
 # PlayerAlly
-func _on_ally_move_cooldown_timeout():
-	var distance_to_main_player := position.distance_to(GlobalSettings.current_main_player_node.position)
-	current_move_state = MoveState.IDLE
+func _on_ally_move_cooldown_timeout() -> void:
+	if is_main_player: return
 
-	if CombatEntitiesComponent.in_combat and !CombatEntitiesComponent.leaving_combat:
+	var distance_to_main_player := position.distance_to(Players.main_player_node.position)
+
+	if Combat.in_combat() and not Combat.leaving_combat():
 		ally_can_move = true
-	elif distance_to_main_player < 70:
-		ally_move_cooldown_node.start(randf_range(1.5, 2))
-	elif distance_to_main_player < 100:
-		ally_move_cooldown_node.start(randf_range(0.7, 0.8))
+	elif distance_to_main_player < 70 and velocity != Vector2.ZERO:
+		update_velocity(Vector2.ZERO)
+		$AllyMoveCooldown.start(randf_range(1.5, 2))
+	elif distance_to_main_player < 100 and velocity != Vector2.ZERO:
+		update_velocity(Vector2.ZERO)
+		$AllyMoveCooldown.start(randf_range(0.7, 0.8))
 	else:
 		ally_can_move = true
 
-	##### add teleport when far?
-
-func _on_ally_attack_cooldown_timeout():
-	current_attack_state = AttackState.READY ## ### need to change CharacterSpecifics and Attacks for Allies
+	# TODO: add teleport when far?

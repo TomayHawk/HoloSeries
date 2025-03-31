@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bt2n4igrycav2"]
+
+[ext_resource type="Script" uid="uid://cdis1ws0b8je2" path="res://scripts/global_scripts/combat.gd" id="1_lbcq1"]
+[ext_resource type="PackedScene" uid="uid://cow4d6dq0c31v" path="res://user_interfaces/combat_ui.tscn" id="2_wvqmb"]
+
+[node name="Combat" type="Node"]
+process_mode = 3
+script = ExtResource("1_lbcq1")
+
+[node name="CombatUi" parent="." instance=ExtResource("2_wvqmb")]
+visible = false
+
+[node name="Abilities" type="Node" parent="."]
+
+[node name="PickUpItems" type="Node" parent="."]
+
+[node name="LeavingCombatTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="LeavingCombatTimer" to="." method="_on_leaving_combat_timer_timeout"]

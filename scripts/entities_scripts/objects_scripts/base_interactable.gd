@@ -1,12 +1,13 @@
 extends StaticBody2D
 
-var area_active := false
+# COMPLETE
 
-@onready var object_node := get_parent()
+var active: bool = false
 
-func _input(_event):
-	if area_active and Input.is_action_just_pressed("interact") and object_node.interact_conditions_met():
-		object_node.interact_object()
+func _input(_event: InputEvent) -> void:
+	if active and Input.is_action_just_pressed(&"interact") and get_parent().can_interact():
+		get_parent().interact()
+		Inputs.accept_event()
 
-func interaction_area(check_bool):
-	area_active = check_bool
+func interaction_area(status: bool) -> void:
+	active = status

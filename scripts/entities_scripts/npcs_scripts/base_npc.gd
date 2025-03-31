@@ -1,6 +1,6 @@
 extends StaticBody2D
 
-var area_active := false
+var active := false
 
 @onready var npc_node := get_parent()
 
@@ -10,9 +10,9 @@ func _ready():
     
 func _input(_event):
     # if in interactable area, interaction button just pressed, not in a dialogue and not in combat, start dialogue
-    if area_active and Input.is_action_just_pressed("interact") and TextBox.isInactive() and !CombatEntitiesComponent.in_combat:
+    if active and Input.is_action_just_pressed(&"interact") and TextBox.isInactive() and not Combat.in_combat():
         npc_node.initiate_dialogue()
 
 # triggered on npc entering/exiting player interaction area
-func interaction_area(check_bool):
-    area_active = check_bool
+func interaction_area(status: bool) -> void:
+    active = status

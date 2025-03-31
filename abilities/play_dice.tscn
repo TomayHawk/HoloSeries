@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://brbkesgxot8df"]
+
+[ext_resource type="Script" uid="uid://bsfywf3q5igpi" path="res://scripts/abilities_scripts/play_dice.gd" id="1_y8mcu"]
+
+[node name="PlayDice" type="Node2D" groups=["abilities"]]
+script = ExtResource("1_y8mcu")
+
+[node name="Interval" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.1
+one_shot = true

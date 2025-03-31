@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://copvkqerjm2fx"]
+
+[ext_resource type="Script" uid="uid://dkspktew47kdr" path="res://scripts/abilities_scripts/abilities_components_scripts/damage_over_time.gd" id="1_lq3j5"]
+
+[node name="DamageOverTime" type="Timer"]
+script = ExtResource("1_lq3j5")

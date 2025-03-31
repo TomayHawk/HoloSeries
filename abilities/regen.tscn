@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxi3oy2hgd7cf"]
+
+[ext_resource type="Script" uid="uid://ctmmv6tp6w5p2" path="res://scripts/abilities_scripts/regen.gd" id="1_ylto0"]
+
+[node name="Regen" type="Node2D" groups=["abilities"]]
+script = ExtResource("1_ylto0")
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

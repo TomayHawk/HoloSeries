@@ -1,14 +1,15 @@
-extends Node2D
+extends AnimatedSprite2D
 
-var chest_open := false
+var chest_open: bool = false
 
-func interact_conditions_met():
-    return (TextBox.text_box_state == TextBox.TextBoxState.INACTIVE and !CombatEntitiesComponent.in_combat)
+func can_interact() -> bool:
+    return TextBox.isInactive() and not Combat.in_combat()
 
-func interact_object():
+# TODO: improve this
+func interact() -> void:
     if chest_open:
         $AnimatedSprite2D.pause()
     else:
         $AnimatedSprite2D.play("default")
 
-    chest_open = !chest_open
+    chest_open = not chest_open

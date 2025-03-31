@@ -1,0 +1,141 @@
+[gd_scene load_steps=7 format=3 uid="uid://b0bohmrss6hcx"]
+
+[ext_resource type="Script" uid="uid://uimxe38ynyg4" path="res://scripts/user_interfaces_scripts/holo_deck.gd" id="1_icwaf"]
+[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://resources/panel_style/blue_translucent_panel.tres" id="1_ux8t5"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://resources/button_style/dark_blue_button_focus.tres" id="2_icwaf"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://resources/button_style/dark_blue_button_hover.tres" id="3_eilwb"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://resources/button_style/dark_blue_button_pressed.tres" id="4_1cnm8"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://resources/button_style/dark_blue_button_normal.tres" id="5_y0f38"]
+
+[node name="HoloDeck" type="CanvasLayer"]
+layer = 20
+script = ExtResource("1_icwaf")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -51.0
+offset_top = -231.0
+offset_right = 51.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 32
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_ux8t5")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Characters" type="Button" parent="MarginContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/focus = ExtResource("2_icwaf")
+theme_override_styles/hover = ExtResource("3_eilwb")
+theme_override_styles/pressed = ExtResource("4_1cnm8")
+theme_override_styles/normal = ExtResource("5_y0f38")
+text = "Characters"
+
+[node name="HoloNexus" type="Button" parent="MarginContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/focus = ExtResource("2_icwaf")
+theme_override_styles/hover = ExtResource("3_eilwb")
+theme_override_styles/pressed = ExtResource("4_1cnm8")
+theme_override_styles/normal = ExtResource("5_y0f38")
+text = "HoloNexus
+"
+
+[node name="Abilities" type="Button" parent="MarginContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/focus = ExtResource("2_icwaf")
+theme_override_styles/hover = ExtResource("3_eilwb")
+theme_override_styles/pressed = ExtResource("4_1cnm8")
+theme_override_styles/normal = ExtResource("5_y0f38")
+text = "Abilities"
+
+[node name="Inventory" type="Button" parent="MarginContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/focus = ExtResource("2_icwaf")
+theme_override_styles/hover = ExtResource("3_eilwb")
+theme_override_styles/pressed = ExtResource("4_1cnm8")
+theme_override_styles/normal = ExtResource("5_y0f38")
+text = "Inventory
+"
+
+[node name="Settings" type="Button" parent="MarginContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/focus = ExtResource("2_icwaf")
+theme_override_styles/hover = ExtResource("3_eilwb")
+theme_override_styles/pressed = ExtResource("4_1cnm8")
+theme_override_styles/normal = ExtResource("5_y0f38")
+text = "Settings"
+
+[node name="Resume" type="Button" parent="MarginContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/focus = ExtResource("2_icwaf")
+theme_override_styles/hover = ExtResource("3_eilwb")
+theme_override_styles/pressed = ExtResource("4_1cnm8")
+theme_override_styles/normal = ExtResource("5_y0f38")
+text = "Resume"
+
+[node name="ExitGame" type="Button" parent="MarginContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/focus = ExtResource("2_icwaf")
+theme_override_styles/hover = ExtResource("3_eilwb")
+theme_override_styles/pressed = ExtResource("4_1cnm8")
+theme_override_styles/normal = ExtResource("5_y0f38")
+text = "Exit Game"
+
+[connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/Characters" to="." method="_on_characters_pressed"]
+[connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/HoloNexus" to="." method="_on_holo_nexus_pressed"]
+[connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/Abilities" to="." method="_on_abilities_pressed"]
+[connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/Inventory" to="." method="_on_inventory_pressed"]
+[connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/ExitGame" to="." method="_on_exit_game_pressed"]

@@ -43,36 +43,51 @@ func default_dialogue():
 		responses = [
 			[["Thank You!", "I will join your party."], []],
 			[[], []],
-		] ## ### want textbox fade out animation
+		] # TODO: want textbox fade out animation
 		
 		TextBox.npcDialogue(responses[resp_index][0], responses[resp_index][1])
 
 	# end dialogue if not recruiting
-	if resp_index != 0:
-		return
+	if resp_index == 0:
+		recruit_player()
+		queue_free()
 
-	# recruit character to either party or standby
-	if GlobalSettings.party_node.get_children().size() < 4 && GlobalSettings.standby_node.get_children().size() == 0:
-		recruit_character(true, "res://entities/players/player_base.tscn", GlobalSettings.party_node, "party_players", GlobalSettings.party_node.get_children().size())
+func recruit_player() -> void:
+	var character_node: Node = load("res://entities/players/character_base/akirose.tscn").instantiate()
+	if Players.party_node.get_children().size() < 4 and Players.standby_node.get_children().size() == 0:
+		var player_node: Node = load("res://entities/players/player_base.tscn").instantiate()
+		Players.party_node.add_child(player_node)
+		player_node.add_child(character_node)
+		player_node.character_node = character_node
+		
+		character_node.party_index = Players.party_node.get_children().size() - 1
+		player_node.position = Players.main_player_node.position + (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
+		
+		# TODO: make function for this
+		Combat.ui.character_name_label_nodes[character_node.party_index].text = character_node.character_name
+		Combat.ui.players_info_nodes[character_node.party_index].show()
+		Combat.ui.ultimate_progress_bar_nodes[character_node.party_index].show()
+		Combat.ui.shield_progress_bar_nodes[character_node.party_index].show()
 	else:
-		recruit_character(false, "res://entities/players/player_standby.tscn", GlobalSettings.standby_node, "standby_players", -1)
+		Players.standby_node.add_child(character_node)
+		character_node.party_index = -1
 
-func recruit_character(in_party, base_path, parent_node, group_name, party_index):
-	var player_node: Node = load(base_path).instantiate()
-	player_node.add_child(load("res://entities/players/character_specifics/akirose.tscn").instantiate())
-	parent_node.add_child(player_node)
-	player_node.player_stats_node.update_stats()
-	player_node.add_to_group(group_name)
+	character_node.level = 1
+	character_node.base_health = 396.0
+	character_node.base_mana = 26.0
+	character_node.base_stamina = 100.0
+	character_node.base_defense = 11.0
+	character_node.base_ward = 11.0
+	character_node.base_strength = 14.0
+	character_node.base_intelligence = 12.0
+	character_node.base_speed = 0.0
+	character_node.base_agility = 0.0
+	character_node.base_crit_chance = 0.05
+	character_node.base_crit_damage = 0.60
 
-	#!#!# add nexus data
+	# TODO: nexus
 
-	if in_party:
-		player_node.position = GlobalSettings.current_main_player_node.position + (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
-		CombatUi.character_name_label_nodes[party_index].text = player_node.character_specifics_node.character_name
-		CombatUi.players_info_nodes[party_index].show()
-		CombatUi.ultimate_progress_bar_nodes[party_index].show()
-		CombatUi.shield_progress_bar_nodes[party_index].show()
-		GlobalSettings.current_save["party"].push_back()
-	else:
-		CombatUi.update_character_selector()
-		GlobalSettings.current_save["standby"].push_back(player_node.character_specifics_node.character_index)
+	character_node.update_stats()
+
+	if character_node.party_index == -1:
+		Combat.ui.update_character_selector()

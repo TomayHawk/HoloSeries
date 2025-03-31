@@ -8,5 +8,4 @@ atlas = SubResource("CompressedTexture2D_iof7x")
 region = Rect2(0, 16, 16, 16)
 
 [node name="EnemyMarker" type="Sprite2D"]
-position = Vector2(0, -40)
 texture = SubResource("AtlasTexture_7i4l5")

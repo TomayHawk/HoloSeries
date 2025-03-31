@@ -1,7 +1,7 @@
-extends Node2D
+extends AnimatedSprite2D
 
-func interact_conditions_met():
-    return (TextBox.text_box_state == TextBox.TextBoxState.INACTIVE and !CombatEntitiesComponent.in_combat)
+func can_interact() -> bool:
+    return TextBox.isInactive() and not Combat.in_combat()
     
-func interact_object():
-    pass ## ### Display Save UI
+func interact():
+    pass # TODO: Display Save UI

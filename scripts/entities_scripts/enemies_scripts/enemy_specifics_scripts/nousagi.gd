@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends BasicEnemyBase
 
 @onready var enemies_node := get_parent()
 @onready var base_enemy_node := %BaseEnemy
@@ -11,7 +11,7 @@ extends CharacterBody2D
 
 @onready var nousagi_load := load("res://entities/enemies/enemy_specifics/nousagi.tscn")
 
-var speed := 4500.0
+var speed := 45.0
 
 # animation variables
 var current_animation := ""
@@ -24,8 +24,8 @@ var summon_ready := false
 var taking_knockback := false
 
 # direction variables
-var move_direction := Vector2.ZERO
-var attack_direction := Vector2.ZERO
+var temp_move_direction := Vector2.ZERO
+var temp_attack_direction := Vector2.ZERO
 
 # combat status variables
 var knockback_direction := Vector2.ZERO
@@ -35,12 +35,13 @@ var invincible := false
 # temporary variables
 var target_player_node: Node = null
 
-############ add states
+# TODO: add states
+var base_item_load: Resource = preload("res://entities/items/base_item.tscn")
 
 func _ready():
 	animation_node.play("walk")
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	# get current animation and current animation frame information
 	current_animation = animation_node.get_animation()
 	current_frame = animation_node.get_frame()
@@ -55,7 +56,7 @@ func _physics_process(delta):
 
 			# remove all dead players from detection arrays
 			for player_node in base_enemy_node.player_nodes_in_detection_area:
-				if !player_node.player_stats_node.alive:
+				if not player_node.character_node.alive:
 					base_enemy_node._on_detection_area_body_exited(player_node)
 					base_enemy_node._on_attack_area_body_exited(player_node)
 			
@@ -73,31 +74,31 @@ func _physics_process(delta):
 				# move towards player if any player in detection area
 				if base_enemy_node.players_exist_in_detection_area:
 					navigation_agent_node.target_position = target_player_node.position
-					move_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
+					temp_move_direction = to_local(navigation_agent_node.get_next_path_position()).normalized()
 				# else move in a random direction
 				else:
-					move_direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
+					temp_move_direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
 				animation_node.play("walk")
-				animation_node.flip_h = move_direction.x < 0
+				animation_node.flip_h = temp_move_direction.x < 0
 		elif current_frame == 3:
 			if current_animation == "attack":
 				# attack player
 				if base_enemy_node.players_exist_in_attack_area:
-					attack_direction = (target_player_node.position - position).normalized()
-					var damage = CombatEntitiesComponent.physical_damage_calculator(13, base_enemy_node, target_player_node.player_stats_node)
-					target_player_node.player_stats_node.update_health(-damage[0], damage[1], attack_direction, 0.4) # attack player (damage)
-					animation_node.flip_h = attack_direction.x < 0
+					temp_attack_direction = (target_player_node.position - position).normalized()
+					if Damage.combat_damage(13, Damage.DamageTypes.PLAYER_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL, base_enemy_node, target_player_node.character_node): # attack player (damage)
+						target_player_node.dealt_knockback(temp_attack_direction, 0.4)
+					animation_node.flip_h = temp_attack_direction.x < 0
 				attack_cooldown_node.start(randf_range(1, 3))
 				attack_ready = false
 			elif current_animation == "walk":
-				velocity = move_direction * speed * delta
+				velocity = temp_move_direction * speed
 
 		if base_enemy_node.players_exist_in_attack_area: velocity = Vector2(0, 0)
 
 	# check knockback
 	if taking_knockback:
 		animation_node.play("idle")
-		velocity = knockback_direction * 12000 * delta * (1 - (0.4 - knockback_timer_node.get_time_left()) / 0.4) * knockback_weight
+		velocity = knockback_direction * 120 * (1 - (0.4 - knockback_timer_node.get_time_left()) / 0.4) * knockback_weight
 	# animation check outside animation frame update
 	elif current_animation == "idle":
 		# face targeet player
@@ -107,7 +108,7 @@ func _physics_process(delta):
 		if base_enemy_node.players_exist_in_attack_area and attack_ready:
 			animation_node.play("attack")
 		# switch to walk when outside attack mode
-		elif !base_enemy_node.players_exist_in_attack_area:
+		elif not base_enemy_node.players_exist_in_attack_area:
 			animation_node.play("walk")
 
 	last_frame = current_frame
@@ -127,8 +128,8 @@ func choose_player():
 
 	# target player with lowest health
 	for player_node in targetable_player_nodes:
-		if player_node.player_stats_node.health < target_player_health:
-			target_player_health = player_node.player_stats_node.health
+		if player_node.character_node.health < target_player_health:
+			target_player_health = player_node.character_node.health
 			target_player_node = player_node
 
 func summon_nousagi():
@@ -143,11 +144,14 @@ func summon_nousagi():
 	summon_cooldown_node.start(randf_range(15, 20))
 	summon_ready = false
 
+func dealt_knockback(_direction: Vector2, _weight: float = 1.0) -> void:
+	print("deal knockback here")
+
 func trigger_true_death():
 	var item
 	for i in 3:
-		item = CombatEntitiesComponent.base_item_load.instantiate()
-		CombatEntitiesComponent.pick_up_items_node.add_child(item)
+		item = base_item_load.instantiate()
+		Combat.pick_up_items_node.add_child(item)
 		item.instantiate_item("res://art/temp_shirakami.png", Vector2(2.0, 2.0), 0, 1000, true)
 		item.position = position + Vector2(5 * randf_range(-1, 1), 5 * randf_range(-1, 1)) * 5
 

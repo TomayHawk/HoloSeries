@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=4 uid="uid://cavwjdaqys1r6"]
 
-[ext_resource type="Script" path="res://scripts/scenes_scripts/dungeon_scene_1.gd" id="1_qkpt5"]
+[ext_resource type="Script" uid="uid://cpkslmonfa5n3" path="res://scripts/scenes_scripts/dungeon_scene_1.gd" id="1_qkpt5"]
 [ext_resource type="Texture2D" uid="uid://krbcbovqyxyj" path="res://art/tileSets/dungeon_1.png" id="2_wneuc"]
 [ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tileSets/physics.png" id="3_cfs1g"]
 [ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/enemy_specifics/nousagi.tscn" id="12_hviyt"]
@@ -185,18 +185,18 @@ tile_set = SubResource("TileSet_k5v2m")
 y_sort_enabled = true
 
 [node name="Chest" type="StaticBody2D" parent="WorldEntities"]
-scale = Vector2(1.25803, 1)
 collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldEntities/Chest"]
-position = Vector2(-280, -44.5)
+position = Vector2(-280, -44)
 shape = SubResource("RectangleShape2D_pan47")
 
 [node name="Enemies" type="Node2D" parent="."]
 y_sort_enabled = true
 
 [node name="Nousagi" parent="Enemies" instance=ExtResource("12_hviyt")]
+visible = false
 position = Vector2(-458, -15)
 
 [node name="WorldScene2Transit" type="Area2D" parent="."]

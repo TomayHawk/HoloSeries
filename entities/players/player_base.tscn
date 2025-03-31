@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://c5o6bi43j562b"]
+[gd_scene load_steps=7 format=3 uid="uid://c5o6bi43j562b"]
 
-[ext_resource type="Script" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_rapl1"]
-[ext_resource type="PackedScene" uid="uid://bba5o3t2xufxm" path="res://entities/players/player_stats_component.tscn" id="2_qqh8d"]
+[ext_resource type="Script" uid="uid://cmf3b5ufhosbk" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_rapl1"]
+[ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://resources/progress_bar_style/shield_progress_bar_fill.tres" id="3_48rhk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
 size = Vector2(16, 7)
@@ -11,19 +11,10 @@ size = Vector2(20, 29)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_swviq"]
 
-[sub_resource type="GDScript" id="GDScript_571to"]
-script/source = "extends Node2D
-
-@onready var player_node := get_parent()
-"
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r405m"]
 size = Vector2(16, 7)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hb5yx"]
-size = Vector2(10, 10)
-
-[node name="PlayerBase" type="CharacterBody2D" groups=["players", "players_alive"]]
+[node name="PlayerBase" type="CharacterBody2D"]
 y_sort_enabled = true
 collision_mask = 239
 input_pickable = true
@@ -42,60 +33,88 @@ shape = SubResource("RectangleShape2D_fbnw6")
 
 [node name="InteractionArea" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 38
+collision_mask = 36
 
 [node name="InteractionShape" type="CollisionShape2D" parent="InteractionArea"]
 position = Vector2(0, -7)
 scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_swviq")
 
-[node name="PlayerStatsComponent" parent="." instance=ExtResource("2_qqh8d")]
-
-[node name="PlayerAlly" type="Node2D" parent="."]
-script = SubResource("GDScript_571to")
-
-[node name="ObstacleCheck" type="ShapeCast2D" parent="PlayerAlly"]
-unique_name_in_owner = true
+[node name="ObstacleCheck" type="ShapeCast2D" parent="."]
 shape = SubResource("RectangleShape2D_r405m")
 target_position = Vector2(8, 0)
 collision_mask = 46
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="PlayerAlly"]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 unique_name_in_owner = true
-debug_enabled = true
 
-[node name="AllyMoveCooldown" type="Timer" parent="PlayerAlly"]
-unique_name_in_owner = true
-one_shot = true
+[node name="HealthBar" type="ProgressBar" parent="."]
+modulate = Color(0, 1, 0, 1)
+z_index = 1
+offset_left = -10.0
+offset_top = -29.0
+offset_right = 190.0
+offset_bottom = -9.0
+scale = Vector2(0.1, 0.1)
+max_value = 200.0
+value = 150.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
 
-[node name="AllyAttackCooldown" type="Timer" parent="PlayerAlly"]
-one_shot = true
+[node name="ShieldBar" type="ProgressBar" parent="."]
+z_index = 1
+offset_left = -10.0
+offset_top = -27.0
+offset_right = 190.0
+offset_bottom = -17.0
+scale = Vector2(0.1, 0.1)
+theme_override_font_sizes/font_size = 8
+theme_override_styles/fill = ExtResource("3_48rhk")
+max_value = 200.0
+value = 150.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
 
-[node name="AttackShape" type="ShapeCast2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(0, -7)
-shape = SubResource("RectangleShape2D_hb5yx")
-target_position = Vector2(20, 0)
-collision_mask = 34
-collide_with_areas = true
-collide_with_bodies = false
+[node name="ManaBar" type="ProgressBar" parent="."]
+modulate = Color(0.301961, 0.301961, 1, 1)
+z_index = 1
+offset_left = -10.0
+offset_top = 4.0
+offset_right = 190.0
+offset_bottom = 24.0
+scale = Vector2(0.1, 0.1)
+theme_override_font_sizes/font_size = 8
+max_value = 200.0
+value = 150.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
 
-[node name="AttackTimer" type="Timer" parent="."]
-wait_time = 0.5
+[node name="StaminaBar" type="ProgressBar" parent="."]
+modulate = Color(1, 0.501961, 0, 1)
+z_index = 1
+offset_left = -10.0
+offset_top = 6.0
+offset_right = 190.0
+offset_bottom = 21.0
+scale = Vector2(0.1, 0.1)
+theme_override_font_sizes/font_size = 8
+max_value = 200.0
+value = 150.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="AllyMoveCooldown" type="Timer" parent="."]
 one_shot = true
 
 [node name="KnockbackTimer" type="Timer" parent="."]
-unique_name_in_owner = true
 wait_time = 0.4
 one_shot = true
 
 [node name="DashTimer" type="Timer" parent="."]
-unique_name_in_owner = true
 wait_time = 0.2
 one_shot = true
 
 [node name="DeathTimer" type="Timer" parent="."]
-unique_name_in_owner = true
 wait_time = 0.5
 one_shot = true
 
@@ -104,9 +123,7 @@ one_shot = true
 [connection signal="mouse_exited" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_mouse_exited"]
 [connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
 [connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]
-[connection signal="timeout" from="PlayerAlly/AllyMoveCooldown" to="." method="_on_ally_move_cooldown_timeout"]
-[connection signal="timeout" from="PlayerAlly/AllyAttackCooldown" to="." method="_on_ally_attack_cooldown_timeout"]
-[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="AllyMoveCooldown" to="." method="_on_ally_move_cooldown_timeout"]
 [connection signal="timeout" from="KnockbackTimer" to="." method="_on_knockback_timer_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]
