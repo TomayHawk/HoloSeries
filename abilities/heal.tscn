@@ -2,6 +2,5 @@
 
 [ext_resource type="Script" uid="uid://4qfqwr3ahanr" path="res://scripts/abilities_scripts/heal.gd" id="1_w5388"]
 
-[node name="Heal" type="Node2D" groups=["abilities"]]
-position = Vector2(0, -1)
+[node name="Heal" type="Node"]
 script = ExtResource("1_w5388")

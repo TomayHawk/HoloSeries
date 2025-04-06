@@ -11,7 +11,7 @@ script = ExtResource("1_lbcq1")
 
 [node name="Abilities" type="Node" parent="."]
 
-[node name="PickUpItems" type="Node" parent="."]
+[node name="LootableItems" type="Node" parent="."]
 
 [node name="LeavingCombatTimer" type="Timer" parent="."]
 wait_time = 2.0

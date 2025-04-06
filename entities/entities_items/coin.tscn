@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://lpaf2w7822or"]
+
+[node name="Coin" type="RigidBody2D"]

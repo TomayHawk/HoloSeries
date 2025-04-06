@@ -1,27 +1,22 @@
 extends Area2D
 
-func _ready():
-	set_collision_values([], [[2, true]]) # masks enemies
+# COMPLETE
 
-# TODO: can put this somewhere else, maybe Combat
-# sets collision layers and masks
-func set_collision_values(layers: Array[Array], masks: Array[Array]) -> void:
-	# TODO: could move this to Combat
-	for layer in layers:
-		set_collision_layer_value(layer[0], layer[1])
-	for mask in masks:
-		set_collision_mask_value(mask[0], mask[1])
-
-# scales AOE area
-func scale_aoe_area(x: int, y: int) -> void:
-	$CollisionShape2D.scale = Vector2(x, y)
-
-# returns all nodes of a specific entity group in the AOE area
-func area_of_effect(entity_group: StringName) -> Array[Node2D]:
-	var entities_in_area: Array[Node2D] = []
-	
-	for entity in get_overlapping_bodies():
-		if entity.is_in_group(entity_group):
-			entities_in_area.push_back(entity)
-	
-	return entities_in_area
+# return nodes in AOE area
+# 1 = Players
+# 2 = Enemies
+# 3 = Players and Enemies
+func area_of_effect(collision_masks: int) -> Array[EntityBase]:
+	collision_mask = collision_masks
+	$CollisionShape2D.set_deferred(&"disabled", false)
+	await Global.tree.physics_frame
+	await Global.tree.physics_frame
+	var entity_nodes: Array[EntityBase] = []
+	print(collision_mask)
+	print(get_overlapping_bodies())
+	for entity_node in get_overlapping_bodies():
+		if ((entity_node is PlayerBase and entity_node.character_node and entity_node.character_node.alive) or
+				(entity_node is EnemyBase and entity_node.enemy_stats_node and entity_node.enemy_stats_node.alive)):
+			entity_nodes.push_back(entity_node)
+	$CollisionShape2D.set_deferred(&"disabled", true)
+	return entity_nodes

@@ -13,7 +13,7 @@ var nexus_stats_qualities: Array[int] = []
 func change_scene(next_scene_path: String, next_position: Vector2, camera_limits: Array[int], bgm_path: String) -> void:
 	get_tree().call_deferred("change_scene_to_file", next_scene_path)
 	
-	Entities.reset_entity_request()
+	Entities.end_entities_request()
 	Combat.clear_combat_entities()
 	Combat.leave_combat()
 

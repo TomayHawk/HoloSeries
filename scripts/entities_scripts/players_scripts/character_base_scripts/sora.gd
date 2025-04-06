@@ -20,13 +20,13 @@ func ally_process() -> void:
 		var target_enemy_node: Node = null
 		var enemy_health := INF
 		for enemy_node in player_node.enemy_nodes_in_attack_area:
-			if enemy_node.base_enemy_node.health < enemy_health:
-				enemy_health = enemy_node.base_enemy_node.health
+			if enemy_node.enemy_stats_node.health < enemy_health:
+				enemy_health = enemy_node.enemy_stats_node.health
 				target_enemy_node = enemy_node
 		
 		# attack if able
 		if player_node.attack_state == player_node.AttackState.READY: # TODO: might have to change
-			player_node.set_attack_state(player_node.AttackState.ATTACKING)
+			player_node.set_attack_state(player_node.AttackState.ATTACK)
 		# else face towards enemy
 		else:
 			var enemy_direction = (target_enemy_node.position - player_node.position).normalized()
@@ -40,7 +40,7 @@ func ally_process() -> void:
 			else:
 				player_node.set_move_direction(player_node.Directions.RIGHT)
 	# if ally can move
-	elif player_node.ally_can_move and player_node.attack_state != player_node.AttackState.ATTACKING:
+	elif player_node.ally_can_move and player_node.attack_state != player_node.AttackState.ATTACK:
 		var target_direction := Vector2.ZERO
 		player_node.ally_can_move = false
 
@@ -120,7 +120,10 @@ func ally_process() -> void:
 
 func update_nodes():
 	super ()
-	# TODO
+	if get_parent() is PlayerBase:
+		Combat.ui.name_labels[node_index].text = character_name
+	else:
+		Combat.ui.standby_name_labels[node_index].text = character_name
 
 func basic_attack():
 	if ultimate_gauge == max_ultimate_gauge:
@@ -131,8 +134,8 @@ func basic_attack():
 	else:
 		var temp_enemy_health = INF
 		for enemy_node in get_parent().enemy_nodes_in_attack_area:
-			if enemy_node.base_enemy_node.health < temp_enemy_health:
-				temp_enemy_health = enemy_node.base_enemy_node.health
+			if enemy_node.enemy_stats_node.health < temp_enemy_health:
+				temp_enemy_health = enemy_node.enemy_stats_node.health
 				get_parent().attack_direction = (enemy_node.position - get_parent().position).normalized()
 		get_parent().ally_can_attack = false
 		$AllyAttackCooldown.start(randf_range(2, 3))
@@ -165,7 +168,7 @@ func basic_attack_register():
 			enemy_body = $AttackShape.get_collider(collision_index).get_parent() # TODO: null instance bug need fix
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
-					self, enemy_body.base_enemy_node):
+					self, enemy_body.enemy_stats_node):
 				enemy_body.dealt_knockback(get_parent().attack_direction, knockback_weight)
 		Players.camera_node.screen_shake(0.1, 1, 30, 5, true)
 
@@ -176,8 +179,8 @@ func ultimate_attack():
 	else:
 		var temp_enemy_health = INF
 		for enemy_node in get_parent().enemy_nodes_in_attack_area:
-			if enemy_node.base_enemy_node.health < temp_enemy_health:
-				temp_enemy_health = enemy_node.base_enemy_node.health
+			if enemy_node.enemy_stats_node.health < temp_enemy_health:
+				temp_enemy_health = enemy_node.enemy_stats_node.health
 				get_parent().attack_direction = (enemy_node.position - get_parent().position).normalized()
 		get_parent().ally_can_attack = false
 		$AllyAttackCooldown.start(randf_range(2, 3))
@@ -208,7 +211,7 @@ func ultimate_attack_register():
 			enemy_body = $AttackShape.get_collider(collision_index).get_parent()
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
-					self, enemy_body.base_enemy_node):
+					self, enemy_body.enemy_stats_node):
 				enemy_body.dealt_knockback(get_parent().attack_direction, knockback_weight)
 		Players.camera_node.screen_shake(0.3, 10, 30, 100, true)
 

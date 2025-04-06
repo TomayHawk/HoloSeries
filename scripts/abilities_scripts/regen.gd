@@ -1,8 +1,4 @@
-extends Node2D
-
-@onready var caster_node: Node = Players.main_player_node
-
-@onready var regen_timer_node := %Timer
+extends Node
 
 const DAMAGE_TYPES: int = \
 		Damage.DamageTypes.PLAYER_HIT \
@@ -11,47 +7,33 @@ const DAMAGE_TYPES: int = \
 		| Damage.DamageTypes.NO_CRITICAL \
 		| Damage.DamageTypes.NO_MISS
 
-const mana_cost := 20
-# 7 times
-var regen_count := 7
-# 2% each time
-const heal_percentage := 0.02
-# total: 14% over 28 seconds
+var mana_cost: float = 20
+var heal_percentage: float = 0.02
+var regen_count: int = 7
 # TODO: need to add stats multipliers
 
-signal entities_chosen
+@onready var caster_node: EntityBase = Players.main_player_node
 
 func _ready():
-	hide()
-
-	connect("entities_chosen", Callable(self, "initiate_regen"))
-
 	# request target entity
-	Entities.request_entities(self, [Entities.Type.PLAYERS_PARTY_ALIVE])
-	
-	if Entities.entities_available.size() == 0:
-		queue_free()
+	Entities.entities_request_ended.connect(entity_chosen)
+	Entities.request_entities([Entities.Type.PLAYERS_ALIVE])
+
 	# if alt is pressed, auto-aim player with lowest health
-	elif Input.is_action_pressed(&"alt"):
-		Entities.target_entity("health", caster_node)
+	if Input.is_action_pressed(&"alt"):
+		Entities.target_entity_by_stats("health", Entities.entities_available, false, true)
 
-func initiate_regen(chosen_node):
-	# check caster status and mana sufficiency
-	if caster_node.character_node.mana < mana_cost or not caster_node.character_node.alive:
-		queue_free()
-	else:
+func entity_chosen(chosen_nodes: Array[EntityBase]):
+	var target_node: EntityBase = null if chosen_nodes.is_empty() else chosen_nodes[0]
+	Entities.entities_request_ended.disconnect(entity_chosen)
+	# apply regen if node chosen, caster is alive and caster has enough mana
+	if target_node and caster_node.character_node.alive and caster_node.character_node.mana >= mana_cost:
 		caster_node.character_node.update_mana(-mana_cost)
-		var effect: Resource = chosen_node.character_node.add_status(Entities.Status.REGEN)
-		chosen_node.character_node.effects_timers[-1] = 4.0
-		effect.regen_settings(
-			DAMAGE_TYPES,
-			chosen_node.character_node,
-			clamp(chosen_node.character_node.max_health * heal_percentage, 10, 210), # 70 HP to 1470 HP (max at 7000 HP)
-			4.0,
-			regen_count,
-			0.8,
-			1.2,
-		)
+		var effect: Resource = target_node.character_node.add_status(Entities.Status.REGEN)
+		# 70 HP to 1470 HP (max at 7000 HP)
+		effect.regen_settings(DAMAGE_TYPES, target_node.character_node,
+				clamp(target_node.character_node.max_health * heal_percentage, 10.0, 210.0),
+				4.0, regen_count, 0.8, 1.2)
+		target_node.character_node.effects_timers[-1] = 4.0
 
-func ability_request_failed() -> void:
 	queue_free()

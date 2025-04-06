@@ -1,0 +1,189 @@
+[gd_scene load_steps=13 format=3 uid="uid://cjuro6l8pppiv"]
+
+[ext_resource type="Script" uid="uid://dq2b7mo1fv32b" path="res://scripts/user_interfaces_scripts/inventory_ui.gd" id="1_f2j56"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_focus.tres" id="2_qi3e4"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_hover.tres" id="3_16ksu"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="4_qlyti"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="5_gw8i1"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_g5cvp"]
+load_path = "res://.godot/imported/Untitled_Artwork (1).png-2d67e5c10c894bcd32baa9489513a2f6.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1p378"]
+load_path = "res://.godot/imported/Untitled_Artwork (1).png-2d67e5c10c894bcd32baa9489513a2f6.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_b77oo"]
+load_path = "res://.godot/imported/Untitled_Artwork (1).png-2d67e5c10c894bcd32baa9489513a2f6.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_aejbw"]
+load_path = "res://.godot/imported/Untitled_Artwork (1).png-2d67e5c10c894bcd32baa9489513a2f6.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0574c"]
+load_path = "res://.godot/imported/Untitled_Artwork (1).png-2d67e5c10c894bcd32baa9489513a2f6.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wke3u"]
+load_path = "res://.godot/imported/Untitled_Artwork (1).png-2d67e5c10c894bcd32baa9489513a2f6.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_i302l"]
+load_path = "res://.godot/imported/Untitled_Artwork (1).png-2d67e5c10c894bcd32baa9489513a2f6.ctex"
+
+[node name="InventoryUi" type="CanvasLayer"]
+layer = 20
+script = ExtResource("1_f2j56")
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 64.0
+offset_top = 32.0
+offset_right = 576.0
+offset_bottom = 328.0
+
+[node name="CategoryMarginContainer" type="MarginContainer" parent="."]
+offset_left = 96.0
+offset_top = 48.0
+offset_right = 467.0
+offset_bottom = 95.0
+
+[node name="Panel" type="Panel" parent="CategoryMarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CategoryMarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ConsumablesTextureButton" type="TextureButton" parent="CategoryMarginContainer/HBoxContainer"]
+layout_mode = 2
+texture_normal = SubResource("CompressedTexture2D_g5cvp")
+
+[node name="MaterialsTextureButton" type="TextureButton" parent="CategoryMarginContainer/HBoxContainer"]
+layout_mode = 2
+texture_normal = SubResource("CompressedTexture2D_1p378")
+
+[node name="WeaponsTextureButton" type="TextureButton" parent="CategoryMarginContainer/HBoxContainer"]
+layout_mode = 2
+texture_normal = SubResource("CompressedTexture2D_b77oo")
+
+[node name="ArmorsTextureButton" type="TextureButton" parent="CategoryMarginContainer/HBoxContainer"]
+layout_mode = 2
+texture_normal = SubResource("CompressedTexture2D_aejbw")
+
+[node name="AccessoriesTextureButton" type="TextureButton" parent="CategoryMarginContainer/HBoxContainer"]
+layout_mode = 2
+texture_normal = SubResource("CompressedTexture2D_0574c")
+
+[node name="NexusTextureButton" type="TextureButton" parent="CategoryMarginContainer/HBoxContainer"]
+layout_mode = 2
+texture_normal = SubResource("CompressedTexture2D_wke3u")
+
+[node name="TextureButton" type="TextureButton" parent="CategoryMarginContainer/HBoxContainer"]
+layout_mode = 2
+texture_normal = SubResource("CompressedTexture2D_i302l")
+
+[node name="ItemsMarginContainer" type="MarginContainer" parent="."]
+offset_left = 96.0
+offset_top = 95.0
+offset_right = 416.0
+offset_bottom = 328.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="Panel" type="Panel" parent="ItemsMarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ItemsMarginContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="GridContainer" type="GridContainer" parent="ItemsMarginContainer/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 3
+
+[node name="Button" type="Button" parent="ItemsMarginContainer/ScrollContainer/GridContainer"]
+custom_minimum_size = Vector2(96, 16)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("2_qi3e4")
+theme_override_styles/hover = ExtResource("3_16ksu")
+theme_override_styles/pressed = ExtResource("4_qlyti")
+theme_override_styles/normal = ExtResource("5_gw8i1")
+text = " "
+clip_text = true
+
+[node name="Button2" type="Button" parent="ItemsMarginContainer/ScrollContainer/GridContainer"]
+custom_minimum_size = Vector2(96, 16)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("2_qi3e4")
+theme_override_styles/hover = ExtResource("3_16ksu")
+theme_override_styles/pressed = ExtResource("4_qlyti")
+theme_override_styles/normal = ExtResource("5_gw8i1")
+text = " "
+clip_text = true
+
+[node name="Button3" type="Button" parent="ItemsMarginContainer/ScrollContainer/GridContainer"]
+custom_minimum_size = Vector2(96, 16)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("2_qi3e4")
+theme_override_styles/hover = ExtResource("3_16ksu")
+theme_override_styles/pressed = ExtResource("4_qlyti")
+theme_override_styles/normal = ExtResource("5_gw8i1")
+text = " "
+clip_text = true
+
+[node name="Button4" type="Button" parent="ItemsMarginContainer/ScrollContainer/GridContainer"]
+custom_minimum_size = Vector2(96, 16)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("2_qi3e4")
+theme_override_styles/hover = ExtResource("3_16ksu")
+theme_override_styles/pressed = ExtResource("4_qlyti")
+theme_override_styles/normal = ExtResource("5_gw8i1")
+text = " "
+clip_text = true
+
+[node name="MarginContainer" type="MarginContainer" parent="ItemsMarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="DetailsMarginContainer" type="MarginContainer" parent="."]
+offset_left = 416.0
+offset_top = 48.0
+offset_right = 544.0
+offset_bottom = 328.0
+
+[node name="Panel" type="Panel" parent="DetailsMarginContainer"]
+layout_mode = 2
+
+[node name="ImageMarginContainer" type="MarginContainer" parent="DetailsMarginContainer"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="DetailsMarginContainer/ImageMarginContainer"]
+layout_mode = 2
+
+[node name="DescriptionMarginContainer" type="MarginContainer" parent="DetailsMarginContainer"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="DetailsMarginContainer/DescriptionMarginContainer"]
+layout_mode = 2
+
+[node name="StatsMarginContainer" type="MarginContainer" parent="DetailsMarginContainer"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="DetailsMarginContainer/StatsMarginContainer"]
+layout_mode = 2

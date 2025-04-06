@@ -83,7 +83,6 @@ func attempt_remove_status(type: Entities.Status) -> void:
 	for effect in effects:
 		if effect.effect_type == type:
 			return
-
 	status &= ~type
 	if status == 0:
 		set_process(false)

@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cc4iyosf7xy6a"]
-
-[ext_resource type="Script" uid="uid://b8nlb1gxfy5sy" path="res://scripts/abilities_scripts/abilities_components_scripts/basic_projectile.gd" id="1_8nki2"]
-
-[node name="BasicProjectile" type="Node"]
-script = ExtResource("1_8nki2")

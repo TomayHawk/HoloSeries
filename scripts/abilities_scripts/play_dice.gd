@@ -25,13 +25,13 @@ func _ready():
 	connect("entities_chosen", Callable(self, "initiate_play_dice"))
 
 	# request target entity
-	Entities.request_entities(self, [Entities.Type.ENEMIES_ON_SCREEN])
+	Entities.request_entities([Entities.Type.ENEMIES_ON_SCREEN])
 	
-	if Entities.entities_available.size() == 0:
+	if Entities.entities_available.is_empty():
 		queue_free()
 	# if alt is pressed, auto-aim closest enemy
 	elif Input.is_action_pressed(&"alt") and Entities.entities_available.size() != 0:
-		Entities.target_entity("distance_least", caster_node)
+		Entities.target_entity_by_distance(caster_node.position, Entities.entities_available, false, true)
 	
 func initiate_play_dice(chosen_node):
 	# check caster status and mana sufficiency
@@ -55,10 +55,10 @@ func initiate_play_dice(chosen_node):
 			# TODO: want to accelerate for each iteration
 			interval_timer.start()
 			Damage.combat_damage(dice_damage, DAMAGE_TYPES,
-					caster_node.character_node, chosen_node.base_enemy_node)
+					caster_node.character_node, chosen_node.enemy_stats_node)
 			await interval_timer.timeout
 
 	queue_free()
 
-func ability_request_failed() -> void:
+func entities_request_failed() -> void:
 	queue_free()

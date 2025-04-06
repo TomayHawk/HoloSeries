@@ -153,15 +153,19 @@ func load_save(save_index: int = last_save) -> void:
 		[1, 377.0, 36.0, 100.0, 3.0, 13.0, 4.0, 18.0, 1.0, 1.0, 0.05, 0.50],
 	]
 
+	var node_index: int = 0
 	# create party players
-	for i in 4:
-		var character_index: int = saves[save_index]["party"][i]
-		if character_index == -1: continue
+	for character_index in saves[save_index]["party"]:
+		if character_index == -1:
+			Combat.ui.name_labels[node_index].get_parent().modulate.a = 0.0
+			node_index += 1
+			continue
 		
 		var player_node: Node = load(BASE_PLAYER_PATH).instantiate()
 		player_node.add_child(load(CHARACTER_BASE_PATH[character_index]).instantiate())
 		Players.party_node.add_child(player_node)
 		
+		player_node.character_node.node_index = node_index
 		player_node.character_node.level = DEFAULT_STATS[character_index][0]
 		player_node.character_node.base_health = DEFAULT_STATS[character_index][1]
 		player_node.character_node.base_mana = DEFAULT_STATS[character_index][2]
@@ -174,9 +178,8 @@ func load_save(save_index: int = last_save) -> void:
 		player_node.character_node.base_agility = DEFAULT_STATS[character_index][9]
 		player_node.character_node.base_crit_chance = DEFAULT_STATS[character_index][10]
 		player_node.character_node.base_crit_damage = DEFAULT_STATS[character_index][11]
-		
-		player_node.character_node.reset_stats()
-		Combat.ui.character_name_label_nodes[Players.party_node.get_children().size() - 1].text = player_node.character_node.character_name
+		player_node.character_node.reset_stats() # TODO
+		player_node.character_node.update_nodes() # TODO
 
 		# position character and determine main player node
 		player_node.position = saves[save_index]["main_player_position"]
@@ -186,11 +189,17 @@ func load_save(save_index: int = last_save) -> void:
 			Players.camera_node.new_parent(player_node)
 		else:
 			player_node.position += (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
+		
+		node_index += 1
 	
+	node_index = 0
+
 	# TODO: need to hide standbys
 	for character_index in saves[save_index]["standby"]:
 		var character_node: Node = load(CHARACTER_BASE_PATH[character_index]).instantiate()
 		Players.standby_node.add_child(character_node)
+
+		character_node.node_index = node_index
 		character_node.level = DEFAULT_STATS[character_index][0]
 		character_node.base_health = DEFAULT_STATS[character_index][1]
 		character_node.base_mana = DEFAULT_STATS[character_index][2]
@@ -203,16 +212,25 @@ func load_save(save_index: int = last_save) -> void:
 		character_node.base_agility = DEFAULT_STATS[character_index][9]
 		character_node.base_crit_chance = DEFAULT_STATS[character_index][10]
 		character_node.base_crit_damage = DEFAULT_STATS[character_index][11]
-		character_node.reset_stats()
 
-	# hide unused character info slots
-	for i in 4:
-		if i >= Players.party_node.get_children().size():
-			Combat.ui.players_info_nodes[i].hide()
-			Combat.ui.ultimate_progress_bar_nodes[i].hide()
-			Combat.ui.shield_progress_bar_nodes[i].hide()
+		var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui_character_button.tscn").instantiate()
+		Combat.ui.get_node(^"CharacterSelector/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer").add_child(standby_button)
+		standby_button.pressed.connect(Players.update_standby_player.bind(standby_button.get_index()))
+		standby_button.pressed.connect(Combat.ui.button_pressed)
+		standby_button.mouse_entered.connect(Combat.ui._on_control_mouse_entered)
+		standby_button.mouse_exited.connect(Combat.ui._on_control_mouse_exited)
+		
+		Combat.ui.standby_name_labels.push_back(standby_button.get_node(^"Name"))
+		Combat.ui.standby_level_labels.push_back(standby_button.get_node(^"Level"))
+		Combat.ui.standby_health_labels.push_back(standby_button.get_node(^"HealthAmount"))
+		Combat.ui.standby_mana_labels.push_back(standby_button.get_node(^"ManaAmount"))
 
-	Combat.ui.update_character_selector()
+		character_node.reset_stats() # TODO
+		character_node.update_nodes() # TODO
+
+		node_index += 1
+
+	Inputs.mouse_in_attack_position = true
 	Inputs.combat_inputs_enabled = true
 
 	Global.start_bgm("res://music/asmarafulldemo.mp3")

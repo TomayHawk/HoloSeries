@@ -1,6 +1,8 @@
 class_name PlayerStats extends EntityStats
 
-var party_index: int = -1
+var entity_types: int = 0
+
+var node_index: int = -1
 var stamina_slow_recovery: bool = false
 
 # combat variables
@@ -31,14 +33,43 @@ func _physics_process(_delta: float) -> void:
 
 func update_nodes() -> void:
 	position = Vector2.ZERO
-
-	if get_parent() is CharacterBody2D:
+	
+	update_stats()
+	
+	if get_parent() is PlayerBase:
 		name = &"CharacterBase"
-		get_parent().character_node = self
-		get_parent().set_attack_state(get_parent().AttackState.READY)
-		get_parent().update_velocity(Vector2.ZERO)
+		var player_node: PlayerBase = get_parent()
+		# movement variables
+		player_node.walk_speed = 70.0
+		player_node.sprint_multiplier = 1.25
+		player_node.sprint_stamina = 0.8
+		player_node.dash_multiplier = 8.0
+		player_node.dash_stamina = 35.0
+		player_node.dash_minimum_stamina = 25.0
+		player_node.dash_time = 0.2
+		player_node.attack_movement_multiplier = 0.3
+
+		# ally variables
+		player_node.ally_can_move = true
+		player_node.ally_can_attack = true
+		player_node.ally_in_attack_position = false
+
+		# knockback variables
+		player_node.knockback_direction = Vector2.ZERO
+		player_node.knockback_weight = 0.0
+		player_node.character_node = self
+		player_node.walk_speed = 140 + speed * 0.5
+		player_node.dash_stamina = 35 - (agility * 0.0625)
+		player_node.sprint_stamina = 0.8 - (agility * 0.00048828125)
+		player_node.dash_time = 0.2 * (1 - (agility * 0.001953125)) # minimum 0.1s dash time
+		player_node.update_velocity(Vector2.ZERO)
+		player_node.set_attack_state(get_parent().AttackState.READY)
+		# TODO: player_node.ally_speed = 60 + (30 * speed)
+		# player_node.dash_speed = 300 + (150 * speed)
 	else:
-		party_index = -1
+		Combat.ui.standby_level_labels[node_index].text = str(level)
+		Combat.ui.standby_health_labels[node_index].text = str(int(health))
+		Combat.ui.standby_mana_labels[node_index].text = str(int(mana))
 
 func reset_stats() -> void:
 	update_stats() # TODO
@@ -71,21 +102,11 @@ func update_stats():
 	base_vision = 1.0
 	vision = 1.0
 
-	if get_parent() is PlayerBase:
-		get_parent().walk_speed = 140 + speed * 0.5
-		get_parent().dash_stamina = 35 - (agility * 0.0625)
-		get_parent().sprint_stamina = 0.8 - (agility * 0.00048828125)
-		get_parent().dash_time = 0.2 * (1 - (agility * 0.001953125)) # minimum 0.1s dash time
-		# TODO: get_parent().ally_speed = 60 + (30 * speed)
-		# get_parent().dash_speed = 300 + (150 * speed)
-
-		# update stats
-		party_index = get_parent().get_index()
-		update_health(0.0)
-		update_mana(0)
-		update_stamina(0)
-		Combat.ui.ultimate_progress_bar_nodes[party_index].max_value = max_ultimate_gauge
-		Combat.ui.shield_progress_bar_nodes[party_index].max_value = max_shield
+	update_health(0.0)
+	update_mana(0.0)
+	update_stamina(0.0)
+	update_ultimate_gauge(0.0)
+	update_shield(0.0)
 
 func update_health(value: float) -> void:
 	if not alive or (value < 0 and has_status(Entities.Status.INVINCIBLE)):
@@ -97,10 +118,10 @@ func update_health(value: float) -> void:
 	# update health bar & ui health label & knockback
 	if get_parent() is PlayerBase:
 		get_parent().update_health_bar(health, max_health)
-		Combat.ui.update_health_label(party_index, health)
+		Combat.ui.health_labels[node_index].text = str(int(health))
 
 	# add invincibility if damage dealt
-	if value < 0:
+	if value < 0.0:
 		add_status(Entities.Status.INVINCIBLE)
 
 	# handle death
@@ -116,7 +137,7 @@ func update_mana(value: float) -> void:
 	# update mana bar
 	if get_parent() is PlayerBase:
 		get_parent().update_mana_bar(mana, max_mana)
-		Combat.ui.update_mana_label(party_index, mana)
+		Combat.ui.mana_labels[node_index].text = str(int(mana))
 
 	if mana < max_mana: set_physics_process(true)
 
@@ -149,8 +170,9 @@ func update_ultimate_gauge(value: float) -> void:
 	
 	# update ultimate gauge bar
 	if get_parent() is PlayerBase:
-		Combat.ui.ultimate_progress_bar_nodes[party_index].value = ultimate_gauge
-		Combat.ui.ultimate_progress_bar_nodes[party_index].modulate.g = (130.0 - ultimate_gauge) / max_ultimate_gauge
+		Combat.ui.ultimate_progress_bars[node_index].value = ultimate_gauge
+		Combat.ui.ultimate_progress_bars[node_index].max_value = max_ultimate_gauge
+		Combat.ui.ultimate_progress_bars[node_index].modulate.g = (130.0 - ultimate_gauge) / max_ultimate_gauge
 
 func update_shield(value: float) -> void:
 	if not alive: return
@@ -161,7 +183,8 @@ func update_shield(value: float) -> void:
 	# update shield bar
 	if get_parent() is PlayerBase:
 		get_parent().update_shield_bar(shield, max_shield)
-		Combat.ui.shield_progress_bar_nodes[party_index].value = shield
+		Combat.ui.shield_progress_bars[node_index].value = shield
+		Combat.ui.shield_progress_bars[node_index].max_value = max_shield
 
 func trigger_death() -> void:
 	alive = false
@@ -178,15 +201,8 @@ func trigger_death() -> void:
 	# TODO: get_parent().ally_direction_ready = true
 	# TODO: get_parent().attacking = false
 
-func revive(value: float = 0) -> void: # TODO: doesn't need default value
+func revive(value: float) -> void: # TODO: doesn't need default value
 	alive = true
 	update_health(value)
-	play("up_idle")
-
-	if get_parent() is PlayerBase:
-		get_parent().set_physics_process(true)
-		get_parent().update_health_bar(health, max_health)
-		get_parent().update_mana_bar(mana, max_mana)
-		get_parent().update_stamina_bar(stamina, max_stamina)
-		Combat.ui.update_health_label(party_index, health)
-		Combat.ui.update_mana_label(party_index, mana)
+	update_stats()
+	play("down_idle")

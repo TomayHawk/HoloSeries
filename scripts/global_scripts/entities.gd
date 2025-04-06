@@ -1,23 +1,15 @@
 extends Node
 
+signal entities_request_ended(entity_nodes: Array[EntityBase])
+
 enum Type {
-	PLAYERS,
-	PLAYERS_MAIN,
-	PLAYERS_ALLIES,
-	PLAYERS_PARTY,
-	PLAYERS_STANDBY,
-	PLAYERS_ALIVE,
-	PLAYERS_PARTY_ALIVE,
-	PLAYERS_STANDBY_ALIVE,
-	PLAYERS_DEAD,
-	PLAYERS_PARTY_DEAD,
-	PLAYERS_STANDBY_DEAD,
-	ENEMIES,
-	ENEMIES_BASIC,
-	ENEMIES_ELITE,
-	ENEMIES_BOSSES,
-	ENEMIES_IN_COMBAT,
-	ENEMIES_ON_SCREEN,
+	PLAYERS = 1 << 0,
+	PLAYERS_ALLIES = 1 << 1,
+	PLAYERS_ALIVE = 1 << 2,
+	PLAYERS_DEAD = 1 << 3,
+	ENEMIES = 1 << 4,
+	ENEMIES_IN_COMBAT = 1 << 5,
+	ENEMIES_ON_SCREEN = 1 << 6,
 }
 
 enum Status {
@@ -41,7 +33,26 @@ enum Status {
 	TAUNT = 1 << 17,
 }
 
-var effect_resources := {
+const ENTITY_LIMIT: int = 200
+
+var entities_of_type: Dictionary[Type, Callable] = {
+	Type.PLAYERS: func() -> Array[Node]:
+		return Players.party_node.get_children(),
+	Type.PLAYERS_ALLIES: func() -> Array[Node]:
+		return Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.is_main_player),
+	Type.PLAYERS_ALIVE: func() -> Array[Node]:
+		return Players.party_node.get_children().filter(func(node: Node) -> bool: return node.character_node.alive),
+	Type.PLAYERS_DEAD: func() -> Array[Node]:
+		return Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.character_node.alive),
+	Type.ENEMIES: func() -> Array[Node]:
+		return Global.tree.current_scene.get_node(^"Enemies").get_children(),
+	Type.ENEMIES_IN_COMBAT: func() -> Array[Node]:
+		return Combat.enemy_nodes_in_combat,
+	Type.ENEMIES_ON_SCREEN: func() -> Array[Node]: # TODO: should not use groups
+		return Global.tree.current_scene.get_node(^"Enemies").get_children().filter(func(node: Node) -> bool: return node.is_in_group("enemies_on_screen")),
+}
+
+var effect_resources: Dictionary[Status, Resource] = {
 	Status.BERSERK: load("res://scripts/effects_scripts/berserk.gd"),
 	Status.BLINDNESS: load("res://scripts/effects_scripts/blindness.gd"),
 	Status.CHARM: load("res://scripts/effects_scripts/charm.gd"),
@@ -62,247 +73,116 @@ var effect_resources := {
 	Status.TAUNT: load("res://scripts/effects_scripts/taunt.gd"),
 }
 
-const PLAYER_HIGHLIGHT: PackedScene = preload("res://resources/entity_highlights/player_highlight.tscn")
-const ENEMY_HIGHLIGHT: PackedScene = preload("res://resources/entity_highlights/enemy_highlight.tscn")
-
-var entities_of_type: Dictionary[Type, Callable] = {
-	Type.PLAYERS_MAIN: func() -> Array[Node]:
-		return [Players.main_player_node],
-	Type.PLAYERS_ALLIES: func() -> Array[Node]:
-		return Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.is_main_player),
-	Type.PLAYERS_PARTY: func() -> Array[Node]:
-		return Players.party_node.get_children(),
-	Type.PLAYERS_PARTY_ALIVE: func() -> Array[Node]:
-		return Players.party_node.get_children().filter(func(node: Node) -> bool: return node.character_node.alive),
-	Type.PLAYERS_PARTY_DEAD: func() -> Array[Node]:
-		return Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.character_node.alive),
-	Type.ENEMIES: func() -> Array[Node]:
-		return Global.tree.current_scene.get_node(^"Enemies").get_children(),
-	Type.ENEMIES_BASIC: func() -> Array[Node]:
-		return Global.tree.current_scene.get_node(^"Enemies").get_children().filter(func(node: Node) -> bool: return node is BasicEnemyBase),
-	Type.ENEMIES_ELITE: func() -> Array[Node]:
-		return Global.tree.current_scene.get_node(^"Enemies").get_children().filter(func(node: Node) -> bool: return node is EliteEnemyBase),
-	Type.ENEMIES_BOSSES: func() -> Array[Node]:
-		return Global.tree.current_scene.get_node(^"Enemies").get_children().filter(func(node: Node) -> bool: return node is BossEnemyBase),
-	Type.ENEMIES_IN_COMBAT: func() -> Array[Node]:
-		return Combat.enemy_nodes_in_combat,
-	Type.ENEMIES_ON_SCREEN: func() -> Array[Node]: # TODO: should not use groups
-		return Global.tree.current_scene.get_node(^"Enemies").get_children().filter(func(node: Node) -> bool: return node.is_in_group("on_screen")),
-}
-
-var entity_stats_of_type: Dictionary[Type, Callable] = {
-	Type.PLAYERS: func() -> Array[Node]:
-		return entity_stats_of_type[Type.PLAYERS_PARTY].call() + entity_stats_of_type[Type.PLAYERS_STANDBY].call(),
-	Type.PLAYERS_MAIN: func() -> Array[Node]:
-		return [Players.main_player_node.character_node],
-	Type.PLAYERS_ALLIES: func() -> Array[Node]:
-		return entity_stats_of_type[Type.PLAYERS_PARTY].call().filter(func(node: Node) -> bool: return not node.get_parent().is_main_player),
-	Type.PLAYERS_PARTY: func() -> Array[Node]:
-		var entities_stats: Array[Node] = []
-		var nodes: Array[Node] = Players.party_node.get_children()
-		for player_node in nodes:
-			entities_stats.push_back(player_node.character_node)
-		return entities_stats,
-	Type.PLAYERS_STANDBY: func() -> Array[Node]:
-		return Players.standby_node.get_children(),
-	Type.PLAYERS_ALIVE: func() -> Array[Node]:
-		return entity_stats_of_type[Type.PLAYERS].call().filter(func(node: Node) -> bool: return node.alive),
-	Type.PLAYERS_PARTY_ALIVE: func() -> Array[Node]:
-		return entity_stats_of_type[Type.PLAYERS_PARTY].call().filter(func(node: Node) -> bool: return node.alive),
-	Type.PLAYERS_STANDBY_ALIVE: func() -> Array[Node]:
-		return entity_stats_of_type[Type.PLAYERS_STANDBY].call().filter(func(node: Node) -> bool: return node.alive),
-	Type.PLAYERS_DEAD: func() -> Array[Node]:
-		return entity_stats_of_type[Type.PLAYERS].call().filter(func(node: Node) -> bool: return not node.alive),
-	Type.PLAYERS_PARTY_DEAD: func() -> Array[Node]:
-		return entity_stats_of_type[Type.PLAYERS_PARTY].call().filter(func(node: Node) -> bool: return not node.alive),
-	Type.PLAYERS_STANDBY_DEAD: func() -> Array[Node]:
-		return entity_stats_of_type[Type.PLAYERS_STANDBY].call().filter(func(node: Node) -> bool: return not node.alive),
-	Type.ENEMIES: func() -> Array[Node]:
-		var entities_stats: Array[Node] = []
-		var nodes: Array[Node] = Global.tree.current_scene.get_node(^"Enemies").get_children()
-		for enemy_node in nodes:
-			entities_stats.push_back(enemy_node.base_enemy_node)
-		return entities_stats,
-	Type.ENEMIES_BASIC: func() -> Array[Node]:
-		return entity_stats_of_type[Type.ENEMIES].call().filter(func(node: Node) -> bool: return node.get_parent() is BasicEnemyBase),
-	Type.ENEMIES_ELITE: func() -> Array[Node]:
-		return entity_stats_of_type[Type.ENEMIES].call().filter(func(node: Node) -> bool: return node.get_parent() is EliteEnemyBase),
-	Type.ENEMIES_BOSSES: func() -> Array[Node]:
-		return entity_stats_of_type[Type.ENEMIES].call().filter(func(node: Node) -> bool: return node.get_parent() is BossEnemyBase),
-	Type.ENEMIES_IN_COMBAT: func() -> Array[Node]: # TODO: consider using enemy variables
-		var entities_stats: Array[Node] = []
-		for enemy_node in Combat.enemy_nodes_in_combat:
-			entities_stats.push_back(enemy_node.base_enemy_node)
-		return entities_stats,
-	Type.ENEMIES_ON_SCREEN: func() -> Array[Node]: # TODO: should not use groups
-		return entity_stats_of_type[Type.ENEMIES].call().filter(func(node: Node) -> bool: return node.get_parent().is_in_group("on_screen")),
-}
-
 var requesting_entities: bool = false
-var requester_node: Node = null
 var entities_requested_count: int = 0
 var entities_available: Array[Node] = []
-var entities_chosen: Array[Node] = []
+var entities_chosen: Array[EntityBase] = []
 
-# TODO: need to complete implementation
-#func target_entity_by_quantity(nodes: Array[Node], quality: Qualities, get_max: bool, for_request: bool = false) -> Node:
-#	var target_node: Node = null
-#	var best_quality: float = - INF if get_max else INF
-#
-#	for node: Node in nodes:
-#		if not is_instance_valid(node):
-#			continue
-#		if for_request and not entities_available.has(node):
-#			continue
-#		if (get_max and node.stats[quality] > best_quality) or (node.stats[quality] < best_quality):
-#			target_node = node
-#			best_quality = node.stats[quality]
-#	
-#	if for_request:
-#		entities_chosen.append(target_node)
-#		target_node = null
-#
-#	return target_node
+func target_entity_by_stats(stat_name: String, candidate_nodes: Array[Node], get_max: bool, for_request: bool) -> EntityBase:
+	var target_entity_node: EntityBase = null
+	var best_quality: float = - INF if get_max else INF
 
-func target_entity_by_distance(origin_node: Node, nodes: Array[Node], get_max: bool, for_request: bool = false) -> Node:
-	var target_node: Node = null
-	var best_quality: float = - INF
-	var i: int = 1 if get_max else -1
-
-	for node: Node in nodes:
-		if not is_instance_valid(node):
-			continue
-		if for_request and not entities_available.has(node):
-			continue
-		var distance = origin_node.position.distance_to(node.position)
-		if best_quality < distance * i:
-			target_node = node
-			best_quality = distance
+	for entity_node in candidate_nodes:
+		if not is_instance_valid(entity_node): continue
+		var entity_stat: float = entity_node.character_node.get(stat_name) if entity_node is PlayerBase \
+				else entity_node.enemy_stats_node.get(stat_name)
+		if (get_max and entity_stat > best_quality) or (not get_max and entity_stat < best_quality):
+			target_entity_node = entity_node
+			best_quality = entity_stat
 	
 	if for_request:
-		entities_chosen.append(target_node)
-		target_node = null
+		choose_entity(target_entity_node)
+	
+	return target_entity_node
 
-	return target_node
+func target_entity_by_distance(origin_position: Vector2, candidate_nodes: Array[Node], get_max: bool, for_request: bool) -> EntityBase:
+	var target_entity_node: EntityBase = null
+	var best_distance: float = - INF if get_max else INF
 
-func target_entity(type: String, origin_node):
-	var comparing_qualities := []
-	var compared_quality = INF
-	var sign_indicator: int = 1
-	var target_entity_node: Node = null
-	# choose closest entity
-	if type == "distance_least":
-		for entity_node in entities_available:
-			if origin_node.position.distance_to(entity_node.position) < compared_quality:
-				compared_quality = origin_node.position.distance_to(entity_node.position)
-				target_entity_node = entity_node
-		entities_chosen.push_back(target_entity_node)
-		choose_entities()
-		return
-	# fix "most" to "least" with negative signs (positive number -> negative number)
-	if type == "health_most":
-		type = "health"
-		compared_quality = 0.0
-		sign_indicator = -1
-	# create array for all available node qualities
-	for entity_node in entities_available:
-		if entity_node.is_in_group("party"):
-			comparing_qualities.push_back(sign_indicator * entity_node.character_node.get(type))
-		else:
-			comparing_qualities.push_back(sign_indicator * entity_node.base_enemy_node.get(type))
-	# choose entity with least of chosen quality
-	var counter: int = 0
-	for entity_quality in comparing_qualities:
-		if entity_quality < compared_quality:
-			compared_quality = entity_quality
-			target_entity_node = entities_available[counter]
-		counter += 1
-	# choose entities if fulfilled required number
-	entities_chosen.push_back(target_entity_node)
-	if entities_requested_count == entities_chosen.size():
-		choose_entities()
+	for entity_node in candidate_nodes:
+		if not is_instance_valid(entity_node): continue
+		var temp_distance = origin_position.distance_to(entity_node.position)
+		if (get_max and temp_distance > best_distance) or (not get_max and temp_distance < best_distance):
+			target_entity_node = entity_node
+			best_distance = temp_distance
 
-func request_entities(origin_node: Node, request_types: Array[Type], request_count: int = 1) -> void:
-	reset_entity_request()
+	if for_request:
+		choose_entity(target_entity_node)
 
+	return target_entity_node
+
+func request_entities(request_types: Array[Type], request_count: int = 1) -> void:
 	# append available entities
 	for request_type in request_types:
-		entities_available = entities_of_type[request_type].call()
+		entities_available += entities_of_type[request_type].call()
 
-	if entities_available.is_empty():
-		if origin_node.is_in_group("abilities"):
-			origin_node.ability_request_failed()
+	# cancel request if insufficient candidates
+	if entities_available.size() < request_count:
+		entities_request_ended.emit([] as Array[EntityBase])
+		entities_available.clear()
+		return
+	
+	# choose locked or nearest entity if suitable
+	if request_count == 1 and Combat.locked_enemy_node in entities_available:
+		entities_request_ended.emit([Combat.locked_enemy_node] as Array[EntityBase])
+		entities_available.clear()
 		return
 	
 	# set new variables
 	requesting_entities = true
-	requester_node = origin_node
 	entities_requested_count = request_count
 
 	# highlight available entities
-	for node in entities_available:
-		if not is_instance_valid(node):
-			continue
-		if node is PlayerBase and not node.has_node("PlayerHighlight"):
-			node.add_child(PLAYER_HIGHLIGHT.instantiate())
-		elif node.is_in_group("enemies") and not node.has_node("EnemyHighlight"):
-			node.add_child(ENEMY_HIGHLIGHT.instantiate()) # TODO: need to scale in size
+	for entity_node in entities_available:
+		if not is_instance_valid(entity_node): continue
+		if entity_node is PlayerBase and not entity_node.has_node(^"PlayerHighlight"):
+			entity_node.add_child(load("res://entities/entities_indicators/player_highlight.tscn").instantiate()) # TODO: need to scale in size
+		elif entity_node is EnemyBase and not entity_node.has_node(^"EnemyHighlight"):
+			entity_node.add_child(load("res://entities/entities_indicators/enemy_highlight.tscn").instantiate()) # TODO: need to scale in size
 
-	# choose locked enemy when suitable
-	if (
-			entities_requested_count == 1
-			and Combat.locked_enemy_node != null
-			and Combat.locked_enemy_node in entities_available
-	):
-		entities_chosen.append(Combat.locked_enemy_node)
-		choose_entities()
+func choose_entity(entity_node: EntityBase) -> void:
+	if not requesting_entities or not entity_node in entities_available or entity_node in entities_chosen: return
+	entities_chosen.append(entity_node)
+	if entities_chosen.size() == entities_requested_count:
+		end_entities_request()
 
-func choose_entities() -> void:
-	if entities_chosen.size() == 1:
-		requester_node.emit_signal("entities_chosen", entities_chosen[0])
-	else:
-		requester_node.emit_signal("entities_chosen", entities_chosen)
-	reset_entity_request(true)
-
-func reset_entity_request(request_succeeded: bool = false) -> void:
-	if (
-			requester_node != null
-			and not request_succeeded
-			and requester_node.is_in_group("abilities")
-	):
-		requester_node.ability_request_failed()
+func end_entities_request() -> void:
+	# emit signals
+	entities_request_ended.emit(entities_chosen)
 	
+	# remove entity highlights
 	for node in entities_available:
 		if not is_instance_valid(node): continue
-
-		if node is PlayerBase and node.has_node("PlayerHighlight"):
-			node.get_node(^"PlayerHighlight").queue_free()
-		elif node.is_in_group("enemies") and node.has_node("EnemyHighlight"): # TODO: should check for classes like BasicEnemyBase instead
-			node.get_node(^"EnemyHighlight").queue_free()
+		if node is PlayerBase and node.has_node(^"PlayerHighlight"):
+			node.get_node(^"PlayerHighlight").free()
+		elif node is EntityBase and node.has_node(^"EnemyHighlight"):
+			node.get_node(^"EnemyHighlight").free()
 	
+	# reset variables
 	requesting_entities = false
-	requester_node = null
 	entities_requested_count = 0
 	entities_available.clear()
 	entities_chosen.clear()
 
-func toggle_movement(can_move):
+func add_enemy_to_scene(enemy_load: Resource, entity_position: Vector2) -> EnemyBase:
+	var enemies_node = Global.tree.current_scene.get_node(^"Enemies")
+	if enemies_node.get_child_count() > ENTITY_LIMIT: return null
+	var enemy_instance: EnemyBase = enemy_load.instantiate()
+	enemy_instance.position = entity_position + Vector2(randf_range(-1, 1), randf_range(-1, 1)) * 25
+	enemies_node.add_child(enemy_instance)
+	return enemy_instance
+
+func toggle_entities_movements(can_move: bool) -> void:
 	# toggle players movements
 	for player_node in Players.party_node.get_children():
-		# ignore if not alive
 		if not player_node.character_node.alive:
 			continue
-
 		player_node.set_physics_process(can_move)
-
-		# update animation
 		if not can_move:
 			player_node.update_velocity(Vector2.ZERO)
 		
 	# toggle enemies movements
 	for enemy_node in get_tree().get_nodes_in_group("enemies"):
 		enemy_node.set_physics_process(can_move)
-
-		# update animation
 		if not can_move:
-			enemy_node.animation_node.play("idle")
+			enemy_node.enemy_stats_node.play("idle")

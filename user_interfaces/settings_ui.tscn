@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://cf2ifm4k70avn"]
 
 [ext_resource type="Script" uid="uid://craf4jfsj1dm0" path="res://scripts/user_interfaces_scripts/settings_ui.gd" id="1_1rmu1"]
-[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://resources/panel_style/blue_translucent_panel.tres" id="2_jtsuj"]
-[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://resources/button_style/dark_blue_button_focus.tres" id="3_8qokm"]
-[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://resources/button_style/dark_blue_button_hover.tres" id="4_e6w0p"]
-[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://resources/button_style/dark_blue_button_pressed.tres" id="5_qqgge"]
-[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://resources/button_style/dark_blue_button_normal.tres" id="6_day15"]
+[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://user_interfaces/user_interfaces_resources/panel_style/blue_translucent_panel.tres" id="2_jtsuj"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_focus.tres" id="3_8qokm"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_hover.tres" id="4_e6w0p"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="5_qqgge"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="6_day15"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k1jdv"]
 border_width_left = 4

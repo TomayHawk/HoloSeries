@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://k5uy4eb3revw"]
+
+[ext_resource type="Script" uid="uid://hw32nxxt348l" path="res://scripts/scenes_scripts/world_objects_scripts/door.gd" id="1_43am6"]
+[ext_resource type="PackedScene" uid="uid://s3lxokljwgge" path="res://scenes/world_objects/world_object_base.tscn" id="2_thscb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pkryy"]
+
+[node name="Door" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_pkryy")
+script = ExtResource("1_43am6")
+
+[node name="WorldObjectBase" parent="." instance=ExtResource("2_thscb")]

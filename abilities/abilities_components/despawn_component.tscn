@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bknnh8cqfuu10"]
+
+[ext_resource type="Script" uid="uid://vebsavsakvju" path="res://scripts/abilities_scripts/abilities_components_scripts/despawn_component.gd" id="1_bmlim"]
+
+[node name="DespawnComponent" type="VisibleOnScreenNotifier2D"]
+script = ExtResource("1_bmlim")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="screen_entered" from="." to="." method="_on_screen_entered"]
+[connection signal="screen_exited" from="." to="." method="_on_screen_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cpkqlu48vt85m" path="res://art/characters/slime.png" id="2_vcny3"]
 [ext_resource type="PackedScene" uid="uid://bjs2k8uorwqda" path="res://abilities/abilities_components/homing_projectile.tscn" id="3_0st0y"]
 [ext_resource type="PackedScene" uid="uid://dl4lxtmyhiro0" path="res://abilities/abilities_components/area_of_effect.tscn" id="4_s1j43"]
-[ext_resource type="PackedScene" uid="uid://bknnh8cqfuu10" path="res://abilities/abilities_components/ability_despawn_component.tscn" id="5_haux1"]
+[ext_resource type="PackedScene" uid="uid://bknnh8cqfuu10" path="res://abilities/abilities_components/despawn_component.tscn" id="5_haux1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m8mse"]
 
@@ -65,7 +65,7 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="RocketLauncher" type="Area2D" groups=["abilities"]]
+[node name="RocketLauncher" type="Area2D"]
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_jc6dy")
@@ -81,6 +81,6 @@ animation = &"shoot"
 
 [node name="AreaOfEffect" parent="." instance=ExtResource("4_s1j43")]
 
-[node name="AbilityDespawnComponent" parent="." instance=ExtResource("5_haux1")]
+[node name="DespawnComponent" parent="." instance=ExtResource("5_haux1")]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

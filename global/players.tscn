@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://p8m26b2y8e7v"]
 
 [ext_resource type="Script" uid="uid://ds1yaf3ereija" path="res://scripts/global_scripts/players.gd" id="1_eytbs"]
-[ext_resource type="Script" uid="uid://sxj4ru0mops5" path="res://scripts/global_scripts/players_scripts/camera_2d.gd" id="2_j4fbi"]
+[ext_resource type="Script" uid="uid://sxj4ru0mops5" path="res://scripts/global_scripts/camera_2d.gd" id="2_j4fbi"]
 
 [node name="Players" type="Node"]
 script = ExtResource("1_eytbs")

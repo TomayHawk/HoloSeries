@@ -20,14 +20,14 @@ var text_box_state := TextBoxState.INACTIVE:
 		if text_box_state == next_state: return
 		if next_state == TextBoxState.READY:
 			# end dialogue on empty text queue
-			if text_queue.size() == 0:
+			if text_queue.is_empty():
 				clearTextBox()
 				text_box_state = TextBoxState.INACTIVE
-				Entities.toggle_movement(true)
+				Entities.toggle_entities_movements(true)
 				return
 			# start dialogue on hidden text box
 			if isInactive():
-				Entities.toggle_movement(false)
+				Entities.toggle_entities_movements(false)
 				%TextBoxMargin.show()
 			# continue dialogue with animation
 			text_box_state = TextBoxState.TYPING
@@ -47,7 +47,7 @@ var text_box_state := TextBoxState.INACTIVE:
 			text_box_state = TextBoxState.END
 
 			# check for response request
-			if text_queue.size() == 0 and text_options.size() != 0:
+			if text_queue.is_empty() and text_options.size() != 0:
 				requestResponse()
 				text_box_state = TextBoxState.WAITING
 

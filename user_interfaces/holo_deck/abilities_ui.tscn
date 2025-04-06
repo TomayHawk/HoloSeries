@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://d4kvcf76jc1ey"]
-
-[ext_resource type="Script" uid="uid://b6qb1xo75now6" path="res://scripts/user_interfaces_scripts/holo_deck_scripts/abilities_ui.gd" id="1_lp30q"]
-
-[node name="AbilitiesUi" type="CanvasLayer"]
-layer = 20
-script = ExtResource("1_lp30q")

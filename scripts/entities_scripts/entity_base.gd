@@ -11,7 +11,7 @@ enum MoveState {
 enum AttackState {
 	OUT_OF_RANGE,
 	READY,
-	ATTACKING,
+	ATTACK,
 	COOLDOWN,
 }
 

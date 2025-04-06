@@ -1,11 +1,17 @@
 [gd_scene load_steps=28 format=3 uid="uid://du2d3fhraj8fe"]
 
 [ext_resource type="Script" uid="uid://c2naus7jlkvrd" path="res://scripts/entities_scripts/enemies_scripts/enemy_specifics_scripts/nousagi.gd" id="1_on7pi"]
-[ext_resource type="PackedScene" uid="uid://b7o2cmo4lhoma" path="res://entities/enemies/base_enemy.tscn" id="2_x265f"]
 [ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/characters/Nousagi.png" id="3_jdaaw"]
+[ext_resource type="PackedScene" uid="uid://bku20jvja05oj" path="res://entities/enemies/enemy_roots/basic_enemy_stats.tscn" id="3_v11vd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sw4lu"]
 size = Vector2(22, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8foym"]
+size = Vector2(22, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8foym"]
+radius = 20.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_spcl6"]
 atlas = ExtResource("3_jdaaw")
@@ -173,12 +179,7 @@ animations = [{
 "speed": 6.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2uydh"]
-size = Vector2(22, 16)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_k2v4m"]
-
-[node name="Nousagi" type="CharacterBody2D" groups=["enemies", "enemies_basic"]]
+[node name="Nousagi" type="CharacterBody2D" groups=["enemies"]]
 y_sort_enabled = true
 collision_layer = 2
 collision_mask = 155
@@ -186,42 +187,34 @@ motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_on7pi")
 
-[node name="BaseEnemy" parent="." instance=ExtResource("2_x265f")]
-unique_name_in_owner = true
-
 [node name="MovementHitBox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_sw4lu")
 
-[node name="Animation" type="AnimatedSprite2D" parent="."]
-unique_name_in_owner = true
-y_sort_enabled = true
-position = Vector2(0, -1)
-sprite_frames = SubResource("SpriteFrames_7htyj")
-animation = &"idle"
-autoplay = "idle"
-offset = Vector2(0, -12)
-
-[node name="CombatHitBoxArea" type="Area2D" parent="."]
+[node name="CombatHitBox" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 0
 
-[node name="CombatHitBoxShape" type="CollisionShape2D" parent="CombatHitBoxArea"]
-shape = SubResource("RectangleShape2D_2uydh")
+[node name="CombatHitBoxShape" type="CollisionShape2D" parent="CombatHitBox"]
+shape = SubResource("RectangleShape2D_8foym")
 
-[node name="AttackArea" type="Area2D" parent="."]
-visible = false
-position = Vector2(35, 0)
+[node name="AttackShape" type="Area2D" parent="."]
 collision_layer = 0
 
-[node name="DamageShape" type="CollisionShape2D" parent="AttackArea"]
-scale = Vector2(1.5, 1.5)
-shape = SubResource("CircleShape2D_k2v4m")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackShape"]
+position = Vector2(35, 0)
+shape = SubResource("CircleShape2D_8foym")
+
+[node name="BasicEnemy" parent="." instance=ExtResource("3_v11vd")]
+sprite_frames = SubResource("SpriteFrames_7htyj")
+animation = &"idle"
+offset = Vector2(0, -13)
 
 [node name="SummonCooldown" type="Timer" parent="."]
-unique_name_in_owner = true
 one_shot = true
 
-[connection signal="input_event" from="CombatHitBoxArea" to="BaseEnemy" method="_on_combat_hit_box_area_input_event"]
-[connection signal="mouse_entered" from="CombatHitBoxArea" to="BaseEnemy" method="_on_combat_hit_box_area_mouse_entered"]
-[connection signal="mouse_exited" from="CombatHitBoxArea" to="BaseEnemy" method="_on_combat_hit_box_area_mouse_exited"]
+[connection signal="input_event" from="CombatHitBox" to="." method="_on_combat_hit_box_input_event"]
+[connection signal="mouse_entered" from="CombatHitBox" to="." method="_on_combat_hit_box_mouse_entered"]
+[connection signal="mouse_exited" from="CombatHitBox" to="." method="_on_combat_hit_box_mouse_exited"]
+[connection signal="frame_changed" from="BasicEnemy" to="." method="frame_changed"]
+[connection signal="timeout" from="SummonCooldown" to="." method="_on_summon_cooldown_timeout"]

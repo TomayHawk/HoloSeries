@@ -3,7 +3,7 @@ class_name PlayerBase extends EntityBase
 var is_main_player: bool = false
 
 # movement variables
-var walk_speed: float = 70.0
+var walk_speed: float = 140.0
 var sprint_multiplier: float = 1.25
 var sprint_stamina: float = 0.8
 var dash_multiplier: float = 8.0
@@ -25,8 +25,11 @@ var knockback_weight: float = 0.0
 @onready var character_node: AnimatedSprite2D = get_node_or_null(^"CharacterBase")
 
 # ................................................................................
-
+var timer: float = 0.0
 # PROCESS LOOP AND INPUTS
+
+func _process(delta):
+	timer += delta
 
 func _physics_process(_delta: float) -> void:
 	if move_state == MoveState.KNOCKBACK:
@@ -45,31 +48,6 @@ func _input(_event: InputEvent) -> void:
 		dash()
 	elif Input.is_action_just_released(&"dash") and move_state == MoveState.DASH:
 		set_move_state(MoveState.WALK)
-
-# ................................................................................
-
-# UPDATE VARIABLES
-
-# called when switching characters
-func update_variables() -> void: # TODO
-	# movement variables
-	walk_speed = 70.0
-	sprint_multiplier = 1.25
-	sprint_stamina = 0.8
-	dash_multiplier = 8.0
-	dash_stamina = 35.0
-	dash_minimum_stamina = 25.0
-	dash_time = 0.2
-	attack_movement_multiplier = 0.3
-
-	# ally variables
-	ally_can_move = true
-	ally_can_attack = true
-	ally_in_attack_position = false
-
-	# knockback variables
-	knockback_direction = Vector2.ZERO
-	knockback_weight = 0.0
 
 # ................................................................................
 
@@ -92,7 +70,7 @@ func update_animation() -> void:
 	var next_animation: StringName = character_node.animation
 	var animation_speed: float = 1.0
 	
-	if attack_state == AttackState.ATTACKING:
+	if attack_state == AttackState.ATTACK:
 		var attack_face_direction: Directions
 		if abs(attack_direction.x) < abs(attack_direction.y):
 			attack_face_direction = Directions.UP if attack_direction.y < 0 else Directions.DOWN
@@ -155,7 +133,7 @@ func update_velocity(direction: Vector2) -> void:
 		MoveState.KNOCKBACK:
 			temp_velocity = knockback_direction * 200 * (1.0 - (0.4 - $KnockbackTimer.get_time_left()) / 0.4) * knockback_weight
 
-	if attack_state == AttackState.ATTACKING:
+	if attack_state == AttackState.ATTACK:
 		temp_velocity *= attack_movement_multiplier
 	
 	velocity = temp_velocity
@@ -172,7 +150,7 @@ func dealt_knockback(direction: Vector2, weight: float = 1.0) -> void:
 	knockback_direction = direction
 	knockback_weight = weight
 
-	get_node(^"KnockbackTimer").start(0.4)
+	$KnockbackTimer.start(0.4)
 
 # ................................................................................
 
@@ -184,12 +162,12 @@ func set_attack_state(next_state: AttackState) -> void:
 	if not is_main_player:
 		#if not ally_can_attack:
 			#return
-		if attack_state != AttackState.READY and next_state == AttackState.ATTACKING:
+		if attack_state != AttackState.READY and next_state == AttackState.ATTACK:
 			return
 
 	attack_state = next_state
 
-	if attack_state == AttackState.ATTACKING: attempt_attack()
+	if attack_state == AttackState.ATTACK: attempt_attack()
 
 	update_animation()
 
@@ -222,7 +200,7 @@ func filter_nodes(initial_nodes: Array[EntityBase], get_stats_nodes: bool, origi
 		if entity_node is PlayerBase:
 			resultant_nodes.push_back(entity_node.character_node if get_stats_nodes else entity_node)
 		elif entity_node is BasicEnemyBase:
-			resultant_nodes.push_back(entity_node.base_enemy_node if get_stats_nodes else entity_node)
+			resultant_nodes.push_back(entity_node.enemy_stats_node if get_stats_nodes else entity_node)
 	
 	return resultant_nodes
 
@@ -292,25 +270,25 @@ func trigger_death() -> void:
 	
 	# handle main player
 	if is_main_player:
-		var alive_party_players = Entities.entities_of_type[Entities.Type.PLAYERS_PARTY_ALIVE].call()
-		if alive_party_players.size() == 0:
+		var alive_party_players = Entities.entities_of_type[Entities.Type.PLAYERS_ALIVE].call()
+		if alive_party_players.is_empty():
 			print("GAME OVER") # TODO
 		else:
 			Players.update_main_player(alive_party_players[0])
 
 # ................................................................................
 
-func _on_combat_hit_box_area_input_event(_viewport: Node, _event: InputEvent, _shape_idx: int) -> void:
-	if Input.is_action_just_pressed(&"action"): # TODO
+func _on_combat_hit_box_area_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if Input.is_action_just_pressed(&"action") and event is InputEventMouseButton:
 		if Entities.requesting_entities and self in Entities.entities_available and not self in Entities.entities_chosen:
-			Entities.entities_chosen.push_back(self)
-			if Entities.entities_requested_count == Entities.entities_chosen.size():
-				Entities.choose_entities()
+			Inputs.accept_event()
+			Entities.choose_entity(self)
 		elif character_node.alive:
+			Inputs.accept_event()
 			Players.update_main_player(self)
 
 func _on_combat_hit_box_area_mouse_entered() -> void:
-	if not is_main_player or self in Entities.entities_available:
+	if not is_main_player or (self in Entities.entities_available and not self in Entities.entities_chosen):
 		Inputs.mouse_in_attack_position = false
 
 func _on_combat_hit_box_area_mouse_exited() -> void:

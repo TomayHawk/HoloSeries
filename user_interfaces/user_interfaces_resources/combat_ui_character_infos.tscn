@@ -1,0 +1,85 @@
+[gd_scene load_steps=3 format=3 uid="uid://lvv6a88tqi80"]
+
+[ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://user_interfaces/user_interfaces_resources/progress_bar_style/shield_progress_bar_fill.tres" id="1_svg7r"]
+[ext_resource type="StyleBox" uid="uid://lvj1g05bns5d" path="res://user_interfaces/user_interfaces_resources/progress_bar_style/ultimate_progress_bar_fill.tres" id="2_x6ojg"]
+
+[node name="CharacterInfos1" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="CharacterName" type="Label" parent="."]
+layout_mode = 2
+offset_left = 17.0
+offset_top = 6.0
+offset_right = 97.0
+offset_bottom = 18.0
+theme_override_font_sizes/font_size = 8
+text = "CharacterName"
+vertical_alignment = 1
+
+[node name="HP" type="Label" parent="."]
+layout_mode = 2
+offset_left = 117.0
+offset_top = 6.0
+offset_right = 132.0
+offset_bottom = 18.0
+theme_override_font_sizes/font_size = 8
+text = "HP"
+vertical_alignment = 1
+
+[node name="HealthAmount" type="Label" parent="."]
+layout_mode = 2
+offset_left = 130.0
+offset_top = 6.0
+offset_right = 158.0
+offset_bottom = 18.0
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 8
+text = "#####"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MP" type="Label" parent="."]
+layout_mode = 2
+offset_left = 167.0
+offset_top = 6.0
+offset_right = 183.0
+offset_bottom = 18.0
+theme_override_font_sizes/font_size = 8
+text = "MP"
+vertical_alignment = 1
+
+[node name="ManaAmount" type="Label" parent="."]
+layout_mode = 2
+offset_left = 182.0
+offset_top = 6.0
+offset_right = 203.0
+offset_bottom = 18.0
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 8
+text = "####"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Shield" type="ProgressBar" parent="."]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 18.0
+offset_right = 204.0
+offset_bottom = 22.0
+scale = Vector2(1, 0.5)
+mouse_filter = 2
+theme_override_styles/fill = ExtResource("1_svg7r")
+show_percentage = false
+
+[node name="Ultimate" type="ProgressBar" parent="."]
+modulate = Color(0.815686, 1, 0, 1)
+layout_mode = 2
+offset_left = 16.0
+offset_top = 20.0
+offset_right = 204.0
+offset_bottom = 24.0
+scale = Vector2(1, 0.5)
+mouse_filter = 2
+theme_override_styles/fill = ExtResource("2_x6ojg")
+show_percentage = false

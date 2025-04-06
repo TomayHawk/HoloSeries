@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://c5o6bi43j562b"]
 
 [ext_resource type="Script" uid="uid://cmf3b5ufhosbk" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_rapl1"]
-[ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://resources/progress_bar_style/shield_progress_bar_fill.tres" id="3_48rhk"]
+[ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://user_interfaces/user_interfaces_resources/progress_bar_style/shield_progress_bar_fill.tres" id="3_48rhk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
 size = Vector2(16, 7)
