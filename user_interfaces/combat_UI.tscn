@@ -7,7 +7,7 @@
 [ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="4_ywh4v"]
 [ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_focus.tres" id="5_kyyya"]
 [ext_resource type="StyleBox" uid="uid://r8tef0pv2fig" path="res://user_interfaces/user_interfaces_resources/panel_style/light_blue_translucent_panel.tres" id="7_c1xwy"]
-[ext_resource type="PackedScene" uid="uid://lvv6a88tqi80" path="res://user_interfaces/user_interfaces_resources/combat_ui_character_infos.tscn" id="8_dsr74"]
+[ext_resource type="PackedScene" uid="uid://lvv6a88tqi80" path="res://user_interfaces/user_interfaces_resources/combat_ui/character_infos.tscn" id="8_dsr74"]
 
 [node name="CombatUi" type="CanvasLayer"]
 script = ExtResource("1_w0nri")
@@ -492,170 +492,10 @@ text = "Item"
 
 [node name="ItemsGridContainer" type="GridContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 2
-
-[node name="Potion" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 1
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/normal = ExtResource("2_1ddg2")
-alignment = 0
-
-[node name="Label" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/Potion"]
-layout_mode = 0
-offset_left = 6.0
-offset_right = 68.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "Potion"
-vertical_alignment = 1
-
-[node name="Quantity" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/Potion"]
-layout_mode = 0
-offset_left = 74.0
-offset_right = 93.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MaxPotion" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 1
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/normal = ExtResource("2_1ddg2")
-text = " "
-
-[node name="Label" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/MaxPotion"]
-layout_mode = 0
-offset_left = 6.0
-offset_right = 68.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "MAX Potion"
-vertical_alignment = 1
-
-[node name="Quantity" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/MaxPotion"]
-layout_mode = 0
-offset_left = 74.0
-offset_right = 93.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "69"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PhoenixBurger" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 1
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/normal = ExtResource("2_1ddg2")
-text = " "
-alignment = 0
-
-[node name="Label" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/PhoenixBurger"]
-layout_mode = 0
-offset_left = 6.0
-offset_right = 68.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "Phoenix Burger"
-vertical_alignment = 1
-
-[node name="Quantity" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/PhoenixBurger"]
-layout_mode = 0
-offset_left = 74.0
-offset_right = 93.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "99"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ResetButton" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-focus_mode = 1
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/normal = ExtResource("2_1ddg2")
-text = " "
-
-[node name="Label" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/ResetButton"]
-layout_mode = 0
-offset_left = 6.0
-offset_right = 68.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "Reset Button"
-vertical_alignment = 1
-
-[node name="Quantity" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/ResetButton"]
-layout_mode = 0
-offset_left = 74.0
-offset_right = 93.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "1"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="TempKillItem" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-focus_mode = 1
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/normal = ExtResource("2_1ddg2")
-text = " "
-
-[node name="Label" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/TempKillItem"]
-layout_mode = 0
-offset_left = 6.0
-offset_right = 68.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "Temp Kill Item"
-vertical_alignment = 1
-
-[node name="Quantity" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/TempKillItem"]
-layout_mode = 0
-offset_left = 74.0
-offset_right = 93.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
-text = "9"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="PartyPlayerInfos" type="MarginContainer" parent="CombatControl"]
 layout_mode = 1
@@ -820,25 +660,5 @@ theme_override_constants/separation = 2
 [connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SummonVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SummonVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SummonVBoxContainer/Item" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/Potion" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/Potion" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/Potion" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/Potion" to="." method="use_consumable" binds= [0]]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/MaxPotion" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/MaxPotion" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/MaxPotion" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/MaxPotion" to="." method="use_consumable" binds= [1]]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/PhoenixBurger" to="." method="use_consumable" binds= [2]]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/ResetButton" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/ResetButton" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/ResetButton" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/ResetButton" to="." method="use_consumable" binds= [3]]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/TempKillItem" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/TempKillItem" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/TempKillItem" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/ItemsGridContainer/TempKillItem" to="." method="use_consumable" binds= [4]]
 [connection signal="mouse_entered" from="CharacterSelector/MarginContainer" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CharacterSelector/MarginContainer" to="." method="_on_control_mouse_exited"]

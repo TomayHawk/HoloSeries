@@ -1,4 +1,4 @@
-extends Node2D
+extends AnimatedSprite2D
 
 enum NpcState {
 	NEVER_SPOKEN,
@@ -85,7 +85,11 @@ func recruit_player() -> void:
 	character_node.base_crit_chance = 0.05
 	character_node.base_crit_damage = 0.60
 
-	var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui_character_button.tscn").instantiate()
+	Global.nexus_last_nodes[3] = 522
+	Global.nexus_unlocked_nodes[3] = [491, 522, 523]
+	Global.nexus_converted_nodes[3] = []
+
+	var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/character_button.tscn").instantiate()
 	Combat.ui.get_node(^"CharacterSelector/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer").add_child(standby_button)
 	standby_button.pressed.connect(Players.update_standby_player.bind(standby_button.get_index()))
 	standby_button.pressed.connect(Combat.ui.button_pressed)

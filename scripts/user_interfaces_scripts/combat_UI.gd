@@ -14,6 +14,7 @@ var standby_mana_labels: Array[Label] = []
 var tween: Tween
 
 @onready var sub_modes_nodes: Array[Node] = %SubModesMarginContainer.get_children()
+@onready var items_grid_container_node: GridContainer = %ItemsGridContainer
 
 # ................................................................................
 

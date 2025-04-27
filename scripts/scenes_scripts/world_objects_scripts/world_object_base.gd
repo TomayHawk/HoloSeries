@@ -1,7 +1,5 @@
 extends StaticBody2D
 
-# COMPLETE
-
 var active: bool = false
 
 func _input(_event: InputEvent) -> void:

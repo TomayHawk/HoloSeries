@@ -6,6 +6,7 @@ class_name EntityStats extends AnimatedSprite2D
 
 var level: int = 1
 var alive: bool = true
+var entity_types: int = 0
 
 # Health, Mana & Stamina
 var max_health: float = 1.0

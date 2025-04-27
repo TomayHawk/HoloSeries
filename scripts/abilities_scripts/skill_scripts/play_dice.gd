@@ -22,7 +22,7 @@ func _ready():
 	set_physics_process(false)
 	hide()
 
-	connect("entities_chosen", Callable(self, "initiate_play_dice"))
+	connect(&"entities_chosen", Callable(self, "initiate_play_dice"))
 
 	# request target entity
 	Entities.request_entities([Entities.Type.ENEMIES_ON_SCREEN])

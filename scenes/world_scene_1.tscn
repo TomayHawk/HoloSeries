@@ -5,11 +5,11 @@
 [ext_resource type="Texture2D" uid="uid://btj1vfgsejh7f" path="res://art/objects/objects.png" id="2_nnwlk"]
 [ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tileSets/physics.png" id="4_kndtx"]
 [ext_resource type="PackedScene" uid="uid://dthvymrd0k1my" path="res://scenes/world_objects/chest.tscn" id="5_uih6u"]
-[ext_resource type="PackedScene" uid="uid://dlxkifgl6lq80" path="res://entities/npcs/npc_kobo.tscn" id="6_5ivv1"]
+[ext_resource type="PackedScene" uid="uid://dlxkifgl6lq80" path="res://scenes/npcs/npc_kobo.tscn" id="6_5ivv1"]
 [ext_resource type="PackedScene" uid="uid://nsnibaboaiaa" path="res://scenes/world_objects/spawner.tscn" id="6_y50s5"]
 [ext_resource type="PackedScene" uid="uid://bcyrkvjaiy1go" path="res://scenes/world_objects/save_point.tscn" id="7_f7v21"]
 [ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/enemy_specifics/nousagi.tscn" id="9_tem7v"]
-[ext_resource type="PackedScene" uid="uid://cl846axs17iqn" path="res://entities/npcs/npc_akirose.tscn" id="10_nqrae"]
+[ext_resource type="PackedScene" uid="uid://cl846axs17iqn" path="res://scenes/npcs/npc_akirose.tscn" id="10_nqrae"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5688q"]
 texture = ExtResource("1_7j0j2")
@@ -284,6 +284,7 @@ y_sort_enabled = true
 [node name="Chest" parent="Objects" instance=ExtResource("5_uih6u")]
 position = Vector2(-139, -86)
 frame = 0
+frame_progress = 0.0
 
 [node name="Spawner" parent="Objects" instance=ExtResource("6_y50s5")]
 position = Vector2(-74, -54)
@@ -298,6 +299,7 @@ y_sort_enabled = true
 position = Vector2(166, -196)
 
 [node name="Npcs" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="NpcKobo" parent="Npcs" instance=ExtResource("6_5ivv1")]
 position = Vector2(-52, -83)

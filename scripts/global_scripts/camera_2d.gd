@@ -62,7 +62,7 @@ func new_limits(next_limits):
 
 func screen_shake(duration, intervals, intensity, camera_speed, pause_game):
 	if pause_game:
-		Global.tree.paused = true
+		Global.get_tree().paused = true
 	shaking = true
 	screen_shake_intervals = intervals
 	screen_shake_intensity = intensity
@@ -81,8 +81,8 @@ func zoom_input(direction: int) -> void:
 
 func _on_timer_timeout():
 	if not zooming: set_physics_process(false)
-	if Global.tree.paused:
-		Global.tree.paused = false
+	if Global.get_tree().paused:
+		Global.get_tree().paused = false
 	position_smoothing_speed = 5
 	position = Vector2.ZERO
 	shaking = false

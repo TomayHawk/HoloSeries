@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://7rma740sfkgc"]
+
+[ext_resource type="Texture2D" uid="uid://dcrqirbjsm8rx" path="res://art/temp_shirakami.png" id="1_0dgqd"]
+[ext_resource type="Script" uid="uid://bjjgudnixip1y" path="res://scripts/entities_scripts/entities_items_scripts/lootable.gd" id="2_xrjao"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cs6gg"]
+size = Vector2(6, 6)
+
+[node name="Lootable" type="Area2D"]
+collision_layer = 64
+script = ExtResource("2_xrjao")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-5.51343e-07, 3.15789)
+scale = Vector2(0.0759494, 0.0526316)
+texture = ExtResource("1_0dgqd")
+offset = Vector2(0, -60)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cs6gg")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

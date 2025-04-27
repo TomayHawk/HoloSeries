@@ -16,7 +16,7 @@ var regen_count: int = 7
 
 func _ready():
 	# request target entity
-	Entities.entities_request_ended.connect(entity_chosen)
+	Entities.entities_request_ended.connect(entity_chosen, CONNECT_ONE_SHOT)
 	Entities.request_entities([Entities.Type.PLAYERS_ALIVE])
 
 	# if alt is pressed, auto-aim player with lowest health
@@ -25,7 +25,6 @@ func _ready():
 
 func entity_chosen(chosen_nodes: Array[EntityBase]):
 	var target_node: EntityBase = null if chosen_nodes.is_empty() else chosen_nodes[0]
-	Entities.entities_request_ended.disconnect(entity_chosen)
 	# apply regen if node chosen, caster is alive and caster has enough mana
 	if target_node and caster_node.character_node.alive and caster_node.character_node.mana >= mana_cost:
 		caster_node.character_node.update_mana(-mana_cost)

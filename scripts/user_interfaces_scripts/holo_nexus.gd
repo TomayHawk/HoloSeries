@@ -2,21 +2,14 @@ extends Node2D
 
 var current_nexus_player := 0
 
-@onready var nexus_nodes := %NexusNodes.get_children()
-@onready var nexus_player_node := %NexusPlayer
-@onready var nexus_player_outline_node := %PlayerOutline
-@onready var nexus_player_crosshair_node := %PlayerCrosshair
-@onready var nexus_ui_node := %HoloNexusUI
-@onready var nexus_unlockables_node := %UnlockableNodes
+@onready var nexus_nodes := $NexusNodes.get_children()
+@onready var ui := $HoloNexusUI
 
 # character information
-@onready var last_nodes = Global.temporary_global_variable["last_nodes"].duplicate()
-@onready var nodes_unlocked = Global.temporary_global_variable["unlocked"].duplicate()
+@onready var last_nodes = Global.nexus_last_nodes.duplicate()
+@onready var nodes_unlocked = Global.nexus_unlocked_nodes.duplicate()
 @onready var nodes_qualities: Array[int] = Global.nexus_stats_qualities.duplicate()
-@onready var nodes_converted = Global.temporary_global_variable["converted"].duplicate()
-
-@onready var unlockable_load := load("res://user_interfaces/user_interfaces_resources/nexus_unlockables.tscn")
-var unlockable_instance: Node = null
+@onready var nodes_converted = Global.nexus_converted_nodes.duplicate()
 
 # nexus atlas positions
 # HP, MP, DEF, WRD, ATK, INT, SPD, AGI
@@ -53,7 +46,7 @@ var scene_camera_zoom := Vector2(1.0, 1.0)
 func _ready():
 	# TODO: nexus camera limit (-679, -592, 681, 592)
 	scene_camera_zoom = Players.camera_node.zoom
-	Players.camera_node.update_camera(nexus_player_node, true, Vector2(1.0, 1.0))
+	Players.camera_node.update_camera($NexusPlayer, true, Vector2(1.0, 1.0))
 	Players.camera_node.new_limits([-679, -592, 681, 592])
 
 	# update board # TODO: should randomize board at start of game # TODO: block needs fixing
@@ -72,9 +65,9 @@ func _ready():
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed(&"esc"):
 		Inputs.accept_event()
-		if nexus_ui_node.inventory_node.visible:
-			nexus_ui_node.inventory_node.hide()
-			nexus_ui_node.update_nexus_ui()
+		if ui.inventory_node.visible:
+			ui.inventory_node.hide()
+			ui.update_nexus_ui()
 		else:
 			exit_nexus()
 
@@ -118,10 +111,10 @@ func return_adjacents(temp_node_index):
 
 func update_nexus_player(player):
 	current_nexus_player = player
-	nexus_player_node.character_index = player
+	$NexusPlayer.character_index = player
 
 	# clear unlockable textures
-	for past_unlockable_nodes in nexus_unlockables_node.get_children():
+	for past_unlockable_nodes in $UnlockableNodes.get_children():
 		past_unlockable_nodes.queue_free()
 
 	index_counter = 0
@@ -139,18 +132,17 @@ func update_nexus_player(player):
 			
 			# check and outline unlockables
 			if index_counter in nodes_unlockable[player]:
-				unlockable_instance = unlockable_load.instantiate()
+				var unlockable_instance: TextureRect = load("res://user_interfaces/user_interfaces_resources/nexus_unlockables.tscn").instantiate()
 				unlockable_instance.name = str(index_counter)
-				nexus_unlockables_node.add_child(unlockable_instance)
+				$UnlockableNodes.add_child(unlockable_instance)
 				unlockable_instance.position = nexus_nodes[index_counter].position
 		
 		index_counter += 1
 
 	# update converted nodes
 	# TODO: need to update quality
-	if not nodes_converted[player][0].is_empty():
-		for converted_node in nodes_converted[player]:
-			nexus_nodes[converted_node[0]].texture.region.position = converted_node[1]
+	for converted_node in nodes_converted[player]:
+		nexus_nodes[converted_node[0]].texture.region.position = converted_node[1]
 	
 	# update key textures
 	for key_type in 4:
@@ -158,10 +150,10 @@ func update_nexus_player(player):
 			nexus_nodes[temp_node_index].modulate = Color(0.33, 0.33, 0.33, 1)
 
 	# update player position
-	nexus_player_node.position = nexus_nodes[last_nodes[player]].position + Vector2(16, 16)
-	nexus_player_node.snapping = false
-	nexus_player_outline_node.show()
-	nexus_player_crosshair_node.hide()
+	$NexusPlayer.position = nexus_nodes[last_nodes[player]].position + Vector2(16, 16)
+	$NexusPlayer.snapping = false
+	$NexusPlayer/PlayerOutline.show()
+	$NexusPlayer/PlayerCrosshair.hide()
 
 func unlock_node():
 	# if unlockable, unlock node
@@ -170,7 +162,7 @@ func unlock_node():
 		nodes_unlockable[current_nexus_player].erase(last_nodes[current_nexus_player])
 		
 		# remove unlockables outline
-		nexus_unlockables_node.remove_child(nexus_unlockables_node.get_node(str(last_nodes[current_nexus_player])))
+		$UnlockableNodes.remove_child($UnlockableNodes.get_node(str(last_nodes[current_nexus_player])))
 
 		# update node texture
 		nexus_nodes[last_nodes[current_nexus_player]].modulate = Color(1, 1, 1, 1)
@@ -191,14 +183,14 @@ func check_adjacent_unlockables(origin_index, player):
 					nodes_unlockable[player].push_back(adjacent)
 
 					# create unlockables outline for adjacent node
-					unlockable_instance = unlockable_load.instantiate()
+					var unlockable_instance: TextureRect = load("res://user_interfaces/user_interfaces_resources/nexus_unlockables.tscn").instantiate()
 					unlockable_instance.name = str(adjacent)
-					nexus_unlockables_node.add_child(unlockable_instance)
+					$UnlockableNodes.add_child(unlockable_instance)
 					unlockable_instance.position = nexus_nodes[adjacent].position
 					break
 
 func exit_nexus():
-	Global.temporary_global_variable["unlocked"] = nodes_unlocked.duplicate()
+	Global.nexus_unlocked_nodes = nodes_unlocked.duplicate()
 	Global.nexus_stats_qualities = nodes_qualities.duplicate()
 
 	# TODO: temporary

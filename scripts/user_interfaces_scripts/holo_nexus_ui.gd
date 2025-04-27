@@ -23,32 +23,32 @@ var character_selector_character_indices: Array[int] = []
 var inventory_items_quantity_label: Array[Node] = []
 
 @onready var inventory_options_valid_node_atlas_positions := {
-	0: [[nexus.stats_node_atlas_position[0], nexus.stats_node_atlas_position[2], nexus.stats_node_atlas_position[4]], "Unlocks HP, DEF and ATK nodes.", "attempt_unlock"],
-	1: [[nexus.stats_node_atlas_position[1], nexus.stats_node_atlas_position[3], nexus.stats_node_atlas_position[5]], "Unlocks MP, WRD and INT nodes.", "attempt_unlock"],
-	2: [[nexus.stats_node_atlas_position[6], nexus.stats_node_atlas_position[7]], "Unlocks SPD and AGI nodes.", "attempt_unlock"],
-	3: [[nexus.ability_node_atlas_position[0]], "Unlocks Skill nodes.", "attempt_unlock"],
-	4: [[nexus.ability_node_atlas_position[1]], "Unlocks White Magic nodes.", "attempt_unlock"],
-	5: [[nexus.ability_node_atlas_position[2]], "Unlocks Black Magic nodes.", "attempt_unlock"],
-	6: [[nexus.key_node_atlas_position[0]], "Unlocks Diamond Key nodes.", "attempt_unlock"],
-	7: [[nexus.key_node_atlas_position[1]], "Unlocks Clover Key nodes.", "attempt_unlock"],
-	8: [[nexus.key_node_atlas_position[2]], "Unlocks Heart Key nodes.", "attempt_unlock"],
-	9: [[nexus.key_node_atlas_position[3]], "Unlocks Spade Key nodes.", "attempt_unlock"],
-	10: [[nexus.ability_node_atlas_position[0]], "Unlocks any Skill node.", "attempt_unlock"],
-	11: [[nexus.ability_node_atlas_position[1]], "Unlocks any White Magic node.", "attempt_unlock"],
-	12: [[nexus.ability_node_atlas_position[2]], "Unlocks any Black Magic node.", "attempt_unlock"],
-	13: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "Unlocks any one node.", "attempt_unlock"],
-	14: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "Teleports player to any unlocked node.", "teleport", "return"],
-	15: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "Teleports player to any current ally node.", "teleport", "ally"],
-	16: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "Teleports player to any node.", "teleport", "any"],
-	17: [[nexus.empty_node_atlas_position], "Converts an empty node into an HP node.", "convert", nexus.stats_node_atlas_position[0]],
-	18: [[nexus.empty_node_atlas_position], "Converts an empty node into an MP node.", "convert", nexus.stats_node_atlas_position[1]],
-	19: [[nexus.empty_node_atlas_position], "Converts an empty node into a DEF node.", "convert", nexus.stats_node_atlas_position[2]],
-	20: [[nexus.empty_node_atlas_position], "Converts an empty node into a WRD node.", "convert", nexus.stats_node_atlas_position[3]],
-	21: [[nexus.empty_node_atlas_position], "Converts an empty node into an ATK node.", "convert", nexus.stats_node_atlas_position[4]],
-	22: [[nexus.empty_node_atlas_position], "Converts an empty node into an INT node.", "convert", nexus.stats_node_atlas_position[5]],
-	23: [[nexus.empty_node_atlas_position], "Converts an empty node into a SPD node.", "convert", nexus.stats_node_atlas_position[6]],
-	24: [[nexus.empty_node_atlas_position], "Converts an empty node into an AGI node.", "convert", nexus.stats_node_atlas_position[7]],
-	25: [nexus.stats_node_atlas_position.duplicate(), "Converts a stats node into an empty node.", "convert", nexus.empty_node_atlas_position]
+	0: [[nexus.stats_node_atlas_position[0], nexus.stats_node_atlas_position[2], nexus.stats_node_atlas_position[4]], "Unlocks HP, DEF and ATK nodes.", &"attempt_unlock"],
+	1: [[nexus.stats_node_atlas_position[1], nexus.stats_node_atlas_position[3], nexus.stats_node_atlas_position[5]], "Unlocks MP, WRD and INT nodes.", &"attempt_unlock"],
+	2: [[nexus.stats_node_atlas_position[6], nexus.stats_node_atlas_position[7]], "Unlocks SPD and AGI nodes.", &"attempt_unlock"],
+	3: [[nexus.ability_node_atlas_position[0]], "Unlocks Skill nodes.", &"attempt_unlock"],
+	4: [[nexus.ability_node_atlas_position[1]], "Unlocks White Magic nodes.", &"attempt_unlock"],
+	5: [[nexus.ability_node_atlas_position[2]], "Unlocks Black Magic nodes.", &"attempt_unlock"],
+	6: [[nexus.key_node_atlas_position[0]], "Unlocks Diamond Key nodes.", &"attempt_unlock"],
+	7: [[nexus.key_node_atlas_position[1]], "Unlocks Clover Key nodes.", &"attempt_unlock"],
+	8: [[nexus.key_node_atlas_position[2]], "Unlocks Heart Key nodes.", &"attempt_unlock"],
+	9: [[nexus.key_node_atlas_position[3]], "Unlocks Spade Key nodes.", &"attempt_unlock"],
+	10: [[nexus.ability_node_atlas_position[0]], "Unlocks any Skill node.", &"attempt_unlock"],
+	11: [[nexus.ability_node_atlas_position[1]], "Unlocks any White Magic node.", &"attempt_unlock"],
+	12: [[nexus.ability_node_atlas_position[2]], "Unlocks any Black Magic node.", &"attempt_unlock"],
+	13: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "Unlocks any one node.", &"attempt_unlock"],
+	14: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "Teleports player to any unlocked node.", &"teleport", "return"],
+	15: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "Teleports player to any current ally node.", &"teleport", "ally"],
+	16: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "Teleports player to any node.", &"teleport", "any"],
+	17: [[nexus.empty_node_atlas_position], "Converts an empty node into an HP node.", &"convert", nexus.stats_node_atlas_position[0]],
+	18: [[nexus.empty_node_atlas_position], "Converts an empty node into an MP node.", &"convert", nexus.stats_node_atlas_position[1]],
+	19: [[nexus.empty_node_atlas_position], "Converts an empty node into a DEF node.", &"convert", nexus.stats_node_atlas_position[2]],
+	20: [[nexus.empty_node_atlas_position], "Converts an empty node into a WRD node.", &"convert", nexus.stats_node_atlas_position[3]],
+	21: [[nexus.empty_node_atlas_position], "Converts an empty node into an ATK node.", &"convert", nexus.stats_node_atlas_position[4]],
+	22: [[nexus.empty_node_atlas_position], "Converts an empty node into an INT node.", &"convert", nexus.stats_node_atlas_position[5]],
+	23: [[nexus.empty_node_atlas_position], "Converts an empty node into a SPD node.", &"convert", nexus.stats_node_atlas_position[6]],
+	24: [[nexus.empty_node_atlas_position], "Converts an empty node into an AGI node.", &"convert", nexus.stats_node_atlas_position[7]],
+	25: [nexus.stats_node_atlas_position.duplicate(), "Converts a stats node into an empty node.", &"convert", nexus.empty_node_atlas_position]
 }
 
 const stats_type_description := ["Health Point", "Mana Point", "Defense", "Ward", "Attack", "Intelligence", "Speed", "Agility"]
@@ -66,11 +66,11 @@ func _ready():
 	
 	hide_all()
 	character_selector_node.hide()
-	call_deferred("update_character_selector")
-	call_deferred("update_nexus_ui")
-	call_deferred("update_inventory_buttons")
+	call_deferred(&"update_character_selector")
+	call_deferred(&"update_nexus_ui")
+	call_deferred(&"update_inventory_buttons")
 
-func _input(event):
+func _input(event: InputEvent):
 	if event is InputEventMouseButton and event.is_double_click():
 		pass
 	elif Input.is_action_just_pressed(&"tab"):
@@ -151,8 +151,8 @@ func _on_nexus_inventory_item_pressed(extra_arg_0):
 	if nexus_player.velocity == Vector2.ZERO and Inventory.nexus_inventory[extra_arg_0] != 0 and inventory_items_nodes[extra_arg_0].modulate == Color(1, 1, 1, 1):
 		# wait for double click
 		# call appropriate function
-		if inventory_options_valid_node_atlas_positions[extra_arg_0][2] == "attempt_unlock":
-			call("attempt_unlock")
+		if inventory_options_valid_node_atlas_positions[extra_arg_0][2] == &"attempt_unlock":
+			call(&"attempt_unlock")
 		else:
 			call(inventory_options_valid_node_atlas_positions[extra_arg_0][2], inventory_options_valid_node_atlas_positions[extra_arg_0][3])
 			

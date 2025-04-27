@@ -45,11 +45,12 @@ var entities_of_type: Dictionary[Type, Callable] = {
 	Type.PLAYERS_DEAD: func() -> Array[Node]:
 		return Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.character_node.alive),
 	Type.ENEMIES: func() -> Array[Node]:
-		return Global.tree.current_scene.get_node(^"Enemies").get_children(),
+		return get_tree().current_scene.get_node(^"Enemies").get_children(),
 	Type.ENEMIES_IN_COMBAT: func() -> Array[Node]:
 		return Combat.enemy_nodes_in_combat,
-	Type.ENEMIES_ON_SCREEN: func() -> Array[Node]: # TODO: should not use groups
-		return Global.tree.current_scene.get_node(^"Enemies").get_children().filter(func(node: Node) -> bool: return node.is_in_group("enemies_on_screen")),
+	Type.ENEMIES_ON_SCREEN: func() -> Array[Node]:
+		return get_tree().current_scene.get_node(^"Enemies").get_children().filter(
+				func(node: Node) -> bool: return node.enemy_stats_node.entity_types & Entities.Type.ENEMIES_ON_SCREEN),
 }
 
 var effect_resources: Dictionary[Status, Resource] = {
@@ -77,6 +78,14 @@ var requesting_entities: bool = false
 var entities_requested_count: int = 0
 var entities_available: Array[Node] = []
 var entities_chosen: Array[EntityBase] = []
+
+func add_enemy_to_scene(enemy_load: Resource, entity_position: Vector2) -> EnemyBase:
+	var enemies_node = get_tree().current_scene.get_node(^"Enemies")
+	if enemies_node.get_child_count() > ENTITY_LIMIT: return null
+	var enemy_instance: EnemyBase = enemy_load.instantiate()
+	enemy_instance.position = entity_position + Vector2(randf_range(-1, 1), randf_range(-1, 1)) * 25
+	enemies_node.add_child(enemy_instance)
+	return enemy_instance
 
 func target_entity_by_stats(stat_name: String, candidate_nodes: Array[Node], get_max: bool, for_request: bool) -> EntityBase:
 	var target_entity_node: EntityBase = null
@@ -164,14 +173,6 @@ func end_entities_request() -> void:
 	entities_available.clear()
 	entities_chosen.clear()
 
-func add_enemy_to_scene(enemy_load: Resource, entity_position: Vector2) -> EnemyBase:
-	var enemies_node = Global.tree.current_scene.get_node(^"Enemies")
-	if enemies_node.get_child_count() > ENTITY_LIMIT: return null
-	var enemy_instance: EnemyBase = enemy_load.instantiate()
-	enemy_instance.position = entity_position + Vector2(randf_range(-1, 1), randf_range(-1, 1)) * 25
-	enemies_node.add_child(enemy_instance)
-	return enemy_instance
-
 func toggle_entities_movements(can_move: bool) -> void:
 	# toggle players movements
 	for player_node in Players.party_node.get_children():
@@ -182,7 +183,7 @@ func toggle_entities_movements(can_move: bool) -> void:
 			player_node.update_velocity(Vector2.ZERO)
 		
 	# toggle enemies movements
-	for enemy_node in get_tree().get_nodes_in_group("enemies"):
+	for enemy_node in get_tree().current_scene.get_node(^"Enemies").get_children():
 		enemy_node.set_physics_process(can_move)
 		if not can_move:
-			enemy_node.enemy_stats_node.play("idle")
+			enemy_node.enemy_stats_node.play(&"idle")

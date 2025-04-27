@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://wsunon4ilt68"]
 
-[ext_resource type="Script" uid="uid://dr8vjdytxbc7s" path="res://scripts/user_interfaces_scripts/holo_nexus_scripts/holo_nexus_ui.gd" id="1_602ku"]
+[ext_resource type="Script" uid="uid://dr8vjdytxbc7s" path="res://scripts/user_interfaces_scripts/holo_nexus_ui.gd" id="1_602ku"]
 [ext_resource type="Texture2D" uid="uid://dxnu3xke1bx8l" path="res://art/characters/Untitled_Artwork (1).png" id="2_38u1l"]
 [ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://user_interfaces/user_interfaces_resources/panel_style/blue_translucent_panel.tres" id="2_gx1i3"]
 [ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="2_k63ny"]

@@ -49,22 +49,28 @@ func update_settings_ui() -> void:
 			break
 
 	# update volume sliders
-	%MasterVolumeHSlider.set_value(db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Master"))))
-	%MusicVolumeHSlider.set_value(db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("BGM"))))
+	%MasterVolumeHSlider.set_value(db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"Master"))))
+	%MusicVolumeHSlider.set_value(db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"BGM"))))
 
 func exit_ui() -> void:
 	Global.add_global_child("HoloDeck", "res://user_interfaces/holo_deck.tscn")
 	queue_free()
 
 func _on_full_screen_check_button_toggled(_toggled_on: bool) -> void:
-	Global.toggle_full_screen()
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN \
+			if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN \
+			else DisplayServer.WINDOW_MODE_WINDOWED)
 
 func _on_resolution_option_button_item_selected(index: int) -> void:
 	var resolution_dimensions: PackedStringArray = %ResolutionOptionButton.get_item_text(index).split(" x ")
-	Global.set_resolution(int(resolution_dimensions[0]), int(resolution_dimensions[1]))
+	var next_resolution: Vector2i = Vector2i(int(resolution_dimensions[0]), int(resolution_dimensions[1]))
+	DisplayServer.window_set_size(next_resolution)
+	
+	if DisplayServer.window_get_mode() != DisplayServer.WINDOW_MODE_FULLSCREEN:
+		DisplayServer.window_set_position((DisplayServer.screen_get_size() - next_resolution) / 2)
 
-func _on_master_volume_h_slider_value_changed(value):
-	Global.set_master_volume(value)
+func _on_master_volume_h_slider_value_changed(value) -> void:
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"Master"), linear_to_db(value))
 
-func _on_music_volume_h_slider_value_changed(value):
-	Global.set_music_volume(value)
+func _on_music_volume_h_slider_value_changed(value) -> void:
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"BGM"), linear_to_db(value))

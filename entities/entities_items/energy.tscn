@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://qea82ptmp2ry"]
+
+[ext_resource type="Script" uid="uid://ce5d5lef0ryfp" path="res://scripts/entities_scripts/entities_items_scripts/energy.gd" id="1_uxc2y"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uxc2y"]
+
+[node name="Energy" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_uxc2y")
+script = ExtResource("1_uxc2y")

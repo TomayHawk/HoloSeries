@@ -2,7 +2,7 @@ extends Node
 
 var main_player_node: Node = null
 
-@onready var party_node: Node = $Party
+@onready var party_node: Node2D = $Party
 @onready var standby_node: Node = $Standby
 @onready var camera_node: Camera2D = $Camera2D
 

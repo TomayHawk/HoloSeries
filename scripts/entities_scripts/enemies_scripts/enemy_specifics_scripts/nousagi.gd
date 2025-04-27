@@ -36,28 +36,47 @@ func _ready() -> void:
 	enemy_stats_node.base_crit_damage = 0.50
 	enemy_stats_node.crit_damage = 0.50
 
-	enemy_stats_node.play("idle")
+	nousagi_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
+	enemy_stats_node.play(&"walk")
+	enemy_stats_node.flip_h = nousagi_direction.x < 0
 	# TEMP
 	attack_state = AttackState.OUT_OF_RANGE
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	# check knockback
 	if move_state == MoveState.KNOCKBACK:
-		velocity = knockback_direction * knockback_multiplier * (1 - (0.4 - knockback_timer_node.get_time_left()) / 0.4) * knockback_weight
-	# animation check outside animation frame update
-	elif enemy_stats_node.animation == "idle":
-		# choose a player if player exists in detection area
-		# face target player
-		if target_player_node:
+		if enemy_stats_node.alive:
+			velocity -= knockback * (delta / 0.4)
+	elif move_state == MoveState.IDLE and attack_state != AttackState.ATTACK:
+		if attack_state == AttackState.OUT_OF_RANGE:
+			enemy_stats_node.play(&"walk")
+		elif target_player_node:
 			enemy_stats_node.flip_h = (target_player_node.position - position).x < 0
-		# switch to attack when ready
-		if attack_state == AttackState.READY:
-			attempt_attack()
-		# switch to walk when outside attack mode
-		elif attack_state == AttackState.OUT_OF_RANGE:
-			enemy_stats_node.play("walk")
+			if attack_state == AttackState.READY:
+				attempt_attack()
 
 	move_and_slide()
+
+# ................................................................................
+
+# STATES
+
+func update_velocity(direction: Vector2) -> void:
+	if direction == Vector2.ZERO:
+		move_state = MoveState.IDLE
+		velocity = Vector2.ZERO
+		return
+	
+	var temp_velocity: Vector2 = direction * walk_speed
+
+	match move_state:
+		MoveState.IDLE:
+			move_state = MoveState.WALK
+	
+	velocity = temp_velocity
+
+func update_animation() -> void:
+	pass
 
 # ................................................................................
 
@@ -67,22 +86,23 @@ func frame_changed() -> void:
 	match enemy_stats_node.frame:
 		0:
 			velocity = Vector2.ZERO
-			# else determine move direction
-			if not attack_state != AttackState.OUT_OF_RANGE:
-				enemy_stats_node.play("idle")
-			elif enemy_stats_node.enemy_in_combat:
+			if attack_state != AttackState.OUT_OF_RANGE:
+				if attack_state == AttackState.ATTACK:
+					attack_state = AttackState.COOLDOWN
+				enemy_stats_node.play(&"idle")
+			elif enemy_in_combat:
 				# remove all dead players from detection and attack arrays
-				for player_node in enemy_stats_node.players_in_detection_area:
+				for player_node in players_in_detection_area:
 					if not player_node.character_node.alive:
-						enemy_stats_node._on_detection_area_body_exited(player_node)
-						enemy_stats_node._on_attack_area_body_exited(player_node)
+						_on_detection_area_body_exited(player_node)
+						_on_attack_area_body_exited(player_node)
 
 				var available_player_nodes: Array[Node]
 				# determine targetable player nodes
-				if not enemy_stats_node.players_in_attack_area.is_empty():
-					available_player_nodes = enemy_stats_node.players_in_attack_area
+				if not players_in_attack_area.is_empty():
+					available_player_nodes = players_in_attack_area
 				else:
-					available_player_nodes = enemy_stats_node.players_in_detection_area
+					available_player_nodes = players_in_detection_area
 
 				target_player_node = null
 				var target_player_health: float = INF
@@ -93,16 +113,17 @@ func frame_changed() -> void:
 						target_player_node = player_node
 				# move towards player if any player in detection area
 				if target_player_node:
-					$BasicEnemy/NavigationAgent2D.target_position = target_player_node.position
-					nousagi_direction = to_local($BasicEnemy/NavigationAgent2D.get_next_path_position()).normalized()
+					$NavigationAgent2D.target_position = target_player_node.position
+					nousagi_direction = to_local($NavigationAgent2D.get_next_path_position()).normalized()
+					enemy_stats_node.flip_h = nousagi_direction.x < 0.0
 				# else move in a random direction
 				else:
 					nousagi_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
-				enemy_stats_node.play("walk")
+				enemy_stats_node.play(&"walk")
 				enemy_stats_node.flip_h = nousagi_direction.x < 0.0
 			else:
 				nousagi_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
-				enemy_stats_node.play("walk")
+				enemy_stats_node.play(&"walk")
 				enemy_stats_node.flip_h = nousagi_direction.x < 0
 		3:
 			match enemy_stats_node.animation:
@@ -111,7 +132,7 @@ func frame_changed() -> void:
 					if target_player_node:
 						var temp_attack_direction = (target_player_node.position - position).normalized()
 						if Damage.combat_damage(13, Damage.DamageTypes.PLAYER_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
-								enemy_stats_node, target_player_node.character_node): # attack player (damage)
+								enemy_stats_node, target_player_node.character_node):
 							target_player_node.dealt_knockback(temp_attack_direction, 0.4)
 						enemy_stats_node.flip_h = temp_attack_direction.x < 0
 				"walk":
@@ -125,9 +146,12 @@ func attempt_attack() -> void:
 	if can_summon and randi() % 3 == 0:
 		summon_nousagi()
 	else:
-		attack_state = AttackState.COOLDOWN
-		enemy_stats_node.play("attack")
-		$BasicEnemy/AttackCooldown.start(randf_range(1.5, 3.0))
+		attack_state = AttackState.ATTACK
+		enemy_stats_node.play(&"attack")
+		$AttackCooldown.start(randf_range(1.5, 3.0))
+		await $AttackCooldown.timeout
+		if attack_state != AttackState.OUT_OF_RANGE:
+			attack_state = AttackState.READY
 
 func summon_nousagi():
 	# create an instance of nousagi in enemies node
@@ -136,12 +160,75 @@ func summon_nousagi():
 	nousagi_instance.position = position + Vector2(5 * randf_range(-1, 1), 5 * randf_range(-1, 1)) * 5
 	
 	# start cooldown
-	$BasicEnemy/AttackCooldown.start(randf_range(2.0, 3.5))
+	$AttackCooldown.start(randf_range(2.0, 3.5))
 	attack_state = AttackState.COOLDOWN
 	$SummonCooldown.start(randf_range(15, 20))
 	can_summon = false
+	await $AttackCooldown.timeout
+	if attack_state != AttackState.OUT_OF_RANGE and not players_in_detection_area.is_empty():
+		attack_state = AttackState.READY
+	await $SummonCooldown.timeout
+	can_summon = true
 
 # ................................................................................
 
-func _on_summon_cooldown_timeout() -> void:
-	can_summon = true
+# ATTACK
+
+#func set_attack_state(next_state: AttackState) -> void:
+#    if attack_state == next_state or not character_node.alive: return
+#    # ally conditions
+#    if not is_main_player:
+#        #if not ally_can_attack:
+#            #return
+#        if attack_state != AttackState.READY and next_state == AttackState.ATTACK:
+#            return
+#
+#    attack_state = next_state
+#
+#    if attack_state == AttackState.ATTACK: attempt_attack()
+#
+#    update_animation()
+#
+#func attempt_attack(attack_name: String = "") -> void:
+#    if character_node != get_node_or_null(^"CharacterBase"):
+#        set_attack_state(AttackState.READY) # TODO: depends
+#        return
+#    
+#    if attack_name != "":
+#        pass # call attack with conditions
+#    elif character_node.auto_ultimate and character_node.ultimate_gauge == character_node.max_ultimate_gauge:
+#        character_node.ultimate_attack()
+#    else:
+#        character_node.basic_attack()
+
+# TODO: need to implement
+#func filter_nodes(initial_nodes: Array[EntityBase], get_stats_nodes: bool, origin_position: Vector2 = Vector2(-1.0, -1.0), range_min: float = -1.0, range_max: float = -1.0) -> Array[Node]:
+#    var resultant_nodes: Array[Node] = []
+#    var check_distance: bool = range_max > 0
+#    
+#    if check_distance:
+#        range_min *= range_min
+#        range_max *= range_max
+#    
+#    for entity_node in initial_nodes:
+#        if check_distance:
+#            var temp_distance: float = origin_position.distance_squared_to(entity_node.position)
+#            if temp_distance < range_min or temp_distance > range_max:
+#                continue
+#        if entity_node is PlayerBase:
+#            resultant_nodes.push_back(entity_node.character_node if get_stats_nodes else entity_node)
+#        elif entity_node is BasicEnemyBase:
+#            resultant_nodes.push_back(entity_node.enemy_stats_node if get_stats_nodes else entity_node)
+#    
+#    return resultant_nodes
+
+# TODO: IMPLEMENTING RIGHT NOW
+#func enter_attack_range() -> void:
+#    if attack_state == AttackState.OUT_OF_RANGE:
+#        attack_state = AttackState.READY
+#    # TODO: COOLDOWN ?
+
+# TODO: IMPLEMENTING RIGHT NOW
+#func exit_attack_range() -> void:
+#    if attack_state == AttackState.READY:
+#        attack_state = AttackState.OUT_OF_RANGE

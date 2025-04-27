@@ -1,7 +1,5 @@
 class_name PlayerStats extends EntityStats
 
-var entity_types: int = 0
-
 var node_index: int = -1
 var stamina_slow_recovery: bool = false
 
@@ -15,6 +13,11 @@ var base_projectile_range: float = 60.0
 var projectile_range: float = 60.0
 var base_spell_range: float = 80.0
 var spell_range: float = 80.0
+
+# nexus variables
+var last_node: int = -1
+var unlocked_nodes: Array[int] = []
+var converted_nodes: Array[Array] = []
 
 func _ready() -> void:
 	play(&"down_idle")
@@ -205,4 +208,4 @@ func revive(value: float) -> void: # TODO: doesn't need default value
 	alive = true
 	update_health(value)
 	update_stats()
-	play("down_idle")
+	play(&"down_idle")

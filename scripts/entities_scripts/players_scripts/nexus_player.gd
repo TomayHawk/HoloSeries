@@ -1,10 +1,9 @@
 extends CharacterBody2D
 
 @onready var nexus := get_parent()
-@onready var nexus_ui_node: Node = get_parent().get_node(^"HoloNexusUI")
 
-@onready var nexus_player_outline_node := %PlayerOutline
-@onready var nexus_player_crosshair_node := %PlayerCrosshair
+@onready var nexus_player_outline_node := $PlayerOutline
+@onready var nexus_player_crosshair_node := $PlayerCrosshair
 
 @onready var character_index: int = Players.main_player_node.character_node.character_index
 
@@ -42,7 +41,7 @@ func _physics_process(_delta):
 			nexus_player_outline_node.show()
 			nexus_player_crosshair_node.hide()
 			# update nexus ui
-			nexus_ui_node.update_nexus_ui()
+			nexus.ui.update_nexus_ui()
 	else:
 		move_direction = Input.get_vector(&"left", &"right", &"up", &"down")
 		velocity = move_direction * speed
@@ -52,7 +51,7 @@ func _physics_process(_delta):
 			snap_to_target(position)
 		elif velocity != Vector2.ZERO:
 			# hide nexus ui while moving
-			nexus_ui_node.hide_all()
+			nexus.ui.hide_all()
 			
 			# accelerate by 1 until max speed
 			if speed < speed_max: speed += 1
@@ -98,4 +97,4 @@ func snap_to_target(initial_position):
 
 	snapping = true
 
-	nexus_ui_node.hide_all()
+	nexus.ui.hide_all()

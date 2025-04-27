@@ -17,16 +17,32 @@ var consumables_resources: Array[Resource] = [
 	load("res://scripts/items_scripts/temp_kill_item.gd"),
 ]
 
+func add_item(item_type: int, item_id: int, count: int = 1) -> void:
+	match item_type:
+		0: consumables_inventory[item_id] += count
+		1: materials_inventory[item_id] += count
+		2: weapons_inventory[item_id] += count
+		3: armors_inventory[item_id] += count
+		4: accessories_inventory[item_id] += count
+		5: nexus_inventory[item_id] += count
+		6: key_inventory[item_id] += count
+	
+	if item_type == 0:
+		if consumables_inventory[item_id] == 1:
+			pass # TODO: create a combat button
+		else:
+			pass # TODO: modify combat button
+
 func use_consumable(index: int, is_main_player: bool = true) -> void: # TODO
 	if is_main_player and Entities.requesting_entities:
 		return
 	
 	var item: Resource = consumables_resources[index].new()
-	#var combat_ui_button_node = Combat.ui.items_grid_container_node.get_node(item.button_name.replace(" ", ""))
+	var combat_ui_button_node: Button = Combat.ui.items_grid_container_node.get_node_or_null(item.item_name)
 	
 	if consumables_inventory[index] <= 0:
-		#if combat_ui_button_node:
-		#	combat_ui_button_node.queue_free()
+		if combat_ui_button_node:
+			combat_ui_button_node.queue_free()
 		return
 
 	var request_count = item.request_count
@@ -45,10 +61,11 @@ func use_consumable(index: int, is_main_player: bool = true) -> void: # TODO
 	consumables_inventory[index] -= 1
 	item.use_item(chosen_nodes)
 
-	#if consumables_inventory[index] == 0:
-	#	combat_ui_button_node.queue_free()
-	#else:
-	#	combat_ui_button_node.get_node(&"Quantity").text = str(consumables_inventory[index])
+	if consumables_inventory[index] == 0:
+		if combat_ui_button_node:
+			combat_ui_button_node.queue_free()
+	else:
+		combat_ui_button_node.get_node(^"Number").text = str(consumables_inventory[index])
 
 func change_weapon(_character_node: Node, _index: int) -> void:
 	pass

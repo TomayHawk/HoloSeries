@@ -1,36 +1,48 @@
 extends Node
 
-# nexus
+# nexus variables
 var nexus_stats_types: Array[Vector2] = []
 var nexus_stats_qualities: Array[int] = []
-
-@onready var tree: SceneTree = get_tree()
+var nexus_last_nodes: Array[int] = []
+var nexus_unlocked_nodes: Array[Array] = []
+var nexus_converted_nodes: Array[Array] = []
 
 # ................................................................................
 
 # SCENE CHANGE
 
 func change_scene(next_scene_path: String, next_position: Vector2, camera_limits: Array[int], bgm_path: String) -> void:
-	get_tree().call_deferred("change_scene_to_file", next_scene_path)
+	var tree: SceneTree = get_tree()
 	
+	# change scene
+	tree.call_deferred(&"change_scene_to_file", next_scene_path)
+	Players.party_node.call_deferred(&"reparent", Players)
+	
+	# reset world objects and values
 	Entities.end_entities_request()
 	Combat.clear_combat_entities()
 	Combat.leave_combat()
 
-	# TODO: Fix flicker
+	# TODO: fix flicker
+	# update camera settings
+	Players.camera_node.force_zoom(Players.camera_node.target_zoom)
+	Players.camera_node.new_limits(camera_limits)
 	Players.camera_node.position_smoothing_enabled = false
 	Players.main_player_node.position = next_position
 	await tree.process_frame
 	Players.camera_node.position_smoothing_enabled = true
 
+	# update ally positions
 	for player_node in Players.party_node.get_children():
 		if player_node == Players.main_player_node: continue
-		player_node.position = next_position + (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
+		player_node.position = next_position + (Vector2(randf_range(-1, 1), randf_range(-1, 1)) * 25)
 
-	Players.camera_node.force_zoom(Players.camera_node.target_zoom)
-	Players.camera_node.new_limits(camera_limits)
-
+	# update bgm
 	start_bgm(bgm_path)
+
+	# reparent party
+	await tree.process_frame
+	Players.party_node.reparent(tree.current_scene)
 
 # ................................................................................
 
@@ -54,7 +66,7 @@ func start_bgm(bgm_path: String) -> void:
 		return
 
 	# no tweens if no volume (or low volume)
-	if AudioServer.get_bus_volume_db(AudioServer.get_bus_index("BGM")) < -70.0:
+	if AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"BGM")) < -70.0:
 		$BgmPlayer.stream = load(bgm_path)
 		$BgmPlayer.play()
 		return
@@ -67,10 +79,9 @@ func start_bgm(bgm_path: String) -> void:
 	# turn down old bgm player
 	$BgmPlayer.name = "OldBgmPlayer"
 	var tween_1 = $OldBgmPlayer.create_tween()
-	tween_1.tween_property(
-			$OldBgmPlayer, "volume_db",
-			-80.0, 3.0
-	).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
+	tween_1.tween_property($OldBgmPlayer, "volume_db", -80.0, 3.0) \
+			.set_trans(Tween.TRANS_LINEAR) \
+			.set_ease(Tween.EASE_OUT)
 
 	# initialize new bgm player
 	var new_bgm_player = AudioStreamPlayer.new()
@@ -85,42 +96,12 @@ func start_bgm(bgm_path: String) -> void:
 	
 	# turn up new bgm player
 	var tween_2 = $BgmPlayer.create_tween()
-	tween_2.tween_property(
-			$BgmPlayer, "volume_db",
-			AudioServer.get_bus_volume_db(AudioServer.get_bus_index("BGM")), 4.0
-	).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	tween_2.tween_property($BgmPlayer, "volume_db",
+			AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"BGM")), 4.0) \
+			.set_trans(Tween.TRANS_EXPO) \
+			.set_ease(Tween.EASE_OUT)
 
 	# free old bgm player
 	await tween_2.finished
 	if get_node_or_null(^"OldBgmPlayer"):
 		$OldBgmPlayer.queue_free()
-
-# ................................................................................
-
-# SETTINGS
-
-func is_full_screen() -> bool:
-	return DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
-
-func toggle_full_screen() -> void:
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED if is_full_screen() else DisplayServer.WINDOW_MODE_FULLSCREEN)
-
-func set_resolution(x: int, y: int) -> void:
-	DisplayServer.window_set_size(Vector2i(x, y))
-	
-	if not is_full_screen():
-		DisplayServer.window_set_position((DisplayServer.screen_get_size() - Vector2i(x, y)) / 2)
-
-func set_master_volume(value: float) -> void:
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(value))
-
-func set_music_volume(value: float) -> void:
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("BGM"), linear_to_db(value))
-
-
-# TODO: temporary
-var temporary_global_variable := {
-	"last_nodes": [167, 154, 333, 0, 132],
-	"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]],
-	"converted": [[[]], [[]], [[]], [[]], [[]]], # [node, type, quality],
-}

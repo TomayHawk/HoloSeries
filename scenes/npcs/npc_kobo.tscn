@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://dlxkifgl6lq80"]
 
-[ext_resource type="Script" uid="uid://dtmpljtjlr6dc" path="res://scripts/entities_scripts/npcs_scripts/npc_kobo.gd" id="1_hn0bh"]
+[ext_resource type="Script" uid="uid://dtmpljtjlr6dc" path="res://scripts/scenes_scripts/npcs_scripts/npc_kobo.gd" id="1_hn0bh"]
 [ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/characters/Nousagi.png" id="2_1ia7d"]
-[ext_resource type="PackedScene" uid="uid://0efkvv5xqacu" path="res://entities/npcs/base_npc.tscn" id="2_40qv4"]
+[ext_resource type="PackedScene" uid="uid://0efkvv5xqacu" path="res://scenes/npcs/base_npc.tscn" id="2_40qv4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y10wm"]
 atlas = ExtResource("2_1ia7d")
@@ -40,16 +40,12 @@ animations = [{
 "speed": 4.0
 }]
 
-[node name="NpcKobo" type="Node2D"]
-script = ExtResource("1_hn0bh")
-
-[node name="BaseNpc" parent="." instance=ExtResource("2_40qv4")]
-
-[node name="Animation" type="AnimatedSprite2D" parent="."]
+[node name="NpcKobo" type="AnimatedSprite2D"]
 y_sort_enabled = true
-position = Vector2(0, -1)
-scale = Vector2(1, 0.979167)
 sprite_frames = SubResource("SpriteFrames_p25ay")
 animation = &"idle"
 autoplay = "idle"
-offset = Vector2(0, -10.5)
+offset = Vector2(0, -12)
+script = ExtResource("1_hn0bh")
+
+[node name="BaseNpc" parent="." instance=ExtResource("2_40qv4")]

@@ -9,11 +9,11 @@ enum CombatState {
 const EnemyMarker: PackedScene = preload("res://entities/entities_indicators/enemy_marker.tscn")
 
 var ability_loads: Array[Resource] = [
-	load("res://abilities/fireball.tscn"),
-	load("res://abilities/regen.tscn"),
-	load("res://abilities/heal.tscn"),
-	load("res://abilities/play_dice.tscn"),
-	load("res://abilities/rocket_launcher.tscn"),
+	load("res://abilities/black_magic/fireball.tscn"),
+	load("res://abilities/white_magic/regen.tscn"),
+	load("res://abilities/white_magic/heal.tscn"),
+	load("res://abilities/skill/play_dice.tscn"),
+	load("res://abilities/special/rocket_launcher.tscn"),
 ]
 
 var enemy_nodes_in_combat: Array[Node] = []

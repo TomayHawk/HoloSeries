@@ -172,7 +172,7 @@ func set_attack_state(next_state: AttackState) -> void:
 	update_animation()
 
 func attempt_attack(attack_name: String = "") -> void:
-	if character_node != get_node_or_null("CharacterBase"):
+	if character_node != get_node_or_null(^"CharacterBase"):
 		set_attack_state(AttackState.READY) # TODO: depends
 		return
 	
@@ -294,13 +294,39 @@ func _on_combat_hit_box_area_mouse_entered() -> void:
 func _on_combat_hit_box_area_mouse_exited() -> void:
 	Inputs.mouse_in_attack_position = true
 
-func _on_interaction_area_body_entered(body: Node) -> void:
+func _on_interaction_area_body_entered(body: Node2D) -> void:
 	if is_main_player:
 		body.interaction_area(true)
 
-func _on_interaction_area_body_exited(body: Node) -> void:
+func _on_interaction_area_body_exited(body: Node2D) -> void:
 	if is_main_player:
 		body.interaction_area(false)
+
+func _on_lootable_area_entered(body: Node2D) -> void:
+	if body.nearby_player_nodes.is_empty():
+		body.nearby_player_nodes.append(self)
+		body.target_player_node = self
+	elif not body.nearby_player_nodes.has(self):
+		body.nearby_player_nodes.append(self)
+	
+	body.set_physics_process(true)
+	
+func _on_lootable_area_exited(body: Node2D) -> void:
+	body.nearby_player_nodes.erase(self)
+
+	if body.nearby_player_nodes.is_empty():
+		body.set_physics_process(false)
+		body.target_player_node = null
+		body.multiplier = 0.0
+	else:
+		var target_player_node: PlayerBase = null
+		var least_distance: float = INF
+		for player_node in body.nearby_player_nodes:
+			var temp_distance: float = body.global_position.distance_squared_to(player_node.global_position)
+			if temp_distance < least_distance:
+				target_player_node = player_node
+				least_distance = temp_distance
+		body.target_player_node = target_player_node
 
 func _on_knockback_timer_timeout() -> void:
 	set_move_state(MoveState.IDLE)

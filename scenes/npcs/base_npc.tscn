@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://0efkvv5xqacu"]
 
-[ext_resource type="Script" uid="uid://cr32d7aighamu" path="res://scripts/entities_scripts/npcs_scripts/base_npc.gd" id="1_y7t5k"]
+[ext_resource type="Script" uid="uid://cr32d7aighamu" path="res://scripts/scenes_scripts/npcs_scripts/base_npc.gd" id="1_y7t5k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fbfvt"]
 

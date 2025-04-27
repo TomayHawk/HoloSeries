@@ -16,7 +16,7 @@ var heal_percentage: float = 0.05
 
 func _ready() -> void:
 	# request target entity
-	Entities.entities_request_ended.connect(entity_chosen)
+	Entities.entities_request_ended.connect(entity_chosen, CONNECT_ONE_SHOT)
 	Entities.request_entities([Entities.Type.PLAYERS_ALIVE])
 
 	# if alt is pressed, target player with lowest health
@@ -26,7 +26,6 @@ func _ready() -> void:
 func entity_chosen(chosen_nodes: Array[EntityBase]) -> void:
 	var target_node: EntityBase = null if chosen_nodes.is_empty() else chosen_nodes[0]
 	# TODO: should add a variable for "player can cast spells"
-	Entities.entities_request_ended.disconnect(entity_chosen)
 	# heal if node chosen, caster is alive and caster has enough mana
 	if target_node and caster_stats_node.alive and caster_stats_node.mana >= mana_cost:
 		caster_stats_node.update_mana(-mana_cost)

@@ -106,5 +106,5 @@ func reset() -> void:
 	pass
 
 func _on_option_button_pressed(extra_arg_0: int):
-	emit_signal("option_selected", extra_arg_0)
+	emit_signal(&"option_selected", extra_arg_0)
 	clearOptions()

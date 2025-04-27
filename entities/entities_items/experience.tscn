@@ -1,3 +1,9 @@
-[gd_scene format=3 uid="uid://c5tre5e0fswdl"]
+[gd_scene load_steps=3 format=3 uid="uid://c5tre5e0fswdl"]
 
-[node name="Experience" type="RigidBody2D"]
+[ext_resource type="Script" uid="uid://r34gtni3euxf" path="res://scripts/entities_scripts/entities_items_scripts/experience.gd" id="1_4t5qf"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4t5qf"]
+
+[node name="Experience" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_4t5qf")
+script = ExtResource("1_4t5qf")

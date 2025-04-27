@@ -37,7 +37,7 @@ var saves: Array[Dictionary] = [
 		"nexus_stats_qualities": [] as Array[int],
 		"last_nodes": [167, 154, 333, -1, 132] as Array[int],
 		"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]] as Array[Array],
-		"converted": [[[]], [[]], [[]], [[]], [[]]] as Array[Array], # saves["converted"][character_index][i] = [node, type, quality]
+		"converted": [[], [], [], [], []] as Array[Array], # saves["converted"][character_index][i] = [node, type, quality]
 	},
 	{},
 ]
@@ -49,8 +49,8 @@ func _ready() -> void:
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if settings["is_full_screen"] else DisplayServer.WINDOW_MODE_WINDOWED)
 	DisplayServer.window_set_size(settings["resolution"])
 	DisplayServer.window_set_position(settings["window_position"])
-	Global.set_master_volume(settings["master_volume"])
-	Global.set_music_volume(settings["music_volume"])
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"Master"), linear_to_db(settings["master_volume"]))
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"BGM"), linear_to_db(settings["music_volume"]))
 
 func new_save(character_index: int, save_index: int) -> void:
 	# initialize save
@@ -124,8 +124,8 @@ func load_save(save_index: int = last_save) -> void:
 	last_save = save_index
 
 	# scene
-	Global.tree.call_deferred("change_scene_to_file", saves[save_index]["scene_path"])
-	
+	get_tree().call_deferred(&"change_scene_to_file", saves[save_index]["scene_path"]) # TODO: use Global.change_scene
+
 	# inventories
 	Inventory.consumables_inventory = saves[save_index]["consumables"].duplicate()
 	Inventory.materials_inventory = saves[save_index]["materials"].duplicate()
@@ -134,6 +134,22 @@ func load_save(save_index: int = last_save) -> void:
 	Inventory.accessories_inventory = saves[save_index]["accessories"].duplicate()
 	Inventory.nexus_inventory = saves[save_index]["nexus"].duplicate()
 	Inventory.key_inventory = saves[save_index]["key"].duplicate()
+	
+	var i: int = 0
+
+	for item_count in Inventory.consumables_inventory:
+		if item_count > 0:
+			var options_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/options_button.tscn").instantiate()
+			var item_name: String = Inventory.consumables_resources[i].new().item_name
+			options_button.name = item_name
+			options_button.get_node(^"Name").text = item_name
+			options_button.get_node(^"Number").text = str(item_count)
+			options_button.pressed.connect(Combat.ui.button_pressed)
+			options_button.pressed.connect(Combat.ui.use_consumable.bind(i))
+			options_button.mouse_entered.connect(Combat.ui._on_control_mouse_entered)
+			options_button.mouse_exited.connect(Combat.ui._on_control_mouse_exited)
+			Combat.ui.items_grid_container_node.add_child(options_button)
+		i += 1
 	
 	# players
 	const BASE_PLAYER_PATH: String = "res://entities/players/player_base.tscn"
@@ -213,7 +229,7 @@ func load_save(save_index: int = last_save) -> void:
 		character_node.base_crit_chance = DEFAULT_STATS[character_index][10]
 		character_node.base_crit_damage = DEFAULT_STATS[character_index][11]
 
-		var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui_character_button.tscn").instantiate()
+		var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/character_button.tscn").instantiate()
 		Combat.ui.get_node(^"CharacterSelector/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer").add_child(standby_button)
 		standby_button.pressed.connect(Players.update_standby_player.bind(standby_button.get_index()))
 		standby_button.pressed.connect(Combat.ui.button_pressed)
@@ -242,9 +258,9 @@ func load_save(save_index: int = last_save) -> void:
 	Global.nexus_stats_types = saves[save_index]["nexus_stats_types"]
 	Global.nexus_stats_qualities = saves[save_index]["nexus_stats_qualities"]
 	
-	Global.temporary_global_variable["last_nodes"] = saves[save_index]["last_nodes"]
-	Global.temporary_global_variable["unlocked"] = saves[save_index]["unlocked"]
-	Global.temporary_global_variable["converted"] = saves[save_index]["converted"]
+	Global.nexus_last_nodes = saves[save_index]["last_nodes"]
+	Global.nexus_unlocked_nodes = saves[save_index]["unlocked"]
+	Global.nexus_converted_nodes = saves[save_index]["converted"]
 
 func save(save_index):
 	saves[save_index] = Global.current_save.duplicate()

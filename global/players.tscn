@@ -6,7 +6,8 @@
 [node name="Players" type="Node"]
 script = ExtResource("1_eytbs")
 
-[node name="Party" type="Node" parent="."]
+[node name="Party" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Standby" type="Node" parent="."]
 
