@@ -108,7 +108,6 @@ text = "Items"
 
 [node name="InventoryMargin" type="MarginContainer" parent="Control"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0

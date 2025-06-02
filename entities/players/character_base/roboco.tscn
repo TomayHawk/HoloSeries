@@ -507,7 +507,7 @@ size = Vector2(10, 10)
 [node name="CharacterBase" type="AnimatedSprite2D"]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_qsfsi")
-animation = &"down_idle"
+animation = &"left_idle"
 offset = Vector2(0, -12.5)
 script = ExtResource("3_t60sy")
 
