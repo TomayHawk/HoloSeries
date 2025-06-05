@@ -1,6 +1,11 @@
-class_name EntityStats extends AnimatedSprite2D
+class_name EntityStats extends Resource
+
+signal status_added(type: Entities.Status)
+signal status_removed(type: Entities.Status)
 
 # ................................................................................
+
+var base: EntityBase = null
 
 # STATS
 
@@ -55,38 +60,34 @@ var vision: float = 1.0
 
 var status: int = 0
 var effects: Array[Resource] = []
-var effects_timers: Array[float] = []
-var time_since_last_effect: float = 0.0
-
-func _ready() -> void:
-	set_process(false)
-
-func _process(delta: float) -> void:
-	time_since_last_effect += delta
-	if time_since_last_effect > 0.1:
-		var effects_count: int = effects_timers.size()
-		for i in effects_count:
-			var index: int = effects_count - 1 - i
-			effects_timers[index] -= time_since_last_effect
-			if effects_timers[index] <= 0:
-				effects[index].effect_timeout(self, index)
-		time_since_last_effect = 0.0
 
 func add_status(type: Entities.Status) -> Resource:
-	var effect_resource: Resource = Entities.effect_resources[type].new()
-	effects.push_back(effect_resource)
-	effects_timers.push_back(effect_resource.effect_timer)
+	var effect: Resource = Entities.effect_resources[type].new()
+	effects.push_back(effect)
+	if not has_status(type):
+		emit_signal("status_added", type)
 	status |= type
-	set_process(true)
-	return effect_resource
+	if base:
+		base.set_process(true)
+	return effect
 
 func attempt_remove_status(type: Entities.Status) -> void:
 	for effect in effects:
 		if effect.effect_type == type:
 			return
 	status &= ~type
-	if status == 0:
-		set_process(false)
+	emit_signal("status_removed", type)
+	if not status and base:
+		base.set_process(false)
+
+func force_remove_status(type: Entities.Status) -> void:
+	for effect in effects.duplicate():
+		if effect.effect_type == type:
+			effects.erase(effect)
+	status &= ~type
+	emit_signal("status_removed", type)
+	if not status and base:
+		base.set_process(false)
 
 func has_status(type: Entities.Status) -> bool:
 	return status & type
@@ -94,5 +95,5 @@ func has_status(type: Entities.Status) -> bool:
 func reset_status() -> void:
 	status = 0
 	effects.clear()
-	effects_timers.clear()
-	set_process(false)
+	if base:
+		base.set_process(false)

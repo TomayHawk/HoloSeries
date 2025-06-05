@@ -1,7 +1,5 @@
 class_name BasicEnemyStats extends EnemyStats
 
-@onready var enemy_node: BasicEnemyBase = get_parent()
-
 # ................................................................................
 
 func _ready() -> void:

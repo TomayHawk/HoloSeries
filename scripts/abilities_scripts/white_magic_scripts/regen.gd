@@ -33,6 +33,5 @@ func entity_chosen(chosen_nodes: Array[EntityBase]):
 		effect.regen_settings(DAMAGE_TYPES, target_node.character_node,
 				clamp(target_node.character_node.max_health * heal_percentage, 10.0, 210.0),
 				4.0, regen_count, 0.8, 1.2)
-		target_node.character_node.effects_timers[-1] = 4.0
 
 	queue_free()

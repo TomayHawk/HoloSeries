@@ -22,18 +22,6 @@ var converted_nodes: Array[Array] = []
 func _ready() -> void:
 	play(&"down_idle")
 
-func _physics_process(_delta: float) -> void:
-	# regenerate mana
-	if mana != max_mana:
-		update_mana(0.004)
-
-	# regenerate stamina
-	if stamina != max_stamina:
-		update_stamina(0.25 if stamina_slow_recovery else 0.5)
-	
-	if mana == max_mana and stamina == max_stamina:
-		set_physics_process(false)
-
 func update_nodes() -> void:
 	position = Vector2.ZERO
 	

@@ -25,11 +25,18 @@ var knockback_weight: float = 0.0
 @onready var character_node: AnimatedSprite2D = get_node_or_null(^"CharacterBase")
 
 # ................................................................................
-var timer: float = 0.0
 # PROCESS LOOP AND INPUTS
 
-func _process(delta):
-	timer += delta
+func _process(delta) -> void:
+	# regenerate mana
+	if stats.mana != stats.max_mana:
+		stats.update_mana(0.004)
+
+	# regenerate stamina
+	if stats.stamina != stats.max_stamina:
+		stats.update_stamina(0.25 if stats.stamina_slow_recovery else 0.5)
+
+	super (delta)
 
 func _physics_process(_delta: float) -> void:
 	if move_state == MoveState.KNOCKBACK:

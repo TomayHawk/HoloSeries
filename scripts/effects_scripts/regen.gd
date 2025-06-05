@@ -11,6 +11,7 @@ var damage_types: int = \
 		| Damage.DamageTypes.NO_MISS
 
 var origin_stats_node: EntityStats = null
+var heal_interval: float = 5.0
 var heal_amount: float = 10.0
 var count: int = 7
 var min_rand: float = 0.95
@@ -20,17 +21,17 @@ func regen_settings(types: int, stats_node: EntityStats, amount: float, set_time
 	damage_types = types
 	origin_stats_node = stats_node
 	effect_timer = set_timer
+	heal_interval = set_timer
 	heal_amount = amount
 	count = set_count
 	min_rand = set_min
 	max_rand = set_max
 
-func effect_timeout(stats_node: EntityStats, status_index: int) -> void:
+func effect_timeout(stats_node: EntityStats) -> void:
 	Damage.combat_damage(heal_amount * randf_range(min_rand, max_rand), damage_types, origin_stats_node, stats_node)
 	count -= 1
 	if count == 0:
-		stats_node.effects.remove_at(status_index)
-		stats_node.effects_timers.remove_at(status_index)
+		stats_node.effects.erase(self)
 		stats_node.attempt_remove_status(Entities.Status.REGEN)
 	else:
-		stats_node.effects_timers[status_index] = effect_timer
+		effect_timer = heal_interval
