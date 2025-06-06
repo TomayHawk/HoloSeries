@@ -60,7 +60,7 @@ func _ready():
 		index_counter += 1
 
 	# update current player and allies in character selector
-	update_nexus_player(Players.main_player_node.character_node.character_index)
+	update_nexus_player(Players.main_player_node.character.character_index)
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed(&"esc"):
@@ -83,11 +83,11 @@ func temp_function():
 	# TODO: temporary
 	var party_players: Array[int] = []
 	for player in Players.party_node.get_children():
-		party_players.push_back(player.character_node.character_index)
+		party_players.push_back(player.character.character_index)
 
 	var standby_players: Array[int] = []
-	for character_node in Players.standby_node.get_children():
-		standby_players.push_back(character_node.character_index)
+	for character in Players.standby_node.get_children():
+		standby_players.push_back(character.character_index)
 
 	# for each unlocked player, determine all unlockables
 	for character_index in party_players + standby_players:
@@ -196,11 +196,11 @@ func exit_nexus():
 	# TODO: temporary
 	var party_players: Array[int] = []
 	for player in Players.party_node.get_children():
-		party_players.push_back(player.character_node.character_index)
+		party_players.push_back(player.character.character_index)
 
 	var standby_players: Array[int] = []
-	for character_node in Players.standby_node.get_children():
-		standby_players.push_back(character_node.character_index)
+	for character in Players.standby_node.get_children():
+		standby_players.push_back(character.character_index)
 
 	Players.camera_node.update_camera(Players.main_player_node, true, scene_camera_zoom)
 

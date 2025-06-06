@@ -67,11 +67,11 @@ func use_consumable(index: int, is_main_player: bool = true) -> void: # TODO
 	else:
 		combat_ui_button_node.get_node(^"Number").text = str(consumables_inventory[index])
 
-func change_weapon(_character_node: Node, _index: int) -> void:
+func change_weapon(_character: Node, _index: int) -> void:
 	pass
 
-func change_armor(_character_node: Node, _index: int) -> void:
+func change_armor(_character: Node, _index: int) -> void:
 	pass
 
-func change_accessories(_character_node: Node, _index: int) -> void:
+func change_accessories(_character: Node, _index: int) -> void:
 	pass

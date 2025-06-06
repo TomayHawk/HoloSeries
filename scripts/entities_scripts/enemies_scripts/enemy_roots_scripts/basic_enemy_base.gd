@@ -66,17 +66,17 @@ func _on_combat_hit_box_input_event(_viewport: Node, _event: InputEvent, _shape_
 
 func _on_combat_hit_box_mouse_entered() -> void:
 	if Entities.requesting_entities:
-		Inputs.mouse_in_attack_position = false
+		Inputs.mouse_in_attack_range = false
 
 func _on_combat_hit_box_mouse_exited() -> void:
-	Inputs.mouse_in_attack_position = true
+	Inputs.mouse_in_attack_range = true
 
 # ................................................................................
 
 # DETECTION AREA
 
 func _on_detection_area_body_entered(body: Node2D) -> void:
-	if not enemy_stats_node.alive or not body.character_node.alive: return
+	if not enemy_stats_node.alive or not body.character.alive: return
 	Combat.add_active_enemy(self)
 	enemy_stats_node.entity_types |= Entities.Type.ENEMIES_IN_COMBAT
 	enemy_in_combat = true
@@ -98,7 +98,7 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 # ATTACK AREA
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
-	if not enemy_stats_node.alive or not body.character_node.alive: return
+	if not enemy_stats_node.alive or not body.character.alive: return
 	enemy_in_combat = true
 	if attack_state == AttackState.OUT_OF_RANGE:
 		attack_state = AttackState.READY

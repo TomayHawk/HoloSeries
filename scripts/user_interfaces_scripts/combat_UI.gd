@@ -88,11 +88,11 @@ func hide_sub_combat_options() -> void:
 # SIGNALS AND BUTTON PRESSES
 
 func _on_control_mouse_entered() -> void:
-	Inputs.mouse_in_attack_position = false
+	Inputs.mouse_in_attack_range = false
 	Players.camera_node.can_zoom = false
 
 func _on_control_mouse_exited() -> void:
-	Inputs.mouse_in_attack_position = true
+	Inputs.mouse_in_attack_range = true
 	Players.camera_node.can_zoom = true
 
 func button_pressed() -> void:

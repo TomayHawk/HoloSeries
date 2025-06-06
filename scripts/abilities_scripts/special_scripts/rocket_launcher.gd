@@ -10,7 +10,7 @@ var speed: float = 90.0
 var damage: float = 10.0
 
 @onready var caster_node: Node2D = Players.main_player_node
-@onready var caster_stats_node: Node2D = caster_node.character_node
+@onready var caster_stats_node: Node2D = caster_node.character
 
 func _ready() -> void:
 	hide()
@@ -46,7 +46,7 @@ func projectile_collision(move_direction) -> void:
 	Players.camera_node.screen_shake(0.1, 1, 30, 5, false)
 	var target_enemy_nodes: Array[EntityBase] = await $AreaOfEffect.area_of_effect(2)
 	for enemy_node in target_enemy_nodes:
-		if Damage.combat_damage(damage, DAMAGE_TYPES, caster_node.character_node, enemy_node.enemy_stats_node):
+		if Damage.combat_damage(damage, DAMAGE_TYPES, caster_node.character, enemy_node.enemy_stats_node):
 			enemy_node.dealt_knockback(move_direction, 1.5)
 	queue_free()
 

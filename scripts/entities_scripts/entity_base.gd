@@ -1,15 +1,18 @@
 class_name EntityBase extends CharacterBody2D
 
+signal knockback_timeout()
+signal dash_timeout()
+
 enum MoveState {
 	IDLE,
 	WALK,
 	DASH,
 	SPRINT,
 	KNOCKBACK,
+	STUN,
 }
 
 enum AttackState {
-	OUT_OF_RANGE,
 	READY,
 	ATTACK,
 	COOLDOWN,
@@ -24,17 +27,7 @@ enum Directions {
 	UP_RIGHT,
 	DOWN_LEFT,
 	DOWN_RIGHT,
-}
-
-const VECTOR_TO_DIRECTION: Dictionary[Vector2, Directions] = {
-    Vector2(0.0, -1.0): Directions.UP,
-    Vector2(0.0, 1.0): Directions.DOWN,
-    Vector2(-1.0, 0.0): Directions.LEFT,
-    Vector2(1.0, 0.0): Directions.RIGHT,
-	Vector2(-0.70710678, -0.70710678): Directions.UP_LEFT,
-    Vector2(0.70710678, -0.70710678): Directions.UP_RIGHT,
-    Vector2(-0.70710678, 0.70710678): Directions.DOWN_LEFT,
-    Vector2(0.70710678, 0.70710678): Directions.DOWN_RIGHT,
+	NOT_APPLICABLE,
 }
 
 # ................................................................................
@@ -42,44 +35,55 @@ const VECTOR_TO_DIRECTION: Dictionary[Vector2, Directions] = {
 # VARIABLES
 
 var stats: EntityStats = null
+var process_interval: float = 0.0
 
 # STATES
 
 var move_state: MoveState = MoveState.IDLE
-var move_direction: Directions = Directions.UP
-var attack_state: AttackState = AttackState.READY # TODO: should be OUT_OF_RANGE
-var attack_direction: Vector2 = Vector2(1.0, 0.0)
+var attack_state: AttackState = AttackState.READY
+var move_direction: Directions = Directions.DOWN
+var attack_vector: Vector2 = Vector2.RIGHT
+
+# KNOCKBACK
+
+var knockback_velocity: Vector2 = Vector2.LEFT
+var knockback_timer: float = 0.0
+
+# DASH
+var dash_timer: float = 0.0
 
 # ................................................................................
 
 # PROCESS
 
-var status_interval: float = 0.0
-
 func _process(delta: float) -> void:
-	if stats.status:
-		status_interval += delta
-		if status_interval > 0.1:
-			for effect in stats.effects.duplicate():
-				effect.effect_timer -= status_interval
-				if effect.effect_timer <= 0.0:
-					effect.effect_timeout(stats)
-			status_interval = 0.0
+	process_interval += delta
 
-# ................................................................................
+	if process_interval > 0.1:
+		# regenerate mana
+		if stats.mana < stats.max_mana:
+			stats.update_mana(0.025)
 
-func snapped_direction(target_direction: Vector2) -> Vector2:
-	if target_direction.y < -0.38268343:
-		target_direction = \
-				Vector2(-0.70710678, -0.70710678) if target_direction.x < -0.38268343 \
-				else Vector2(0.70710678, -0.70710678) if target_direction.x > 0.38268343 \
-				else Vector2(0.0, -1.0)
-	elif target_direction.y > 0.38268343:
-		target_direction = \
-				Vector2(-0.70710678, 0.70710678) if target_direction.x < -0.38268343 \
-				else Vector2(0.70710678, 0.70710678) if target_direction.x > 0.38268343 \
-				else Vector2(0.0, 1.0)
-	else:
-		target_direction = Vector2(-1.0, 0.0) if target_direction.x < 0 else Vector2(1.0, 0.0)
+		# regenerate stamina
+		if move_state != MoveState.DASH and move_state != MoveState.SPRINT and stats.stamina < stats.max_stamina:
+			stats.update_stamina(1.5 if stats.fatigue else 3.0)
+		
+		# decrease effects timers
+		for effect in stats.effects.duplicate():
+			effect.effect_timer -= process_interval
+			if effect.effect_timer <= 0.0:
+				effect.effect_timeout(stats)
 
-	return target_direction
+		# decrease knockback timer
+		if knockback_timer > 0.0:
+			knockback_timer -= process_interval
+			if knockback_timer < 0.0:
+				emit_signal(&"knockback_timeout")
+		
+		# decrease dash timer
+		if dash_timer > 0.0:
+			dash_timer -= process_interval
+			if dash_timer < 0.0:
+				emit_signal(&"dash_timeout")
+		
+		process_interval = 0.0

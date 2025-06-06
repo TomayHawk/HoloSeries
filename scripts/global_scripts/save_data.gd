@@ -153,12 +153,12 @@ func load_save(save_index: int = last_save) -> void:
 	
 	# players
 	const BASE_PLAYER_PATH: String = "res://entities/players/player_base.tscn"
-	const CHARACTER_BASE_PATH: Array[String] = [
-		"res://entities/players/character_base/sora.tscn",
-		"res://entities/players/character_base/azki.tscn",
-		"res://entities/players/character_base/roboco.tscn",
-		"res://entities/players/character_base/akirose.tscn",
-		"res://entities/players/character_base/luna.tscn",
+	const character_PATH: Array[String] = [
+		"res://entities/players/character/sora.tscn",
+		"res://entities/players/character/azki.tscn",
+		"res://entities/players/character/roboco.tscn",
+		"res://entities/players/character/akirose.tscn",
+		"res://entities/players/character/luna.tscn",
 	]
 
 	const DEFAULT_STATS: Array[Array] = [
@@ -178,24 +178,24 @@ func load_save(save_index: int = last_save) -> void:
 			continue
 		
 		var player_node: Node = load(BASE_PLAYER_PATH).instantiate()
-		player_node.add_child(load(CHARACTER_BASE_PATH[character_index]).instantiate())
+		player_node.add_child(load(character_PATH[character_index]).instantiate())
 		Players.party_node.add_child(player_node)
 		
-		player_node.character_node.node_index = node_index
-		player_node.character_node.level = DEFAULT_STATS[character_index][0]
-		player_node.character_node.base_health = DEFAULT_STATS[character_index][1]
-		player_node.character_node.base_mana = DEFAULT_STATS[character_index][2]
-		player_node.character_node.base_stamina = DEFAULT_STATS[character_index][3]
-		player_node.character_node.base_defense = DEFAULT_STATS[character_index][4]
-		player_node.character_node.base_ward = DEFAULT_STATS[character_index][5]
-		player_node.character_node.base_strength = DEFAULT_STATS[character_index][6]
-		player_node.character_node.base_intelligence = DEFAULT_STATS[character_index][7]
-		player_node.character_node.base_speed = DEFAULT_STATS[character_index][8]
-		player_node.character_node.base_agility = DEFAULT_STATS[character_index][9]
-		player_node.character_node.base_crit_chance = DEFAULT_STATS[character_index][10]
-		player_node.character_node.base_crit_damage = DEFAULT_STATS[character_index][11]
-		player_node.character_node.reset_stats() # TODO
-		player_node.character_node.update_nodes() # TODO
+		player_node.character.node_index = node_index
+		player_node.character.level = DEFAULT_STATS[character_index][0]
+		player_node.character.base_health = DEFAULT_STATS[character_index][1]
+		player_node.character.base_mana = DEFAULT_STATS[character_index][2]
+		player_node.character.base_stamina = DEFAULT_STATS[character_index][3]
+		player_node.character.base_defense = DEFAULT_STATS[character_index][4]
+		player_node.character.base_ward = DEFAULT_STATS[character_index][5]
+		player_node.character.base_strength = DEFAULT_STATS[character_index][6]
+		player_node.character.base_intelligence = DEFAULT_STATS[character_index][7]
+		player_node.character.base_speed = DEFAULT_STATS[character_index][8]
+		player_node.character.base_agility = DEFAULT_STATS[character_index][9]
+		player_node.character.base_crit_chance = DEFAULT_STATS[character_index][10]
+		player_node.character.base_crit_damage = DEFAULT_STATS[character_index][11]
+		player_node.character.reset_stats() # TODO
+		player_node.character.update_nodes() # TODO
 
 		# position character and determine main player node
 		player_node.position = saves[save_index]["main_player_position"]
@@ -212,22 +212,22 @@ func load_save(save_index: int = last_save) -> void:
 
 	# TODO: need to hide standbys
 	for character_index in saves[save_index]["standby"]:
-		var character_node: Node = load(CHARACTER_BASE_PATH[character_index]).instantiate()
-		Players.standby_node.add_child(character_node)
+		var character: Node = load(character_PATH[character_index]).instantiate()
+		Players.standby_node.add_child(character)
 
-		character_node.node_index = node_index
-		character_node.level = DEFAULT_STATS[character_index][0]
-		character_node.base_health = DEFAULT_STATS[character_index][1]
-		character_node.base_mana = DEFAULT_STATS[character_index][2]
-		character_node.base_stamina = DEFAULT_STATS[character_index][3]
-		character_node.base_defense = DEFAULT_STATS[character_index][4]
-		character_node.base_ward = DEFAULT_STATS[character_index][5]
-		character_node.base_strength = DEFAULT_STATS[character_index][6]
-		character_node.base_intelligence = DEFAULT_STATS[character_index][7]
-		character_node.base_speed = DEFAULT_STATS[character_index][8]
-		character_node.base_agility = DEFAULT_STATS[character_index][9]
-		character_node.base_crit_chance = DEFAULT_STATS[character_index][10]
-		character_node.base_crit_damage = DEFAULT_STATS[character_index][11]
+		character.node_index = node_index
+		character.level = DEFAULT_STATS[character_index][0]
+		character.base_health = DEFAULT_STATS[character_index][1]
+		character.base_mana = DEFAULT_STATS[character_index][2]
+		character.base_stamina = DEFAULT_STATS[character_index][3]
+		character.base_defense = DEFAULT_STATS[character_index][4]
+		character.base_ward = DEFAULT_STATS[character_index][5]
+		character.base_strength = DEFAULT_STATS[character_index][6]
+		character.base_intelligence = DEFAULT_STATS[character_index][7]
+		character.base_speed = DEFAULT_STATS[character_index][8]
+		character.base_agility = DEFAULT_STATS[character_index][9]
+		character.base_crit_chance = DEFAULT_STATS[character_index][10]
+		character.base_crit_damage = DEFAULT_STATS[character_index][11]
 
 		var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/character_button.tscn").instantiate()
 		Combat.ui.get_node(^"CharacterSelector/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer").add_child(standby_button)
@@ -241,12 +241,12 @@ func load_save(save_index: int = last_save) -> void:
 		Combat.ui.standby_health_labels.push_back(standby_button.get_node(^"HealthAmount"))
 		Combat.ui.standby_mana_labels.push_back(standby_button.get_node(^"ManaAmount"))
 
-		character_node.reset_stats() # TODO
-		character_node.update_nodes() # TODO
+		character.reset_stats() # TODO
+		character.update_nodes() # TODO
 
 		node_index += 1
 
-	Inputs.mouse_in_attack_position = true
+	Inputs.mouse_in_attack_range = true
 	Inputs.combat_inputs_enabled = true
 
 	Global.start_bgm("res://music/asmarafulldemo.mp3")
@@ -266,7 +266,7 @@ func save(save_index):
 	saves[save_index] = Global.current_save.duplicate()
 
 	for player_node in Players.party_node.get_children():
-		saves[save_index]["party"].push_back(Global.player_node.character_node.character_index)
+		saves[save_index]["party"].push_back(Global.player_node.character.character_index)
 
 # randomizes all empty nodes with randomized stat types and stat qualities
 func stat_nodes_randomizer(save_index):

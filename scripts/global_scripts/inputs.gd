@@ -1,11 +1,11 @@
 extends Control
 
-var mouse_in_attack_position: bool = false
+var mouse_in_attack_range: bool = false
 var combat_inputs_enabled: bool = false
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed(&"action"):
-		if mouse_in_attack_position and not Entities.requesting_entities and Players.main_player_node:
+		if mouse_in_attack_range and not Entities.requesting_entities and Players.main_player_node:
 			Players.main_player_node.set_attack_state(Players.main_player_node.AttackState.ATTACK)
 	elif Input.is_action_just_pressed(&"full_screen"):
 		accept_event()

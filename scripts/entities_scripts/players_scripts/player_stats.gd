@@ -1,7 +1,22 @@
 class_name PlayerStats extends EntityStats
 
 var node_index: int = -1
-var stamina_slow_recovery: bool = false
+
+# movement variables
+var walk_speed: float = 140.0
+var dash_multiplier: float = 1120.0
+var dash_stamina: float = 35.0
+var dash_min_stamina: float = 25.0
+var dash_time: float = 0.2
+var sprint_multiplier: float = 175.0
+var sprint_stamina: float = 0.8
+var attack_movement_reduction: float = 0.3
+
+var fatigue: bool = false
+
+# ultimate variables
+var max_ultimate_gauge: float = 0.0
+var ultimate_gauge: float = 0.0
 
 # combat variables
 var auto_ultimate: bool = true # TODO: add more settings
@@ -36,19 +51,19 @@ func update_nodes() -> void:
 		player_node.sprint_stamina = 0.8
 		player_node.dash_multiplier = 8.0
 		player_node.dash_stamina = 35.0
-		player_node.dash_minimum_stamina = 25.0
+		player_node.dash_min_stamina = 25.0
 		player_node.dash_time = 0.2
-		player_node.attack_movement_multiplier = 0.3
+		player_node.attack_movement_reduction = 0.3
 
 		# ally variables
 		player_node.ally_can_move = true
 		player_node.ally_can_attack = true
-		player_node.ally_in_attack_position = false
+		player_node.ally_in_attack_range = false
 
 		# knockback variables
 		player_node.knockback_direction = Vector2.ZERO
 		player_node.knockback_weight = 0.0
-		player_node.character_node = self
+		player_node.character = self
 		player_node.walk_speed = 140 + speed * 0.5
 		player_node.dash_stamina = 35 - (agility * 0.0625)
 		player_node.sprint_stamina = 0.8 - (agility * 0.00048828125)
@@ -56,7 +71,7 @@ func update_nodes() -> void:
 		player_node.update_velocity(Vector2.ZERO)
 		player_node.set_attack_state(get_parent().AttackState.READY)
 		# TODO: player_node.ally_speed = 60 + (30 * speed)
-		# player_node.dash_speed = 300 + (150 * speed)
+		# player_node.dash_multiplier = 300 + (150 * speed)
 	else:
 		Combat.ui.standby_level_labels[node_index].text = str(level)
 		Combat.ui.standby_health_labels[node_index].text = str(int(health))
@@ -144,11 +159,11 @@ func update_stamina(value: float) -> void:
 
 	# handle recovery
 	if stamina == 0:
-		stamina_slow_recovery = true
+		fatigue = true
 		if get_parent().move_state == get_parent().MoveState.DASH or get_parent().move_state == get_parent().MoveState.SPRINT:
 			get_parent().set_move_state(get_parent().MoveState.WALK)
 	elif stamina == max_stamina:
-		stamina_slow_recovery = false
+		fatigue = false
 
 	if stamina < max_stamina:
 		set_physics_process(true)

@@ -12,7 +12,7 @@ var heal_percentage: float = 0.05
 
 # TODO: need to dynamically allocate caster in case of ally/enemy casts (APPLIES TO ALL ABILITIES)
 @onready var caster_node: EntityBase = Players.main_player_node
-@onready var caster_stats_node: EntityStats = caster_node.character_node
+@onready var caster_stats_node: EntityStats = caster_node.character
 
 func _ready() -> void:
 	# request target entity
@@ -30,7 +30,7 @@ func entity_chosen(chosen_nodes: Array[EntityBase]) -> void:
 	if target_node and caster_stats_node.alive and caster_stats_node.mana >= mana_cost:
 		caster_stats_node.update_mana(-mana_cost)
 		# heal chosen node
-		Damage.combat_damage(target_node.character_node.max_health * heal_percentage,
-				DAMAGE_TYPES, caster_stats_node, target_node.character_node)
+		Damage.combat_damage(target_node.character.max_health * heal_percentage,
+				DAMAGE_TYPES, caster_stats_node, target_node.character)
 
 	queue_free()

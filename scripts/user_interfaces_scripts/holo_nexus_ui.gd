@@ -114,13 +114,13 @@ func update_character_selector():
 	character_selector_character_indices.clear()
 
 	for player in Players.party_node.get_children() + Players.standby_node.get_children():
-		var character_node = player if not player is PlayerBase else player.character_node
-		if character_node.character_index != nexus_player.character_index:
+		var character = player if not player is PlayerBase else player.character
+		if character.character_index != nexus_player.character_index:
 			character_selector_player_nodes[i].show()
-			character_selector_name_nodes[i].text = character_node.character_name
-			character_selector_level_nodes[i].text = "Lvl " + str(character_node.level).pad_zeros(3)
+			character_selector_name_nodes[i].text = character.character_name
+			character_selector_level_nodes[i].text = "Lvl " + str(character.level).pad_zeros(3)
 			character_selector_origin_player_nodes.push_back(player)
-			character_selector_character_indices.push_back(character_node.character_index)
+			character_selector_character_indices.push_back(character.character_index)
 			i += 1
 
 func _on_unlock_pressed():

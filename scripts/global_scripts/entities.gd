@@ -41,9 +41,9 @@ var entities_of_type: Dictionary[Type, Callable] = {
 	Type.PLAYERS_ALLIES: func() -> Array[Node]:
 		return Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.is_main_player),
 	Type.PLAYERS_ALIVE: func() -> Array[Node]:
-		return Players.party_node.get_children().filter(func(node: Node) -> bool: return node.character_node.alive),
+		return Players.party_node.get_children().filter(func(node: Node) -> bool: return node.character.alive),
 	Type.PLAYERS_DEAD: func() -> Array[Node]:
-		return Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.character_node.alive),
+		return Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.character.alive),
 	Type.ENEMIES: func() -> Array[Node]:
 		return get_tree().current_scene.get_node(^"Enemies").get_children(),
 	Type.ENEMIES_IN_COMBAT: func() -> Array[Node]:
@@ -93,7 +93,7 @@ func target_entity_by_stats(stat_name: String, candidate_nodes: Array[Node], get
 
 	for entity_node in candidate_nodes:
 		if not is_instance_valid(entity_node): continue
-		var entity_stat: float = entity_node.character_node.get(stat_name) if entity_node is PlayerBase \
+		var entity_stat: float = entity_node.character.get(stat_name) if entity_node is PlayerBase \
 				else entity_node.enemy_stats_node.get(stat_name)
 		if (get_max and entity_stat > best_quality) or (not get_max and entity_stat < best_quality):
 			target_entity_node = entity_node
@@ -176,7 +176,7 @@ func end_entities_request() -> void:
 func toggle_entities_movements(can_move: bool) -> void:
 	# toggle players movements
 	for player_node in Players.party_node.get_children():
-		if not player_node.character_node.alive:
+		if not player_node.character.alive:
 			continue
 		player_node.set_physics_process(can_move)
 		if not can_move:

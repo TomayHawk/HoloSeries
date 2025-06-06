@@ -12,29 +12,28 @@ var can_summon := false
 func _ready() -> void:
 	# initialize stats
 	enemy_stats_node.level = 1
-	# Health, Mana & Stamina
+	# Health, Mana, Stamina & Shield
 	enemy_stats_node.max_health = 200.0
-	enemy_stats_node.base_health = 200.0
-	enemy_stats_node.health = 200.0
 	enemy_stats_node.max_mana = 10.0
-	enemy_stats_node.base_mana = 10.0
-	enemy_stats_node.mana = 10.0
 	enemy_stats_node.max_stamina = 100.0
-	enemy_stats_node.base_stamina = 100.0
+	enemy_stats_node.max_shield = 0.0
+	
+	enemy_stats_node.health = 200.0
+	enemy_stats_node.mana = 10.0
 	enemy_stats_node.stamina = 100.0
+	enemy_stats_node.shield = 0.0
+	
 	# Stats
-	enemy_stats_node.base_defense = 10.0
 	enemy_stats_node.defense = 10.0
-	enemy_stats_node.base_ward = 10.0
 	enemy_stats_node.ward = 10.0
-	enemy_stats_node.base_strength = 10.0
 	enemy_stats_node.strength = 10.0
-	enemy_stats_node.base_intelligence = 10.0
 	enemy_stats_node.intelligence = 10.0
-	enemy_stats_node.base_crit_chance = 0.05
 	enemy_stats_node.crit_chance = 0.05
-	enemy_stats_node.base_crit_damage = 0.50
 	enemy_stats_node.crit_damage = 0.50
+
+	# Additional Stats
+	enemy_stats_node.weight = 1.0
+	enemy_stats_node.vision = 1.0
 
 	nousagi_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
 	enemy_stats_node.play(&"walk")
@@ -93,7 +92,7 @@ func frame_changed() -> void:
 			elif enemy_in_combat:
 				# remove all dead players from detection and attack arrays
 				for player_node in players_in_detection_area:
-					if not player_node.character_node.alive:
+					if not player_node.character.alive:
 						_on_detection_area_body_exited(player_node)
 						_on_attack_area_body_exited(player_node)
 
@@ -108,8 +107,8 @@ func frame_changed() -> void:
 				var target_player_health: float = INF
 				# target player with lowest health
 				for player_node in available_player_nodes:
-					if player_node.character_node.health < target_player_health:
-						target_player_health = player_node.character_node.health
+					if player_node.character.health < target_player_health:
+						target_player_health = player_node.character.health
 						target_player_node = player_node
 				# move towards player if any player in detection area
 				if target_player_node:
@@ -132,7 +131,7 @@ func frame_changed() -> void:
 					if target_player_node:
 						var temp_attack_direction = (target_player_node.position - position).normalized()
 						if Damage.combat_damage(13, Damage.DamageTypes.PLAYER_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
-								enemy_stats_node, target_player_node.character_node):
+								enemy_stats_node, target_player_node.character):
 							target_player_node.dealt_knockback(temp_attack_direction, 0.4)
 						enemy_stats_node.flip_h = temp_attack_direction.x < 0
 				"walk":
@@ -175,7 +174,7 @@ func summon_nousagi():
 # ATTACK
 
 #func set_attack_state(next_state: AttackState) -> void:
-#    if attack_state == next_state or not character_node.alive: return
+#    if attack_state == next_state or not character.alive: return
 #    # ally conditions
 #    if not is_main_player:
 #        #if not ally_can_attack:
@@ -190,16 +189,16 @@ func summon_nousagi():
 #    update_animation()
 #
 #func attempt_attack(attack_name: String = "") -> void:
-#    if character_node != get_node_or_null(^"CharacterBase"):
+#    if character != get_node_or_null(^"CharacterBase"):
 #        set_attack_state(AttackState.READY) # TODO: depends
 #        return
 #    
 #    if attack_name != "":
 #        pass # call attack with conditions
-#    elif character_node.auto_ultimate and character_node.ultimate_gauge == character_node.max_ultimate_gauge:
-#        character_node.ultimate_attack()
+#    elif character.auto_ultimate and character.ultimate_gauge == character.max_ultimate_gauge:
+#        character.ultimate_attack()
 #    else:
-#        character_node.basic_attack()
+#        character.basic_attack()
 
 # TODO: need to implement
 #func filter_nodes(initial_nodes: Array[EntityBase], get_stats_nodes: bool, origin_position: Vector2 = Vector2(-1.0, -1.0), range_min: float = -1.0, range_max: float = -1.0) -> Array[Node]:
@@ -216,7 +215,7 @@ func summon_nousagi():
 #            if temp_distance < range_min or temp_distance > range_max:
 #                continue
 #        if entity_node is PlayerBase:
-#            resultant_nodes.push_back(entity_node.character_node if get_stats_nodes else entity_node)
+#            resultant_nodes.push_back(entity_node.character if get_stats_nodes else entity_node)
 #        elif entity_node is BasicEnemyBase:
 #            resultant_nodes.push_back(entity_node.enemy_stats_node if get_stats_nodes else entity_node)
 #    

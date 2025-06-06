@@ -15,17 +15,17 @@ func update_main_player(player_node: PlayerBase) -> void:
 	Entities.end_entities_request()
 
 func update_standby_player(standby_index: int) -> void:
-	var prev_character_node: PlayerStats = main_player_node.character_node
-	var next_character_node: PlayerStats = standby_node.get_child(standby_index)
+	var prev_character: PlayerStats = main_player_node.character
+	var next_character: PlayerStats = standby_node.get_child(standby_index)
 	
-	var party_index: int = prev_character_node.node_index
-	prev_character_node.node_index = standby_index
-	next_character_node.node_index = party_index
+	var party_index: int = prev_character.node_index
+	prev_character.node_index = standby_index
+	next_character.node_index = party_index
 	
-	prev_character_node.reparent(standby_node)
-	standby_node.move_child(prev_character_node, standby_index)
+	prev_character.reparent(standby_node)
+	standby_node.move_child(prev_character, standby_index)
 
-	next_character_node.reparent(main_player_node)
+	next_character.reparent(main_player_node)
 
-	prev_character_node.update_nodes()
-	next_character_node.update_nodes()
+	prev_character.update_nodes()
+	next_character.update_nodes()

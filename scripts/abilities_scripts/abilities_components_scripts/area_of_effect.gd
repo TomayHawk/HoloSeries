@@ -11,7 +11,7 @@ func area_of_effect(collision_masks: int) -> Array[EntityBase]:
 	await Global.get_tree().physics_frame
 	var entity_nodes: Array[EntityBase] = []
 	for entity_node in get_overlapping_bodies():
-		if ((entity_node is PlayerBase and entity_node.character_node and entity_node.character_node.alive) or
+		if ((entity_node is PlayerBase and entity_node.character and entity_node.character.alive) or
 				(entity_node is EnemyBase and entity_node.enemy_stats_node and entity_node.enemy_stats_node.alive)):
 			entity_nodes.push_back(entity_node)
 	$CollisionShape2D.set_deferred(&"disabled", true)
