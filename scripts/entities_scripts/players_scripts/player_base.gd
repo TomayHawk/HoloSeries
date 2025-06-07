@@ -5,8 +5,8 @@ var alternate_script: PlayerBase = null
 var character: CharacterBase = null
 
 func _ready() -> void:
-	knockback_timeout.connect(_on_knockback_timer_timeout)
-	dash_timeout.connect(_on_dash_timer_timeout)
+	knockback_timeout.connect(on_knockback_timeout)
+	dash_timeout.connect(on_dash_timeout)
 	alternate_script = PlayerAlly.new() if self is PlayerMain else PlayerMain.new()
 
 # ................................................................................
@@ -276,6 +276,8 @@ func swap_base() -> void:
 		current_script.can_move = true
 		current_script.can_attack = true
 		current_script.in_attack_range = false
+	
+	# TODO: update signals?
 
 	alternate_script = current_script
 
@@ -362,47 +364,45 @@ func trigger_death() -> void:
 	# stop player process
 	set_physics_process(false)
 
-	# hide all stats bars
+	# hide stats bars
 	$HealthBar.hide()
+	$ShieldBar.hide()
 	$ManaBar.hide()
 	$StaminaBar.hide()
 
-	$DeathTimer.start(0.5)
+	# start death animation
 	character.play(&"death")
+
+	# reset player variables
+	move_state = MoveState.STUN
+	action_state = ActionState.COOLDOWN
+	knockback_timer = 0.0
+	dash_timer = 0.0
 	
 	# handle main player
-	if is_main_player:
+	if self is PlayerMain:
 		var alive_party_players = Entities.entities_of_type[Entities.Type.PLAYERS_ALIVE].call()
 		if alive_party_players.is_empty():
 			print("GAME OVER") # TODO
 		else:
 			Players.update_main_player(alive_party_players[0])
 
+	await Global.get_tree().create_timer(0.5).timeout
+
+	if not stats.alive:
+		character.pause() # TODO
+
 # ................................................................................
 
-func _on_combat_hit_box_area_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if Input.is_action_just_pressed(&"action") and event is InputEventMouseButton:
-		if Entities.requesting_entities and self in Entities.entities_available and not self in Entities.entities_chosen:
+# TODO: need to add signal connections
+func input_in_hit_box_area(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"): # TODO: not sure if this works.
+		if self in Entities.entities_available:
 			Inputs.accept_event()
 			Entities.choose_entity(self)
-		elif character.alive:
+		elif stats.alive:
 			Inputs.accept_event()
 			Players.update_main_player(self)
-
-func _on_combat_hit_box_area_mouse_entered() -> void:
-	if not is_main_player or (self in Entities.entities_available and not self in Entities.entities_chosen):
-		Inputs.mouse_in_attack_range = false
-
-func _on_combat_hit_box_area_mouse_exited() -> void:
-	Inputs.mouse_in_attack_range = true
-
-func _on_interaction_area_body_entered(body: Node2D) -> void:
-	if is_main_player:
-		body.interaction_area(true)
-
-func _on_interaction_area_body_exited(body: Node2D) -> void:
-	if is_main_player:
-		body.interaction_area(false)
 
 func _on_lootable_area_entered(body: Node2D) -> void:
 	if body.nearby_player_nodes.is_empty():
@@ -430,33 +430,10 @@ func _on_lootable_area_exited(body: Node2D) -> void:
 				least_distance = temp_distance
 		body.target_player_node = target_player_node
 
-func _on_knockback_timer_timeout() -> void:
+func on_knockback_timeout() -> void:
+	if move_state != MoveState.KNOCKBACK: return
 	set_move_state(MoveState.IDLE)
 
-func _on_dash_timer_timeout() -> void:
-	if Input.is_action_pressed(&"dash"):
-		set_move_state(MoveState.SPRINT)
-	else:
-		set_move_state(MoveState.WALK)
-
-func _on_death_timer_timeout() -> void:
-	character.pause()
-
-# PlayerAlly
-func _on_ally_move_cooldown_timeout() -> void:
-	if is_main_player: return
-
-	var distance_to_main_player := position.distance_to(Players.main_player_node.position)
-
-	if Combat.in_combat() and not Combat.leaving_combat():
-		can_move = true
-	elif distance_to_main_player < 70 and velocity != Vector2.ZERO:
-		update_velocity(Vector2.ZERO)
-		$AllyMoveCooldown.start(randf_range(1.5, 2))
-	elif distance_to_main_player < 100 and velocity != Vector2.ZERO:
-		update_velocity(Vector2.ZERO)
-		$AllyMoveCooldown.start(randf_range(0.7, 0.8))
-	else:
-		can_move = true
-
-	# TODO: add teleport when far?
+func on_dash_timeout() -> void:
+	if move_state != MoveState.DASH: return
+	set_move_state(MoveState.SPRINT if Input.is_action_pressed(&"dash") else MoveState.WALK)

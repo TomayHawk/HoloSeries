@@ -44,13 +44,17 @@ var combat_state := CombatState.NOT_IN_COMBAT:
 	
 		combat_state = next_state
 
-# check if in combat or leaving combat
+# check if in combat
 func in_combat() -> bool:
-	return combat_state == CombatState.IN_COMBAT or combat_state == CombatState.LEAVING_COMBAT
+	return combat_state == CombatState.IN_COMBAT
 
 # check if leaving combat
 func leaving_combat() -> bool:
 	return combat_state == CombatState.LEAVING_COMBAT
+
+# check if not in combat
+func not_in_combat() -> bool:
+	return combat_state == CombatState.NOT_IN_COMBAT
 
 # leave combat
 func leave_combat() -> void:

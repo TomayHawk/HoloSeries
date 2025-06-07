@@ -57,7 +57,7 @@ func _physics_process(_delta: float) -> void:
 		var target_direction := Vector2.ZERO
 		base.can_move = false
 
-		if Combat.in_combat() and not Combat.leaving_combat() and ally_distance < max_ally_distance:
+		if Combat.in_combat() and ally_distance < max_ally_distance:
 			# TODO: move this somewhere else
 			# target enemy with shortest distance
 			var target_enemy_node: Node = null
@@ -88,7 +88,7 @@ func _physics_process(_delta: float) -> void:
 			if ally_distance > 300:
 				pass # TODO: velocity *= 2
 		
-		if Players.main_player_node.move_state == base.MoveState.SPRINT and not Combat.in_combat() and ally_distance > 120:
+		if Players.main_player_node.move_state == base.MoveState.SPRINT and Combat.not_in_combat() and ally_distance > 120:
 			base.set_move_state(base.MoveState.SPRINT)
 		
 		# snaps a given vector to the nearest cardinal or intercardinal vector

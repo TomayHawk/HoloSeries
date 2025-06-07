@@ -89,3 +89,17 @@ func _process(delta: float) -> void:
 				emit_signal(&"dash_timeout")
 		
 		process_interval = 0.0
+
+# ................................................................................
+
+# UNIVERSAL METHODS
+
+# TODO: need to add signal connections
+func _on_combat_hit_box_mouse_entered() -> void:
+	# TODO: need to implement/fix this
+	# TODO: need to remove chosen entities from available
+	if self in Entities.entities_available:
+		Inputs.mouse_in_attack_range = false
+
+func _on_combat_hit_box_mouse_exited() -> void:
+	Inputs.mouse_in_attack_range = true

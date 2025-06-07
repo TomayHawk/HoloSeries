@@ -24,3 +24,11 @@ func _input(_event: InputEvent) -> void:
 	# TODO: should add toggle setting for release dash
 	if Input.is_action_just_pressed(&"dash"):
 		dash()
+
+# TODO: need to add signal connections
+func _on_interaction_area_body_entered(body: Node2D) -> void:
+	body.interaction_area(true)
+
+# TODO: need to add signal connections
+func _on_interaction_area_body_exited(body: Node2D) -> void:
+	body.interaction_area(false)

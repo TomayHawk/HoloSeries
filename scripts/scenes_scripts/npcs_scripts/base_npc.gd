@@ -10,7 +10,7 @@ func _ready():
     
 func _input(_event):
     # if in interactable area, interaction button just pressed, not in a dialogue and not in combat, start dialogue
-    if active and Input.is_action_just_pressed(&"interact") and TextBox.isInactive() and not Combat.in_combat():
+    if active and Input.is_action_just_pressed(&"interact") and TextBox.isInactive() and Combat.not_in_combat():
         npc_node.initiate_dialogue()
 
 # triggered on npc entering/exiting player interaction area

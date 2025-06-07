@@ -35,7 +35,7 @@ func _input(_event: InputEvent) -> void:
 	if not Inputs.combat_inputs_enabled: return
 	if Input.is_action_just_pressed(&"display_combat_ui"):
 		Inputs.accept_event()
-		if not Combat.in_combat():
+		if Combat.not_in_combat():
 			%CombatControl.modulate.a = 1.0 if %CombatControl.modulate.a != 1.0 else 0.0
 	elif Input.is_action_just_pressed(&"tab"):
 		Inputs.accept_event()
