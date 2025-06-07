@@ -64,7 +64,7 @@ func recruit_player() -> void:
 		player_node.position = Players.main_player_node.position + (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
 		
 		# TODO: make function for this
-		Combat.ui.character_name_label_nodes[character.node_index].text = character.character_name
+		Combat.ui.character_name_label_nodes[character.node_index].text = character.CHARACTER_NAME
 		Combat.ui.players_info_nodes[character.node_index].show()
 		Combat.ui.ultimate_progress_bar_nodes[character.node_index].show()
 		Combat.ui.shield_progress_bar_nodes[character.node_index].show()

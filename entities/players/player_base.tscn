@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5o6bi43j562b"]
+[gd_scene load_steps=9 format=3 uid="uid://c5o6bi43j562b"]
 
 [ext_resource type="Script" uid="uid://cmf3b5ufhosbk" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_rapl1"]
 [ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://user_interfaces/user_interfaces_resources/progress_bar_style/shield_progress_bar_fill.tres" id="3_48rhk"]
@@ -14,6 +14,9 @@ radius = 20.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lt4ow"]
 radius = 25.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_48rhk"]
+radius = 20.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r405m"]
 size = Vector2(16, 7)
@@ -48,6 +51,14 @@ collision_mask = 64
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LootableArea"]
 shape = SubResource("CircleShape2D_lt4ow")
+
+[node name="AttackRange" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_48rhk")
 
 [node name="ObstacleCheck" type="ShapeCast2D" parent="."]
 shape = SubResource("RectangleShape2D_r405m")
@@ -115,18 +126,6 @@ metadata/_edit_use_anchors_ = true
 [node name="AllyMoveCooldown" type="Timer" parent="."]
 one_shot = true
 
-[node name="KnockbackTimer" type="Timer" parent="."]
-wait_time = 0.4
-one_shot = true
-
-[node name="DashTimer" type="Timer" parent="."]
-wait_time = 0.2
-one_shot = true
-
-[node name="DeathTimer" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true
-
 [connection signal="input_event" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_input_event"]
 [connection signal="mouse_entered" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_mouse_entered"]
 [connection signal="mouse_exited" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_mouse_exited"]
@@ -135,6 +134,3 @@ one_shot = true
 [connection signal="area_entered" from="LootableArea" to="." method="_on_lootable_area_entered"]
 [connection signal="area_exited" from="LootableArea" to="." method="_on_lootable_area_exited"]
 [connection signal="timeout" from="AllyMoveCooldown" to="." method="_on_ally_move_cooldown_timeout"]
-[connection signal="timeout" from="KnockbackTimer" to="." method="_on_knockback_timer_timeout"]
-[connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
-[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]

@@ -177,7 +177,7 @@ func summon_nousagi():
 #    if attack_state == next_state or not character.alive: return
 #    # ally conditions
 #    if not is_main_player:
-#        #if not ally_can_attack:
+#        #if not can_attack:
 #            #return
 #        if attack_state != AttackState.READY and next_state == AttackState.ATTACK:
 #            return

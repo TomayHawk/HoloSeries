@@ -12,9 +12,11 @@ enum MoveState {
 	STUN,
 }
 
-enum AttackState {
+enum ActionState {
 	READY,
 	ATTACK,
+	CAST,
+	ITEM,
 	COOLDOWN,
 }
 
@@ -40,7 +42,7 @@ var process_interval: float = 0.0
 # STATES
 
 var move_state: MoveState = MoveState.IDLE
-var attack_state: AttackState = AttackState.READY
+var action_state: ActionState = ActionState.READY
 var move_direction: Directions = Directions.DOWN
 var attack_vector: Vector2 = Vector2.RIGHT
 

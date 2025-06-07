@@ -1,10 +1,13 @@
 class_name PlayerBase extends EntityBase
 
+# TODO: not sure about the type
+var alternate_script: PlayerBase = null
 var character: CharacterBase = null
 
 func _ready() -> void:
 	knockback_timeout.connect(_on_knockback_timer_timeout)
 	dash_timeout.connect(_on_dash_timer_timeout)
+	alternate_script = PlayerAlly.new() if self is PlayerMain else PlayerMain.new()
 
 # ................................................................................
 
@@ -100,11 +103,11 @@ func dealt_knockback(next_velocity: Vector2, knockback_time: float) -> void:
 
 # ATTACK
 
-func set_attack_state(next_state: AttackState) -> void:
+func set_action_state(next_state: ActionState) -> void:
 	if attack_state == next_state or not stats.alive: return
 	# ally conditions
 	if not is_main_player:
-		#if not ally_can_attack:
+		#if not can_attack:
 			#return
 		if attack_state != AttackState.READY and next_state == AttackState.ATTACK:
 			return
@@ -244,6 +247,115 @@ func update_shield_bar(value: float, max_value: float) -> void:
 
 # ................................................................................
 
+# UPDATE NODES
+
+# swap base scripts when switching main players
+func swap_base() -> void:
+	var current_script: Resource = get_script()
+
+	# swap scripts
+	set_script(alternate_script)
+
+	# copy variables from current_script to alternate_script
+	alternate_script.stats = current_script.stats
+
+	alternate_script.process_interval = current_script.process_interval
+	
+	alternate_script.move_state = current_script.move_state
+	alternate_script.action_state = current_script.action_state
+	alternate_script.move_direction = current_script.move_direction
+	alternate_script.attack_vector = current_script.attack_vector
+
+	alternate_script.update_animation()
+
+	current_script.dash_timer = 0.0
+
+	# reset ally variables
+	if current_script is PlayerAlly:
+		current_script.action_queue.clear()
+		current_script.can_move = true
+		current_script.can_attack = true
+		current_script.in_attack_range = false
+
+	alternate_script = current_script
+
+# swap stats with standby stats
+func swap_with_standby(next_character: CharacterBase) -> CharacterBase:
+	var current_character: CharacterBase = character
+	var current_stats: PlayerStats = stats
+	character = next_character
+	stats = next_character.stats
+	
+	process_interval = 0.0
+
+	# STATES
+
+	move_state = MoveState.IDLE
+	var action_state: ActionState = ActionState.READY
+	var move_direction: Directions = Directions.DOWN
+	var attack_vector: Vector2 = Vector2.RIGHT
+
+	# KNOCKBACK
+
+	var knockback_velocity: Vector2 = Vector2.LEFT
+	var knockback_timer: float = 0.0
+
+	# DASH
+	var dash_timer: float = 0.0
+
+	var current_script: Resource = get_script()
+
+	if current_script is PlayerAlly:
+		current_script.action_queue.clear()
+		current_script.can_move = true
+		current_script.can_attack = true
+		current_script.in_attack_range = false
+
+	return current_character
+
+func update_nodes(swap_base: PlayerBase = null, swap_stats: PlayerStats = null) -> void:
+	elif swap_stats != stats: # Party -> Standby
+		pass
+	
+	update_stats()
+	
+	if base:
+		name = &"CharacterBase"
+		var player_node: PlayerBase = base
+		# movement variables
+		player_node.walk_speed = 70.0
+		player_node.sprint_multiplier = 1.25
+		player_node.sprint_stamina = 0.8
+		player_node.dash_multiplier = 8.0
+		player_node.dash_stamina = 35.0
+		player_node.dash_min_stamina = 25.0
+		player_node.dash_time = 0.2
+		player_node.attack_movement_reduction = 0.3
+
+		# ally variables
+		player_node.can_move = true
+		player_node.can_attack = true
+		player_node.in_attack_range = false
+
+		# knockback variables
+		player_node.knockback_direction = Vector2.ZERO
+		player_node.knockback_weight = 0.0
+		player_node.character = self
+		player_node.walk_speed = 140 + speed * 0.5
+		player_node.dash_stamina = 35 - (agility * 0.0625)
+		player_node.sprint_stamina = 0.8 - (agility * 0.00048828125)
+		player_node.dash_time = 0.2 * (1 - (agility * 0.001953125)) # minimum 0.1s dash time
+		player_node.update_velocity(Vector2.ZERO)
+		player_node.set_attack_state(base.AttackState.READY)
+		# TODO: player_node.ally_speed = 60 + (30 * speed)
+		# player_node.dash_multiplier = 300 + (150 * speed)
+	else:
+		Combat.ui.standby_level_labels[node_index].text = str(level)
+		Combat.ui.standby_health_labels[node_index].text = str(int(health))
+		Combat.ui.standby_mana_labels[node_index].text = str(int(mana))
+
+# ................................................................................
+
 # DEATH
 
 func trigger_death() -> void:
@@ -337,7 +449,7 @@ func _on_ally_move_cooldown_timeout() -> void:
 	var distance_to_main_player := position.distance_to(Players.main_player_node.position)
 
 	if Combat.in_combat() and not Combat.leaving_combat():
-		ally_can_move = true
+		can_move = true
 	elif distance_to_main_player < 70 and velocity != Vector2.ZERO:
 		update_velocity(Vector2.ZERO)
 		$AllyMoveCooldown.start(randf_range(1.5, 2))
@@ -345,6 +457,6 @@ func _on_ally_move_cooldown_timeout() -> void:
 		update_velocity(Vector2.ZERO)
 		$AllyMoveCooldown.start(randf_range(0.7, 0.8))
 	else:
-		ally_can_move = true
+		can_move = true
 
 	# TODO: add teleport when far?

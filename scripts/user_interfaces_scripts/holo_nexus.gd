@@ -60,7 +60,7 @@ func _ready():
 		index_counter += 1
 
 	# update current player and allies in character selector
-	update_nexus_player(Players.main_player_node.character.character_index)
+	update_nexus_player(Players.main_player_node.character.CHARACTER_INDEX)
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed(&"esc"):
@@ -83,17 +83,17 @@ func temp_function():
 	# TODO: temporary
 	var party_players: Array[int] = []
 	for player in Players.party_node.get_children():
-		party_players.push_back(player.character.character_index)
+		party_players.push_back(player.character.CHARACTER_INDEX)
 
 	var standby_players: Array[int] = []
 	for character in Players.standby_node.get_children():
-		standby_players.push_back(character.character_index)
+		standby_players.push_back(character.CHARACTER_INDEX)
 
 	# for each unlocked player, determine all unlockables
-	for character_index in party_players + standby_players:
-		for node_index in nodes_unlocked[character_index]:
+	for CHARACTER_INDEX in party_players + standby_players:
+		for node_index in nodes_unlocked[CHARACTER_INDEX]:
 			# check for adjacent unlockables
-			check_adjacent_unlockables(node_index, character_index)
+			check_adjacent_unlockables(node_index, CHARACTER_INDEX)
 
 func return_adjacents(temp_node_index):
 	temp_adjacents.clear()
@@ -111,7 +111,7 @@ func return_adjacents(temp_node_index):
 
 func update_nexus_player(player):
 	current_nexus_player = player
-	$NexusPlayer.character_index = player
+	$NexusPlayer.CHARACTER_INDEX = player
 
 	# clear unlockable textures
 	for past_unlockable_nodes in $UnlockableNodes.get_children():
@@ -196,11 +196,11 @@ func exit_nexus():
 	# TODO: temporary
 	var party_players: Array[int] = []
 	for player in Players.party_node.get_children():
-		party_players.push_back(player.character.character_index)
+		party_players.push_back(player.character.CHARACTER_INDEX)
 
 	var standby_players: Array[int] = []
 	for character in Players.standby_node.get_children():
-		standby_players.push_back(character.character_index)
+		standby_players.push_back(character.CHARACTER_INDEX)
 
 	Players.camera_node.update_camera(Players.main_player_node, true, scene_camera_zoom)
 

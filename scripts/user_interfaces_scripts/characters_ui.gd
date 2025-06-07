@@ -24,7 +24,7 @@ func _on_characters_pressed():
     _on_right_button_pressed()
 
 func update_characters():
-    stats_label_nodes[1].text = characters[current_stats].get_parent().character.character_name
+    stats_label_nodes[1].text = characters[current_stats].get_parent().character.CHARACTER_NAME
     stats_label_nodes[3].text = str(round(characters[current_stats].level))
     stats_label_nodes[5].text = str(round(characters[current_stats].health)) + " / " + str(round(characters[current_stats].max_health))
     stats_label_nodes[7].text = str(round(characters[current_stats].mana)) + " / " + str(round(characters[current_stats].max_mana))
