@@ -315,6 +315,8 @@ func swap_with_standby(next_character: CharacterBase) -> CharacterBase:
 
 	return current_character
 
+'''
+
 func update_nodes(swap_base: PlayerBase = null, swap_stats: PlayerStats = null) -> void:
 	elif swap_stats != stats: # Party -> Standby
 		pass
@@ -355,6 +357,8 @@ func update_nodes(swap_base: PlayerBase = null, swap_stats: PlayerStats = null) 
 		Combat.ui.standby_level_labels[node_index].text = str(level)
 		Combat.ui.standby_health_labels[node_index].text = str(int(health))
 		Combat.ui.standby_mana_labels[node_index].text = str(int(mana))
+
+'''
 
 # ................................................................................
 

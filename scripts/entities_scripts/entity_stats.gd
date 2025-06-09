@@ -73,3 +73,58 @@ func reset_status() -> void:
 	effects.clear()
 	if base:
 		base.set_process(false)
+
+# ................................................................................
+
+# METHODS
+
+func update_health(value: float) -> void:
+	# check if alive and not invincible
+	if not alive or (value < 0.0 and has_status(Entities.Status.INVINCIBLE)):
+		return
+
+	# update health
+	health = clamp(health + value, 0.0, max_health)
+
+	# add invincibility if damage dealt
+	if value < 0.0:
+		add_status(Entities.Status.INVINCIBLE)
+
+	# handle death
+	if health == 0.0:
+		death()
+
+func update_mana(value: float) -> void:
+	if not alive: return
+	
+	# update mana
+	mana = clamp(mana + value, 0.0, max_mana)
+
+func update_stamina(value: float) -> void:
+	if not alive: return
+	
+	# update stamina
+	stamina = clamp(stamina + value, 0.0, max_stamina)
+
+# ................................................................................
+
+# DEATH & REVIVE
+
+func death() -> void:
+	# decrease effects timers
+	for effect in effects.duplicate():
+		if effect.remove_on_death:
+			effect.owner_death(self)
+	
+	alive = false
+	stamina = max_stamina
+
+	if base:
+		base.trigger_death()
+
+func revive(value: float) -> void:
+	alive = true
+	update_health(value)
+	
+	# TODO: update_mana(0.0)
+	# TODO: update_stamina(0.0)

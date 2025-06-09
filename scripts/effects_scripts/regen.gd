@@ -2,6 +2,7 @@ extends Resource
 
 var effect_type: Entities.Status = Entities.Status.REGEN
 var effect_timer: float = 5.0
+var remove_on_death: bool = true
 
 var damage_types: int = \
 		Damage.DamageTypes.PLAYER_HIT \
@@ -11,6 +12,8 @@ var damage_types: int = \
 		| Damage.DamageTypes.NO_MISS
 
 var origin_stats_node: EntityStats = null
+
+# Healing settings
 var heal_interval: float = 5.0
 var heal_amount: float = 10.0
 var count: int = 7
@@ -35,3 +38,7 @@ func effect_timeout(stats_node: EntityStats) -> void:
 		stats_node.attempt_remove_status(Entities.Status.REGEN)
 	else:
 		effect_timer = heal_interval
+
+func owner_death(stats_node: EntityStats) -> void:
+	stats_node.effects.erase(self)
+	stats_node.attempt_remove_status(Entities.Status.REGEN)

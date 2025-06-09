@@ -58,6 +58,9 @@ var dash_timer: float = 0.0
 
 # PROCESS
 
+func _ready() -> void:
+	pass
+
 func _process(delta: float) -> void:
 	process_interval += delta
 
@@ -93,6 +96,13 @@ func _process(delta: float) -> void:
 # ................................................................................
 
 # UNIVERSAL METHODS
+
+func trigger_death() -> void:
+	pass
+
+# ................................................................................
+
+# UNIVERSAL SIGNALS
 
 # TODO: need to add signal connections
 func _on_combat_hit_box_mouse_entered() -> void:
