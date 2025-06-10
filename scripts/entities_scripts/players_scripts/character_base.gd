@@ -1,12 +1,27 @@
 class_name CharacterBase extends AnimatedSprite2D
 
+# ..............................................................................
+
+# SIGNALS
+
 signal attack_frame()
+
+# ..............................................................................
+
+# STATS
 
 var stats: PlayerStats = null
 
+var ultimate_cost: float = 100.0
+
 var max_ally_distance: float = 250.0
+
 var basic_damage: float = 10.0
 var ultimate_damage: float = 100.0
+
+# ..............................................................................
+
+# PROCESS
 
 func _ready() -> void:
 	set_physics_process(false)
@@ -38,22 +53,26 @@ func _physics_process(_delta: float) -> void:
 		
 		# attack if able
 		if base.action_state == base.ActionState.READY:
-			base.set_action_state(base.ActionState.ACTION)
-			action()
+			base.set_action_state(base.ActionState.ATTACK)
+			# TODO: action()
 		# else face towards enemy
 		else:
 			var enemy_direction = (target_enemy_node.position - base.position).normalized()
 			if abs(enemy_direction.x) < abs(enemy_direction.y):
 				if enemy_direction.y < 0:
-					base.set_move_direction(base.Directions.UP)
+					base.move_direction = base.Directions.UP
+					base.update_animation()
 				else:
-					base.set_move_direction(base.Directions.DOWN)
+					base.move_direction = base.Directions.DOWN
+					base.update_animation()
 			elif enemy_direction.x < 0:
-				base.set_move_direction(base.Directions.LEFT)
+				base.move_direction = base.Directions.LEFT
+				base.update_animation()
 			else:
-				base.set_move_direction(base.Directions.RIGHT)
+				base.move_direction = base.Directions.RIGHT
+				base.update_animation()
 	# if ally can move
-	elif base.can_move and base.attack_state != base.AttackState.ATTACK:
+	elif base.can_move and base.action_state != base.ActionState.ATTACK:
 		var target_direction := Vector2.ZERO
 		base.can_move = false
 
@@ -89,7 +108,8 @@ func _physics_process(_delta: float) -> void:
 				pass # TODO: velocity *= 2
 		
 		if Players.main_player_node.move_state == base.MoveState.SPRINT and Combat.not_in_combat() and ally_distance > 120:
-			base.set_move_state(base.MoveState.SPRINT)
+			base.move_state = base.MoveState.SPRINT
+			base.update_animation()
 		
 		# snaps a given vector to the nearest cardinal or intercardinal vector
 		var snapped_angle = round(target_direction.angle() / (PI / 4)) * (PI / 4)
@@ -100,22 +120,23 @@ func _physics_process(_delta: float) -> void:
 			base.get_node(^"ObstacleCheck").set_target_position(target_direction * 8)
 			base.get_node(^"ObstacleCheck").force_shapecast_update()
 
-			const VECTOR_TO_DIRECTION: Dictionary[Vector2, Directions] = {
-				Vector2(0.0, -1.0): Directions.UP,
-				Vector2(0.0, 1.0): Directions.DOWN,
-				Vector2(-1.0, 0.0): Directions.LEFT,
-				Vector2(1.0, 0.0): Directions.RIGHT,
-				Vector2(-0.70710678, -0.70710678): Directions.UP_LEFT,
-				Vector2(0.70710678, -0.70710678): Directions.UP_RIGHT,
-				Vector2(-0.70710678, 0.70710678): Directions.DOWN_LEFT,
-				Vector2(0.70710678, 0.70710678): Directions.DOWN_RIGHT,
+			const VECTOR_TO_DIRECTION: Dictionary[Vector2, base.Directions] = {
+				Vector2(0.0, -1.0): base.Directions.UP,
+				Vector2(0.0, 1.0): base.Directions.DOWN,
+				Vector2(-1.0, 0.0): base.Directions.LEFT,
+				Vector2(1.0, 0.0): base.Directions.RIGHT,
+				Vector2(-0.70710678, -0.70710678): base.Directions.UP_LEFT,
+				Vector2(0.70710678, -0.70710678): base.Directions.UP_RIGHT,
+				Vector2(-0.70710678, 0.70710678): base.Directions.DOWN_LEFT,
+				Vector2(0.70710678, 0.70710678): base.Directions.DOWN_RIGHT,
 			}
 
 			if base.get_node(^"ObstacleCheck").is_colliding():
 				possible_directions.erase(snap_vector)
 				if possible_directions.is_empty():
 					base.update_velocity(Vector2.ZERO)
-					base.set_move_direction(VECTOR_TO_DIRECTION[snap_vector])
+					base.move_direction = VECTOR_TO_DIRECTION[snap_vector]
+					base.update_animation()
 					base.update_velocity(snap_vector)
 					break
 				# find next closest direction
@@ -125,8 +146,9 @@ func _physics_process(_delta: float) -> void:
 						distance_to_direction = target_direction.distance_to(direction)
 						snap_vector = direction
 			else:
-				base.set_move_state(base.MoveState.WALK)
-				base.set_move_direction(VECTOR_TO_DIRECTION[snap_vector])
+				base.move_state = base.MoveState.WALK
+				base.move_direction = VECTOR_TO_DIRECTION[snap_vector]
+				base.update_animation()
 				base.update_velocity(snap_vector)
 				break
 	else:
@@ -163,7 +185,8 @@ func _physics_process(_delta: float) -> void:
 			possible_directions.erase(snap_vector)
 			if possible_directions.is_empty():
 				base.update_velocity(Vector2.ZERO)
-				base.set_move_direction(VECTOR_TO_DIRECTION[snap_vector])
+				base.move_direction = VECTOR_TO_DIRECTION[snap_vector]
+				base.update_animation()
 				base.update_velocity(snap_vector)
 				break
 			# find next closest direction
@@ -173,8 +196,9 @@ func _physics_process(_delta: float) -> void:
 					distance_to_direction = target_direction.distance_to(direction)
 					snap_vector = direction
 		else:
-			base.set_move_state(base.MoveState.WALK)
-			base.set_move_direction(VECTOR_TO_DIRECTION[snap_vector])
+			base.move_state = base.MoveState.WALK
+			base.move_direction = VECTOR_TO_DIRECTION[snap_vector]
+			base.update_animation()
 			base.update_velocity(snap_vector)
 			break
 else:
@@ -186,18 +210,24 @@ else:
 			break
 '''
 
-func update_nodes():
-	super ()
-	if get_parent() is PlayerBase:
-		Combat.ui.name_labels[node_index].text = CHARACTER_NAME
-	else:
-		Combat.ui.standby_name_labels[node_index].text = CHARACTER_NAME
+# TODO: assumes base is PlayerBase
+func queue_action() -> void:
+	# check if base is PlayerBase and action queue is not full
+	var base: PlayerBase = get_parent()
+	if not base or base.action_queue.size() >= 3: return
 
-func basic_attack():
-	if ultimate_gauge == max_ultimate_gauge:
-		ultimate_attack()
+	# if ultimate gauge is full, queue ultimate attack
+	if stats.ultimate_gauge == ultimate_cost:
+		get_parent().action_queue.append([ultimate_attack, []])
 		return
+	
+	get_parent().action_queue.append([basic_attack, []])
 
+# ..............................................................................
+
+# ATTACKS
+
+func basic_attack() -> void:
 	if get_parent().is_main_player: get_parent().attack_vector = (get_global_mouse_position() - get_parent().position).normalized()
 	else:
 		var temp_enemy_health = INF
@@ -219,7 +249,8 @@ func basic_attack():
 
 	connect(&"frame_changed", Callable(self, "basic_attack_register"))
 	
-func basic_attack_register():
+	await something
+	
 	if frame != 1: return
 	disconnect(&"frame_changed", Callable(self, "basic_attack_register"))
 	var temp_damage: float = basic_damage
@@ -237,7 +268,7 @@ func basic_attack_register():
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 					self, enemy_body.enemy_stats_node):
-				enemy_body.dealt_knockback(get_parent().attack_vector, knockback_weight)
+				enemy_body.knockback(get_parent().attack_vector, knockback_weight)
 		Players.camera_node.screen_shake(0.1, 1, 30, 5, true)
 
 func ultimate_attack():
@@ -262,8 +293,9 @@ func ultimate_attack():
 	$AttackShape.force_shapecast_update()
 
 	connect(&"frame_changed", Callable(self, "ultimate_attack_register"))
-	
-func ultimate_attack_register():
+
+	await something
+
 	if frame != 1: return
 	disconnect(&"frame_changed", Callable(self, "ultimate_attack_register"))
 	var temp_damage: float = ultimate_damage
@@ -280,8 +312,12 @@ func ultimate_attack_register():
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 					self, enemy_body.enemy_stats_node):
-				enemy_body.dealt_knockback(get_parent().attack_vector, knockback_weight)
+				enemy_body.knockback(get_parent().attack_vector, knockback_weight)
 		Players.camera_node.screen_shake(0.3, 10, 30, 100, true)
+
+# ..............................................................................
+
+# SIGNALS
 
 func _on_attack_area_body_exited(body: Node2D) -> void:
 	if get_parent() is PlayerBase:
@@ -297,8 +333,8 @@ func _on_attack_area_body_entered(body: Node2D) -> void:
 
 func _on_attack_timer_timeout() -> void:
 	if not get_parent() is PlayerBase: return
-	get_parent().set_attack_state(get_parent().AttackState.READY)
+	get_parent().set_attack_state(get_parent().ActionState.READY)
 
 func _on_ally_attack_cooldown_timeout() -> void:
 	if not get_parent() is PlayerBase: return
-	get_parent().set_attack_state(get_parent().AttackState.READY) # TODO: need to change CharacterBase and Attacks for Allies
+	get_parent().set_attack_state(get_parent().ActionState.READY) # TODO: need to change CharacterBase and Attacks for Allies

@@ -16,7 +16,7 @@ var tween: Tween
 @onready var sub_modes_nodes: Array[Node] = %SubModesMarginContainer.get_children()
 @onready var items_grid_container_node: GridContainer = %ItemsGridContainer
 
-# ................................................................................
+# ..............................................................................
 
 func _ready() -> void:
 	%CombatControl.modulate.a = 0.0
@@ -48,7 +48,7 @@ func _input(_event: InputEvent) -> void:
 			Inputs.accept_event()
 			hide_sub_combat_options()
 
-# ................................................................................
+# ..............................................................................
 
 # UI TWEEN
 
@@ -56,7 +56,7 @@ func combat_ui_tween(target_visibility_value: float) -> void:
 	tween = create_tween()
 	tween.tween_property(%CombatControl, "modulate:a", target_visibility_value, 0.2)
 
-# ................................................................................
+# ..............................................................................
 
 # MAIN COMBAT OPTIONS
 
@@ -68,7 +68,7 @@ func _on_main_combat_options_pressed(extra_arg_0: int) -> void:
 	%SubCombatOptions.visible = true
 	sub_modes_nodes[extra_arg_0].visible = true
 
-# ................................................................................
+# ..............................................................................
 
 # SUB COMBAT OPTIONS
 
@@ -83,7 +83,7 @@ func hide_sub_combat_options() -> void:
 	for sub_mode in sub_modes_nodes:
 		sub_mode.visible = false
 
-# ................................................................................
+# ..............................................................................
 
 # SIGNALS AND BUTTON PRESSES
 

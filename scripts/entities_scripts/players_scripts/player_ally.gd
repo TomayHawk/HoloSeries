@@ -1,10 +1,14 @@
 class_name PlayerAlly extends PlayerBase
 
-var action_queue: Array[Array] = []
+# TODO: IMPLEMENTING RIGHT NOW
+func enter_attack_range() -> void:
+	if not in_attack_range:
+		in_attack_range = true
+		action_state = ActionState.READY
 
-var can_move: bool = true
-var can_attack: bool = true
-var in_attack_range: bool = false
+# TODO: IMPLEMENTING RIGHT NOW
+func exit_attack_range() -> void:
+	in_attack_range = false
 
 func _on_ally_move_cooldown_timeout() -> void:
 	if Combat.in_combat() or move_state in [MoveState.KNOCKBACK, MoveState.STUN, MoveState.IDLE]:

@@ -7,7 +7,7 @@ var target_player_node: Node = null
 # combat variables
 var can_summon := false
 
-# ................................................................................
+# ..............................................................................
 
 func _ready() -> void:
 	# initialize stats
@@ -39,24 +39,24 @@ func _ready() -> void:
 	enemy_stats_node.play(&"walk")
 	enemy_stats_node.flip_h = nousagi_direction.x < 0
 	# TEMP
-	attack_state = AttackState.OUT_OF_RANGE
+	action_state = ActionState.OUT_OF_RANGE
 
 func _physics_process(delta: float) -> void:
 	# check knockback
 	if move_state == MoveState.KNOCKBACK:
 		if enemy_stats_node.alive:
-			velocity -= knockback * (delta / 0.4)
-	elif move_state == MoveState.IDLE and attack_state != AttackState.ATTACK:
-		if attack_state == AttackState.OUT_OF_RANGE:
+			velocity -= knockback_velocity * (delta / 0.4)
+	elif move_state == MoveState.IDLE and action_state != ActionState.ATTACK:
+		if action_state == ActionState.OUT_OF_RANGE:
 			enemy_stats_node.play(&"walk")
 		elif target_player_node:
 			enemy_stats_node.flip_h = (target_player_node.position - position).x < 0
-			if attack_state == AttackState.READY:
+			if action_state == ActionState.READY:
 				attempt_attack()
 
 	move_and_slide()
 
-# ................................................................................
+# ..............................................................................
 
 # STATES
 
@@ -77,7 +77,7 @@ func update_velocity(direction: Vector2) -> void:
 func update_animation() -> void:
 	pass
 
-# ................................................................................
+# ..............................................................................
 
 func frame_changed() -> void:
 	if move_state == MoveState.KNOCKBACK: return
@@ -85,9 +85,9 @@ func frame_changed() -> void:
 	match enemy_stats_node.frame:
 		0:
 			velocity = Vector2.ZERO
-			if attack_state != AttackState.OUT_OF_RANGE:
-				if attack_state == AttackState.ATTACK:
-					attack_state = AttackState.COOLDOWN
+			if action_state != ActionState.OUT_OF_RANGE:
+				if action_state == ActionState.ATTACK:
+					action_state = ActionState.COOLDOWN
 				enemy_stats_node.play(&"idle")
 			elif enemy_in_combat:
 				# remove all dead players from detection and attack arrays
@@ -132,12 +132,12 @@ func frame_changed() -> void:
 						var temp_attack_direction = (target_player_node.position - position).normalized()
 						if Damage.combat_damage(13, Damage.DamageTypes.PLAYER_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 								enemy_stats_node, target_player_node.character):
-							target_player_node.dealt_knockback(temp_attack_direction, 0.4)
+							target_player_node.knockback(temp_attack_direction, 0.4)
 						enemy_stats_node.flip_h = temp_attack_direction.x < 0
 				"walk":
 					velocity = nousagi_direction * walk_speed
 
-# ................................................................................
+# ..............................................................................
 
 # ATTACK
 
@@ -145,12 +145,12 @@ func attempt_attack() -> void:
 	if can_summon and randi() % 3 == 0:
 		summon_nousagi()
 	else:
-		attack_state = AttackState.ATTACK
+		action_state = ActionState.ATTACK
 		enemy_stats_node.play(&"attack")
 		$AttackCooldown.start(randf_range(1.5, 3.0))
 		await $AttackCooldown.timeout
-		if attack_state != AttackState.OUT_OF_RANGE:
-			attack_state = AttackState.READY
+		if action_state != ActionState.OUT_OF_RANGE:
+			action_state = ActionState.READY
 
 func summon_nousagi():
 	# create an instance of nousagi in enemies node
@@ -160,37 +160,37 @@ func summon_nousagi():
 	
 	# start cooldown
 	$AttackCooldown.start(randf_range(2.0, 3.5))
-	attack_state = AttackState.COOLDOWN
+	action_state = ActionState.COOLDOWN
 	$SummonCooldown.start(randf_range(15, 20))
 	can_summon = false
 	await $AttackCooldown.timeout
-	if attack_state != AttackState.OUT_OF_RANGE and not players_in_detection_area.is_empty():
-		attack_state = AttackState.READY
+	if action_state != ActionState.OUT_OF_RANGE and not players_in_detection_area.is_empty():
+		action_state = ActionState.READY
 	await $SummonCooldown.timeout
 	can_summon = true
 
-# ................................................................................
+# ..............................................................................
 
 # ATTACK
 
-#func set_attack_state(next_state: AttackState) -> void:
-#    if attack_state == next_state or not character.alive: return
+#func set_attack_state(next_state: ActionState) -> void:
+#    if action_state == next_state or not character.alive: return
 #    # ally conditions
 #    if not is_main_player:
 #        #if not can_attack:
 #            #return
-#        if attack_state != AttackState.READY and next_state == AttackState.ATTACK:
+#        if action_state != ActionState.READY and next_state == ActionState.ATTACK:
 #            return
 #
-#    attack_state = next_state
+#    action_state = next_state
 #
-#    if attack_state == AttackState.ATTACK: attempt_attack()
+#    if action_state == ActionState.ATTACK: attempt_attack()
 #
 #    update_animation()
 #
 #func attempt_attack(attack_name: String = "") -> void:
 #    if character != get_node_or_null(^"CharacterBase"):
-#        set_attack_state(AttackState.READY) # TODO: depends
+#        set_attack_state(ActionState.READY) # TODO: depends
 #        return
 #    
 #    if attack_name != "":
@@ -223,11 +223,11 @@ func summon_nousagi():
 
 # TODO: IMPLEMENTING RIGHT NOW
 #func enter_attack_range() -> void:
-#    if attack_state == AttackState.OUT_OF_RANGE:
-#        attack_state = AttackState.READY
+#    if action_state == ActionState.OUT_OF_RANGE:
+#        action_state = ActionState.READY
 #    # TODO: COOLDOWN ?
 
 # TODO: IMPLEMENTING RIGHT NOW
 #func exit_attack_range() -> void:
-#    if attack_state == AttackState.READY:
-#        attack_state = AttackState.OUT_OF_RANGE
+#    if action_state == ActionState.READY:
+#        action_state = ActionState.OUT_OF_RANGE

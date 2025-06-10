@@ -1,31 +1,30 @@
 class_name BasicEnemyBase extends EnemyBase
 
 var walk_speed := 45.0
-var knockback: Vector2 = Vector2.ZERO
 
 var enemy_in_combat: bool = false
 var players_in_detection_area: Array[Node] = []
 var players_in_attack_area: Array[Node] = []
 
-@onready var enemy_stats_node: BasicEnemyStats = $BasicEnemyStats
+var enemy_stats_node: BasicEnemyStats = null
 @onready var knockback_timer_node: Timer = $KnockbackTimer
 
-# ................................................................................
+# ..............................................................................
 
 # MOVE STATE
 
-# ................................................................................
+# ..............................................................................
 
 # KNOCKBACK & DEATH
 
-func dealt_knockback(direction: Vector2, weight: float = 1.0) -> void:
+func knockback(direction: Vector2, weight: float = 1.0) -> void:
 	if move_state == MoveState.KNOCKBACK: return
 	if direction == Vector2.ZERO or weight == 0.0: return
 	move_state = MoveState.KNOCKBACK
 
-	knockback = direction * (200.0 if not enemy_stats_node.alive else weight * 160.0) # TODO: should use weight stat
+	knockback_velocity = direction * (200.0 if not enemy_stats_node.alive else weight * 160.0) # TODO: should use weight stat
 	if enemy_stats_node.alive: enemy_stats_node.speed_scale = 0.3 # TODO
-	velocity = knockback
+	velocity = knockback_velocity
 
 	enemy_stats_node.play(&"death") # TODO
 	$KnockbackTimer.start(0.4)
@@ -52,7 +51,7 @@ func trigger_death() -> void:
 	
 	queue_free()
 
-# ................................................................................
+# ..............................................................................
 
 # COMBAT HIT BOX
 
@@ -71,7 +70,7 @@ func _on_combat_hit_box_mouse_entered() -> void:
 func _on_combat_hit_box_mouse_exited() -> void:
 	Inputs.mouse_in_attack_range = true
 
-# ................................................................................
+# ..............................................................................
 
 # DETECTION AREA
 
@@ -86,22 +85,22 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 func _on_detection_area_body_exited(body: Node2D) -> void:
 	players_in_attack_area.erase(body)
 	players_in_detection_area.erase(body)
-	if players_in_attack_area.is_empty() and attack_state != AttackState.ATTACK:
-		attack_state = AttackState.OUT_OF_RANGE
+	if players_in_attack_area.is_empty() and action_state != ActionState.ATTACK:
+		in_attack_range = false
 	if players_in_detection_area.is_empty():
 		Combat.remove_active_enemy(self)
 		enemy_stats_node.entity_types &= ~Entities.Type.ENEMIES_IN_COMBAT
 		enemy_in_combat = false
 
-# ................................................................................
+# ..............................................................................
 
 # ATTACK AREA
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
 	if not enemy_stats_node.alive or not body.character.alive: return
 	enemy_in_combat = true
-	if attack_state == AttackState.OUT_OF_RANGE:
-		attack_state = AttackState.READY
+	if in_attack_range:
+		action_state = ActionState.READY
 	if not players_in_detection_area.has(body):
 		players_in_detection_area.push_back(body)
 	if not players_in_attack_area.has(body):
@@ -110,9 +109,9 @@ func _on_attack_area_body_entered(body: Node2D) -> void:
 func _on_attack_area_body_exited(body: Node2D) -> void:
 	players_in_attack_area.erase(body)
 	if players_in_attack_area.is_empty():
-		attack_state = AttackState.OUT_OF_RANGE
+		in_attack_range = false
 
-# ................................................................................
+# ..............................................................................
 
 # ON SCREEN STATUS
 

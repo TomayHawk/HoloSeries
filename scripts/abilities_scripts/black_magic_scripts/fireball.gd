@@ -50,7 +50,7 @@ func projectile_collision(move_direction) -> void:
 	var target_enemy_nodes: Array[EntityBase] = await $AreaOfEffect.area_of_effect(2)
 	for enemy_node in target_enemy_nodes:
 		if Damage.combat_damage(damage, DAMAGE_TYPES, caster_node.character, enemy_node.enemy_stats_node):
-			enemy_node.dealt_knockback(move_direction, 0.5)
+			enemy_node.knockback(move_direction, 0.5)
 	queue_free()
 
 func despawn_timeout():

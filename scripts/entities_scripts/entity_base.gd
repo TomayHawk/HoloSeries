@@ -1,7 +1,15 @@
 class_name EntityBase extends CharacterBody2D
 
+# ..............................................................................
+
+# SIGNALS
+
 signal knockback_timeout()
 signal dash_timeout()
+
+# ..............................................................................
+
+# CONSTANTS
 
 enum MoveState {
 	IDLE,
@@ -32,29 +40,34 @@ enum Directions {
 	NOT_APPLICABLE,
 }
 
-# ................................................................................
+# ..............................................................................
 
-# VARIABLES
+# STATS
 
 var stats: EntityStats = null
-var process_interval: float = 0.0
 
 # STATES
 
 var move_state: MoveState = MoveState.IDLE
 var action_state: ActionState = ActionState.READY
 var move_direction: Directions = Directions.DOWN
-var attack_vector: Vector2 = Vector2.RIGHT
 
-# KNOCKBACK
+# VARIABLES
 
-var knockback_velocity: Vector2 = Vector2.LEFT
+var attack_vector: Vector2 = Vector2.DOWN
+var knockback_velocity: Vector2 = Vector2.UP
+var process_interval: float = 0.0
 var knockback_timer: float = 0.0
-
-# DASH
 var dash_timer: float = 0.0
 
-# ................................................................................
+# AI VARIABLES
+
+var can_move: bool = true
+var can_attack: bool = true
+var in_attack_range: bool = false
+var action_queue: Array[Array] = []
+
+# ..............................................................................
 
 # PROCESS
 
@@ -93,14 +106,14 @@ func _process(delta: float) -> void:
 		
 		process_interval = 0.0
 
-# ................................................................................
+# ..............................................................................
 
 # UNIVERSAL METHODS
 
 func trigger_death() -> void:
 	pass
 
-# ................................................................................
+# ..............................................................................
 
 # UNIVERSAL SIGNALS
 

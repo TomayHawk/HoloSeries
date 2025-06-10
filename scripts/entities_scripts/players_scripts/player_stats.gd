@@ -30,7 +30,7 @@ var last_node: int = -1
 var unlocked_nodes: Array[int] = []
 var converted_nodes: Array[Array] = []
 
-# ................................................................................
+# ..............................................................................
 
 # STATS UPDATES
 
@@ -61,7 +61,8 @@ func update_stamina(value: float) -> void:
 	if stamina == 0:
 		fatigue = true
 		if base.move_state in [base.MoveState.DASH, base.MoveState.SPRINT]:
-			base.set_move_state(base.MoveState.WALK)
+			base.move_state = base.MoveState.WALK
+			base.update_animation()
 	elif stamina == max_stamina:
 		fatigue = false
 
@@ -89,7 +90,7 @@ func update_shield(value: float) -> void:
 		Combat.ui.shield_progress_bars[node_index].value = shield
 		Combat.ui.shield_progress_bars[node_index].max_value = max_shield
 
-# ................................................................................
+# ..............................................................................
 
 # DEATH & REVIVE
 
@@ -98,7 +99,7 @@ func death() -> void:
 
 	if base:
 		pass
-		#base.set_attack_state(base.AttackState.READY) # TODO: reset variables
+		#base.set_attack_state(base.ActionState.READY) # TODO: reset variables
 	
 	#get_node(^"AttackTimer").stop() # TODO
 	

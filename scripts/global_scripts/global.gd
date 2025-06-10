@@ -7,7 +7,7 @@ var nexus_last_nodes: Array[int] = []
 var nexus_unlocked_nodes: Array[Array] = []
 var nexus_converted_nodes: Array[Array] = []
 
-# ................................................................................
+# ..............................................................................
 
 # SCENE CHANGE
 
@@ -44,7 +44,7 @@ func change_scene(next_scene_path: String, next_position: Vector2, camera_limits
 	await tree.process_frame
 	Players.party_node.reparent(tree.current_scene)
 
-# ................................................................................
+# ..............................................................................
 
 # GLOBAL UI
 
@@ -56,7 +56,7 @@ func remove_global_child(node_name: String) -> void:
 	if not get_node_or_null(NodePath(node_name)): return
 	get_node(NodePath(node_name)).queue_free()
 
-# ................................................................................
+# ..............................................................................
 
 # BGM
 
