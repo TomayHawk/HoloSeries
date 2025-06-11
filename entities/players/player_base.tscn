@@ -32,6 +32,7 @@ script = ExtResource("1_rapl1")
 shape = SubResource("RectangleShape2D_n3b4m")
 
 [node name="CombatHitBoxArea" type="Area2D" parent="."]
+visible = false
 collision_mask = 0
 
 [node name="CombatHitBoxShape" type="CollisionShape2D" parent="CombatHitBoxArea"]
@@ -39,6 +40,7 @@ position = Vector2(0, -11)
 shape = SubResource("RectangleShape2D_fbnw6")
 
 [node name="InteractionArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 36
 
@@ -46,6 +48,7 @@ collision_mask = 36
 shape = SubResource("CircleShape2D_swviq")
 
 [node name="LootableArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 64
 
@@ -53,6 +56,7 @@ collision_mask = 64
 shape = SubResource("CircleShape2D_lt4ow")
 
 [node name="AttackRange" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 2
 
@@ -62,7 +66,7 @@ shape = SubResource("CircleShape2D_48rhk")
 
 [node name="ObstacleCheck" type="ShapeCast2D" parent="."]
 shape = SubResource("RectangleShape2D_r405m")
-target_position = Vector2(8, 0)
+target_position = Vector2(10, 0)
 collision_mask = 46
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
@@ -125,6 +129,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="AllyMoveCooldown" type="Timer" parent="."]
 one_shot = true
+autostart = true
 
 [connection signal="input_event" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_input_event"]
 [connection signal="mouse_entered" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_mouse_entered"]

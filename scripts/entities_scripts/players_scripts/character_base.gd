@@ -1,34 +1,7 @@
-class_name CharacterBase extends AnimatedSprite2D
-
-# ..............................................................................
-
-# SIGNALS
-
-signal attack_frame()
-
-# ..............................................................................
-
-# STATS
-
-var stats: PlayerStats = null
-
-var ultimate_cost: float = 100.0
-
-var max_ally_distance: float = 250.0
-
-var basic_damage: float = 10.0
-var ultimate_damage: float = 100.0
-
-# ..............................................................................
-
-# PROCESS
-
-func _ready() -> void:
-	set_physics_process(false)
+class_name CharacterBase extends PlayerStats
 
 # PlayerAlly physics process
 func _physics_process(_delta: float) -> void:
-	var base: PlayerBase = get_parent()
 	var ally_distance: float = base.position.distance_to(Players.main_player_node.position)
 
 	# attempt to perform action
@@ -39,7 +12,7 @@ func _physics_process(_delta: float) -> void:
 	if action_success:
 		base.action_queue.remove_at(0)
 	# if ally in attack range
-	elif base.in_attack_range and ally_distance < max_ally_distance:
+	elif base.in_action_range and ally_distance < max_ally_distance:
 		# pause movement
 		base.update_velocity(Vector2.ZERO)
 
@@ -212,9 +185,14 @@ else:
 
 # TODO: assumes base is PlayerBase
 func queue_action() -> void:
-	# check if base is PlayerBase and action queue is not full
+	# check if parent is PlayerBase
+	if not get_parent() is PlayerBase:
+		return
+	
+	# check if action queue is full
 	var base: PlayerBase = get_parent()
-	if not base or base.action_queue.size() >= 3: return
+	if base.action_queue.size() >= 3:
+		return
 
 	# if ultimate gauge is full, queue ultimate attack
 	if stats.ultimate_gauge == ultimate_cost:
@@ -228,20 +206,23 @@ func queue_action() -> void:
 # ATTACKS
 
 func basic_attack() -> void:
-	if get_parent().is_main_player: get_parent().attack_vector = (get_global_mouse_position() - get_parent().position).normalized()
+	if not base: return
+
+	if base.is_main_player:
+		base.attack_vector = (get_global_mouse_position() - base.position).normalized()
 	else:
 		var temp_enemy_health = INF
-		for enemy_node in get_parent().enemy_nodes_in_attack_area:
+		for enemy_node in base.enemy_nodes_in_attack_area:
 			if enemy_node.enemy_stats_node.health < temp_enemy_health:
 				temp_enemy_health = enemy_node.enemy_stats_node.health
-				get_parent().attack_vector = (enemy_node.position - get_parent().position).normalized()
-		get_parent().can_attack = false
+				base.attack_vector = (enemy_node.position - base.position).normalized()
+		base.can_attack = false
 		$AllyAttackCooldown.start(randf_range(2, 3))
 
-	if get_parent().move_state == get_parent().MoveState.DASH:
+	if base.move_state == base.MoveState.DASH:
 		dash_attack = true
 	
-	$AttackShape.set_target_position(get_parent().attack_vector * 20)
+	$AttackShape.set_target_position(base.attack_vector * 20)
 
 	$AttackTimer.start(0.5)
 
@@ -264,30 +245,32 @@ func basic_attack() -> void:
 	
 	if $AttackShape.is_colliding():
 		for collision_index in $AttackShape.get_collision_count():
-			enemy_body = $AttackShape.get_collider(collision_index).get_parent() # TODO: null instance bug need fix
+			enemy_body = $AttackShape.get_collider(collision_index).base # TODO: null instance bug need fix
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 					self, enemy_body.enemy_stats_node):
-				enemy_body.knockback(get_parent().attack_vector, knockback_weight)
+				enemy_body.knockback(base.attack_vector, knockback_weight)
 		Players.camera_node.screen_shake(0.1, 1, 30, 5, true)
 
 func ultimate_attack():
+	if not base: return
+	
 	update_ultimate_gauge(-100)
 
-	if get_parent().is_main_player: get_parent().attack_vector = (get_global_mouse_position() - get_parent().position).normalized()
+	if base.is_main_player: base.attack_vector = (get_global_mouse_position() - base.position).normalized()
 	else:
 		var temp_enemy_health = INF
-		for enemy_node in get_parent().enemy_nodes_in_attack_area:
+		for enemy_node in base.enemy_nodes_in_attack_area:
 			if enemy_node.enemy_stats_node.health < temp_enemy_health:
 				temp_enemy_health = enemy_node.enemy_stats_node.health
-				get_parent().attack_vector = (enemy_node.position - get_parent().position).normalized()
-		get_parent().can_attack = false
+				base.attack_vector = (enemy_node.position - base.position).normalized()
+		base.can_attack = false
 		$AllyAttackCooldown.start(randf_range(2, 3))
 	
-	if get_parent().move_state == get_parent().MoveState.DASH:
+	if base.move_state == base.MoveState.DASH:
 		dash_attack = true
 	
-	$AttackShape.set_target_position(get_parent().attack_vector * 20)
+	$AttackShape.set_target_position(base.attack_vector * 20)
 
 	$AttackTimer.start(0.5)
 	$AttackShape.force_shapecast_update()
@@ -308,11 +291,11 @@ func ultimate_attack():
 
 	if $AttackShape.is_colliding():
 		for collision_index in $AttackShape.get_collision_count():
-			enemy_body = $AttackShape.get_collider(collision_index).get_parent()
+			enemy_body = $AttackShape.get_collider(collision_index).base
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 					self, enemy_body.enemy_stats_node):
-				enemy_body.knockback(get_parent().attack_vector, knockback_weight)
+				enemy_body.knockback(base.attack_vector, knockback_weight)
 		Players.camera_node.screen_shake(0.3, 10, 30, 100, true)
 
 # ..............................................................................
@@ -320,21 +303,21 @@ func ultimate_attack():
 # SIGNALS
 
 func _on_attack_area_body_exited(body: Node2D) -> void:
-	if get_parent() is PlayerBase:
-		get_parent().enemy_nodes_in_attack_area.erase(body)
-		if get_parent().enemy_nodes_in_attack_area.is_empty():
-			get_parent().in_attack_range = false
+	if not base: return
+	base.enemy_nodes_in_attack_area.erase(body)
+	if base.enemy_nodes_in_attack_area.is_empty():
+		base.in_action_range = false
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
-	if get_parent() is PlayerBase:
-		get_parent().enemy_nodes_in_attack_area.push_back(body)
-		get_parent().in_attack_range = true
-		get_parent().can_move = true
+	if not base: return
+	base.enemy_nodes_in_attack_area.push_back(body)
+	base.in_action_range = true
+	base.can_move = true
 
 func _on_attack_timer_timeout() -> void:
-	if not get_parent() is PlayerBase: return
-	get_parent().set_attack_state(get_parent().ActionState.READY)
+	if not base: return
+	base.action_state = base.ActionState.READY
 
 func _on_ally_attack_cooldown_timeout() -> void:
-	if not get_parent() is PlayerBase: return
-	get_parent().set_attack_state(get_parent().ActionState.READY) # TODO: need to change CharacterBase and Attacks for Allies
+	if not base: return
+	base.action_state = base.ActionState.READY # TODO: need to change CharacterBase and Attacks for Allies

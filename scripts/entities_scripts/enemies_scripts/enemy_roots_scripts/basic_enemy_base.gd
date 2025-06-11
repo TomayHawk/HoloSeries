@@ -86,7 +86,7 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 	players_in_attack_area.erase(body)
 	players_in_detection_area.erase(body)
 	if players_in_attack_area.is_empty() and action_state != ActionState.ATTACK:
-		in_attack_range = false
+		in_action_range = false
 	if players_in_detection_area.is_empty():
 		Combat.remove_active_enemy(self)
 		enemy_stats_node.entity_types &= ~Entities.Type.ENEMIES_IN_COMBAT
@@ -99,7 +99,7 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 func _on_attack_area_body_entered(body: Node2D) -> void:
 	if not enemy_stats_node.alive or not body.character.alive: return
 	enemy_in_combat = true
-	if in_attack_range:
+	if in_action_range:
 		action_state = ActionState.READY
 	if not players_in_detection_area.has(body):
 		players_in_detection_area.push_back(body)
@@ -109,7 +109,7 @@ func _on_attack_area_body_entered(body: Node2D) -> void:
 func _on_attack_area_body_exited(body: Node2D) -> void:
 	players_in_attack_area.erase(body)
 	if players_in_attack_area.is_empty():
-		in_attack_range = false
+		in_action_range = false
 
 # ..............................................................................
 

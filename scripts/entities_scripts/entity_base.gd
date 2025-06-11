@@ -4,8 +4,7 @@ class_name EntityBase extends CharacterBody2D
 
 # SIGNALS
 
-signal knockback_timeout()
-signal dash_timeout()
+signal move_state_timeout()
 
 # ..............................................................................
 
@@ -56,15 +55,12 @@ var move_direction: Directions = Directions.DOWN
 
 var attack_vector: Vector2 = Vector2.DOWN
 var knockback_velocity: Vector2 = Vector2.UP
+var move_state_timer: float = 0.0
 var process_interval: float = 0.0
-var knockback_timer: float = 0.0
-var dash_timer: float = 0.0
 
 # AI VARIABLES
 
-var can_move: bool = true
-var can_attack: bool = true
-var in_attack_range: bool = false
+var in_action_range: bool = false
 var action_queue: Array[Array] = []
 
 # ..............................................................................
@@ -92,17 +88,11 @@ func _process(delta: float) -> void:
 			if effect.effect_timer <= 0.0:
 				effect.effect_timeout(stats)
 
-		# decrease knockback timer
-		if knockback_timer > 0.0:
-			knockback_timer -= process_interval
-			if knockback_timer < 0.0:
-				emit_signal(&"knockback_timeout")
-		
-		# decrease dash timer
-		if dash_timer > 0.0:
-			dash_timer -= process_interval
-			if dash_timer < 0.0:
-				emit_signal(&"dash_timeout")
+		# decrease move state timer
+		if move_state_timer > 0.0:
+			move_state_timer -= process_interval
+			if move_state_timer < 0.0:
+				emit_signal(&"move_state_timeout")
 		
 		process_interval = 0.0
 

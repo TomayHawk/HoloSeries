@@ -5,8 +5,7 @@ var alternate_script: PlayerBase = null
 var character: CharacterBase = null
 
 func _ready() -> void:
-	knockback_timeout.connect(on_knockback_timeout)
-	dash_timeout.connect(on_dash_timeout)
+	move_state_timeout.connect(on_move_state_timeout)
 	if self is PlayerAlly:
 		alternate_script = PlayerMain.new()
 	else:
@@ -118,7 +117,7 @@ func set_action_state(next_state: ActionState) -> void:
 
 func attempt_attack(attack_name: String = "") -> void:
 	if character != get_node_or_null(^"CharacterBase"):
-		set_action_state(ActionState.READY) # TODO: depends
+		action_state = ActionState.READY # TODO: depends
 		return
 	
 	if attack_name != "":
@@ -263,9 +262,9 @@ func swap_base() -> void:
 	# reset ally variables
 	if current_script is PlayerAlly:
 		current_script.action_queue.clear()
-		current_script.can_move = true
+		#current_script.can_move = true
 		current_script.can_attack = true
-		current_script.in_attack_range = false
+		current_script.in_action_range = false
 	
 	# TODO: update signals?
 
@@ -302,9 +301,9 @@ func swap_with_standby(next_character: CharacterBase) -> CharacterBase:
 
 	if current_script is PlayerAlly:
 		current_script.action_queue.clear()
-		current_script.can_move = true
+		#current_script.can_move = true
 		current_script.can_attack = true
-		current_script.in_attack_range = false
+		current_script.in_action_range = false
 	
 	return current_character
 
@@ -332,7 +331,7 @@ func update_nodes(swap_base: PlayerBase = null, swap_stats: PlayerStats = null) 
 		# ally variables
 		player_node.can_move = true
 		player_node.can_attack = true
-		player_node.in_attack_range = false
+		player_node.in_action_range = false
 
 		# knockback variables
 		player_node.knockback_direction = Vector2.ZERO

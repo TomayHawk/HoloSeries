@@ -16,19 +16,19 @@ var fatigue: bool = false
 
 # combat variables
 var auto_ultimate: bool = true # TODO: add more settings
-var melee_range: float = 20.0
-var throwable_range: float = 40.0
-var projectile_range: float = 60.0
-var spell_range: float = 80.0
-
-# ultimate variables
-var max_ultimate_gauge: float = 0.0
+var attack_range: float = 20.0
 var ultimate_gauge: float = 0.0
+var ultimate_cost: float = 100.0
+var basic_damage: float = 10.0
+var ultimate_damage: float = 100.0
 
 # nexus variables
 var last_node: int = -1
 var unlocked_nodes: Array[int] = []
 var converted_nodes: Array[Array] = []
+
+# ally variables
+var max_ally_distance: float = 250.0
 
 # ..............................................................................
 
@@ -70,13 +70,13 @@ func update_ultimate_gauge(value: float) -> void:
 	if not alive: return
 
 	# update ultimate gauge
-	ultimate_gauge = clamp(ultimate_gauge + value, 0, max_ultimate_gauge)
+	ultimate_gauge = clamp(ultimate_gauge + value, 0, ultimate_cost)
 	
 	# update ultimate gauge bar
 	if base:
 		Combat.ui.ultimate_progress_bars[node_index].value = ultimate_gauge
-		Combat.ui.ultimate_progress_bars[node_index].max_value = max_ultimate_gauge
-		Combat.ui.ultimate_progress_bars[node_index].modulate.g = (130.0 - ultimate_gauge) / max_ultimate_gauge
+		Combat.ui.ultimate_progress_bars[node_index].max_value = ultimate_cost
+		Combat.ui.ultimate_progress_bars[node_index].modulate.g = (130.0 - ultimate_gauge) / ultimate_cost
 
 func update_shield(value: float) -> void:
 	if not alive: return
