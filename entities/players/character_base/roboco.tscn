@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://qhyhdf3bub6w"]
+[gd_scene load_steps=66 format=3 uid="uid://qhyhdf3bub6w"]
 
 [ext_resource type="Texture2D" uid="uid://uol36pddvrtw" path="res://art/characters/player.png" id="1_7yjl8"]
 [ext_resource type="Texture2D" uid="uid://cu1embux0bml5" path="res://art/characters/Soratest .png" id="2_vcpf5"]
@@ -260,7 +260,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_se4r7")
 }],
-"loop": true,
+"loop": false,
 "name": &"death",
 "speed": 5.0
 }, {
@@ -277,7 +277,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_aqcla")
 }],
-"loop": true,
+"loop": false,
 "name": &"down_attack",
 "speed": 5.0
 }, {
@@ -340,7 +340,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_tvkam")
 }],
-"loop": true,
+"loop": false,
 "name": &"left_attack",
 "speed": 4.0
 }, {
@@ -397,7 +397,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0ya6m")
 }],
-"loop": true,
+"loop": false,
 "name": &"right_attack",
 "speed": 5.0
 }, {
@@ -454,7 +454,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_dda5g")
 }],
-"loop": true,
+"loop": false,
 "name": &"up_attack",
 "speed": 5.0
 }, {
@@ -499,45 +499,14 @@ animations = [{
 "speed": 11.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_7yjl8"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7yjl8"]
-size = Vector2(10, 10)
-
-[node name="CharacterBase" type="AnimatedSprite2D"]
+[node name="Roboco" type="AnimatedSprite2D"]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_qsfsi")
 animation = &"left_idle"
 offset = Vector2(0, -12.5)
 script = ExtResource("3_t60sy")
 
-[node name="AttackArea" type="Area2D" parent="."]
-visible = false
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(0, -7)
-scale = Vector2(2, 2)
-shape = SubResource("CircleShape2D_7yjl8")
-
-[node name="AttackShape" type="ShapeCast2D" parent="."]
-visible = false
-position = Vector2(0, -7)
-shape = SubResource("RectangleShape2D_7yjl8")
-target_position = Vector2(20, 0)
-collision_mask = 34
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="AttackTimer" type="Timer" parent="."]
-wait_time = 0.5
+[node name="ActionCooldown" type="Timer" parent="."]
 one_shot = true
 
-[node name="AllyAttackCooldown" type="Timer" parent="."]
-one_shot = true
-
-[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
-[connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
-[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
-[connection signal="timeout" from="AllyAttackCooldown" to="." method="_on_ally_attack_cooldown_timeout"]
+[connection signal="timeout" from="ActionCooldown" to="." method="_on_action_cooldown_timeout"]

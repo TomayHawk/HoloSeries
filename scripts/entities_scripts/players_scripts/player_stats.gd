@@ -99,7 +99,7 @@ func set_stats() -> void:
 	
 	# update base stamina
 	base_stamina = 100.0
-	
+
 	# update base secondary stats
 	base_weight = 1.0
 	base_vision = 1.0
@@ -123,7 +123,13 @@ func set_stats() -> void:
 	weight = base_weight
 	vision = base_vision
 
-	# TODO: update current stats based on equipment
+	if weapon: weapon.set_stats(self)
+	if headgear: headgear.set_stats(self)
+	if chestpiece: chestpiece.set_stats(self)
+	if leggings: leggings.set_stats(self)
+	if accessory_1: accessory_1.set_stats(self)
+	if accessory_2: accessory_2.set_stats(self)
+	if accessory_3: accessory_3.set_stats(self)
 	# TODO: update current stats based on effects
 	# TODO: update 
 

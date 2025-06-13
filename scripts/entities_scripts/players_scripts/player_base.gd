@@ -467,9 +467,3 @@ func _on_action_area_body_entered(_body: Node2D) -> void:
 
 func _on_action_area_body_exited(_body: Node2D) -> void:
 	in_action_range = $ActionArea.get_overlapping_bodies().filter(func(node): return node.is_instance_of(action_target))
-
-func _on_attack_timer_timeout() -> void:
-	action_state = ActionState.READY
-
-func _on_ally_attack_cooldown_timeout() -> void:
-	action_state = ActionState.READY # TODO: need to change PlayerStats and Attacks for Allies

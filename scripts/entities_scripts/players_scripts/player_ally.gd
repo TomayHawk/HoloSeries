@@ -8,7 +8,7 @@ func _physics_process(_delta: float) -> void:
 	# attempt action
 	var action_success: bool = false
 	if action_state == ActionState.READY and not action_queue.is_empty():
-		action_success = action_queue[0][0].callv(action_queue[0][1])
+		action_success = await action_queue[0][0].callv(action_queue[0][1])
 		if action_success:
 			action_queue.remove_at(0)
 	
@@ -68,7 +68,7 @@ func _on_ally_move_timer_timeout() -> void:
 		# target enemy with shortest distance
 		var target_enemy_node: Node2D = null
 		var enemy_distance: float = INF
-		for enemy_node in Combat.enemy_nodes_in_combat.duplicate():
+		for enemy_node in Combat.enemy_nodes_in_combat:
 			if position.distance_to(enemy_node.position) < enemy_distance:
 				enemy_distance = position.distance_to(enemy_node.position)
 				target_enemy_node = enemy_node
