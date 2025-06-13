@@ -61,6 +61,7 @@ var process_interval: float = 0.0
 # AI VARIABLES
 
 var in_action_range: bool = false
+var action_target: GDScript = EntityBase
 var action_queue: Array[Array] = []
 
 # ..............................................................................
@@ -100,7 +101,7 @@ func _process(delta: float) -> void:
 
 # UNIVERSAL METHODS
 
-func trigger_death() -> void:
+func death() -> void:
 	pass
 
 # ..............................................................................

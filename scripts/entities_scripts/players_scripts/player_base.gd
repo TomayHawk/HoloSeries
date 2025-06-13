@@ -2,7 +2,7 @@ class_name PlayerBase extends EntityBase
 
 # TODO: not sure about the type
 var alternate_script: PlayerBase = null
-var character: CharacterBase = null
+var character: Character = null
 
 func _ready() -> void:
 	move_state_timeout.connect(on_move_state_timeout)
@@ -116,7 +116,7 @@ func set_action_state(next_state: ActionState) -> void:
 	update_animation()
 
 func attempt_attack(attack_name: String = "") -> void:
-	if character != get_node_or_null(^"CharacterBase"):
+	if character != get_node_or_null(^"Character"):
 		action_state = ActionState.READY # TODO: depends
 		return
 	
@@ -199,39 +199,45 @@ func filter_nodes(initial_nodes: Array[EntityBase], get_stats_nodes: bool, origi
 
 # ..............................................................................
 
-# STAT BARS
+# STATS
 
-func update_health_bar(value: float, max_value: float) -> void:
+# update health bar and label
+func update_health(value: float) -> void:
+	var max_value: float = $HealthBar.max_value
+	var bar_percentage: float = value / max_value
 	$HealthBar.value = value
-	$HealthBar.max_value = max_value
 	$HealthBar.visible = value > 0.0 and value < max_value
-	
-	# modulate health bar
-	var temp_bar_percentage: float = value / max_value
-	$HealthBar.modulate = \
-			Color(0, 1, 0, 1) if temp_bar_percentage > 0.5 \
-			else Color(1, 1, 0, 1) if temp_bar_percentage > 0.2 \
+	$HealthBar.modulate = (
+			Color(0, 1, 0, 1) if bar_percentage > 0.5
+			else Color(1, 1, 0, 1) if bar_percentage > 0.2
 			else Color(1, 0, 0, 1)
+	)
+	Combat.ui.health_labels[get_index()].text = str(int(value))
 
-func update_mana_bar(value: float, max_value: float) -> void:
+# update mana bar and label
+func update_mana(value: float) -> void:
 	$ManaBar.value = value
-	$ManaBar.max_value = max_value
-	$ManaBar.visible = value < max_value
+	$ManaBar.visible = value < $ManaBar.max_value
+	Combat.ui.mana_labels[get_index()].text = str(int(value))
 
-func update_stamina_bar(value: float, max_value: float) -> void:
+# update stamina bar and handle fatigue
+func update_stamina(value: float) -> void:
 	$StaminaBar.value = value
-	$StaminaBar.max_value = max_value
-	$StaminaBar.visible = value < max_value
+	$StaminaBar.visible = value < $StaminaBar.max_value
+	$StaminaBar.modulate = Color(0.5, 0, 0, 1) if stats.fatigue else Color(1, 0.5, 0, 1)
+	if stats.fatigue and move_state in [MoveState.DASH, MoveState.SPRINT]:
+		move_state = MoveState.WALK
+		if action_state in [ActionState.READY, ActionState.COOLDOWN]:
+			update_animation()
 
-	# modulate stamina bar
-	if value == 0:
-		$StaminaBar.modulate = Color(0.5, 0, 0, 1)
-	elif value == max_value:
-		$StaminaBar.modulate = Color(1, 0.5, 0, 1)
+# update ultimate gauge bar
+func update_ultimate_gauge(value: float) -> void:
+	Combat.ui.ultimate_progress_bars[get_index()].value = value
+	Combat.ui.ultimate_progress_bars[get_index()].modulate.g = (130.0 - value) / stats.max_ultimate_gauge
 
-func update_shield_bar(value: float, max_value: float) -> void:
+# update shield bar
+func update_shield(value: float) -> void:
 	$ShieldBar.value = value
-	$ShieldBar.max_value = max_value
 	$ShieldBar.visible = value > 0
 
 # ..............................................................................
@@ -271,9 +277,9 @@ func swap_base() -> void:
 	alternate_script = current_script
 
 # swap stats with standby stats
-func swap_with_standby(next_character: CharacterBase) -> CharacterBase:
-	var current_character: CharacterBase = character
-	var current_stats: PlayerStats = stats
+func swap_with_standby(next_character: Character) -> Character:
+	var current_character: Character = character
+	var current_stats: Character = stats
 	character = next_character
 	stats = next_character.stats
 
@@ -309,14 +315,14 @@ func swap_with_standby(next_character: CharacterBase) -> CharacterBase:
 
 '''
 
-func update_nodes(swap_base: PlayerBase = null, swap_stats: PlayerStats = null) -> void:
+func update_nodes(swap_base: PlayerBase = null, swap_stats: Character = null) -> void:
 	elif swap_stats != stats: # Party -> Standby
 		pass
 	
 	update_stats()
 	
 	if base:
-		name = &"CharacterBase"
+		name = &"Character"
 		var player_node: PlayerBase = base
 		# movement variables
 		player_node.walk_speed = 70.0
@@ -342,7 +348,7 @@ func update_nodes(swap_base: PlayerBase = null, swap_stats: PlayerStats = null) 
 		player_node.sprint_stamina = 0.8 - (agility * 0.00048828125)
 		player_node.dash_time = 0.2 * (1 - (agility * 0.001953125)) # minimum 0.1s dash time
 		player_node.update_velocity(Vector2.ZERO)
-		player_node.set_action_state(base.ActionState.READY)
+		player_node.set_action_state(ActionState.READY)
 		# TODO: player_node.ally_speed = 60 + (30 * speed)
 		# player_node.dash_multiplier = 300 + (150 * speed)
 	else:
@@ -356,7 +362,8 @@ func update_nodes(swap_base: PlayerBase = null, swap_stats: PlayerStats = null) 
 
 # DEATH
 
-func trigger_death() -> void:
+func death() -> void:
+	# TODO: update states, variables, and timers
 	# stop player process
 	set_physics_process(false)
 
@@ -387,6 +394,14 @@ func trigger_death() -> void:
 
 	if not stats.alive:
 		character.pause() # TODO
+
+func revive() -> void:
+	pass
+	# TODO
+	# update variables
+	#update_ultimate_gauge(0.0)
+	#update_shield(0.0)
+	#play(&"down_idle")
 
 # ..............................................................................
 
@@ -426,15 +441,28 @@ func _on_lootable_area_exited(body: Node2D) -> void:
 				least_distance = temp_distance
 		body.target_player_node = target_player_node
 
-func on_knockback_timeout() -> void:
-	if move_state == MoveState.KNOCKBACK:
+func on_move_state_timeout() -> void:
+	if move_state == MoveState.STUN:
 		move_state = MoveState.IDLE
 		update_animation()
-
-func on_dash_timeout() -> void:
-	if move_state == MoveState.DASH:
+	elif move_state == MoveState.KNOCKBACK:
+		move_state = MoveState.IDLE
+		update_animation()
+	elif move_state == MoveState.DASH:
 		if Input.is_action_pressed(&"dash"):
 			move_state = MoveState.SPRINT
 		else:
 			move_state = MoveState.WALK
 		update_animation()
+
+func _on_action_area_body_entered(_body: Node2D) -> void:
+	in_action_range = $ActionArea.get_overlapping_bodies().filter(func(node): return node.is_instance_of(action_target))
+
+func _on_action_area_body_exited(_body: Node2D) -> void:
+	in_action_range = $ActionArea.get_overlapping_bodies().filter(func(node): return node.is_instance_of(action_target))
+
+func _on_attack_timer_timeout() -> void:
+	action_state = ActionState.READY
+
+func _on_ally_attack_cooldown_timeout() -> void:
+	action_state = ActionState.READY # TODO: need to change Character and Attacks for Allies

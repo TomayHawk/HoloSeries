@@ -15,8 +15,8 @@ func update_main_player(player_node: PlayerBase) -> void:
 	Entities.end_entities_request()
 
 func update_standby_player(standby_index: int) -> void:
-	var prev_character: PlayerStats = main_player_node.character
-	var next_character: PlayerStats = standby_node.get_child(standby_index)
+	var prev_character: Character = main_player_node.character
+	var next_character: Character = standby_node.get_child(standby_index)
 	
 	var party_index: int = prev_character.node_index
 	prev_character.node_index = standby_index

@@ -39,6 +39,6 @@ func effect_timeout(stats_node: EntityStats) -> void:
 	else:
 		effect_timer = heal_interval
 
-func owner_death(stats_node: EntityStats) -> void:
+func remove_effect(stats_node: EntityStats) -> void:
 	stats_node.effects.erase(self)
 	stats_node.attempt_remove_status(Entities.Status.REGEN)

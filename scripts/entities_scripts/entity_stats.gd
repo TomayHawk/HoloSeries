@@ -9,11 +9,6 @@ var alive: bool = true
 var entity_types: int = 0
 
 # Health, Mana, Stamina and Shield
-var max_health: float = 100.0
-var max_mana: float = 100.0
-var max_stamina: float = 100.0
-var max_shield: float = 100.0
-
 var health: float = 100.0
 var mana: float = 100.0
 var stamina: float = 100.0
@@ -33,6 +28,24 @@ var crit_damage: float = 10.0
 var weight: float = 1.0
 var vision: float = 1.0
 
+# Max Health, Mana and Stamina
+var max_health: float = 100.0
+var max_mana: float = 100.0
+var max_stamina: float = 100.0
+
+# Base Stats
+var base_defense: float = 10.0
+var base_ward: float = 10.0
+var base_strength: float = 10.0
+var base_intelligence: float = 10.0
+var base_speed: float = 10.0
+var base_agility: float = 10.0
+var base_crit_chance: float = 10.0
+var base_crit_damage: float = 10.0
+
+var base_weight: float = 1.0
+var base_vision: float = 1.0
+
 # ..............................................................................
 
 # STATUS
@@ -44,8 +57,6 @@ func add_status(type: Entities.Status) -> Resource:
 	var effect: Resource = Entities.effect_resources[type].new()
 	effects.push_back(effect)
 	status |= type
-	if base:
-		base.set_process(true)
 	return effect
 
 func attempt_remove_status(type: Entities.Status) -> void:
@@ -53,26 +64,19 @@ func attempt_remove_status(type: Entities.Status) -> void:
 		if effect.effect_type == type:
 			return
 	status &= ~type
-	if not status and base:
-		base.set_process(false)
 
 func force_remove_status(type: Entities.Status) -> void:
 	for effect in effects.duplicate():
 		if effect.effect_type == type:
-			effect.effect_timeout(self)
-			effects.erase(effect)
+			effect.remove_effect(self)
 	status &= ~type
-	if not status and base:
-		base.set_process(false)
 
 func has_status(type: Entities.Status) -> bool:
 	return status & type
 
 func reset_status() -> void:
-	status = 0
 	effects.clear()
-	if base:
-		base.set_process(false)
+	status = 0
 
 # ..............................................................................
 
@@ -96,15 +100,15 @@ func update_health(value: float) -> void:
 
 func update_mana(value: float) -> void:
 	if not alive: return
-	
-	# update mana
 	mana = clamp(mana + value, 0.0, max_mana)
 
 func update_stamina(value: float) -> void:
 	if not alive: return
-	
-	# update stamina
 	stamina = clamp(stamina + value, 0.0, max_stamina)
+
+func update_shield(value: float) -> void:
+	if not alive: return
+	shield += value
 
 # ..............................................................................
 
@@ -114,17 +118,12 @@ func death() -> void:
 	# decrease effects timers
 	for effect in effects.duplicate():
 		if effect.remove_on_death:
-			effect.owner_death(self)
+			effect.remove_effect(self)
 	
 	alive = false
 	stamina = max_stamina
-
-	if base:
-		base.trigger_death()
+	if base: base.death()
 
 func revive(value: float) -> void:
 	alive = true
 	update_health(value)
-	
-	# TODO: update_mana(0.0)
-	# TODO: update_stamina(0.0)
