@@ -8,79 +8,55 @@ var level: int = 1
 var alive: bool = true
 var entity_types: int = 0
 
-# Health, Mana, Stamina and Shield
-var health: float = 100.0
-var mana: float = 100.0
+# Health, Mana and Stamina
+var health: float = 200.0
+var mana: float = 10.0
 var stamina: float = 100.0
-var shield: float = 100.0
 
 # Basic Stats
 var defense: float = 10.0
 var ward: float = 10.0
 var strength: float = 10.0
 var intelligence: float = 10.0
-var speed: float = 10.0
-var agility: float = 10.0
-var crit_chance: float = 10.0
-var crit_damage: float = 10.0
+var speed: float = 0.0
+var agility: float = 0.0
+var crit_chance: float = 0.05
+var crit_damage: float = 0.50
 
 # Secondary Stats
 var weight: float = 1.0
 var vision: float = 1.0
 
 # Max Health, Mana and Stamina
-var max_health: float = 100.0
-var max_mana: float = 100.0
+var max_health: float = 200.0
+var max_mana: float = 10.0
 var max_stamina: float = 100.0
 
-# Base Stats
+# Base Health, Mana and Stamina
+var base_health: float = 200.0
+var base_mana: float = 10.0
+var base_stamina: float = 100.0
+
+# Base Basic Stats
 var base_defense: float = 10.0
 var base_ward: float = 10.0
 var base_strength: float = 10.0
 var base_intelligence: float = 10.0
-var base_speed: float = 10.0
-var base_agility: float = 10.0
-var base_crit_chance: float = 10.0
-var base_crit_damage: float = 10.0
+var base_speed: float = 0.0
+var base_agility: float = 0.0
+var base_crit_chance: float = 0.05
+var base_crit_damage: float = 0.50
 
+# Base Secondary Stats
 var base_weight: float = 1.0
 var base_vision: float = 1.0
 
-# ..............................................................................
-
-# STATUS
-
-var status: int = 0
-var effects: Array[Resource] = []
-
-func add_status(type: Entities.Status) -> Resource:
-	var effect: Resource = Entities.effect_resources[type].new()
-	effects.push_back(effect)
-	status |= type
-	return effect
-
-func attempt_remove_status(type: Entities.Status) -> void:
-	for effect in effects:
-		if effect.effect_type == type:
-			return
-	status &= ~type
-
-func force_remove_status(type: Entities.Status) -> void:
-	for effect in effects.duplicate():
-		if effect.effect_type == type:
-			effect.remove_effect(self)
-	status &= ~type
-
-func has_status(type: Entities.Status) -> bool:
-	return status & type
-
-func reset_status() -> void:
-	effects.clear()
-	status = 0
+# Shield
+var shield: float = 100.0
 
 # ..............................................................................
 
-# METHODS
+# STATS UPDATES
 
 func update_health(value: float) -> void:
 	# check if alive and not invincible
@@ -127,3 +103,35 @@ func death() -> void:
 func revive(value: float) -> void:
 	alive = true
 	update_health(value)
+
+# ..............................................................................
+
+# STATUS
+
+var status: int = 0
+var effects: Array[Resource] = []
+
+func add_status(type: Entities.Status) -> Resource:
+	var effect: Resource = Entities.effect_resources[type].new()
+	effects.push_back(effect)
+	status |= type
+	return effect
+
+func attempt_remove_status(type: Entities.Status) -> void:
+	for effect in effects:
+		if effect.effect_type == type:
+			return
+	status &= ~type
+
+func force_remove_status(type: Entities.Status) -> void:
+	for effect in effects.duplicate():
+		if effect.effect_type == type:
+			effect.remove_effect(self)
+	status &= ~type
+
+func has_status(type: Entities.Status) -> bool:
+	return status & type
+
+func reset_status() -> void:
+	effects.clear()
+	status = 0

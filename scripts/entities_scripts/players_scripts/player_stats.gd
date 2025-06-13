@@ -1,4 +1,22 @@
-class_name Character extends EntityStats
+class_name PlayerStats extends EntityStats
+
+var character: CharacterBase = null
+
+# equipment variables
+var weapon: Weapon = null
+var headgear: Headgear = null
+var chestpiece: Chestpiece = null
+var leggings: Leggings = null
+var accessory_1: Accessory = null
+var accessory_2: Accessory = null
+var accessory_3: Accessory = null
+
+# stats variables
+var experience: float = 0.0
+
+# ultimate variables
+var ultimate_gauge: float = 0.0
+var max_ultimate_gauge: float = 100.0
 
 # movement variables
 var walk_speed: float = 140.0
@@ -9,24 +27,12 @@ var dash_time: float = 0.2
 var sprint_multiplier: float = 175.0
 var sprint_stamina: float = 0.8
 var attack_movement_reduction: float = 0.3
-
 var fatigue: bool = false
-
-# combat variables
-var auto_ultimate: bool = true # TODO: add more settings
-var attack_range: float = 20.0
-var ultimate_gauge: float = 0.0
-var max_ultimate_gauge: float = 100.0
-var basic_damage: float = 10.0
-var ultimate_damage: float = 100.0
 
 # nexus variables
 var last_node: int = -1
 var unlocked_nodes: Array[int] = []
 var converted_nodes: Array[Array] = []
-
-# ally variables
-var max_ally_distance: float = 250.0
 
 # ..............................................................................
 
@@ -62,6 +68,72 @@ func update_ultimate_gauge(value: float) -> void:
 
 # ..............................................................................
 
+# SET STATS
+func set_stats() -> void:
+	# TODO: update level and experience
+	# TODO: update entity_types
+	# set base stats
+	character.set_base_stats(self)
+
+	# update base stats from nexus nodes
+	for unlocked_node in unlocked_nodes:
+		# TODO: currently uses Vector2 atlas locations
+		var nexus_type: int = 1 # TODO: Global.nexus_types[unlocked_node]
+		match nexus_type:
+			1: # Health
+				base_health += Global.nexus_qualities[unlocked_node]
+			2: # Mana
+				base_mana += Global.nexus_qualities[unlocked_node]
+			3: # Defense
+				base_defense += Global.nexus_qualities[unlocked_node]
+			4: # Ward
+				base_ward += Global.nexus_qualities[unlocked_node]
+			5: # Strength
+				base_strength += Global.nexus_qualities[unlocked_node]
+			6: # Intelligence
+				base_intelligence += Global.nexus_qualities[unlocked_node]
+			7: # Speed
+				base_speed += Global.nexus_qualities[unlocked_node]
+			8: # Agility
+				base_agility += Global.nexus_qualities[unlocked_node]
+	
+	# update base stamina
+	base_stamina = 100.0
+	
+	# update base secondary stats
+	base_weight = 1.0
+	base_vision = 1.0
+
+	# update max health, mana and stamina
+	max_health = base_health
+	max_mana = base_mana
+	max_stamina = base_stamina
+
+	# update basic stats
+	defense = base_defense
+	ward = base_ward
+	strength = base_strength
+	intelligence = base_intelligence
+	speed = base_speed
+	agility = base_agility
+	crit_chance = base_crit_chance
+	crit_damage = base_crit_damage
+
+	# update secondary stats
+	weight = base_weight
+	vision = base_vision
+
+	# TODO: update current stats based on equipment
+	# TODO: update current stats based on effects
+	# TODO: update 
+
+	# update health, mana and stamina
+	health = max_health
+	mana = max_mana
+	stamina = max_stamina
+
+# ..............................................................................
+
 # DEATH & REVIVE
 
 func death() -> void:
@@ -72,116 +144,3 @@ func death() -> void:
 func revive(value: float) -> void:
 	super (value)
 	if base: base.revive()
-
-# ..............................................................................
-
-# TODO: move below to character specific scripts
-
-func queue_action() -> void:
-	if not base: return
-	
-	# check if action queue is full
-	if base.action_queue.size() >= 3:
-		return
-
-	# if ultimate gauge is full, queue ultimate attack
-	if stats.ultimate_gauge == max_ultimate_gauge:
-		base.action_queue.append([ultimate_attack, []])
-		return
-	
-	get_parent().action_queue.append([basic_attack, []])
-
-# ATTACKS
-
-func basic_attack() -> void:
-	if not base: return
-
-	if base.is_main_player:
-		base.attack_vector = (get_global_mouse_position() - base.position).normalized()
-	else:
-		var temp_enemy_health = INF
-		for enemy_node in base.enemy_nodes_in_attack_area:
-			if enemy_node.enemy_stats_node.health < temp_enemy_health:
-				temp_enemy_health = enemy_node.enemy_stats_node.health
-				base.attack_vector = (enemy_node.position - base.position).normalized()
-		base.can_attack = false
-		$AllyAttackCooldown.start(randf_range(2, 3))
-
-	if base.move_state == base.MoveState.DASH:
-		dash_attack = true
-	
-	$AttackShape.set_target_position(base.attack_vector * 20)
-
-	$AttackTimer.start(0.5)
-
-	$AttackShape.force_shapecast_update()
-
-	connect(&"frame_changed", Callable(self, "basic_attack_register"))
-	
-	await something
-	
-	if frame != 1: return
-	disconnect(&"frame_changed", Callable(self, "basic_attack_register"))
-	var temp_damage: float = basic_damage
-	var enemy_body = null
-	var knockback_weight = 1.0
-
-	if dash_attack:
-		temp_damage *= 1.5
-		knockback_weight = 1.5
-		dash_attack = false
-	
-	if $AttackShape.is_colliding():
-		for collision_index in $AttackShape.get_collision_count():
-			enemy_body = $AttackShape.get_collider(collision_index).base # TODO: null instance bug need fix
-			if Damage.combat_damage(temp_damage,
-					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
-					self, enemy_body.enemy_stats_node):
-				enemy_body.knockback(base.attack_vector, knockback_weight)
-		Players.camera_node.screen_shake(0.1, 1, 30, 5, true)
-
-func ultimate_attack():
-	if not base: return
-	
-	update_ultimate_gauge(-100)
-
-	if base.is_main_player: base.attack_vector = (get_global_mouse_position() - base.position).normalized()
-	else:
-		var temp_enemy_health = INF
-		for enemy_node in base.enemy_nodes_in_attack_area:
-			if enemy_node.enemy_stats_node.health < temp_enemy_health:
-				temp_enemy_health = enemy_node.enemy_stats_node.health
-				base.attack_vector = (enemy_node.position - base.position).normalized()
-		base.can_attack = false
-		$AllyAttackCooldown.start(randf_range(2, 3))
-	
-	if base.move_state == base.MoveState.DASH:
-		dash_attack = true
-	
-	$AttackShape.set_target_position(base.attack_vector * 20)
-
-	$AttackTimer.start(0.5)
-	$AttackShape.force_shapecast_update()
-
-	connect(&"frame_changed", Callable(self, "ultimate_attack_register"))
-
-	await something
-
-	if frame != 1: return
-	disconnect(&"frame_changed", Callable(self, "ultimate_attack_register"))
-	var temp_damage: float = ultimate_damage
-	var enemy_body = null
-	var knockback_weight = 2.0
-	if dash_attack:
-		temp_damage *= 1.5
-		knockback_weight = 3.0
-		dash_attack = false
-
-	if $AttackShape.is_colliding():
-		for collision_index in $AttackShape.get_collision_count():
-			enemy_body = $AttackShape.get_collider(collision_index).base
-			if Damage.combat_damage(temp_damage,
-					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
-					self, enemy_body.enemy_stats_node):
-				enemy_body.knockback(base.attack_vector, knockback_weight)
-		Players.camera_node.screen_shake(0.3, 10, 30, 100, true)

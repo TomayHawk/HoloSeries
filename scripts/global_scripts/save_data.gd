@@ -37,7 +37,7 @@ var saves: Array[Dictionary] = [
 		"nexus_stats_qualities": [] as Array[int],
 		"last_nodes": [167, 154, 333, -1, 132] as Array[int],
 		"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]] as Array[Array],
-		"converted": [[], [], [], [], []] as Array[Array], # saves["converted"][CHARACTER_INDEX][i] = [node, type, quality]
+		"converted": [[], [], [], [], []] as Array[Array], # saves["converted"][character_index][i] = [node, type, quality]
 	},
 	{},
 ]
@@ -52,7 +52,7 @@ func _ready() -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"Master"), linear_to_db(settings["master_volume"]))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"BGM"), linear_to_db(settings["music_volume"]))
 
-func new_save(CHARACTER_INDEX: int, save_index: int) -> void:
+func new_save(character_index: int, save_index: int) -> void:
 	# initialize save
 	var current_save: Dictionary = {
 		# scene
@@ -68,9 +68,9 @@ func new_save(CHARACTER_INDEX: int, save_index: int) -> void:
 		"key": [] as PackedInt32Array,
 		
 		# players
-		"main_player": CHARACTER_INDEX as int,
+		"main_player": character_index as int,
 		"main_player_position": Vector2(0, 0) as Vector2,
-		"party": [CHARACTER_INDEX, -1, -1, -1] as Array[int],
+		"party": [character_index, -1, -1, -1] as Array[int],
 		"standby": [] as Array[int],
 		"experiences": [] as Array[int],
 		
@@ -110,9 +110,9 @@ func new_save(CHARACTER_INDEX: int, save_index: int) -> void:
 		[100, 132, 147],
 	]
 
-	current_save["experiences"][CHARACTER_INDEX] = 0
-	current_save["last_nodes"][CHARACTER_INDEX] = DEFAULT_NEXUS_NODES[CHARACTER_INDEX][1]
-	current_save["unlocked"][CHARACTER_INDEX] = DEFAULT_NEXUS_NODES[CHARACTER_INDEX]
+	current_save["experiences"][character_index] = 0
+	current_save["last_nodes"][character_index] = DEFAULT_NEXUS_NODES[character_index][1]
+	current_save["unlocked"][character_index] = DEFAULT_NEXUS_NODES[character_index]
 
 	# copy save
 	saves[save_index] = current_save
@@ -171,35 +171,35 @@ func load_save(save_index: int = last_save) -> void:
 
 	var node_index: int = 0
 	# create party players
-	for CHARACTER_INDEX in saves[save_index]["party"]:
-		if CHARACTER_INDEX == -1:
+	for character_index in saves[save_index]["party"]:
+		if character_index == -1:
 			Combat.ui.name_labels[node_index].get_parent().modulate.a = 0.0
 			node_index += 1
 			continue
 		
 		var player_node: Node = load(BASE_PLAYER_PATH).instantiate()
-		player_node.add_child(load(character_PATH[CHARACTER_INDEX]).instantiate())
+		player_node.add_child(load(character_PATH[character_index]).instantiate())
 		Players.party_node.add_child(player_node)
 		
 		player_node.character.node_index = node_index
-		player_node.character.level = DEFAULT_STATS[CHARACTER_INDEX][0]
-		player_node.character.base_health = DEFAULT_STATS[CHARACTER_INDEX][1]
-		player_node.character.base_mana = DEFAULT_STATS[CHARACTER_INDEX][2]
-		player_node.character.base_stamina = DEFAULT_STATS[CHARACTER_INDEX][3]
-		player_node.character.base_defense = DEFAULT_STATS[CHARACTER_INDEX][4]
-		player_node.character.base_ward = DEFAULT_STATS[CHARACTER_INDEX][5]
-		player_node.character.base_strength = DEFAULT_STATS[CHARACTER_INDEX][6]
-		player_node.character.base_intelligence = DEFAULT_STATS[CHARACTER_INDEX][7]
-		player_node.character.base_speed = DEFAULT_STATS[CHARACTER_INDEX][8]
-		player_node.character.base_agility = DEFAULT_STATS[CHARACTER_INDEX][9]
-		player_node.character.base_crit_chance = DEFAULT_STATS[CHARACTER_INDEX][10]
-		player_node.character.base_crit_damage = DEFAULT_STATS[CHARACTER_INDEX][11]
+		player_node.character.level = DEFAULT_STATS[character_index][0]
+		player_node.character.base_health = DEFAULT_STATS[character_index][1]
+		player_node.character.base_mana = DEFAULT_STATS[character_index][2]
+		player_node.character.base_stamina = DEFAULT_STATS[character_index][3]
+		player_node.character.base_defense = DEFAULT_STATS[character_index][4]
+		player_node.character.base_ward = DEFAULT_STATS[character_index][5]
+		player_node.character.base_strength = DEFAULT_STATS[character_index][6]
+		player_node.character.base_intelligence = DEFAULT_STATS[character_index][7]
+		player_node.character.base_speed = DEFAULT_STATS[character_index][8]
+		player_node.character.base_agility = DEFAULT_STATS[character_index][9]
+		player_node.character.base_crit_chance = DEFAULT_STATS[character_index][10]
+		player_node.character.base_crit_damage = DEFAULT_STATS[character_index][11]
 		player_node.character.reset_stats() # TODO
 		player_node.character.update_nodes() # TODO
 
 		# position character and determine main player node
 		player_node.position = saves[save_index]["main_player_position"]
-		if CHARACTER_INDEX == saves[save_index]["main_player"]:
+		if character_index == saves[save_index]["main_player"]:
 			player_node.is_main_player = true
 			Players.main_player_node = player_node
 			Players.camera_node.new_parent(player_node)
@@ -211,23 +211,23 @@ func load_save(save_index: int = last_save) -> void:
 	node_index = 0
 
 	# TODO: need to hide standbys
-	for CHARACTER_INDEX in saves[save_index]["standby"]:
-		var character: Node = load(character_PATH[CHARACTER_INDEX]).instantiate()
+	for character_index in saves[save_index]["standby"]:
+		var character: Node = load(character_PATH[character_index]).instantiate()
 		Players.standby_node.add_child(character)
 
 		character.node_index = node_index
-		character.level = DEFAULT_STATS[CHARACTER_INDEX][0]
-		character.base_health = DEFAULT_STATS[CHARACTER_INDEX][1]
-		character.base_mana = DEFAULT_STATS[CHARACTER_INDEX][2]
-		character.base_stamina = DEFAULT_STATS[CHARACTER_INDEX][3]
-		character.base_defense = DEFAULT_STATS[CHARACTER_INDEX][4]
-		character.base_ward = DEFAULT_STATS[CHARACTER_INDEX][5]
-		character.base_strength = DEFAULT_STATS[CHARACTER_INDEX][6]
-		character.base_intelligence = DEFAULT_STATS[CHARACTER_INDEX][7]
-		character.base_speed = DEFAULT_STATS[CHARACTER_INDEX][8]
-		character.base_agility = DEFAULT_STATS[CHARACTER_INDEX][9]
-		character.base_crit_chance = DEFAULT_STATS[CHARACTER_INDEX][10]
-		character.base_crit_damage = DEFAULT_STATS[CHARACTER_INDEX][11]
+		character.level = DEFAULT_STATS[character_index][0]
+		character.base_health = DEFAULT_STATS[character_index][1]
+		character.base_mana = DEFAULT_STATS[character_index][2]
+		character.base_stamina = DEFAULT_STATS[character_index][3]
+		character.base_defense = DEFAULT_STATS[character_index][4]
+		character.base_ward = DEFAULT_STATS[character_index][5]
+		character.base_strength = DEFAULT_STATS[character_index][6]
+		character.base_intelligence = DEFAULT_STATS[character_index][7]
+		character.base_speed = DEFAULT_STATS[character_index][8]
+		character.base_agility = DEFAULT_STATS[character_index][9]
+		character.base_crit_chance = DEFAULT_STATS[character_index][10]
+		character.base_crit_damage = DEFAULT_STATS[character_index][11]
 
 		var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/character_button.tscn").instantiate()
 		Combat.ui.get_node(^"CharacterSelector/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer").add_child(standby_button)
@@ -266,7 +266,7 @@ func save(save_index):
 	saves[save_index] = Global.current_save.duplicate()
 
 	for player_node in Players.party_node.get_children():
-		saves[save_index]["party"].push_back(Global.player_node.character.CHARACTER_INDEX)
+		saves[save_index]["party"].push_back(Global.player_node.character.character_index)
 
 # randomizes all empty nodes with randomized stat types and stat qualities
 func stat_nodes_randomizer(save_index):

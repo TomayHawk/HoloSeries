@@ -102,7 +102,27 @@ func _process(delta: float) -> void:
 # UNIVERSAL METHODS
 
 func death() -> void:
-	pass
+	set_process(false)
+
+	move_state = MoveState.IDLE
+	action_state = ActionState.READY
+	move_direction = Directions.DOWN
+
+	attack_vector = Vector2.DOWN
+	knockback_velocity = Vector2.UP
+	move_state_timer = 0.0
+	process_interval = 0.0
+
+	in_action_range = false
+	action_target = EntityBase
+	action_queue.clear()
+
+func revive() -> void:
+	set_process(true)
+
+	# TODO: in_action_range = ?
+	# TODO: action_target = ?
+	# TODO: action_queue = ?
 
 # ..............................................................................
 

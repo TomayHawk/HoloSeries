@@ -2,7 +2,7 @@ class_name PlayerBase extends EntityBase
 
 # TODO: not sure about the type
 var alternate_script: PlayerBase = null
-var character: Character = null
+var character: PlayerStats = null
 
 func _ready() -> void:
 	move_state_timeout.connect(on_move_state_timeout)
@@ -116,7 +116,7 @@ func set_action_state(next_state: ActionState) -> void:
 	update_animation()
 
 func attempt_attack(attack_name: String = "") -> void:
-	if character != get_node_or_null(^"Character"):
+	if character != get_node_or_null(^"PlayerStats"):
 		action_state = ActionState.READY # TODO: depends
 		return
 	
@@ -242,6 +242,58 @@ func update_shield(value: float) -> void:
 
 # ..............................................................................
 
+# DEATH
+
+func death() -> void:
+	# pause process and update all base class variables
+	super ()
+
+	set_physics_process(false)
+
+	# TODO: update states, variables, and timers
+
+	# hide stats bars
+	$HealthBar.hide()
+	$ShieldBar.hide()
+	$ManaBar.hide()
+	$StaminaBar.hide()
+
+	# start death animation
+	character.play(&"death")
+
+	# reset player variables
+	move_state = MoveState.STUN
+	action_state = ActionState.COOLDOWN
+	knockback_timer = 0.0
+	dash_timer = 0.0
+	
+	# handle main player
+	if self is PlayerMain:
+		var alive_party_players = Entities.entities_of_type[Entities.Type.PLAYERS_ALIVE].call()
+		if alive_party_players.is_empty():
+			print("GAME OVER") # TODO
+		else:
+			Players.update_main_player(alive_party_players[0])
+
+	await Global.get_tree().create_timer(0.5).timeout
+
+	if not stats.alive:
+		character.pause() # TODO
+
+func revive() -> void:
+	# resume process and update all base class variables
+	super ()
+
+	set_physics_process(true)
+
+	# TODO
+	# update variables
+	#update_ultimate_gauge(0.0)
+	#update_shield(0.0)
+	#play(&"down_idle")
+
+# ..............................................................................
+
 # UPDATE NODES
 
 # swap base scripts when switching main players
@@ -277,9 +329,9 @@ func swap_base() -> void:
 	alternate_script = current_script
 
 # swap stats with standby stats
-func swap_with_standby(next_character: Character) -> Character:
-	var current_character: Character = character
-	var current_stats: Character = stats
+func swap_with_standby(next_character: PlayerStats) -> PlayerStats:
+	var current_character: PlayerStats = character
+	var current_stats: PlayerStats = stats
 	character = next_character
 	stats = next_character.stats
 
@@ -315,14 +367,14 @@ func swap_with_standby(next_character: Character) -> Character:
 
 '''
 
-func update_nodes(swap_base: PlayerBase = null, swap_stats: Character = null) -> void:
+func update_nodes(swap_base: PlayerBase = null, swap_stats: PlayerStats = null) -> void:
 	elif swap_stats != stats: # Party -> Standby
 		pass
 	
 	update_stats()
 	
 	if base:
-		name = &"Character"
+		name = &"PlayerStats"
 		var player_node: PlayerBase = base
 		# movement variables
 		player_node.walk_speed = 70.0
@@ -357,51 +409,6 @@ func update_nodes(swap_base: PlayerBase = null, swap_stats: Character = null) ->
 		Combat.ui.standby_mana_labels[node_index].text = str(int(mana))
 
 '''
-
-# ..............................................................................
-
-# DEATH
-
-func death() -> void:
-	# TODO: update states, variables, and timers
-	# stop player process
-	set_physics_process(false)
-
-	# hide stats bars
-	$HealthBar.hide()
-	$ShieldBar.hide()
-	$ManaBar.hide()
-	$StaminaBar.hide()
-
-	# start death animation
-	character.play(&"death")
-
-	# reset player variables
-	move_state = MoveState.STUN
-	action_state = ActionState.COOLDOWN
-	knockback_timer = 0.0
-	dash_timer = 0.0
-	
-	# handle main player
-	if self is PlayerMain:
-		var alive_party_players = Entities.entities_of_type[Entities.Type.PLAYERS_ALIVE].call()
-		if alive_party_players.is_empty():
-			print("GAME OVER") # TODO
-		else:
-			Players.update_main_player(alive_party_players[0])
-
-	await Global.get_tree().create_timer(0.5).timeout
-
-	if not stats.alive:
-		character.pause() # TODO
-
-func revive() -> void:
-	pass
-	# TODO
-	# update variables
-	#update_ultimate_gauge(0.0)
-	#update_shield(0.0)
-	#play(&"down_idle")
 
 # ..............................................................................
 
@@ -465,4 +472,4 @@ func _on_attack_timer_timeout() -> void:
 	action_state = ActionState.READY
 
 func _on_ally_attack_cooldown_timeout() -> void:
-	action_state = ActionState.READY # TODO: need to change Character and Attacks for Allies
+	action_state = ActionState.READY # TODO: need to change PlayerStats and Attacks for Allies

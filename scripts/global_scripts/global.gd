@@ -1,11 +1,8 @@
 extends Node
 
 # nexus variables
-var nexus_stats_types: Array[Vector2] = []
-var nexus_stats_qualities: Array[int] = []
-var nexus_last_nodes: Array[int] = []
-var nexus_unlocked_nodes: Array[Array] = []
-var nexus_converted_nodes: Array[Array] = []
+var nexus_types: Array[Vector2] = []
+var nexus_qualities: Array[int] = []
 
 # ..............................................................................
 

@@ -189,7 +189,7 @@ func summon_nousagi():
 #    update_animation()
 #
 #func attempt_attack(attack_name: String = "") -> void:
-#    if character != get_node_or_null(^"Character"):
+#    if character != get_node_or_null(^"PlayerStats"):
 #        set_attack_state(ActionState.READY) # TODO: depends
 #        return
 #    
