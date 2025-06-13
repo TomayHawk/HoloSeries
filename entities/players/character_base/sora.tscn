@@ -501,8 +501,3 @@ frame = 1
 frame_progress = 0.850872
 offset = Vector2(-0.5, -10)
 script = ExtResource("5_biv4b")
-
-[node name="ActionCooldown" type="Timer" parent="."]
-one_shot = true
-
-[connection signal="timeout" from="ActionCooldown" to="." method="_on_action_cooldown_timeout"]

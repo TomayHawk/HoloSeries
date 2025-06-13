@@ -20,8 +20,8 @@ var tween: Tween
 
 func _ready() -> void:
 	%CombatControl.modulate.a = 0.0
-	%SubCombatOptions.visible = false
-	%CharacterSelector.visible = false
+	%SubCombatOptions.hide()
+	%CharacterSelector.hide()
 
 	var character_infos_nodes: Array[Node] = %CharacterInfosVBoxContainer.get_children()
 	for character_infos_node in character_infos_nodes:
@@ -39,10 +39,10 @@ func _input(_event: InputEvent) -> void:
 			%CombatControl.modulate.a = 1.0 if %CombatControl.modulate.a != 1.0 else 0.0
 	elif Input.is_action_just_pressed(&"tab"):
 		Inputs.accept_event()
-		%CharacterSelector.visible = true
+		%CharacterSelector.show()
 	elif Input.is_action_just_released(&"tab"):
 		Inputs.accept_event()
-		%CharacterSelector.visible = false
+		%CharacterSelector.hide()
 	elif Input.is_action_just_pressed(&"esc"):
 		if %SubCombatOptions.visible:
 			Inputs.accept_event()
@@ -65,8 +65,8 @@ func _on_attack_pressed() -> void:
 
 func _on_main_combat_options_pressed(extra_arg_0: int) -> void:
 	hide_sub_combat_options()
-	%SubCombatOptions.visible = true
-	sub_modes_nodes[extra_arg_0].visible = true
+	%SubCombatOptions.show()
+	sub_modes_nodes[extra_arg_0].show()
 
 # ..............................................................................
 
@@ -79,20 +79,20 @@ func use_consumable(item_index: int) -> void:
 	Inventory.use_consumable(item_index)
 
 func hide_sub_combat_options() -> void:
-	%SubCombatOptions.visible = false
+	%SubCombatOptions.hide()
 	for sub_mode in sub_modes_nodes:
-		sub_mode.visible = false
+		sub_mode.hide()
 
 # ..............................................................................
 
 # SIGNALS AND BUTTON PRESSES
 
 func _on_control_mouse_entered() -> void:
-	Inputs.mouse_in_attack_range = false
+	Inputs.mouse_in_combat_area = false
 	Players.camera_node.can_zoom = false
 
 func _on_control_mouse_exited() -> void:
-	Inputs.mouse_in_attack_range = true
+	Inputs.mouse_in_combat_area = true
 	Players.camera_node.can_zoom = true
 
 func button_pressed() -> void:

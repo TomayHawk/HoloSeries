@@ -65,10 +65,10 @@ func _on_combat_hit_box_input_event(_viewport: Node, _event: InputEvent, _shape_
 
 func _on_combat_hit_box_mouse_entered() -> void:
 	if Entities.requesting_entities:
-		Inputs.mouse_in_attack_range = false
+		Inputs.mouse_in_combat_area = false
 
 func _on_combat_hit_box_mouse_exited() -> void:
-	Inputs.mouse_in_attack_range = true
+	Inputs.mouse_in_combat_area = true
 
 # ..............................................................................
 

@@ -246,7 +246,7 @@ func load_save(save_index: int = last_save) -> void:
 
 		node_index += 1
 
-	Inputs.mouse_in_attack_range = true
+	Inputs.mouse_in_combat_area = true
 	Inputs.combat_inputs_enabled = true
 
 	Global.start_bgm("res://music/asmarafulldemo.mp3")

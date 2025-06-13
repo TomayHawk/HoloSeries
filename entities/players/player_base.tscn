@@ -34,11 +34,11 @@ script = ExtResource("1_rapl1")
 [node name="MovementHitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_n3b4m")
 
-[node name="CombatHitBoxArea" type="Area2D" parent="."]
+[node name="CombatHitBox" type="Area2D" parent="."]
 visible = false
 collision_mask = 0
 
-[node name="CombatHitBoxShape" type="CollisionShape2D" parent="CombatHitBoxArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatHitBox"]
 position = Vector2(0, -11)
 shape = SubResource("RectangleShape2D_fbnw6")
 
@@ -47,7 +47,7 @@ visible = false
 collision_layer = 0
 collision_mask = 36
 
-[node name="InteractionShape" type="CollisionShape2D" parent="InteractionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
 shape = SubResource("CircleShape2D_swviq")
 
 [node name="LootableArea" type="Area2D" parent="."]
@@ -72,16 +72,7 @@ shape = SubResource("RectangleShape2D_r405m")
 target_position = Vector2(10, 0)
 collision_mask = 46
 
-[node name="AttackShape" type="ShapeCast2D" parent="."]
-position = Vector2(0, -7)
-shape = SubResource("RectangleShape2D_lt4ow")
-target_position = Vector2(20, 0)
-collision_mask = 34
-collide_with_areas = true
-collide_with_bodies = false
-
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-unique_name_in_owner = true
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 modulate = Color(0, 1, 0, 1)
@@ -91,20 +82,6 @@ offset_top = -29.0
 offset_right = 190.0
 offset_bottom = -9.0
 scale = Vector2(0.1, 0.1)
-max_value = 200.0
-value = 150.0
-show_percentage = false
-metadata/_edit_use_anchors_ = true
-
-[node name="ShieldBar" type="ProgressBar" parent="."]
-z_index = 1
-offset_left = -10.0
-offset_top = -27.0
-offset_right = 190.0
-offset_bottom = -17.0
-scale = Vector2(0.1, 0.1)
-theme_override_font_sizes/font_size = 8
-theme_override_styles/fill = ExtResource("3_48rhk")
 max_value = 200.0
 value = 150.0
 show_percentage = false
@@ -138,13 +115,31 @@ value = 150.0
 show_percentage = false
 metadata/_edit_use_anchors_ = true
 
-[node name="AllyMoveTimer" type="Timer" parent="."]
-one_shot = true
-autostart = true
+[node name="ShieldBar" type="ProgressBar" parent="."]
+z_index = 1
+offset_left = -10.0
+offset_top = -27.0
+offset_right = 190.0
+offset_bottom = -17.0
+scale = Vector2(0.1, 0.1)
+theme_override_font_sizes/font_size = 8
+theme_override_styles/fill = ExtResource("3_48rhk")
+max_value = 200.0
+value = 150.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
 
-[connection signal="input_event" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_input_event"]
-[connection signal="mouse_entered" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_mouse_entered"]
-[connection signal="mouse_exited" from="CombatHitBoxArea" to="." method="_on_combat_hit_box_area_mouse_exited"]
+[node name="AttackShape" type="ShapeCast2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_lt4ow")
+target_position = Vector2(20, 0)
+collision_mask = 34
+collide_with_areas = true
+collide_with_bodies = false
+
+[connection signal="input_event" from="CombatHitBox" to="." method="_on_combat_hit_box_area_input_event"]
+[connection signal="mouse_entered" from="CombatHitBox" to="." method="_on_combat_hit_box_area_mouse_entered"]
+[connection signal="mouse_exited" from="CombatHitBox" to="." method="_on_combat_hit_box_area_mouse_exited"]
 [connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
 [connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]
 [connection signal="area_entered" from="LootableArea" to="." method="_on_lootable_area_entered"]

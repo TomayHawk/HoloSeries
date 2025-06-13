@@ -1,43 +1,87 @@
 class_name PlayerBase extends EntityBase
 
-# TODO: not sure about the type
-var alternate_script: PlayerBase = null
+# TODO: remove AttackShape node
+
+const ROAM_DISTANCE: float = 75.0
+const MAX_ALLY_DISTANCE: float = 200.0
+
+var is_main_player: bool = false
 var character: PlayerStats = null
 
+# ..............................................................................
+
+# PROCESS
+
 func _ready() -> void:
+	# connect signals
 	move_state_timeout.connect(on_move_state_timeout)
-	if self is PlayerAlly:
-		alternate_script = PlayerMain.new()
+	action_state_timeout.connect(on_action_state_timeout)
+
+func _physics_process(_delta: float) -> void:
+	if is_main_player:
+		var input_velocity: Vector2 = Input.get_vector(&"left", &"right", &"up", &"down", 0.2)
+		
+		# snap input velocity to cardinal and intercardinal directions
+		if input_velocity != Vector2.ZERO:
+			input_velocity = [
+				Vector2(1.0, 0.0),
+				Vector2(0.70710678, 0.70710678),
+				Vector2(0.0, 1.0),
+				Vector2(-0.70710678, 0.70710678),
+				Vector2(-1.0, 0.0),
+				Vector2(-0.70710678, -0.70710678),
+				Vector2(0.0, -1.0),
+				Vector2(0.70710678, -0.70710678)
+			][(roundi(input_velocity.angle() / (PI / 4)) + 8) % 8]
+
+		update_velocity(input_velocity)
 	else:
-		alternate_script = PlayerAlly.new()
+		# TODO: should not be in physics process
+		# attempt action
+		var action_success: bool = false
+		if action_state == ActionState.READY and not action_queue.is_empty():
+			action_success = await action_queue[0][0].callv(action_queue[0][1])
+			if action_success:
+				action_queue.remove_at(0)
+	
+	move_and_slide()
+
+func _input(_event: InputEvent) -> void:
+	# TODO: should add toggle setting for release dash
+	if Input.is_action_just_pressed(&"dash"):
+		dash()
 
 # ..............................................................................
 
 # MOVEMENTS
 
+# TODO: test and maybe add other knockback options (maybe also dash)
+#var t = knockback_timer / 0.4
+# Quadratic
+#velocity = knockback_velocity * t * t
+# Exponential
+#velocity = knockback_velocity * pow(t, 0.5)
+# Ease Out Sine
+#velocity = knockback_velocity * sin(t * PI * 0.5)
+
 func update_velocity(next_direction: Vector2) -> void:
+	# no velocity if stunned
 	if move_state == MoveState.STUN:
 		return
 
+	# maintain velocity if taking knockback
 	if move_state == MoveState.KNOCKBACK:
-		velocity = knockback_velocity * knockback_timer / 0.4
+		velocity = knockback_velocity * move_state_timer / 0.4
 		return
-		# TODO: test and maybe add other knockback options
-		#var t = knockback_timer / 0.4
-		# Quadratic
-		#velocity = knockback_velocity * t * t
-		# Exponential
-		#velocity = knockback_velocity * pow(t, 0.5)
-		# Ease Out Sine
-		#velocity = knockback_velocity * sin(t * PI * 0.5)
 
+	# if no direction, set idle state
 	if next_direction == Vector2.ZERO:
 		move_state = MoveState.IDLE
 		velocity = Vector2.ZERO
 		update_animation()
 		return
 	
-	# set move direction
+	# update move direction
 	move_direction = [
 		Directions.UP,
 		Directions.DOWN,
@@ -57,90 +101,61 @@ func update_velocity(next_direction: Vector2) -> void:
 		Vector2(-0.70710678, 0.70710678),
 		Vector2(0.70710678, 0.70710678),
 	].find(next_direction)]
-	update_animation()
-	
-	var temp_velocity: Vector2 = next_direction * stats.walk_speed
 
+	# TODO: stats.update_stamina(-stats.sprint_stamina) for sprinting
+	
+	velocity = next_direction * stats.walk_speed
+	
 	match move_state:
 		MoveState.IDLE:
 			move_state = MoveState.WALK
-			update_animation()
 		MoveState.SPRINT:
-			temp_velocity *= stats.sprint_multiplier
-			stats.update_stamina(-stats.sprint_stamina)
+			velocity *= stats.sprint_multiplier
 		MoveState.DASH:
-			temp_velocity *= stats.dash_multiplier * dash_timer / stats.dash_time
+			velocity *= stats.dash_multiplier * move_state_timer / stats.dash_time
 
+	# apply movement reduction if attacking
 	if action_state == ActionState.ATTACK:
-		temp_velocity *= stats.attack_movement_reduction
+		velocity *= stats.attack_movement_reduction
 	
-	velocity = temp_velocity
+	# update animation
+	update_animation()
+
+# DASH
 
 func dash() -> void:
-	if (stats.stamina < stats.dash_min_stamina
-			or stats.fatigue
-			or move_state == MoveState.KNOCKBACK
-			or move_state == MoveState.STUN
-	): return
+	if stats.fatigue: return
+	if stats.stamina < stats.dash_min_stamina: return
+	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]: return
 
-	dash_timer = stats.dash_time
+	move_state_timer = stats.dash_time
 	stats.update_stamina(-stats.dash_stamina)
 
 	move_state = MoveState.DASH
 	update_animation()
 
+# KNOCKBACK
+
 func knockback(next_velocity: Vector2, knockback_time: float) -> void:
 	if move_state == MoveState.KNOCKBACK: return
+	
 	knockback_velocity = next_velocity
-	knockback_timer = knockback_time
+	move_state_timer = knockback_time
+	
 	move_state = MoveState.KNOCKBACK
 	update_animation()
-
-# ..............................................................................
-
-# ATTACK
-
-func set_action_state(next_state: ActionState) -> void:
-	if action_state == next_state or not stats.alive: return
-	# ally conditions
-	if self is PlayerAlly:
-		#if not can_attack:
-			#return
-		if action_state != ActionState.READY and next_state == ActionState.ATTACK:
-			return
-
-	action_state = next_state
-
-	if action_state == ActionState.ATTACK: attempt_attack()
-
-	update_animation()
-
-func attempt_attack(attack_name: String = "") -> void:
-	if character != get_node_or_null(^"PlayerStats"):
-		action_state = ActionState.READY # TODO: depends
-		return
-	
-	if attack_name != "":
-		pass # call attack with conditions
-	elif character.auto_ultimate and character.ultimate_gauge == character.max_ultimate_gauge:
-		character.ultimate_attack()
-	else:
-		character.basic_attack()
 
 # ..............................................................................
 
 # ANIMATION
 
 func update_animation() -> void:
-	if (
-		not stats.alive
-		or move_state == MoveState.KNOCKBACK
-		or move_state == MoveState.STUN
-	): return
+	if not stats.alive or move_state in [MoveState.KNOCKBACK, MoveState.STUN]: return
 
 	var next_animation: StringName = character.animation
 	var animation_speed: float = 1.0
 	
+	# determine next animation based on action and move states
 	if action_state == ActionState.ATTACK:
 		next_animation = [
 			&"right_attack",
@@ -162,17 +177,20 @@ func update_animation() -> void:
 			&"left_walk",
 			&"right_walk"
 		][move_direction if (move_direction < 4) else move_direction % 2 + 2]
-
+		
+		# update animation speed based on movement speed
 		animation_speed = stats.walk_speed / 70.0
 		if move_state == MoveState.DASH:
 			animation_speed *= 2.0
 		elif move_state == MoveState.SPRINT:
 			animation_speed *= stats.sprint_multiplier
-		
+	
+	# play animation if changed
 	if next_animation != character.animation:
 		character.play(next_animation)
-	if animation_speed != character.speed_scale:
-		character.speed_scale = animation_speed
+
+	# update animation speed
+	character.speed_scale = animation_speed
 
 # ..............................................................................
 
@@ -220,7 +238,7 @@ func update_mana(value: float) -> void:
 	$ManaBar.visible = value < $ManaBar.max_value
 	Combat.ui.mana_labels[get_index()].text = str(int(value))
 
-# update stamina bar and handle fatigue
+# update stamina bar and move state
 func update_stamina(value: float) -> void:
 	$StaminaBar.value = value
 	$StaminaBar.visible = value < $StaminaBar.max_value
@@ -250,41 +268,38 @@ func death() -> void:
 
 	set_physics_process(false)
 
-	# TODO: update states, variables, and timers
+	# disable collisions
+	$MovementHitBox.disabled = true
+	$CombatHitBox/CollisionShape2D.disabled = true
+	$InteractionArea/CollisionShape2D.disabled = true
+	$LootableArea/CollisionShape2D.disabled = true
+	$ActionArea/CollisionShape2D.disabled = true
+	$ObstacleCheck.enabled = false
 
 	# hide stats bars
 	$HealthBar.hide()
-	$ShieldBar.hide()
 	$ManaBar.hide()
 	$StaminaBar.hide()
+	$ShieldBar.hide()
 
-	# start death animation
-	character.play(&"death")
-
-	# reset player variables
-	move_state = MoveState.STUN
-	action_state = ActionState.COOLDOWN
-	knockback_timer = 0.0
-	dash_timer = 0.0
-	
-	# handle main player
-	if self is PlayerMain:
-		var alive_party_players = Entities.entities_of_type[Entities.Type.PLAYERS_ALIVE].call()
-		if alive_party_players.is_empty():
-			print("GAME OVER") # TODO
-		else:
+	# handle main player death
+	if is_main_player:
+		var alive_party_players = Players.party_node.get_children().filter(func(node: Node) -> bool: return node.stats.alive)
+		if not alive_party_players.is_empty():
 			Players.update_main_player(alive_party_players[0])
+		else:
+			print("GAME OVER") # TODO
 
-	await Global.get_tree().create_timer(0.5).timeout
-
-	if not stats.alive:
-		character.pause() # TODO
+	# play death animation
+	character.death()
 
 func revive() -> void:
-	# resume process and update all base class variables
+	# resume process
 	super ()
 
 	set_physics_process(true)
+
+	# queue actions
 
 	# TODO
 	# update variables
@@ -296,42 +311,13 @@ func revive() -> void:
 
 # UPDATE NODES
 
-# swap base scripts when switching main players
-func swap_base() -> void:
-	var current_script: PlayerBase = get_script()
-
-	# swap scripts
-	set_script(alternate_script)
-
-	# copy variables from current_script to alternate_script
-	alternate_script.stats = current_script.stats
-
-	alternate_script.process_interval = current_script.process_interval
-	
-	alternate_script.move_state = current_script.move_state
-	alternate_script.action_state = current_script.action_state
-	alternate_script.move_direction = current_script.move_direction
-	alternate_script.attack_vector = current_script.attack_vector
-
-	alternate_script.update_animation()
-
-	current_script.dash_timer = 0.0
-
-	# reset ally variables
-	if current_script is PlayerAlly:
-		current_script.action_queue.clear()
-		#current_script.can_move = true
-		current_script.can_attack = true
-		current_script.in_action_range = false
-	
-	# TODO: update signals?
-
-	alternate_script = current_script
+# TODO: use arrays of SpriteFrames and Resources
 
 # swap stats with standby stats
-func swap_with_standby(next_character: PlayerStats) -> PlayerStats:
+func swap_with_standby(next_character: PlayerStats) -> void:
 	var current_character: PlayerStats = character
 	var current_stats: PlayerStats = stats
+	var standby_index: int = next_character.get_index()
 	character = next_character
 	stats = next_character.stats
 
@@ -354,8 +340,6 @@ func swap_with_standby(next_character: PlayerStats) -> PlayerStats:
 
 	# DASH
 	var dash_timer: float = 0.0
-
-	var current_script: PlayerBase = get_script()
 
 	if current_script is PlayerAlly:
 		current_script.action_queue.clear()
@@ -430,7 +414,7 @@ func _on_lootable_area_entered(body: Node2D) -> void:
 		body.nearby_player_nodes.append(self)
 	
 	body.set_physics_process(true)
-	
+
 func _on_lootable_area_exited(body: Node2D) -> void:
 	body.nearby_player_nodes.erase(self)
 
@@ -462,8 +446,161 @@ func on_move_state_timeout() -> void:
 			move_state = MoveState.WALK
 		update_animation()
 
+func on_action_state_timeout() -> void:
+	pass
+
 func _on_action_area_body_entered(_body: Node2D) -> void:
 	in_action_range = $ActionArea.get_overlapping_bodies().filter(func(node): return node.is_instance_of(action_target))
 
 func _on_action_area_body_exited(_body: Node2D) -> void:
 	in_action_range = $ActionArea.get_overlapping_bodies().filter(func(node): return node.is_instance_of(action_target))
+
+# TODO: need to add signal connections
+func _on_interaction_area_body_entered(body: Node2D) -> void:
+	body.interaction_area(true)
+
+# TODO: need to add signal connections
+func _on_interaction_area_body_exited(body: Node2D) -> void:
+	body.interaction_area(false)
+
+# TODO: BELOW ADDED FROM PLAYER ALLY SCRIPT
+
+# TODO: IMPLEMENTING RIGHT NOW
+func enter_attack_range() -> void:
+	if not in_action_range:
+		in_action_range = true
+		action_state = ActionState.READY
+
+# TODO: IMPLEMENTING RIGHT NOW
+func exit_attack_range() -> void:
+	in_action_range = false
+
+# PlayerAlly move process
+func _on_ally_move_timer_timeout() -> void:
+	# if ally in another move state, continue timer
+	if move_state_timer > 0.0:
+		$AllyMoveTimer.start(move_state_timer)
+		return
+	
+	# if ally in action state, continue timer
+	if not action_state in [ActionState.READY, ActionState.COOLDOWN]:
+		$AllyMoveTimer.start($AllyActionTimer.time_left)
+		return
+
+	var ally_distance: float = position.distance_to(Players.main_player_node.position)
+	var move_timer: float = 0.0
+	
+	# handle idle state
+	if move_state != MoveState.IDLE:
+		# determine idle time based on ally distance
+		move_timer = \
+				randf_range(1.6, 1.8) if ally_distance < ROAM_DISTANCE \
+				else randf_range(0.8, 1.0) if ally_distance < 100 \
+				else randf_range(0.4, 0.6) if ally_distance < 150 \
+				else 0.0
+
+		# if in idle distance, update velocity to zero
+		if move_timer > 0.0:
+			update_velocity(Vector2.ZERO)
+			$AllyMoveTimer.start(move_timer)
+			return
+		
+		# if large ally distance, teleport to main player
+		if ally_distance > MAX_ALLY_DISTANCE:
+			pass # TODO: teleport to main player
+	
+	# if not in idle state, find target direction
+	var target_direction: Vector2 = Vector2.ZERO
+
+	# if in combat, navigate to target enemy
+	if Combat.in_combat():
+		# TODO: move this somewhere else
+		# TODO: should be dynamic
+		# target enemy with shortest distance
+		var target_enemy_node: Node2D = null
+		var enemy_distance: float = INF
+		for enemy_node in Combat.enemy_nodes_in_combat:
+			if position.distance_to(enemy_node.position) < enemy_distance:
+				enemy_distance = position.distance_to(enemy_node.position)
+				target_enemy_node = enemy_node
+		
+		# navigate to target enemy
+		$NavigationAgent2D.target_position = target_enemy_node.position
+		target_direction = to_local($NavigationAgent2D.get_next_path_position())
+		move_timer = randf_range(0.2, 0.4)
+	# if not in combat and not in roam distance, navigate to player
+	elif ally_distance > ROAM_DISTANCE:
+		$NavigationAgent2D.target_position = Players.main_player_node.position
+		target_direction = to_local($NavigationAgent2D.get_next_path_position())
+		move_timer = randf_range(0.5, 0.7)
+	# else navigate to player
+	else:
+		target_direction = Vector2.RIGHT.rotated(randf() * TAU)
+		move_timer = randf_range(0.5, 0.7)
+	
+	# sprint with main player if not in combat and ally distance is large enough
+	if (
+			Players.main_player_node.move_state == MoveState.SPRINT
+			and Combat.not_in_combat()
+			and ally_distance > 125
+			# TODO: need to check fatigue
+	):
+		move_state = MoveState.SPRINT
+	
+	# snap target direction to the nearest 8-way angle
+	const ANGLE_INCREMENT: float = PI / 4
+	var snapped_angle: float = \
+			round(target_direction.angle() / ANGLE_INCREMENT) * ANGLE_INCREMENT
+
+	# possible angles by proximity to the snapped angle
+	var possible_angles: Array[float] = [
+		snapped_angle,
+		snapped_angle + ANGLE_INCREMENT,
+		snapped_angle - ANGLE_INCREMENT,
+		snapped_angle + ANGLE_INCREMENT * 2,
+		snapped_angle - ANGLE_INCREMENT * 2,
+		snapped_angle + ANGLE_INCREMENT * 3,
+		snapped_angle - ANGLE_INCREMENT * 3,
+		snapped_angle + ANGLE_INCREMENT * 4,
+	]
+
+	# find the closest non-colliding direction
+	for possible_angle in possible_angles:
+		# attempt possible direction
+		target_direction = Vector2.RIGHT.rotated(possible_angle)
+		
+		# check for collisions
+		$ObstacleCheck.set_target_position(target_direction * 10.0)
+		$ObstacleCheck.force_shapecast_update()
+
+		# if not colliding, break
+		if not $ObstacleCheck.is_colliding():
+			break
+
+	update_velocity(target_direction)
+	$AllyMoveTimer.start(move_timer)
+
+func _on_action_area_body_entered(body: Node) -> void:
+	# TODO: this should be dynamic
+	# target enemy with lowest health
+	var target_enemy_node: Node2D = null
+	var lowest_health: float = INF
+	for enemy_node in $ActionArea.get_overlapping_bodies():
+		if enemy_node.stats.health < lowest_health:
+			lowest_health = enemy_node.stats.health
+			target_enemy_node = enemy_node
+		
+	# face enemy
+	var enemy_direction = (target_enemy_node.position - position).normalized()
+	move_direction = [
+		Directions.RIGHT,
+		Directions.DOWN,
+		Directions.LEFT,
+		Directions.UP,
+	][(roundi(enemy_direction.angle() / (PI / 2)) + 4) % 4]
+
+	update_velocity(Vector2.ZERO)
+	#update_animation()
+
+func _on_action_area_body_exited(body: Node) -> void:
+	pass

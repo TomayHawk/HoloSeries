@@ -491,8 +491,3 @@ sprite_frames = SubResource("SpriteFrames_qsfsi")
 animation = &"right_attack"
 offset = Vector2(0, -12.5)
 script = ExtResource("3_6483e")
-
-[node name="ActionCooldown" type="Timer" parent="."]
-one_shot = true
-
-[connection signal="timeout" from="ActionCooldown" to="." method="_on_action_cooldown_timeout"]

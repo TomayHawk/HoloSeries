@@ -31,12 +31,17 @@ func _on_action_cooldown_timeout() -> void:
 	if not base: return
 	base.action_state = base.ActionState.READY
 
+func death() -> void:
+	play(&"death")
+	await animation_finished
+	pause()
+
 # ATTACKS
 
 func basic_attack() -> void:
 	if not base: return
 
-	if base is PlayerMain:
+	if base.is_main_player:
 		base.attack_vector = (get_global_mouse_position() - base.position).normalized()
 	else:
 		# TODO: should be dynamic
