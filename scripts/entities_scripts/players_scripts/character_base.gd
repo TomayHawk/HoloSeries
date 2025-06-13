@@ -31,11 +31,6 @@ func _on_action_cooldown_timeout() -> void:
 	if not base: return
 	base.action_state = base.ActionState.READY
 
-func death() -> void:
-	play(&"death")
-	await animation_finished
-	pause()
-
 # ATTACKS
 
 func basic_attack() -> void:

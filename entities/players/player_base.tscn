@@ -137,9 +137,6 @@ collision_mask = 34
 collide_with_areas = true
 collide_with_bodies = false
 
-[connection signal="input_event" from="CombatHitBox" to="." method="_on_combat_hit_box_area_input_event"]
-[connection signal="mouse_entered" from="CombatHitBox" to="." method="_on_combat_hit_box_area_mouse_entered"]
-[connection signal="mouse_exited" from="CombatHitBox" to="." method="_on_combat_hit_box_area_mouse_exited"]
 [connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
 [connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]
 [connection signal="area_entered" from="LootableArea" to="." method="_on_lootable_area_entered"]

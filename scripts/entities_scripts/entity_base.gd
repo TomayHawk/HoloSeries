@@ -71,8 +71,8 @@ var action_queue: Array[Array] = []
 # PROCESS
 
 func _ready() -> void:
-	$CombatHitBox.connect(&"mouse_entered", on_combat_hit_box_mouse_entered)
-	$CombatHitBox.connect(&"mouse_exited", on_combat_hit_box_mouse_exited)
+	$CombatHitBox.mouse_entered.connect(_on_combat_hit_box_mouse_entered)
+	$CombatHitBox.mouse_exited.connect(_on_combat_hit_box_mouse_exited)
 
 func _process(delta: float) -> void:
 	process_interval += delta
@@ -96,13 +96,13 @@ func _process(delta: float) -> void:
 		if move_state_timer > 0.0:
 			move_state_timer -= process_interval
 			if move_state_timer < 0.0:
-				emit_signal(&"move_state_timeout")
+				move_state_timeout.emit()
 
 		# decrease action state timer
 		if action_state_timer > 0.0:
 			action_state_timer -= process_interval
 			if action_state_timer < 0.0:
-				emit_signal(&"action_state_timeout")
+				action_state_timeout.emit()
 		
 		process_interval = 0.0
 
@@ -135,9 +135,19 @@ func revive() -> void:
 # SIGNALS
 
 # TODO: need to remove chosen entities from available
-func on_combat_hit_box_mouse_entered() -> void:
+# TODO: remove accept_event()
+func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"):
+		if self in Entities.entities_available:
+			Inputs.accept_event()
+			Entities.choose_entity(self)
+		else:
+			Inputs.accept_event()
+			Players.update_main_player(self)
+
+func _on_combat_hit_box_mouse_entered() -> void:
 	if self in Entities.entities_available:
 		Inputs.mouse_in_combat_area = false
 
-func on_combat_hit_box_mouse_exited() -> void:
+func _on_combat_hit_box_mouse_exited() -> void:
 	Inputs.mouse_in_combat_area = true

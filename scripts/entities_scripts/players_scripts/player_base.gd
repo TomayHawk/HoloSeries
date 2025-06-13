@@ -2,9 +2,6 @@ class_name PlayerBase extends EntityBase
 
 # TODO: remove AttackShape node
 
-const ROAM_DISTANCE: float = 75.0
-const MAX_ALLY_DISTANCE: float = 200.0
-
 var is_main_player: bool = false
 var character: PlayerStats = null
 
@@ -274,7 +271,6 @@ func death() -> void:
 	$InteractionArea/CollisionShape2D.disabled = true
 	$LootableArea/CollisionShape2D.disabled = true
 	$ActionArea/CollisionShape2D.disabled = true
-	$ObstacleCheck.enabled = false
 
 	# hide stats bars
 	$HealthBar.hide()
@@ -291,13 +287,28 @@ func death() -> void:
 			print("GAME OVER") # TODO
 
 	# play death animation
-	character.death()
+	var animation_node: AnimatedSprite2D = $AnimatedSprite2D
+	animation_node.play(&"death")
+	await animation_node.animation_finished
+	animation_node.pause()
+
 
 func revive() -> void:
 	# resume process
 	super ()
 
 	set_physics_process(true)
+
+	# enable collisions
+	$MovementHitBox.disabled = false
+	$CombatHitBox/CollisionShape2D.disabled = false
+	$InteractionArea/CollisionShape2D.disabled = false
+	$LootableArea/CollisionShape2D.disabled = false
+	$ActionArea/CollisionShape2D.disabled = false
+
+	# update animation
+	$AnimatedSprite2D.animation_finished.emit()
+	update_animation()
 
 	# queue actions
 
@@ -396,16 +407,6 @@ func update_nodes(swap_base: PlayerBase = null, swap_stats: PlayerStats = null) 
 
 # ..............................................................................
 
-# TODO: need to add signal connections
-func input_in_hit_box_area(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"): # TODO: not sure if this works.
-		if self in Entities.entities_available:
-			Inputs.accept_event()
-			Entities.choose_entity(self)
-		elif stats.alive:
-			Inputs.accept_event()
-			Players.update_main_player(self)
-
 func _on_lootable_area_entered(body: Node2D) -> void:
 	if body.nearby_player_nodes.is_empty():
 		body.nearby_player_nodes.append(self)
@@ -494,7 +495,7 @@ func _on_ally_move_timer_timeout() -> void:
 	if move_state != MoveState.IDLE:
 		# determine idle time based on ally distance
 		move_timer = \
-				randf_range(1.6, 1.8) if ally_distance < ROAM_DISTANCE \
+				randf_range(1.6, 1.8) if ally_distance < 75.0 \
 				else randf_range(0.8, 1.0) if ally_distance < 100 \
 				else randf_range(0.4, 0.6) if ally_distance < 150 \
 				else 0.0
@@ -506,7 +507,7 @@ func _on_ally_move_timer_timeout() -> void:
 			return
 		
 		# if large ally distance, teleport to main player
-		if ally_distance > MAX_ALLY_DISTANCE:
+		if ally_distance > 200.0:
 			pass # TODO: teleport to main player
 	
 	# if not in idle state, find target direction
@@ -529,7 +530,7 @@ func _on_ally_move_timer_timeout() -> void:
 		target_direction = to_local($NavigationAgent2D.get_next_path_position())
 		move_timer = randf_range(0.2, 0.4)
 	# if not in combat and not in roam distance, navigate to player
-	elif ally_distance > ROAM_DISTANCE:
+	elif ally_distance > 75.0:
 		$NavigationAgent2D.target_position = Players.main_player_node.position
 		target_direction = to_local($NavigationAgent2D.get_next_path_position())
 		move_timer = randf_range(0.5, 0.7)
@@ -604,3 +605,7 @@ func _on_action_area_body_entered(body: Node) -> void:
 
 func _on_action_area_body_exited(body: Node) -> void:
 	pass
+
+
+func _on_combat_hit_box_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	pass # Replace with function body.
