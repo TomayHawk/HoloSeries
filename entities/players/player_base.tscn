@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://c5o6bi43j562b"]
+[gd_scene load_steps=11 format=3 uid="uid://c5o6bi43j562b"]
 
 [ext_resource type="Script" uid="uid://cmf3b5ufhosbk" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_rapl1"]
+[ext_resource type="SpriteFrames" uid="uid://53vy40uwfv05" path="res://entities/players/character_animations/akirose.tres" id="2_48rhk"]
 [ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://user_interfaces/user_interfaces_resources/progress_bar_style/shield_progress_bar_fill.tres" id="3_48rhk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
@@ -31,7 +32,14 @@ input_pickable = true
 motion_mode = 1
 script = ExtResource("1_rapl1")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+sprite_frames = ExtResource("2_48rhk")
+animation = &"down_attack"
+offset = Vector2(-0.5, -10)
+
 [node name="MovementHitBox" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("RectangleShape2D_n3b4m")
 
 [node name="CombatHitBox" type="Area2D" parent="."]
@@ -68,6 +76,7 @@ position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_48rhk")
 
 [node name="ObstacleCheck" type="ShapeCast2D" parent="."]
+visible = false
 shape = SubResource("RectangleShape2D_r405m")
 target_position = Vector2(10, 0)
 collision_mask = 46
@@ -130,6 +139,7 @@ show_percentage = false
 metadata/_edit_use_anchors_ = true
 
 [node name="AttackShape" type="ShapeCast2D" parent="."]
+visible = false
 position = Vector2(0, -7)
 shape = SubResource("RectangleShape2D_lt4ow")
 target_position = Vector2(20, 0)

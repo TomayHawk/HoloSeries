@@ -6,6 +6,8 @@ var main_player_node: Node = null
 @onready var standby_node: Node = $Standby
 @onready var camera_node: Camera2D = $Camera2D
 
+var standby_stats: Array[Profile] = []
+
 func update_main_player(player_node: PlayerBase) -> void:
 	main_player_node.is_main_player = false
 	player_node.is_main_player = true
@@ -15,8 +17,8 @@ func update_main_player(player_node: PlayerBase) -> void:
 	Entities.end_entities_request()
 
 func update_standby_player(standby_index: int) -> void:
-	var prev_character: PlayerStats = main_player_node.character
-	var next_character: PlayerStats = standby_node.get_child(standby_index)
+	var prev_character: Profile = main_player_node.character
+	var next_character: Profile = standby_node.get_child(standby_index)
 	
 	var party_index: int = prev_character.node_index
 	prev_character.node_index = standby_index

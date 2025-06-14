@@ -3,7 +3,7 @@ class_name PlayerBase extends EntityBase
 # TODO: remove AttackShape node
 
 var is_main_player: bool = false
-var character: PlayerStats = null
+var character: Profile = null
 
 # ..............................................................................
 
@@ -11,7 +11,7 @@ var character: PlayerStats = null
 
 func _ready() -> void:
 	# connect signals
-	move_state_timeout.connect(on_move_state_timeout)
+	move_state_timeout.connect(_on_move_state_timeout)
 	action_state_timeout.connect(on_action_state_timeout)
 
 func _physics_process(_delta: float) -> void:
@@ -40,6 +40,28 @@ func _physics_process(_delta: float) -> void:
 			action_success = await action_queue[0][0].callv(action_queue[0][1])
 			if action_success:
 				action_queue.remove_at(0)
+		
+		# TODO: this faces the player towards the action target every frame, and also only targets enemies
+		if in_action_range and action_state == ActionState.COOLDOWN:
+			# TODO: this should be dynamic
+			# target enemy with lowest health
+			var target_enemy_node: Node2D = null
+			var lowest_health: float = INF
+			for enemy_node in $ActionArea.get_overlapping_bodies():
+				if enemy_node.stats.health < lowest_health:
+					lowest_health = enemy_node.stats.health
+					target_enemy_node = enemy_node
+				
+			# face enemy
+			var enemy_direction = (target_enemy_node.position - position).normalized()
+			move_direction = [
+				Directions.RIGHT,
+				Directions.DOWN,
+				Directions.LEFT,
+				Directions.UP,
+			][(roundi(enemy_direction.angle() / (PI / 2)) + 4) % 4]
+
+			update_velocity(Vector2.ZERO)
 	
 	move_and_slide()
 
@@ -119,7 +141,7 @@ func update_velocity(next_direction: Vector2) -> void:
 	update_animation()
 
 # DASH
-
+# TODO: add sprint toggle
 func dash() -> void:
 	if stats.fatigue: return
 	if stats.stamina < stats.dash_min_stamina: return
@@ -149,7 +171,8 @@ func knockback(next_velocity: Vector2, knockback_time: float) -> void:
 func update_animation() -> void:
 	if not stats.alive or move_state in [MoveState.KNOCKBACK, MoveState.STUN]: return
 
-	var next_animation: StringName = character.animation
+	var animation_node: AnimatedSprite2D = $AnimatedSprite2D
+	var next_animation: StringName = animation_node.animation
 	var animation_speed: float = 1.0
 	
 	# determine next animation based on action and move states
@@ -183,8 +206,8 @@ func update_animation() -> void:
 			animation_speed *= stats.sprint_multiplier
 	
 	# play animation if changed
-	if next_animation != character.animation:
-		character.play(next_animation)
+	if next_animation != animation_node.animation:
+		animation_node.play(next_animation)
 
 	# update animation speed
 	character.speed_scale = animation_speed
@@ -322,54 +345,32 @@ func revive() -> void:
 
 # UPDATE NODES
 
-# TODO: use arrays of SpriteFrames and Resources
-
 # swap stats with standby stats
-func swap_with_standby(next_character: PlayerStats) -> void:
-	var current_character: PlayerStats = character
-	var current_stats: PlayerStats = stats
-	var standby_index: int = next_character.get_index()
-	character = next_character
-	stats = next_character.stats
+func swap_with_standby(standby_index: int) -> void:
+	# update standby 
+	Combat.ui.standby_name_labels[standby_index].text = character.CHARACTER_NAME
 
-	Combat.ui.name_labels[stats.node_index].text = character.CHARACTER_NAME
-	Combat.ui.standby_name_labels[current_character.stats.node_index].text = current_character.CHARACTER_NAME
+	var previous_stats: Profile = stats
+	
+	stats = Players.standby_stats.pop(standby_index)
+	character = stats.character
+	
+	Players.standby_stats.insert(standby_index, previous_stats)
+
+	Combat.ui.name_labels[get_index()].text = character.CHARACTER_NAME
 	
 	process_interval = 0.0
 
-	# STATES
-
-	move_state = MoveState.IDLE
-	var action_state: ActionState = ActionState.READY
-	var move_direction: Directions = Directions.DOWN
-	var attack_vector: Vector2 = Vector2.RIGHT
-
-	# KNOCKBACK
-
-	var knockback_velocity: Vector2 = Vector2.LEFT
-	var knockback_timer: float = 0.0
-
-	# DASH
-	var dash_timer: float = 0.0
-
-	if current_script is PlayerAlly:
-		current_script.action_queue.clear()
-		#current_script.can_move = true
-		current_script.can_attack = true
-		current_script.in_action_range = false
-	
-	return current_character
-
 '''
 
-func update_nodes(swap_base: PlayerBase = null, swap_stats: PlayerStats = null) -> void:
+func update_nodes(swap_base: PlayerBase = null, swap_stats: Profile = null) -> void:
 	elif swap_stats != stats: # Party -> Standby
 		pass
 	
 	update_stats()
 	
 	if base:
-		name = &"PlayerStats"
+		name = &"Profile"
 		var player_node: PlayerBase = base
 		# movement variables
 		player_node.walk_speed = 70.0
@@ -433,11 +434,11 @@ func _on_lootable_area_exited(body: Node2D) -> void:
 				least_distance = temp_distance
 		body.target_player_node = target_player_node
 
-func on_move_state_timeout() -> void:
-	if move_state == MoveState.STUN:
-		move_state = MoveState.IDLE
-		update_animation()
-	elif move_state == MoveState.KNOCKBACK:
+func _on_move_state_timeout() -> void:
+	if not is_main_player:
+		# TODO: need to add below to _on_ally_move_state_timeout()
+		_on_ally_move_state_timeout()
+	elif move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
 		move_state = MoveState.IDLE
 		update_animation()
 	elif move_state == MoveState.DASH:
@@ -450,17 +451,19 @@ func on_move_state_timeout() -> void:
 func on_action_state_timeout() -> void:
 	pass
 
+# ACTION AREA
+
 func _on_action_area_body_entered(_body: Node2D) -> void:
 	in_action_range = $ActionArea.get_overlapping_bodies().filter(func(node): return node.is_instance_of(action_target))
 
 func _on_action_area_body_exited(_body: Node2D) -> void:
 	in_action_range = $ActionArea.get_overlapping_bodies().filter(func(node): return node.is_instance_of(action_target))
 
-# TODO: need to add signal connections
+# INTERACTION AREA
+
 func _on_interaction_area_body_entered(body: Node2D) -> void:
 	body.interaction_area(true)
 
-# TODO: need to add signal connections
 func _on_interaction_area_body_exited(body: Node2D) -> void:
 	body.interaction_area(false)
 
@@ -477,7 +480,7 @@ func exit_attack_range() -> void:
 	in_action_range = false
 
 # PlayerAlly move process
-func _on_ally_move_timer_timeout() -> void:
+func _on_ally_move_state_timeout() -> void:
 	# if ally in another move state, continue timer
 	if move_state_timer > 0.0:
 		$AllyMoveTimer.start(move_state_timer)
@@ -580,32 +583,6 @@ func _on_ally_move_timer_timeout() -> void:
 
 	update_velocity(target_direction)
 	$AllyMoveTimer.start(move_timer)
-
-func _on_action_area_body_entered(body: Node) -> void:
-	# TODO: this should be dynamic
-	# target enemy with lowest health
-	var target_enemy_node: Node2D = null
-	var lowest_health: float = INF
-	for enemy_node in $ActionArea.get_overlapping_bodies():
-		if enemy_node.stats.health < lowest_health:
-			lowest_health = enemy_node.stats.health
-			target_enemy_node = enemy_node
-		
-	# face enemy
-	var enemy_direction = (target_enemy_node.position - position).normalized()
-	move_direction = [
-		Directions.RIGHT,
-		Directions.DOWN,
-		Directions.LEFT,
-		Directions.UP,
-	][(roundi(enemy_direction.angle() / (PI / 2)) + 4) % 4]
-
-	update_velocity(Vector2.ZERO)
-	#update_animation()
-
-func _on_action_area_body_exited(body: Node) -> void:
-	pass
-
 
 func _on_combat_hit_box_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	pass # Replace with function body.
