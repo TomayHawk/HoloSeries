@@ -21,7 +21,7 @@ func _ready() -> void:
 
 	# if alt is pressed, auto-aim closest enemy
 	if Input.is_action_pressed(&"alt"):
-		Entities.target_entity_by_distance(caster_node.position, Entities.entities_available, false, true)
+		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_node.position, false))
 
 func entity_chosen(chosen_nodes: Array[EntityBase]) -> void:
 	var target_node: EntityBase = null if chosen_nodes.is_empty() else chosen_nodes[0]

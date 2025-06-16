@@ -1,6 +1,6 @@
 extends Node
 
-signal entities_request_ended(entity_nodes: Array[EntityBase])
+signal entities_request_ended(entities: Array[EntityBase])
 
 enum Type {
 	PLAYERS = 1 << 0,
@@ -78,7 +78,7 @@ var switching_main_player: bool = false
 
 var requesting_entities: bool = false
 var entities_requested_count: int = 0
-var entities_available: Array[Node] = []
+var entities_available: Array[EntityBase] = []
 var entities_chosen: Array[EntityBase] = []
 
 func add_enemy_to_scene(enemy_load: Resource, entity_position: Vector2) -> EnemyBase:
@@ -89,38 +89,33 @@ func add_enemy_to_scene(enemy_load: Resource, entity_position: Vector2) -> Enemy
 	enemies_node.add_child(enemy_instance)
 	return enemy_instance
 
-func target_entity_by_stats(stat_name: String, candidate_nodes: Array[Node], get_max: bool, for_request: bool) -> EntityBase:
-	var target_entity_node: EntityBase = null
-	var best_quality: float = - INF if get_max else INF
+func target_entity_by_stats(candidate_nodes: Array[EntityBase], stat_name: StringName, get_max: bool) -> EntityBase:
+	var target_entity_base: EntityBase = null
+	var target_stats: float = - INF if get_max else INF
 
-	for entity_node in candidate_nodes:
-		if not is_instance_valid(entity_node): continue
-		var entity_stat: float = entity_node.character.get(stat_name) if entity_node is PlayerBase \
-				else entity_node.stats.get(stat_name)
-		if (get_max and entity_stat > best_quality) or (not get_max and entity_stat < best_quality):
-			target_entity_node = entity_node
-			best_quality = entity_stat
+	# choose entity by stats
+	for entity_base in candidate_nodes:
+		if not is_instance_valid(entity_base): continue
+		var entity_stats: float = entity_base.stats.get(stat_name)
+		if (get_max and entity_stats > target_stats) or (not get_max and entity_stats < target_stats):
+			target_entity_base = entity_base
+			target_stats = entity_stats
 	
-	if for_request:
-		choose_entity(target_entity_node)
-	
-	return target_entity_node
+	return target_entity_base
 
-func target_entity_by_distance(origin_position: Vector2, candidate_nodes: Array[Node], get_max: bool, for_request: bool) -> EntityBase:
-	var target_entity_node: EntityBase = null
-	var best_distance: float = - INF if get_max else INF
+func target_entity_by_distance(candidate_nodes: Array[EntityBase], origin_position: Vector2, get_max: bool) -> EntityBase:
+	var target_entity_base: EntityBase = null
+	var target_distance: float = - INF if get_max else INF
 
-	for entity_node in candidate_nodes:
-		if not is_instance_valid(entity_node): continue
-		var temp_distance = origin_position.distance_to(entity_node.position)
-		if (get_max and temp_distance > best_distance) or (not get_max and temp_distance < best_distance):
-			target_entity_node = entity_node
-			best_distance = temp_distance
+	# choose entity by distance
+	for entity_base in candidate_nodes:
+		if not is_instance_valid(entity_base): continue
+		var temp_distance = origin_position.distance_squared_to(entity_base.position)
+		if (get_max and temp_distance > target_distance) or (not get_max and temp_distance < target_distance):
+			target_entity_base = entity_base
+			target_distance = temp_distance
 
-	if for_request:
-		choose_entity(target_entity_node)
-
-	return target_entity_node
+	return target_entity_base
 
 func request_entities(request_types: Array[Type], request_count: int = 1) -> void:
 	# append available entities
@@ -144,12 +139,12 @@ func request_entities(request_types: Array[Type], request_count: int = 1) -> voi
 	entities_requested_count = request_count
 
 	# highlight available entities
-	for entity_node in entities_available:
-		if not is_instance_valid(entity_node): continue
-		if entity_node is PlayerBase and not entity_node.has_node(^"PlayerHighlight"):
-			entity_node.add_child(load("res://entities/entities_indicators/player_highlight.tscn").instantiate()) # TODO: need to scale in size
-		elif entity_node is EnemyBase and not entity_node.has_node(^"EnemyHighlight"):
-			entity_node.add_child(load("res://entities/entities_indicators/enemy_highlight.tscn").instantiate()) # TODO: need to scale in size
+	for entity in entities_available:
+		if not is_instance_valid(entity): continue
+		if entity is PlayerBase and not entity.has_node(^"PlayerHighlight"):
+			entity.add_child(load("res://entities/entities_indicators/player_highlight.tscn").instantiate()) # TODO: need to scale in size
+		elif entity is EnemyBase and not entity.has_node(^"EnemyHighlight"):
+			entity.add_child(load("res://entities/entities_indicators/enemy_highlight.tscn").instantiate()) # TODO: need to scale in size
 
 func choose_entity(entity: EntityBase) -> void:
 	if requesting_entities and entity in entities_available:
@@ -183,7 +178,7 @@ func toggle_entities_movements(can_move: bool) -> void:
 			continue
 		player_node.set_physics_process(can_move)
 		if not can_move:
-			player_node.update_velocity(Vector2.ZERO)
+			player_node.update_movement(Vector2.ZERO)
 		
 	# toggle enemies movements
 	for enemy_node in get_tree().current_scene.get_node(^"Enemies").get_children():

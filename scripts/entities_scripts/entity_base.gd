@@ -22,9 +22,7 @@ enum MoveState {
 
 enum ActionState {
 	READY,
-	ATTACK,
-	CAST,
-	ITEM,
+	ACTION,
 	COOLDOWN,
 }
 
@@ -38,6 +36,12 @@ enum Directions {
 	DOWN_LEFT,
 	DOWN_RIGHT,
 	NOT_APPLICABLE,
+}
+
+enum ActionType {
+	ATTACK,
+	CAST,
+	ITEM,
 }
 
 # ..............................................................................
@@ -54,7 +58,6 @@ var move_direction: Directions = Directions.DOWN
 
 # VARIABLES
 
-var attack_vector: Vector2 = Vector2.DOWN
 var knockback_velocity: Vector2 = Vector2.UP
 var move_state_timer: float = 0.0
 var action_state_timer: float = 0.0
@@ -62,14 +65,18 @@ var process_interval: float = 0.0
 
 # ACTION VARIABLES
 
+# TODO: NEW VARIABLES, NEED UPDATES
 var in_action_range: bool = false
-var action_target: GDScript = EntityBase
-var action_queue: Array[Array] = []
+var action_queue: Array[Callable] = []
+var action_type: ActionType = ActionType.ATTACK
+var action_target: EntityBase = null
+var action_target_type: GDScript = EntityBase
+var action_target_priority: StringName = &""
+var action_vector: Vector2 = Vector2.DOWN
+var action_fail_count: int = 0
 
 # ..............................................................................
-
 # PROCESS
-
 func _process(delta: float) -> void:
 	process_interval += delta
 
@@ -102,14 +109,14 @@ func death() -> void:
 	action_state = ActionState.READY
 	move_direction = Directions.DOWN
 
-	attack_vector = Vector2.DOWN
+	action_vector = Vector2.DOWN
 	knockback_velocity = Vector2.UP
 	move_state_timer = 0.0
 	action_state_timer = 0.0
 	process_interval = 0.0
 
 	in_action_range = false
-	action_target = EntityBase
+	action_target_type = EntityBase
 	action_queue.clear()
 
 func revive() -> void:

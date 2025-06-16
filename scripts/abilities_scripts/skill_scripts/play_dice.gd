@@ -31,7 +31,7 @@ func _ready():
 		queue_free()
 	# if alt is pressed, auto-aim closest enemy
 	elif Input.is_action_pressed(&"alt") and Entities.entities_available.size() != 0:
-		Entities.target_entity_by_distance(caster_node.position, Entities.entities_available, false, true)
+		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_node.position, false))
 	
 func initiate_play_dice(chosen_node):
 	# check caster status and mana sufficiency

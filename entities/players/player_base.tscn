@@ -147,6 +147,8 @@ collision_mask = 34
 collide_with_areas = true
 collide_with_bodies = false
 
+[connection signal="action_state_timeout" from="." to="." method="_on_action_state_timeout"]
+[connection signal="move_state_timeout" from="." to="." method="_on_move_state_timeout"]
 [connection signal="input_event" from="CombatHitBox" to="." method="_on_combat_hit_box_input_event"]
 [connection signal="mouse_entered" from="CombatHitBox" to="." method="_on_combat_hit_box_mouse_entered"]
 [connection signal="mouse_exited" from="CombatHitBox" to="." method="_on_combat_hit_box_mouse_exited"]

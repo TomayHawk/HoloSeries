@@ -86,7 +86,7 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 func _on_detection_area_body_exited(body: Node2D) -> void:
 	players_in_attack_area.erase(body)
 	players_in_detection_area.erase(body)
-	if players_in_attack_area.is_empty() and action_state != ActionState.ATTACK:
+	if players_in_attack_area.is_empty() and action_state != ActionState.ACTION:
 		in_action_range = false
 	if players_in_detection_area.is_empty():
 		Combat.remove_active_enemy(self)

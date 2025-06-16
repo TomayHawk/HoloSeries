@@ -18,66 +18,21 @@ var is_main_player: bool = false
 
 # ..............................................................................
 
-# PROCESS
-
-# connect signals on ready
-func _ready() -> void:
-	move_state_timeout.connect(_on_move_state_timeout)
-	action_state_timeout.connect(_on_action_state_timeout)
+# PHYSICS PROCESS
 
 func _physics_process(_delta: float) -> void:
-	# if in knockback or stun, maintain velocity
-	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
-		update_velocity()
+	# no velocity change if stunned
+	if move_state == MoveState.STUN:
+		pass
+	# slowly decrease velocity if taking knockback
+	elif move_state == MoveState.KNOCKBACK:
+		velocity = knockback_velocity * move_state_timer / 0.4
 	elif is_main_player:
-		var input_velocity: Vector2 = Input.get_vector(&"left", &"right", &"up", &"down", 0.2)
-		
-		# snap input velocity to cardinal and intercardinal directions
-		if input_velocity != Vector2.ZERO:
-			input_velocity = [
-				Vector2(1.0, 0.0),
-				Vector2(0.70710678, 0.70710678),
-				Vector2(0.0, 1.0),
-				Vector2(-0.70710678, 0.70710678),
-				Vector2(-1.0, 0.0),
-				Vector2(-0.70710678, -0.70710678),
-				Vector2(0.0, -1.0),
-				Vector2(0.70710678, -0.70710678)
-			][(roundi(input_velocity.angle() / (PI / 4)) + 8) % 8]
-
-		update_velocity(input_velocity)
-	else:
-		# TODO: should not be in physics process
-		# attempt action
-		var action_success: bool = false
-		if action_state == ActionState.READY and not action_queue.is_empty():
-			action_success = await action_queue[0][0].callv(action_queue[0][1])
-			if action_success:
-				action_queue.remove_at(0)
-		
-		# TODO: this faces the player towards the action target every frame, and also only targets enemies
-		if in_action_range and action_state == ActionState.COOLDOWN:
-			# TODO: this should be dynamic
-			# target enemy with lowest health
-			var target_enemy_node: Node2D = null
-			var lowest_health: float = INF
-			for enemy_node in $ActionArea.get_overlapping_bodies():
-				if enemy_node.stats.health < lowest_health:
-					lowest_health = enemy_node.stats.health
-					target_enemy_node = enemy_node
-				
-			# face enemy
-			var enemy_direction = (target_enemy_node.position - position).normalized()
-			move_direction = [
-				Directions.RIGHT,
-				Directions.DOWN,
-				Directions.LEFT,
-				Directions.UP,
-			][(roundi(enemy_direction.angle() / (PI / 2)) + 4) % 4]
-
-			update_velocity(Vector2.ZERO)
+		update_main_player_movement()
 	
 	move_and_slide()
+
+# INPUT
 
 # TODO: add sprint toggle setting
 func _input(_event: InputEvent) -> void:
@@ -94,16 +49,26 @@ func _input(_event: InputEvent) -> void:
 
 # MOVEMENTS
 
-func update_velocity(next_direction: Vector2 = Vector2.ZERO) -> void:
-	# no velocity if stunned
-	if move_state == MoveState.STUN:
-		return
+func update_main_player_movement() -> void:
+	var input_velocity: Vector2 = Input.get_vector(&"left", &"right", &"up", &"down", 0.2)
+	
+	# TODO: should only check this if using a controller
+	# snap input velocity to cardinal and intercardinal directions
+	if input_velocity != Vector2.ZERO:
+		input_velocity = [
+			Vector2(1.0, 0.0),
+			Vector2(0.70710678, 0.70710678),
+			Vector2(0.0, 1.0),
+			Vector2(-0.70710678, 0.70710678),
+			Vector2(-1.0, 0.0),
+			Vector2(-0.70710678, -0.70710678),
+			Vector2(0.0, -1.0),
+			Vector2(0.70710678, -0.70710678)
+		][(roundi(input_velocity.angle() / (PI / 4)) + 8) % 8]
 
-	# maintain velocity if taking knockback
-	if move_state == MoveState.KNOCKBACK:
-		velocity = knockback_velocity * move_state_timer / 0.4
-		return
+	update_movement(input_velocity)
 
+func update_movement(next_direction: Vector2 = Vector2.ZERO) -> void:
 	# if no direction, set idle state
 	if next_direction == Vector2.ZERO:
 		move_state = MoveState.IDLE
@@ -143,7 +108,7 @@ func update_velocity(next_direction: Vector2 = Vector2.ZERO) -> void:
 			velocity *= stats.dash_multiplier * move_state_timer / stats.dash_time
 
 	# apply movement reduction if attacking
-	if action_state == ActionState.ATTACK:
+	if action_state == ActionState.ACTION:
 		velocity *= stats.attack_movement_reduction
 	
 	# update animation
@@ -170,13 +135,22 @@ func dash() -> void:
 
 # KNOCKBACK
 
-func knockback(next_velocity: Vector2, knockback_time: float) -> void:
+func knockback(next_velocity: Vector2, duration: float) -> void:
 	if move_state == MoveState.KNOCKBACK: return
 	
 	knockback_velocity = next_velocity
-	move_state_timer = knockback_time
+	move_state_timer = duration
 	
 	move_state = MoveState.KNOCKBACK
+	update_animation()
+
+func stun(duration: float) -> void:
+	if move_state == MoveState.STUN: return
+
+	velocity = Vector2.ZERO
+	move_state_timer = duration
+
+	move_state = MoveState.STUN
 	update_animation()
 
 # ..............................................................................
@@ -191,13 +165,13 @@ func update_animation() -> void:
 	var animation_speed: float = 1.0
 	
 	# determine next animation based on action and move states
-	if action_state == ActionState.ATTACK:
+	if action_state == ActionState.ACTION:
 		next_animation = [
 			&"right_attack",
 			&"down_attack",
 			&"left_attack",
 			&"up_attack",
-		][(roundi(attack_vector.angle() / (PI / 2)) + 4) % 4]
+		][(roundi(action_vector.angle() / (PI / 2)) + 4) % 4]
 	elif move_state == MoveState.IDLE:
 		next_animation = [
 			&"up_idle",
@@ -359,7 +333,7 @@ func update_stats(next_stats: PlayerStats) -> void:
 	# TODO: action_state = ActionState.READY
 	var move_direction: Directions = Directions.DOWN
 	
-	attack_vector = Vector2.DOWN
+	action_vector = Vector2.DOWN
 	knockback_velocity = Vector2.UP
 	move_state_timer = 0.0
 	# TODO: action_state_timer = 0.0
@@ -397,15 +371,45 @@ func _on_lootable_area_area_entered(body: Node2D) -> void:
 func _on_lootable_area_area_exited(body: Node2D) -> void:
 	body.player_exited(self)
 
+func _on_action_area_body_entered(body: Node2D) -> void:
+	super (body)
+
+	# if is ally, is in action range, not taking action, and not in knockback or stun states
+	if (
+			not is_main_player
+			and in_action_range
+			and action_state != ActionState.ACTION
+			and not move_state in [MoveState.KNOCKBACK, MoveState.STUN]
+	):
+		# determine candidate action targets
+		var candidate_nodes: Array[EntityBase] = $ActionArea.get_overlapping_bodies(
+				).filter(func(node: Node) -> bool: return node.is_instance_of(action_target_type))
+		# choose action target
+		action_target = \
+				Entities.target_entity_by_stats(candidate_nodes, action_target_priority, false)
+
+		# face enemy
+		action_vector = (action_target.position - position).normalized()
+
+		move_direction = [
+			Directions.RIGHT,
+			Directions.DOWN,
+			Directions.LEFT,
+			Directions.UP,
+		][(roundi(action_vector.angle() / (PI / 2)) + 4) % 4]
+
+		# stop movement
+		update_movement(Vector2.ZERO)
+
 # State Timers
 
 func _on_move_state_timeout() -> void:
-	if not is_main_player:
-		update_ally_move_state()
-	# TODO: need to add below to _on_ally_move_state_timeout()
-	elif move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
+	# TODO: if not is_main_player:
+	# TODO: 	update_ally_move_state()
+	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
 		move_state = MoveState.IDLE
-		update_animation()
+		if is_main_player:
+			update_movement()
 	elif move_state == MoveState.DASH:
 		if Input.is_action_pressed(&"dash"):
 			move_state = MoveState.SPRINT
@@ -414,7 +418,11 @@ func _on_move_state_timeout() -> void:
 		update_animation()
 
 func _on_action_state_timeout() -> void:
-	pass
+	# TODO: not implemented correctly
+	# attempt action
+	if action_state == ActionState.READY and not action_queue.is_empty():
+		if action_queue[0][0].callv(action_queue[0][1]):
+			action_queue.remove_at(0)
 
 # ..............................................................................
 
@@ -446,7 +454,7 @@ func update_ally_move_state() -> void:
 
 		# if in idle distance, update velocity to zero
 		if move_timer > 0.0:
-			update_velocity(Vector2.ZERO)
+			update_movement(Vector2.ZERO)
 			$AllyMoveTimer.start(move_timer)
 			return
 		
@@ -522,28 +530,5 @@ func update_ally_move_state() -> void:
 		if not $ObstacleCheck.is_colliding():
 			break
 
-	update_velocity(target_direction)
+	update_movement(target_direction)
 	$AllyMoveTimer.start(move_timer)
-
-# ..............................................................................
-
-# TODO: need to implement
-func filter_nodes(initial_nodes: Array[EntityBase], get_stats_nodes: bool, origin_position: Vector2 = Vector2(-1.0, -1.0), range_min: float = -1.0, range_max: float = -1.0) -> Array[Node]:
-	var resultant_nodes: Array[Node] = []
-	var check_distance: bool = range_max > 0
-	
-	if check_distance:
-		range_min *= range_min
-		range_max *= range_max
-	
-	for entity_node in initial_nodes:
-		if check_distance:
-			var temp_distance: float = origin_position.distance_squared_to(entity_node.position)
-			if temp_distance < range_min or temp_distance > range_max:
-				continue
-		if entity_node is PlayerBase:
-			resultant_nodes.push_back(entity_node.character if get_stats_nodes else entity_node)
-		elif entity_node is BasicEnemyBase:
-			resultant_nodes.push_back(entity_node.stats if get_stats_nodes else entity_node)
-	
-	return resultant_nodes

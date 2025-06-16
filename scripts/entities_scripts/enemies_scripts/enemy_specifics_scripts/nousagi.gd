@@ -44,7 +44,7 @@ func _physics_process(delta: float) -> void:
 	if move_state == MoveState.KNOCKBACK:
 		if stats.alive:
 			velocity -= knockback_velocity * (delta / 0.4)
-	elif move_state == MoveState.IDLE and action_state != ActionState.ATTACK:
+	elif move_state == MoveState.IDLE and action_state != ActionState.ACTION:
 		if not in_action_range:
 			stats.play(&"walk")
 		elif target_player_node:
@@ -58,7 +58,7 @@ func _physics_process(delta: float) -> void:
 
 # STATES
 
-func update_velocity(direction: Vector2) -> void:
+func update_movement(direction: Vector2) -> void:
 	if direction == Vector2.ZERO:
 		move_state = MoveState.IDLE
 		velocity = Vector2.ZERO
@@ -84,7 +84,7 @@ func frame_changed() -> void:
 		0:
 			velocity = Vector2.ZERO
 			if in_action_range:
-				if action_state == ActionState.ATTACK:
+				if action_state == ActionState.ACTION:
 					action_state = ActionState.COOLDOWN
 				stats.play(&"idle")
 			elif enemy_in_combat:
@@ -143,7 +143,7 @@ func attempt_attack() -> void:
 	if can_summon and randi() % 3 == 0:
 		summon_nousagi()
 	else:
-		action_state = ActionState.ATTACK
+		action_state = ActionState.ACTION
 		stats.play(&"attack")
 		$AttackCooldown.start(randf_range(1.5, 3.0))
 		await $AttackCooldown.timeout
@@ -189,12 +189,12 @@ func update_health() -> void:
 #    if not is_main_player:
 #        #if not can_attack:
 #            #return
-#        if action_state != ActionState.READY and next_state == ActionState.ATTACK:
+#        if action_state != ActionState.READY and next_state == ActionState.ACTION:
 #            return
 #
 #    action_state = next_state
 #
-#    if action_state == ActionState.ATTACK: attempt_attack()
+#    if action_state == ActionState.ACTION: attempt_attack()
 #
 #    update_animation()
 #

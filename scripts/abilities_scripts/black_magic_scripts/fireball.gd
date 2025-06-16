@@ -24,7 +24,7 @@ func _ready() -> void:
 	
 	# if alt is pressed, target nearest enemy
 	if Input.is_action_pressed(&"alt"):
-		Entities.target_entity_by_distance(caster_node.position, Entities.entities_available, false, true)
+		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_node.position, false))
 
 func _physics_process(delta: float) -> void:
 	position += velocity * delta

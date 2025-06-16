@@ -14,13 +14,12 @@ extends CanvasLayer
 @onready var character_selector_node := %CharacterSelector
 @onready var character_selector_player_nodes := %CharacterSelectorVBoxContainer.get_children()
 
-var character_selector_name_nodes: Array[Node] = []
-var character_selector_level_nodes: Array[Node] = []
+var character_selector_name_labels: Array[Label] = []
+var character_selector_level_labels: Array[Label] = []
 
-var character_selector_origin_player_nodes: Array[Node] = []
 var character_selector_character_indices: Array[int] = []
 
-var inventory_items_quantity_label: Array[Node] = []
+var inventory_quantity_labels: Array[Label] = []
 
 @onready var inventory_options_valid_node_atlas_positions := {
 	0: [[nexus.stats_node_atlas_position[0], nexus.stats_node_atlas_position[2], nexus.stats_node_atlas_position[4]], "Unlocks HP, DEF and ATK nodes.", &"attempt_unlock"],
@@ -57,12 +56,12 @@ const ability_type_description := ["", "", "", "", "", "", "", "", "", ""]
 
 func _ready():
 	for i in 6:
-		character_selector_name_nodes.push_back(character_selector_player_nodes[i].get_node_or_null(^"MarginContainer/HBoxContainer/HBoxContainer/CharacterName"))
-		character_selector_level_nodes.push_back(character_selector_player_nodes[i].get_node_or_null(^"MarginContainer/HBoxContainer/HBoxContainer/Level"))
+		character_selector_name_labels.push_back(character_selector_player_nodes[i].get_node_or_null(^"MarginContainer/HBoxContainer/HBoxContainer/CharacterName"))
+		character_selector_level_labels.push_back(character_selector_player_nodes[i].get_node_or_null(^"MarginContainer/HBoxContainer/HBoxContainer/Level"))
 	
 	for i in 26:
-		inventory_items_quantity_label.push_back(inventory_items_nodes[i].get_node_or_null(^"Label2"))
-		inventory_items_quantity_label[i].text = str(Inventory.nexus_inventory[i])
+		inventory_quantity_labels.push_back(inventory_items_nodes[i].get_node_or_null(^"Label2"))
+		inventory_quantity_labels[i].text = str(Inventory.nexus_inventory[i])
 	
 	hide_all()
 	character_selector_node.hide()
@@ -110,16 +109,16 @@ func update_character_selector():
 		button.hide()
 
 	var i = 0
-	character_selector_origin_player_nodes.clear()
+	# TODO: remove this -> character_selector_origin_player_nodes.clear()
 	character_selector_character_indices.clear()
 
 	for player in Players.party_node.get_children() + Players.standby_node.get_children():
 		var character = player if not player is PlayerBase else player.character
 		if character.CHARACTER_INDEX != nexus_player.CHARACTER_INDEX:
 			character_selector_player_nodes[i].show()
-			character_selector_name_nodes[i].text = character.CHARACTER_NAME
-			character_selector_level_nodes[i].text = "Lvl " + str(character.level).pad_zeros(3)
-			character_selector_origin_player_nodes.push_back(player)
+			character_selector_name_labels[i].text = character.CHARACTER_NAME
+			character_selector_level_labels[i].text = "Lvl " + str(character.level).pad_zeros(3)
+			# TODO: remove this -> character_selector_origin_player_nodes.push_back(player)
 			character_selector_character_indices.push_back(character.CHARACTER_INDEX)
 			i += 1
 

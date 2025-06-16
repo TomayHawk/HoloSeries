@@ -21,7 +21,7 @@ func _ready():
 
 	# if alt is pressed, auto-aim player with lowest health
 	if Input.is_action_pressed(&"alt"):
-		Entities.target_entity_by_stats("health", Entities.entities_available, false, true)
+		Entities.choose_entity(Entities.target_entity_by_stats(Entities.entities_available, &"health", false))
 
 func entity_chosen(chosen_nodes: Array[EntityBase]):
 	var target_node: EntityBase = null if chosen_nodes.is_empty() else chosen_nodes[0]

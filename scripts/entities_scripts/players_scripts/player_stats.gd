@@ -263,7 +263,7 @@ func basic_attack() -> void:
 	var animation_node: AnimatedSprite2D = base.get_node(^"AnimatedSprite2D")
 
 	if base.is_main_player:
-		base.attack_vector = (Inputs.get_global_mouse_position() - base.position).normalized()
+		base.action_vector = (Inputs.get_global_mouse_position() - base.position).normalized()
 	else:
 		# TODO: should be dynamic
 		var target_enemy_node: EnemyBase = null
@@ -271,7 +271,7 @@ func basic_attack() -> void:
 		for enemy_node in base.enemy_nodes_in_attack_area:
 			if enemy_node.stats.health < temp_enemy_health:
 				temp_enemy_health = enemy_node.stats.health
-				base.attack_vector = (enemy_node.position - base.position).normalized()
+				base.action_vector = (enemy_node.position - base.position).normalized()
 		
 		#$AllyAttackCooldown.start(randf_range(2, 3))
 
@@ -280,7 +280,7 @@ func basic_attack() -> void:
 	if base.move_state == base.MoveState.DASH:
 		dash_attack = true
 	
-	attack_shape.set_target_position(base.attack_vector * 20)
+	attack_shape.set_target_position(base.action_vector * 20)
 
 	base.action_state_timer = 0.5
 
@@ -303,7 +303,7 @@ func basic_attack() -> void:
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 					self, enemy_body.stats):
-				enemy_body.knockback(base.attack_vector, knockback_weight)
+				enemy_body.knockback(base.action_vector, knockback_weight)
 		Players.camera_node.screen_shake(0.1, 1, 30, 5, true)
 	
 	await animation_node.finished
@@ -316,13 +316,13 @@ func ultimate_attack():
 	
 	update_ultimate_gauge(-100)
 
-	if base.is_main_player: base.attack_vector = (Inputs.get_global_mouse_position() - base.position).normalized()
+	if base.is_main_player: base.action_vector = (Inputs.get_global_mouse_position() - base.position).normalized()
 	else:
 		var temp_enemy_health = INF
 		for enemy_node in base.enemy_nodes_in_attack_area:
 			if enemy_node.stats.health < temp_enemy_health:
 				temp_enemy_health = enemy_node.stats.health
-				base.attack_vector = (enemy_node.position - base.position).normalized()
+				base.action_vector = (enemy_node.position - base.position).normalized()
 		base.can_attack = false
 		#$AllyAttackCooldown.start(randf_range(2, 3))
 	
@@ -331,7 +331,7 @@ func ultimate_attack():
 	if base.move_state == base.MoveState.DASH:
 		dash_attack = true
 	
-	attack_shape.set_target_position(base.attack_vector * 20)
+	attack_shape.set_target_position(base.action_vector * 20)
 
 	#$AttackTimer.start(0.5)
 	base.action_state_timer = 0.5
@@ -354,7 +354,7 @@ func ultimate_attack():
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 					self, enemy_body.stats):
-				enemy_body.knockback(base.attack_vector, knockback_weight)
+				enemy_body.knockback(base.action_vector, knockback_weight)
 		Players.camera_node.screen_shake(0.3, 10, 30, 100, true)
 
 	await animation_node.finished
