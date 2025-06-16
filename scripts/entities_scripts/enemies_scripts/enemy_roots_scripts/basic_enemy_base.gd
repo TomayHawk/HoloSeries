@@ -1,12 +1,11 @@
 class_name BasicEnemyBase extends EnemyBase
 
-var walk_speed := 45.0
+var walk_speed: float = 45.0
 
 var enemy_in_combat: bool = false
 var players_in_detection_area: Array[Node] = []
 var players_in_attack_area: Array[Node] = []
 
-var enemy_stats_node: BasicEnemyStats = null
 @onready var knockback_timer_node: Timer = $KnockbackTimer
 
 # ..............................................................................
@@ -22,23 +21,25 @@ func knockback(direction: Vector2, weight: float = 1.0) -> void:
 	if direction == Vector2.ZERO or weight == 0.0: return
 	move_state = MoveState.KNOCKBACK
 
-	knockback_velocity = direction * (200.0 if not enemy_stats_node.alive else weight * 160.0) # TODO: should use weight stat
-	if enemy_stats_node.alive: enemy_stats_node.speed_scale = 0.3 # TODO
+	knockback_velocity = direction * (200.0 if not stats.alive else weight * 160.0) # TODO: should use weight stat
+	if stats.alive: stats.speed_scale = 0.3 # TODO
 	velocity = knockback_velocity
 
-	enemy_stats_node.play(&"death") # TODO
+	stats.play(&"death") # TODO
 	$KnockbackTimer.start(0.4)
 	await $KnockbackTimer.timeout
 
 	move_state = MoveState.IDLE
-	enemy_stats_node.speed_scale = 1.0 # TODO
-	enemy_stats_node.play(&"idle")
+	stats.speed_scale = 1.0 # TODO
+	stats.play(&"idle")
 
-func trigger_death() -> void:
+func death() -> void:
+	$AnimatedSprite2D.play(&"death")
+
 	enemy_in_combat = false
 	players_in_detection_area.clear()
 	players_in_attack_area.clear()
-	enemy_stats_node.entity_types &= ~Entities.Type.ENEMIES_ON_SCREEN
+	stats.entity_types &= ~Entities.Type.ENEMIES_ON_SCREEN
 	remove_from_group(&"enemies_on_screen")
 	Combat.remove_active_enemy(self)
 
@@ -75,9 +76,9 @@ func _on_combat_hit_box_mouse_exited() -> void:
 # DETECTION AREA
 
 func _on_detection_area_body_entered(body: Node2D) -> void:
-	if not enemy_stats_node.alive or not body.character.alive: return
+	if not stats.alive or not body.character.alive: return
 	Combat.add_active_enemy(self)
-	enemy_stats_node.entity_types |= Entities.Type.ENEMIES_IN_COMBAT
+	stats.entity_types |= Entities.Type.ENEMIES_IN_COMBAT
 	enemy_in_combat = true
 	if not players_in_detection_area.has(body):
 		players_in_detection_area.push_back(body)
@@ -89,7 +90,7 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 		in_action_range = false
 	if players_in_detection_area.is_empty():
 		Combat.remove_active_enemy(self)
-		enemy_stats_node.entity_types &= ~Entities.Type.ENEMIES_IN_COMBAT
+		stats.entity_types &= ~Entities.Type.ENEMIES_IN_COMBAT
 		enemy_in_combat = false
 
 # ..............................................................................
@@ -97,7 +98,7 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 # ATTACK AREA
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
-	if not enemy_stats_node.alive or not body.character.alive: return
+	if not stats.alive or not body.character.alive: return
 	enemy_in_combat = true
 	if in_action_range:
 		action_state = ActionState.READY
@@ -116,9 +117,9 @@ func _on_attack_area_body_exited(body: Node2D) -> void:
 # ON SCREEN STATUS
 
 func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
-	enemy_stats_node.entity_types |= Entities.Type.ENEMIES_ON_SCREEN
+	stats.entity_types |= Entities.Type.ENEMIES_ON_SCREEN
 	add_to_group(&"enemies_on_screen")
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	enemy_stats_node.entity_types &= ~Entities.Type.ENEMIES_ON_SCREEN
+	stats.entity_types &= ~Entities.Type.ENEMIES_ON_SCREEN
 	remove_from_group(&"enemies_on_screen")

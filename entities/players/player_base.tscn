@@ -1,8 +1,9 @@
 [gd_scene load_steps=11 format=3 uid="uid://c5o6bi43j562b"]
 
 [ext_resource type="Script" uid="uid://cmf3b5ufhosbk" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_rapl1"]
-[ext_resource type="SpriteFrames" uid="uid://53vy40uwfv05" path="res://entities/players/character_animations/akirose.tres" id="2_48rhk"]
 [ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://user_interfaces/user_interfaces_resources/progress_bar_style/shield_progress_bar_fill.tres" id="3_48rhk"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lt4ow"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
 size = Vector2(16, 7)
@@ -34,8 +35,7 @@ script = ExtResource("1_rapl1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
-sprite_frames = ExtResource("2_48rhk")
-animation = &"down_attack"
+sprite_frames = SubResource("SpriteFrames_lt4ow")
 offset = Vector2(-0.5, -10)
 
 [node name="MovementHitBox" type="CollisionShape2D" parent="."]
@@ -146,3 +146,13 @@ target_position = Vector2(20, 0)
 collision_mask = 34
 collide_with_areas = true
 collide_with_bodies = false
+
+[connection signal="input_event" from="CombatHitBox" to="." method="_on_combat_hit_box_input_event"]
+[connection signal="mouse_entered" from="CombatHitBox" to="." method="_on_combat_hit_box_mouse_entered"]
+[connection signal="mouse_exited" from="CombatHitBox" to="." method="_on_combat_hit_box_mouse_exited"]
+[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
+[connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]
+[connection signal="area_entered" from="LootableArea" to="." method="_on_lootable_area_area_entered"]
+[connection signal="area_exited" from="LootableArea" to="." method="_on_lootable_area_area_exited"]
+[connection signal="body_entered" from="ActionArea" to="." method="_on_action_area_body_entered"]
+[connection signal="body_exited" from="ActionArea" to="." method="_on_action_area_body_exited"]

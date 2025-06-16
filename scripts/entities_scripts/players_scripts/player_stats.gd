@@ -107,6 +107,7 @@ func update_ultimate_gauge(value: float) -> void:
 # ..............................................................................
 
 # SET STATS
+
 func set_stats() -> void:
 	# TODO: update level and experience
 	# TODO: update entity_types
@@ -215,16 +216,11 @@ func set_base_stats() -> void:
 
 # ..............................................................................
 
-# DEATH & REVIVE
+# DEATH
 
 func death() -> void:
-	super ()
 	fatigue = false
-	if base: base.death()
-
-func revive(value: float) -> void:
-	super (value)
-	if base: base.revive()
+	super ()
 
 # ..............................................................................
 
@@ -273,8 +269,8 @@ func basic_attack() -> void:
 		var target_enemy_node: EnemyBase = null
 		var temp_enemy_health: float = INF
 		for enemy_node in base.enemy_nodes_in_attack_area:
-			if enemy_node.enemy_stats_node.health < temp_enemy_health:
-				temp_enemy_health = enemy_node.enemy_stats_node.health
+			if enemy_node.stats.health < temp_enemy_health:
+				temp_enemy_health = enemy_node.stats.health
 				base.attack_vector = (enemy_node.position - base.position).normalized()
 		
 		#$AllyAttackCooldown.start(randf_range(2, 3))
@@ -306,7 +302,7 @@ func basic_attack() -> void:
 			enemy_body = attack_shape.get_collider(collision_index).base # TODO: null instance bug need fix
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
-					self, enemy_body.enemy_stats_node):
+					self, enemy_body.stats):
 				enemy_body.knockback(base.attack_vector, knockback_weight)
 		Players.camera_node.screen_shake(0.1, 1, 30, 5, true)
 	
@@ -324,8 +320,8 @@ func ultimate_attack():
 	else:
 		var temp_enemy_health = INF
 		for enemy_node in base.enemy_nodes_in_attack_area:
-			if enemy_node.enemy_stats_node.health < temp_enemy_health:
-				temp_enemy_health = enemy_node.enemy_stats_node.health
+			if enemy_node.stats.health < temp_enemy_health:
+				temp_enemy_health = enemy_node.stats.health
 				base.attack_vector = (enemy_node.position - base.position).normalized()
 		base.can_attack = false
 		#$AllyAttackCooldown.start(randf_range(2, 3))
@@ -357,7 +353,7 @@ func ultimate_attack():
 			enemy_body = attack_shape.get_collider(collision_index).base
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
-					self, enemy_body.enemy_stats_node):
+					self, enemy_body.stats):
 				enemy_body.knockback(base.attack_vector, knockback_weight)
 		Players.camera_node.screen_shake(0.3, 10, 30, 100, true)
 

@@ -121,6 +121,7 @@ func death() -> void:
 func revive(value: float) -> void:
 	alive = true
 	update_health(value)
+	if base: base.revive()
 
 # ..............................................................................
 

@@ -23,10 +23,13 @@ var is_main_player: bool = false
 # connect signals on ready
 func _ready() -> void:
 	move_state_timeout.connect(_on_move_state_timeout)
-	action_state_timeout.connect(on_action_state_timeout)
+	action_state_timeout.connect(_on_action_state_timeout)
 
 func _physics_process(_delta: float) -> void:
-	if is_main_player:
+	# if in knockback or stun, maintain velocity
+	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
+		update_velocity()
+	elif is_main_player:
 		var input_velocity: Vector2 = Input.get_vector(&"left", &"right", &"up", &"down", 0.2)
 		
 		# snap input velocity to cardinal and intercardinal directions
@@ -76,15 +79,22 @@ func _physics_process(_delta: float) -> void:
 	
 	move_and_slide()
 
+# TODO: add sprint toggle setting
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed(&"dash"):
-		dash()
+		if move_state != MoveState.DASH:
+			dash()
+		elif move_state == MoveState.SPRINT:
+			end_sprint()
+	elif Input.is_action_just_released(&"dash"):
+		if move_state == MoveState.SPRINT:
+			end_sprint()
 
 # ..............................................................................
 
 # MOVEMENTS
 
-func update_velocity(next_direction: Vector2) -> void:
+func update_velocity(next_direction: Vector2 = Vector2.ZERO) -> void:
 	# no velocity if stunned
 	if move_state == MoveState.STUN:
 		return
@@ -139,8 +149,14 @@ func update_velocity(next_direction: Vector2) -> void:
 	# update animation
 	update_animation()
 
+# END SPRINT
+
+func end_sprint() -> void:
+	move_state = MoveState.WALK
+	update_animation()
+
 # DASH
-# TODO: add sprint toggle
+
 func dash() -> void:
 	if stats.fatigue: return
 	if stats.stamina < stats.dash_min_stamina: return
@@ -210,29 +226,6 @@ func update_animation() -> void:
 
 	# update animation speed
 	animation_node.speed_scale = animation_speed
-
-# ..............................................................................
-
-# TODO: need to implement
-func filter_nodes(initial_nodes: Array[EntityBase], get_stats_nodes: bool, origin_position: Vector2 = Vector2(-1.0, -1.0), range_min: float = -1.0, range_max: float = -1.0) -> Array[Node]:
-	var resultant_nodes: Array[Node] = []
-	var check_distance: bool = range_max > 0
-	
-	if check_distance:
-		range_min *= range_min
-		range_max *= range_max
-	
-	for entity_node in initial_nodes:
-		if check_distance:
-			var temp_distance: float = origin_position.distance_squared_to(entity_node.position)
-			if temp_distance < range_min or temp_distance > range_max:
-				continue
-		if entity_node is PlayerBase:
-			resultant_nodes.push_back(entity_node.character if get_stats_nodes else entity_node)
-		elif entity_node is BasicEnemyBase:
-			resultant_nodes.push_back(entity_node.enemy_stats_node if get_stats_nodes else entity_node)
-	
-	return resultant_nodes
 
 # ..............................................................................
 
@@ -314,8 +307,13 @@ func death() -> void:
 	# play death animation
 	var animation_node: AnimatedSprite2D = $AnimatedSprite2D
 	animation_node.play(&"death")
+	
+	# await death animation finished
 	await animation_node.animation_finished
-	animation_node.pause()
+	
+	# pause animation accordingly
+	if not stats.alive and animation_node.animation == &"death":
+		animation_node.pause()
 
 func revive() -> void:
 	# resume process
@@ -371,36 +369,40 @@ func update_stats(next_stats: PlayerStats) -> void:
 
 # ..............................................................................
 
-func _on_lootable_area_entered(body: Node2D) -> void:
-	if body.nearby_player_nodes.is_empty():
-		body.nearby_player_nodes.append(self)
-		body.target_player_node = self
-	elif not body.nearby_player_nodes.has(self):
-		body.nearby_player_nodes.append(self)
-	
-	body.set_physics_process(true)
+# SIGNALS
 
-func _on_lootable_area_exited(body: Node2D) -> void:
-	body.nearby_player_nodes.erase(self)
+# CombatHitBox
 
-	if body.nearby_player_nodes.is_empty():
-		body.set_physics_process(false)
-		body.target_player_node = null
-		body.multiplier = 0.0
-	else:
-		var target_player_node: PlayerBase = null
-		var least_distance: float = INF
-		for player_node in body.nearby_player_nodes:
-			var temp_distance: float = body.global_position.distance_squared_to(player_node.global_position)
-			if temp_distance < least_distance:
-				target_player_node = player_node
-				least_distance = temp_distance
-		body.target_player_node = target_player_node
+# TODO: add either Inputs.accept_event() or event.accept() if it exists
+func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"):
+		if self in Entities.entities_available:
+			Entities.choose_entity(self)
+		elif Entities.switching_main_player and not is_main_player:
+			Players.update_main_player(self)
+
+# InteractionArea
+
+func _on_interaction_area_body_entered(body: Node2D) -> void:
+	body.interaction_area(true)
+
+func _on_interaction_area_body_exited(body: Node2D) -> void:
+	body.interaction_area(false)
+
+# LootableArea
+
+func _on_lootable_area_area_entered(body: Node2D) -> void:
+	body.player_entered(self)
+
+func _on_lootable_area_area_exited(body: Node2D) -> void:
+	body.player_exited(self)
+
+# State Timers
 
 func _on_move_state_timeout() -> void:
 	if not is_main_player:
-		# TODO: need to add below to _on_ally_move_state_timeout()
-		_on_ally_move_state_timeout()
+		update_ally_move_state()
+	# TODO: need to add below to _on_ally_move_state_timeout()
 	elif move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
 		move_state = MoveState.IDLE
 		update_animation()
@@ -411,39 +413,15 @@ func _on_move_state_timeout() -> void:
 			move_state = MoveState.WALK
 		update_animation()
 
-func on_action_state_timeout() -> void:
+func _on_action_state_timeout() -> void:
 	pass
 
-# ACTION AREA
-
-func _on_action_area_body_entered(_body: Node2D) -> void:
-	in_action_range = $ActionArea.get_overlapping_bodies().filter(func(node): return node.is_instance_of(action_target))
-
-func _on_action_area_body_exited(_body: Node2D) -> void:
-	in_action_range = $ActionArea.get_overlapping_bodies().filter(func(node): return node.is_instance_of(action_target))
-
-# INTERACTION AREA
-
-func _on_interaction_area_body_entered(body: Node2D) -> void:
-	body.interaction_area(true)
-
-func _on_interaction_area_body_exited(body: Node2D) -> void:
-	body.interaction_area(false)
+# ..............................................................................
 
 # TODO: BELOW ADDED FROM PLAYER ALLY SCRIPT
 
-# TODO: IMPLEMENTING RIGHT NOW
-func enter_attack_range() -> void:
-	if not in_action_range:
-		in_action_range = true
-		action_state = ActionState.READY
-
-# TODO: IMPLEMENTING RIGHT NOW
-func exit_attack_range() -> void:
-	in_action_range = false
-
 # PlayerAlly move process
-func _on_ally_move_state_timeout() -> void:
+func update_ally_move_state() -> void:
 	# if ally in another move state, continue timer
 	if move_state_timer > 0.0:
 		$AllyMoveTimer.start(move_state_timer)
@@ -547,13 +525,25 @@ func _on_ally_move_state_timeout() -> void:
 	update_velocity(target_direction)
 	$AllyMoveTimer.start(move_timer)
 
-# TODO: need to remove chosen entities from available
-# TODO: remove accept_event()
-func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"):
-		if self in Entities.entities_available:
-			Inputs.accept_event()
-			Entities.choose_entity(self)
-		elif not is_main_player:
-			Inputs.accept_event()
-			Players.update_main_player(self)
+# ..............................................................................
+
+# TODO: need to implement
+func filter_nodes(initial_nodes: Array[EntityBase], get_stats_nodes: bool, origin_position: Vector2 = Vector2(-1.0, -1.0), range_min: float = -1.0, range_max: float = -1.0) -> Array[Node]:
+	var resultant_nodes: Array[Node] = []
+	var check_distance: bool = range_max > 0
+	
+	if check_distance:
+		range_min *= range_min
+		range_max *= range_max
+	
+	for entity_node in initial_nodes:
+		if check_distance:
+			var temp_distance: float = origin_position.distance_squared_to(entity_node.position)
+			if temp_distance < range_min or temp_distance > range_max:
+				continue
+		if entity_node is PlayerBase:
+			resultant_nodes.push_back(entity_node.character if get_stats_nodes else entity_node)
+		elif entity_node is BasicEnemyBase:
+			resultant_nodes.push_back(entity_node.stats if get_stats_nodes else entity_node)
+	
+	return resultant_nodes

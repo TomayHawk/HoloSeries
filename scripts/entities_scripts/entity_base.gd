@@ -119,9 +119,28 @@ func revive() -> void:
 
 # SIGNALS
 
+# CombatHitBox
+
+func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"):
+		if self in Entities.entities_available:
+			Entities.choose_entity(self)
+
 func _on_combat_hit_box_mouse_entered() -> void:
 	if self in Entities.entities_available:
 		Inputs.mouse_in_combat_area = false
 
 func _on_combat_hit_box_mouse_exited() -> void:
 	Inputs.mouse_in_combat_area = true
+
+# ActionArea
+
+func _on_action_area_body_entered(_body: Node2D) -> void:
+	in_action_range = is_in_action_range()
+
+func _on_action_area_body_exited(_body: Node2D) -> void:
+	in_action_range = is_in_action_range()
+
+func is_in_action_range() -> bool:
+	return not $ActionArea.get_overlapping_bodies().filter(
+			func(node): return node.is_instance_of(action_target)).is_empty()

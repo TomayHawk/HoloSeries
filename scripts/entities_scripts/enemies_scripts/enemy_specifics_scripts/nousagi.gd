@@ -11,46 +11,44 @@ var can_summon := false
 
 func _ready() -> void:
 	# initialize stats
-	enemy_stats_node.level = 1
+	stats.level = 1
 	# Health, Mana, Stamina & Shield
-	enemy_stats_node.max_health = 200.0
-	enemy_stats_node.max_mana = 10.0
-	enemy_stats_node.max_stamina = 100.0
-	enemy_stats_node.max_shield = 0.0
+	stats.max_health = 200.0
+	stats.max_mana = 10.0
+	stats.max_stamina = 100.0
+	stats.max_shield = 0.0
 	
-	enemy_stats_node.health = 200.0
-	enemy_stats_node.mana = 10.0
-	enemy_stats_node.stamina = 100.0
-	enemy_stats_node.shield = 0.0
+	stats.health = 200.0
+	stats.mana = 10.0
+	stats.stamina = 100.0
+	stats.shield = 0.0
 	
 	# Stats
-	enemy_stats_node.defense = 10.0
-	enemy_stats_node.ward = 10.0
-	enemy_stats_node.strength = 10.0
-	enemy_stats_node.intelligence = 10.0
-	enemy_stats_node.crit_chance = 0.05
-	enemy_stats_node.crit_damage = 0.50
+	stats.defense = 10.0
+	stats.ward = 10.0
+	stats.strength = 10.0
+	stats.intelligence = 10.0
+	stats.crit_chance = 0.05
+	stats.crit_damage = 0.50
 
 	# Additional Stats
-	enemy_stats_node.weight = 1.0
-	enemy_stats_node.vision = 1.0
+	stats.weight = 1.0
+	stats.vision = 1.0
 
 	nousagi_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
-	enemy_stats_node.play(&"walk")
-	enemy_stats_node.flip_h = nousagi_direction.x < 0
-	# TEMP
-	action_state = ActionState.OUT_OF_RANGE
+	stats.play(&"walk")
+	stats.flip_h = nousagi_direction.x < 0
 
 func _physics_process(delta: float) -> void:
 	# check knockback
 	if move_state == MoveState.KNOCKBACK:
-		if enemy_stats_node.alive:
+		if stats.alive:
 			velocity -= knockback_velocity * (delta / 0.4)
 	elif move_state == MoveState.IDLE and action_state != ActionState.ATTACK:
-		if action_state == ActionState.OUT_OF_RANGE:
-			enemy_stats_node.play(&"walk")
+		if not in_action_range:
+			stats.play(&"walk")
 		elif target_player_node:
-			enemy_stats_node.flip_h = (target_player_node.position - position).x < 0
+			stats.flip_h = (target_player_node.position - position).x < 0
 			if action_state == ActionState.READY:
 				attempt_attack()
 
@@ -82,13 +80,13 @@ func update_animation() -> void:
 func frame_changed() -> void:
 	if move_state == MoveState.KNOCKBACK: return
 	
-	match enemy_stats_node.frame:
+	match stats.frame:
 		0:
 			velocity = Vector2.ZERO
-			if action_state != ActionState.OUT_OF_RANGE:
+			if in_action_range:
 				if action_state == ActionState.ATTACK:
 					action_state = ActionState.COOLDOWN
-				enemy_stats_node.play(&"idle")
+				stats.play(&"idle")
 			elif enemy_in_combat:
 				# remove all dead players from detection and attack arrays
 				for player_node in players_in_detection_area:
@@ -114,26 +112,26 @@ func frame_changed() -> void:
 				if target_player_node:
 					$NavigationAgent2D.target_position = target_player_node.position
 					nousagi_direction = to_local($NavigationAgent2D.get_next_path_position()).normalized()
-					enemy_stats_node.flip_h = nousagi_direction.x < 0.0
+					stats.flip_h = nousagi_direction.x < 0.0
 				# else move in a random direction
 				else:
 					nousagi_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
-				enemy_stats_node.play(&"walk")
-				enemy_stats_node.flip_h = nousagi_direction.x < 0.0
+				stats.play(&"walk")
+				stats.flip_h = nousagi_direction.x < 0.0
 			else:
 				nousagi_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
-				enemy_stats_node.play(&"walk")
-				enemy_stats_node.flip_h = nousagi_direction.x < 0
+				stats.play(&"walk")
+				stats.flip_h = nousagi_direction.x < 0
 		3:
-			match enemy_stats_node.animation:
+			match stats.animation:
 				"attack":
 					# attack player
 					if target_player_node:
 						var temp_attack_direction = (target_player_node.position - position).normalized()
 						if Damage.combat_damage(13, Damage.DamageTypes.PLAYER_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
-								enemy_stats_node, target_player_node.character):
+								stats, target_player_node.character):
 							target_player_node.knockback(temp_attack_direction, 0.4)
-						enemy_stats_node.flip_h = temp_attack_direction.x < 0
+						stats.flip_h = temp_attack_direction.x < 0
 				"walk":
 					velocity = nousagi_direction * walk_speed
 
@@ -146,10 +144,10 @@ func attempt_attack() -> void:
 		summon_nousagi()
 	else:
 		action_state = ActionState.ATTACK
-		enemy_stats_node.play(&"attack")
+		stats.play(&"attack")
 		$AttackCooldown.start(randf_range(1.5, 3.0))
 		await $AttackCooldown.timeout
-		if action_state != ActionState.OUT_OF_RANGE:
+		if in_action_range:
 			action_state = ActionState.READY
 
 func summon_nousagi():
@@ -164,10 +162,22 @@ func summon_nousagi():
 	$SummonCooldown.start(randf_range(15, 20))
 	can_summon = false
 	await $AttackCooldown.timeout
-	if action_state != ActionState.OUT_OF_RANGE and not players_in_detection_area.is_empty():
+	if in_action_range and not players_in_detection_area.is_empty():
 		action_state = ActionState.READY
 	await $SummonCooldown.timeout
 	can_summon = true
+
+# update health bar
+func update_health() -> void:
+	$HealthBar.visible = stats.health > 0.0 and stats.health < stats.max_health
+	$HealthBar.max_value = stats.max_health
+	$HealthBar.value = stats.health
+	
+	var health_bar_percentage = stats.health / stats.max_health
+	$HealthBar.modulate = \
+			"a9ff30" if health_bar_percentage > 0.5 \
+			else "c8a502" if health_bar_percentage > 0.2 \
+			else "a93430"
 
 # ..............................................................................
 
@@ -217,7 +227,7 @@ func summon_nousagi():
 #        if entity_node is PlayerBase:
 #            resultant_nodes.push_back(entity_node.character if get_stats_nodes else entity_node)
 #        elif entity_node is BasicEnemyBase:
-#            resultant_nodes.push_back(entity_node.enemy_stats_node if get_stats_nodes else entity_node)
+#            resultant_nodes.push_back(entity_node.stats if get_stats_nodes else entity_node)
 #    
 #    return resultant_nodes
 

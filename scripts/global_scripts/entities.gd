@@ -50,7 +50,7 @@ var entities_of_type: Dictionary[Type, Callable] = {
 		return Combat.enemy_nodes_in_combat,
 	Type.ENEMIES_ON_SCREEN: func() -> Array[Node]:
 		return get_tree().current_scene.get_node(^"Enemies").get_children().filter(
-				func(node: Node) -> bool: return node.enemy_stats_node.entity_types & Entities.Type.ENEMIES_ON_SCREEN),
+				func(node: Node) -> bool: return node.stats.entity_types & Entities.Type.ENEMIES_ON_SCREEN),
 }
 
 var effect_resources: Dictionary[Status, Resource] = {
@@ -74,6 +74,8 @@ var effect_resources: Dictionary[Status, Resource] = {
 	Status.TAUNT: load("res://scripts/effects_scripts/taunt.gd"),
 }
 
+var switching_main_player: bool = false
+
 var requesting_entities: bool = false
 var entities_requested_count: int = 0
 var entities_available: Array[Node] = []
@@ -94,7 +96,7 @@ func target_entity_by_stats(stat_name: String, candidate_nodes: Array[Node], get
 	for entity_node in candidate_nodes:
 		if not is_instance_valid(entity_node): continue
 		var entity_stat: float = entity_node.character.get(stat_name) if entity_node is PlayerBase \
-				else entity_node.enemy_stats_node.get(stat_name)
+				else entity_node.stats.get(stat_name)
 		if (get_max and entity_stat > best_quality) or (not get_max and entity_stat < best_quality):
 			target_entity_node = entity_node
 			best_quality = entity_stat
@@ -149,11 +151,12 @@ func request_entities(request_types: Array[Type], request_count: int = 1) -> voi
 		elif entity_node is EnemyBase and not entity_node.has_node(^"EnemyHighlight"):
 			entity_node.add_child(load("res://entities/entities_indicators/enemy_highlight.tscn").instantiate()) # TODO: need to scale in size
 
-func choose_entity(entity_node: EntityBase) -> void:
-	if not requesting_entities or not entity_node in entities_available or entity_node in entities_chosen: return
-	entities_chosen.append(entity_node)
-	if entities_chosen.size() == entities_requested_count:
-		end_entities_request()
+func choose_entity(entity: EntityBase) -> void:
+	if requesting_entities and entity in entities_available:
+		entities_chosen.append(entity)
+		entities_available.erase(entity)
+		if entities_chosen.size() == entities_requested_count:
+			end_entities_request()
 
 func end_entities_request() -> void:
 	# emit signals
@@ -186,4 +189,4 @@ func toggle_entities_movements(can_move: bool) -> void:
 	for enemy_node in get_tree().current_scene.get_node(^"Enemies").get_children():
 		enemy_node.set_physics_process(can_move)
 		if not can_move:
-			enemy_node.enemy_stats_node.play(&"idle")
+			enemy_node.stats.play(&"idle")
