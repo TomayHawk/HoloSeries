@@ -19,7 +19,7 @@ func _on_characters_pressed():
     for character in Players.standby_node.get_children():
         characters.push_back(character)
 
-    current_stats = Players.main_player_node.character.node_index
+    current_stats = Players.main_player.character.node_index
     _on_left_button_pressed()
     _on_right_button_pressed()
 

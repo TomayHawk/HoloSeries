@@ -17,26 +17,26 @@ enum DamageTypes {
 	HIDDEN = 1 << 12,
 }
 
-func combat_damage(damage: float, types: int, origin_stats_node: Node, target_stats_node: Node) -> float:
+func combat_damage(damage: float, types: int, origin_stats: EntityStats, target_stats: EntityStats) -> float:
 	# TODO: base calculation (very bad code, need fix)
 	if types & DamageTypes.COMBAT:
 		if types & DamageTypes.PHYSICAL: # physical damage
-			damage += (origin_stats_node.strength * 2) + (damage * origin_stats_node.strength * 0.05)
-			damage *= origin_stats_node.level / (target_stats_node.level + (origin_stats_node.level * (1 + (target_stats_node.defense * 1.0 / 1500))))
+			damage += (origin_stats.strength * 2) + (damage * origin_stats.strength * 0.05)
+			damage *= origin_stats.level / (target_stats.level + (origin_stats.level * (1 + (target_stats.defense * 1.0 / 1500))))
 		elif types & DamageTypes.MAGIC: # magic damage
-			damage += (origin_stats_node.intelligence * 2) + (damage * origin_stats_node.intelligence * 0.05)
-			damage *= origin_stats_node.level / (target_stats_node.level + (origin_stats_node.level * (1 + (target_stats_node.ward * 1.0 / 1500))))
+			damage += (origin_stats.intelligence * 2) + (damage * origin_stats.intelligence * 0.05)
+			damage *= origin_stats.level / (target_stats.level + (origin_stats.level * (1 + (target_stats.ward * 1.0 / 1500))))
 		if types & DamageTypes.PLAYER_HIT and not types & DamageTypes.ITEM: # TODO: don't know why this is here
-			damage += (damage * (0.7 - (((target_stats_node.defense - 1000) * (target_stats_node.defense - 1000)) * 1.0 / 1425000))) + (target_stats_node.defense * 1.0 / 3)
+			damage += (damage * (0.7 - (((target_stats.defense - 1000) * (target_stats.defense - 1000)) * 1.0 / 1425000))) + (target_stats.defense * 1.0 / 3)
 		damage *= -1
 	elif types & DamageTypes.MAGIC: # magic heal
-		damage *= 1 + (origin_stats_node.intelligence * 0.05)
+		damage *= 1 + (origin_stats.intelligence * 0.05)
 
 	# attempt crit
-	if not types & DamageTypes.NO_CRITICAL and randf() < origin_stats_node.crit_chance:
+	if not types & DamageTypes.NO_CRITICAL and randf() < origin_stats.crit_chance:
 		types |= DamageTypes.CRITICAL
 	if types & DamageTypes.CRITICAL:
-		damage *= 1.0 + origin_stats_node.crit_damage
+		damage *= 1.0 + origin_stats.crit_damage
 
 	# randomize
 	if not types & DamageTypes.NO_RANDOM:
@@ -50,25 +50,25 @@ func combat_damage(damage: float, types: int, origin_stats_node: Node, target_st
 	
 	# attempt miss
 	# TODO: handle invincibility
-	if not types & DamageTypes.NO_MISS and randf() < 0.25: # TODO: randf() < (target_stats_node.agility / 1028)
+	if not types & DamageTypes.NO_MISS and randf() < 0.25: # TODO: randf() < (target_stats.agility / 1028)
 		types |= DamageTypes.MISS
 		damage = 0.0
 
 	# update target
-	target_stats_node.update_health(damage)
+	target_stats.update_health(damage)
 
 	# display damage
-	damage_display(abs(damage), target_stats_node.get_parent().position, types) # TODO: need to update
+	damage_display(abs(damage), target_stats.get_parent().position, types) # TODO: need to update
 
 	return damage
 
-func combat_buff(_buff: float, _types: Array[DamageTypes], _origin_stats_node: Node, _target_stats_node: Node) -> void:
+func combat_buff(_buff: float, _types: Array[DamageTypes], _origin_stats: Node, _target_stats: Node) -> void:
 	pass
 
-func mana_depletion(_mana: float, _origin_stats_node: Node) -> void:
+func mana_depletion(_mana: float, _origin_stats: Node) -> void:
 	pass
 
-func stamina_depletion(_stamina: float, _origin_stats_node: Node) -> void:
+func stamina_depletion(_stamina: float, _origin_stats: Node) -> void:
 	pass
 
 func damage_display(damage: int, display_position: Vector2, types: int) -> void:

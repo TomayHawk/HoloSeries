@@ -9,8 +9,6 @@ script = ExtResource("1_eytbs")
 [node name="Party" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="Standby" type="Node" parent="."]
-
 [node name="Camera2D" type="Camera2D" parent="."]
 process_mode = 3
 process_callback = 0

@@ -5,7 +5,7 @@ extends CharacterBody2D
 @onready var nexus_player_outline_node := $PlayerOutline
 @onready var nexus_player_crosshair_node := $PlayerCrosshair
 
-@onready var CHARACTER_INDEX: int = Players.main_player_node.character.CHARACTER_INDEX
+@onready var CHARACTER_INDEX: int = Players.main_player.character.CHARACTER_INDEX
 
 var move_direction := Vector2.ZERO
 var speed := 150

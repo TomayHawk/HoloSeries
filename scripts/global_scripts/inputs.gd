@@ -4,10 +4,7 @@ var mouse_in_combat_area: bool = false
 var combat_inputs_enabled: bool = false
 
 func _input(_event: InputEvent) -> void:
-	if Input.is_action_just_pressed(&"action"):
-		if mouse_in_combat_area and not Entities.requesting_entities and Players.main_player_node:
-			#Players.main_player_node.set_attack_state(Players.main_player_node.ActionState.ATTACK)
-	elif Input.is_action_just_pressed(&"full_screen"):
+	if Input.is_action_just_pressed(&"full_screen"):
 		accept_event()
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN \
 				if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN \
@@ -18,7 +15,10 @@ func _input(_event: InputEvent) -> void:
 		Players.camera_node.zoom_input(-1)
 
 func _unhandled_input(_event: InputEvent) -> void:
-	if Input.is_action_just_pressed(&"esc"):
+	if Input.is_action_just_pressed(&"action"):
+		if mouse_in_combat_area and not Entities.requesting_entities and Players.main_player:
+			Players.main_player.action_request()
+	elif Input.is_action_just_pressed(&"esc"):
 		if Entities.requesting_entities:
 			Entities.end_entities_request()
 		else:

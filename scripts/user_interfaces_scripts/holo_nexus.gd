@@ -60,7 +60,7 @@ func _ready():
 		index_counter += 1
 
 	# update current player and allies in character selector
-	update_nexus_player(Players.main_player_node.character.CHARACTER_INDEX)
+	update_nexus_player(Players.main_player.character.CHARACTER_INDEX)
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed(&"esc"):
@@ -202,7 +202,7 @@ func exit_nexus():
 	for character in Players.standby_node.get_children():
 		standby_players.push_back(character.CHARACTER_INDEX)
 
-	Players.camera_node.update_camera(Players.main_player_node, true, scene_camera_zoom)
+	Players.camera_node.update_camera(Players.main_player, true, scene_camera_zoom)
 
 	Global.add_global_child("HoloDeck", "res://user_interfaces/holo_deck.tscn")
 	queue_free()

@@ -146,8 +146,3 @@ target_position = Vector2(20, 0)
 collision_mask = 34
 collide_with_areas = true
 collide_with_bodies = false
-
-[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
-[connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]
-[connection signal="area_entered" from="LootableArea" to="." method="_on_lootable_area_entered"]
-[connection signal="area_exited" from="LootableArea" to="." method="_on_lootable_area_exited"]

@@ -70,27 +70,12 @@ var action_queue: Array[Array] = []
 
 # PROCESS
 
-func _ready() -> void:
-	$CombatHitBox.mouse_entered.connect(_on_combat_hit_box_mouse_entered)
-	$CombatHitBox.mouse_exited.connect(_on_combat_hit_box_mouse_exited)
-
 func _process(delta: float) -> void:
 	process_interval += delta
 
 	if process_interval > 0.1:
-		# regenerate mana
-		if stats.mana < stats.max_mana:
-			stats.update_mana(0.025)
-
-		# regenerate stamina
-		if move_state != MoveState.DASH and move_state != MoveState.SPRINT and stats.stamina < stats.max_stamina:
-			stats.update_stamina(1.5 if stats.fatigue else 3.0)
-		
-		# decrease effects timers
-		for effect in stats.effects.duplicate():
-			effect.effect_timer -= process_interval
-			if effect.effect_timer <= 0.0:
-				effect.effect_timeout(stats)
+		# process stats
+		stats.stats_process(process_interval)
 
 		# decrease move state timer
 		if move_state_timer > 0.0:
@@ -133,17 +118,6 @@ func revive() -> void:
 # ..............................................................................
 
 # SIGNALS
-
-# TODO: need to remove chosen entities from available
-# TODO: remove accept_event()
-func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"):
-		if self in Entities.entities_available:
-			Inputs.accept_event()
-			Entities.choose_entity(self)
-		else:
-			Inputs.accept_event()
-			Players.update_main_player(self)
 
 func _on_combat_hit_box_mouse_entered() -> void:
 	if self in Entities.entities_available:

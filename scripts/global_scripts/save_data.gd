@@ -201,7 +201,7 @@ func load_save(save_index: int = last_save) -> void:
 		player_node.position = saves[save_index]["main_player_position"]
 		if character_index == saves[save_index]["main_player"]:
 			player_node.is_main_player = true
-			Players.main_player_node = player_node
+			Players.main_player = player_node
 			Players.camera_node.new_parent(player_node)
 		else:
 			player_node.position += (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))

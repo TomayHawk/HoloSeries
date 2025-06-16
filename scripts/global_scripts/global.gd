@@ -25,13 +25,13 @@ func change_scene(next_scene_path: String, next_position: Vector2, camera_limits
 	Players.camera_node.force_zoom(Players.camera_node.target_zoom)
 	Players.camera_node.new_limits(camera_limits)
 	Players.camera_node.position_smoothing_enabled = false
-	Players.main_player_node.position = next_position
+	Players.main_player.position = next_position
 	await tree.process_frame
 	Players.camera_node.position_smoothing_enabled = true
 
 	# update ally positions
 	for player_node in Players.party_node.get_children():
-		if player_node == Players.main_player_node: continue
+		if player_node == Players.main_player: continue
 		player_node.position = next_position + (Vector2(randf_range(-1, 1), randf_range(-1, 1)) * 25)
 
 	# update bgm

@@ -12,7 +12,7 @@ var heal_percentage: float = 0.02
 var regen_count: int = 7
 # TODO: need to add stats multipliers
 
-@onready var caster_node: EntityBase = Players.main_player_node
+@onready var caster_node: EntityBase = Players.main_player
 
 func _ready():
 	# request target entity

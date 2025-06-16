@@ -1,33 +1,37 @@
 extends Node
 
-var main_player_node: Node = null
+var main_player: PlayerBase = null
+var standby_stats: Array[PlayerStats] = []
 
 @onready var party_node: Node2D = $Party
-@onready var standby_node: Node = $Standby
 @onready var camera_node: Camera2D = $Camera2D
 
-var standby_stats: Array[Profile] = []
+func update_main_player(player_base: PlayerBase) -> void:
+	var prev_main_player: PlayerBase = main_player
+	main_player = player_base
 
-func update_main_player(player_node: PlayerBase) -> void:
-	main_player_node.is_main_player = false
-	player_node.is_main_player = true
+	main_player.is_main_player = true
+	prev_main_player.is_main_player = false
 	
-	main_player_node = player_node
-	camera_node.new_parent(player_node)
+	camera_node.new_parent(main_player)
 	Entities.end_entities_request()
 
+# TODO: allow allies to switch with standby players
 func update_standby_player(standby_index: int) -> void:
-	var prev_character: Profile = main_player_node.character
-	var next_character: Profile = standby_node.get_child(standby_index)
+	var prev_stats: PlayerStats = main_player.stats
+	var next_stats: PlayerStats = standby_stats.pop_at(standby_index)
 	
-	var party_index: int = prev_character.node_index
-	prev_character.node_index = standby_index
-	next_character.node_index = party_index
-	
-	prev_character.reparent(standby_node)
-	standby_node.move_child(prev_character, standby_index)
+	# add previous stats to standby
+	standby_stats.insert(standby_index, prev_stats)
 
-	next_character.reparent(main_player_node)
+	# update main player
+	main_player.update_stats(next_stats)
 
-	prev_character.update_nodes()
-	next_character.update_nodes()
+	# update player ui
+	Combat.ui.name_labels[main_player.get_index()].text = next_stats.CHARACTER_NAME
+
+	# update standby ui
+	Combat.ui.standby_name_labels[standby_index].text = prev_stats.CHARACTER_NAME
+	Combat.ui.standby_level_labels[standby_index].text = str(prev_stats.level)
+	Combat.ui.standby_health_labels[standby_index].text = str(int(prev_stats.health))
+	Combat.ui.standby_mana_labels[standby_index].text = str(int(prev_stats.mana))

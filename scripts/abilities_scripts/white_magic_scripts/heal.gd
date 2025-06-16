@@ -11,7 +11,7 @@ var mana_cost: float = 4.0
 var heal_percentage: float = 0.05
 
 # TODO: need to dynamically allocate caster in case of ally/enemy casts (APPLIES TO ALL ABILITIES)
-@onready var caster_node: EntityBase = Players.main_player_node
+@onready var caster_node: EntityBase = Players.main_player
 @onready var caster_stats_node: EntityStats = caster_node.character
 
 func _ready() -> void:

@@ -5,7 +5,7 @@ extends Node2D
 # SCENE CHANGES
 
 func _on_world_scene_1_transit_body_entered(body: Node) -> void:
-	if body != Players.main_player_node: return
+	if body != Players.main_player: return
 	Global.change_scene(
 			"res://scenes/world_scene_1.tscn",
 			Vector2(0, -247),
@@ -14,7 +14,7 @@ func _on_world_scene_1_transit_body_entered(body: Node) -> void:
 	)
 
 func _on_dungeon_scene_1_transit_body_entered(body: Node) -> void:
-	if body != Players.main_player_node: return
+	if body != Players.main_player: return
 	Global.change_scene(
 			"res://scenes/dungeon_scene_1.tscn",
 			Vector2(0, 53),

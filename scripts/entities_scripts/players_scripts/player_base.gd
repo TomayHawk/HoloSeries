@@ -1,16 +1,27 @@
 class_name PlayerBase extends EntityBase
 
 # TODO: remove AttackShape node
+# TODO: switch main player while pressing alt, or pressing 1,2,3,4
+# TODO: deal with all await edge cases in project
+# TODO: should add toggle setting for release dash
+
+# TODO: test and maybe add other knockback options (maybe also dash)
+#var t = knockback_timer / 0.4
+# Quadratic
+#velocity = knockback_velocity * t * t
+# Exponential
+#velocity = knockback_velocity * pow(t, 0.5)
+# Ease Out Sine
+#velocity = knockback_velocity * sin(t * PI * 0.5)
 
 var is_main_player: bool = false
-var character: Profile = null
 
 # ..............................................................................
 
 # PROCESS
 
+# connect signals on ready
 func _ready() -> void:
-	# connect signals
 	move_state_timeout.connect(_on_move_state_timeout)
 	action_state_timeout.connect(on_action_state_timeout)
 
@@ -66,22 +77,12 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func _input(_event: InputEvent) -> void:
-	# TODO: should add toggle setting for release dash
 	if Input.is_action_just_pressed(&"dash"):
 		dash()
 
 # ..............................................................................
 
 # MOVEMENTS
-
-# TODO: test and maybe add other knockback options (maybe also dash)
-#var t = knockback_timer / 0.4
-# Quadratic
-#velocity = knockback_velocity * t * t
-# Exponential
-#velocity = knockback_velocity * pow(t, 0.5)
-# Ease Out Sine
-#velocity = knockback_velocity * sin(t * PI * 0.5)
 
 func update_velocity(next_direction: Vector2) -> void:
 	# no velocity if stunned
@@ -120,8 +121,6 @@ func update_velocity(next_direction: Vector2) -> void:
 		Vector2(-0.70710678, 0.70710678),
 		Vector2(0.70710678, 0.70710678),
 	].find(next_direction)]
-
-	# TODO: stats.update_stamina(-stats.sprint_stamina) for sprinting
 	
 	velocity = next_direction * stats.walk_speed
 	
@@ -210,7 +209,7 @@ func update_animation() -> void:
 		animation_node.play(next_animation)
 
 	# update animation speed
-	character.speed_scale = animation_speed
+	animation_node.speed_scale = animation_speed
 
 # ..............................................................................
 
@@ -240,47 +239,54 @@ func filter_nodes(initial_nodes: Array[EntityBase], get_stats_nodes: bool, origi
 # STATS
 
 # update health bar and label
-func update_health(value: float) -> void:
-	var max_value: float = $HealthBar.max_value
-	var bar_percentage: float = value / max_value
-	$HealthBar.value = value
-	$HealthBar.visible = value > 0.0 and value < max_value
+func update_health() -> void:
+	var bar_percentage: float = stats.health / stats.max_health
+	$HealthBar.value = stats.health
+	$HealthBar.visible = stats.health > 0.0 and stats.health < stats.max_health
 	$HealthBar.modulate = (
 			Color(0, 1, 0, 1) if bar_percentage > 0.5
 			else Color(1, 1, 0, 1) if bar_percentage > 0.2
 			else Color(1, 0, 0, 1)
 	)
-	Combat.ui.health_labels[get_index()].text = str(int(value))
+	Combat.ui.health_labels[get_index()].text = str(int(stats.health))
 
 # update mana bar and label
-func update_mana(value: float) -> void:
-	$ManaBar.value = value
-	$ManaBar.visible = value < $ManaBar.max_value
-	Combat.ui.mana_labels[get_index()].text = str(int(value))
+func update_mana() -> void:
+	$ManaBar.value = stats.mana
+	$ManaBar.visible = stats.mana < stats.max_mana
+	Combat.ui.mana_labels[get_index()].text = str(int(stats.mana))
 
 # update stamina bar and move state
-func update_stamina(value: float) -> void:
-	$StaminaBar.value = value
-	$StaminaBar.visible = value < $StaminaBar.max_value
+func update_stamina() -> void:
+	$StaminaBar.value = stats.stamina
+	$StaminaBar.visible = stats.stamina < stats.max_stamina
 	$StaminaBar.modulate = Color(0.5, 0, 0, 1) if stats.fatigue else Color(1, 0.5, 0, 1)
 	if stats.fatigue and move_state in [MoveState.DASH, MoveState.SPRINT]:
 		move_state = MoveState.WALK
 		if action_state in [ActionState.READY, ActionState.COOLDOWN]:
 			update_animation()
 
-# update ultimate gauge bar
-func update_ultimate_gauge(value: float) -> void:
-	Combat.ui.ultimate_progress_bars[get_index()].value = value
-	Combat.ui.ultimate_progress_bars[get_index()].modulate.g = (130.0 - value) / stats.max_ultimate_gauge
-
 # update shield bar
-func update_shield(value: float) -> void:
-	$ShieldBar.value = value
-	$ShieldBar.visible = value > 0
+func update_shield() -> void:
+	$ShieldBar.value = stats.shield
+	$ShieldBar.visible = stats.shield > 0
+
+# update ultimate gauge bar
+func update_ultimate_gauge() -> void:
+	Combat.ui.ultimate_progress_bars[get_index()].value = stats.ultimate_gauge
+	Combat.ui.ultimate_progress_bars[get_index()].modulate.g = (130.0 - stats.ultimate_gauge) / stats.max_ultimate_gauge
+
+# update maximum bar values
+func update_max_values() -> void:
+	$HealthBar.max_value = stats.max_health
+	$ManaBar.max_value = stats.max_mana
+	$StaminaBar.max_value = stats.max_stamina
+	$ShieldBar.max_value = stats.max_shield
+	Combat.ui.ultimate_progress_bars[get_index()].max_value = stats.max_ultimate_gauge
 
 # ..............................................................................
 
-# DEATH
+# DEATH & REVIVE
 
 func death() -> void:
 	# pause process and update all base class variables
@@ -289,11 +295,7 @@ func death() -> void:
 	set_physics_process(false)
 
 	# disable collisions
-	$MovementHitBox.disabled = true
-	$CombatHitBox/CollisionShape2D.disabled = true
-	$InteractionArea/CollisionShape2D.disabled = true
-	$LootableArea/CollisionShape2D.disabled = true
-	$ActionArea/CollisionShape2D.disabled = true
+	disable_collisions(true)
 
 	# hide stats bars
 	$HealthBar.hide()
@@ -315,7 +317,6 @@ func death() -> void:
 	await animation_node.animation_finished
 	animation_node.pause()
 
-
 func revive() -> void:
 	# resume process
 	super ()
@@ -323,17 +324,13 @@ func revive() -> void:
 	set_physics_process(true)
 
 	# enable collisions
-	$MovementHitBox.disabled = false
-	$CombatHitBox/CollisionShape2D.disabled = false
-	$InteractionArea/CollisionShape2D.disabled = false
-	$LootableArea/CollisionShape2D.disabled = false
-	$ActionArea/CollisionShape2D.disabled = false
+	disable_collisions(false)
 
 	# update animation
 	$AnimatedSprite2D.animation_finished.emit()
 	update_animation()
 
-	# queue actions
+	# TODO: queue actions
 
 	# TODO
 	# update variables
@@ -341,70 +338,36 @@ func revive() -> void:
 	#update_shield(0.0)
 	#play(&"down_idle")
 
+func disable_collisions(disable: bool) -> void:
+	$MovementHitBox.disabled = disable
+	$CombatHitBox/CollisionShape2D.disabled = disable
+	$InteractionArea/CollisionShape2D.disabled = disable
+	$LootableArea/CollisionShape2D.disabled = disable
+	$ActionArea/CollisionShape2D.disabled = disable
+
 # ..............................................................................
 
 # UPDATE NODES
 
-# swap stats with standby stats
-func swap_with_standby(standby_index: int) -> void:
-	# update standby 
-	Combat.ui.standby_name_labels[standby_index].text = character.CHARACTER_NAME
+func switch_main(next_stats: PlayerStats) -> void:
+	pass
 
-	var previous_stats: Profile = stats
-	
-	stats = Players.standby_stats.pop(standby_index)
-	character = stats.character
-	
-	Players.standby_stats.insert(standby_index, previous_stats)
+func update_stats(next_stats: PlayerStats) -> void:
+	stats = next_stats
 
-	Combat.ui.name_labels[get_index()].text = character.CHARACTER_NAME
+	# STATES
+
+	move_state = MoveState.IDLE
+	# TODO: action_state = ActionState.READY
+	var move_direction: Directions = Directions.DOWN
 	
+	attack_vector = Vector2.DOWN
+	knockback_velocity = Vector2.UP
+	move_state_timer = 0.0
+	# TODO: action_state_timer = 0.0
 	process_interval = 0.0
 
-'''
-
-func update_nodes(swap_base: PlayerBase = null, swap_stats: Profile = null) -> void:
-	elif swap_stats != stats: # Party -> Standby
-		pass
-	
-	update_stats()
-	
-	if base:
-		name = &"Profile"
-		var player_node: PlayerBase = base
-		# movement variables
-		player_node.walk_speed = 70.0
-		player_node.sprint_multiplier = 1.25
-		player_node.sprint_stamina = 0.8
-		player_node.dash_multiplier = 8.0
-		player_node.dash_stamina = 35.0
-		player_node.dash_min_stamina = 25.0
-		player_node.dash_time = 0.2
-		player_node.attack_movement_reduction = 0.3
-
-		# ally variables
-		player_node.can_move = true
-		player_node.can_attack = true
-		player_node.in_action_range = false
-
-		# knockback variables
-		player_node.knockback_direction = Vector2.ZERO
-		player_node.knockback_weight = 0.0
-		player_node.character = self
-		player_node.walk_speed = 140 + speed * 0.5
-		player_node.dash_stamina = 35 - (agility * 0.0625)
-		player_node.sprint_stamina = 0.8 - (agility * 0.00048828125)
-		player_node.dash_time = 0.2 * (1 - (agility * 0.001953125)) # minimum 0.1s dash time
-		player_node.update_velocity(Vector2.ZERO)
-		player_node.set_action_state(ActionState.READY)
-		# TODO: player_node.ally_speed = 60 + (30 * speed)
-		# player_node.dash_multiplier = 300 + (150 * speed)
-	else:
-		Combat.ui.standby_level_labels[node_index].text = str(level)
-		Combat.ui.standby_health_labels[node_index].text = str(int(health))
-		Combat.ui.standby_mana_labels[node_index].text = str(int(mana))
-
-'''
+	# TODO: queue actions
 
 # ..............................................................................
 
@@ -491,7 +454,7 @@ func _on_ally_move_state_timeout() -> void:
 		$AllyMoveTimer.start($AllyActionTimer.time_left)
 		return
 
-	var ally_distance: float = position.distance_to(Players.main_player_node.position)
+	var ally_distance: float = position.distance_to(Players.main_player.position)
 	var move_timer: float = 0.0
 	
 	# handle idle state
@@ -534,7 +497,7 @@ func _on_ally_move_state_timeout() -> void:
 		move_timer = randf_range(0.2, 0.4)
 	# if not in combat and not in roam distance, navigate to player
 	elif ally_distance > 75.0:
-		$NavigationAgent2D.target_position = Players.main_player_node.position
+		$NavigationAgent2D.target_position = Players.main_player.position
 		target_direction = to_local($NavigationAgent2D.get_next_path_position())
 		move_timer = randf_range(0.5, 0.7)
 	# else navigate to player
@@ -544,7 +507,7 @@ func _on_ally_move_state_timeout() -> void:
 	
 	# sprint with main player if not in combat and ally distance is large enough
 	if (
-			Players.main_player_node.move_state == MoveState.SPRINT
+			Players.main_player.move_state == MoveState.SPRINT
 			and Combat.not_in_combat()
 			and ally_distance > 125
 			# TODO: need to check fatigue
@@ -584,5 +547,13 @@ func _on_ally_move_state_timeout() -> void:
 	update_velocity(target_direction)
 	$AllyMoveTimer.start(move_timer)
 
-func _on_combat_hit_box_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
-	pass # Replace with function body.
+# TODO: need to remove chosen entities from available
+# TODO: remove accept_event()
+func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"):
+		if self in Entities.entities_available:
+			Inputs.accept_event()
+			Entities.choose_entity(self)
+		elif not is_main_player:
+			Inputs.accept_event()
+			Players.update_main_player(self)

@@ -11,7 +11,7 @@ var speed: float = 90.0
 
 var velocity: Vector2 = Vector2.ZERO
 
-@onready var caster_node: Node2D = Players.main_player_node
+@onready var caster_node: Node2D = Players.main_player
 @onready var caster_stats_node: Node2D = caster_node.character
 
 func _ready() -> void:
