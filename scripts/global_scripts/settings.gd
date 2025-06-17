@@ -12,12 +12,15 @@ func _init() -> void:
 		"display": {
 			"window_mode": DisplayServer.WINDOW_MODE_WINDOWED,
 			"resolution": Vector2i(1280, 720),
-			"window_position": Vector2i(640, 360)
+			"window_position": Vector2i(640, 360),
 		},
 		"audio": {
 			"master_volume": 0.0,
-			"music_volume": 0.0
-		}
+			"music_volume": 0.0,
+		},
+		"save": {
+			"last_save": 1,
+		},
 	}
 
 	var config: ConfigFile = ConfigFile.new()

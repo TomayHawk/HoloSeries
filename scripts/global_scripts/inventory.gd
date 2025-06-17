@@ -1,13 +1,13 @@
 extends Node
 
 # inventories
-var consumables_inventory: PackedInt32Array = []
-var materials_inventory: PackedInt32Array = []
-var weapons_inventory: PackedInt32Array = []
-var armors_inventory: PackedInt32Array = []
-var accessories_inventory: PackedInt32Array = []
-var nexus_inventory: PackedInt32Array = []
-var key_inventory: PackedInt32Array = []
+var consumables_inventory: Array[int] = []
+var materials_inventory: Array[int] = []
+var weapons_inventory: Array[int] = []
+var armors_inventory: Array[int] = []
+var accessories_inventory: Array[int] = []
+var nexus_inventory: Array[int] = []
+var key_inventory: Array[int] = []
 
 var consumables_resources: Array[Resource] = [
 	load("res://scripts/items_scripts/potion.gd"),

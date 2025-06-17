@@ -2,6 +2,7 @@ extends PlayerStats
 
 const CHARACTER_NAME: String = "Roboco"
 const CHARACTER_INDEX: int = 2
+const DEFAULT_UNLOCKED: Array[int] = [284, 333, 364]
 
 # Score: 4.025 + 20 Stamina + 15% Crit Damage
 # Physical - Tank

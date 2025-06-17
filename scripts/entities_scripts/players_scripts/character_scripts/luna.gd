@@ -2,6 +2,7 @@ extends PlayerStats
 
 const CHARACTER_NAME: String = "Himemori Luna"
 const CHARACTER_INDEX: int = 4
+const DEFAULT_UNLOCKED: Array[int] = [100, 132, 147]
 
 # Score: 4.285
 # Healer

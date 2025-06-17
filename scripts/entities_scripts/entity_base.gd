@@ -64,6 +64,7 @@ var action_state_timer: float = 0.0
 var process_interval: float = 0.0
 
 # ..............................................................................
+
 # PROCESS
 func _process(delta: float) -> void:
 	process_interval += delta

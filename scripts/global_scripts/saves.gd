@@ -1,124 +1,136 @@
-extends Node
+extends Resource
 
-var last_save: int = -1
+# ..............................................................................
 
-var saves: Array[Dictionary] = [
-	{},
-	{
-		# scene
-		"scene_path": "res://scenes/world_scene_1.tscn" as String,
+# NEW SAVE
 
-		# inventories
-		"consumables": [123, 45, 6, 78, 999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] as PackedInt32Array,
-		"materials": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] as PackedInt32Array,
-		"weapons": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] as PackedInt32Array,
-		"armors": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] as PackedInt32Array,
-		"accessories": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] as PackedInt32Array,
-		"nexus": [0, 2, 4, 6, 8, 0, 1, 3, 5, 7, 1, 11, 111, 9, 99, 999, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1] as PackedInt32Array,
-		"key": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] as PackedInt32Array,
-		
-		# players
-		"main_player": 4 as int,
-		"main_player_position": Vector2(0, 0) as Vector2,
-		"party": [0, 4, -1, 2] as Array[int],
-		"standby": [1] as Array[int],
-		"experiences": [0, 0, 0, 0, 0] as Array[int],
-		
-		# nexus
-		"nexus_stats_types": [] as PackedByteArray,
-		"nexus_stats_qualities": [] as Array[int],
-		"last_nodes": [167, 154, 333, -1, 132] as Array[int],
-		"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]] as Array[Array],
-		"converted": [[], [], [], [], []] as Array[Array], # saves["converted"][character_index][i] = [node, type, quality]
-	},
-	{},
-]
+func new_save(character_index: int) -> void:
+	var player_stats: PlayerStats = load([
+		"res://scripts/entities_scripts/players_scripts/character_scripts/sora.gd",
+		"res://scripts/entities_scripts/players_scripts/character_scripts/azki.gd",
+		"res://scripts/entities_scripts/players_scripts/character_scripts/roboco.gd",
+		"res://scripts/entities_scripts/players_scripts/character_scripts/akirose.gd",
+		"res://scripts/entities_scripts/players_scripts/character_scripts/luna.gd",
+	][character_index]).new()
 
-var atlas_positions: Array[Vector2] = []
-
-func new_save(character_index: int, save_index: int) -> void:
 	# initialize save
-	var current_save: Dictionary = {
+	var save_data: Dictionary = {
 		# scene
 		"scene_path": "res://scenes/world_scene_1.tscn" as String,
 
 		# inventories
-		"consumables": [] as PackedInt32Array,
-		"materials": [] as PackedInt32Array,
-		"weapons": [] as PackedInt32Array,
-		"armors": [] as PackedInt32Array,
-		"accessories": [] as PackedInt32Array,
-		"nexus": [] as PackedInt32Array,
-		"key": [] as PackedInt32Array,
+		"consumables_inventory": [] as Array[int],
+		"materials_inventory": [] as Array[int],
+		"weapons_inventory": [] as Array[int],
+		"armors_inventory": [] as Array[int],
+		"accessories_inventory": [] as Array[int],
+		"nexus_inventory": [] as Array[int],
+		"key_inventory": [] as Array[int],
 		
 		# players
 		"main_player": character_index as int,
 		"main_player_position": Vector2(0, 0) as Vector2,
 		"party": [character_index, -1, -1, -1] as Array[int],
 		"standby": [] as Array[int],
-		"experiences": [] as Array[int],
+		
+		"players": [
+			{
+				"character_index": character_index as int,
+				"experience": 0 as int,
+				
+				# equipments
+				"weapon": - 1 as int,
+				"headgear": - 1 as int,
+				"chestpiece": - 1 as int,
+				"leggings": - 1 as int,
+				"accessory_1": - 1 as int,
+				"accessory_2": - 1 as int,
+				"accessory_3": - 1 as int,
+
+				# player nexus stats
+				"last_node": player_stats.DEFAULT_UNLOCKED[1] as int,
+				"unlocked_nodes": player_stats.DEFAULT_UNLOCKED as Array[int],
+				"converted_nodes": [] as Array[Array],
+			}
+		] as Array[Dictionary],
 		
 		# nexus
 		"nexus_stats_types": [] as Array[Vector2],
 		"nexus_stats_qualities": [] as Array[int],
-		"last_nodes": [] as Array[int],
-		"unlocked": [] as Array[Array],
-		"converted": [] as Array[Array],
 	}
 
+	# TODO: can be dynamic
 	# initialize inventories
-	const INVENTORY_NAMES: Array[String] = ["consumables", "materials", "weapons", "armors", "accessories", "nexus", "key"]
-	const INVENTORY_SIZES: Array[int] = [100, 101, 102, 103, 104, 105, 106]
+	save_data["consumables_inventory"].resize(100)
+	save_data["consumables_inventory"].fill(0)
+	save_data["materials_inventory"].resize(101)
+	save_data["materials_inventory"].fill(0)
+	save_data["nexus_inventory"].resize(102)
+	save_data["nexus_inventory"].fill(0)
+	save_data["key_inventory"].resize(103)
+	save_data["key_inventory"].fill(0)
 
-	for i in INVENTORY_NAMES.size():
-		current_save[INVENTORY_NAMES[i]].resize(INVENTORY_SIZES[i])
-		current_save[INVENTORY_NAMES[i]].fill(0)
+	# TODO: should use .dat
 
-	# initialize players
-	const CHARACTER_COUNT: int = 20
-	const CHARACTER_DEFAULT_KEYS: Array[String] = ["experiences", "last_nodes", "unlocked", "converted"]
-	const CHARACTER_DEFAULT_VALUES: Array = [-1, -1, [], []]
+	# create saves directory if it doesn't exist
+	var dir: DirAccess = DirAccess.open("user://")
+	if not dir.dir_exists("saves"):
+		dir.make_dir("saves")
 
-	for i in CHARACTER_DEFAULT_KEYS.size():
-		current_save[CHARACTER_DEFAULT_KEYS[i]].resize(CHARACTER_COUNT)
-		current_save[CHARACTER_DEFAULT_KEYS[i]].fill(CHARACTER_DEFAULT_VALUES[i])
+	# find an empty save file
+	var file_path: String = ""
+	var save_index: int = 1
+	for i in [1, 2, 3]:
+		var test_path: String = "user://saves/save_%d.json" % i
+		if not FileAccess.file_exists(test_path):
+			file_path = test_path
+			save_index = i
+			break
 
-	# TODO: initialize nexus
+	# store save data
+	if file_path != "":
+		var file: FileAccess = FileAccess.open(file_path, FileAccess.WRITE)
+		file.store_string(JSON.stringify(save_data))
+		file.close()
 
-	# set character info
-	const DEFAULT_NEXUS_NODES: Array[Array] = [
-		[135, 167, 182],
-		[139, 154, 170],
-		[284, 333, 364],
-		[491, 522, 523],
-		[100, 132, 147],
-	]
-
-	current_save["experiences"][character_index] = 0
-	current_save["last_nodes"][character_index] = DEFAULT_NEXUS_NODES[character_index][1]
-	current_save["unlocked"][character_index] = DEFAULT_NEXUS_NODES[character_index]
-
-	# copy save
-	saves[save_index] = current_save
-	
 	# load save
 	load_save(save_index)
 
-func load_save(save_index: int = last_save) -> void:
-	last_save = save_index
+# ..............................................................................
 
+# LOAD SAVE
+
+func load_save(save_index: int = 1) -> void:
+	# access save file
+	var file_path: String = "user://saves/save_%d.json" % save_index
+	
+	if not FileAccess.file_exists(file_path):
+		return # TODO: handle error
+
+	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
+	var data: Dictionary = JSON.parse_string(file.get_as_text())
+	
+	file.close()
+	
+	if not data:
+		return # TODO: handle error
+	
 	# scene
-	get_tree().call_deferred(&"change_scene_to_file", saves[save_index]["scene_path"]) # TODO: use Global.change_scene
+	Global.get_tree().call_deferred(&"change_scene_to_file", data["scene_path"] as String)
+
+	print(Inventory.consumables_inventory)
+	print(data["consumables_inventory"])
 
 	# inventories
-	Inventory.consumables_inventory = saves[save_index]["consumables"].duplicate()
-	Inventory.materials_inventory = saves[save_index]["materials"].duplicate()
-	Inventory.weapons_inventory = saves[save_index]["weapons"].duplicate()
-	Inventory.armors_inventory = saves[save_index]["armors"].duplicate()
-	Inventory.accessories_inventory = saves[save_index]["accessories"].duplicate()
-	Inventory.nexus_inventory = saves[save_index]["nexus"].duplicate()
-	Inventory.key_inventory = saves[save_index]["key"].duplicate()
+	Inventory.consumables_inventory = data["consumables_inventory"] as Array[int]
+	Inventory.materials_inventory = data["materials_inventory"] as Array[int]
+	Inventory.weapons_inventory = data["weapons_inventory"] as Array[int]
+	Inventory.armors_inventory = data["armors_inventory"] as Array[int]
+	Inventory.accessories_inventory = data["accessories_inventory"] as Array[int]
+	Inventory.nexus_inventory = data["nexus_inventory"] as Array[int]
+	Inventory.key_inventory = data["key_inventory"] as Array[int]
 	
+	# TODO: should not be here?
 	var i: int = 0
 
 	for item_count in Inventory.consumables_inventory:
@@ -138,11 +150,11 @@ func load_save(save_index: int = last_save) -> void:
 	# players
 	const BASE_PLAYER_PATH: String = "res://entities/players/player_base.tscn"
 	const CHARACTER_PATH: Array[String] = [
-		"res://entities/players/character/sora.tscn",
-		"res://entities/players/character/azki.tscn",
-		"res://entities/players/character/roboco.tscn",
-		"res://entities/players/character/akirose.tscn",
-		"res://entities/players/character/luna.tscn",
+		"res://scripts/entities_scripts/players_scripts/character_scripts/sora.gd",
+		"res://scripts/entities_scripts/players_scripts/character_scripts/azki.gd",
+		"res://scripts/entities_scripts/players_scripts/character_scripts/roboco.gd",
+		"res://scripts/entities_scripts/players_scripts/character_scripts/akirose.gd",
+		"res://scripts/entities_scripts/players_scripts/character_scripts/luna.gd",
 	]
 
 	const DEFAULT_STATS: Array[Array] = [
@@ -155,7 +167,7 @@ func load_save(save_index: int = last_save) -> void:
 
 	var node_index: int = 0
 	# create party players
-	for character_index in saves[save_index]["party"]:
+	for character_index in data["party"]:
 		if character_index == -1:
 			Combat.ui.name_labels[node_index].get_parent().modulate.a = 0.0
 			node_index += 1
@@ -165,25 +177,25 @@ func load_save(save_index: int = last_save) -> void:
 		player_node.add_child(load(CHARACTER_PATH[character_index]).instantiate())
 		Players.party_node.add_child(player_node)
 		
-		player_node.character.node_index = node_index
-		player_node.character.level = DEFAULT_STATS[character_index][0]
-		player_node.character.base_health = DEFAULT_STATS[character_index][1]
-		player_node.character.base_mana = DEFAULT_STATS[character_index][2]
-		player_node.character.base_stamina = DEFAULT_STATS[character_index][3]
-		player_node.character.base_defense = DEFAULT_STATS[character_index][4]
-		player_node.character.base_ward = DEFAULT_STATS[character_index][5]
-		player_node.character.base_strength = DEFAULT_STATS[character_index][6]
-		player_node.character.base_intelligence = DEFAULT_STATS[character_index][7]
-		player_node.character.base_speed = DEFAULT_STATS[character_index][8]
-		player_node.character.base_agility = DEFAULT_STATS[character_index][9]
-		player_node.character.base_crit_chance = DEFAULT_STATS[character_index][10]
-		player_node.character.base_crit_damage = DEFAULT_STATS[character_index][11]
-		player_node.character.reset_stats() # TODO
-		player_node.character.update_nodes() # TODO
+		player_node.stats.node_index = node_index
+		player_node.stats.level = DEFAULT_STATS[character_index][0]
+		player_node.stats.base_health = DEFAULT_STATS[character_index][1]
+		player_node.stats.base_mana = DEFAULT_STATS[character_index][2]
+		player_node.stats.base_stamina = DEFAULT_STATS[character_index][3]
+		player_node.stats.base_defense = DEFAULT_STATS[character_index][4]
+		player_node.stats.base_ward = DEFAULT_STATS[character_index][5]
+		player_node.stats.base_strength = DEFAULT_STATS[character_index][6]
+		player_node.stats.base_intelligence = DEFAULT_STATS[character_index][7]
+		player_node.stats.base_speed = DEFAULT_STATS[character_index][8]
+		player_node.stats.base_agility = DEFAULT_STATS[character_index][9]
+		player_node.stats.base_crit_chance = DEFAULT_STATS[character_index][10]
+		player_node.stats.base_crit_damage = DEFAULT_STATS[character_index][11]
+		#player_node.stats.reset_stats() # TODO
+		#player_node.stats.update_nodes() # TODO
 
 		# position character and determine main player node
-		player_node.position = saves[save_index]["main_player_position"]
-		if character_index == saves[save_index]["main_player"]:
+		player_node.position = data["main_player_position"]
+		if character_index == data["main_player"]:
 			player_node.is_main_player = true
 			Players.main_player = player_node
 			Players.camera_node.new_parent(player_node)
@@ -195,7 +207,7 @@ func load_save(save_index: int = last_save) -> void:
 	node_index = 0
 
 	# TODO: need to hide standbys
-	for character_index in saves[save_index]["standby"]:
+	for character_index in data["standby"]:
 		var character: Node = load(CHARACTER_PATH[character_index]).instantiate()
 		Players.standby_node.add_child(character)
 
@@ -225,8 +237,8 @@ func load_save(save_index: int = last_save) -> void:
 		Combat.ui.standby_health_labels.push_back(standby_button.get_node(^"HealthAmount"))
 		Combat.ui.standby_mana_labels.push_back(standby_button.get_node(^"ManaAmount"))
 
-		character.reset_stats() # TODO
-		character.update_nodes() # TODO
+		#character.reset_stats() # TODO
+		#character.update_nodes() # TODO
 
 		node_index += 1
 
@@ -235,25 +247,28 @@ func load_save(save_index: int = last_save) -> void:
 
 	Global.start_bgm("res://music/asmarafulldemo.mp3")
 
-	stat_nodes_randomizer(save_index) # TODO: temporary
+	var temp_array: Array[Array] = stat_nodes_randomizer(save_index) # TODO: temporary
+	data["nexus_stats_types"] = temp_array[0]
+	data["nexus_stats_qualities"] = temp_array[1]
 
 	# TODO: temporary
 	# load variables # TODO: probably don't need to be here
-	Global.nexus_stats_types = saves[save_index]["nexus_stats_types"]
-	Global.nexus_stats_qualities = saves[save_index]["nexus_stats_qualities"]
-	
-	Global.nexus_last_nodes = saves[save_index]["last_nodes"]
-	Global.nexus_unlocked_nodes = saves[save_index]["unlocked"]
-	Global.nexus_converted_nodes = saves[save_index]["converted"]
+	Global.nexus_types = data["nexus_stats_types"]
+	Global.nexus_stats_qualities = data["nexus_stats_qualities"]
+
+# ..............................................................................
+
+# SAVE
 
 func save(save_index):
-	saves[save_index] = Global.current_save.duplicate()
+	pass
 
-	for player_node in Players.party_node.get_children():
-		saves[save_index]["party"].push_back(Global.player_node.character.character_index)
+# ..............................................................................
+
+# NEW SAVE NEXUS RANDOMIZER
 
 # randomizes all empty nodes with randomized stat types and stat qualities
-func stat_nodes_randomizer(save_index):
+func stat_nodes_randomizer(save_index) -> Array[Array]: # TODO: need to change
 	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
 	var area_nodes: Array[Array] = [
 		[132, 133, 134, 146, 147, 149, 163, 164, 165, 166, 179, 182, 196, 198, 199, 211, 212, 213, 214, 215, 228, 229, 231, 232, 243, 244, 245, 246, 247, 260, 261, 262, 264, 277, 278, 279, 280, 292, 294, 296, 309, 310, 311, 324, 325, 327, 328, 340],
@@ -344,7 +359,8 @@ func stat_nodes_randomizer(save_index):
 
 	var node_qualities: Array[int] = []
 
-	atlas_positions.clear()
+	var atlas_positions: Array[Vector2] = []
+
 	for j in 768:
 		atlas_positions.push_back(Vector2(-1, -1))
 		node_qualities.push_back(0)
@@ -377,7 +393,7 @@ func stat_nodes_randomizer(save_index):
 			i = 0
 			while (area_texture_positions_size >= i):
 				atlas_positions[node_index] = area_texture_positions[area_texture_positions_size - 1 - i]
-				if has_illegal_adjacents(node_index):
+				if has_illegal_adjacents(atlas_positions, node_index):
 					i += 1
 				else:
 					area_texture_positions.pop_at(area_texture_positions_size - 1 - i)
@@ -388,21 +404,15 @@ func stat_nodes_randomizer(save_index):
 				atlas_positions[node_index] = area_texture_positions.pop_at(randi() % (area_texture_positions_size))
 				area_texture_positions_size -= 1
 
-	saves[save_index]["nexus_stats_types"] = atlas_positions.duplicate()
-
-	# randomize stat node qualities
-	for j in 768:
-		node_qualities.push_back(0)
-
 	for area_index in area_nodes.size():
 		for node_index in area_nodes[area_index]:
 			for stat_index in stats_node_atlas_position.size():
 				if atlas_positions[node_index] == stats_node_atlas_position[stat_index]:
 					node_qualities[node_index] = stats_qualities[stat_index][area_stats_qualities[area_index][stat_index]][randi() % stats_qualities[stat_index][area_stats_qualities[area_index][stat_index]].size()]
 
-	saves[save_index]["nexus_stats_qualities"] = node_qualities.duplicate()
+	return [atlas_positions, node_qualities]
 
-func has_illegal_adjacents(node_index):
+func has_illegal_adjacents(atlas_positions, node_index):
 	const adjacents_index: Array[Array] = [[-32, -17, -16, 15, 16, 32], [-32, -16, -15, 16, 17, 32]]
 	var adjacents := []
 	

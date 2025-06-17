@@ -2,6 +2,7 @@ extends PlayerStats
 
 const CHARACTER_NAME: String = "AZKi"
 const CHARACTER_INDEX: int = 1
+const DEFAULT_UNLOCKED: Array[int] = [139, 154, 170]
 
 # Score: 4.265 + 5% Crit Rate
 # Buffer - Skills

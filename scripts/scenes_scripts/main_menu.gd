@@ -20,7 +20,8 @@ func _input(_event: InputEvent) -> void:
 # OPTIONS MENU
 
 func _on_play_button_pressed():
-	$SaveData.load_save($SaveData.last_save)
+	var saves: Resource = load("res://scripts/global_scripts/saves.gd").new()
+	saves.load_save(1)
 
 func _on_saves_button_pressed():
 	$SavesMenuMargin.show()

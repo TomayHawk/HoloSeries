@@ -2,6 +2,7 @@ extends PlayerStats
 
 const CHARACTER_NAME: String = "Tokino Sora"
 const CHARACTER_INDEX: int = 0
+const DEFAULT_UNLOCKED: Array[int] = [135, 167, 182]
 
 # Score: 4.55
 # Buffer - Healer

@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://810cm81280q3"]
+[gd_scene load_steps=7 format=3 uid="uid://810cm81280q3"]
 
 [ext_resource type="Script" uid="uid://1vvf7qsqosjt" path="res://scripts/scenes_scripts/main_menu.gd" id="1_tgs5c"]
 [ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="2_55lvy"]
 [ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://user_interfaces/user_interfaces_resources/panel_style/blue_translucent_panel.tres" id="2_jdk0e"]
-[ext_resource type="PackedScene" uid="uid://bf0axxpugmryp" path="res://global/save_data.tscn" id="2_t5weu"]
 [ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_hover.tres" id="3_pj10e"]
 [ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="4_3fkh3"]
 [ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_focus.tres" id="5_yjj58"]
@@ -245,8 +244,6 @@ theme_override_styles/hover = ExtResource("3_pj10e")
 theme_override_styles/pressed = ExtResource("4_3fkh3")
 theme_override_styles/normal = ExtResource("2_55lvy")
 text = "New Game"
-
-[node name="SaveData" parent="." instance=ExtResource("2_t5weu")]
 
 [connection signal="pressed" from="OptionsMenuMargin/MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="OptionsMenuMargin/MarginContainer/VBoxContainer/SavesButton" to="." method="_on_saves_button_pressed"]

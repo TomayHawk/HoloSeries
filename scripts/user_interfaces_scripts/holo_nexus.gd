@@ -54,9 +54,9 @@ func _ready():
 	index_counter = 0
 	for node in nexus_nodes:
 		if node.texture.region.position == empty_node_atlas_position:
-			node.texture.region.position = Global.nexus_stats_types[index_counter]
+			node.texture.region.position = Global.nexus_types[index_counter]
 		else:
-			Global.nexus_stats_types[index_counter] = node.texture.region.position
+			Global.nexus_types[index_counter] = node.texture.region.position
 		index_counter += 1
 
 	# update current player and allies in character selector
@@ -120,7 +120,7 @@ func update_nexus_player(player):
 	index_counter = 0
 	for node in nexus_nodes:
 		# return to default texture positions
-		node.texture.region.position = Global.nexus_stats_types[index_counter]
+		node.texture.region.position = Global.nexus_types[index_counter]
 
 		# modulate null nodes, unlocked nodes and locked nodes
 		if index_counter in null_nodes:

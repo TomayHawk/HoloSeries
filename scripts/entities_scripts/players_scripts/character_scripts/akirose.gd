@@ -2,6 +2,7 @@ extends PlayerStats
 
 const CHARACTER_NAME: String = "Aki Rosenthal"
 const CHARACTER_INDEX: int = 3
+const DEFAULT_UNLOCKED: Array[int] = [491, 522, 523]
 
 # Score: 4.18 + 2% Crit Rate + 10% Crit Damage
 # Physical - Magic
