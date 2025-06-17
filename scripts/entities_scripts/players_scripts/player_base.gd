@@ -16,6 +16,19 @@ class_name PlayerBase extends EntityBase
 
 var is_main_player: bool = false
 
+# ACTION VARIABLES
+
+var in_action_range: bool = false
+var action_queue: Array[Array] = []
+
+var action_type: ActionType = ActionType.ATTACK
+var action_target: EntityBase = null
+var action_target_type: GDScript = EntityBase
+var action_target_priority: StringName = &""
+var action_target_get_max: bool = true
+var action_vector: Vector2 = Vector2.DOWN
+var action_fail_count: int = 0
+
 # ..............................................................................
 
 # PHYSICS PROCESS
@@ -203,6 +216,50 @@ func update_animation() -> void:
 
 # ..............................................................................
 
+# ACTIONS
+
+func queue_attack() -> void:
+	action_type = ActionType.ATTACK
+	action_target_type = EnemyBase
+	action_target_priority = &"health"
+	action_target_get_max = false
+
+	action_fail_count = 0
+	in_action_range = is_in_action_range()
+	action_queue.pop_front()
+
+	choose_action_target()
+
+func choose_action_target() -> void:
+	# if is ally, is in action range, not taking action, and not in knockback or stun states
+	if (
+			not is_main_player
+			and in_action_range
+			and action_state != ActionState.ACTION
+			and not move_state in [MoveState.KNOCKBACK, MoveState.STUN]
+	):
+		# determine candidate action targets
+		var candidate_nodes: Array[EntityBase] = $ActionArea.get_overlapping_bodies(
+				).filter(func(node: Node) -> bool: return node.is_instance_of(action_target_type))
+		# choose action target
+		action_target = \
+				Entities.target_entity_by_stats(candidate_nodes, action_target_priority, action_target_get_max)
+
+		# face enemy
+		action_vector = (action_target.position - position).normalized()
+
+		move_direction = [
+			Directions.RIGHT,
+			Directions.DOWN,
+			Directions.LEFT,
+			Directions.UP,
+		][(roundi(action_vector.angle() / (PI / 2)) + 4) % 4]
+
+		# stop movement
+		update_movement(Vector2.ZERO)
+
+# ..............................................................................
+
 # STATS
 
 # update health bar and label
@@ -371,35 +428,18 @@ func _on_lootable_area_area_entered(body: Node2D) -> void:
 func _on_lootable_area_area_exited(body: Node2D) -> void:
 	body.player_exited(self)
 
-func _on_action_area_body_entered(body: Node2D) -> void:
-	super (body)
+# ActionArea
 
-	# if is ally, is in action range, not taking action, and not in knockback or stun states
-	if (
-			not is_main_player
-			and in_action_range
-			and action_state != ActionState.ACTION
-			and not move_state in [MoveState.KNOCKBACK, MoveState.STUN]
-	):
-		# determine candidate action targets
-		var candidate_nodes: Array[EntityBase] = $ActionArea.get_overlapping_bodies(
-				).filter(func(node: Node) -> bool: return node.is_instance_of(action_target_type))
-		# choose action target
-		action_target = \
-				Entities.target_entity_by_stats(candidate_nodes, action_target_priority, false)
+func _on_action_area_body_entered(_body: Node2D) -> void:
+	in_action_range = is_in_action_range()
+	choose_action_target()
 
-		# face enemy
-		action_vector = (action_target.position - position).normalized()
+func _on_action_area_body_exited(_body: Node2D) -> void:
+	in_action_range = is_in_action_range()
 
-		move_direction = [
-			Directions.RIGHT,
-			Directions.DOWN,
-			Directions.LEFT,
-			Directions.UP,
-		][(roundi(action_vector.angle() / (PI / 2)) + 4) % 4]
-
-		# stop movement
-		update_movement(Vector2.ZERO)
+func is_in_action_range() -> bool:
+	return not $ActionArea.get_overlapping_bodies().filter(
+			func(node): return node.is_instance_of(action_target)).is_empty()
 
 # State Timers
 
@@ -418,11 +458,15 @@ func _on_move_state_timeout() -> void:
 		update_animation()
 
 func _on_action_state_timeout() -> void:
-	# TODO: not implemented correctly
-	# attempt action
-	if action_state == ActionState.READY and not action_queue.is_empty():
-		if action_queue[0][0].callv(action_queue[0][1]):
-			action_queue.remove_at(0)
+	match action_state:
+		ActionState.READY:
+			action_state = ActionState.ACTION
+		ActionState.ACTION:
+			action_state = ActionState.COOLDOWN
+			if not action_queue.is_empty():
+				action_queue[0][0].callv(action_queue[0][1])
+		ActionState.COOLDOWN:
+			action_state = ActionState.READY
 
 # ..............................................................................
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://lpel4hhwnqte"]
 
 [ext_resource type="Script" uid="uid://gusxhy8pku2g" path="res://scripts/global_scripts/global.gd" id="1_2k1wk"]
-[ext_resource type="AudioStream" uid="uid://drrm75qbw28nu" path="res://music/asmarafulldemo.mp3" id="2_cqcin"]
+[ext_resource type="AudioStream" uid="uid://bjnpw5ds0cv8s" path="res://music/asmarafulldemo.mp3" id="2_cqcin"]
 
 [node name="Global" type="Node"]
 process_mode = 3

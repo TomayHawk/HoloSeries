@@ -1,14 +1,6 @@
 extends Node
 
-var last_save: int = 1
-
-var settings: Dictionary = {
-	"is_full_screen": false as bool,
-	"resolution": Vector2i(1280, 720) as Vector2i,
-	"window_position": Vector2i(640, 360) as Vector2i,
-	"master_volume": 0.0 as float,
-	"music_volume": 0.0 as float,
-}
+var last_save: int = -1
 
 var saves: Array[Dictionary] = [
 	{},
@@ -33,7 +25,7 @@ var saves: Array[Dictionary] = [
 		"experiences": [0, 0, 0, 0, 0] as Array[int],
 		
 		# nexus
-		"nexus_stats_types": [] as Array[Vector2],
+		"nexus_stats_types": [] as PackedByteArray,
 		"nexus_stats_qualities": [] as Array[int],
 		"last_nodes": [167, 154, 333, -1, 132] as Array[int],
 		"unlocked": [[135, 167, 182], [139, 154, 170], [284, 333, 364], [], [100, 132, 147]] as Array[Array],
@@ -43,14 +35,6 @@ var saves: Array[Dictionary] = [
 ]
 
 var atlas_positions: Array[Vector2] = []
-
-# initialize settings
-func _ready() -> void:
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if settings["is_full_screen"] else DisplayServer.WINDOW_MODE_WINDOWED)
-	DisplayServer.window_set_size(settings["resolution"])
-	DisplayServer.window_set_position(settings["window_position"])
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"Master"), linear_to_db(settings["master_volume"]))
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"BGM"), linear_to_db(settings["music_volume"]))
 
 func new_save(character_index: int, save_index: int) -> void:
 	# initialize save
@@ -153,7 +137,7 @@ func load_save(save_index: int = last_save) -> void:
 	
 	# players
 	const BASE_PLAYER_PATH: String = "res://entities/players/player_base.tscn"
-	const character_PATH: Array[String] = [
+	const CHARACTER_PATH: Array[String] = [
 		"res://entities/players/character/sora.tscn",
 		"res://entities/players/character/azki.tscn",
 		"res://entities/players/character/roboco.tscn",
@@ -178,7 +162,7 @@ func load_save(save_index: int = last_save) -> void:
 			continue
 		
 		var player_node: Node = load(BASE_PLAYER_PATH).instantiate()
-		player_node.add_child(load(character_PATH[character_index]).instantiate())
+		player_node.add_child(load(CHARACTER_PATH[character_index]).instantiate())
 		Players.party_node.add_child(player_node)
 		
 		player_node.character.node_index = node_index
@@ -212,7 +196,7 @@ func load_save(save_index: int = last_save) -> void:
 
 	# TODO: need to hide standbys
 	for character_index in saves[save_index]["standby"]:
-		var character: Node = load(character_PATH[character_index]).instantiate()
+		var character: Node = load(CHARACTER_PATH[character_index]).instantiate()
 		Players.standby_node.add_child(character)
 
 		character.node_index = node_index
