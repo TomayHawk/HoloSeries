@@ -15,6 +15,7 @@ class_name PlayerBase extends EntityBase
 #velocity = knockback_velocity * sin(t * PI * 0.5)
 
 var is_main_player: bool = false
+var party_index: int = -1
 
 # ACTION VARIABLES
 

@@ -1,7 +1,7 @@
 extends Node
 
 # nexus variables
-var nexus_types: Array[Vector2] = []
+var nexus_types: Array[int] = []
 var nexus_qualities: Array[int] = []
 
 # ..............................................................................

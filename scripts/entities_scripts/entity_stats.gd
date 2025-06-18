@@ -132,7 +132,7 @@ var effects: Array[Resource] = []
 
 func add_status(type: Entities.Status) -> Resource:
 	var effect: Resource = Entities.effect_resources[type].new()
-	effects.push_back(effect)
+	effects.append(effect)
 	status |= type
 	return effect
 

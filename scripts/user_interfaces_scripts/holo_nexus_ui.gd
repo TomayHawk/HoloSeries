@@ -56,11 +56,11 @@ const ability_type_description := ["", "", "", "", "", "", "", "", "", ""]
 
 func _ready():
 	for i in 6:
-		character_selector_name_labels.push_back(character_selector_player_nodes[i].get_node_or_null(^"MarginContainer/HBoxContainer/HBoxContainer/CharacterName"))
-		character_selector_level_labels.push_back(character_selector_player_nodes[i].get_node_or_null(^"MarginContainer/HBoxContainer/HBoxContainer/Level"))
+		character_selector_name_labels.append(character_selector_player_nodes[i].get_node_or_null(^"MarginContainer/HBoxContainer/HBoxContainer/CharacterName"))
+		character_selector_level_labels.append(character_selector_player_nodes[i].get_node_or_null(^"MarginContainer/HBoxContainer/HBoxContainer/Level"))
 	
 	for i in 26:
-		inventory_quantity_labels.push_back(inventory_items_nodes[i].get_node_or_null(^"Label2"))
+		inventory_quantity_labels.append(inventory_items_nodes[i].get_node_or_null(^"Label2"))
 		inventory_quantity_labels[i].text = str(Inventory.nexus_inventory[i])
 	
 	hide_all()
@@ -118,8 +118,8 @@ func update_character_selector():
 			character_selector_player_nodes[i].show()
 			character_selector_name_labels[i].text = character.CHARACTER_NAME
 			character_selector_level_labels[i].text = "Lvl " + str(character.level).pad_zeros(3)
-			# TODO: remove this -> character_selector_origin_player_nodes.push_back(player)
-			character_selector_character_indices.push_back(character.CHARACTER_INDEX)
+			# TODO: remove this -> character_selector_origin_player_nodes.append(player)
+			character_selector_character_indices.append(character.CHARACTER_INDEX)
 			i += 1
 
 func _on_unlock_pressed():
@@ -191,13 +191,13 @@ func teleport(type):
 		pass
 
 func convert(target_type_position):
-	nexus.nodes_converted[nexus.current_nexus_player].push_back([nexus.last_nodes[nexus.current_nexus_player], target_type_position])
+	nexus.nodes_converted[nexus.current_nexus_player].append([nexus.last_nodes[nexus.current_nexus_player], target_type_position])
 	if nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position == nexus.empty_node_atlas_position:
-		nexus.nodes_converted[nexus.current_nexus_player].back().push_back(0)
+		nexus.nodes_converted[nexus.current_nexus_player].back().append(0)
 	else:
 		for i in nexus.stats_node_atlas_position.size():
 			if nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position == nexus.stats_node_atlas_position[i]:
-				nexus.nodes_converted[nexus.current_nexus_player].back().push_back(nexus.converted_stats_qualities[i])
+				nexus.nodes_converted[nexus.current_nexus_player].back().append(nexus.converted_stats_qualities[i])
 				break
 
 	nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position = target_type_position

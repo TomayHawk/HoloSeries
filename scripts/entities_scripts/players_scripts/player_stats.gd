@@ -29,7 +29,8 @@ var accessory_2: Accessory = null
 var accessory_3: Accessory = null
 
 # stats variables
-var experience: float = 0.0
+var experience: int = 0
+var next_level_requirement: int = 400
 
 # ultimate variables
 var ultimate_gauge: float = 0.0
@@ -104,6 +105,30 @@ func update_ultimate_gauge(value: float) -> void:
 	ultimate_gauge = clamp(ultimate_gauge + value, 0, max_ultimate_gauge)
 	if base: base.update_ultimate_gauge()
 
+func update_experience(value: int) -> void:
+	experience += value
+	# check level up requirements
+	while experience >= next_level_requirement:
+		experience -= next_level_requirement
+		level_up()
+	
+func level_up() -> void:
+	level = clamp(level + 1, 1, 300) # cap level at 300
+	next_level_requirement = get_xp_requirement()
+
+func get_xp_requirement() -> int:
+	if level < 5: return 400 + (level - 1) * 125
+	if level < 10: return 775 + (level - 5) * 150
+	if level < 20: return 1525 + (level - 10) * 225
+	if level < 40: return 3775 + (level - 20) * 350
+	if level < 70: return 10775 + (level - 40) * 500
+	if level < 100: return 25775 + (level - 70) *	700
+	if level < 150: return 46775 + (level - 100) * 1000
+	if level < 200: return 96775 + (level - 150) * 1500
+	if level < 250: return 171775 + (level - 200) * 2200
+	if level < 300: return 281775 + (level - 250) * 3000
+	else: return 9223372036854775807 # effectively infinite
+
 # ..............................................................................
 
 # SET STATS
@@ -117,7 +142,7 @@ func set_stats() -> void:
 	# update base stats from nexus nodes
 	for unlocked_node in unlocked_nodes:
 		# TODO: currently uses Vector2 atlas locations
-		var nexus_type: int = 1 # TODO: Global.nexus_types[unlocked_node]
+		var nexus_type: int = Global.nexus_types[unlocked_node]
 		match nexus_type:
 			1: # Health
 				base_health += Global.nexus_qualities[unlocked_node]

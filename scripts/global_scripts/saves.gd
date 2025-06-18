@@ -1,17 +1,28 @@
 extends Resource
 
+# TODO: should use .dat
+
+const PLAYER_BASE_PATH: String = "res://entities/players/player_base.tscn"
+
+const CHARACTER_SCRIPTS: Array[String] = [
+	"res://scripts/entities_scripts/players_scripts/character_scripts/sora.gd",
+	"res://scripts/entities_scripts/players_scripts/character_scripts/azki.gd",
+	"res://scripts/entities_scripts/players_scripts/character_scripts/roboco.gd",
+	"res://scripts/entities_scripts/players_scripts/character_scripts/akirose.gd",
+	"res://scripts/entities_scripts/players_scripts/character_scripts/luna.gd",
+]
+
+const CONSUMABLES_INVENTORY_SIZE: int = 100
+const MATERIALS_INVENTORY_SIZE: int = 101
+const NEXUS_INVENTORY_SIZE: int = 102
+const KEY_INVENTORY_SIZE: int = 103
+
 # ..............................................................................
 
 # NEW SAVE
 
 func new_save(character_index: int) -> void:
-	var player_stats: PlayerStats = load([
-		"res://scripts/entities_scripts/players_scripts/character_scripts/sora.gd",
-		"res://scripts/entities_scripts/players_scripts/character_scripts/azki.gd",
-		"res://scripts/entities_scripts/players_scripts/character_scripts/roboco.gd",
-		"res://scripts/entities_scripts/players_scripts/character_scripts/akirose.gd",
-		"res://scripts/entities_scripts/players_scripts/character_scripts/luna.gd",
-	][character_index]).new()
+	var player_stats: PlayerStats = load(CHARACTER_SCRIPTS[character_index]).new()
 
 	# initialize save
 	var save_data: Dictionary = {
@@ -26,51 +37,54 @@ func new_save(character_index: int) -> void:
 		"accessories_inventory": [] as Array[int],
 		"nexus_inventory": [] as Array[int],
 		"key_inventory": [] as Array[int],
+
+		# nexus
+		"nexus_types": [] as Array[int],
+		"nexus_qualities": [] as Array[int],
 		
-		# players
-		"main_player": character_index as int,
-		"main_player_position": [0.0, 0.0] as Array[float],
-		"party": [character_index, -1, -1, -1] as Array[int],
-		"standby": [] as Array[int],
-		
-		"players": [
+		# character stats
+		"characters": [
 			{
+				# stats
 				"character_index": character_index as int,
 				"experience": 0 as int,
 				
 				# equipments
-				"weapon": - 1 as int,
-				"headgear": - 1 as int,
-				"chestpiece": - 1 as int,
-				"leggings": - 1 as int,
-				"accessory_1": - 1 as int,
-				"accessory_2": - 1 as int,
-				"accessory_3": - 1 as int,
+				"weapon": -1 as int,
+				"headgear": -1 as int,
+				"chestpiece": -1 as int,
+				"leggings": -1 as int,
+				"accessory_1": -1 as int,
+				"accessory_2": -1 as int,
+				"accessory_3": -1 as int,
 
-				# player nexus stats
+				# nexus
 				"last_node": player_stats.DEFAULT_UNLOCKED[1] as int,
 				"unlocked_nodes": player_stats.DEFAULT_UNLOCKED as Array[int],
 				"converted_nodes": [] as Array[Array],
 			}
 		] as Array[Dictionary],
-		
-		# nexus
-		"nexus_stats_types": [] as Array[Vector2],
-		"nexus_qualities": [] as Array[int],
+
+		# players
+		"main_player": character_index as int,
+		"main_player_position": [0.0, 0.0] as Array[float],
+		"party": [character_index, -1, -1, -1] as Array[int],
 	}
 
-	# TODO: can be dynamic
 	# initialize inventories
-	save_data["consumables_inventory"].resize(100)
+	save_data["consumables_inventory"].resize(CONSUMABLES_INVENTORY_SIZE)
+	save_data["materials_inventory"].resize(MATERIALS_INVENTORY_SIZE)
+	save_data["nexus_inventory"].resize(NEXUS_INVENTORY_SIZE)
+	save_data["key_inventory"].resize(KEY_INVENTORY_SIZE)
 	save_data["consumables_inventory"].fill(0)
-	save_data["materials_inventory"].resize(101)
 	save_data["materials_inventory"].fill(0)
-	save_data["nexus_inventory"].resize(102)
 	save_data["nexus_inventory"].fill(0)
-	save_data["key_inventory"].resize(103)
 	save_data["key_inventory"].fill(0)
 
-	# TODO: should use .dat
+	# initialize nexus
+	stat_nodes_randomizer()
+	save_data["nexus_types"] = Global.nexus_types
+	save_data["nexus_qualities"] = Global.nexus_qualities
 
 	# create saves directory if it doesn't exist
 	var dir: DirAccess = DirAccess.open("user://")
@@ -105,6 +119,7 @@ func load_save(save_index: int = 1) -> void:
 	var file_path: String = "user://saves/save_%d.json" % save_index
 	
 	if not FileAccess.file_exists(file_path):
+		print("save file does not exist ", file_path)
 		return # TODO: handle error
 
 	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
@@ -113,12 +128,13 @@ func load_save(save_index: int = 1) -> void:
 	file.close()
 	
 	if not data:
+		print("failed to parse save data from file ", file_path)
 		return # TODO: handle error
 	
-	# scene
+	# update scene
 	Global.get_tree().call_deferred(&"change_scene_to_file", data["scene_path"] as String)
 
-	# inventories
+	# update inventories
 	copy_array(data["consumables_inventory"], Inventory.consumables_inventory)
 	copy_array(data["materials_inventory"], Inventory.materials_inventory)
 	copy_array(data["weapons_inventory"], Inventory.weapons_inventory)
@@ -127,94 +143,80 @@ func load_save(save_index: int = 1) -> void:
 	copy_array(data["nexus_inventory"], Inventory.nexus_inventory)
 	copy_array(data["key_inventory"], Inventory.key_inventory)
 	
-	# TODO: should not be here?
-	var i: int = 0
+	Combat.ui.add_items()
 
-	for item_count in Inventory.consumables_inventory:
-		if item_count > 0:
-			var options_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/options_button.tscn").instantiate()
-			var item_name: String = Inventory.consumables_resources[i].new().item_name
-			options_button.name = item_name
-			options_button.get_node(^"Name").text = item_name
-			options_button.get_node(^"Number").text = str(item_count)
-			options_button.pressed.connect(Combat.ui.button_pressed)
-			options_button.pressed.connect(Combat.ui.use_consumable.bind(i))
-			options_button.mouse_entered.connect(Combat.ui._on_control_mouse_entered)
-			options_button.mouse_exited.connect(Combat.ui._on_control_mouse_exited)
-			Combat.ui.items_grid_container_node.add_child(options_button)
-		i += 1
+	# update nexus
+	copy_array(data["nexus_types"], Global.nexus_types)
+	copy_array(data["nexus_qualities"], Global.nexus_qualities)
 	
-	# players
-	const BASE_PLAYER_PATH: String = "res://entities/players/player_base.tscn"
-	const CHARACTER_PATH: Array[String] = [
-		"res://scripts/entities_scripts/players_scripts/character_scripts/sora.gd",
-		"res://scripts/entities_scripts/players_scripts/character_scripts/azki.gd",
-		"res://scripts/entities_scripts/players_scripts/character_scripts/roboco.gd",
-		"res://scripts/entities_scripts/players_scripts/character_scripts/akirose.gd",
-		"res://scripts/entities_scripts/players_scripts/character_scripts/luna.gd",
-	]
+	# update characters
+	var character_stats: Array[PlayerStats] = []
+	character_stats.resize(CHARACTER_SCRIPTS.size())
+	character_stats.fill(null)
 
-	const DEFAULT_STATS: Array[Array] = [
-		[999, 99999.0, 9999.0, 500.0, 1000.0, 1000.0, 1000.0, 1000.0, 255.0, 255.0, 0.50, 0.50],
-		[1, 373.0, 40.0, 100.0, 8.0, 6.0, 9.0, 12.0, 2.0, 2.0, 0.10, 0.50],
-		[1, 465.0, 10.0, 120.0, 18.0, 13.0, 16.0, 4.0, 0.0, 1.0, 0.50, 0.65],
-		[1, 396.0, 26.0, 100.0, 11.0, 11.0, 14.0, 12.0, 0.0, 0.0, 0.05, 0.60],
-		[1, 377.0, 36.0, 100.0, 3.0, 13.0, 4.0, 18.0, 1.0, 1.0, 0.05, 0.50],
-	]
+	for character_data in data["characters"]:
+		var character_index: int = character_data["character_index"]
+		var stats: PlayerStats = load(CHARACTER_SCRIPTS[character_index]).new()
 
-	var node_index: int = 0
-	# create party players
-	for character_index in data["party"]:
-		if character_index == -1:
-			Combat.ui.name_labels[node_index].get_parent().modulate.a = 0.0
-			node_index += 1
+		character_stats[character_index] = stats
+
+		# experience
+		stats.update_experience(character_data["experience"])
+
+		# equipments
+		stats.weapon = null if character_data["weapon"] == -1 else Inventory.weapons[character_data["weapon"]]
+		stats.headgear = null if character_data["headgear"] == -1 else Inventory.armors[character_data["headgear"]]
+		stats.chestpiece = null if character_data["chestpiece"] == -1 else Inventory.armors[character_data["chestpiece"]]
+		stats.leggings = null if character_data["leggings"] == -1 else Inventory.armors[character_data["leggings"]]
+		stats.accessory_1 = null if character_data["accessory_1"] == -1 else Inventory.accessories[character_data["accessory_1"]]
+		stats.accessory_2 = null if character_data["accessory_2"] == -1 else Inventory.accessories[character_data["accessory_2"]]
+		stats.accessory_3 = null if character_data["accessory_3"] == -1 else Inventory.accessories[character_data["accessory_3"]]
+
+		# nexus
+		stats.last_node = character_data["last_node"]
+		copy_array(character_data["unlocked_nodes"], stats.unlocked_nodes)
+		copy_converted_array(character_data["converted_nodes"], stats.converted_nodes)
+	
+	# update party
+	var main_player_index: int = data["main_player"]
+	var main_player_position: Vector2 = Vector2(data["main_player_position"][0], data["main_player_position"][1])
+
+	for party_index in data["party"].size():
+		var character_index: int = data["party"][party_index]
+
+		# hide party character infos ui accordingly
+		if character_index == -1:	
+			Combat.ui.name_labels[party_index].get_parent().modulate.a = 0.0
 			continue
 		
-		var player_node: Node = load(BASE_PLAYER_PATH).instantiate()
-		player_node.stats = load(CHARACTER_PATH[character_index]).new()
-		player_node.stats.base = player_node # TODO: temporary
-		Players.party_node.add_child(player_node)
+		var player: Node = load(PLAYER_BASE_PATH).instantiate()
+		Players.party_node.add_child(player)
 		
-		player_node.stats.set_stats()
-		#player_node.stats.reset_stats() # TODO
-		#player_node.stats.update_nodes() # TODO
+		# update base variables
+		player.party_index = party_index
+		player.stats = character_stats[character_index]
+		character_stats[character_index] = null
 
-		# position character and determine main player node
-		player_node.position = Vector2(float(data["main_player_position"][0]), float(data["main_player_position"][1]))
-		if character_index == data["main_player"]:
-			player_node.is_main_player = true
-			Players.main_player = player_node
-			Players.camera_node.new_parent(player_node)
+		# update stats variables
+		player.stats.base = player
+		player.stats.set_stats()
+
+		# update player position and main player
+		player.position = main_player_position
+		if character_index == main_player_index:
+			Players.main_player = player
+			Players.camera_node.new_parent(player)
+			player.is_main_player = true
 		else:
-			player_node.position += (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
-		
-		node_index += 1
-	
-	node_index = 0
+			player.position += (25 * Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)))
 
-	# TODO: need to hide standbys
-	for character_index in data["standby"]:
-		var character: PlayerStats = load(CHARACTER_PATH[character_index]).new()
-		Players.standby_stats.push_back(character)
-
+	# update standby characters
+	for character in character_stats:
+		if not character: continue
 		character.set_stats()
-
-		var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/character_button.tscn").instantiate()
-		Combat.ui.get_node(^"CharacterSelector/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer").add_child(standby_button)
-		standby_button.pressed.connect(Players.update_standby_player.bind(standby_button.get_index()))
-		standby_button.pressed.connect(Combat.ui.button_pressed)
-		standby_button.mouse_entered.connect(Combat.ui._on_control_mouse_entered)
-		standby_button.mouse_exited.connect(Combat.ui._on_control_mouse_exited)
 		
-		Combat.ui.standby_name_labels.push_back(standby_button.get_node(^"Name"))
-		Combat.ui.standby_level_labels.push_back(standby_button.get_node(^"Level"))
-		Combat.ui.standby_health_labels.push_back(standby_button.get_node(^"HealthAmount"))
-		Combat.ui.standby_mana_labels.push_back(standby_button.get_node(^"ManaAmount"))
-
-		#character.reset_stats() # TODO
-		#character.update_nodes() # TODO
-
-		node_index += 1
+		Players.standby_characters.append(character)
+		Combat.ui.add_standby_character(character)
 
 	Inputs.mouse_in_combat_area = true
 	Inputs.combat_inputs_enabled = true
@@ -222,8 +224,7 @@ func load_save(save_index: int = 1) -> void:
 	Global.start_bgm("res://music/asmarafulldemo.mp3")
 
 	# TODO: temporary parameters 
-	stat_nodes_randomizer(Global.nexus_types, Global.nexus_qualities, save_index) # TODO: temporary
-	#data["nexus_stats_types"] = temp_array[0]
+	#data["nexus_types"] = temp_array[0]
 	#data["nexus_qualities"] = temp_array[1]
 
 	# TODO: temporary
@@ -234,6 +235,13 @@ func load_save(save_index: int = 1) -> void:
 func copy_array(save_array: Array, inventory_array: Array[int]) -> void:
 	for value in save_array:
 		inventory_array.append(int(value))
+
+func copy_converted_array(save_array: Array, converted_array: Array[Array]) -> void:
+	for value in save_array:
+		var converted_node: Array[int] = []
+		for node_value in value:
+			converted_node.append(int(node_value))
+		converted_array.append(converted_node)
 
 # ..............................................................................
 
@@ -247,7 +255,7 @@ func save(save_index):
 # NEW SAVE NEXUS RANDOMIZER
 
 # randomizes all empty nodes with randomized stat types and stat qualities
-func stat_nodes_randomizer(temp_array_1: Array[Vector2], temp_array_2: Array[int], save_index): # TODO: need to change
+func stat_nodes_randomizer(): # TODO: need to change
 	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
 	var area_nodes: Array[Array] = [
 		[132, 133, 134, 146, 147, 149, 163, 164, 165, 166, 179, 182, 196, 198, 199, 211, 212, 213, 214, 215, 228, 229, 231, 232, 243, 244, 245, 246, 247, 260, 261, 262, 264, 277, 278, 279, 280, 292, 294, 296, 309, 310, 311, 324, 325, 327, 328, 340],
@@ -341,8 +349,8 @@ func stat_nodes_randomizer(temp_array_1: Array[Vector2], temp_array_2: Array[int
 	var atlas_positions: Array[Vector2] = []
 
 	for j in 768:
-		atlas_positions.push_back(Vector2(-1, -1))
-		node_qualities.push_back(0)
+		atlas_positions.append(Vector2(-1, -1))
+		node_qualities.append(0)
 
 	# for each area
 	for area_index in area_nodes.size():
@@ -357,10 +365,10 @@ func stat_nodes_randomizer(temp_array_1: Array[Vector2], temp_array_2: Array[int
 
 		for stat_type in area_amount[area_index].size():
 			for j in area_amount[area_index][stat_type]:
-				area_texture_positions.push_back(stats_node_atlas_position[stat_type])
+				area_texture_positions.append(stats_node_atlas_position[stat_type])
 
 		for remaining_nodes in (area_size - area_texture_positions.size() + 1):
-			area_texture_positions.push_back(empty_node_atlas_position)
+			area_texture_positions.append(empty_node_atlas_position)
 
 		# find satifying stat type for each node
 		area_nodes[area_index].shuffle()
@@ -389,8 +397,16 @@ func stat_nodes_randomizer(temp_array_1: Array[Vector2], temp_array_2: Array[int
 				if atlas_positions[node_index] == stats_node_atlas_position[stat_index]:
 					node_qualities[node_index] = stats_qualities[stat_index][area_stats_qualities[area_index][stat_index]][randi() % stats_qualities[stat_index][area_stats_qualities[area_index][stat_index]].size()]
 
-	temp_array_1 = atlas_positions
-	temp_array_2 = node_qualities
+	# TODO: TEMPORARY CODE
+	var temp_array_1: Array[int] = []
+	for atlas_position in atlas_positions:
+		if stats_node_atlas_position.has(atlas_position):
+			temp_array_1.append(stats_node_atlas_position.find(atlas_position))
+		else:
+			temp_array_1.append(-1)
+	# TODO: TEMPORARY CODE
+	Global.nexus_types = temp_array_1
+	Global.nexus_qualities = node_qualities
 
 func has_illegal_adjacents(atlas_positions, node_index):
 	const adjacents_index: Array[Array] = [[-32, -17, -16, 15, 16, 32], [-32, -16, -15, 16, 17, 32]]
@@ -398,9 +414,9 @@ func has_illegal_adjacents(atlas_positions, node_index):
 	
 	# determine adjacents
 	if (node_index % 32) < 16:
-		for temp_index in adjacents_index[0]: adjacents.push_back(node_index + temp_index)
+		for temp_index in adjacents_index[0]: adjacents.append(node_index + temp_index)
 	else:
-		for temp_index in adjacents_index[1]: adjacents.push_back(node_index + temp_index)
+		for temp_index in adjacents_index[1]: adjacents.append(node_index + temp_index)
 
 	# remove outside range
 	for temp_index in adjacents.duplicate():

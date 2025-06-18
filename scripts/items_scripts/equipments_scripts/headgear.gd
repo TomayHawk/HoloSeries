@@ -1,1 +1,1 @@
-class_name Headgear extends Resource
+class_name Headgear extends Armor

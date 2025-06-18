@@ -1,1 +1,1 @@
-class_name Leggings extends Resource
+class_name Leggings extends Armor

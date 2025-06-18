@@ -9,13 +9,16 @@ var accessories_inventory: Array[int] = []
 var nexus_inventory: Array[int] = []
 var key_inventory: Array[int] = []
 
-var consumables_resources: Array[Resource] = [
+var consumables: Array[Resource] = [
 	load("res://scripts/items_scripts/potion.gd"),
 	load("res://scripts/items_scripts/max_potion.gd"),
 	load("res://scripts/items_scripts/phoenix_burger.gd"),
 	load("res://scripts/items_scripts/reset_button.gd"),
 	load("res://scripts/items_scripts/temp_kill_item.gd"),
 ]
+var weapons: Array[Weapon] = []
+var armors: Array[Armor] = []
+var accessories: Array[Accessory] = []
 
 func add_item(item_type: int, item_id: int, count: int = 1) -> void:
 	match item_type:
@@ -37,7 +40,7 @@ func use_consumable(index: int, is_main_player: bool = true) -> void: # TODO
 	if is_main_player and Entities.requesting_entities:
 		return
 	
-	var item: Resource = consumables_resources[index].new()
+	var item: Resource = consumables[index].new()
 	var combat_ui_button_node: Button = Combat.ui.items_grid_container_node.get_node_or_null(item.item_name)
 	
 	if consumables_inventory[index] <= 0:

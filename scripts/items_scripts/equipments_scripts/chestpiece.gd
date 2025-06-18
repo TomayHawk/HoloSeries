@@ -1,1 +1,1 @@
-class_name Chestpiece extends Resource
+class_name Chestpiece extends Armor

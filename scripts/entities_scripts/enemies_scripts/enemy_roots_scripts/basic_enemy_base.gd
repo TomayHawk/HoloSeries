@@ -81,7 +81,7 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 	stats.entity_types |= Entities.Type.ENEMIES_IN_COMBAT
 	enemy_in_combat = true
 	if not players_in_detection_area.has(body):
-		players_in_detection_area.push_back(body)
+		players_in_detection_area.append(body)
 
 func _on_detection_area_body_exited(body: Node2D) -> void:
 	players_in_attack_area.erase(body)
@@ -103,9 +103,9 @@ func _on_attack_area_body_entered(body: Node2D) -> void:
 	if in_action_range:
 		action_state = ActionState.READY
 	if not players_in_detection_area.has(body):
-		players_in_detection_area.push_back(body)
+		players_in_detection_area.append(body)
 	if not players_in_attack_area.has(body):
-		players_in_attack_area.push_back(body)
+		players_in_attack_area.append(body)
 
 func _on_attack_area_body_exited(body: Node2D) -> void:
 	players_in_attack_area.erase(body)

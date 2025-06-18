@@ -15,9 +15,9 @@ func _input(_event: InputEvent) -> void:
 func _on_characters_pressed():
     characters.clear()
     for player_node in Players.party_node.get_children():
-        characters.push_back(player_node.character)
+        characters.append(player_node.character)
     for character in Players.standby_node.get_children():
-        characters.push_back(character)
+        characters.append(character)
 
     current_stats = Players.main_player.character.node_index
     _on_left_button_pressed()

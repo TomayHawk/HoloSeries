@@ -225,9 +225,9 @@ func update_health() -> void:
 #            if temp_distance < range_min or temp_distance > range_max:
 #                continue
 #        if entity_node is PlayerBase:
-#            resultant_nodes.push_back(entity_node.character if get_stats_nodes else entity_node)
+#            resultant_nodes.append(entity_node.character if get_stats_nodes else entity_node)
 #        elif entity_node is BasicEnemyBase:
-#            resultant_nodes.push_back(entity_node.stats if get_stats_nodes else entity_node)
+#            resultant_nodes.append(entity_node.stats if get_stats_nodes else entity_node)
 #    
 #    return resultant_nodes
 

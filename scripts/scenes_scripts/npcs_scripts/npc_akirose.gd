@@ -96,10 +96,10 @@ func recruit_player() -> void:
 	standby_button.mouse_entered.connect(Combat.ui._on_control_mouse_entered)
 	standby_button.mouse_exited.connect(Combat.ui._on_control_mouse_exited)
 	
-	Combat.ui.standby_name_labels.push_back(standby_button.get_node(^"Name"))
-	Combat.ui.standby_level_labels.push_back(standby_button.get_node(^"Level"))
-	Combat.ui.standby_health_labels.push_back(standby_button.get_node(^"HealthAmount"))
-	Combat.ui.standby_mana_labels.push_back(standby_button.get_node(^"ManaAmount"))
+	Combat.ui.standby_name_labels.append(standby_button.get_node(^"Name"))
+	Combat.ui.standby_level_labels.append(standby_button.get_node(^"Level"))
+	Combat.ui.standby_health_labels.append(standby_button.get_node(^"HealthAmount"))
+	Combat.ui.standby_mana_labels.append(standby_button.get_node(^"ManaAmount"))
 
 	# TODO: nexus
 

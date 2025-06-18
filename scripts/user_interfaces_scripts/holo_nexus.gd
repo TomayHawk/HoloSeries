@@ -50,13 +50,15 @@ func _ready():
 	Players.camera_node.new_limits([-679, -592, 681, 592])
 
 	# update board # TODO: should randomize board at start of game # TODO: block needs fixing
+	# TODO: update stats_node_atlas_position to include Empty
 	temp_function()
 	index_counter = 0
 	for node in nexus_nodes:
 		if node.texture.region.position == empty_node_atlas_position:
-			node.texture.region.position = Global.nexus_types[index_counter]
+			if Global.nexus_types[index_counter] != -1: # TODO: temporary code
+				node.texture.region.position = Global.nexus_types[index_counter]
 		else:
-			Global.nexus_types[index_counter] = node.texture.region.position
+			Global.nexus_types[index_counter] = -1 # TODO: temporary code, changed from -> #node.texture.region.position
 		index_counter += 1
 
 	# update current player and allies in character selector
@@ -74,20 +76,20 @@ func _input(_event: InputEvent) -> void:
 func temp_function():
 	for node in nexus_nodes:
 		match node.texture.region.position:
-			null_node_atlas_position: null_nodes.push_back(node.get_index()) # null
-			key_node_atlas_position[0]: key_nodes[0].push_back(node.get_index()) # diamond
-			key_node_atlas_position[1]: key_nodes[1].push_back(node.get_index()) # clover
-			key_node_atlas_position[2]: key_nodes[2].push_back(node.get_index()) # heart
-			key_node_atlas_position[3]: key_nodes[3].push_back(node.get_index()) # spade
+			null_node_atlas_position: null_nodes.append(node.get_index()) # null
+			key_node_atlas_position[0]: key_nodes[0].append(node.get_index()) # diamond
+			key_node_atlas_position[1]: key_nodes[1].append(node.get_index()) # clover
+			key_node_atlas_position[2]: key_nodes[2].append(node.get_index()) # heart
+			key_node_atlas_position[3]: key_nodes[3].append(node.get_index()) # spade
 
 	# TODO: temporary
 	var party_players: Array[int] = []
 	for player in Players.party_node.get_children():
-		party_players.push_back(player.character.CHARACTER_INDEX)
+		party_players.append(player.character.CHARACTER_INDEX)
 
 	var standby_players: Array[int] = []
 	for character in Players.standby_node.get_children():
-		standby_players.push_back(character.CHARACTER_INDEX)
+		standby_players.append(character.CHARACTER_INDEX)
 
 	# for each unlocked player, determine all unlockables
 	for CHARACTER_INDEX in party_players + standby_players:
@@ -99,9 +101,9 @@ func return_adjacents(temp_node_index):
 	temp_adjacents.clear()
 	
 	if (temp_node_index % 32) < 16:
-		for temp_index in adjacents_index[0]: temp_adjacents.push_back(temp_node_index + temp_index)
+		for temp_index in adjacents_index[0]: temp_adjacents.append(temp_node_index + temp_index)
 	else:
-		for temp_index in adjacents_index[1]: temp_adjacents.push_back(temp_node_index + temp_index)
+		for temp_index in adjacents_index[1]: temp_adjacents.append(temp_node_index + temp_index)
 
 	for temp_index in temp_adjacents.duplicate():
 		if (temp_index < 0) or (temp_index > 767):
@@ -120,7 +122,8 @@ func update_nexus_player(player):
 	index_counter = 0
 	for node in nexus_nodes:
 		# return to default texture positions
-		node.texture.region.position = Global.nexus_types[index_counter]
+		# TODO
+		#node.texture.region.position = Global.nexus_types[index_counter]
 
 		# modulate null nodes, unlocked nodes and locked nodes
 		if index_counter in null_nodes:
@@ -158,7 +161,7 @@ func update_nexus_player(player):
 func unlock_node():
 	# if unlockable, unlock node
 	if last_nodes[current_nexus_player] in nodes_unlockable[current_nexus_player]:
-		nodes_unlocked[current_nexus_player].push_back(last_nodes[current_nexus_player])
+		nodes_unlocked[current_nexus_player].append(last_nodes[current_nexus_player])
 		nodes_unlockable[current_nexus_player].erase(last_nodes[current_nexus_player])
 		
 		# remove unlockables outline
@@ -180,7 +183,7 @@ func check_adjacent_unlockables(origin_index, player):
 				# if second adjacent is unlocked, is not the original node, and adjacent is not in unlockables
 				if (second_adjacent in nodes_unlocked[player]) and (second_adjacent != origin_index) and adjacent not in nodes_unlockable[player]:
 					# add adjacent node to unlockables
-					nodes_unlockable[player].push_back(adjacent)
+					nodes_unlockable[player].append(adjacent)
 
 					# create unlockables outline for adjacent node
 					var unlockable_instance: TextureRect = load("res://user_interfaces/user_interfaces_resources/nexus_unlockables.tscn").instantiate()
@@ -196,11 +199,11 @@ func exit_nexus():
 	# TODO: temporary
 	var party_players: Array[int] = []
 	for player in Players.party_node.get_children():
-		party_players.push_back(player.character.CHARACTER_INDEX)
+		party_players.append(player.character.CHARACTER_INDEX)
 
 	var standby_players: Array[int] = []
 	for character in Players.standby_node.get_children():
-		standby_players.push_back(character.CHARACTER_INDEX)
+		standby_players.append(character.CHARACTER_INDEX)
 
 	Players.camera_node.update_camera(Players.main_player, true, scene_camera_zoom)
 

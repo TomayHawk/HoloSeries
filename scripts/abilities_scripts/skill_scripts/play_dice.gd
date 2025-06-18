@@ -40,7 +40,7 @@ func initiate_play_dice(chosen_node):
 
 		# roll 1 to 17 dice
 		for i in (1 + (caster_node.character.speed + caster_node.character.agility) / 32):
-			dice_results.push_back(randi() % 7)
+			dice_results.append(randi() % 7)
 			dice_damage = base_damage / 2.0 * dice_results[-1]
 		
 			# double damage for each duplicate
