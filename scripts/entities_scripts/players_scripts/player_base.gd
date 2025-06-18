@@ -218,6 +218,9 @@ func update_animation() -> void:
 
 # ACTIONS
 
+func action_request() -> void:
+	pass # TODO
+
 func queue_attack() -> void:
 	action_type = ActionType.ATTACK
 	action_target_type = EnemyBase

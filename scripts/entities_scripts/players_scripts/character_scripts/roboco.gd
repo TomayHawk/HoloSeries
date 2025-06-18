@@ -7,7 +7,13 @@ const DEFAULT_UNLOCKED: Array[int] = [284, 333, 364]
 # Score: 4.025 + 20 Stamina + 15% Crit Damage
 # Physical - Tank
 
-func set_base_stats() -> void:
+func set_base_stats() -> void: # TODO: change name
+	# TODO: temporary code
+	animation = load("res://entities/players/character_animations/roboco.tres")
+	if base:
+		base.get_node("AnimatedSprite2D").sprite_frames = animation
+		base.get_node("AnimatedSprite2D").play(&"down_idle")
+
 	base_health = 465 # +265 (+1.325 T1)
 	base_mana = 10
 	base_stamina = 120 # +20 Stamina

@@ -7,7 +7,13 @@ const DEFAULT_UNLOCKED: Array[int] = [135, 167, 182]
 # Score: 4.55
 # Buffer - Healer
 
-func set_base_stats() -> void:
+func set_base_stats() -> void: # TODO: change name
+	# TODO: temporary code
+	animation = load("res://entities/players/character_animations/sora.tres")
+	if base:
+		base.get_node("AnimatedSprite2D").sprite_frames = animation
+		base.get_node("AnimatedSprite2D").play(&"down_idle")
+
 	base_health = 99999 # +190 (+0.95 T1)
 	base_mana = 9999 # +18 (+1.8 T1)
 	base_stamina = 500

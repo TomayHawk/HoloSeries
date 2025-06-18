@@ -7,7 +7,13 @@ const DEFAULT_UNLOCKED: Array[int] = [139, 154, 170]
 # Score: 4.265 + 5% Crit Rate
 # Buffer - Skills
 
-func set_base_stats() -> void:
+func set_base_stats() -> void: # TODO: change name
+	# TODO: temporary code
+	animation = load("res://entities/players/character_animations/azki.tres")
+	if base:
+		base.get_node("AnimatedSprite2D").sprite_frames = animation
+		base.get_node("AnimatedSprite2D").play(&"down_idle")
+
 	base_health = 373 # +173 (+0.865 T1)
 	base_mana = 40 # +30 (+3 T1)
 	base_stamina = 100

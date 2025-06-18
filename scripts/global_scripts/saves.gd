@@ -29,7 +29,7 @@ func new_save(character_index: int) -> void:
 		
 		# players
 		"main_player": character_index as int,
-		"main_player_position": Vector2(0, 0) as Vector2,
+		"main_player_position": [0.0, 0.0] as Array[float],
 		"party": [character_index, -1, -1, -1] as Array[int],
 		"standby": [] as Array[int],
 		
@@ -56,7 +56,7 @@ func new_save(character_index: int) -> void:
 		
 		# nexus
 		"nexus_stats_types": [] as Array[Vector2],
-		"nexus_stats_qualities": [] as Array[int],
+		"nexus_qualities": [] as Array[int],
 	}
 
 	# TODO: can be dynamic
@@ -118,17 +118,14 @@ func load_save(save_index: int = 1) -> void:
 	# scene
 	Global.get_tree().call_deferred(&"change_scene_to_file", data["scene_path"] as String)
 
-	print(Inventory.consumables_inventory)
-	print(data["consumables_inventory"])
-
 	# inventories
-	Inventory.consumables_inventory = data["consumables_inventory"] as Array[int]
-	Inventory.materials_inventory = data["materials_inventory"] as Array[int]
-	Inventory.weapons_inventory = data["weapons_inventory"] as Array[int]
-	Inventory.armors_inventory = data["armors_inventory"] as Array[int]
-	Inventory.accessories_inventory = data["accessories_inventory"] as Array[int]
-	Inventory.nexus_inventory = data["nexus_inventory"] as Array[int]
-	Inventory.key_inventory = data["key_inventory"] as Array[int]
+	copy_array(data["consumables_inventory"], Inventory.consumables_inventory)
+	copy_array(data["materials_inventory"], Inventory.materials_inventory)
+	copy_array(data["weapons_inventory"], Inventory.weapons_inventory)
+	copy_array(data["armors_inventory"], Inventory.armors_inventory)
+	copy_array(data["accessories_inventory"], Inventory.accessories_inventory)
+	copy_array(data["nexus_inventory"], Inventory.nexus_inventory)
+	copy_array(data["key_inventory"], Inventory.key_inventory)
 	
 	# TODO: should not be here?
 	var i: int = 0
@@ -174,27 +171,16 @@ func load_save(save_index: int = 1) -> void:
 			continue
 		
 		var player_node: Node = load(BASE_PLAYER_PATH).instantiate()
-		player_node.add_child(load(CHARACTER_PATH[character_index]).instantiate())
+		player_node.stats = load(CHARACTER_PATH[character_index]).new()
+		player_node.stats.base = player_node # TODO: temporary
 		Players.party_node.add_child(player_node)
 		
-		player_node.stats.node_index = node_index
-		player_node.stats.level = DEFAULT_STATS[character_index][0]
-		player_node.stats.base_health = DEFAULT_STATS[character_index][1]
-		player_node.stats.base_mana = DEFAULT_STATS[character_index][2]
-		player_node.stats.base_stamina = DEFAULT_STATS[character_index][3]
-		player_node.stats.base_defense = DEFAULT_STATS[character_index][4]
-		player_node.stats.base_ward = DEFAULT_STATS[character_index][5]
-		player_node.stats.base_strength = DEFAULT_STATS[character_index][6]
-		player_node.stats.base_intelligence = DEFAULT_STATS[character_index][7]
-		player_node.stats.base_speed = DEFAULT_STATS[character_index][8]
-		player_node.stats.base_agility = DEFAULT_STATS[character_index][9]
-		player_node.stats.base_crit_chance = DEFAULT_STATS[character_index][10]
-		player_node.stats.base_crit_damage = DEFAULT_STATS[character_index][11]
+		player_node.stats.set_stats()
 		#player_node.stats.reset_stats() # TODO
 		#player_node.stats.update_nodes() # TODO
 
 		# position character and determine main player node
-		player_node.position = data["main_player_position"]
+		player_node.position = Vector2(float(data["main_player_position"][0]), float(data["main_player_position"][1]))
 		if character_index == data["main_player"]:
 			player_node.is_main_player = true
 			Players.main_player = player_node
@@ -208,22 +194,10 @@ func load_save(save_index: int = 1) -> void:
 
 	# TODO: need to hide standbys
 	for character_index in data["standby"]:
-		var character: Node = load(CHARACTER_PATH[character_index]).instantiate()
-		Players.standby_node.add_child(character)
+		var character: PlayerStats = load(CHARACTER_PATH[character_index]).new()
+		Players.standby_stats.push_back(character)
 
-		character.node_index = node_index
-		character.level = DEFAULT_STATS[character_index][0]
-		character.base_health = DEFAULT_STATS[character_index][1]
-		character.base_mana = DEFAULT_STATS[character_index][2]
-		character.base_stamina = DEFAULT_STATS[character_index][3]
-		character.base_defense = DEFAULT_STATS[character_index][4]
-		character.base_ward = DEFAULT_STATS[character_index][5]
-		character.base_strength = DEFAULT_STATS[character_index][6]
-		character.base_intelligence = DEFAULT_STATS[character_index][7]
-		character.base_speed = DEFAULT_STATS[character_index][8]
-		character.base_agility = DEFAULT_STATS[character_index][9]
-		character.base_crit_chance = DEFAULT_STATS[character_index][10]
-		character.base_crit_damage = DEFAULT_STATS[character_index][11]
+		character.set_stats()
 
 		var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/character_button.tscn").instantiate()
 		Combat.ui.get_node(^"CharacterSelector/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer").add_child(standby_button)
@@ -247,14 +221,19 @@ func load_save(save_index: int = 1) -> void:
 
 	Global.start_bgm("res://music/asmarafulldemo.mp3")
 
-	var temp_array: Array[Array] = stat_nodes_randomizer(save_index) # TODO: temporary
-	data["nexus_stats_types"] = temp_array[0]
-	data["nexus_stats_qualities"] = temp_array[1]
+	# TODO: temporary parameters 
+	stat_nodes_randomizer(Global.nexus_types, Global.nexus_qualities, save_index) # TODO: temporary
+	#data["nexus_stats_types"] = temp_array[0]
+	#data["nexus_qualities"] = temp_array[1]
 
 	# TODO: temporary
 	# load variables # TODO: probably don't need to be here
-	Global.nexus_types = data["nexus_stats_types"]
-	Global.nexus_stats_qualities = data["nexus_stats_qualities"]
+	#Global.nexus_types = temp_array[0] as Array[Vector2]
+	#Global.nexus_qualities = temp_array[1] as Array[int]
+
+func copy_array(save_array: Array, inventory_array: Array[int]) -> void:
+	for value in save_array:
+		inventory_array.append(int(value))
 
 # ..............................................................................
 
@@ -268,7 +247,7 @@ func save(save_index):
 # NEW SAVE NEXUS RANDOMIZER
 
 # randomizes all empty nodes with randomized stat types and stat qualities
-func stat_nodes_randomizer(save_index) -> Array[Array]: # TODO: need to change
+func stat_nodes_randomizer(temp_array_1: Array[Vector2], temp_array_2: Array[int], save_index): # TODO: need to change
 	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
 	var area_nodes: Array[Array] = [
 		[132, 133, 134, 146, 147, 149, 163, 164, 165, 166, 179, 182, 196, 198, 199, 211, 212, 213, 214, 215, 228, 229, 231, 232, 243, 244, 245, 246, 247, 260, 261, 262, 264, 277, 278, 279, 280, 292, 294, 296, 309, 310, 311, 324, 325, 327, 328, 340],
@@ -410,7 +389,8 @@ func stat_nodes_randomizer(save_index) -> Array[Array]: # TODO: need to change
 				if atlas_positions[node_index] == stats_node_atlas_position[stat_index]:
 					node_qualities[node_index] = stats_qualities[stat_index][area_stats_qualities[area_index][stat_index]][randi() % stats_qualities[stat_index][area_stats_qualities[area_index][stat_index]].size()]
 
-	return [atlas_positions, node_qualities]
+	temp_array_1 = atlas_positions
+	temp_array_2 = node_qualities
 
 func has_illegal_adjacents(atlas_positions, node_index):
 	const adjacents_index: Array[Array] = [[-32, -17, -16, 15, 16, 32], [-32, -16, -15, 16, 17, 32]]

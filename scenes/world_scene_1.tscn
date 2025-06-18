@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://dyvmrtl5c0ad3"]
+[gd_scene load_steps=17 format=4 uid="uid://dyvmrtl5c0ad3"]
 
 [ext_resource type="Script" uid="uid://ohywvrrmpnpi" path="res://scripts/scenes_scripts/world_scene_1.gd" id="1_4rgc2"]
 [ext_resource type="Texture2D" uid="uid://c5bvpekwpv6rw" path="res://art/tileSets/plains.png" id="1_7j0j2"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://dlxkifgl6lq80" path="res://scenes/npcs/npc_kobo.tscn" id="6_5ivv1"]
 [ext_resource type="PackedScene" uid="uid://nsnibaboaiaa" path="res://scenes/world_objects/spawner.tscn" id="6_y50s5"]
 [ext_resource type="PackedScene" uid="uid://bcyrkvjaiy1go" path="res://scenes/world_objects/save_point.tscn" id="7_f7v21"]
-[ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/enemy_specifics/nousagi.tscn" id="9_tem7v"]
 [ext_resource type="PackedScene" uid="uid://cl846axs17iqn" path="res://scenes/npcs/npc_akirose.tscn" id="10_nqrae"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5688q"]
@@ -294,9 +293,6 @@ position = Vector2(-194, -175)
 
 [node name="Enemies" type="Node2D" parent="."]
 y_sort_enabled = true
-
-[node name="Nousagi" parent="Enemies" instance=ExtResource("9_tem7v")]
-position = Vector2(166, -196)
 
 [node name="Npcs" type="Node2D" parent="."]
 y_sort_enabled = true

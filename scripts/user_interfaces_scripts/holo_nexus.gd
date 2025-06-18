@@ -8,7 +8,7 @@ var current_nexus_player := 0
 # character information
 @onready var last_nodes = Global.nexus_last_nodes.duplicate()
 @onready var nodes_unlocked = Global.nexus_unlocked_nodes.duplicate()
-@onready var nodes_qualities: Array[int] = Global.nexus_stats_qualities.duplicate()
+@onready var nodes_qualities: Array[int] = Global.nexus_qualities.duplicate()
 @onready var nodes_converted = Global.nexus_converted_nodes.duplicate()
 
 # nexus atlas positions
@@ -191,7 +191,7 @@ func check_adjacent_unlockables(origin_index, player):
 
 func exit_nexus():
 	Global.nexus_unlocked_nodes = nodes_unlocked.duplicate()
-	Global.nexus_stats_qualities = nodes_qualities.duplicate()
+	Global.nexus_qualities = nodes_qualities.duplicate()
 
 	# TODO: temporary
 	var party_players: Array[int] = []
