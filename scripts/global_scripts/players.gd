@@ -28,10 +28,7 @@ func update_standby_player(standby_index: int) -> void:
 	main_player.update_stats(next_stats)
 
 	# update player ui
-	Combat.ui.name_labels[main_player.get_index()].text = next_stats.CHARACTER_NAME
+	Combat.ui.update_party_ui(main_player.party_index, next_stats)
 
 	# update standby ui
-	Combat.ui.standby_name_labels[standby_index].text = prev_stats.CHARACTER_NAME
-	Combat.ui.standby_level_labels[standby_index].text = str(prev_stats.level)
-	Combat.ui.standby_health_labels[standby_index].text = str(int(prev_stats.health))
-	Combat.ui.standby_mana_labels[standby_index].text = str(int(prev_stats.mana))
+	Combat.ui.update_standby_ui(standby_index, prev_stats)

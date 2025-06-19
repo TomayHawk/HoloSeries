@@ -50,6 +50,9 @@ func _physics_process(_delta: float) -> void:
 
 # TODO: add sprint toggle setting
 func _input(_event: InputEvent) -> void:
+	if not is_main_player or not Inputs.combat_inputs_enabled:
+		return
+	
 	if Input.is_action_just_pressed(&"dash"):
 		if move_state != MoveState.DASH:
 			dash()
@@ -305,12 +308,18 @@ func update_ultimate_gauge() -> void:
 	Combat.ui.ultimate_progress_bars[get_index()].modulate.g = (130.0 - stats.ultimate_gauge) / stats.max_ultimate_gauge
 
 # update maximum bar values
-func update_max_values() -> void:
+func set_max_values() -> void:
 	$HealthBar.max_value = stats.max_health
 	$ManaBar.max_value = stats.max_mana
 	$StaminaBar.max_value = stats.max_stamina
 	$ShieldBar.max_value = stats.max_shield
 	Combat.ui.ultimate_progress_bars[get_index()].max_value = stats.max_ultimate_gauge
+
+	update_health()
+	update_mana()
+	update_stamina()
+	update_shield()
+	update_ultimate_gauge()
 
 # ..............................................................................
 
@@ -387,6 +396,7 @@ func switch_main(next_stats: PlayerStats) -> void:
 
 func update_stats(next_stats: PlayerStats) -> void:
 	stats = next_stats
+	stats.base = self
 
 	# STATES
 

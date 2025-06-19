@@ -26,12 +26,12 @@ func _ready():
 func entity_chosen(chosen_nodes: Array[EntityBase]):
 	var target_node: EntityBase = null if chosen_nodes.is_empty() else chosen_nodes[0]
 	# apply regen if node chosen, caster is alive and caster has enough mana
-	if target_node and caster_node.character.alive and caster_node.character.mana >= mana_cost:
-		caster_node.character.update_mana(-mana_cost)
-		var effect: Resource = target_node.character.add_status(Entities.Status.REGEN)
+	if target_node and caster_node.stats.alive and caster_node.stats.mana >= mana_cost:
+		caster_node.stats.update_mana(-mana_cost)
+		var effect: Resource = target_node.stats.add_status(Entities.Status.REGEN)
 		# 70 HP to 1470 HP (max at 7000 HP)
-		effect.regen_settings(DAMAGE_TYPES, target_node.character,
-				clamp(target_node.character.max_health * heal_percentage, 10.0, 210.0),
+		effect.regen_settings(DAMAGE_TYPES, target_node.stats,
+				clamp(target_node.stats.max_health * heal_percentage, 10.0, 210.0),
 				4.0, regen_count, 0.8, 1.2)
 
 	queue_free()

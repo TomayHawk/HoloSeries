@@ -62,7 +62,7 @@ func _ready():
 		index_counter += 1
 
 	# update current player and allies in character selector
-	update_nexus_player(Players.main_player.character.CHARACTER_INDEX)
+	update_nexus_player(Players.main_player.stats.CHARACTER_INDEX)
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed(&"esc"):
@@ -85,7 +85,7 @@ func temp_function():
 	# TODO: temporary
 	var party_players: Array[int] = []
 	for player in Players.party_node.get_children():
-		party_players.append(player.character.CHARACTER_INDEX)
+		party_players.append(player.stats.CHARACTER_INDEX)
 
 	var standby_players: Array[int] = []
 	for character in Players.standby_node.get_children():
@@ -199,7 +199,7 @@ func exit_nexus():
 	# TODO: temporary
 	var party_players: Array[int] = []
 	for player in Players.party_node.get_children():
-		party_players.append(player.character.CHARACTER_INDEX)
+		party_players.append(player.stats.CHARACTER_INDEX)
 
 	var standby_players: Array[int] = []
 	for character in Players.standby_node.get_children():

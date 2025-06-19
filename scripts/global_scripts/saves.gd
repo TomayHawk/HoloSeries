@@ -130,9 +130,6 @@ func load_save(save_index: int = 1) -> void:
 	if not data:
 		print("failed to parse save data from file ", file_path)
 		return # TODO: handle error
-	
-	# update scene
-	Global.get_tree().call_deferred(&"change_scene_to_file", data["scene_path"] as String)
 
 	# update inventories
 	copy_array(data["consumables_inventory"], Inventory.consumables_inventory)
@@ -179,7 +176,6 @@ func load_save(save_index: int = 1) -> void:
 	
 	# update party
 	var main_player_index: int = data["main_player"]
-	var main_player_position: Vector2 = Vector2(data["main_player_position"][0], data["main_player_position"][1])
 
 	for party_index in data["party"].size():
 		var character_index: int = data["party"][party_index]
@@ -201,14 +197,16 @@ func load_save(save_index: int = 1) -> void:
 		player.stats.base = player
 		player.stats.set_stats()
 
-		# update player position and main player
-		player.position = main_player_position
+		# update player bars and ui
+		player.set_max_values()
+		
+		Combat.ui.update_party_ui(party_index, player.stats)
+
+		# update main player
 		if character_index == main_player_index:
 			Players.main_player = player
 			Players.camera_node.new_parent(player)
 			player.is_main_player = true
-		else:
-			player.position += (25 * Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)))
 
 	# update standby characters
 	for character in character_stats:
@@ -218,10 +216,14 @@ func load_save(save_index: int = 1) -> void:
 		Players.standby_characters.append(character)
 		Combat.ui.add_standby_character(character)
 
-	Inputs.mouse_in_combat_area = true
-	Inputs.combat_inputs_enabled = true
-
-	Global.start_bgm("res://music/asmarafulldemo.mp3")
+	# update scene
+	var main_player_position: Vector2 = Vector2(data["main_player_position"][0], data["main_player_position"][1])
+	Global.change_scene(
+			data["scene_path"],
+			main_player_position,
+			[-10000000, -10000000, 10000000, 10000000],
+			"res://music/asmarafulldemo.mp3"
+	)
 
 	# TODO: temporary parameters 
 	#data["nexus_types"] = temp_array[0]

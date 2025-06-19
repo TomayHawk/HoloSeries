@@ -63,7 +63,7 @@ func stats_process(process_interval: float) -> void:
 
 	# update stamina
 	if base.move_state == base.MoveState.SPRINT:
-		update_stamina(-sprint_stamina)
+		update_stamina(-sprint_stamina * process_interval)
 	elif base.move_state != base.MoveState.DASH and stamina < max_stamina:
 		update_stamina((FATIGUE_REGEN if fatigue else STAMINA_REGEN) * process_interval)
 

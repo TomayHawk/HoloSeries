@@ -10,7 +10,10 @@ var nexus_qualities: Array[int] = []
 
 func change_scene(next_scene_path: String, next_position: Vector2, camera_limits: Array[int], bgm_path: String) -> void:
 	var tree: SceneTree = get_tree()
-	
+
+	Inputs.mouse_in_combat_area = false
+	Inputs.combat_inputs_enabled = false
+
 	# change scene
 	tree.call_deferred(&"change_scene_to_file", next_scene_path)
 	Players.party_node.call_deferred(&"reparent", Players)
@@ -40,6 +43,9 @@ func change_scene(next_scene_path: String, next_position: Vector2, camera_limits
 	# reparent party
 	await tree.process_frame
 	Players.party_node.reparent(tree.current_scene)
+	
+	Inputs.mouse_in_combat_area = true
+	Inputs.combat_inputs_enabled = true
 
 # ..............................................................................
 

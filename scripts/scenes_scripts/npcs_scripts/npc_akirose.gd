@@ -58,7 +58,7 @@ func recruit_player() -> void:
 		var player_node: Node = load("res://entities/players/player_base.tscn").instantiate()
 		Players.party_node.add_child(player_node)
 		player_node.add_child(character)
-		player_node.character = character
+		player_node.stats = character
 		
 		character.node_index = Players.party_node.get_child_count() - 1 # TODO
 		player_node.position = Players.main_player.position + (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))

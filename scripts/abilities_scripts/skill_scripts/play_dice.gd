@@ -35,11 +35,11 @@ func _ready():
 	
 func initiate_play_dice(chosen_node):
 	# check caster status and mana sufficiency
-	if caster_node.character.mana > mana_cost and caster_node.character.alive:
-		caster_node.character.update_mana(-mana_cost)
+	if caster_node.stats.mana > mana_cost and caster_node.stats.alive:
+		caster_node.stats.update_mana(-mana_cost)
 
 		# roll 1 to 17 dice
-		for i in (1 + (caster_node.character.speed + caster_node.character.agility) / 32):
+		for i in (1 + (caster_node.stats.speed + caster_node.stats.agility) / 32):
 			dice_results.append(randi() % 7)
 			dice_damage = base_damage / 2.0 * dice_results[-1]
 		
@@ -55,7 +55,7 @@ func initiate_play_dice(chosen_node):
 			# TODO: want to accelerate for each iteration
 			interval_timer.start()
 			Damage.combat_damage(dice_damage, DAMAGE_TYPES,
-					caster_node.character, chosen_node.stats)
+					caster_node.stats, chosen_node.stats)
 			await interval_timer.timeout
 
 	queue_free()

@@ -41,9 +41,9 @@ var entities_of_type: Dictionary[Type, Callable] = {
 	Type.PLAYERS_ALLIES: func() -> Array[Node]:
 		return Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.is_main_player),
 	Type.PLAYERS_ALIVE: func() -> Array[Node]:
-		return Players.party_node.get_children().filter(func(node: Node) -> bool: return node.character.alive),
+		return Players.party_node.get_children().filter(func(node: Node) -> bool: return node.stats.alive),
 	Type.PLAYERS_DEAD: func() -> Array[Node]:
-		return Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.character.alive),
+		return Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.stats.alive),
 	Type.ENEMIES: func() -> Array[Node]:
 		return get_tree().current_scene.get_node(^"Enemies").get_children(),
 	Type.ENEMIES_IN_COMBAT: func() -> Array[Node]:
@@ -174,7 +174,7 @@ func end_entities_request() -> void:
 func toggle_entities_movements(can_move: bool) -> void:
 	# toggle players movements
 	for player_node in Players.party_node.get_children():
-		if not player_node.character.alive:
+		if not player_node.stats.alive:
 			continue
 		player_node.set_physics_process(can_move)
 		if not can_move:

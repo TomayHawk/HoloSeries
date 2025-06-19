@@ -41,6 +41,12 @@ func _input(_event: InputEvent) -> void:
 		Inputs.accept_event()
 		if Combat.not_in_combat():
 			%CombatControl.modulate.a = 1.0 if %CombatControl.modulate.a != 1.0 else 0.0
+	elif Input.is_action_just_pressed(&"alt"):
+		Inputs.accept_event()
+		Entities.switching_main_player = true
+	elif Input.is_action_just_released(&"alt"):
+		Inputs.accept_event()
+		Entities.switching_main_player = false
 	elif Input.is_action_just_pressed(&"tab"):
 		Inputs.accept_event()
 		%CharacterSelector.show()
@@ -96,6 +102,33 @@ func add_standby_character(character: PlayerStats) -> void:
 	standby_level_labels.append(standby_button.get_node(^"Level"))
 	standby_health_labels.append(standby_button.get_node(^"HealthAmount"))
 	standby_mana_labels.append(standby_button.get_node(^"ManaAmount"))
+
+# ..............................................................................
+
+# UPDATE UI
+
+func update_party_ui(party_index: int, character: PlayerStats) -> void:
+	if not character:
+		name_labels[party_index].get_parent().modulate.a = 0.0
+		return
+	
+	name_labels[party_index].text = character.CHARACTER_NAME
+	health_labels[party_index].text = str(int(character.health))
+	mana_labels[party_index].text = str(int(character.mana))
+	ultimate_progress_bars[party_index].value = character.ultimate_gauge
+	ultimate_progress_bars[party_index].max_value = character.max_ultimate_gauge
+	shield_progress_bars[party_index].value = character.shield
+	shield_progress_bars[party_index].max_value = character.max_shield
+
+func update_standby_ui(standby_index: int, character: PlayerStats) -> void:
+	if not character:
+		%CharacterSelectorVBoxContainer.get_child(standby_index).hide()
+		return
+
+	standby_name_labels[standby_index].text = character.CHARACTER_NAME
+	standby_level_labels[standby_index].text = str(character.level)
+	standby_health_labels[standby_index].text = str(int(character.health))
+	standby_mana_labels[standby_index].text = str(int(character.mana))
 
 # ..............................................................................
 

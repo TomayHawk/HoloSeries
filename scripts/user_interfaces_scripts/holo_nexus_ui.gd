@@ -113,7 +113,7 @@ func update_character_selector():
 	character_selector_character_indices.clear()
 
 	for player in Players.party_node.get_children() + Players.standby_node.get_children():
-		var character = player if not player is PlayerBase else player.character
+		var character = player if not player is PlayerBase else player.stats
 		if character.CHARACTER_INDEX != nexus_player.CHARACTER_INDEX:
 			character_selector_player_nodes[i].show()
 			character_selector_name_labels[i].text = character.CHARACTER_NAME

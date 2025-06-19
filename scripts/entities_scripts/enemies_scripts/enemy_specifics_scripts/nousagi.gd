@@ -90,7 +90,7 @@ func frame_changed() -> void:
 			elif enemy_in_combat:
 				# remove all dead players from detection and attack arrays
 				for player_node in players_in_detection_area:
-					if not player_node.character.alive:
+					if not player_node.stats.alive:
 						_on_detection_area_body_exited(player_node)
 						_on_attack_area_body_exited(player_node)
 
@@ -105,8 +105,8 @@ func frame_changed() -> void:
 				var target_player_health: float = INF
 				# target player with lowest health
 				for player_node in available_player_nodes:
-					if player_node.character.health < target_player_health:
-						target_player_health = player_node.character.health
+					if player_node.stats.health < target_player_health:
+						target_player_health = player_node.stats.health
 						target_player_node = player_node
 				# move towards player if any player in detection area
 				if target_player_node:
@@ -129,7 +129,7 @@ func frame_changed() -> void:
 					if target_player_node:
 						var temp_attack_direction = (target_player_node.position - position).normalized()
 						if Damage.combat_damage(13, Damage.DamageTypes.PLAYER_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
-								stats, target_player_node.character):
+								stats, target_player_node.stats):
 							target_player_node.knockback(temp_attack_direction, 0.4)
 						stats.flip_h = temp_attack_direction.x < 0
 				"walk":
@@ -184,7 +184,7 @@ func update_health() -> void:
 # ATTACK
 
 #func set_attack_state(next_state: ActionState) -> void:
-#    if action_state == next_state or not character.alive: return
+#    if action_state == next_state or not stats.alive: return
 #    # ally conditions
 #    if not is_main_player:
 #        #if not can_attack:
@@ -199,16 +199,16 @@ func update_health() -> void:
 #    update_animation()
 #
 #func attempt_attack(attack_name: String = "") -> void:
-#    if character != get_node_or_null(^"PlayerStats"):
+#    if stats != get_node_or_null(^"PlayerStats"):
 #        set_attack_state(ActionState.READY) # TODO: depends
 #        return
 #    
 #    if attack_name != "":
 #        pass # call attack with conditions
-#    elif character.auto_ultimate and character.ultimate_gauge == character.max_ultimate_gauge:
-#        character.ultimate_attack()
+#    elif stats.auto_ultimate and stats.ultimate_gauge == stats.max_ultimate_gauge:
+#        stats.ultimate_attack()
 #    else:
-#        character.basic_attack()
+#        stats.basic_attack()
 
 # TODO: need to implement
 #func filter_nodes(initial_nodes: Array[EntityBase], get_stats_nodes: bool, origin_position: Vector2 = Vector2(-1.0, -1.0), range_min: float = -1.0, range_max: float = -1.0) -> Array[Node]:
@@ -225,7 +225,7 @@ func update_health() -> void:
 #            if temp_distance < range_min or temp_distance > range_max:
 #                continue
 #        if entity_node is PlayerBase:
-#            resultant_nodes.append(entity_node.character if get_stats_nodes else entity_node)
+#            resultant_nodes.append(entity_node.stats if get_stats_nodes else entity_node)
 #        elif entity_node is BasicEnemyBase:
 #            resultant_nodes.append(entity_node.stats if get_stats_nodes else entity_node)
 #    
