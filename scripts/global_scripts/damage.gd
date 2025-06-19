@@ -58,7 +58,7 @@ func combat_damage(damage: float, types: int, origin_stats: EntityStats, target_
 	target_stats.update_health(damage)
 
 	# display damage
-	damage_display(abs(damage), target_stats.get_parent().position, types) # TODO: need to update
+	damage_display(abs(damage), target_stats.base.position, types) # TODO: need to update
 
 	return damage
 

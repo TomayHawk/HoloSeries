@@ -120,7 +120,7 @@ func target_entity_by_distance(candidate_nodes: Array[EntityBase], origin_positi
 func request_entities(request_types: Array[Type], request_count: int = 1) -> void:
 	# append available entities
 	for request_type in request_types:
-		entities_available += entities_of_type[request_type].call()
+		entities_available += type_entities_array(entities_of_type[request_type].call())
 
 	# cancel request if insufficient candidates
 	if entities_available.size() < request_count:
@@ -145,6 +145,14 @@ func request_entities(request_types: Array[Type], request_count: int = 1) -> voi
 			entity.add_child(load("res://entities/entities_indicators/player_highlight.tscn").instantiate()) # TODO: need to scale in size
 		elif entity is EnemyBase and not entity.has_node(^"EnemyHighlight"):
 			entity.add_child(load("res://entities/entities_indicators/enemy_highlight.tscn").instantiate()) # TODO: need to scale in size
+
+func type_entities_array(entities: Array[Node]) -> Array[EntityBase]:
+	# convert Node array to EntityBase array
+	var entity_base_array: Array[EntityBase] = []
+	for entity in entities:
+		if entity is EntityBase:
+			entity_base_array.append(entity)
+	return entity_base_array
 
 func choose_entity(entity: EntityBase) -> void:
 	if requesting_entities and entity in entities_available:
