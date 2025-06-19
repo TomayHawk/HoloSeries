@@ -166,7 +166,7 @@ func end_entities_request() -> void:
 	entities_request_ended.emit(entities_chosen)
 	
 	# remove entity highlights
-	for node in entities_available:
+	for node in entities_chosen + entities_available:
 		if not is_instance_valid(node): continue
 		if node is PlayerBase and node.has_node(^"PlayerHighlight"):
 			node.get_node(^"PlayerHighlight").free()

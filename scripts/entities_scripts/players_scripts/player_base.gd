@@ -177,7 +177,7 @@ func stun(duration: float) -> void:
 func update_animation() -> void:
 	if not stats.alive or move_state in [MoveState.KNOCKBACK, MoveState.STUN]: return
 
-	var animation_node: AnimatedSprite2D = $AnimatedSprite2D
+	var animation_node: AnimatedSprite2D = $Animation
 	var next_animation: StringName = animation_node.animation
 	var animation_speed: float = 1.0
 	
@@ -349,7 +349,7 @@ func death() -> void:
 			print("GAME OVER") # TODO
 
 	# play death animation
-	var animation_node: AnimatedSprite2D = $AnimatedSprite2D
+	var animation_node: AnimatedSprite2D = $Animation
 	animation_node.play(&"death")
 	
 	# await death animation finished
@@ -369,7 +369,7 @@ func revive() -> void:
 	disable_collisions(false)
 
 	# update animation
-	$AnimatedSprite2D.animation_finished.emit()
+	$Animation.animation_finished.emit()
 	update_animation()
 
 	# TODO: queue actions

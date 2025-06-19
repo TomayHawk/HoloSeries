@@ -33,7 +33,7 @@ input_pickable = true
 motion_mode = 1
 script = ExtResource("1_rapl1")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_lt4ow")
 offset = Vector2(-0.5, -10)

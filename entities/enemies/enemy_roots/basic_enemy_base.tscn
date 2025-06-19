@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://davxclqbccf8o"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_t1vf7"]
-
-[node name="BasicEnemyBase" type="CharacterBody2D"]
-
-[node name="MovementHitBox" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_t1vf7")

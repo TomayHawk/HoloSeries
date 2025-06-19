@@ -1,6 +1,6 @@
 extends AnimatedSprite2D
 
-@export var enemy_path: String = "res://entities/enemies/enemy_specifics/nousagi.tscn"
+@export var enemy_path: String = "res://entities/enemies/nousagi.tscn"
 @export var spawn_limit: int = 20
 
 func can_interact() -> bool:

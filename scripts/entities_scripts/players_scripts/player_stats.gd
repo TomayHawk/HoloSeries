@@ -285,7 +285,7 @@ func basic_attack() -> void:
 	if not base: return
 
 	var attack_shape: Area2D = base.get_node(^"AttackShape")
-	var animation_node: AnimatedSprite2D = base.get_node(^"AnimatedSprite2D")
+	var animation_node: AnimatedSprite2D = base.get_node(^"Animation")
 
 	if base.is_main_player:
 		base.action_vector = (Inputs.get_global_mouse_position() - base.position).normalized()
@@ -337,7 +337,7 @@ func ultimate_attack():
 	if not base: return
 
 	var attack_shape: Area2D = base.get_node(^"AttackShape")
-	var animation_node: AnimatedSprite2D = base.get_node(^"AnimatedSprite2D")
+	var animation_node: AnimatedSprite2D = base.get_node(^"Animation")
 	
 	update_ultimate_gauge(-100)
 

@@ -36,7 +36,7 @@ func knockback(direction: Vector2, weight: float = 1.0) -> void:
 	stats.play(&"idle")
 
 func death() -> void:
-	$AnimatedSprite2D.play(&"death")
+	$Animation.play(&"death")
 
 	enemy_in_combat = false
 	players_in_detection_area.clear()

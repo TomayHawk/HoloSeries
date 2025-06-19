@@ -11,8 +11,8 @@ func set_base_stats() -> void: # TODO: change name
 	# TODO: temporary code
 	animation = load("res://entities/players/character_animations/luna.tres")
 	if base:
-		base.get_node("AnimatedSprite2D").sprite_frames = animation
-		base.get_node("AnimatedSprite2D").play(&"down_idle")
+		base.get_node(^"Animation").sprite_frames = animation
+		base.get_node(^"Animation").play(&"down_idle")
 
 	base_health = 377 # +177 (+0.885 T1)
 	base_mana = 36 # +26 (+2.6 T1)
