@@ -197,6 +197,7 @@ script = ExtResource("1_on7pi")
 sprite_frames = SubResource("SpriteFrames_7htyj")
 animation = &"death"
 offset = Vector2(0, -13)
+script = null
 
 [node name="MovementHitBox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)

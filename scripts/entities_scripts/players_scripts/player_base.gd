@@ -453,7 +453,7 @@ func _on_action_area_body_exited(_body: Node2D) -> void:
 
 func is_in_action_range() -> bool:
 	return not $ActionArea.get_overlapping_bodies().filter(
-			func(node): return node.is_instance_of(action_target)).is_empty()
+			func(node): return is_instance_of(node.get_script(), action_target_type)).is_empty()
 
 # State Timers
 

@@ -6,6 +6,8 @@ var enemy_in_combat: bool = false
 var players_in_detection_area: Array[Node] = []
 var players_in_attack_area: Array[Node] = []
 
+var in_action_range: bool = false # TODO: temporary variable
+
 @onready var knockback_timer_node: Timer = $KnockbackTimer
 
 # ..............................................................................
