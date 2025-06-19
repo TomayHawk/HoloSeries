@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var caster_node: Node = Players.main_player
+@onready var caster_node: EntityBase = Players.main_player
 @onready var interval_timer := %Interval
 
 const DAMAGE_TYPES: int = \

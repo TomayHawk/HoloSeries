@@ -21,6 +21,9 @@ func _init() -> void:
 		"save": {
 			"last_save": 1,
 		},
+		"input": {
+			"sprint_hold": false,
+		},
 	}
 
 	var config: ConfigFile = ConfigFile.new()
@@ -44,6 +47,11 @@ func _init() -> void:
 			"audio", "master_volume", DEFAULT_SETTINGS["audio"]["master_volume"])))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"BGM"), linear_to_db(config.get_value(
 			"audio", "music_volume", DEFAULT_SETTINGS["audio"]["music_volume"])))
+
+	await tree_entered
+	
+	Inputs.sprint_hold = config.get_value(
+			"input", "sprint_hold", DEFAULT_SETTINGS["input"]["sprint_hold"])
 
 # ..............................................................................
 
@@ -95,12 +103,26 @@ func update_setting(section: String, key: String, value: Variant) -> void:
 
 # EXIT
 
+# Save settings on exit
 func _exit_tree() -> void:
-	# Save settings on exit
 	var config: ConfigFile = ConfigFile.new()
+
+	# Load existing settings if they exist
+	const SETTINGS_PATH: String = "user://settings.cfg"
+	if FileAccess.file_exists(SETTINGS_PATH):
+		config.load(SETTINGS_PATH)
+	
+	# display
 	config.set_value("display", "window_mode", DisplayServer.window_get_mode())
 	config.set_value("display", "resolution", DisplayServer.window_get_size())
 	config.set_value("display", "window_position", DisplayServer.window_get_position())
+	
+	# audio
 	config.set_value("audio", "master_volume", db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"Master"))))
 	config.set_value("audio", "music_volume", db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"BGM"))))
+
+	# input
+	config.set_value("input", "sprint_hold", Inputs.sprint_hold)
+
+	# save
 	config.save("user://settings.cfg")

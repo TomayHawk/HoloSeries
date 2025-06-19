@@ -22,44 +22,39 @@ var party_index: int = -1
 var in_action_range: bool = false
 var action_queue: Array[Array] = []
 
-var action_type: ActionType = ActionType.ATTACK
-var action_target: EntityBase = null
-var action_target_type: GDScript = EntityBase
-var action_target_priority: StringName = &""
-var action_target_get_max: bool = true
-var action_vector: Vector2 = Vector2.DOWN
-var action_fail_count: int = 0
-
 # ..............................................................................
 
 # PHYSICS PROCESS
 
 func _physics_process(_delta: float) -> void:
-	# no velocity change if stunned
+	# no velocity if stunned
 	if move_state == MoveState.STUN:
-		pass
+		return
+
 	# slowly decrease velocity if taking knockback
-	elif move_state == MoveState.KNOCKBACK:
+	if move_state == MoveState.KNOCKBACK:
 		velocity = knockback_velocity * move_state_timer / 0.4
+	# take user input for main player if not in knockback or stun
 	elif is_main_player:
 		update_main_player_movement()
 	
 	move_and_slide()
 
+# ..............................................................................
+
 # INPUT
 
-# TODO: add sprint toggle setting
 func _input(_event: InputEvent) -> void:
-	if not is_main_player or not Inputs.combat_inputs_enabled:
+	if not is_main_player or not Inputs.world_inputs_enabled:
 		return
 	
 	if Input.is_action_just_pressed(&"dash"):
-		if move_state != MoveState.DASH:
-			dash()
-		elif move_state == MoveState.SPRINT:
+		if move_state == MoveState.SPRINT and not Inputs.sprint_hold:
 			end_sprint()
+		else:
+			attempt_dash()
 	elif Input.is_action_just_released(&"dash"):
-		if move_state == MoveState.SPRINT:
+		if move_state == MoveState.SPRINT and Inputs.sprint_hold:
 			end_sprint()
 
 # ..............................................................................
@@ -73,19 +68,19 @@ func update_main_player_movement() -> void:
 	# snap input velocity to cardinal and intercardinal directions
 	if input_velocity != Vector2.ZERO:
 		input_velocity = [
-			Vector2(1.0, 0.0),
+			Vector2.RIGHT,
 			Vector2(0.70710678, 0.70710678),
-			Vector2(0.0, 1.0),
+			Vector2.DOWN,
 			Vector2(-0.70710678, 0.70710678),
-			Vector2(-1.0, 0.0),
+			Vector2.LEFT,
 			Vector2(-0.70710678, -0.70710678),
-			Vector2(0.0, -1.0),
+			Vector2.UP,
 			Vector2(0.70710678, -0.70710678)
-		][(roundi(input_velocity.angle() / (PI / 4)) + 8) % 8]
+		][(roundi(input_velocity.angle() / (PI / 4.0)) + 8) % 8]
 
 	update_movement(input_velocity)
 
-func update_movement(next_direction: Vector2 = Vector2.ZERO) -> void:
+func update_movement(next_direction: Vector2) -> void:
 	# if no direction, set idle state
 	if next_direction == Vector2.ZERO:
 		move_state = MoveState.IDLE
@@ -114,8 +109,10 @@ func update_movement(next_direction: Vector2 = Vector2.ZERO) -> void:
 		Vector2(0.70710678, 0.70710678),
 	].find(next_direction)]
 	
+	# set velocity to direction at walk speed
 	velocity = next_direction * stats.walk_speed
 	
+	# update move state or multiply velocity accordingly
 	match move_state:
 		MoveState.IDLE:
 			move_state = MoveState.WALK
@@ -131,54 +128,70 @@ func update_movement(next_direction: Vector2 = Vector2.ZERO) -> void:
 	# update animation
 	update_animation()
 
+# ..............................................................................
+
+# MOVE STATE UPDATES
+
+# DASH
+
+func attempt_dash() -> void:
+	# check dash conditions
+	if stats.fatigue or stats.stamina < stats.dash_min_stamina:
+		return
+	if not move_state in [MoveState.WALK, MoveState.SPRINT]:
+		return
+
+	# update dash timer and stamina
+	move_state_timer = stats.dash_time
+	stats.update_stamina(-stats.dash_stamina)
+
+	# update move state and velocity
+	move_state = MoveState.DASH
+	update_movement(velocity.normalized())
+
 # END SPRINT
 
 func end_sprint() -> void:
 	move_state = MoveState.WALK
-	update_animation()
-
-# DASH
-
-func dash() -> void:
-	if stats.fatigue: return
-	if stats.stamina < stats.dash_min_stamina: return
-	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]: return
-
-	move_state_timer = stats.dash_time
-	stats.update_stamina(-stats.dash_stamina)
-
-	move_state = MoveState.DASH
-	update_animation()
+	update_movement(velocity.normalized())
 
 # KNOCKBACK
 
 func knockback(next_velocity: Vector2, duration: float) -> void:
-	if move_state == MoveState.KNOCKBACK: return
+	# check knockback conditions
+	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
+		return
 	
+	# update velocity and knockback timer
 	knockback_velocity = next_velocity
 	move_state_timer = duration
 	
+	# update move state and animation
 	move_state = MoveState.KNOCKBACK
-	update_animation()
+
+# STUN
 
 func stun(duration: float) -> void:
-	if move_state == MoveState.STUN: return
+	# check stun conditions
+	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
+		return
 
+	# update velocity and stun timer
 	velocity = Vector2.ZERO
 	move_state_timer = duration
 
+	# update move state and animation
 	move_state = MoveState.STUN
-	update_animation()
 
 # ..............................................................................
 
 # ANIMATION
 
 func update_animation() -> void:
-	if not stats.alive or move_state in [MoveState.KNOCKBACK, MoveState.STUN]: return
+	if not stats.alive or move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
+		return
 
-	var animation_node: AnimatedSprite2D = $Animation
-	var next_animation: StringName = animation_node.animation
+	var next_animation: StringName = $Animation.animation
 	var animation_speed: float = 1.0
 	
 	# determine next animation based on action and move states
@@ -212,18 +225,23 @@ func update_animation() -> void:
 			animation_speed *= stats.sprint_multiplier
 	
 	# play animation if changed
-	if next_animation != animation_node.animation:
-		animation_node.play(next_animation)
+	if next_animation != $Animation.animation:
+		$Animation.play(next_animation)
 
 	# update animation speed
-	animation_node.speed_scale = animation_speed
+	$Animation.speed_scale = animation_speed
 
 # ..............................................................................
 
 # ACTIONS
 
-func action_request() -> void:
-	pass # TODO
+func action_input() -> void:
+	print(action_state)
+	if action_state != ActionState.READY:
+		return
+
+	action_state = ActionState.ACTION
+	stats.basic_attack()
 
 func queue_attack() -> void:
 	action_type = ActionType.ATTACK
@@ -402,7 +420,7 @@ func update_stats(next_stats: PlayerStats) -> void:
 
 	move_state = MoveState.IDLE
 	# TODO: action_state = ActionState.READY
-	var move_direction: Directions = Directions.DOWN
+	#var move_direction: Directions = Directions.DOWN
 	
 	action_vector = Vector2.DOWN
 	knockback_velocity = Vector2.UP
@@ -418,12 +436,13 @@ func update_stats(next_stats: PlayerStats) -> void:
 
 # CombatHitBox
 
-# TODO: add either Inputs.accept_event() or event.accept() if it exists
 func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"):
 		if self in Entities.entities_available:
+			Inputs.accept_event()
 			Entities.choose_entity(self)
 		elif Entities.switching_main_player and not is_main_player:
+			Inputs.accept_event()
 			Players.update_main_player(self)
 
 # InteractionArea
@@ -463,15 +482,17 @@ func _on_move_state_timeout() -> void:
 	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
 		move_state = MoveState.IDLE
 		if is_main_player:
-			update_movement()
+			update_movement(Vector2.ZERO)
 	elif move_state == MoveState.DASH:
-		if Input.is_action_pressed(&"dash"):
+		if Input.is_action_pressed(&"dash") or not Inputs.sprint_hold:
 			move_state = MoveState.SPRINT
 		else:
 			move_state = MoveState.WALK
 		update_animation()
 
 func _on_action_state_timeout() -> void:
+	pass
+	'''
 	match action_state:
 		ActionState.READY:
 			action_state = ActionState.ACTION
@@ -481,6 +502,7 @@ func _on_action_state_timeout() -> void:
 				action_queue[0][0].callv(action_queue[0][1])
 		ActionState.COOLDOWN:
 			action_state = ActionState.READY
+	'''
 
 # ..............................................................................
 

@@ -8,8 +8,6 @@ var players_in_attack_area: Array[Node] = []
 
 var in_action_range: bool = false # TODO: temporary variable
 
-@onready var knockback_timer_node: Timer = $KnockbackTimer
-
 # ..............................................................................
 
 # MOVE STATE
@@ -19,21 +17,21 @@ var in_action_range: bool = false # TODO: temporary variable
 # KNOCKBACK & DEATH
 
 func knockback(direction: Vector2, weight: float = 1.0) -> void:
-	if move_state == MoveState.KNOCKBACK: return
-	if direction == Vector2.ZERO or weight == 0.0: return
+	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]: return
+
 	move_state = MoveState.KNOCKBACK
 
 	knockback_velocity = direction * (200.0 if not stats.alive else weight * 160.0) # TODO: should use weight stat
-	if stats.alive: stats.speed_scale = 0.3 # TODO
+	if stats.alive: $Animation.speed_scale = 0.3 # TODO
 	velocity = knockback_velocity
 
-	stats.play(&"death") # TODO
-	$KnockbackTimer.start(0.4)
-	await $KnockbackTimer.timeout
+	$Animation.play(&"death") # TODO
+	move_state_timer = 0.4
+	await move_state_timeout
 
 	move_state = MoveState.IDLE
-	stats.speed_scale = 1.0 # TODO
-	stats.play(&"idle")
+	$Animation.speed_scale = 1.0 # TODO
+	$Animation.play(&"idle")
 
 func death() -> void:
 	$Animation.play(&"death")
@@ -45,8 +43,13 @@ func death() -> void:
 	remove_from_group(&"enemies_on_screen")
 	Combat.remove_active_enemy(self)
 
-	get_node(^"DeathTimer").start()
-	await $DeathTimer.timeout
+	# death timer
+	var death_timer: Timer = Timer.new()
+	add_child(death_timer)
+	death_timer.wait_time = 0.4
+	death_timer.start()
+
+	await death_timer.timeout
 	
 	for i in 3:
 		var item: Node = load("res://entities/entities_items/lootable.tscn").instantiate()
@@ -56,24 +59,16 @@ func death() -> void:
 
 # ..............................................................................
 
+# SIGNALS
+
 # COMBAT HIT BOX
 
-# left click handler
-func _on_combat_hit_box_input_event(_viewport: Node, _event: InputEvent, _shape_idx: int) -> void:
-	if Input.is_action_just_pressed(&"action"):
+func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"):
 		if Input.is_action_pressed(&"alt"):
 			Combat.lock(self)
-		if Entities.requesting_entities:
+		elif self in Entities.entities_available:
 			Entities.choose_entity(self)
-
-func _on_combat_hit_box_mouse_entered() -> void:
-	if Entities.requesting_entities:
-		Inputs.mouse_in_combat_area = false
-
-func _on_combat_hit_box_mouse_exited() -> void:
-	Inputs.mouse_in_combat_area = true
-
-# ..............................................................................
 
 # DETECTION AREA
 
@@ -95,8 +90,6 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 		stats.entity_types &= ~Entities.Type.ENEMIES_IN_COMBAT
 		enemy_in_combat = false
 
-# ..............................................................................
-
 # ATTACK AREA
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
@@ -113,8 +106,6 @@ func _on_attack_area_body_exited(body: Node2D) -> void:
 	players_in_attack_area.erase(body)
 	if players_in_attack_area.is_empty():
 		in_action_range = false
-
-# ..............................................................................
 
 # ON SCREEN STATUS
 

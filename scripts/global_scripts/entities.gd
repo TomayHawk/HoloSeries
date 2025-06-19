@@ -192,4 +192,4 @@ func toggle_entities_movements(can_move: bool) -> void:
 	for enemy_node in get_tree().current_scene.get_node(^"Enemies").get_children():
 		enemy_node.set_physics_process(can_move)
 		if not can_move:
-			enemy_node.stats.play(&"idle")
+			enemy_node.get_node(^"Animation").play(&"idle")

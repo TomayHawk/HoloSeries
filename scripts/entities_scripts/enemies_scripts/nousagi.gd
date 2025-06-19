@@ -1,23 +1,17 @@
 class_name Nousagi extends BasicEnemyBase
 
-# direction variables
-var nousagi_direction: Vector2 = Vector2.ZERO
-var target_player_node: Node = null
-
-# combat variables
-var can_summon: bool = false
-
 # ..............................................................................
+
+# PROCESS
 
 func _init() -> void:
 	stats = BasicEnemyStats.new()
-	set_stats()
+	set_variables()
 
 func _ready() -> void:
 	# start walking in a random direction
-	nousagi_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
 	$Animation.play(&"walk")
-	$Animation.flip_h = nousagi_direction.x < 0
+	$Animation.flip_h = action_vector.x < 0
 
 # TODO: need to fix death
 func _physics_process(delta: float) -> void:
@@ -27,18 +21,28 @@ func _physics_process(delta: float) -> void:
 	elif move_state == MoveState.IDLE and action_state != ActionState.ACTION:
 		if not in_action_range:
 			$Animation.play(&"walk")
-		elif target_player_node:
-			$Animation.flip_h = (target_player_node.position - position).x < 0
+		elif action_target:
+			$Animation.flip_h = action_target.position.x < position.x
 			if action_state == ActionState.READY:
-				attempt_attack()
+				take_action()
 
 	move_and_slide()
 
 # ..............................................................................
 
-# SET STATS
+# SET VARIABLES
 
-func set_stats() -> void:
+func set_variables() -> void:
+	# Set base variables
+	action_type = ActionType.ATTACK
+	action_target = null
+	action_target_type = PlayerBase
+	action_target_priority = &"health"
+	action_target_get_max = false
+	action_vector = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
+	action_fail_count = 0
+
+	# Set stats
 	stats.base = self
 
 	stats.level = 1
@@ -115,27 +119,27 @@ func animation_end() -> void:
 		else:
 			available_player_nodes = players_in_detection_area
 
-		target_player_node = null
+		action_target = null
 		var target_player_health: float = INF
 		# target player with lowest health
 		for player_node in available_player_nodes:
 			if player_node.stats.health < target_player_health:
 				target_player_health = player_node.stats.health
-				target_player_node = player_node
+				action_target = player_node
 		# move towards player if any player in detection area
-		if target_player_node:
-			$NavigationAgent2D.target_position = target_player_node.position
-			nousagi_direction = to_local($NavigationAgent2D.get_next_path_position()).normalized()
-			$Animation.flip_h = nousagi_direction.x < 0.0
+		if action_target:
+			$NavigationAgent2D.target_position = action_target.position
+			action_vector = to_local($NavigationAgent2D.get_next_path_position()).normalized()
+			$Animation.flip_h = action_vector.x < 0.0
 		# else move in a random direction
 		else:
-			nousagi_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
+			action_vector = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
 		$Animation.play(&"walk")
-		$Animation.flip_h = nousagi_direction.x < 0.0
+		$Animation.flip_h = action_vector.x < 0.0
 	else:
-		nousagi_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
+		action_vector = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
 		$Animation.play(&"walk")
-		$Animation.flip_h = nousagi_direction.x < 0.0
+		$Animation.flip_h = action_vector.x < 0.0
 
 func _on_animation_frame_changed() -> void:
 	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]: return
@@ -143,46 +147,52 @@ func _on_animation_frame_changed() -> void:
 	if $Animation.frame == 3:
 		match $Animation.animation:
 			"attack":
-				if target_player_node:
-					var temp_attack_direction = (target_player_node.position - position).normalized()
+				if action_target:
+					var temp_attack_direction = (action_target.position - position).normalized()
 					if Damage.combat_damage(13, Damage.DamageTypes.PLAYER_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
-							stats, target_player_node.stats):
-						target_player_node.knockback(temp_attack_direction, 0.4)
+							stats, action_target.stats):
+						action_target.knockback(temp_attack_direction, 0.4)
 					$Animation.flip_h = temp_attack_direction.x < 0
 			"walk":
-				velocity = nousagi_direction * walk_speed
+				velocity = action_vector * walk_speed
 
 # ..............................................................................
 
-# ATTACK
+# ACTION
 
-func attempt_attack() -> void:
-	if can_summon and randi() % 3 == 0:
+func take_action() -> void:
+	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]: return
+
+	# attempt summon
+	if $SummonCooldown.paused and randi() % 3 == 0:
 		summon_nousagi()
 	else:
-		action_state = ActionState.ACTION
-		$Animation.play(&"attack")
-		$AttackCooldown.start(randf_range(1.5, 3.0))
-		await $AttackCooldown.timeout
-		if in_action_range:
-			action_state = ActionState.READY
+		attack()
 
-func summon_nousagi():
+func attack() -> void:
+	action_state = ActionState.ACTION
+	$Animation.play(&"attack")
+	$Animation.flip_h = action_target.position.x < position.x
+	action_state_timer = randf_range(1.5, 3.0)
+	
+	await action_state_timeout
+	if in_action_range:
+		action_state = ActionState.READY
+
+func summon_nousagi() -> void:
 	# create an instance of nousagi in enemies node
 	var nousagi_instance: Node = load("res://entities/enemies/nousagi.tscn").instantiate()
 	add_sibling(nousagi_instance)
 	nousagi_instance.position = position + Vector2(5 * randf_range(-1, 1), 5 * randf_range(-1, 1)) * 5
 	
 	# start cooldown
-	$AttackCooldown.start(randf_range(2.0, 3.5))
+	action_state_timer = randf_range(2.0, 3.5)
 	action_state = ActionState.COOLDOWN
 	$SummonCooldown.start(randf_range(15, 20))
-	can_summon = false
-	await $AttackCooldown.timeout
+	await action_state_timeout
 	if in_action_range and not players_in_detection_area.is_empty():
 		action_state = ActionState.READY
 	await $SummonCooldown.timeout
-	can_summon = true
 
 # update health bar
 func update_health() -> void:

@@ -40,6 +40,7 @@ enum Directions {
 
 enum ActionType {
 	ATTACK,
+	SUMMON,
 	CAST,
 	ITEM,
 }
@@ -62,6 +63,17 @@ var knockback_velocity: Vector2 = Vector2.UP
 var move_state_timer: float = 0.0
 var action_state_timer: float = 0.0
 var process_interval: float = 0.0
+
+# ACTION
+
+# TODO: UPDATE STATS UPDATES
+var action_type: ActionType = ActionType.ATTACK
+var action_target: EntityBase = null
+var action_target_type: GDScript = EntityBase
+var action_target_priority: StringName = &""
+var action_target_get_max: bool = true
+var action_vector: Vector2 = Vector2.DOWN
+var action_fail_count: int = 0
 
 # ..............................................................................
 
@@ -112,14 +124,9 @@ func revive() -> void:
 
 # CombatHitBox
 
-func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"):
-		if self in Entities.entities_available:
-			Entities.choose_entity(self)
-
 func _on_combat_hit_box_mouse_entered() -> void:
 	if self in Entities.entities_available:
-		Inputs.mouse_in_combat_area = false
+		Inputs.action_inputs_enabled = false
 
 func _on_combat_hit_box_mouse_exited() -> void:
-	Inputs.mouse_in_combat_area = true
+	Inputs.action_inputs_enabled = true

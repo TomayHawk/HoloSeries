@@ -1,7 +1,9 @@
 extends Control
 
-var mouse_in_combat_area: bool = false
-var combat_inputs_enabled: bool = false
+var world_inputs_enabled: bool = false
+var action_inputs_enabled: bool = false
+
+var sprint_hold: bool = true
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed(&"full_screen"):
@@ -15,8 +17,8 @@ func _input(_event: InputEvent) -> void:
 
 func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed(&"action"):
-		if mouse_in_combat_area and not Entities.requesting_entities and Players.main_player:
-			Players.main_player.action_request()
+		if action_inputs_enabled and not Entities.requesting_entities and Players.main_player:
+			Players.main_player.action_input()
 	elif Input.is_action_just_pressed(&"esc"):
 		if Entities.requesting_entities:
 			Entities.end_entities_request()

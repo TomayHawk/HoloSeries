@@ -9,8 +9,8 @@ var mana_cost: float = 8.0
 var speed: float = 90.0
 var damage: float = 10.0
 
-@onready var caster_node: Node2D = Players.main_player
-@onready var caster_stats_node: Node2D = caster_node.stats
+@onready var caster_node: EntityBase = Players.main_player
+@onready var caster_stats_node: EntityStats = caster_node.stats
 
 func _ready() -> void:
 	hide()

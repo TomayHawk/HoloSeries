@@ -2,7 +2,7 @@ extends CanvasLayer
 
 func _ready() -> void:
 	Global.get_tree().set_pause(true)
-	Inputs.combat_inputs_enabled = false
+	Inputs.world_inputs_enabled = false
 	Combat.ui.hide()
 	TextBox.reset()
 
@@ -33,7 +33,7 @@ func _on_settings_pressed() -> void:
 
 func _on_resume_pressed() -> void:
 	Global.get_tree().set_pause(false)
-	Inputs.combat_inputs_enabled = true
+	Inputs.world_inputs_enabled = true
 	Combat.ui.show()
 	queue_free()
 

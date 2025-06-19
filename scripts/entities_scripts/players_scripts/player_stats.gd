@@ -284,7 +284,7 @@ func _on_action_cooldown_timeout() -> void:
 func basic_attack() -> void:
 	if not base: return
 
-	var attack_shape: Area2D = base.get_node(^"AttackShape")
+	var attack_shape: ShapeCast2D = base.get_node(^"AttackShape")
 	var animation_node: AnimatedSprite2D = base.get_node(^"Animation")
 
 	if base.is_main_player:
@@ -324,14 +324,16 @@ func basic_attack() -> void:
 	
 	if attack_shape.is_colliding():
 		for collision_index in attack_shape.get_collision_count():
-			enemy_body = attack_shape.get_collider(collision_index).base # TODO: null instance bug need fix
+			enemy_body = attack_shape.get_collider(collision_index).get_parent() # TODO: null instance bug need fix
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 					self, enemy_body.stats):
 				enemy_body.knockback(base.action_vector, knockback_weight)
 		Players.camera_node.screen_shake(0.1, 1, 30, 5, true)
 	
-	await animation_node.finished
+	await animation_node.animation_finished
+
+	base.action_state = base.ActionState.READY
 
 func ultimate_attack():
 	if not base: return
@@ -384,4 +386,5 @@ func ultimate_attack():
 
 	await animation_node.finished
 
-	base.action_state_timer = randf_range(2.0, 3.0)
+	base.action_state_timer = randf_range(2.0, 3.0) # TODO: don't know what this is for
+	base.action_state = base.ActionState.READY

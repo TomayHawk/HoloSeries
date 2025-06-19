@@ -36,10 +36,11 @@ func _ready() -> void:
 # INPUT
 
 func _input(_event: InputEvent) -> void:
-	if not Inputs.combat_inputs_enabled: return
+	if not Inputs.world_inputs_enabled: return
 	if Input.is_action_just_pressed(&"display_combat_ui"):
 		Inputs.accept_event()
 		if Combat.not_in_combat():
+			# TODO: currently pressable while hidden
 			%CombatControl.modulate.a = 1.0 if %CombatControl.modulate.a != 1.0 else 0.0
 	elif Input.is_action_just_pressed(&"alt"):
 		Inputs.accept_event()
@@ -170,11 +171,11 @@ func hide_sub_combat_options() -> void:
 # SIGNALS AND BUTTON PRESSES
 
 func _on_control_mouse_entered() -> void:
-	Inputs.mouse_in_combat_area = false
+	Inputs.action_inputs_enabled = false
 	Players.camera_node.can_zoom = false
 
 func _on_control_mouse_exited() -> void:
-	Inputs.mouse_in_combat_area = true
+	Inputs.action_inputs_enabled = true
 	Players.camera_node.can_zoom = true
 
 func button_pressed() -> void:
