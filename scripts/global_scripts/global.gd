@@ -35,7 +35,7 @@ func change_scene(next_scene_path: String, next_position: Vector2, camera_limits
 	# update ally positions
 	for player_node in Players.party_node.get_children():
 		if player_node == Players.main_player: continue
-		player_node.position = next_position + (Vector2(randf_range(-1, 1), randf_range(-1, 1)) * 25)
+		player_node.ally_teleport(next_position)
 
 	# update bgm
 	start_bgm(bgm_path)

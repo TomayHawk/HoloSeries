@@ -91,7 +91,7 @@ func recruit_player() -> void:
 
 	var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/character_button.tscn").instantiate()
 	Combat.ui.get_node(^"CharacterSelector/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer").add_child(standby_button)
-	standby_button.pressed.connect(Players.update_standby_player.bind(standby_button.get_index()))
+	standby_button.pressed.connect(Players.switch_standby_character.bind(standby_button.get_index()))
 	standby_button.pressed.connect(Combat.ui.button_pressed)
 	standby_button.mouse_entered.connect(Combat.ui._on_control_mouse_entered)
 	standby_button.mouse_exited.connect(Combat.ui._on_control_mouse_exited)

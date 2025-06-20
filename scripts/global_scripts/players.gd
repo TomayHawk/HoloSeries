@@ -1,40 +1,29 @@
 extends Node
 
+# TODO: allow allies to switch with standby players
+
 var main_player: PlayerBase = null
 var standby_characters: Array[PlayerStats] = []
 
 @onready var party_node: Node2D = $Party
 @onready var camera_node: Camera2D = $Camera2D
 
-func update_main_player(player_base: PlayerBase) -> void:
-	var prev_main_player: PlayerBase = main_player
-	main_player = player_base
+func switch_main_player(next_main_player: PlayerBase) -> void:
+	main_player.switch_to_ally()
+	next_main_player.switch_to_main()
+	main_player = next_main_player
 
-	main_player.is_main_player = true
-	prev_main_player.is_main_player = false
+func switch_standby_character(standby_index: int) -> void:
+	if main_player.move_state in [main_player.MoveState.KNOCKBACK, main_player.MoveState.STUN]:
+		return
 
-	prev_main_player.move_state_timeout.disconnect(prev_main_player._on_main_move_state_timeout)
-	prev_main_player.move_state_timeout.connect(prev_main_player._on_ally_move_state_timeout)
-	
-	main_player.move_state_timeout.disconnect(main_player._on_ally_move_state_timeout)
-	main_player.move_state_timeout.connect(main_player._on_main_move_state_timeout)
-	
-	camera_node.new_parent(main_player)
-	Entities.end_entities_request()
-
-# TODO: allow allies to switch with standby players
-func update_standby_player(standby_index: int) -> void:
 	var prev_stats: PlayerStats = main_player.stats
-	var next_stats: PlayerStats = standby_characters.pop_at(standby_index)
-	
-	# add previous stats to standby
-	standby_characters.insert(standby_index, prev_stats)
 
 	# update main player
-	main_player.update_stats(next_stats)
+	main_player.switch_character(standby_characters.pop_at(standby_index))
 
-	# update player ui
-	Combat.ui.update_party_ui(main_player.party_index, next_stats)
+	# add previous stats to standby
+	standby_characters.insert(standby_index, prev_stats)
 
 	# update standby ui
 	Combat.ui.update_standby_ui(standby_index, prev_stats)

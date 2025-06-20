@@ -97,7 +97,7 @@ func add_standby_character(character: PlayerStats) -> void:
 	standby_button.get_node(^"ManaAmount").text = str(int(character.mana))
 
 	# set button signals and connections
-	standby_button.pressed.connect(Players.update_standby_player.bind(standby_button.get_index()))
+	standby_button.pressed.connect(Players.switch_standby_character.bind(standby_button.get_index()))
 	standby_button.pressed.connect(button_pressed)
 	standby_button.mouse_entered.connect(_on_control_mouse_entered)
 	standby_button.mouse_exited.connect(_on_control_mouse_exited)

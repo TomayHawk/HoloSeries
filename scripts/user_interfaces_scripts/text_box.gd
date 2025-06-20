@@ -65,18 +65,18 @@ func _input(event: InputEvent) -> void:
 
 	if not (event.is_action(&"action") or event.is_action(&"continue") or event.is_action(&"esc")):
 		return
-	
-	Inputs.accept_event()
 
 	if Input.is_action_just_pressed(&"continue") or Input.is_action_just_pressed(&"action"):
 		# force end dialogue animation
 		if text_box_state == TextBoxState.TYPING:
+			Inputs.accept_event()
 			text_box_state = TextBoxState.END
 		# continue or end dialogue
 		elif text_box_state == TextBoxState.END:
+			Inputs.accept_event()
 			text_box_state = TextBoxState.READY
 	elif Input.is_action_just_pressed(&"esc"):
-		pass
+		Inputs.accept_event()
 
 func clearTextBox():
 	%TextBoxMargin.hide()

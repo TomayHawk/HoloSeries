@@ -22,17 +22,23 @@ var party_index: int = -1
 var in_action_range: bool = false
 var action_queue: Array[Array] = []
 
+# ..............................................................................
+
+#region READY
+
 func _ready() -> void:
 	await Global.get_tree().process_frame
 	if not is_main_player:
-		move_state_timeout.disconnect(_on_main_move_state_timeout)
+		move_state_timeout.disconnect(_on_move_state_timeout)
 		move_state_timeout.connect(_on_ally_move_state_timeout)
 		await Global.get_tree().process_frame
 		_on_ally_move_state_timeout() # TODO: temporary code to start ally movement
 
+# endregion
+
 # ..............................................................................
 
-# PHYSICS PROCESS
+#region PHYSICS PROCESS
 
 func _physics_process(_delta: float) -> void:
 	# no velocity if stunned
@@ -47,9 +53,11 @@ func _physics_process(_delta: float) -> void:
 	
 	move_and_slide()
 
+# endregion
+
 # ..............................................................................
 
-# INPUT
+#region INPUT
 
 func _input(event: InputEvent) -> void:
 	# check input requirements
@@ -84,9 +92,11 @@ func _input(event: InputEvent) -> void:
 		if move_state == MoveState.SPRINT and Inputs.sprint_hold:
 			end_sprint()
 
+# endregion
+
 # ..............................................................................
 
-# MOVEMENTS
+#region MOVEMENTS
 
 func update_main_player_movement() -> void:
 	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
@@ -133,12 +143,12 @@ func update_movement(next_direction: Vector2) -> void:
 		Vector2(0.0, 1.0),
 		Vector2(-1.0, 0.0),
 		Vector2(1.0, 0.0),
-		Vector2(-0.70710678, -0.70710678),
-		Vector2(0.70710678, -0.70710678),
-		Vector2(-0.70710678, 0.70710678),
-		Vector2(0.70710678, 0.70710678),
-	].find(next_direction)]
-	
+		Vector2(-1.0, -1.0),
+		Vector2(1.0, -1.0),
+		Vector2(-1.0, 1.0),
+		Vector2(1.0, 1.0),
+	].find(round(next_direction))]
+
 	# set velocity to direction at walk speed
 	velocity = next_direction * stats.walk_speed
 	
@@ -159,9 +169,11 @@ func update_movement(next_direction: Vector2) -> void:
 	# update animation
 	update_animation()
 
+# endregion
+
 # ..............................................................................
 
-# MOVE STATE UPDATES
+#region MOVE STATE UPDATES
 
 # DASH
 
@@ -214,60 +226,134 @@ func stun(duration: float) -> void:
 	# update move state and animation
 	move_state = MoveState.STUN
 
+# endregion
+
 # ..............................................................................
 
-# ANIMATION
+#region PLAYER STATES
 
-func update_animation() -> void:
-	if not stats.alive or move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
+func _on_move_state_timeout() -> void:
+	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
+		move_state = MoveState.IDLE
+	elif move_state == MoveState.DASH:
+		if Input.is_action_pressed(&"dash") or not Inputs.sprint_hold:
+			move_state = MoveState.SPRINT
+		else:
+			move_state = MoveState.WALK
+	update_main_player_movement()
+
+# endregion
+
+# ..............................................................................
+
+#region ALLY STATES
+
+# PlayerAlly move process
+func _on_ally_move_state_timeout() -> void:
+	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
+		move_state = MoveState.IDLE
+	elif move_state == MoveState.DASH:
+		move_state = MoveState.WALK
+
+	# while in action, idle
+	if action_state == ActionState.ACTION:
+		move_state_timer = action_state_timer
+		update_movement(Vector2.ZERO)
 		return
 
-	var next_animation: StringName = $Animation.animation
-	var animation_speed: float = 1.0
-	
-	# determine next animation based on action and move states
-	if action_state == ActionState.ACTION:
-		# attack
-		next_animation = [
-			&"right_attack",
-			&"down_attack",
-			&"left_attack",
-			&"up_attack",
-		][(roundi(action_vector.angle() / (PI / 2)) + 4) % 4]
-	elif move_state == MoveState.IDLE:
-		# idle
-		next_animation = [
-			&"up_idle",
-			&"down_idle",
-			&"left_idle",
-			&"right_idle"
-		][move_direction if (move_direction < 4) else move_direction % 2 + 2]
-	else:
-		# move
-		next_animation = [
-			&"up_walk",
-			&"down_walk",
-			&"left_walk",
-			&"right_walk"
-		][move_direction if (move_direction < 4) else move_direction % 2 + 2]
-		
-		# update animation speed based on movement speed
-		animation_speed = stats.walk_speed / 70.0
-		if move_state == MoveState.DASH:
-			animation_speed *= 2.0
-		elif move_state == MoveState.SPRINT:
-			animation_speed *= stats.sprint_multiplier
-	
-	# play animation if changed
-	if next_animation != $Animation.animation:
-		$Animation.play(next_animation)
+	# while in action range, idle and face nearest enemy
+	if Combat.in_combat() and in_action_range:
+		move_direction = [Directions.RIGHT, Directions.DOWN, Directions.LEFT, Directions.UP,
+				Directions.UP_LEFT, Directions.UP_RIGHT, Directions.DOWN_LEFT, Directions.DOWN_RIGHT
+				][(roundi((position - Entities.target_entity_by_distance(Combat.enemies_in_combat, position, false
+				).position).angle() / (PI / 4.0)) + 8) % 8]
+		update_movement(Vector2.ZERO)
+		return
 
-	# update animation speed
-	$Animation.speed_scale = animation_speed
+	var ally_distance: float = position.distance_to(Players.main_player.position)
+	var target_direction: Vector2 = Vector2.ZERO
+
+	# if not in action range navigate to nearest action target
+	if Combat.in_combat():
+		# TODO: should not use enemies_in_combat
+		action_target = Entities.target_entity_by_distance(Combat.enemies_in_combat, position, false)
+		$NavigationAgent2D.target_position = action_target.position
+		target_direction = to_local($NavigationAgent2D.get_next_path_position())
+		move_state_timer = randf_range(0.2, 0.4) / stats.walk_speed * 140.0
+	# if large ally distance, teleport to main player
+	elif ally_distance > 300.0:
+		ally_teleport()
+		_on_ally_move_state_timeout()
+		return
+	# if not in idle, determine idle time based on ally distance
+	elif move_state != MoveState.IDLE:
+		move_state_timer = \
+				randf_range(2.4, 2.6) if ally_distance < 75.0 \
+				else randf_range(2.0, 2.2) if ally_distance < 100 \
+				else randf_range(1.6, 1.8) if ally_distance < 150.0 \
+				else randf_range(1.2, 1.4)
+		update_movement(Vector2.ZERO)
+		return
+	# elif ally distance is larger than 75.0, navigate to main player
+	elif ally_distance > 75.0:
+		$NavigationAgent2D.target_position = Players.main_player.position
+		target_direction = to_local($NavigationAgent2D.get_next_path_position())
+		move_state_timer = randf_range(0.5, 0.7) / stats.walk_speed * 140.0
+	# else random movement
+	else:
+		target_direction = Vector2.RIGHT.rotated(randf() * TAU)
+		move_state_timer = randf_range(0.5, 0.7) / stats.walk_speed * 140.0
+
+	# sprint with main player with conditions
+	if (
+			Players.main_player.move_state == MoveState.SPRINT
+			and Combat.not_in_combat()
+			and ally_distance > 125
+			and not stats.fatigue
+	):
+		move_state = MoveState.SPRINT
+	
+	# snap target direction to the nearest 8-way angle
+	const ANGLE_INCREMENT: float = PI / 4
+	var snapped_angle: float = \
+			roundi(target_direction.angle() / ANGLE_INCREMENT) * ANGLE_INCREMENT
+
+	# possible angles by proximity to the snapped angle
+	var possible_angles: Array[float] = [
+		snapped_angle,
+		snapped_angle + ANGLE_INCREMENT,
+		snapped_angle - ANGLE_INCREMENT,
+		snapped_angle + ANGLE_INCREMENT * 2,
+		snapped_angle - ANGLE_INCREMENT * 2,
+		snapped_angle + ANGLE_INCREMENT * 3,
+		snapped_angle - ANGLE_INCREMENT * 3,
+		snapped_angle + ANGLE_INCREMENT * 4,
+	]
+
+	# find the closest non-colliding direction
+	for possible_angle in possible_angles:
+		# attempt possible direction
+		target_direction = Vector2.RIGHT.rotated(possible_angle)
+		
+		# check for collisions
+		$ObstacleCheck.set_target_position(target_direction * 10.0)
+		$ObstacleCheck.force_shapecast_update()
+
+		# if not colliding, break
+		if not $ObstacleCheck.is_colliding():
+			break
+
+	update_movement(target_direction)
+
+func ally_teleport(next_position: Vector2 = Players.main_player.position) -> void:
+	if not is_main_player:
+		position = next_position + (Vector2(randf_range(-1, 1), randf_range(-1, 1)) * 25)
+
+# endregion
 
 # ..............................................................................
 
-# ACTIONS
+#region ACTIONS
 
 func action_input() -> void:
 	if action_state != ActionState.READY:
@@ -316,9 +402,136 @@ func choose_action_target() -> void:
 		# stop movement
 		update_movement(Vector2.ZERO)
 
+# endregion
+
 # ..............................................................................
 
-# STATS
+#region ANIMATIONS
+
+func update_animation() -> void:
+	if not stats.alive or move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
+		return
+
+	var next_animation: StringName = $Animation.animation
+	var animation_speed: float = 1.0
+	
+	# determine next animation based on action and move states
+	if action_state == ActionState.ACTION:
+		# attack
+		next_animation = [
+			&"right_attack",
+			&"down_attack",
+			&"left_attack",
+			&"up_attack",
+		][(roundi(action_vector.angle() / (PI / 2)) + 4) % 4]
+	elif move_state == MoveState.IDLE:
+		# idle
+		next_animation = [
+			&"up_idle",
+			&"down_idle",
+			&"left_idle",
+			&"right_idle"
+		][move_direction if (move_direction < 4) else move_direction % 2 + 2]
+	else:
+		# move
+		next_animation = [
+			&"up_walk",
+			&"down_walk",
+			&"left_walk",
+			&"right_walk"
+		][move_direction if (move_direction < 4) else move_direction % 2 + 2]
+		
+		# update animation speed based on movement speed
+		animation_speed = stats.walk_speed / 70.0
+		if move_state == MoveState.DASH:
+			animation_speed *= 2.0
+		elif move_state == MoveState.SPRINT:
+			animation_speed *= stats.sprint_multiplier
+	
+	# play animation if changed
+	if next_animation != $Animation.animation:
+		$Animation.play(next_animation)
+		$Animation.frame_changed.emit()
+		$Animation.animation_finished.emit()
+
+	# update animation speed
+	$Animation.speed_scale = animation_speed
+
+# endregion
+
+# ..............................................................................
+
+#region UPDATE NODES
+
+func switch_to_main() -> void:
+	is_main_player = true
+	move_state_timeout.disconnect(_on_ally_move_state_timeout)
+	move_state_timeout.connect(_on_move_state_timeout)
+	Players.camera_node.new_parent(self)
+	Entities.end_entities_request()
+	
+	# TODO: update action variables
+
+	if action_state == ActionState.COOLDOWN:
+		if action_state_timer > 0.0:
+			stats.last_action_state_timer = action_state_timer
+			action_state = ActionState.READY
+			action_state_timer = 0.0
+			action_state_timeout.emit()
+	else:
+		action_state = ActionState.READY
+		stats.last_action_state_timer = 0.0
+	
+	if not move_state in [MoveState.KNOCKBACK, MoveState.STUN] and move_state_timer > 0.0:
+		move_state_timer = 0.0
+		move_state_timeout.emit()
+
+func switch_to_ally() -> void:
+	is_main_player = false
+	move_state_timeout.disconnect(_on_move_state_timeout)
+	move_state_timeout.connect(_on_ally_move_state_timeout)
+
+	# TODO: update action variables
+
+	action_state_timer = max(action_state_timer, stats.last_action_state_timer)
+
+	if action_state_timer > 0.0:
+		action_state = ActionState.COOLDOWN
+	else:
+		action_state = ActionState.READY
+	
+	if not move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
+		move_state_timer = 0.0
+		move_state_timeout.emit()
+
+func switch_character(next_stats: PlayerStats) -> void:
+	stats.base = null
+	stats.last_action_state_timer = action_state_timer if action_state == ActionState.COOLDOWN else 0.0
+	stats = next_stats
+
+	next_stats.base = self
+	set_max_values()
+
+	move_state_timer = 0.0
+	update_main_player_movement()
+	$Animation.sprite_frames = next_stats.animation
+	
+	
+	action_state = ActionState.READY
+	action_state_timer = 0.0
+
+	process_interval = 0.0
+
+	# TODO: update actions
+
+	# update player ui
+	Combat.ui.update_party_ui(party_index, next_stats)
+
+# endregion
+
+# ..............................................................................
+
+#region STATS
 
 # update health bar and label
 func update_health() -> void:
@@ -372,9 +585,11 @@ func set_max_values() -> void:
 	update_shield()
 	update_ultimate_gauge()
 
+# endregion
+
 # ..............................................................................
 
-# DEATH & REVIVE
+#region DEATH & REVIVE
 
 func death() -> void:
 	# pause process and update all base class variables
@@ -395,7 +610,7 @@ func death() -> void:
 	if is_main_player:
 		var alive_party_players = Players.party_node.get_children().filter(func(node: Node) -> bool: return node.stats.alive)
 		if not alive_party_players.is_empty():
-			Players.update_main_player(alive_party_players[0])
+			Players.switch_main_player(alive_party_players[0])
 		else:
 			print("GAME OVER") # TODO
 
@@ -437,34 +652,11 @@ func disable_collisions(disable: bool) -> void:
 	$LootableArea/CollisionShape2D.disabled = disable
 	$ActionArea/CollisionShape2D.disabled = disable
 
-# ..............................................................................
-
-# UPDATE NODES
-
-func switch_main(next_stats: PlayerStats) -> void:
-	pass
-
-func update_stats(next_stats: PlayerStats) -> void:
-	stats = next_stats
-	stats.base = self
-
-	# STATES
-
-	move_state = MoveState.IDLE
-	# TODO: action_state = ActionState.READY
-	#var move_direction: Directions = Directions.DOWN
-	
-	action_vector = Vector2.DOWN
-	move_state_velocity = Vector2.UP
-	move_state_timer = 0.0
-	# TODO: action_state_timer = 0.0
-	process_interval = 0.0
-
-	# TODO: queue actions
+# endregion
 
 # ..............................................................................
 
-# SIGNALS
+#region SIGNALS
 
 # CombatHitBox
 
@@ -475,7 +667,7 @@ func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_i
 			Entities.choose_entity(self)
 		elif Entities.switching_main_player and not is_main_player:
 			Inputs.accept_event()
-			Players.update_main_player(self)
+			Players.switch_main_player(self)
 
 func _on_combat_hit_box_mouse_entered() -> void:
 	if self in Entities.entities_available or Entities.switching_main_player:
@@ -507,130 +699,16 @@ func _on_action_area_body_entered(_body: Node2D) -> void:
 	queue_attack()
 
 func _on_action_area_body_exited(_body: Node2D) -> void:
+	await Global.get_tree().process_frame
 	in_action_range = is_in_action_range()
+	if not is_main_player and not in_action_range:
+		move_state_timer = 0.0
+		_on_ally_move_state_timeout()
 
 func is_in_action_range() -> bool:
 	return not $ActionArea.get_overlapping_bodies().filter(
 			func(node): return node.stats.entity_types & action_target_type).is_empty()
 
-# State Timers
-
-func _on_main_move_state_timeout() -> void:
-	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
-		move_state = MoveState.IDLE
-	elif move_state == MoveState.DASH:
-		if Input.is_action_pressed(&"dash") or not Inputs.sprint_hold:
-			move_state = MoveState.SPRINT
-		else:
-			move_state = MoveState.WALK
-	update_main_player_movement()
-
-func _on_action_state_timeout() -> void:
-	pass
-	'''
-	match action_state:
-		ActionState.READY:
-			action_state = ActionState.ACTION
-		ActionState.ACTION:
-			action_state = ActionState.COOLDOWN
-			if not action_queue.is_empty():
-				action_queue[0][0].callv(action_queue[0][1])
-		ActionState.COOLDOWN:
-			action_state = ActionState.READY
-	'''
+# endregion
 
 # ..............................................................................
-
-# TODO: need to apply main_move_state_timeout to allies
-
-# PlayerAlly move process
-func _on_ally_move_state_timeout() -> void:
-	# if ally in action, set to idle
-	if action_state == ActionState.ACTION:
-		update_movement(Vector2.ZERO)
-		move_state_timer = action_state_timer
-		return
-
-	var ally_distance: float = position.distance_to(Players.main_player.position)
-	var target_direction: Vector2 = Vector2.ZERO
-
-	# if in combat, navigate to target enemy
-	if Combat.in_combat():
-		if in_action_range:
-			print("In action range, no movement")
-		else:
-			# target closest enemy in combat
-			var target_enemy_node: EnemyBase = Entities.target_entity_by_distance(
-					Combat.enemies_in_combat, position, false)
-
-			# navigate to target enemy
-			$NavigationAgent2D.target_position = target_enemy_node.position
-			target_direction = to_local($NavigationAgent2D.get_next_path_position())
-			move_state_timer = randf_range(0.2, 0.4)
-	# handle idle state
-	elif move_state != MoveState.IDLE:
-		# determine idle time based on ally distance
-		move_state_timer = \
-				randf_range(1.6, 1.8) if ally_distance < 75.0 \
-				else randf_range(0.8, 1.0) if ally_distance < 100 \
-				else randf_range(0.4, 0.6) if ally_distance < 150 \
-				else 0.0
-
-		# if in idle distance, update velocity to zero
-		if move_state_timer > 0.0:
-			update_movement(Vector2.ZERO)
-			return
-		
-		# if large ally distance, teleport to main player
-		if ally_distance > 200.0:
-			pass # TODO: teleport to main player
-	# if not in combat and not in roam distance, navigate to player
-	elif ally_distance > 75.0:
-		$NavigationAgent2D.target_position = Players.main_player.position
-		target_direction = to_local($NavigationAgent2D.get_next_path_position())
-		move_state_timer = randf_range(0.5, 0.7)
-	# else navigate to player
-	else:
-		target_direction = Vector2.RIGHT.rotated(randf() * TAU)
-		move_state_timer = randf_range(0.5, 0.7)
-	
-	# sprint with main player if not in combat and ally distance is large enough
-	if (
-			Players.main_player.move_state == MoveState.SPRINT
-			and Combat.not_in_combat()
-			and ally_distance > 125
-			# TODO: need to check fatigue
-	):
-		move_state = MoveState.SPRINT
-	
-	# snap target direction to the nearest 8-way angle
-	const ANGLE_INCREMENT: float = PI / 4
-	var snapped_angle: float = \
-			round(target_direction.angle() / ANGLE_INCREMENT) * ANGLE_INCREMENT
-
-	# possible angles by proximity to the snapped angle
-	var possible_angles: Array[float] = [
-		snapped_angle,
-		snapped_angle + ANGLE_INCREMENT,
-		snapped_angle - ANGLE_INCREMENT,
-		snapped_angle + ANGLE_INCREMENT * 2,
-		snapped_angle - ANGLE_INCREMENT * 2,
-		snapped_angle + ANGLE_INCREMENT * 3,
-		snapped_angle - ANGLE_INCREMENT * 3,
-		snapped_angle + ANGLE_INCREMENT * 4,
-	]
-
-	# find the closest non-colliding direction
-	for possible_angle in possible_angles:
-		# attempt possible direction
-		target_direction = Vector2.RIGHT.rotated(possible_angle)
-		
-		# check for collisions
-		$ObstacleCheck.set_target_position(target_direction * 10.0)
-		$ObstacleCheck.force_shapecast_update()
-
-		# if not colliding, break
-		if not $ObstacleCheck.is_colliding():
-			break
-
-	update_movement(target_direction)

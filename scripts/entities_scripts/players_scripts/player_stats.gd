@@ -52,6 +52,9 @@ var mana_regen: float = BASE_MANA_REGEN
 var stamina_regen: float = BASE_STAMINA_REGEN
 var fatigue_regen: float = BASE_FATIGUE_REGEN
 
+# party variables
+var last_action_state_timer: float = 0.0
+
 # nexus variables
 var last_node: int = -1
 var unlocked_nodes: Array[int] = []
@@ -296,11 +299,13 @@ func basic_attack() -> void:
 	var attack_shape: ShapeCast2D = base.get_node(^"AttackShape")
 	var animation_node: AnimatedSprite2D = base.get_node(^"Animation")
 
+	base.update_animation()
+
 	if base.is_main_player:
 		base.action_vector = (Inputs.get_global_mouse_position() - base.position).normalized()
 	else:
 		# TODO: should be dynamic
-		var target_enemy_node: EnemyBase = null
+		#var target_enemy_node: EnemyBase = null
 		var temp_enemy_health: float = INF
 		for enemy_node in base.enemy_nodes_in_attack_area:
 			if enemy_node.stats.health < temp_enemy_health:
@@ -321,6 +326,7 @@ func basic_attack() -> void:
 	attack_shape.force_shapecast_update()
 	
 	await animation_node.frame_changed
+	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return
 
 	var temp_damage: float = basic_damage
 	var enemy_body = null
@@ -341,14 +347,19 @@ func basic_attack() -> void:
 		Players.camera_node.screen_shake(0.1, 1, 30, 5, true)
 	
 	await animation_node.animation_finished
+	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return
 
 	base.action_state = base.ActionState.READY
+	
+	base.update_animation()
 
 func ultimate_attack():
 	if not base: return
 
 	var attack_shape: Area2D = base.get_node(^"AttackShape")
 	var animation_node: AnimatedSprite2D = base.get_node(^"Animation")
+
+	base.update_animation()
 	
 	update_ultimate_gauge(-100)
 
@@ -375,6 +386,7 @@ func ultimate_attack():
 	attack_shape.force_shapecast_update()
 
 	await animation_node.frame_changed
+	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return
 
 	var temp_damage: float = ultimate_damage
 	var enemy_body = null
@@ -394,6 +406,8 @@ func ultimate_attack():
 		Players.camera_node.screen_shake(0.3, 10, 30, 100, true)
 
 	await animation_node.finished
+	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return
 
 	base.action_state_timer = randf_range(2.0, 3.0) # TODO: don't know what this is for
 	base.action_state = base.ActionState.READY
+	base.update_animation()

@@ -61,6 +61,7 @@ var move_direction: Directions = Directions.DOWN
 
 var move_state_velocity: Vector2 = Vector2.UP
 var move_state_timer: float = 0.0
+
 var action_state_timer: float = 0.0
 var process_interval: float = 0.0
 

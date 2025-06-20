@@ -7,7 +7,7 @@ var sprint_hold: bool = true
 
 func _input(event: InputEvent) -> void:
 	# end propogation for mouse motion and screen touch events
-	if event is InputEventMouseMotion or event is InputEventScreenTouch:
+	if event is InputEventScreenTouch:
 		accept_event()
 		return
 	
