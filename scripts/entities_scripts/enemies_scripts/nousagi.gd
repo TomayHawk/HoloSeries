@@ -36,7 +36,7 @@ func set_variables() -> void:
 	# Set base variables
 	action_type = ActionType.ATTACK
 	action_target = null
-	action_target_type = PlayerBase
+	action_target_type = Entities.Type.PLAYERS_ALIVE
 	action_target_priority = &"health"
 	action_target_get_max = false
 	action_vector = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
@@ -145,7 +145,7 @@ func _on_animation_frame_changed() -> void:
 	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]: return
 			
 	if $Animation.frame == 3:
-		match $Animation.animation:
+		match$Animation.animation:
 			"attack":
 				if action_target:
 					var temp_attack_direction = (action_target.position - position).normalized()

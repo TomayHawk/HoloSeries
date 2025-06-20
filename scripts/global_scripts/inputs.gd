@@ -16,19 +16,18 @@ func _input(event: InputEvent) -> void:
 			or event.is_action(&"scroll_up") or event.is_action(&"scroll_down")):
 				return
 	
-	if not event.is_action(&"action"):
-		accept_event()
-
 	if Input.is_action_just_pressed(&"action"):
 		if attempt_action_input():
-			print("Action input accepted")
+			print("Action input")
 			accept_event()
 	elif Input.is_action_just_pressed(&"full_screen"):
-		Settings.toggle_fullscreen(
-				DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED)
+		accept_event()
+		Settings.toggle_fullscreen(DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED)
 	elif Input.is_action_just_pressed(&"scroll_up"):
+		if action_inputs_enabled: accept_event()
 		Players.camera_node.zoom_input(1)
 	elif Input.is_action_just_pressed(&"scroll_down"):
+		if action_inputs_enabled: accept_event()
 		Players.camera_node.zoom_input(-1)
 
 func _unhandled_input(event: InputEvent) -> void:

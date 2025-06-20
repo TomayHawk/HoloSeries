@@ -69,7 +69,7 @@ var process_interval: float = 0.0
 # TODO: UPDATE STATS UPDATES
 var action_type: ActionType = ActionType.ATTACK
 var action_target: EntityBase = null
-var action_target_type: GDScript = EntityBase
+var action_target_type: Entities.Type = Entities.Type.ENEMIES
 var action_target_priority: StringName = &""
 var action_target_get_max: bool = true
 var action_vector: Vector2 = Vector2.DOWN

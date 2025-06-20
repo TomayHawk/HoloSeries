@@ -36,21 +36,21 @@ enum Status {
 const ENTITY_LIMIT: int = 200
 
 var entities_of_type: Dictionary[Type, Callable] = {
-	Type.PLAYERS: func() -> Array[Node]:
-		return Players.party_node.get_children(),
-	Type.PLAYERS_ALLIES: func() -> Array[Node]:
-		return Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.is_main_player),
-	Type.PLAYERS_ALIVE: func() -> Array[Node]:
-		return Players.party_node.get_children().filter(func(node: Node) -> bool: return node.stats.alive),
-	Type.PLAYERS_DEAD: func() -> Array[Node]:
-		return Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.stats.alive),
-	Type.ENEMIES: func() -> Array[Node]:
-		return get_tree().current_scene.get_node(^"Enemies").get_children(),
-	Type.ENEMIES_IN_COMBAT: func() -> Array[Node]:
-		return Combat.enemy_nodes_in_combat,
-	Type.ENEMIES_ON_SCREEN: func() -> Array[Node]:
-		return get_tree().current_scene.get_node(^"Enemies").get_children().filter(
-				func(node: Node) -> bool: return node.stats.entity_types & Entities.Type.ENEMIES_ON_SCREEN),
+	Type.PLAYERS: func() -> Array[EntityBase]:
+		return type_entities_array(Players.party_node.get_children()),
+	Type.PLAYERS_ALLIES: func() -> Array[EntityBase]:
+		return type_entities_array(Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.is_main_player)),
+	Type.PLAYERS_ALIVE: func() -> Array[EntityBase]:
+		return type_entities_array(Players.party_node.get_children().filter(func(node: Node) -> bool: return node.stats.alive)),
+	Type.PLAYERS_DEAD: func() -> Array[EntityBase]:
+		return type_entities_array(Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.stats.alive)),
+	Type.ENEMIES: func() -> Array[EntityBase]:
+		return type_entities_array(get_tree().current_scene.get_node(^"Enemies").get_children()),
+	Type.ENEMIES_IN_COMBAT: func() -> Array[EntityBase]:
+		return Combat.enemies_in_combat,
+	Type.ENEMIES_ON_SCREEN: func() -> Array[EntityBase]:
+		return type_entities_array(get_tree().current_scene.get_node(^"Enemies").get_children().filter(
+				func(node: Node) -> bool: return node.stats.entity_types & Entities.Type.ENEMIES_ON_SCREEN)),
 }
 
 var effect_resources: Dictionary[Status, Resource] = {
@@ -120,7 +120,7 @@ func target_entity_by_distance(candidate_nodes: Array[EntityBase], origin_positi
 func request_entities(request_types: Array[Type], request_count: int = 1) -> void:
 	# append available entities
 	for request_type in request_types:
-		entities_available += type_entities_array(entities_of_type[request_type].call())
+		entities_available += entities_of_type[request_type].call()
 
 	# cancel request if insufficient candidates
 	if entities_available.size() < request_count:
@@ -146,11 +146,11 @@ func request_entities(request_types: Array[Type], request_count: int = 1) -> voi
 		elif entity is EnemyBase and not entity.has_node(^"EnemyHighlight"):
 			entity.add_child(load("res://entities/entities_indicators/enemy_highlight.tscn").instantiate()) # TODO: need to scale in size
 
-func type_entities_array(entities: Array[Node]) -> Array[EntityBase]:
-	# convert Node array to EntityBase array
+func type_entities_array(entities: Array) -> Array[EntityBase]:
+	# convert array to EntityBase array
 	var entity_base_array: Array[EntityBase] = []
 	for entity in entities:
-		if entity is EntityBase:
+		if entity and is_instance_valid(entity) and entity is EntityBase:
 			entity_base_array.append(entity)
 	return entity_base_array
 

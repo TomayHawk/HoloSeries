@@ -21,7 +21,7 @@ func set_base_stats() -> void: # TODO: change name
 	base_ward = 1000
 	base_strength = 1000
 	base_intelligence = 1000 # +4 (+0.8 T1)
-	base_speed = 1 # +1 (+1 T1)
-	base_agility = 256 # +1 (+1 T1)
+	base_speed = 255 # +1 (+1 T1)
+	base_agility = 255 # +1 (+1 T1)
 	base_crit_chance = 0.50
-	base_crit_damage = 0.50
+	base_crit_damage = 1.50

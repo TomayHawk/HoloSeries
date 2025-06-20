@@ -12,6 +12,12 @@ func update_main_player(player_base: PlayerBase) -> void:
 
 	main_player.is_main_player = true
 	prev_main_player.is_main_player = false
+
+	prev_main_player.move_state_timeout.disconnect(prev_main_player._on_main_move_state_timeout)
+	prev_main_player.move_state_timeout.connect(prev_main_player._on_ally_move_state_timeout)
+	
+	main_player.move_state_timeout.disconnect(main_player._on_ally_move_state_timeout)
+	main_player.move_state_timeout.connect(main_player._on_main_move_state_timeout)
 	
 	camera_node.new_parent(main_player)
 	Entities.end_entities_request()

@@ -11,9 +11,9 @@ const BASE_SPRINT_MULTIPLIER: float = 1.25
 const BASE_SPRINT_STAMINA: float = 24.0 # per second
 const BASE_ATTACK_MOVEMENT_REDUCTION: float = 0.3
 
-const MANA_REGEN: float = 0.25
-const STAMINA_REGEN: float = 20.0
-const FATIGUE_REGEN: float = 15.0
+const BASE_MANA_REGEN: float = 0.25
+const BASE_STAMINA_REGEN: float = 16.0
+const BASE_FATIGUE_REGEN: float = 10.0
 
 # ..............................................................................
 
@@ -47,6 +47,11 @@ var sprint_stamina: float = BASE_SPRINT_STAMINA # per second
 var attack_movement_reduction: float = BASE_ATTACK_MOVEMENT_REDUCTION
 var fatigue: bool = false
 
+# regeneration variables
+var mana_regen: float = BASE_MANA_REGEN
+var stamina_regen: float = BASE_STAMINA_REGEN
+var fatigue_regen: float = BASE_FATIGUE_REGEN
+
 # nexus variables
 var last_node: int = -1
 var unlocked_nodes: Array[int] = []
@@ -59,13 +64,13 @@ var converted_nodes: Array[Array] = []
 func stats_process(process_interval: float) -> void:
 	# regenerate mana
 	if mana < max_mana:
-		update_mana(MANA_REGEN * process_interval)
+		update_mana(mana_regen * process_interval)
 
 	# update stamina
 	if base.move_state == base.MoveState.SPRINT:
 		update_stamina(-sprint_stamina * process_interval)
 	elif base.move_state != base.MoveState.DASH and stamina < max_stamina:
-		update_stamina((FATIGUE_REGEN if fatigue else STAMINA_REGEN) * process_interval)
+		update_stamina((fatigue_regen if fatigue else stamina_regen) * process_interval)
 
 	# decrease effects timers
 	for effect in effects.duplicate():
@@ -122,7 +127,7 @@ func get_xp_requirement() -> int:
 	if level < 20: return 1525 + (level - 10) * 225
 	if level < 40: return 3775 + (level - 20) * 350
 	if level < 70: return 10775 + (level - 40) * 500
-	if level < 100: return 25775 + (level - 70) *	700
+	if level < 100: return 25775 + (level - 70) * 700
 	if level < 150: return 46775 + (level - 100) * 1000
 	if level < 200: return 96775 + (level - 150) * 1500
 	if level < 250: return 171775 + (level - 200) * 2200
@@ -214,15 +219,19 @@ func set_stats() -> void:
 	mana = max_mana
 	stamina = max_stamina
 
-	walk_speed = BASE_WALK_SPEED + (speed / 2.0) # maximum 268.0 speed
-	dash_multiplier = BASE_DASH_MULTIPLIER + (speed / 128.0) # maximum 10.0 multiplier
-	dash_stamina = BASE_DASH_STAMINA - (agility / 32.0) # minimum 28.0 stamina per dash
-	dash_min_stamina = BASE_DASH_MIN_STAMINA - (agility / 32.0) # minimum 20.0 stamina per dash
+	walk_speed = BASE_WALK_SPEED + (speed / 2.0) # max 268.0 speed
+	dash_multiplier = BASE_DASH_MULTIPLIER + (speed / 128.0) # max 10.0 multiplier
+	dash_stamina = BASE_DASH_STAMINA - (agility / 32.0) # min 28.0 stamina per dash
+	dash_min_stamina = BASE_DASH_MIN_STAMINA - (agility / 32.0) # min 20.0 stamina per dash
 	
-	dash_time = BASE_DASH_TIME - (agility / 2560.0) # minimum 0.1s dash time
-	sprint_multiplier = BASE_SPRINT_MULTIPLIER + (speed / 2560.0) # maximum 1.35 multiplier
-	sprint_stamina = BASE_SPRINT_STAMINA - (agility / 64.0) # minimum 20.0 stamina per second
-	attack_movement_reduction = BASE_ATTACK_MOVEMENT_REDUCTION + (agility / 512.0) # minimum 0.8 attack movement reduction
+	dash_time = BASE_DASH_TIME - (agility / 2560.0) # min 0.1s dash time
+	sprint_multiplier = BASE_SPRINT_MULTIPLIER + (speed / 1280.0) # max 1.45 multiplier
+	sprint_stamina = BASE_SPRINT_STAMINA - (agility / 64.0) # min 20.0 stamina per second
+	attack_movement_reduction = BASE_ATTACK_MOVEMENT_REDUCTION + (agility / 512.0) # min 0.8 attack movement reduction
+
+	mana_regen = BASE_MANA_REGEN + (mana / 10000.0) # max 1.25 mana per second
+	stamina_regen = BASE_STAMINA_REGEN + (stamina / 25.0) # max 40.0 stamina per second
+	fatigue_regen = BASE_FATIGUE_REGEN + (stamina / 50.0) # max 25.0 stamina per second
 
 	if weapon: weapon.update_variable_stats(self)
 	if headgear: headgear.update_variable_stats(self)

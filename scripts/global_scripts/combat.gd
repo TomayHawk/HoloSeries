@@ -16,7 +16,7 @@ var ability_loads: Array[Resource] = [
 	load("res://abilities/special/rocket_launcher.tscn"),
 ]
 
-var enemy_nodes_in_combat: Array[Node] = []
+var enemies_in_combat: Array[EntityBase] = []
 var locked_enemy_node: Node = null
 
 @onready var ui: Node = $CombatUi
@@ -31,7 +31,7 @@ var combat_state := CombatState.NOT_IN_COMBAT:
 			CombatState.NOT_IN_COMBAT:
 				ui.combat_ui_tween(0.0)
 				$LeavingCombatTimer.stop()
-				enemy_nodes_in_combat.clear()
+				enemies_in_combat.clear()
 				unlock()
 			CombatState.IN_COMBAT:
 				if combat_state != CombatState.LEAVING_COMBAT:
@@ -62,16 +62,16 @@ func leave_combat() -> void:
 
 # add enemy to combat
 func add_active_enemy(enemy_node: Node) -> void:
-	if not enemy_nodes_in_combat.has(enemy_node):
-		enemy_nodes_in_combat.append(enemy_node)
+	if not enemies_in_combat.has(enemy_node):
+		enemies_in_combat.append(enemy_node)
 	combat_state = CombatState.IN_COMBAT
 
 # remove enemy from combat
 func remove_active_enemy(enemy_node: Node) -> void:
-	enemy_nodes_in_combat.erase(enemy_node)
+	enemies_in_combat.erase(enemy_node)
 	if locked_enemy_node == enemy_node:
 		unlock()
-	if enemy_nodes_in_combat.is_empty():
+	if enemies_in_combat.is_empty():
 		combat_state = CombatState.LEAVING_COMBAT
 
 # lock enemy
