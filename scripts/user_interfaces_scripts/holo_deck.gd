@@ -6,10 +6,15 @@ func _ready() -> void:
 	Combat.ui.hide()
 	TextBox.reset()
 
-func _input(_event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
+	# ignore all unrelated inputs
+	if not event.is_action(&"esc"):
+		return
+	
+	Inputs.accept_event()
+
 	if Input.is_action_just_pressed(&"esc"):
 		_on_resume_pressed()
-		Inputs.accept_event()
 
 func _on_characters_pressed() -> void:
 	Global.add_global_child("CharactersUi", "res://user_interfaces/characters_ui.tscn")

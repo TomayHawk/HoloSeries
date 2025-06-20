@@ -8,11 +8,11 @@ class_name PlayerBase extends EntityBase
 # TODO: test and maybe add other knockback options (maybe also dash)
 #var t = knockback_timer / 0.4
 # Quadratic
-#velocity = knockback_velocity * t * t
+#velocity = move_state_velocity * t * t
 # Exponential
-#velocity = knockback_velocity * pow(t, 0.5)
+#velocity = move_state_velocity * pow(t, 0.5)
 # Ease Out Sine
-#velocity = knockback_velocity * sin(t * PI * 0.5)
+#velocity = move_state_velocity * sin(t * PI * 0.5)
 
 var is_main_player: bool = false
 var party_index: int = -1
@@ -21,6 +21,11 @@ var party_index: int = -1
 
 var in_action_range: bool = false
 var action_queue: Array[Array] = []
+
+func _ready() -> void:
+	if not is_main_player:
+		await Global.get_tree().process_frame
+		update_ally_move_state()
 
 # ..............................................................................
 
@@ -31,12 +36,11 @@ func _physics_process(_delta: float) -> void:
 	if move_state == MoveState.STUN:
 		return
 
-	# slowly decrease velocity if taking knockback
+	# slowly decrease velocity if taking knockback or dashing
 	if move_state == MoveState.KNOCKBACK:
-		velocity = knockback_velocity * move_state_timer / 0.4
-	# take user input for main player if not in knockback or stun
-	elif is_main_player:
-		update_main_player_movement()
+		velocity = move_state_velocity * move_state_timer / 0.4
+	elif move_state == MoveState.DASH:
+		velocity = move_state_velocity * move_state_timer / stats.dash_time
 	
 	move_and_slide()
 
@@ -44,11 +48,31 @@ func _physics_process(_delta: float) -> void:
 
 # INPUT
 
-func _input(_event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
+	# check input requirements
 	if not is_main_player or not Inputs.world_inputs_enabled:
 		return
 	
-	if Input.is_action_just_pressed(&"dash"):
+	# ignore all unrelated inputs
+	if not (event.is_action(&"left") or event.is_action(&"right") \
+			or event.is_action(&"up") or event.is_action(&"down") \
+			or event.is_action(&"dash")):
+		return
+	
+	Inputs.accept_event()
+	
+	if (
+			Input.is_action_just_pressed(&"left")
+			or Input.is_action_just_pressed(&"right")
+			or Input.is_action_just_pressed(&"up")
+			or Input.is_action_just_pressed(&"down")
+			or Input.is_action_just_released(&"left")
+			or Input.is_action_just_released(&"right")
+			or Input.is_action_just_released(&"up")
+			or Input.is_action_just_released(&"down")
+	):
+		update_main_player_movement()
+	elif Input.is_action_just_pressed(&"dash"):
 		if move_state == MoveState.SPRINT and not Inputs.sprint_hold:
 			end_sprint()
 		else:
@@ -62,6 +86,9 @@ func _input(_event: InputEvent) -> void:
 # MOVEMENTS
 
 func update_main_player_movement() -> void:
+	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
+		return
+
 	var input_velocity: Vector2 = Input.get_vector(&"left", &"right", &"up", &"down", 0.2)
 	
 	# TODO: should only check this if using a controller
@@ -119,7 +146,8 @@ func update_movement(next_direction: Vector2) -> void:
 		MoveState.SPRINT:
 			velocity *= stats.sprint_multiplier
 		MoveState.DASH:
-			velocity *= stats.dash_multiplier * move_state_timer / stats.dash_time
+			move_state_velocity = velocity * stats.dash_multiplier
+			velocity = move_state_velocity * move_state_timer / stats.dash_time
 
 	# apply movement reduction if attacking
 	if action_state == ActionState.ACTION:
@@ -163,7 +191,7 @@ func knockback(next_velocity: Vector2, duration: float) -> void:
 		return
 	
 	# update velocity and knockback timer
-	knockback_velocity = next_velocity
+	move_state_velocity = next_velocity
 	move_state_timer = duration
 	
 	# update move state and animation
@@ -196,6 +224,7 @@ func update_animation() -> void:
 	
 	# determine next animation based on action and move states
 	if action_state == ActionState.ACTION:
+		# attack
 		next_animation = [
 			&"right_attack",
 			&"down_attack",
@@ -203,6 +232,7 @@ func update_animation() -> void:
 			&"up_attack",
 		][(roundi(action_vector.angle() / (PI / 2)) + 4) % 4]
 	elif move_state == MoveState.IDLE:
+		# idle
 		next_animation = [
 			&"up_idle",
 			&"down_idle",
@@ -210,6 +240,7 @@ func update_animation() -> void:
 			&"right_idle"
 		][move_direction if (move_direction < 4) else move_direction % 2 + 2]
 	else:
+		# move
 		next_animation = [
 			&"up_walk",
 			&"down_walk",
@@ -236,7 +267,6 @@ func update_animation() -> void:
 # ACTIONS
 
 func action_input() -> void:
-	print(action_state)
 	if action_state != ActionState.READY:
 		return
 
@@ -423,7 +453,7 @@ func update_stats(next_stats: PlayerStats) -> void:
 	#var move_direction: Directions = Directions.DOWN
 	
 	action_vector = Vector2.DOWN
-	knockback_velocity = Vector2.UP
+	move_state_velocity = Vector2.UP
 	move_state_timer = 0.0
 	# TODO: action_state_timer = 0.0
 	process_interval = 0.0
@@ -444,6 +474,13 @@ func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_i
 		elif Entities.switching_main_player and not is_main_player:
 			Inputs.accept_event()
 			Players.update_main_player(self)
+
+func _on_combat_hit_box_mouse_entered() -> void:
+	if self in Entities.entities_available or Entities.switching_main_player:
+		Inputs.action_inputs_enabled = false
+
+func _on_combat_hit_box_mouse_exited() -> void:
+	Inputs.action_inputs_enabled = true
 
 # InteractionArea
 
@@ -477,8 +514,9 @@ func is_in_action_range() -> bool:
 # State Timers
 
 func _on_move_state_timeout() -> void:
-	# TODO: if not is_main_player:
-	# TODO: 	update_ally_move_state()
+	if not is_main_player:
+		update_ally_move_state()
+		# TODO: ally needs to do below
 	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]:
 		move_state = MoveState.IDLE
 		if is_main_player:
@@ -506,18 +544,14 @@ func _on_action_state_timeout() -> void:
 
 # ..............................................................................
 
-# TODO: BELOW ADDED FROM PLAYER ALLY SCRIPT
-
 # PlayerAlly move process
 func update_ally_move_state() -> void:
 	# if ally in another move state, continue timer
 	if move_state_timer > 0.0:
-		$AllyMoveTimer.start(move_state_timer)
 		return
 	
 	# if ally in action state, continue timer
 	if not action_state in [ActionState.READY, ActionState.COOLDOWN]:
-		$AllyMoveTimer.start($AllyActionTimer.time_left)
 		return
 
 	var ally_distance: float = position.distance_to(Players.main_player.position)
@@ -535,7 +569,7 @@ func update_ally_move_state() -> void:
 		# if in idle distance, update velocity to zero
 		if move_timer > 0.0:
 			update_movement(Vector2.ZERO)
-			$AllyMoveTimer.start(move_timer)
+			move_state_timer = move_timer
 			return
 		
 		# if large ally distance, teleport to main player
@@ -611,4 +645,4 @@ func update_ally_move_state() -> void:
 			break
 
 	update_movement(target_direction)
-	$AllyMoveTimer.start(move_timer)
+	move_state_timer = move_timer

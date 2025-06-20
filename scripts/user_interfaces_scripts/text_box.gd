@@ -24,10 +24,14 @@ var text_box_state := TextBoxState.INACTIVE:
 				clearTextBox()
 				text_box_state = TextBoxState.INACTIVE
 				Entities.toggle_entities_movements(true)
+				Inputs.world_inputs_enabled = true
+				Inputs.action_inputs_enabled = true
 				return
 			# start dialogue on hidden text box
 			if isInactive():
 				Entities.toggle_entities_movements(false)
+				Inputs.world_inputs_enabled = false
+				Inputs.action_inputs_enabled = false
 				%TextBoxMargin.show()
 			# continue dialogue with animation
 			text_box_state = TextBoxState.TYPING
@@ -56,10 +60,15 @@ func _ready():
 	clearTextBox()
 	clearOptions()
 
-func _input(_event):
-	if isInactive():
+func _input(event: InputEvent) -> void:
+	if isInactive(): return
+
+	if not (event.is_action(&"action") or event.is_action(&"continue") or event.is_action(&"esc")):
 		return
-	if Input.is_action_just_pressed(&"continue"):
+	
+	Inputs.accept_event()
+
+	if Input.is_action_just_pressed(&"continue") or Input.is_action_just_pressed(&"action"):
 		# force end dialogue animation
 		if text_box_state == TextBoxState.TYPING:
 			text_box_state = TextBoxState.END
@@ -67,7 +76,6 @@ func _input(_event):
 		elif text_box_state == TextBoxState.END:
 			text_box_state = TextBoxState.READY
 	elif Input.is_action_just_pressed(&"esc"):
-		Inputs.accept_event()
 		pass
 
 func clearTextBox():

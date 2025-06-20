@@ -69,16 +69,23 @@ func _ready():
 	call_deferred(&"update_nexus_ui")
 	call_deferred(&"update_inventory_buttons")
 
-func _input(event: InputEvent):
-	if event is InputEventMouseButton and event.is_double_click():
-		pass
-	elif Input.is_action_just_pressed(&"tab"):
-		Inputs.accept_event()
-		character_selector_node.show()
+func _input(event: InputEvent) -> void:
+	# ignore all unrelated inputs
+	if not (event.is_action(&"tab") or event.is_action(&"esc")):
+		return
 
-	elif Input.is_action_just_released(&"tab"):
+	if not event.is_action(&"esc"):
 		Inputs.accept_event()
+
+	if Input.is_action_just_pressed(&"tab"):
+		character_selector_node.show()
+	elif Input.is_action_just_released(&"tab"):
 		character_selector_node.hide()
+	elif Input.is_action_just_pressed(&"esc"):
+		if inventory_node.visible:
+			Inputs.accept_event()
+			inventory_node.hide()
+			update_nexus_ui()
 
 func update_nexus_ui():
 	var node_quality_string = str(nexus.nodes_qualities[nexus.last_nodes[nexus.current_nexus_player]])

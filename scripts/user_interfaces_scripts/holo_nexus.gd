@@ -64,14 +64,15 @@ func _ready():
 	# update current player and allies in character selector
 	update_nexus_player(Players.main_player.stats.CHARACTER_INDEX)
 
-func _input(_event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
+	# ignore all unrelated inputs
+	if not event.is_action(&"esc"):
+		return
+	
+	Inputs.accept_event()
+	
 	if Input.is_action_just_pressed(&"esc"):
-		Inputs.accept_event()
-		if ui.inventory_node.visible:
-			ui.inventory_node.hide()
-			ui.update_nexus_ui()
-		else:
-			exit_nexus()
+		exit_nexus()
 
 func temp_function():
 	for node in nexus_nodes:

@@ -17,7 +17,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	# check knockback
 	if move_state == MoveState.KNOCKBACK:
-		velocity -= knockback_velocity * (delta / 0.4)
+		velocity -= move_state_velocity * (delta / 0.4)
 	elif move_state == MoveState.IDLE and action_state != ActionState.ACTION:
 		if not in_action_range:
 			$Animation.play(&"walk")

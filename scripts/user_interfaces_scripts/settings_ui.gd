@@ -40,9 +40,14 @@ func _ready():
 	%MasterVolumeHSlider.set_value(db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"Master"))))
 	%MusicVolumeHSlider.set_value(db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"BGM"))))
 
-func _input(_event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
+	# ignore all unrelated inputs
+	if not event.is_action(&"esc"):
+		return
+	
+	Inputs.accept_event()
+
 	if Input.is_action_just_pressed(&"esc"):
-		Inputs.accept_event()
 		exit_ui()
 
 # ..............................................................................

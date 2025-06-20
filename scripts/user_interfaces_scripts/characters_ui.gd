@@ -7,10 +7,16 @@ extends CanvasLayer
 var characters: Array[Node] = []
 var current_stats := -1
 
-func _input(_event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
+    # ignore all unrelated inputs
+    if not event.is_action(&"esc"):
+        return
+    
+    Inputs.accept_event()
+
     if Input.is_action_just_pressed(&"esc"):
-        Inputs.accept_event()
         exit_ui()
+
 
 func _on_characters_pressed():
     characters.clear()

@@ -59,7 +59,7 @@ var move_direction: Directions = Directions.DOWN
 
 # VARIABLES
 
-var knockback_velocity: Vector2 = Vector2.UP
+var move_state_velocity: Vector2 = Vector2.UP
 var move_state_timer: float = 0.0
 var action_state_timer: float = 0.0
 var process_interval: float = 0.0
@@ -79,24 +79,22 @@ var action_fail_count: int = 0
 
 # PROCESS
 func _process(delta: float) -> void:
+	# decrease move state timer
+	if move_state_timer > 0.0:
+		move_state_timer -= delta
+		if move_state_timer < 0.0:
+			move_state_timeout.emit()
+	
+	# decrease action state timer
+	if action_state_timer > 0.0:
+		action_state_timer -= delta
+		if action_state_timer < 0.0:
+			action_state_timeout.emit()
+
+	# process stats
 	process_interval += delta
-
 	if process_interval > 0.1:
-		# process stats
 		stats.stats_process(process_interval)
-
-		# decrease move state timer
-		if move_state_timer > 0.0:
-			move_state_timer -= process_interval
-			if move_state_timer < 0.0:
-				move_state_timeout.emit()
-
-		# decrease action state timer
-		if action_state_timer > 0.0:
-			action_state_timer -= process_interval
-			if action_state_timer < 0.0:
-				action_state_timeout.emit()
-		
 		process_interval = 0.0
 
 # ..............................................................................
@@ -110,23 +108,10 @@ func death() -> void:
 	action_state = ActionState.READY
 	move_direction = Directions.DOWN
 
-	knockback_velocity = Vector2.UP
+	move_state_velocity = Vector2.UP
 	move_state_timer = 0.0
 	action_state_timer = 0.0
 	process_interval = 0.0
 
 func revive() -> void:
 	set_process(true)
-
-# ..............................................................................
-
-# SIGNALS
-
-# CombatHitBox
-
-func _on_combat_hit_box_mouse_entered() -> void:
-	if self in Entities.entities_available:
-		Inputs.action_inputs_enabled = false
-
-func _on_combat_hit_box_mouse_exited() -> void:
-	Inputs.action_inputs_enabled = true

@@ -21,9 +21,9 @@ func knockback(direction: Vector2, weight: float = 1.0) -> void:
 
 	move_state = MoveState.KNOCKBACK
 
-	knockback_velocity = direction * (200.0 if not stats.alive else weight * 160.0) # TODO: should use weight stat
+	move_state_velocity = direction * (200.0 if not stats.alive else weight * 160.0) # TODO: should use weight stat
 	if stats.alive: $Animation.speed_scale = 0.3 # TODO
-	velocity = knockback_velocity
+	velocity = move_state_velocity
 
 	$Animation.play(&"death") # TODO
 	move_state_timer = 0.4
@@ -66,8 +66,10 @@ func death() -> void:
 func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"):
 		if Input.is_action_pressed(&"alt"):
+			Inputs.accept_event()
 			Combat.lock(self)
 		elif self in Entities.entities_available:
+			Inputs.accept_event()
 			Entities.choose_entity(self)
 
 # DETECTION AREA

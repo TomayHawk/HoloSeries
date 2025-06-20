@@ -47,6 +47,8 @@ func change_scene(next_scene_path: String, next_position: Vector2, camera_limits
 	Inputs.action_inputs_enabled = true
 	Inputs.world_inputs_enabled = true
 
+	get_parent().move_child(Inputs, -1)
+
 # ..............................................................................
 
 # GLOBAL UI

@@ -73,7 +73,6 @@ func screen_shake(duration, intervals, intensity, camera_speed, pause_game):
 
 func zoom_input(direction: int) -> void:
 	if not can_zoom: return
-	Inputs.accept_event()
 	target_zoom = clamp(target_zoom + (Vector2(0.05, 0.05) * direction), Vector2(0.8, 0.8), Vector2(1.4, 1.4))
 	if zoom != target_zoom:
 		set_physics_process(true)
