@@ -11,10 +11,9 @@ var standby_characters: Array[PlayerStats] = []
 func switch_main_player(next_main_player: PlayerBase) -> void:
 	main_player.switch_to_ally()
 	next_main_player.switch_to_main()
-	main_player = next_main_player
 
 func switch_standby_character(standby_index: int) -> void:
-	if main_player.move_state in [main_player.MoveState.KNOCKBACK, main_player.MoveState.STUN]:
+	if main_player.in_forced_move_state:
 		return
 
 	var prev_stats: PlayerStats = main_player.stats

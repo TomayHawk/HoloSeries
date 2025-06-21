@@ -20,7 +20,7 @@ func _ready() -> void:
 
 	# request target entity
 	Entities.entities_request_ended.connect(entity_chosen, CONNECT_ONE_SHOT)
-	Entities.request_entities([Entities.Type.ENEMIES_ON_SCREEN])
+	Entities.request_entities([Entities.Type.ON_SCREEN])
 	
 	# if alt is pressed, target nearest enemy
 	if Input.is_action_pressed(&"alt"):

@@ -37,7 +37,7 @@ func _physics_process(delta):
 			zoom_weight = 0.0
 			if not shaking: set_physics_process(false)
 
-##### shouldn't need this function
+# TODO: shouldn't need this function
 func update_camera(next_parent, temp_can_zoom, next_zoom):
 	new_parent(next_parent)
 	force_zoom(next_zoom)

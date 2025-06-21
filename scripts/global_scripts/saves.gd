@@ -50,13 +50,13 @@ func new_save(character_index: int) -> void:
 				"experience": 0 as int,
 				
 				# equipments
-				"weapon": -1 as int,
-				"headgear": -1 as int,
-				"chestpiece": -1 as int,
-				"leggings": -1 as int,
-				"accessory_1": -1 as int,
-				"accessory_2": -1 as int,
-				"accessory_3": -1 as int,
+				"weapon": - 1 as int,
+				"headgear": - 1 as int,
+				"chestpiece": - 1 as int,
+				"leggings": - 1 as int,
+				"accessory_1": - 1 as int,
+				"accessory_2": - 1 as int,
+				"accessory_3": - 1 as int,
 
 				# nexus
 				"last_node": player_stats.DEFAULT_UNLOCKED[1] as int,
@@ -176,37 +176,16 @@ func load_save(save_index: int = 1) -> void:
 	
 	# update party
 	var main_player_index: int = data["main_player"]
-
 	for party_index in data["party"].size():
 		var character_index: int = data["party"][party_index]
-
-		# hide party character infos ui accordingly
-		if character_index == -1:	
+		if character_index == -1:
 			Combat.ui.name_labels[party_index].get_parent().modulate.a = 0.0
-			continue
-		
-		var player: Node = load(PLAYER_BASE_PATH).instantiate()
-		Players.party_node.add_child(player)
-		
-		# update base variables
-		player.party_index = party_index
-		player.stats = character_stats[character_index]
-		character_stats[character_index] = null
-
-		# update stats variables
-		player.stats.base = player
-		player.stats.set_stats()
-
-		# update player bars and ui
-		player.set_max_values()
-		
-		Combat.ui.update_party_ui(party_index, player.stats)
-
-		# update main player
-		if character_index == main_player_index:
-			Players.main_player = player
-			Players.camera_node.new_parent(player)
-			player.is_main_player = true
+		else:
+			var player: Node = load(PLAYER_BASE_PATH).instantiate()
+			if character_index == main_player_index: player.is_main_player = true
+			player.set_variables(character_stats[character_index], party_index)
+			character_stats[character_index] = null
+			Players.party_node.add_child(player)
 
 	# update standby characters
 	for character in character_stats:
@@ -221,7 +200,7 @@ func load_save(save_index: int = 1) -> void:
 	Global.change_scene(
 			data["scene_path"],
 			main_player_position,
-			[-10000000, -10000000, 10000000, 10000000],
+			[ - 10000000, -10000000, 10000000, 10000000],
 			"res://music/asmarafulldemo.mp3"
 	)
 

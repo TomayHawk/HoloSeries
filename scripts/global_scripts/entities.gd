@@ -8,8 +8,8 @@ enum Type {
 	PLAYERS_ALIVE = 1 << 2,
 	PLAYERS_DEAD = 1 << 3,
 	ENEMIES = 1 << 4,
-	ENEMIES_IN_COMBAT = 1 << 5,
-	ENEMIES_ON_SCREEN = 1 << 6,
+	IN_COMBAT = 1 << 5,
+	ON_SCREEN = 1 << 6,
 }
 
 enum Status {
@@ -46,11 +46,11 @@ var entities_of_type: Dictionary[Type, Callable] = {
 		return type_entities_array(Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.stats.alive)),
 	Type.ENEMIES: func() -> Array[EntityBase]:
 		return type_entities_array(get_tree().current_scene.get_node(^"Enemies").get_children()),
-	Type.ENEMIES_IN_COMBAT: func() -> Array[EntityBase]:
+	Type.IN_COMBAT: func() -> Array[EntityBase]:
 		return Combat.enemies_in_combat,
-	Type.ENEMIES_ON_SCREEN: func() -> Array[EntityBase]:
+	Type.ON_SCREEN: func() -> Array[EntityBase]:
 		return type_entities_array(get_tree().current_scene.get_node(^"Enemies").get_children().filter(
-				func(node: Node) -> bool: return node.stats.entity_types & Entities.Type.ENEMIES_ON_SCREEN)),
+				func(node: Node) -> bool: return node.stats.entity_types & Entities.Type.ON_SCREEN)),
 }
 
 var effect_resources: Dictionary[Status, Resource] = {
@@ -186,7 +186,7 @@ func toggle_entities_movements(can_move: bool) -> void:
 			continue
 		player_node.set_physics_process(can_move)
 		if not can_move:
-			player_node.update_movement(Vector2.ZERO)
+			player_node.apply_velocity(Vector2.ZERO)
 		
 	# toggle enemies movements
 	for enemy_node in get_tree().current_scene.get_node(^"Enemies").get_children():

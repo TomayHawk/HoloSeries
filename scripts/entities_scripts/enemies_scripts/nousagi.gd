@@ -34,10 +34,9 @@ func _physics_process(delta: float) -> void:
 
 func set_variables() -> void:
 	# Set base variables
-	action_type = ActionType.ATTACK
 	action_target = null
-	action_target_type = Entities.Type.PLAYERS_ALIVE
-	action_target_priority = &"health"
+	action_target_types = Entities.Type.PLAYERS_ALIVE
+	action_target_stats = &"health"
 	action_target_get_max = false
 	action_vector = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
 	action_fail_count = 0
@@ -98,7 +97,7 @@ func set_variables() -> void:
 # ANIMATION
 
 func animation_end() -> void:
-	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]: return
+	if in_forced_move_state: return
 
 	velocity = Vector2.ZERO
 	if in_action_range:
@@ -142,7 +141,7 @@ func animation_end() -> void:
 		$Animation.flip_h = action_vector.x < 0.0
 
 func _on_animation_frame_changed() -> void:
-	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]: return
+	if in_forced_move_state: return
 			
 	if $Animation.frame == 3:
 		match$Animation.animation:
@@ -161,7 +160,7 @@ func _on_animation_frame_changed() -> void:
 # ACTION
 
 func take_action() -> void:
-	if move_state in [MoveState.KNOCKBACK, MoveState.STUN]: return
+	if in_forced_move_state: return
 
 	# attempt summon
 	if $SummonCooldown.paused and randi() % 3 == 0:
@@ -173,9 +172,9 @@ func attack() -> void:
 	action_state = ActionState.ACTION
 	$Animation.play(&"attack")
 	$Animation.flip_h = action_target.position.x < position.x
-	action_state_timer = randf_range(1.5, 3.0)
+	action_cooldown = randf_range(1.5, 3.0)
 	
-	await action_state_timeout
+	await action_cooldown_timeout
 	if in_action_range:
 		action_state = ActionState.READY
 
@@ -186,12 +185,12 @@ func summon_nousagi() -> void:
 	nousagi_instance.position = position + Vector2(5 * randf_range(-1, 1), 5 * randf_range(-1, 1)) * 5
 	
 	# start cooldown
-	action_state_timer = randf_range(2.0, 3.5)
+	action_cooldown = randf_range(2.0, 3.5)
 	action_state = ActionState.COOLDOWN
 	$SummonCooldown.start(randf_range(15, 20))
-	await action_state_timeout
+	await action_cooldown_timeout
 	if in_action_range and not players_in_detection_area.is_empty():
-		action_state = ActionState.READY
+		action_state = ActionState.READY # TODO: ???
 	await $SummonCooldown.timeout
 
 # update health bar

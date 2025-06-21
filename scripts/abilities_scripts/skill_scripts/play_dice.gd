@@ -25,7 +25,7 @@ func _ready():
 	connect(&"entities_chosen", Callable(self, "initiate_play_dice"))
 
 	# request target entity
-	Entities.request_entities([Entities.Type.ENEMIES_ON_SCREEN])
+	Entities.request_entities([Entities.Type.ON_SCREEN])
 	
 	if Entities.entities_available.is_empty():
 		queue_free()
@@ -44,13 +44,13 @@ func initiate_play_dice(chosen_node):
 			dice_damage = base_damage / 2.0 * dice_results[-1]
 		
 			# double damage for each duplicate
-			dice_damage *= 2 * dice_results.count(dice_results[-1])
+			dice_damage *= 2 * dice_results.count(dice_results[ - 1])
 			
 			# check for "6"
 			if dice_results[-1] == 6: dice_damage *= 1.5
 
 			# check for 5 dice duplicates
-			if dice_results.count(dice_results[-1]) == 5: dice_damage *= 2
+			if dice_results.count(dice_results[ - 1]) == 5: dice_damage *= 2
 
 			# TODO: want to accelerate for each iteration
 			interval_timer.start()

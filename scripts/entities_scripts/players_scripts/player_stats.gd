@@ -1,6 +1,6 @@
 class_name PlayerStats extends EntityStats
 
-# CONSTANTS
+#region CONSTANTS
 
 const BASE_WALK_SPEED: float = 140.0
 const BASE_DASH_MULTIPLIER: float = 8.0
@@ -15,7 +15,11 @@ const BASE_MANA_REGEN: float = 0.25
 const BASE_STAMINA_REGEN: float = 16.0
 const BASE_FATIGUE_REGEN: float = 10.0
 
+#endregion
+
 # ..............................................................................
+
+#region VARIABLES
 
 var animation: SpriteFrames = null
 
@@ -53,16 +57,18 @@ var stamina_regen: float = BASE_STAMINA_REGEN
 var fatigue_regen: float = BASE_FATIGUE_REGEN
 
 # party variables
-var last_action_state_timer: float = 0.0
+var last_action_cooldown: float = 0.0
 
 # nexus variables
 var last_node: int = -1
 var unlocked_nodes: Array[int] = []
 var converted_nodes: Array[Array] = []
 
+#endregion
+
 # ..............................................................................
 
-# PROCESS
+#region PROCESS
 
 func stats_process(process_interval: float) -> void:
 	# regenerate mana
@@ -81,9 +87,11 @@ func stats_process(process_interval: float) -> void:
 		if effect.effect_timer <= 0.0:
 			effect.effect_timeout(self)
 
+#endregion
+
 # ..............................................................................
 
-# STATS UPDATES
+#region STATS UPDATES
 
 func update_health(value: float) -> void:
 	super (value)
@@ -137,9 +145,11 @@ func get_xp_requirement() -> int:
 	if level < 300: return 281775 + (level - 250) * 3000
 	else: return 9223372036854775807 # effectively infinite
 
+#endregion
+
 # ..............................................................................
 
-# SET STATS
+#region SET STATS
 
 func set_stats() -> void:
 	# TODO: update level and experience
@@ -251,50 +261,37 @@ func set_stats() -> void:
 func set_base_stats() -> void:
 	pass
 
+#endregion
+
 # ..............................................................................
 
-# DEATH
+#region DEATH
 
 func death() -> void:
 	fatigue = false
 	super ()
 
+#endregion
+
 # ..............................................................................
 
 # below from CharacterBase
+#region TEMP ATTACKS
 
 var basic_damage: float = 10.0
 var ultimate_damage: float = 100.0
-
-func set_action_radius() -> void:
-	pass
-
-# TODO: currently only supports ultimate and basic attacks
-func queue_action() -> void:
-	if not base: return
-
-	# check if action queue is full
-	if base.action_queue.size() >= 3:
-		return
-
-	# if ultimate gauge is full, queue ultimate attack
-	if ultimate_gauge == max_ultimate_gauge:
-		base.action_queue.append([attack, [ultimate_attack, []]])
-		return
-	
-	base.action_queue.append([attack, [basic_attack, []]])
-
-func attack(attack_function: Callable, attack_arguments: Array) -> void:
-	attack_function.callv(attack_arguments)
-
-func _on_action_cooldown_timeout() -> void:
-	if not base: return
-	base.action_state = base.ActionState.READY
 
 # ATTACKS
 
 func basic_attack() -> void:
 	if not base: return
+
+	# TODO: temporary code
+	if not base.is_main_player and not base.choose_target_entity():
+		base.action_fail_count += 1
+		return
+
+	base.action_fail_count = 0
 
 	var attack_shape: ShapeCast2D = base.get_node(^"AttackShape")
 	var animation_node: AnimatedSprite2D = base.get_node(^"Animation")
@@ -304,13 +301,7 @@ func basic_attack() -> void:
 	if base.is_main_player:
 		base.action_vector = (Inputs.get_global_mouse_position() - base.position).normalized()
 	else:
-		# TODO: should be dynamic
-		#var target_enemy_node: EnemyBase = null
-		var temp_enemy_health: float = INF
-		for enemy_node in base.enemy_nodes_in_attack_area:
-			if enemy_node.stats.health < temp_enemy_health:
-				temp_enemy_health = enemy_node.stats.health
-				base.action_vector = (enemy_node.position - base.position).normalized()
+		base.action_vector = (base.action_target.position - base.position).normalized()
 		
 		#$AllyAttackCooldown.start(randf_range(2, 3))
 
@@ -321,7 +312,7 @@ func basic_attack() -> void:
 	
 	attack_shape.set_target_position(base.action_vector * 20)
 
-	base.action_state_timer = 0.5
+	base.action_state = base.ActionState.ACTION
 
 	attack_shape.force_shapecast_update()
 	
@@ -356,6 +347,13 @@ func basic_attack() -> void:
 func ultimate_attack():
 	if not base: return
 
+	# TODO: temporary code
+	if not base.is_main_player and not base.choose_target_entity():
+		base.action_fail_count += 1
+		return
+
+	base.action_fail_count = 0
+
 	var attack_shape: Area2D = base.get_node(^"AttackShape")
 	var animation_node: AnimatedSprite2D = base.get_node(^"Animation")
 
@@ -365,12 +363,7 @@ func ultimate_attack():
 
 	if base.is_main_player: base.action_vector = (Inputs.get_global_mouse_position() - base.position).normalized()
 	else:
-		var temp_enemy_health = INF
-		for enemy_node in base.enemy_nodes_in_attack_area:
-			if enemy_node.stats.health < temp_enemy_health:
-				temp_enemy_health = enemy_node.stats.health
-				base.action_vector = (enemy_node.position - base.position).normalized()
-		base.can_attack = false
+		base.action_vector = (base.action_target.position - base.position).normalized()
 		#$AllyAttackCooldown.start(randf_range(2, 3))
 	
 	var dash_attack: bool = false
@@ -379,9 +372,6 @@ func ultimate_attack():
 		dash_attack = true
 	
 	attack_shape.set_target_position(base.action_vector * 20)
-
-	#$AttackTimer.start(0.5)
-	base.action_state_timer = 0.5
 	
 	attack_shape.force_shapecast_update()
 
@@ -408,6 +398,10 @@ func ultimate_attack():
 	await animation_node.finished
 	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return
 
-	base.action_state_timer = randf_range(2.0, 3.0) # TODO: don't know what this is for
+	base.action_cooldown = randf_range(2.0, 3.0) # TODO: don't know what this is for
 	base.action_state = base.ActionState.READY
 	base.update_animation()
+
+#endregion
+
+# ..............................................................................
