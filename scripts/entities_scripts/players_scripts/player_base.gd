@@ -479,7 +479,7 @@ func set_variables(next_stats: PlayerStats, next_party_index: int) -> void:
 	# update main player variables and signals
 	if is_main_player:
 		Players.main_player = self
-		Players.camera_node.new_parent(self)
+		Players.camera.new_parent(self)
 		move_state_timeout.disconnect(_on_ally_move_state_timeout)
 		move_state_timeout.connect(_on_main_move_state_timeout)
 
@@ -512,7 +512,7 @@ func switch_to_main() -> void:
 	move_state_timeout.connect(_on_main_move_state_timeout)
 	
 	# update camera
-	Players.camera_node.new_parent(self)
+	Players.camera.new_parent(self)
 	
 	# if not in forced move state, reset move state
 	if not in_forced_move_state and move_state_timer > 0.0:
@@ -591,13 +591,13 @@ func update_health() -> void:
 			else Color(1, 1, 0, 1) if bar_percentage > 0.2
 			else Color(1, 0, 0, 1)
 	)
-	Combat.ui.health_labels[get_index()].text = str(int(stats.health))
+	Combat.ui.health_labels[party_index].text = str(int(stats.health))
 
 # update mana bar and label
 func update_mana() -> void:
 	$ManaBar.value = stats.mana
 	$ManaBar.visible = stats.mana < stats.max_mana
-	Combat.ui.mana_labels[get_index()].text = str(int(stats.mana))
+	Combat.ui.mana_labels[party_index].text = str(int(stats.mana))
 
 # update stamina bar and move state
 func update_stamina() -> void:
@@ -613,11 +613,13 @@ func update_stamina() -> void:
 func update_shield() -> void:
 	$ShieldBar.value = stats.shield
 	$ShieldBar.visible = stats.shield > 0
+	Combat.ui.shield_progress_bars[party_index].value = stats.shield
+	Combat.ui.shield_progress_bars[party_index].modulate.a = 1.0 if stats.shield > 0 else 0.0
 
 # update ultimate gauge bar
 func update_ultimate_gauge() -> void:
-	Combat.ui.ultimate_progress_bars[get_index()].value = stats.ultimate_gauge
-	Combat.ui.ultimate_progress_bars[get_index()].modulate.g = (130.0 - stats.ultimate_gauge) / stats.max_ultimate_gauge
+	Combat.ui.ultimate_progress_bars[party_index].value = stats.ultimate_gauge
+	Combat.ui.ultimate_progress_bars[party_index].modulate.g = (130.0 - stats.ultimate_gauge) / stats.max_ultimate_gauge
 
 # update maximum bar values
 func set_max_values() -> void:
@@ -625,7 +627,7 @@ func set_max_values() -> void:
 	$ManaBar.max_value = stats.max_mana
 	$StaminaBar.max_value = stats.max_stamina
 	$ShieldBar.max_value = stats.max_shield
-	Combat.ui.ultimate_progress_bars[get_index()].max_value = stats.max_ultimate_gauge
+	Combat.ui.ultimate_progress_bars[party_index].max_value = stats.max_ultimate_gauge
 
 	update_health()
 	update_mana()
@@ -656,7 +658,7 @@ func death() -> void:
 
 	# handle main player death
 	if is_main_player:
-		var alive_party_players = Players.party_node.get_children().filter(func(node: Node) -> bool: return node.stats.alive)
+		var alive_party_players = Players.get_children().filter(func(node: Node) -> bool: return node.stats.alive)
 		if not alive_party_players.is_empty():
 			Players.switch_main_player(alive_party_players[0])
 		else:

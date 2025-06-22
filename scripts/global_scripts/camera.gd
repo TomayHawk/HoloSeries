@@ -1,5 +1,9 @@
 extends Camera2D
 
+# MAIN CAMERA
+
+# ..............................................................................
+
 @onready var timer_node := $ShakeTimer
 
 const BASE_ZOOM := Vector2(1.0, 1.0)
@@ -14,9 +18,10 @@ var shaking := false
 var screen_shake_intervals := 3
 var screen_shake_intensity := 30
 
-var next_camera_limits := [-10000000, -10000000, 10000000, 10000000]
+# ..............................................................................
 
 func _ready():
+	$CanvasLayer/ColorRect.hide()
 	set_physics_process(false)
 
 func _physics_process(delta):
@@ -36,6 +41,37 @@ func _physics_process(delta):
 			zooming = false
 			zoom_weight = 0.0
 			if not shaking: set_physics_process(false)
+
+func _input(event: InputEvent) -> void:
+	if not (event.is_action(&"scroll_up") or event.is_action(&"scroll_down")):
+		return
+
+	if Input.is_action_just_pressed(&"scroll_up"):
+		if Inputs.action_inputs_enabled: Inputs.accept_event()
+		Players.camera.zoom_input(1)
+	elif Input.is_action_just_pressed(&"scroll_down"):
+		if Inputs.action_inputs_enabled: Inputs.accept_event()
+		Players.camera.zoom_input(-1)
+
+# ..............................................................................
+
+func toggle_black_screen(toggled: bool) -> void:
+	# initialize color rect
+	var color_rect: ColorRect = $CanvasLayer/ColorRect
+	color_rect.show()
+	color_rect.color.a = 0.0 if toggled else 1.0
+	
+	# tween color rect
+	var tween: Tween = create_tween()
+	tween.tween_property(color_rect, "color:a",
+			1.0 if toggled else 0.0, 0.2).set_ease(Tween.EASE_OUT)
+	
+	# wait for tween to finish
+	await tween.finished
+	
+	# hide color rect accordingly
+	if not toggled:
+		color_rect.hide()
 
 # TODO: shouldn't need this function
 func update_camera(next_parent, temp_can_zoom, next_zoom):

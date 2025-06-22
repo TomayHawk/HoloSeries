@@ -1,21 +1,28 @@
 [gd_scene load_steps=3 format=3 uid="uid://p8m26b2y8e7v"]
 
 [ext_resource type="Script" uid="uid://ds1yaf3ereija" path="res://scripts/global_scripts/players.gd" id="1_eytbs"]
-[ext_resource type="Script" uid="uid://sxj4ru0mops5" path="res://scripts/global_scripts/camera_2d.gd" id="2_j4fbi"]
+[ext_resource type="Script" uid="uid://sxj4ru0mops5" path="res://scripts/global_scripts/camera.gd" id="2_j4fbi"]
 
-[node name="Players" type="Node"]
+[node name="Players" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_eytbs")
 
-[node name="Party" type="Node2D" parent="."]
-y_sort_enabled = true
-
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="."]
 process_mode = 3
 process_callback = 0
 position_smoothing_enabled = true
+position_smoothing_speed = 3.0
 script = ExtResource("2_j4fbi")
 
-[node name="ShakeTimer" type="Timer" parent="Camera2D"]
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera"]
+layer = 100
+
+[node name="ColorRect" type="ColorRect" parent="Camera/CanvasLayer"]
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.0784314, 0.0784314, 0.0784314, 0)
+
+[node name="ShakeTimer" type="Timer" parent="Camera"]
 one_shot = true
 
-[connection signal="timeout" from="Camera2D/ShakeTimer" to="Camera2D" method="_on_timer_timeout"]
+[connection signal="timeout" from="Camera/ShakeTimer" to="Camera" method="_on_timer_timeout"]

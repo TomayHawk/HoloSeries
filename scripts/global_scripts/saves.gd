@@ -185,7 +185,7 @@ func load_save(save_index: int = 1) -> void:
 			if character_index == main_player_index: player.is_main_player = true
 			player.set_variables(character_stats[character_index], party_index)
 			character_stats[character_index] = null
-			Players.party_node.add_child(player)
+			Players.add_child(player)
 
 	# update standby characters
 	for character in character_stats:

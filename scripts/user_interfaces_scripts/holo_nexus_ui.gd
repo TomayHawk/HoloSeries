@@ -119,7 +119,7 @@ func update_character_selector():
 	# TODO: remove this -> character_selector_origin_player_nodes.clear()
 	character_selector_character_indices.clear()
 
-	for player in Players.party_node.get_children() + Players.standby_node.get_children():
+	for player in Players.get_children() + Players.standby_node.get_children():
 		var character = player if not player is PlayerBase else player.stats
 		if character.CHARACTER_INDEX != nexus_player.CHARACTER_INDEX:
 			character_selector_player_nodes[i].show()
@@ -211,10 +211,10 @@ func convert(target_type_position):
 	nexus.unlock_node()
 
 func _on_button_mouse_entered():
-	Players.camera_node.can_zoom = false
+	Players.camera.can_zoom = false
 
 func _on_button_mouse_exited():
-	Players.camera_node.can_zoom = true
+	Players.camera.can_zoom = true
 
 func _on_scroll_container_gui_input(_event):
 	pass

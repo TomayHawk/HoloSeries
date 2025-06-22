@@ -45,9 +45,9 @@ var scene_camera_zoom := Vector2(1.0, 1.0)
 
 func _ready():
 	# TODO: nexus camera limit (-679, -592, 681, 592)
-	scene_camera_zoom = Players.camera_node.zoom
-	Players.camera_node.update_camera($NexusPlayer, true, Vector2(1.0, 1.0))
-	Players.camera_node.new_limits([-679, -592, 681, 592])
+	scene_camera_zoom = Players.camera.zoom
+	Players.camera.update_camera($NexusPlayer, true, Vector2(1.0, 1.0))
+	Players.camera.new_limits([ - 679, -592, 681, 592])
 
 	# update board # TODO: should randomize board at start of game # TODO: block needs fixing
 	# TODO: update stats_node_atlas_position to include Empty
@@ -85,7 +85,7 @@ func temp_function():
 
 	# TODO: temporary
 	var party_players: Array[int] = []
-	for player in Players.party_node.get_children():
+	for player in Players.get_children():
 		party_players.append(player.stats.CHARACTER_INDEX)
 
 	var standby_players: Array[int] = []
@@ -125,7 +125,6 @@ func update_nexus_player(player):
 		# return to default texture positions
 		# TODO
 		#node.texture.region.position = Global.nexus_types[index_counter]
-
 		# modulate null nodes, unlocked nodes and locked nodes
 		if index_counter in null_nodes:
 			nexus_nodes[index_counter].modulate = Color(0.2, 0.2, 0.2, 1)
@@ -199,14 +198,14 @@ func exit_nexus():
 
 	# TODO: temporary
 	var party_players: Array[int] = []
-	for player in Players.party_node.get_children():
+	for player in Players.get_children():
 		party_players.append(player.stats.CHARACTER_INDEX)
 
 	var standby_players: Array[int] = []
 	for character in Players.standby_node.get_children():
 		standby_players.append(character.CHARACTER_INDEX)
 
-	Players.camera_node.update_camera(Players.main_player, true, scene_camera_zoom)
+	Players.camera.update_camera(Players.main_player, true, scene_camera_zoom)
 
 	Global.add_global_child("HoloDeck", "res://user_interfaces/holo_deck.tscn")
 	queue_free()

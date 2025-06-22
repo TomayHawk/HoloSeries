@@ -4,8 +4,8 @@ class_name EntityBase extends CharacterBody2D
 
 #region SIGNALS
 
-signal move_state_timeout()
-signal action_cooldown_timeout()
+signal move_state_timeout
+signal action_cooldown_timeout
 
 #endregion
 

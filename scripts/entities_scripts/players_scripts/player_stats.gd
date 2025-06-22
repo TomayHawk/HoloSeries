@@ -335,7 +335,7 @@ func basic_attack() -> void:
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 					self, enemy_body.stats):
 				enemy_body.knockback(base.action_vector, knockback_weight)
-		Players.camera_node.screen_shake(0.1, 1, 30, 5, true)
+		Players.camera.screen_shake(0.1, 1, 30, 5, true)
 	
 	await animation_node.animation_finished
 	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return
@@ -354,7 +354,7 @@ func ultimate_attack():
 
 	base.action_fail_count = 0
 
-	var attack_shape: Area2D = base.get_node(^"AttackShape")
+	var attack_shape: ShapeCast2D = base.get_node(^"AttackShape")
 	var animation_node: AnimatedSprite2D = base.get_node(^"Animation")
 
 	base.update_animation()
@@ -388,14 +388,14 @@ func ultimate_attack():
 
 	if attack_shape.is_colliding():
 		for collision_index in attack_shape.get_collision_count():
-			enemy_body = attack_shape.get_collider(collision_index).base
+			enemy_body = attack_shape.get_collider(collision_index).get_parent() # TODO: null instance bug need fix
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 					self, enemy_body.stats):
 				enemy_body.knockback(base.action_vector, knockback_weight)
-		Players.camera_node.screen_shake(0.3, 10, 30, 100, true)
+		Players.camera.screen_shake(0.3, 10, 30, 100, true)
 
-	await animation_node.finished
+	await animation_node.animation_finished
 	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return
 
 	base.action_cooldown = randf_range(2.0, 3.0) # TODO: don't know what this is for

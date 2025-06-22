@@ -37,13 +37,13 @@ const ENTITY_LIMIT: int = 200
 
 var entities_of_type: Dictionary[Type, Callable] = {
 	Type.PLAYERS: func() -> Array[EntityBase]:
-		return type_entities_array(Players.party_node.get_children()),
+		return type_entities_array(Players.get_children()),
 	Type.PLAYERS_ALLIES: func() -> Array[EntityBase]:
-		return type_entities_array(Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.is_main_player)),
+		return type_entities_array(Players.get_children().filter(func(node: Node) -> bool: return not node.is_main_player)),
 	Type.PLAYERS_ALIVE: func() -> Array[EntityBase]:
-		return type_entities_array(Players.party_node.get_children().filter(func(node: Node) -> bool: return node.stats.alive)),
+		return type_entities_array(Players.get_children().filter(func(node: Node) -> bool: return node.stats.alive)),
 	Type.PLAYERS_DEAD: func() -> Array[EntityBase]:
-		return type_entities_array(Players.party_node.get_children().filter(func(node: Node) -> bool: return not node.stats.alive)),
+		return type_entities_array(Players.get_children().filter(func(node: Node) -> bool: return not node.stats.alive)),
 	Type.ENEMIES: func() -> Array[EntityBase]:
 		return type_entities_array(get_tree().current_scene.get_node(^"Enemies").get_children()),
 	Type.IN_COMBAT: func() -> Array[EntityBase]:
@@ -181,7 +181,7 @@ func end_entities_request() -> void:
 
 func toggle_entities_movements(can_move: bool) -> void:
 	# toggle players movements
-	for player_node in Players.party_node.get_children():
+	for player_node in Players.get_children():
 		if not player_node.stats.alive:
 			continue
 		player_node.set_physics_process(can_move)

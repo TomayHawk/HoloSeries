@@ -176,11 +176,11 @@ func hide_sub_combat_options() -> void:
 
 func _on_control_mouse_entered() -> void:
 	Inputs.action_inputs_enabled = false
-	Players.camera_node.can_zoom = false
+	Players.camera.can_zoom = false
 
 func _on_control_mouse_exited() -> void:
 	Inputs.action_inputs_enabled = true
-	Players.camera_node.can_zoom = true
+	Players.camera.can_zoom = true
 
 func button_pressed() -> void:
 	Entities.end_entities_request()

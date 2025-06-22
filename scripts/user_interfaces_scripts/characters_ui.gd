@@ -20,7 +20,7 @@ func _input(event: InputEvent) -> void:
 
 func _on_characters_pressed():
     characters.clear()
-    for player_node in Players.party_node.get_children():
+    for player_node in Players.get_children():
         characters.append(player_node.stats)
     for character in Players.standby_node.get_children():
         characters.append(character)

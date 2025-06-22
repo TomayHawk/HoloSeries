@@ -1,20 +1,17 @@
 extends Control
 
+# TODO: deal with all inputs everywhere
+
 var world_inputs_enabled: bool = false
 var action_inputs_enabled: bool = false
+var zoom_inputs_enabled: bool = false
 
 var sprint_hold: bool = true
 
 func _input(event: InputEvent) -> void:
-	# end propogation for mouse motion and screen touch events
-	if event is InputEventScreenTouch:
-		accept_event()
-		return
-	
 	# ignore all unrelated inputs
-	if not (event.is_action(&"action") or event.is_action(&"full_screen") \
-			or event.is_action(&"scroll_up") or event.is_action(&"scroll_down")):
-				return
+	if not (event.is_action(&"action") or event.is_action(&"full_screen")):
+		return
 	
 	if Input.is_action_just_pressed(&"action"):
 		if attempt_action_input():
@@ -23,17 +20,10 @@ func _input(event: InputEvent) -> void:
 	elif Input.is_action_just_pressed(&"full_screen"):
 		accept_event()
 		Settings.toggle_fullscreen(DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED)
-	elif Input.is_action_just_pressed(&"scroll_up"):
-		if action_inputs_enabled: accept_event()
-		Players.camera_node.zoom_input(1)
-	elif Input.is_action_just_pressed(&"scroll_down"):
-		if action_inputs_enabled: accept_event()
-		Players.camera_node.zoom_input(-1)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not event.is_action(&"esc"):
-		return
-
+	if not event.is_action(&"esc"): return
+	
 	accept_event()
 
 	if Input.is_action_just_pressed(&"esc"):

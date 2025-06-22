@@ -45,6 +45,8 @@ func player_exited(player: PlayerBase) -> void:
 				target_player = nearby_player
 				least_distance = temp_distance
 
-func _on_body_entered(_body: Node2D) -> void:
+func _on_body_entered(body: Node2D) -> void:
 	Inventory.add_item(item_type, item_id)
+	body.stats.update_shield(10.0) # TODO: temporary code
+	body.stats.update_ultimate_gauge(10.0) # TODO: temporary code
 	queue_free()

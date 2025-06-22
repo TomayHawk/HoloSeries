@@ -46,7 +46,7 @@ func entity_chosen(chosen_nodes) -> void:
 	show()
 	
 func projectile_collision(move_direction) -> void:
-	Players.camera_node.screen_shake(0.1, 1, 30, 5, false)
+	Players.camera.screen_shake(0.1, 1, 30, 5, false)
 	var target_enemy_nodes: Array[EntityBase] = await $AreaOfEffect.area_of_effect(2)
 	for enemy_node in target_enemy_nodes:
 		if Damage.combat_damage(damage, DAMAGE_TYPES, caster_node.stats, enemy_node.stats):

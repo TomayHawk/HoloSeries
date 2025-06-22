@@ -1,57 +1,97 @@
 extends Node
 
-# nexus variables
-var nexus_types: Array[int] = []
-var nexus_qualities: Array[int] = []
+# GLOBAL MANAGER
 
 # ..............................................................................
 
-# SCENE CHANGE
+#region SIGNALS
+
+signal new_scene_ready
+
+#endregion
+
+# ..............................................................................
+
+#region VARIABLES
+
+# nexus
+var nexus_types: Array[int] = []
+var nexus_qualities: Array[int] = []
+
+#endregion
+
+# ..............................................................................
+
+#region SCENE CHANGE
 
 func change_scene(next_scene_path: String, next_position: Vector2, camera_limits: Array[int], bgm_path: String) -> void:
-	var tree: SceneTree = get_tree()
-
+	# disable inputs
 	Inputs.action_inputs_enabled = false
 	Inputs.world_inputs_enabled = false
 
-	# change scene
-	tree.call_deferred(&"change_scene_to_file", next_scene_path)
-	Players.party_node.call_deferred(&"reparent", Players)
+	# disable players
+	Players.toggle_process(false)
 	
+	# disable camera smoothing
+	Players.camera.position_smoothing_enabled = false
+
+	# start black screen
+	await Players.camera.toggle_black_screen(true)
+
+	# reparent players and main camera to self
+	Players.call_deferred(&"reparent", self)
+
+	# change scene
+	get_tree().call_deferred(&"change_scene_to_file", next_scene_path)
+
+	# wait for scene to load
+	await new_scene_ready
+
+	# update bgm
+	start_bgm(bgm_path)
+
+	# reparent players to the new scene
+	Players.reparent(get_tree().current_scene)
+
+	# reposition players and update camera
+	for player_node in Players.get_children():
+		if player_node.is_main_player:
+			player_node.position = next_position
+			Players.camera.force_zoom(Players.camera.target_zoom)
+			Players.camera.new_limits(camera_limits)
+		else:
+			player_node.ally_teleport(next_position)
+
 	# reset world objects and values
 	Entities.end_entities_request()
 	Combat.clear_combat_entities()
 	Combat.leave_combat()
 
-	# TODO: fix flicker
-	# update camera settings
-	Players.camera_node.force_zoom(Players.camera_node.target_zoom)
-	Players.camera_node.new_limits(camera_limits)
-	Players.camera_node.position_smoothing_enabled = false
-	Players.main_player.position = next_position
-	await tree.process_frame
-	Players.camera_node.position_smoothing_enabled = true
+	# move Inputs to the bottom of the tree
+	get_tree().root.move_child(Inputs, -1)
 
-	# update ally positions
-	for player_node in Players.party_node.get_children():
-		if player_node == Players.main_player: continue
-		player_node.ally_teleport(next_position)
+	# await 2 frames to ensure everything is loaded
+	await get_tree().process_frame
+	await get_tree().process_frame
 
-	# update bgm
-	start_bgm(bgm_path)
+	# end black screen
+	Players.camera.toggle_black_screen(false)
 
-	# reparent party
-	await tree.process_frame
-	Players.party_node.reparent(tree.current_scene)
-	
+	# enable camera smoothing
+	Players.camera.position_smoothing_enabled = true
+
+	# enable players
+	Players.toggle_process(true)
+
+	# enable inputs
 	Inputs.action_inputs_enabled = true
 	Inputs.world_inputs_enabled = true
 
-	get_parent().move_child(Inputs, -1)
+#endregion
 
 # ..............................................................................
 
-# GLOBAL UI
+#region GLOBAL UI
 
 func add_global_child(node_name: String, node_path: String) -> void:
 	if get_node_or_null(NodePath(node_name)): return
@@ -61,25 +101,27 @@ func remove_global_child(node_name: String) -> void:
 	if not get_node_or_null(NodePath(node_name)): return
 	get_node(NodePath(node_name)).queue_free()
 
+#endregion
+
 # ..............................................................................
 
-# BGM
+#region BGM
 
 func start_bgm(bgm_path: String) -> void:
 	# return if currently playing the same track
 	if $BgmPlayer.stream.resource_path == bgm_path:
 		return
 
+	# free old bgm player if applicable
+	if get_node_or_null(^"OldBgmPlayer"):
+		$OldBgmPlayer.queue_free()
+		await $OldBgmPlayer.tree_exited
+
 	# no tweens if no volume (or low volume)
 	if AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"BGM")) < -70.0:
 		$BgmPlayer.stream = load(bgm_path)
 		$BgmPlayer.play()
 		return
-
-	# free old bgm player if applicable
-	if get_node_or_null(^"OldBgmPlayer"):
-		$OldBgmPlayer.queue_free()
-		await get_tree().process_frame
 	
 	# turn down old bgm player
 	$BgmPlayer.name = "OldBgmPlayer"
@@ -100,13 +142,16 @@ func start_bgm(bgm_path: String) -> void:
 	$BgmPlayer.play()
 	
 	# turn up new bgm player
-	var tween_2 = $BgmPlayer.create_tween()
-	tween_2.tween_property($BgmPlayer, "volume_db",
+	$BgmPlayer.create_tween().tween_property($BgmPlayer, "volume_db",
 			AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"BGM")), 4.0) \
 			.set_trans(Tween.TRANS_EXPO) \
 			.set_ease(Tween.EASE_OUT)
 
 	# free old bgm player
-	await tween_2.finished
+	await tween_1.finished
 	if get_node_or_null(^"OldBgmPlayer"):
 		$OldBgmPlayer.queue_free()
+
+#endregion
+
+# ..............................................................................
