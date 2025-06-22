@@ -26,12 +26,14 @@ var text_box_state := TextBoxState.INACTIVE:
 				Entities.toggle_entities_movements(true)
 				Inputs.world_inputs_enabled = true
 				Inputs.action_inputs_enabled = true
+				Inputs.zoom_inputs_enabled = true
 				return
 			# start dialogue on hidden text box
 			if isInactive():
 				Entities.toggle_entities_movements(false)
 				Inputs.world_inputs_enabled = false
 				Inputs.action_inputs_enabled = false
+				Inputs.zoom_inputs_enabled = false
 				%TextBoxMargin.show()
 			# continue dialogue with animation
 			text_box_state = TextBoxState.TYPING

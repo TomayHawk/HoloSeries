@@ -11,7 +11,6 @@ script = ExtResource("1_eytbs")
 process_mode = 3
 process_callback = 0
 position_smoothing_enabled = true
-position_smoothing_speed = 3.0
 script = ExtResource("2_j4fbi")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Camera"]
@@ -21,8 +20,3 @@ layer = 100
 offset_right = 640.0
 offset_bottom = 360.0
 color = Color(0.0784314, 0.0784314, 0.0784314, 0)
-
-[node name="ShakeTimer" type="Timer" parent="Camera"]
-one_shot = true
-
-[connection signal="timeout" from="Camera/ShakeTimer" to="Camera" method="_on_timer_timeout"]

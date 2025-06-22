@@ -40,8 +40,7 @@ func _input(event: InputEvent) -> void:
 	if not Inputs.world_inputs_enabled: return
 	
 	# ignore all unrelated inputs
-	if not (event.is_action(&"display_combat_ui") or event.is_action(&"alt") \
-			or event.is_action(&"tab") or event.is_action(&"esc")): return
+	if not (event.is_action(&"display_combat_ui") or event.is_action(&"tab") or event.is_action(&"esc")): return
 	
 	if not event.is_action(&"esc"):
 		Inputs.accept_event()
@@ -50,10 +49,6 @@ func _input(event: InputEvent) -> void:
 		if Combat.not_in_combat():
 			# TODO: currently pressable while hidden
 			%CombatControl.modulate.a = 1.0 if %CombatControl.modulate.a != 1.0 else 0.0
-	elif Input.is_action_just_pressed(&"alt"):
-		Entities.switching_main_player = true
-	elif Input.is_action_just_released(&"alt"):
-		Entities.switching_main_player = false
 	elif Input.is_action_just_pressed(&"tab"):
 		%CharacterSelector.show()
 	elif Input.is_action_just_released(&"tab"):
@@ -176,11 +171,11 @@ func hide_sub_combat_options() -> void:
 
 func _on_control_mouse_entered() -> void:
 	Inputs.action_inputs_enabled = false
-	Players.camera.can_zoom = false
+	Inputs.zoom_inputs_enabled = false
 
 func _on_control_mouse_exited() -> void:
 	Inputs.action_inputs_enabled = true
-	Players.camera.can_zoom = true
+	Inputs.zoom_inputs_enabled = true
 
 func button_pressed() -> void:
 	Entities.end_entities_request()

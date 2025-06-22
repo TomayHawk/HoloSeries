@@ -4,66 +4,108 @@ extends Camera2D
 
 # ..............................................................................
 
-@onready var timer_node := $ShakeTimer
+#region VARIABLES
 
-const BASE_ZOOM := Vector2(1.0, 1.0)
+# screen shake
+var shake_counter: int = 0
+var shake_interval: int = 0
+var shake_cooldown: int = 0
+var shake_intensity: int = 0
 
-var zooming := false
-var can_zoom := true
-var target_zoom := BASE_ZOOM
-var zoom_weight := 0.0
+# camera zoom
+var target_zoom: Vector2 = Vector2(1.0, 1.0)
+var zoom_weight: float = 0.0
 
-var i := 0
-var shaking := false
-var screen_shake_intervals := 3
-var screen_shake_intensity := 30
+#endregion
 
 # ..............................................................................
 
-func _ready():
-	$CanvasLayer/ColorRect.hide()
+#region READY
+
+func _ready() -> void:
+	$CanvasLayer.hide()
+	set_process(false)
 	set_physics_process(false)
 
-func _physics_process(delta):
-	if shaking:
-		if i == 0:
-			position = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * screen_shake_intensity
-			i = screen_shake_intervals
-		i -= 1
-	
-	if zooming:
-		if target_zoom.x != zoom.x:
-			zoom_weight += delta * 0.1
-			zoom = zoom.lerp(target_zoom, zoom_weight)
-			if abs(target_zoom.x - zoom.x) < 0.000001:
-				zoom = target_zoom
-		else:
-			zooming = false
-			zoom_weight = 0.0
-			if not shaking: set_physics_process(false)
-
-func _input(event: InputEvent) -> void:
-	if not (event.is_action(&"scroll_up") or event.is_action(&"scroll_down")):
-		return
-
-	if Input.is_action_just_pressed(&"scroll_up"):
-		if Inputs.action_inputs_enabled: Inputs.accept_event()
-		Players.camera.zoom_input(1)
-	elif Input.is_action_just_pressed(&"scroll_down"):
-		if Inputs.action_inputs_enabled: Inputs.accept_event()
-		Players.camera.zoom_input(-1)
+#endregion
 
 # ..............................................................................
 
+#region PROCESS
+
+# process zoom
+func _process(delta: float) -> void:
+	zoom = zoom.lerp(target_zoom, zoom_weight)
+	zoom_weight += delta * 0.1
+	
+	# end zoom accordingly
+	if abs(target_zoom.x - zoom.x) < 0.000001:
+		end_zoom()
+
+# process screen shake
+func _physics_process(_delta: float) -> void:
+	shake_cooldown += 1
+	if shake_cooldown >= shake_interval:
+		position = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * shake_intensity
+		shake_counter -= 1
+		shake_cooldown = 0
+
+		# end screen shake accordingly
+		if shake_counter <= 0:
+			end_screen_shake()
+
+#endregion
+
+# ..............................................................................
+
+#region INPUTS
+
+func _input(event: InputEvent) -> void:
+	# ignore all unrelated inputs
+	if not (event.is_action(&"scroll_up") or event.is_action(&"scroll_down")): return
+
+	# check if zoom inputs are enabled
+	if not Inputs.zoom_inputs_enabled: return
+	
+	# prevent input propogation
+	Inputs.accept_event()
+
+	# zoom in or out
+	if Input.is_action_just_pressed(&"scroll_up"):
+		update_zoom(1)
+	elif Input.is_action_just_pressed(&"scroll_down"):
+		update_zoom(-1)
+
+#endregion
+
+# ..............................................................................
+
+#region UPDATE CAMERA
+
+func update_camera(next_parent: Node, next_zoom: Vector2 = target_zoom) -> void:
+	reparent(next_parent)
+	force_zoom(next_zoom)
+	end_screen_shake()
+
+func update_camera_limits(next_limits: Array[int]) -> void:
+	limit_left = next_limits[0]
+	limit_top = next_limits[1]
+	limit_right = next_limits[2]
+	limit_bottom = next_limits[3]
+
+#endregion
+
+# ..............................................................................
+
+#region BLACK SCREEN
+
 func toggle_black_screen(toggled: bool) -> void:
-	# initialize color rect
-	var color_rect: ColorRect = $CanvasLayer/ColorRect
-	color_rect.show()
-	color_rect.color.a = 0.0 if toggled else 1.0
+	$CanvasLayer.show()
+	$CanvasLayer/ColorRect.color.a = 0.0 if toggled else 1.0
 	
 	# tween color rect
 	var tween: Tween = create_tween()
-	tween.tween_property(color_rect, "color:a",
+	tween.tween_property($CanvasLayer/ColorRect, "color:a",
 			1.0 if toggled else 0.0, 0.2).set_ease(Tween.EASE_OUT)
 	
 	# wait for tween to finish
@@ -71,53 +113,51 @@ func toggle_black_screen(toggled: bool) -> void:
 	
 	# hide color rect accordingly
 	if not toggled:
-		color_rect.hide()
+		$CanvasLayer.hide()
 
-# TODO: shouldn't need this function
-func update_camera(next_parent, temp_can_zoom, next_zoom):
-	new_parent(next_parent)
-	force_zoom(next_zoom)
-	
-	can_zoom = temp_can_zoom
+#endregion
 
-func new_parent(next_parent):
-	force_zoom(target_zoom)
-	reparent(next_parent)
-	position = Vector2.ZERO
+# ..............................................................................
+
+#region ZOOM
 
 func force_zoom(new_zoom: Vector2) -> void:
 	target_zoom = new_zoom
-	zoom = new_zoom
+	end_zoom()
 
-func new_limits(next_limits):
-	limit_left = next_limits[0]
-	limit_top = next_limits[1]
-	limit_right = next_limits[2]
-	limit_bottom = next_limits[3]
-	
+func update_zoom(direction: int) -> void:
+	target_zoom = clamp(target_zoom + (Vector2(0.05, 0.05) * direction),
+			Vector2(0.8, 0.8), Vector2(1.4, 1.4))
+	set_process(true)
 
-func screen_shake(duration, intervals, intensity, camera_speed, pause_game):
-	if pause_game:
-		Global.get_tree().paused = true
-	shaking = true
-	screen_shake_intervals = intervals
-	screen_shake_intensity = intensity
+func end_zoom() -> void:
+	target_zoom = target_zoom.clamp(Vector2(0.8, 0.8), Vector2(1.4, 1.4))
+	zoom_weight = 0.0
+	set_process(false)
+
+#endregion
+
+# ..............................................................................
+
+#region SCREEN SHAKE
+
+func screen_shake(counter: int, interval: int, intensity: int, camera_speed: float) -> void:
+	shake_counter = counter
+	shake_interval = interval
+	shake_cooldown = 0
+	shake_intensity = intensity
 	position_smoothing_speed = camera_speed
-	timer_node.set_wait_time(duration)
-	timer_node.start()
 	set_physics_process(true)
 
-func zoom_input(direction: int) -> void:
-	if not can_zoom: return
-	target_zoom = clamp(target_zoom + (Vector2(0.05, 0.05) * direction), Vector2(0.8, 0.8), Vector2(1.4, 1.4))
-	if zoom != target_zoom:
-		set_physics_process(true)
-		zooming = true
-
-func _on_timer_timeout():
-	if not zooming: set_physics_process(false)
-	if Global.get_tree().paused:
-		Global.get_tree().paused = false
-	position_smoothing_speed = 5
+func end_screen_shake() -> void:
 	position = Vector2.ZERO
-	shaking = false
+	shake_counter = 0
+	shake_interval = 0
+	shake_cooldown = 0
+	shake_intensity = 0
+	position_smoothing_speed = 5.0
+	set_physics_process(false)
+
+#endregion
+
+# ..............................................................................

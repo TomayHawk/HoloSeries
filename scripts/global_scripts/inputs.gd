@@ -2,6 +2,8 @@ extends Control
 
 # TODO: deal with all inputs everywhere
 
+var alt_pressed: bool = false
+
 var world_inputs_enabled: bool = false
 var action_inputs_enabled: bool = false
 var zoom_inputs_enabled: bool = false
@@ -10,10 +12,13 @@ var sprint_hold: bool = true
 
 func _input(event: InputEvent) -> void:
 	# ignore all unrelated inputs
-	if not (event.is_action(&"action") or event.is_action(&"full_screen")):
+	if not (event.is_action(&"alt") or event.is_action(&"action") or event.is_action(&"full_screen")):
 		return
 	
-	if Input.is_action_just_pressed(&"action"):
+	if event.is_action(&"alt"):
+		alt_pressed = event.is_pressed()
+		accept_event()
+	elif Input.is_action_just_pressed(&"action"):
 		if attempt_action_input():
 			print("Action input")
 			accept_event()

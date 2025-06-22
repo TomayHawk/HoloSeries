@@ -335,7 +335,7 @@ func basic_attack() -> void:
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 					self, enemy_body.stats):
 				enemy_body.knockback(base.action_vector, knockback_weight)
-		Players.camera.screen_shake(0.1, 1, 30, 5, true)
+		Players.camera.screen_shake(5, 1, 10, 10.0)
 	
 	await animation_node.animation_finished
 	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return
@@ -393,7 +393,7 @@ func ultimate_attack():
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 					self, enemy_body.stats):
 				enemy_body.knockback(base.action_vector, knockback_weight)
-		Players.camera.screen_shake(0.3, 10, 30, 100, true)
+		Players.camera.screen_shake(4, 10, 30, 30.0)
 
 	await animation_node.animation_finished
 	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return

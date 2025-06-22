@@ -50,13 +50,13 @@ func new_save(character_index: int) -> void:
 				"experience": 0 as int,
 				
 				# equipments
-				"weapon": - 1 as int,
-				"headgear": - 1 as int,
-				"chestpiece": - 1 as int,
-				"leggings": - 1 as int,
-				"accessory_1": - 1 as int,
-				"accessory_2": - 1 as int,
-				"accessory_3": - 1 as int,
+				"weapon": -1 as int,
+				"headgear": -1 as int,
+				"chestpiece": -1 as int,
+				"leggings": -1 as int,
+				"accessory_1": -1 as int,
+				"accessory_2": -1 as int,
+				"accessory_3": -1 as int,
 
 				# nexus
 				"last_node": player_stats.DEFAULT_UNLOCKED[1] as int,

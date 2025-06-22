@@ -20,10 +20,10 @@ func _ready() -> void:
 
 	# request target entity
 	Entities.entities_request_ended.connect(entity_chosen, CONNECT_ONE_SHOT)
-	Entities.request_entities([Entities.Type.ON_SCREEN])
+	Entities.request_entities([Entities.Type.ENEMIES_ON_SCREEN])
 	
 	# if alt is pressed, target nearest enemy
-	if Input.is_action_pressed(&"alt"):
+	if Inputs.alt_pressed:
 		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_node.position, false))
 
 func _physics_process(delta: float) -> void:
@@ -44,9 +44,9 @@ func entity_chosen(chosen_nodes) -> void:
 			* (1 + (caster_stats_node.intelligence / 1000) + (caster_stats_node.speed / 256))
 	set_physics_process(true)
 	show()
-	
+
 func projectile_collision(move_direction) -> void:
-	Players.camera.screen_shake(0.1, 1, 30, 5, false)
+	Players.camera.screen_shake(5, 1, 10, 10.0)
 	var target_enemy_nodes: Array[EntityBase] = await $AreaOfEffect.area_of_effect(2)
 	for enemy_node in target_enemy_nodes:
 		if Damage.combat_damage(damage, DAMAGE_TYPES, caster_node.stats, enemy_node.stats):

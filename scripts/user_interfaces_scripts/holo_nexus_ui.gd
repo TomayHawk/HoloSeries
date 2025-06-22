@@ -211,10 +211,10 @@ func convert(target_type_position):
 	nexus.unlock_node()
 
 func _on_button_mouse_entered():
-	Players.camera.can_zoom = false
+	Inputs.zoom_inputs_enabled = false
 
 func _on_button_mouse_exited():
-	Players.camera.can_zoom = true
+	Inputs.zoom_inputs_enabled = true
 
 func _on_scroll_container_gui_input(_event):
 	pass

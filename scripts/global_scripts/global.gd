@@ -28,6 +28,7 @@ func change_scene(next_scene_path: String, next_position: Vector2, camera_limits
 	# disable inputs
 	Inputs.action_inputs_enabled = false
 	Inputs.world_inputs_enabled = false
+	Inputs.zoom_inputs_enabled = false
 
 	# disable players
 	Players.toggle_process(false)
@@ -58,7 +59,7 @@ func change_scene(next_scene_path: String, next_position: Vector2, camera_limits
 		if player_node.is_main_player:
 			player_node.position = next_position
 			Players.camera.force_zoom(Players.camera.target_zoom)
-			Players.camera.new_limits(camera_limits)
+			Players.camera.update_camera_limits(camera_limits)
 		else:
 			player_node.ally_teleport(next_position)
 
@@ -86,6 +87,7 @@ func change_scene(next_scene_path: String, next_position: Vector2, camera_limits
 	# enable inputs
 	Inputs.action_inputs_enabled = true
 	Inputs.world_inputs_enabled = true
+	Inputs.zoom_inputs_enabled = true
 
 #endregion
 

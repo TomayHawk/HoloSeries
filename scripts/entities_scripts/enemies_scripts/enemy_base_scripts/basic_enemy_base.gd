@@ -33,7 +33,7 @@ func death() -> void:
 	enemy_in_combat = false
 	players_in_detection_area.clear()
 	players_in_attack_area.clear()
-	stats.entity_types &= ~Entities.Type.ON_SCREEN
+	stats.entity_types &= ~Entities.Type.ENEMIES_ON_SCREEN
 	remove_from_group(&"enemies_on_screen")
 	Combat.remove_active_enemy(self)
 
@@ -59,7 +59,7 @@ func death() -> void:
 
 func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"):
-		if Input.is_action_pressed(&"alt"):
+		if Inputs.alt_pressed:
 			Inputs.accept_event()
 			Combat.lock(self)
 		elif self in Entities.entities_available:
@@ -71,7 +71,7 @@ func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_i
 func _on_detection_area_body_entered(body: Node2D) -> void:
 	if not stats.alive or not body.stats.alive: return
 	Combat.add_active_enemy(self)
-	stats.entity_types |= Entities.Type.IN_COMBAT
+	stats.entity_types |= Entities.Type.ENEMIES_IN_COMBAT
 	enemy_in_combat = true
 	if not players_in_detection_area.has(body):
 		players_in_detection_area.append(body)
@@ -83,7 +83,7 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 		in_action_range = false
 	if players_in_detection_area.is_empty():
 		Combat.remove_active_enemy(self)
-		stats.entity_types &= ~Entities.Type.IN_COMBAT
+		stats.entity_types &= ~Entities.Type.ENEMIES_IN_COMBAT
 		enemy_in_combat = false
 
 # ATTACK AREA
@@ -106,9 +106,9 @@ func _on_attack_area_body_exited(body: Node2D) -> void:
 # ON SCREEN STATUS
 
 func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
-	stats.entity_types |= Entities.Type.ON_SCREEN
+	stats.entity_types |= Entities.Type.ENEMIES_ON_SCREEN
 	add_to_group(&"enemies_on_screen")
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	stats.entity_types &= ~Entities.Type.ON_SCREEN
+	stats.entity_types &= ~Entities.Type.ENEMIES_ON_SCREEN
 	remove_from_group(&"enemies_on_screen")

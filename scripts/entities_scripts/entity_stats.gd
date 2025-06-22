@@ -131,7 +131,7 @@ var status: int = 0
 var effects: Array[Resource] = []
 
 func add_status(type: Entities.Status) -> Resource:
-	var effect: Resource = Entities.effect_resources[type].new()
+	var effect: Resource = Entities.effects_resources[type].new()
 	effects.append(effect)
 	status |= type
 	return effect

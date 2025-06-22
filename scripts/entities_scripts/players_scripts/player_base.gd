@@ -30,7 +30,7 @@ func _physics_process(_delta: float) -> void:
 
 # ..............................................................................
 
-#region INPUT
+#region INPUTS
 
 func _input(event: InputEvent) -> void:
 	# check input requirements
@@ -479,7 +479,7 @@ func set_variables(next_stats: PlayerStats, next_party_index: int) -> void:
 	# update main player variables and signals
 	if is_main_player:
 		Players.main_player = self
-		Players.camera.new_parent(self)
+		Players.camera.update_camera(self)
 		move_state_timeout.disconnect(_on_ally_move_state_timeout)
 		move_state_timeout.connect(_on_main_move_state_timeout)
 
@@ -512,7 +512,7 @@ func switch_to_main() -> void:
 	move_state_timeout.connect(_on_main_move_state_timeout)
 	
 	# update camera
-	Players.camera.new_parent(self)
+	Players.camera.update_camera(self)
 	
 	# if not in forced move state, reset move state
 	if not in_forced_move_state and move_state_timer > 0.0:
@@ -715,16 +715,18 @@ func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_i
 		if self in Entities.entities_available:
 			Inputs.accept_event()
 			Entities.choose_entity(self)
-		elif Entities.switching_main_player and not is_main_player:
+		elif Inputs.alt_pressed and not is_main_player:
 			Inputs.accept_event()
 			Players.switch_main_player(self)
 
 func _on_combat_hit_box_mouse_entered() -> void:
-	if self in Entities.entities_available or Entities.switching_main_player:
+	if self in Entities.entities_available or Inputs.alt_pressed:
 		Inputs.action_inputs_enabled = false
+		Inputs.zoom_inputs_enabled = false
 
 func _on_combat_hit_box_mouse_exited() -> void:
 	Inputs.action_inputs_enabled = true
+	Inputs.zoom_inputs_enabled = true
 
 # InteractionArea
 

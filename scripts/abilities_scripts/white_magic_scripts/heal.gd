@@ -20,7 +20,7 @@ func _ready() -> void:
 	Entities.request_entities([Entities.Type.PLAYERS_ALIVE])
 
 	# if alt is pressed, target player with lowest health
-	if Input.is_action_pressed(&"alt"):
+	if Inputs.alt_pressed:
 		Entities.choose_entity(Entities.target_entity_by_stats(Entities.entities_available, &"health", false))
 
 func entity_chosen(chosen_nodes: Array[EntityBase]) -> void:

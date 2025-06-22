@@ -42,12 +42,14 @@ var temp_adjacents: Array[int] = []
 var index_counter := 0
 
 var scene_camera_zoom := Vector2(1.0, 1.0)
+var scene_camera_limits: Array[int] = []
 
 func _ready():
-	# TODO: nexus camera limit (-679, -592, 681, 592)
 	scene_camera_zoom = Players.camera.zoom
-	Players.camera.update_camera($NexusPlayer, true, Vector2(1.0, 1.0))
-	Players.camera.new_limits([ - 679, -592, 681, 592])
+	Players.camera.update_camera($NexusPlayer, Vector2(1.0, 1.0))
+	Inputs.zoom_inputs_enabled = true
+	scene_camera_limits = [Players.camera.limit_left, Players.camera.limit_top, Players.camera.limit_right, Players.camera.limit_bottom]
+	Players.camera.update_camera_limits([-679, -592, 681, 592])
 
 	# update board # TODO: should randomize board at start of game # TODO: block needs fixing
 	# TODO: update stats_node_atlas_position to include Empty
@@ -205,7 +207,9 @@ func exit_nexus():
 	for character in Players.standby_node.get_children():
 		standby_players.append(character.CHARACTER_INDEX)
 
-	Players.camera.update_camera(Players.main_player, true, scene_camera_zoom)
+	Players.camera.update_camera(Players.main_player, scene_camera_zoom)
+	Players.camera.update_camera_limits(scene_camera_limits)
+	Inputs.zoom_inputs_enabled = true
 
 	Global.add_global_child("HoloDeck", "res://user_interfaces/holo_deck.tscn")
 	queue_free()

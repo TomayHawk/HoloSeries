@@ -17,10 +17,10 @@ func _ready() -> void:
 
 	# request target entity
 	Entities.entities_request_ended.connect(entity_chosen, CONNECT_ONE_SHOT)
-	Entities.request_entities([Entities.Type.ON_SCREEN])
+	Entities.request_entities([Entities.Type.ENEMIES_ON_SCREEN])
 
 	# if alt is pressed, auto-aim closest enemy
-	if Input.is_action_pressed(&"alt"):
+	if Inputs.alt_pressed:
 		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_node.position, false))
 
 func entity_chosen(chosen_nodes: Array[EntityBase]) -> void:
@@ -34,8 +34,7 @@ func entity_chosen(chosen_nodes: Array[EntityBase]) -> void:
 
 	$AnimatedSprite2D.play(&"shoot")
 	$HomingProjectile.initiate_homing_projectile(target_node,
-			speed * (1 + (caster_stats_node.intelligence / 1000) + (caster_stats_node.speed / 256)),
-			)
+			speed * (1 + (caster_stats_node.intelligence / 1000) + (caster_stats_node.speed / 256)))
 	$AreaOfEffect.collision_mask |= 1 << 1
 	$AreaOfEffect/CollisionShape2D.scale = Vector2(1.5, 1.5)
 	$DespawnComponent.initiate_timers(5.0, 1.0)
@@ -43,7 +42,7 @@ func entity_chosen(chosen_nodes: Array[EntityBase]) -> void:
 	show()
 
 func projectile_collision(move_direction) -> void:
-	Players.camera.screen_shake(0.1, 1, 30, 5, false)
+	Players.camera.screen_shake(5, 1, 20, 20.0)
 	var target_enemy_nodes: Array[EntityBase] = await $AreaOfEffect.area_of_effect(2)
 	for enemy_node in target_enemy_nodes:
 		if Damage.combat_damage(damage, DAMAGE_TYPES, caster_node.stats, enemy_node.stats):

@@ -1,7 +1,5 @@
 extends Node
 
-var settings_ui: CanvasLayer = null
-
 # ..............................................................................
 
 # CONFIGURATION

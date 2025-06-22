@@ -1,6 +1,16 @@
 extends Node
 
+# ..............................................................................
+
+#region SIGNALS
+
 signal entities_request_ended(entities: Array[EntityBase])
+
+#endregion
+
+# ..............................................................................
+
+#region CONSTANTS
 
 enum Type {
 	PLAYERS = 1 << 0,
@@ -8,8 +18,8 @@ enum Type {
 	PLAYERS_ALIVE = 1 << 2,
 	PLAYERS_DEAD = 1 << 3,
 	ENEMIES = 1 << 4,
-	IN_COMBAT = 1 << 5,
-	ON_SCREEN = 1 << 6,
+	ENEMIES_IN_COMBAT = 1 << 5,
+	ENEMIES_ON_SCREEN = 1 << 6,
 }
 
 enum Status {
@@ -35,6 +45,14 @@ enum Status {
 
 const ENTITY_LIMIT: int = 200
 
+#endregion
+
+# ..............................................................................
+
+#region VARIABLES
+
+# ENTITY FILTERS
+
 var entities_of_type: Dictionary[Type, Callable] = {
 	Type.PLAYERS: func() -> Array[EntityBase]:
 		return type_entities_array(Players.get_children()),
@@ -46,14 +64,16 @@ var entities_of_type: Dictionary[Type, Callable] = {
 		return type_entities_array(Players.get_children().filter(func(node: Node) -> bool: return not node.stats.alive)),
 	Type.ENEMIES: func() -> Array[EntityBase]:
 		return type_entities_array(get_tree().current_scene.get_node(^"Enemies").get_children()),
-	Type.IN_COMBAT: func() -> Array[EntityBase]:
+	Type.ENEMIES_IN_COMBAT: func() -> Array[EntityBase]:
 		return Combat.enemies_in_combat,
-	Type.ON_SCREEN: func() -> Array[EntityBase]:
+	Type.ENEMIES_ON_SCREEN: func() -> Array[EntityBase]:
 		return type_entities_array(get_tree().current_scene.get_node(^"Enemies").get_children().filter(
-				func(node: Node) -> bool: return node.stats.entity_types & Entities.Type.ON_SCREEN)),
+				func(node: Node) -> bool: return node.stats.entity_types & Type.ENEMIES_ON_SCREEN)),
 }
 
-var effect_resources: Dictionary[Status, Resource] = {
+# EFFECTS RESOURCES
+
+var effects_resources: Dictionary[Status, Resource] = {
 	Status.BERSERK: load("res://scripts/effects_scripts/berserk.gd"),
 	Status.BLINDNESS: load("res://scripts/effects_scripts/blindness.gd"),
 	Status.CHARM: load("res://scripts/effects_scripts/charm.gd"),
@@ -74,12 +94,16 @@ var effect_resources: Dictionary[Status, Resource] = {
 	Status.TAUNT: load("res://scripts/effects_scripts/taunt.gd"),
 }
 
-var switching_main_player: bool = false
-
 var requesting_entities: bool = false
 var entities_requested_count: int = 0
 var entities_available: Array[EntityBase] = []
 var entities_chosen: Array[EntityBase] = []
+
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func add_enemy_to_scene(enemy_load: Resource, entity_position: Vector2) -> EnemyBase:
 	var enemies_node = get_tree().current_scene.get_node(^"Enemies")
@@ -193,3 +217,7 @@ func toggle_entities_movements(can_move: bool) -> void:
 		enemy_node.set_physics_process(can_move)
 		if not can_move:
 			enemy_node.get_node(^"Animation").play(&"idle")
+
+#endregion
+
+# ..............................................................................

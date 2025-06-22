@@ -17,10 +17,10 @@ func _physics_process(delta: float) -> void:
 	ability_node.look_at(target_node.global_position)
 	ability_node.position = ability_node.position.move_toward(target_node.global_position, speed * delta)
 	
-func initiate_homing_projectile(entity_node: EntityBase) -> void:
+func initiate_homing_projectile(entity_node: EntityBase, projectile_speed: float) -> void:
 	$CollisionShape2D.set_deferred(&"disabled", false)
 	target_node = entity_node
-	speed = ability_node.homing_projectile_speed()
+	speed = projectile_speed
 	ability_node.look_at(target_node.global_position)
 	set_physics_process(true)
 
