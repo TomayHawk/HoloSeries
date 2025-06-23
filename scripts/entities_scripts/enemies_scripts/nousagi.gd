@@ -182,7 +182,7 @@ func summon_nousagi() -> void:
 	# create an instance of nousagi in enemies node
 	var nousagi_instance: Node = load("res://entities/enemies/nousagi.tscn").instantiate()
 	add_sibling(nousagi_instance)
-	nousagi_instance.position = position + Vector2(5 * randf_range(-1, 1), 5 * randf_range(-1, 1)) * 5
+	nousagi_instance.position = position + Vector2(5 * randf_range(-1.0, 1.0), 5 * randf_range(-1.0, 1.0)) * 5
 	
 	# start cooldown
 	action_cooldown = randf_range(2.0, 3.5)

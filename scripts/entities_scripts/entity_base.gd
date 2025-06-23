@@ -147,3 +147,20 @@ func revive() -> void:
 #endregion
 
 # ..............................................................................
+
+#region PROCESS TOGGLES
+
+func toggle_process(toggled: bool) -> void:
+	if not stats.alive: return
+
+	set_process(toggled)
+	set_physics_process(toggled)
+
+	if toggled:
+		$Animation.start()
+	else:
+		$Animation.pause()
+
+#endregion
+
+# ..............................................................................

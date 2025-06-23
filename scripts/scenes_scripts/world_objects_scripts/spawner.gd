@@ -14,5 +14,5 @@ func interact() -> void:
     
 func _on_timer_timeout() -> void:
     if Global.get_tree().get_nodes_in_group(StringName(name)).size() > spawn_limit: return
-    var enemy_instance: EnemyBase = Entities.add_enemy_to_scene(load(enemy_path), position)
+    var enemy_instance: EnemyBase = Entities.add_enemy_to_scene(load(enemy_path), position, 25.0)
     enemy_instance.add_to_group(StringName(name))

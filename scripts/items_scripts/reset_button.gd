@@ -2,7 +2,7 @@ extends Resource
 
 const item_name: String = "Reset Button"
 const request_count: int = 0
-const request_types: Array[Entities.Type] = []
+const request_types: int = 0
 
 func use_item(_target_nodes: Array[EntityBase]) -> void:
 	for player_node in Entities.entities_of_type[Entities.Type.PLAYERS_DEAD].call():

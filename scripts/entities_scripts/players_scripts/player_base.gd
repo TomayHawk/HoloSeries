@@ -142,6 +142,26 @@ func apply_velocity(next_direction: Vector2) -> void:
 	# update animation
 	update_animation()
 
+# TODO: need to test
+func toggle_text_box_process(toggled: bool) -> void:
+	if not stats.alive: return
+
+	set_process(toggled)
+	set_physics_process(toggled)
+
+	if toggled:
+		move_state_timer = 0.0
+		if is_main_player:
+			set_process_input(true)
+		else:
+			move_state_timeout.emit()
+	else:
+		apply_velocity(Vector2.ZERO)
+		if is_main_player:
+			set_process_input(false)
+		print(self)
+		
+
 #endregion
 
 # ..............................................................................
@@ -321,7 +341,7 @@ func _on_ally_move_state_timeout() -> void:
 
 func ally_teleport(next_position: Vector2 = Players.main_player.position) -> void:
 	if not is_main_player:
-		position = next_position + (Vector2(randf_range(-1, 1), randf_range(-1, 1)) * 25)
+		position = next_position + (Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * 25)
 
 #endregion
 

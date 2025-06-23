@@ -23,14 +23,14 @@ var text_box_state := TextBoxState.INACTIVE:
 			if text_queue.is_empty():
 				clearTextBox()
 				text_box_state = TextBoxState.INACTIVE
-				Entities.toggle_entities_movements(true)
+				Entities.toggle_text_box_process(true)
 				Inputs.world_inputs_enabled = true
 				Inputs.action_inputs_enabled = true
 				Inputs.zoom_inputs_enabled = true
 				return
 			# start dialogue on hidden text box
 			if isInactive():
-				Entities.toggle_entities_movements(false)
+				Entities.toggle_text_box_process(false)
 				Inputs.world_inputs_enabled = false
 				Inputs.action_inputs_enabled = false
 				Inputs.zoom_inputs_enabled = false

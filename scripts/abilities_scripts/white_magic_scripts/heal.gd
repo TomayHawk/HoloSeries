@@ -17,7 +17,7 @@ var heal_percentage: float = 0.05
 func _ready() -> void:
 	# request target entity
 	Entities.entities_request_ended.connect(entity_chosen, CONNECT_ONE_SHOT)
-	Entities.request_entities([Entities.Type.PLAYERS_ALIVE])
+	Entities.request_entities(Entities.Type.PLAYERS_ALIVE)
 
 	# if alt is pressed, target player with lowest health
 	if Inputs.alt_pressed:

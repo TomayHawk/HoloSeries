@@ -61,7 +61,7 @@ func recruit_player() -> void:
 		player_node.stats = character
 		
 		character.node_index = Players.get_child_count() - 1 # TODO
-		player_node.position = Players.main_player.position + (25 * Vector2(randf_range(-1, 1), randf_range(-1, 1)))
+		player_node.position = Players.main_player.position + (25 * Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)))
 		
 		# TODO: make function for this
 		Combat.ui.character_name_label_nodes[character.node_index].text = character.CHARACTER_NAME

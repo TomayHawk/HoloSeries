@@ -25,7 +25,7 @@ func _ready():
 	connect(&"entities_chosen", Callable(self, "initiate_play_dice"))
 
 	# request target entity
-	Entities.request_entities([Entities.Type.ENEMIES_ON_SCREEN])
+	Entities.request_entities(Entities.Type.ENEMIES_ON_SCREEN)
 	
 	if Entities.entities_available.is_empty():
 		queue_free()

@@ -17,7 +17,7 @@ var regen_count: int = 7
 func _ready():
 	# request target entity
 	Entities.entities_request_ended.connect(entity_chosen, CONNECT_ONE_SHOT)
-	Entities.request_entities([Entities.Type.PLAYERS_ALIVE])
+	Entities.request_entities(Entities.Type.PLAYERS_ALIVE)
 
 	# if alt is pressed, auto-aim player with lowest health
 	if Inputs.alt_pressed:

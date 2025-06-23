@@ -46,7 +46,7 @@ func _process(delta: float) -> void:
 func _physics_process(_delta: float) -> void:
 	shake_cooldown += 1
 	if shake_cooldown >= shake_interval:
-		position = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * shake_intensity
+		position = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * shake_intensity
 		shake_counter -= 1
 		shake_cooldown = 0
 
