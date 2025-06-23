@@ -1,4 +1,5 @@
-class_name EntityBase extends CharacterBody2D
+class_name EntityBase
+extends CharacterBody2D
 
 # ..............................................................................
 
@@ -153,13 +154,13 @@ func revive() -> void:
 func toggle_process(toggled: bool) -> void:
 	if not stats.alive: return
 
-	set_process(toggled)
-	set_physics_process(toggled)
-
 	if toggled:
-		$Animation.start()
+		$Animation.play()
 	else:
 		$Animation.pause()
+	
+	set_process(toggled)
+	set_physics_process(toggled)
 
 #endregion
 

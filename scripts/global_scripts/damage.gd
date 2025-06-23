@@ -94,7 +94,7 @@ func damage_display(damage: int, display_position: Vector2, types: int) -> void:
 	display.set(&"theme_override_colors/font_color", color)
 	display.set(&"theme_override_font_sizes/font_size", 16) # TODO: should scale on damage 7 to 16
 	display.set(&"theme_override_colors/font_outline_color", "#000")
-	display.set(&"theme_override_constants/outline_size", 1)
+	display.set(&"theme_override_constants/outline_size", 2)
 
 	display.position = display_position + Vector2(0, -5) - Vector2(display.size / 2) + Vector2(randf_range(-10, 10), randf_range(-10, 10))
 	display.pivot_offset = Vector2(display.size / 2)
@@ -107,6 +107,7 @@ func damage_display(damage: int, display_position: Vector2, types: int) -> void:
 	tween.tween_property(display, "scale", Vector2(0.75, 0.75), 0.25).set_ease(Tween.EASE_IN).set_delay(0.25)
 	
 	await tween.finished
+
 	display.queue_free()
 
 func clear_damage_display() -> void:

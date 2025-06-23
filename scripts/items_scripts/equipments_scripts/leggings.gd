@@ -1,1 +1,2 @@
-class_name Leggings extends Armor
+class_name Leggings
+extends Armor

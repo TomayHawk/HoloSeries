@@ -17,7 +17,7 @@ func _physics_process(_delta: float) -> void:
 
 func instantiate_item(base_position: Vector2, texture_path: StringName, type: int, id: int) -> void:
 	global_position = base_position + Vector2(15 * randf_range(-1.0, 1.0), 15 * randf_range(-1.0, 1.0))
-	Combat.lootable_items_node.add_child(self)
+	Entities.lootable_items_node.add_child(self)
 	$Sprite2D.texture = load(texture_path)
 	item_type = type
 	item_id = id

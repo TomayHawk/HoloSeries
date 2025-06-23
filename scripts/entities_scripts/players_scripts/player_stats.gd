@@ -1,4 +1,5 @@
-class_name PlayerStats extends EntityStats
+class_name PlayerStats
+extends EntityStats
 
 #region CONSTANTS
 
@@ -329,13 +330,13 @@ func basic_attack() -> void:
 		dash_attack = false
 	
 	if attack_shape.is_colliding():
+		await Players.camera.screen_shake(5, 1, 10, 10.0)
 		for collision_index in attack_shape.get_collision_count():
 			enemy_body = attack_shape.get_collider(collision_index).get_parent() # TODO: null instance bug need fix
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 					self, enemy_body.stats):
 				enemy_body.knockback(base.action_vector, knockback_weight)
-		Players.camera.screen_shake(5, 1, 10, 10.0)
 	
 	await animation_node.animation_finished
 	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return
@@ -387,13 +388,13 @@ func ultimate_attack():
 		dash_attack = false
 
 	if attack_shape.is_colliding():
+		await Players.camera.screen_shake(2, 10, 60, 60.0)
 		for collision_index in attack_shape.get_collision_count():
 			enemy_body = attack_shape.get_collider(collision_index).get_parent() # TODO: null instance bug need fix
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 					self, enemy_body.stats):
 				enemy_body.knockback(base.action_vector, knockback_weight)
-		Players.camera.screen_shake(4, 10, 30, 30.0)
 
 	await animation_node.animation_finished
 	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return

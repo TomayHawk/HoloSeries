@@ -1,1 +1,2 @@
-class_name Headgear extends Armor
+class_name Headgear
+extends Armor

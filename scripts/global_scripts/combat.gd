@@ -1,5 +1,11 @@
 extends Node
 
+# COMBAT MANAGER
+
+# ..............................................................................
+
+#region CONSTANTS
+
 enum CombatState {
 	NOT_IN_COMBAT,
 	IN_COMBAT,
@@ -7,6 +13,10 @@ enum CombatState {
 }
 
 const EnemyMarker: PackedScene = preload("res://entities/entities_indicators/enemy_marker.tscn")
+
+#endregion
+
+# ..............................................................................
 
 var ability_loads: Array[Resource] = [
 	load("res://abilities/black_magic/fireball.tscn"),
@@ -18,10 +28,6 @@ var ability_loads: Array[Resource] = [
 
 var enemies_in_combat: Array[EntityBase] = []
 var locked_enemy_node: Node = null
-
-@onready var ui: Node = $CombatUi
-@onready var abilities_node: Node = $Abilities
-@onready var lootable_items_node: Node = $LootableItems
 
 var combat_state := CombatState.NOT_IN_COMBAT:
 	set(next_state):
@@ -43,6 +49,11 @@ var combat_state := CombatState.NOT_IN_COMBAT:
 					$LeavingCombatTimer.start(2)
 	
 		combat_state = next_state
+
+
+@onready var ui: CanvasLayer = $CombatUi
+
+# ..............................................................................
 
 # check if in combat
 func in_combat() -> bool:
@@ -98,10 +109,10 @@ func is_locked(node: Node = null) -> bool:
 # freeing ability nodes, pick up item nodes, and/or damage display nodes
 func clear_combat_entities(abilities: bool = true, lootable_items: bool = true, damage_display: bool = true):
 	if abilities:
-		for node in abilities_node.get_children():
+		for node in Entities.abilities_node.get_children():
 			node.queue_free()
 	if lootable_items: # TODO: should be somewhere else
-		for node in lootable_items_node.get_children():
+		for node in Entities.lootable_items_node.get_children():
 			node.queue_free()
 	if damage_display:
 		Damage.clear_damage_display()

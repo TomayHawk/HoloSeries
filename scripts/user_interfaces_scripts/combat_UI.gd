@@ -155,7 +155,7 @@ func _on_main_combat_options_pressed(extra_arg_0: int) -> void:
 # SUB COMBAT OPTIONS
 
 func instantiate_ability(ability_index: int) -> void:
-	Combat.abilities_node.add_child(Combat.ability_loads[ability_index].instantiate())
+	Entities.abilities_node.add_child(Combat.ability_loads[ability_index].instantiate())
 
 func use_consumable(item_index: int) -> void:
 	Inventory.use_consumable(item_index)

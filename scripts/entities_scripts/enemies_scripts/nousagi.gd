@@ -1,4 +1,5 @@
-class_name Nousagi extends BasicEnemyBase
+class_name Nousagi
+extends BasicEnemyBase
 
 # ..............................................................................
 

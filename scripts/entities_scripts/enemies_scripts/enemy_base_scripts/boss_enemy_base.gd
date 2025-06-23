@@ -1,3 +1,4 @@
-class_name BossEnemyBase extends EnemyBase
+class_name BossEnemyBase
+extends EnemyBase
 
 # TODO

@@ -1,3 +1,4 @@
-class_name EliteEnemyBase extends EnemyBase
+class_name EliteEnemyBase
+extends EnemyBase
 
 # TODO

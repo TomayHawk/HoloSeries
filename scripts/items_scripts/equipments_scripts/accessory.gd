@@ -1,1 +1,2 @@
-class_name Accessory extends Resource
+class_name Accessory
+extends Resource

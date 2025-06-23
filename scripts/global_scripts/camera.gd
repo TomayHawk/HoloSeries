@@ -4,17 +4,35 @@ extends Camera2D
 
 # ..............................................................................
 
+#region SIGNALS
+
+signal screen_shake_ended
+
+#endregion
+
+# ..............................................................................
+
+#region CONSTANTS
+
+const MIN_ZOOM: Vector2 = Vector2(0.8, 0.8)
+const MAX_ZOOM: Vector2 = Vector2(1.4, 1.4)
+const ZOOM_STEP: Vector2 = Vector2(0.05, 0.05)
+
+#endregion
+
+# ..............................................................................
+
 #region VARIABLES
+
+# camera zoom
+var target_zoom: Vector2 = Vector2(1.0, 1.0)
+var zoom_weight: float = 0.0
 
 # screen shake
 var shake_counter: int = 0
 var shake_interval: int = 0
 var shake_cooldown: int = 0
 var shake_intensity: int = 0
-
-# camera zoom
-var target_zoom: Vector2 = Vector2(1.0, 1.0)
-var zoom_weight: float = 0.0
 
 #endregion
 
@@ -33,18 +51,24 @@ func _ready() -> void:
 
 #region PROCESS
 
+var count := 0
+
 # process zoom
 func _process(delta: float) -> void:
 	zoom = zoom.lerp(target_zoom, zoom_weight)
 	zoom_weight += delta * 0.1
-	
+
+	count += 1
+
 	# end zoom accordingly
-	if abs(target_zoom.x - zoom.x) < 0.000001:
+	if zoom.is_equal_approx(target_zoom):
 		end_zoom()
+		count = 0
 
 # process screen shake
 func _physics_process(_delta: float) -> void:
 	shake_cooldown += 1
+	
 	if shake_cooldown >= shake_interval:
 		position = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * shake_intensity
 		shake_counter -= 1
@@ -99,6 +123,7 @@ func update_camera_limits(next_limits: Array[int]) -> void:
 
 #region BLACK SCREEN
 
+# toggle black screen
 func toggle_black_screen(toggled: bool) -> void:
 	$CanvasLayer.show()
 	$CanvasLayer/ColorRect.color.a = 0.0 if toggled else 1.0
@@ -121,17 +146,16 @@ func toggle_black_screen(toggled: bool) -> void:
 
 #region ZOOM
 
+func update_zoom(direction: int) -> void:
+	target_zoom = clamp(target_zoom + (ZOOM_STEP * direction), MIN_ZOOM, MAX_ZOOM)
+	set_process(true)
+
 func force_zoom(new_zoom: Vector2) -> void:
 	target_zoom = new_zoom
 	end_zoom()
 
-func update_zoom(direction: int) -> void:
-	target_zoom = clamp(target_zoom + (Vector2(0.05, 0.05) * direction),
-			Vector2(0.8, 0.8), Vector2(1.4, 1.4))
-	set_process(true)
-
 func end_zoom() -> void:
-	target_zoom = target_zoom.clamp(Vector2(0.8, 0.8), Vector2(1.4, 1.4))
+	target_zoom = target_zoom.clamp(MIN_ZOOM, MAX_ZOOM)
 	zoom_weight = 0.0
 	set_process(false)
 
@@ -141,14 +165,19 @@ func end_zoom() -> void:
 
 #region SCREEN SHAKE
 
-func screen_shake(counter: int, interval: int, intensity: int, camera_speed: float) -> void:
+# initiate screen shake
+func screen_shake(counter: int, interval: int, intensity: int, camera_speed: float, pause: bool = true) -> void:
 	shake_counter = counter
 	shake_interval = interval
 	shake_cooldown = 0
 	shake_intensity = intensity
 	position_smoothing_speed = camera_speed
 	set_physics_process(true)
+	Entities.toggle_entities_process(!pause) # TODO: incomplete implementation
 
+	await screen_shake_ended
+
+# end screen shake
 func end_screen_shake() -> void:
 	position = Vector2.ZERO
 	shake_counter = 0
@@ -157,6 +186,8 @@ func end_screen_shake() -> void:
 	shake_intensity = 0
 	position_smoothing_speed = 5.0
 	set_physics_process(false)
+	Entities.toggle_entities_process(true) # TODO: incomplete implementation
+	screen_shake_ended.emit()
 
 #endregion
 

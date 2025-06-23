@@ -1,4 +1,5 @@
-class_name BasicEnemyStats extends EnemyStats
+class_name BasicEnemyStats
+extends EnemyStats
 
 # ..............................................................................
 

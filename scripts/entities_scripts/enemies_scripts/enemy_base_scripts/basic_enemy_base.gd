@@ -1,4 +1,5 @@
-class_name BasicEnemyBase extends EnemyBase
+class_name BasicEnemyBase
+extends EnemyBase
 
 var walk_speed: float = 45.0
 

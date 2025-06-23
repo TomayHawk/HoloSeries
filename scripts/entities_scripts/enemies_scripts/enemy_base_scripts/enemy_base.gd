@@ -1,4 +1,5 @@
-class_name EnemyBase extends EntityBase
+class_name EnemyBase
+extends EntityBase
 
 # CombatHitBox
 

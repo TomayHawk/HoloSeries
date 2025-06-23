@@ -1,3 +1,4 @@
-class_name EliteEnemyStats extends EnemyStats
+class_name EliteEnemyStats
+extends EnemyStats
 
 # TODO

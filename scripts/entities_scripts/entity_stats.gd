@@ -1,4 +1,5 @@
-class_name EntityStats extends Resource
+class_name EntityStats
+extends Resource
 
 # CONSTANTS
 

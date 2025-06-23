@@ -1,1 +1,2 @@
-class_name Armor extends Resource
+class_name Armor
+extends Resource

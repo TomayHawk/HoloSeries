@@ -100,6 +100,9 @@ var entities_requested_count: int = 0
 var entities_available: Array[EntityBase] = []
 var entities_chosen: Array[EntityBase] = []
 
+@onready var abilities_node: Node = $Abilities
+@onready var lootable_items_node: Node = $LootableItems
+
 #endregion
 
 # ..............................................................................
@@ -140,6 +143,10 @@ func type_entities_array(entities: Array) -> Array[EntityBase]:
 # return all enemies in the current scene enemies node
 func all_enemies() -> Array[EntityBase]:
 	if not get_tree().current_scene: return []
+	
+	var enemies_node = get_tree().current_scene.get_node_or_null(^"Enemies")
+	if not enemies_node: return []
+	
 	return type_entities_array(get_tree().current_scene.get_node(^"Enemies").get_children())
 
 #endregion

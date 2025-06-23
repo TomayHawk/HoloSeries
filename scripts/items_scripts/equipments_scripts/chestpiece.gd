@@ -1,1 +1,2 @@
-class_name Chestpiece extends Armor
+class_name Chestpiece
+extends Armor

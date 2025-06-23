@@ -1,4 +1,5 @@
-class_name PlayerBase extends EntityBase
+class_name PlayerBase
+extends EntityBase
 
 # ..............................................................................
 
@@ -159,8 +160,6 @@ func toggle_text_box_process(toggled: bool) -> void:
 		apply_velocity(Vector2.ZERO)
 		if is_main_player:
 			set_process_input(false)
-		print(self)
-		
 
 #endregion
 

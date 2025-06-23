@@ -1,1 +1,2 @@
-class_name Weapon extends Resource
+class_name Weapon
+extends Resource
