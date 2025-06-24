@@ -14,8 +14,16 @@ signal new_scene_ready
 
 #region VARIABLES
 
-# nexus
+# NEXUS VARIABLES
+
+# -1: null
+# 0: empty
+# 1-8: HP, MP, DEF, WRD, ATK, INT, SPD, AGI
+# 9-11: special, white magic, black magic
+# 12-15: diamond, clover, heart, spade
 var nexus_types: Array[int] = []
+
+# -1 for all non-stats nodes
 var nexus_qualities: Array[int] = []
 
 #endregion

@@ -16,7 +16,7 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0, 0, 0, 1)
 
-[node name="HoloNexusUI" type="CanvasLayer"]
+[node name="HoloNexusUi" type="CanvasLayer"]
 process_mode = 3
 layer = 20
 script = ExtResource("1_602ku")

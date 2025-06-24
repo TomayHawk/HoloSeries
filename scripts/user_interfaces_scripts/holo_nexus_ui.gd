@@ -22,32 +22,32 @@ var character_selector_character_indices: Array[int] = []
 var inventory_quantity_labels: Array[Label] = []
 
 @onready var inventory_options_valid_node_atlas_positions := {
-	0: [[nexus.stats_node_atlas_position[0], nexus.stats_node_atlas_position[2], nexus.stats_node_atlas_position[4]], "Unlocks HP, DEF and ATK nodes.", &"attempt_unlock"],
-	1: [[nexus.stats_node_atlas_position[1], nexus.stats_node_atlas_position[3], nexus.stats_node_atlas_position[5]], "Unlocks MP, WRD and INT nodes.", &"attempt_unlock"],
-	2: [[nexus.stats_node_atlas_position[6], nexus.stats_node_atlas_position[7]], "Unlocks SPD and AGI nodes.", &"attempt_unlock"],
-	3: [[nexus.ability_node_atlas_position[0]], "Unlocks Skill nodes.", &"attempt_unlock"],
-	4: [[nexus.ability_node_atlas_position[1]], "Unlocks White Magic nodes.", &"attempt_unlock"],
-	5: [[nexus.ability_node_atlas_position[2]], "Unlocks Black Magic nodes.", &"attempt_unlock"],
-	6: [[nexus.key_node_atlas_position[0]], "Unlocks Diamond Key nodes.", &"attempt_unlock"],
-	7: [[nexus.key_node_atlas_position[1]], "Unlocks Clover Key nodes.", &"attempt_unlock"],
-	8: [[nexus.key_node_atlas_position[2]], "Unlocks Heart Key nodes.", &"attempt_unlock"],
-	9: [[nexus.key_node_atlas_position[3]], "Unlocks Spade Key nodes.", &"attempt_unlock"],
-	10: [[nexus.ability_node_atlas_position[0]], "Unlocks any Skill node.", &"attempt_unlock"],
-	11: [[nexus.ability_node_atlas_position[1]], "Unlocks any White Magic node.", &"attempt_unlock"],
-	12: [[nexus.ability_node_atlas_position[2]], "Unlocks any Black Magic node.", &"attempt_unlock"],
-	13: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "Unlocks any one node.", &"attempt_unlock"],
-	14: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "Teleports player to any unlocked node.", &"teleport", "return"],
-	15: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "Teleports player to any current ally node.", &"teleport", "ally"],
-	16: [nexus.stats_node_atlas_position.duplicate() + nexus.ability_node_atlas_position.duplicate() + nexus.key_node_atlas_position.duplicate() + [nexus.empty_node_atlas_position], "Teleports player to any node.", &"teleport", "any"],
-	17: [[nexus.empty_node_atlas_position], "Converts an empty node into an HP node.", &"convert", nexus.stats_node_atlas_position[0]],
-	18: [[nexus.empty_node_atlas_position], "Converts an empty node into an MP node.", &"convert", nexus.stats_node_atlas_position[1]],
-	19: [[nexus.empty_node_atlas_position], "Converts an empty node into a DEF node.", &"convert", nexus.stats_node_atlas_position[2]],
-	20: [[nexus.empty_node_atlas_position], "Converts an empty node into a WRD node.", &"convert", nexus.stats_node_atlas_position[3]],
-	21: [[nexus.empty_node_atlas_position], "Converts an empty node into an ATK node.", &"convert", nexus.stats_node_atlas_position[4]],
-	22: [[nexus.empty_node_atlas_position], "Converts an empty node into an INT node.", &"convert", nexus.stats_node_atlas_position[5]],
-	23: [[nexus.empty_node_atlas_position], "Converts an empty node into a SPD node.", &"convert", nexus.stats_node_atlas_position[6]],
-	24: [[nexus.empty_node_atlas_position], "Converts an empty node into an AGI node.", &"convert", nexus.stats_node_atlas_position[7]],
-	25: [nexus.stats_node_atlas_position.duplicate(), "Converts a stats node into an empty node.", &"convert", nexus.empty_node_atlas_position]
+	0: [[nexus.STATS_ATLAS_POSITIONS[0], nexus.STATS_ATLAS_POSITIONS[2], nexus.STATS_ATLAS_POSITIONS[4]], "Unlocks HP, DEF and ATK nodes.", &"attempt_unlock"],
+	1: [[nexus.STATS_ATLAS_POSITIONS[1], nexus.STATS_ATLAS_POSITIONS[3], nexus.STATS_ATLAS_POSITIONS[5]], "Unlocks MP, WRD and INT nodes.", &"attempt_unlock"],
+	2: [[nexus.STATS_ATLAS_POSITIONS[6], nexus.STATS_ATLAS_POSITIONS[7]], "Unlocks SPD and AGI nodes.", &"attempt_unlock"],
+	3: [[nexus.ABILITY_ATLAS_POSITIONS[0]], "Unlocks Skill nodes.", &"attempt_unlock"],
+	4: [[nexus.ABILITY_ATLAS_POSITIONS[1]], "Unlocks White Magic nodes.", &"attempt_unlock"],
+	5: [[nexus.ABILITY_ATLAS_POSITIONS[2]], "Unlocks Black Magic nodes.", &"attempt_unlock"],
+	6: [[nexus.KEY_ATLAS_POSITIONS[0]], "Unlocks Diamond Key nodes.", &"attempt_unlock"],
+	7: [[nexus.KEY_ATLAS_POSITIONS[1]], "Unlocks Clover Key nodes.", &"attempt_unlock"],
+	8: [[nexus.KEY_ATLAS_POSITIONS[2]], "Unlocks Heart Key nodes.", &"attempt_unlock"],
+	9: [[nexus.KEY_ATLAS_POSITIONS[3]], "Unlocks Spade Key nodes.", &"attempt_unlock"],
+	10: [[nexus.ABILITY_ATLAS_POSITIONS[0]], "Unlocks any Skill node.", &"attempt_unlock"],
+	11: [[nexus.ABILITY_ATLAS_POSITIONS[1]], "Unlocks any White Magic node.", &"attempt_unlock"],
+	12: [[nexus.ABILITY_ATLAS_POSITIONS[2]], "Unlocks any Black Magic node.", &"attempt_unlock"],
+	13: [nexus.STATS_ATLAS_POSITIONS.duplicate() + nexus.ABILITY_ATLAS_POSITIONS.duplicate() + nexus.KEY_ATLAS_POSITIONS.duplicate() + [nexus.EMPTY_ATLAS_POSITION], "Unlocks any one node.", &"attempt_unlock"],
+	14: [nexus.STATS_ATLAS_POSITIONS.duplicate() + nexus.ABILITY_ATLAS_POSITIONS.duplicate() + nexus.KEY_ATLAS_POSITIONS.duplicate() + [nexus.EMPTY_ATLAS_POSITION], "Teleports player to any unlocked node.", &"teleport", "return"],
+	15: [nexus.STATS_ATLAS_POSITIONS.duplicate() + nexus.ABILITY_ATLAS_POSITIONS.duplicate() + nexus.KEY_ATLAS_POSITIONS.duplicate() + [nexus.EMPTY_ATLAS_POSITION], "Teleports player to any current ally node.", &"teleport", "ally"],
+	16: [nexus.STATS_ATLAS_POSITIONS.duplicate() + nexus.ABILITY_ATLAS_POSITIONS.duplicate() + nexus.KEY_ATLAS_POSITIONS.duplicate() + [nexus.EMPTY_ATLAS_POSITION], "Teleports player to any node.", &"teleport", "any"],
+	17: [[nexus.EMPTY_ATLAS_POSITION], "Converts an empty node into an HP node.", &"convert", nexus.STATS_ATLAS_POSITIONS[0]],
+	18: [[nexus.EMPTY_ATLAS_POSITION], "Converts an empty node into an MP node.", &"convert", nexus.STATS_ATLAS_POSITIONS[1]],
+	19: [[nexus.EMPTY_ATLAS_POSITION], "Converts an empty node into a DEF node.", &"convert", nexus.STATS_ATLAS_POSITIONS[2]],
+	20: [[nexus.EMPTY_ATLAS_POSITION], "Converts an empty node into a WRD node.", &"convert", nexus.STATS_ATLAS_POSITIONS[3]],
+	21: [[nexus.EMPTY_ATLAS_POSITION], "Converts an empty node into an ATK node.", &"convert", nexus.STATS_ATLAS_POSITIONS[4]],
+	22: [[nexus.EMPTY_ATLAS_POSITION], "Converts an empty node into an INT node.", &"convert", nexus.STATS_ATLAS_POSITIONS[5]],
+	23: [[nexus.EMPTY_ATLAS_POSITION], "Converts an empty node into a SPD node.", &"convert", nexus.STATS_ATLAS_POSITIONS[6]],
+	24: [[nexus.EMPTY_ATLAS_POSITION], "Converts an empty node into an AGI node.", &"convert", nexus.STATS_ATLAS_POSITIONS[7]],
+	25: [nexus.STATS_ATLAS_POSITIONS.duplicate(), "Converts a stats node into an empty node.", &"convert", nexus.EMPTY_ATLAS_POSITION]
 }
 
 const stats_type_description := ["Health Point", "Mana Point", "Defense", "Ward", "Attack", "Intelligence", "Speed", "Agility"]
@@ -88,20 +88,20 @@ func _input(event: InputEvent) -> void:
 			update_nexus_ui()
 
 func update_nexus_ui():
-	var node_quality_string = str(nexus.nodes_qualities[nexus.last_nodes[nexus.current_nexus_player]])
-	var node_atlas_position = nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position
+	var node_quality_string = str(Global.nexus_qualities[nexus.last_nodes[nexus.nexus_character]])
+	var node_atlas_position = nexus.nexus_nodes[nexus.last_nodes[nexus.nexus_character]].texture.region.position
 
 	if node_quality_string == "0":
-		if node_atlas_position == nexus.empty_node_atlas_position:
+		if node_atlas_position == nexus.EMPTY_ATLAS_POSITION:
 			descriptions_label_node.text = "Empty Node."
-		elif node_atlas_position == nexus.null_node_atlas_position:
+		elif node_atlas_position == nexus.NULL_ATLAS_POSITION:
 			descriptions_label_node.text = "Null Node."
-		elif nexus.key_node_atlas_position.has(node_atlas_position):
-			descriptions_label_node.text = "Requires " + key_type_description[nexus.key_node_atlas_position.find(node_atlas_position)] + " Crystal to Unlock."
-		elif nexus.ability_node_atlas_position.has(node_atlas_position):
+		elif nexus.KEY_ATLAS_POSITIONS.has(node_atlas_position):
+			descriptions_label_node.text = "Requires " + key_type_description[nexus.KEY_ATLAS_POSITIONS.find(node_atlas_position)] + " Crystal to Unlock."
+		elif nexus.ABILITY_ATLAS_POSITIONS.has(node_atlas_position):
 			descriptions_label_node.text = "Unlock " + "[Ability Name]" + "."
 	else:
-		descriptions_label_node.text = "Gain " + node_quality_string + " " + stats_type_description[nexus.stats_node_atlas_position.find(node_atlas_position)] + "."
+		descriptions_label_node.text = "Gain " + node_quality_string + " " + stats_type_description[nexus.STATS_ATLAS_POSITIONS.find(node_atlas_position)] + "."
 
 	options_node.show()
 	descriptions_node.show()
@@ -168,10 +168,10 @@ func update_inventory_buttons():
 	for i in 26:
 		if Inventory.nexus_inventory[i] == 0:
 			inventory_items_nodes[i].hide()
-		elif nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position in inventory_options_valid_node_atlas_positions[i][0]:
-			if i < 14 and nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]:
+		elif nexus.nexus_nodes[nexus.last_nodes[nexus.nexus_character]].texture.region.position in inventory_options_valid_node_atlas_positions[i][0]:
+			if i < 14 and nexus.last_nodes[nexus.nexus_character] in nexus.nodes_unlocked[nexus.nexus_character]:
 				inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
-			elif i > 16 and nexus.last_nodes[nexus.current_nexus_player] not in nexus.nodes_unlocked[nexus.current_nexus_player]:
+			elif i > 16 and nexus.last_nodes[nexus.nexus_character] not in nexus.nodes_unlocked[nexus.nexus_character]:
 				inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
 			else:
 				inventory_items_nodes[i].modulate = Color(1, 1, 1, 1)
@@ -185,11 +185,11 @@ func teleport(type):
 	var valid = false
 
 	if type == "return":
-		if nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[nexus.current_nexus_player]:
+		if nexus.last_nodes[nexus.nexus_character] in nexus.nodes_unlocked[nexus.nexus_character]:
 			valid = true
 	elif type == "ally":
 		for player_index in nexus.nodes_unlocked.size():
-			if player_index != nexus.current_nexus_player and nexus.last_nodes[nexus.current_nexus_player] in nexus.nodes_unlocked[player_index]:
+			if player_index != nexus.nexus_character and nexus.last_nodes[nexus.nexus_character] in nexus.nodes_unlocked[player_index]:
 				valid = true
 	elif type == "any":
 		valid = true
@@ -198,16 +198,16 @@ func teleport(type):
 		pass
 
 func convert(target_type_position):
-	nexus.nodes_converted[nexus.current_nexus_player].append([nexus.last_nodes[nexus.current_nexus_player], target_type_position])
-	if nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position == nexus.empty_node_atlas_position:
-		nexus.nodes_converted[nexus.current_nexus_player].back().append(0)
+	nexus.nodes_converted[nexus.nexus_character].append([nexus.last_nodes[nexus.nexus_character], target_type_position])
+	if nexus.nexus_nodes[nexus.last_nodes[nexus.nexus_character]].texture.region.position == nexus.EMPTY_ATLAS_POSITION:
+		nexus.nodes_converted[nexus.nexus_character].back().append(0)
 	else:
-		for i in nexus.stats_node_atlas_position.size():
-			if nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position == nexus.stats_node_atlas_position[i]:
-				nexus.nodes_converted[nexus.current_nexus_player].back().append(nexus.converted_stats_qualities[i])
+		for i in nexus.STATS_ATLAS_POSITIONS.size():
+			if nexus.nexus_nodes[nexus.last_nodes[nexus.nexus_character]].texture.region.position == nexus.STATS_ATLAS_POSITIONS[i]:
+				nexus.nodes_converted[nexus.nexus_character].back().append(nexus.CONVERTED_QUALITIES[i])
 				break
 
-	nexus.nexus_nodes[nexus.last_nodes[nexus.current_nexus_player]].texture.region.position = target_type_position
+	nexus.nexus_nodes[nexus.last_nodes[nexus.nexus_character]].texture.region.position = target_type_position
 	nexus.unlock_node()
 
 func _on_button_mouse_entered():

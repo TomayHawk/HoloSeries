@@ -288,8 +288,8 @@ func stat_nodes_randomizer(): # TODO: need to change
 		[2, 1, 1, 1, 1, 0, 0, 0]
 	]
 
-	const stats_node_atlas_position: Array[Vector2] = [Vector2(0, 32), Vector2(32, 32), Vector2(64, 32), Vector2(96, 32), Vector2(0, 64), Vector2(32, 64), Vector2(64, 64), Vector2(96, 64)]
-	const empty_node_atlas_position := Vector2(0, 0)
+	const STATS_ATLAS_POSITIONS: Array[Vector2] = [Vector2(0, 32), Vector2(32, 32), Vector2(64, 32), Vector2(96, 32), Vector2(0, 64), Vector2(32, 64), Vector2(64, 64), Vector2(96, 64)]
+	const EMPTY_ATLAS_POSITION := Vector2(0, 0)
 	var area_texture_positions: Array[Vector2] = []
 	
 	var area_size := 0
@@ -338,7 +338,7 @@ func stat_nodes_randomizer(): # TODO: need to change
 		area_size = area_nodes[area_index].size()
 
 		# randomize the number of each stat type
-		for stat_index in stats_node_atlas_position.size():
+		for stat_index in STATS_ATLAS_POSITIONS.size():
 			area_amount[area_index][stat_index] += round(rand_weight[area_index][stat_index] * (randf_range(-0.25, 0.25) + randf_range(-0.25, 0.25) + randf_range(-0.25, 0.25) + randf_range(-0.25, 0.25)))
 
 		# create an array of Vector2 positions for area stat nodes
@@ -346,10 +346,10 @@ func stat_nodes_randomizer(): # TODO: need to change
 
 		for stat_type in area_amount[area_index].size():
 			for j in area_amount[area_index][stat_type]:
-				area_texture_positions.append(stats_node_atlas_position[stat_type])
+				area_texture_positions.append(STATS_ATLAS_POSITIONS[stat_type])
 
 		for remaining_nodes in (area_size - area_texture_positions.size() + 1):
-			area_texture_positions.append(empty_node_atlas_position)
+			area_texture_positions.append(EMPTY_ATLAS_POSITION)
 
 		# find satifying stat type for each node
 		area_nodes[area_index].shuffle()
@@ -374,15 +374,15 @@ func stat_nodes_randomizer(): # TODO: need to change
 
 	for area_index in area_nodes.size():
 		for node_index in area_nodes[area_index]:
-			for stat_index in stats_node_atlas_position.size():
-				if atlas_positions[node_index] == stats_node_atlas_position[stat_index]:
+			for stat_index in STATS_ATLAS_POSITIONS.size():
+				if atlas_positions[node_index] == STATS_ATLAS_POSITIONS[stat_index]:
 					node_qualities[node_index] = stats_qualities[stat_index][area_stats_qualities[area_index][stat_index]][randi() % stats_qualities[stat_index][area_stats_qualities[area_index][stat_index]].size()]
 
 	# TODO: TEMPORARY CODE
 	var temp_array_1: Array[int] = []
 	for atlas_position in atlas_positions:
-		if stats_node_atlas_position.has(atlas_position):
-			temp_array_1.append(stats_node_atlas_position.find(atlas_position))
+		if STATS_ATLAS_POSITIONS.has(atlas_position):
+			temp_array_1.append(STATS_ATLAS_POSITIONS.find(atlas_position))
 		else:
 			temp_array_1.append(-1)
 	# TODO: TEMPORARY CODE
@@ -390,14 +390,14 @@ func stat_nodes_randomizer(): # TODO: need to change
 	Global.nexus_qualities = node_qualities
 
 func has_illegal_adjacents(atlas_positions, node_index):
-	const adjacents_index: Array[Array] = [[-32, -17, -16, 15, 16, 32], [-32, -16, -15, 16, 17, 32]]
+	const ADJACENT_INDICES: Array[Array] = [[-32, -17, -16, 15, 16, 32], [-32, -16, -15, 16, 17, 32]]
 	var adjacents := []
 	
 	# determine adjacents
 	if (node_index % 32) < 16:
-		for temp_index in adjacents_index[0]: adjacents.append(node_index + temp_index)
+		for temp_index in ADJACENT_INDICES[0]: adjacents.append(node_index + temp_index)
 	else:
-		for temp_index in adjacents_index[1]: adjacents.append(node_index + temp_index)
+		for temp_index in ADJACENT_INDICES[1]: adjacents.append(node_index + temp_index)
 
 	# remove outside range
 	for temp_index in adjacents.duplicate():

@@ -19,7 +19,7 @@ const snap_speed := 600.0
 var snap_position := Vector2.ZERO
 var snap_direction := Vector2.ZERO
 
-const adjacents_index: Array[Array] = [[-64, -49, -48, -33, -32, -31, -17, -16, -1, 1, 15, 16, 31, 32, 33, 47, 48, 64],
+const ADJACENT_INDICES: Array[Array] = [[-64, -49, -48, -33, -32, -31, -17, -16, -1, 1, 15, 16, 31, 32, 33, 47, 48, 64],
 									   [-64, -48, -47, -33, -32, -31, -16, -15, -1, 1, 16, 17, 31, 32, 33, 48, 49, 64]]
 
 func _physics_process(_delta):
@@ -34,7 +34,7 @@ func _physics_process(_delta):
 			velocity = Vector2.ZERO
 			snapping = false
 			on_node = true
-			nexus.last_nodes[nexus.current_nexus_player] = snap_node.get_index()
+			nexus.last_nodes[nexus.nexus_character] = snap_node.get_index()
 			position = snap_position
 
 			# update nexus player texture
@@ -75,7 +75,7 @@ func snap_to_target(initial_position):
 	
 	var snap_distance := INF
 
-	if nexus.nexus_nodes[temp_near].texture.region.position != nexus.null_node_atlas_position:
+	if nexus.nexus_nodes[temp_near].texture.region.position != nexus.NULL_ATLAS_POSITION:
 		snap_node = nexus.nexus_nodes[temp_near]
 		snap_distance = initial_position.distance_to(nexus.nexus_nodes[temp_near].position + Vector2(16, 16))
 	else:
@@ -83,12 +83,12 @@ func snap_to_target(initial_position):
 		snap_distance = INF
 
 	for temp_adjacent in nexus.return_adjacents(temp_near).duplicate():
-		if initial_position.distance_to(nexus.nexus_nodes[temp_adjacent].position + Vector2(16, 16)) < snap_distance and nexus.nexus_nodes[temp_adjacent].texture.region.position != nexus.null_node_atlas_position:
+		if initial_position.distance_to(nexus.nexus_nodes[temp_adjacent].position + Vector2(16, 16)) < snap_distance and nexus.nexus_nodes[temp_adjacent].texture.region.position != nexus.NULL_ATLAS_POSITION:
 			snap_node = nexus.nexus_nodes[temp_adjacent]
 			snap_distance = initial_position.distance_to(nexus.nexus_nodes[temp_adjacent].position + Vector2(16, 16))
 		
 		for second_temp_adjacent in nexus.return_adjacents(temp_adjacent):
-			if initial_position.distance_to(nexus.nexus_nodes[second_temp_adjacent].position + Vector2(16, 16)) < snap_distance and nexus.nexus_nodes[second_temp_adjacent].texture.region.position != nexus.null_node_atlas_position:
+			if initial_position.distance_to(nexus.nexus_nodes[second_temp_adjacent].position + Vector2(16, 16)) < snap_distance and nexus.nexus_nodes[second_temp_adjacent].texture.region.position != nexus.NULL_ATLAS_POSITION:
 				snap_node = nexus.nexus_nodes[second_temp_adjacent]
 				snap_distance = initial_position.distance_to(nexus.nexus_nodes[second_temp_adjacent].position + Vector2(16, 16))
 

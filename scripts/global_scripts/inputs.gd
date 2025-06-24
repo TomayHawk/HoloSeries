@@ -38,6 +38,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			Global.add_global_child("HoloDeck", "res://user_interfaces/holo_deck.tscn")
 
 func attempt_action_input() -> bool:
+	print(action_inputs_enabled)
 	if action_inputs_enabled and not Entities.requesting_entities and Players.main_player:
 		# TODO: temporary code
 		Players.main_player.action_input()

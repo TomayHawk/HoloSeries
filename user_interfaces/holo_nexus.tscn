@@ -10720,4 +10720,4 @@ layout_mode = 3
 anchors_preset = 0
 metadata/_edit_use_anchors_ = true
 
-[node name="HoloNexusUI" parent="." instance=ExtResource("6_jufqf")]
+[node name="HoloNexusUi" parent="." instance=ExtResource("6_jufqf")]
