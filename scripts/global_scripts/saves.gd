@@ -61,7 +61,7 @@ func new_save(character_index: int) -> void:
 				# nexus
 				"last_node": player_stats.DEFAULT_UNLOCKED[1] as int,
 				"unlocked_nodes": player_stats.DEFAULT_UNLOCKED as Array[int],
-				"converted_nodes": [] as Array[Array],
+				"converted_nodes": [] as Array[Vector2i],
 			}
 		] as Array[Dictionary],
 
@@ -172,7 +172,7 @@ func load_save(save_index: int = 1) -> void:
 		# nexus
 		stats.last_node = character_data["last_node"]
 		copy_array(character_data["unlocked_nodes"], stats.unlocked_nodes)
-		copy_converted_array(character_data["converted_nodes"], stats.converted_nodes)
+		copy_converted_array(character_data["converted_nodes"], stats.converted_nodes) # TODO: will not work because of Vector2i
 	
 	# update party
 	var main_player_index: int = data["main_player"]
@@ -217,11 +217,10 @@ func copy_array(save_array: Array, inventory_array: Array[int]) -> void:
 	for value in save_array:
 		inventory_array.append(int(value))
 
-func copy_converted_array(save_array: Array, converted_array: Array[Array]) -> void:
+func copy_converted_array(save_array: Array, converted_array: Array[Vector2i]) -> void:
 	for value in save_array:
-		var converted_node: Array[int] = []
-		for node_value in value:
-			converted_node.append(int(node_value))
+		var converted_node: Vector2i = Vector2i.ZERO
+		converted_node = Vector2i(roundi(value[0]), roundi(value[1]))
 		converted_array.append(converted_node)
 
 # ..............................................................................

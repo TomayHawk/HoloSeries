@@ -63,7 +63,7 @@ var last_action_cooldown: float = 0.0
 # nexus variables
 var last_node: int = -1
 var unlocked_nodes: Array[int] = []
-var converted_nodes: Array[Array] = []
+var converted_nodes: Array[Vector2i] = [] # (index, type)
 
 #endregion
 

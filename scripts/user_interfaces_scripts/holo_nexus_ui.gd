@@ -70,8 +70,8 @@ func _ready():
 	call_deferred(&"update_inventory_buttons")
 
 func update_nexus_ui():
-	var node_quality_string = str(Global.nexus_qualities[nexus.last_nodes[nexus.nexus_character]])
-	var node_atlas_position = nexus.nexus_nodes[nexus.last_nodes[nexus.nexus_character]].texture.region.position
+	var node_quality_string = str(Global.nexus_qualities[nexus.last_nodes[nexus.current_stats]])
+	var node_atlas_position = nexus.nexus_nodes[nexus.last_nodes[nexus.current_stats]].texture.region.position
 
 	if node_quality_string == "0":
 		if node_atlas_position == nexus.EMPTY_ATLAS_POSITION:
@@ -150,10 +150,10 @@ func update_inventory_buttons():
 	for i in 26:
 		if Inventory.nexus_inventory[i] == 0:
 			inventory_items_nodes[i].hide()
-		elif nexus.nexus_nodes[nexus.last_nodes[nexus.nexus_character]].texture.region.position in inventory_options_valid_node_atlas_positions[i][0]:
-			if i < 14 and nexus.last_nodes[nexus.nexus_character] in nexus.nodes_unlocked[nexus.nexus_character]:
+		elif nexus.nexus_nodes[nexus.last_nodes[nexus.current_stats]].texture.region.position in inventory_options_valid_node_atlas_positions[i][0]:
+			if i < 14 and nexus.last_nodes[nexus.current_stats] in nexus.nodes_unlocked[nexus.current_stats]:
 				inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
-			elif i > 16 and nexus.last_nodes[nexus.nexus_character] not in nexus.nodes_unlocked[nexus.nexus_character]:
+			elif i > 16 and nexus.last_nodes[nexus.current_stats] not in nexus.nodes_unlocked[nexus.current_stats]:
 				inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
 			else:
 				inventory_items_nodes[i].modulate = Color(1, 1, 1, 1)
@@ -167,11 +167,11 @@ func teleport(type):
 	var valid = false
 
 	if type == "return":
-		if nexus.last_nodes[nexus.nexus_character] in nexus.nodes_unlocked[nexus.nexus_character]:
+		if nexus.last_nodes[nexus.current_stats] in nexus.nodes_unlocked[nexus.current_stats]:
 			valid = true
 	elif type == "ally":
 		for player_index in nexus.nodes_unlocked.size():
-			if player_index != nexus.nexus_character and nexus.last_nodes[nexus.nexus_character] in nexus.nodes_unlocked[player_index]:
+			if player_index != nexus.current_stats and nexus.last_nodes[nexus.current_stats] in nexus.nodes_unlocked[player_index]:
 				valid = true
 	elif type == "any":
 		valid = true
@@ -180,16 +180,16 @@ func teleport(type):
 		pass
 
 func convert(target_type_position):
-	nexus.nodes_converted[nexus.nexus_character].append([nexus.last_nodes[nexus.nexus_character], target_type_position])
-	if nexus.nexus_nodes[nexus.last_nodes[nexus.nexus_character]].texture.region.position == nexus.EMPTY_ATLAS_POSITION:
-		nexus.nodes_converted[nexus.nexus_character].back().append(0)
+	nexus.nodes_converted[nexus.current_stats].append([nexus.last_nodes[nexus.current_stats], target_type_position])
+	if nexus.nexus_nodes[nexus.last_nodes[nexus.current_stats]].texture.region.position == nexus.EMPTY_ATLAS_POSITION:
+		nexus.nodes_converted[nexus.current_stats].back().append(0)
 	else:
 		for i in nexus.STATS_ATLAS_POSITIONS.size():
-			if nexus.nexus_nodes[nexus.last_nodes[nexus.nexus_character]].texture.region.position == nexus.STATS_ATLAS_POSITIONS[i]:
-				nexus.nodes_converted[nexus.nexus_character].back().append(nexus.CONVERTED_QUALITIES[i])
+			if nexus.nexus_nodes[nexus.last_nodes[nexus.current_stats]].texture.region.position == nexus.STATS_ATLAS_POSITIONS[i]:
+				nexus.nodes_converted[nexus.current_stats].back().append(nexus.CONVERTED_QUALITIES[i])
 				break
 
-	nexus.nexus_nodes[nexus.last_nodes[nexus.nexus_character]].texture.region.position = target_type_position
+	nexus.nexus_nodes[nexus.last_nodes[nexus.current_stats]].texture.region.position = target_type_position
 	nexus.unlock_node()
 
 func _on_button_mouse_entered():

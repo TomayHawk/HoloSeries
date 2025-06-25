@@ -32,7 +32,7 @@ func _physics_process(_delta):
 			velocity = Vector2.ZERO
 			snapping = false
 			on_node = true
-			nexus.last_nodes[nexus.nexus_character] = snap_node.get_index()
+			nexus.last_nodes[nexus.current_stats] = snap_node.get_index()
 			position = snap_position
 
 			# update nexus player texture

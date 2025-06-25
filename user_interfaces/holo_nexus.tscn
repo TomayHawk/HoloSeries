@@ -10717,7 +10717,7 @@ offset_bottom = 298.0
 texture = SubResource("AtlasTexture_qnrgt")
 metadata/_edit_use_anchors_ = true
 
-[node name="UnlockableNodes" type="Control" parent="."]
+[node name="Unlockables" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 metadata/_edit_use_anchors_ = true
