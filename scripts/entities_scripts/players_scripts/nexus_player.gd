@@ -20,6 +20,10 @@ var snap_direction := Vector2.ZERO
 const ADJACENT_INDICES: Array[Array] = [[-64, -49, -48, -33, -32, -31, -17, -16, -1, 1, 15, 16, 31, 32, 33, 47, 48, 64],
 									   [-64, -48, -47, -33, -32, -31, -16, -15, -1, 1, 16, 17, 31, 32, 33, 48, 49, 64]]
 
+# TODO: temporary code
+func _ready() -> void:
+	set_physics_process(false)
+
 func _physics_process(_delta):
 	# deccelerate towards target position while snapping
 	if snapping:
@@ -60,6 +64,13 @@ func _physics_process(_delta):
 				nexus_player_crosshair_node.show()
 
 	move_and_slide()
+
+# TODO: incomplete
+func snap_to_position(target_position) -> void:
+	position = target_position
+	snapping = false
+	$PlayerOutline.show()
+	$PlayerCrosshair.hide()
 
 func snap_to_target(initial_position):
 	# calculates and chooses a nearby node

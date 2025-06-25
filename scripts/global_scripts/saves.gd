@@ -389,14 +389,13 @@ func stat_nodes_randomizer(): # TODO: need to change
 	Global.nexus_qualities = node_qualities
 
 func has_illegal_adjacents(atlas_positions, node_index):
-	const ADJACENT_INDICES: Array[Array] = [[-32, -17, -16, 15, 16, 32], [-32, -16, -15, 16, 17, 32]]
 	var adjacents := []
 	
 	# determine adjacents
 	if (node_index % 32) < 16:
-		for temp_index in ADJACENT_INDICES[0]: adjacents.append(node_index + temp_index)
+		for temp_index in [-32, -17, -16, 15, 16, 32]: adjacents.append(node_index + temp_index)
 	else:
-		for temp_index in ADJACENT_INDICES[1]: adjacents.append(node_index + temp_index)
+		for temp_index in [-32, -16, -15, 16, 17, 32]: adjacents.append(node_index + temp_index)
 
 	# remove outside range
 	for temp_index in adjacents.duplicate():

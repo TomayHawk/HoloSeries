@@ -1,15 +1,14 @@
-class_name HoloNexus
 extends Node2D
 
-# HOLO NEXUS
+# HOLONEXUS
 
 # ..............................................................................
 
 #region CONSTANTS
 
 # atlas positions for empty and null nodes
-const EMPTY_ATLAS_POSITION: Vector2 = Vector2(0, 0)
-const NULL_ATLAS_POSITION: Vector2 = Vector2(32, 0)
+const EMPTY_ATLAS_POSITION: Vector2 = Vector2(0.0, 0.0)
+const NULL_ATLAS_POSITION: Vector2 = Vector2(32.0, 0.0)
 
 # atlas positions for HP, MP, DEF, WRD, ATK, INT, SPD, AGI nodes
 const STATS_ATLAS_POSITIONS: Array[Vector2] = [
@@ -39,6 +38,7 @@ const KEY_ATLAS_POSITIONS: Array[Vector2] = [
 ]
 
 const NULL_MODULATE: Color = Color(0.2, 0.2, 0.2, 1.0)
+const KEY_MODULATE: Color = Color(0.33, 0.33, 0.33, 1.0)
 const LOCKED_MODULATE: Color = Color(0.25, 0.25, 0.25, 1.0)
 const UNLOCKED_MODULATE: Color = Color(1.0, 1.0, 1.0, 1.0)
 
@@ -46,10 +46,8 @@ const UNLOCKED_MODULATE: Color = Color(1.0, 1.0, 1.0, 1.0)
 const CONVERTED_QUALITIES: Array[int] = [400, 40, 15, 15, 20, 20, 4, 4]
 
 # adjacent node indices
-const ADJACENT_INDICES: Array[Array] = [
-	[-32, -17, -16, 15, 16, 32],
-	[-32, -16, -15, 16, 17, 32]
-]
+const ADJACENT_INDICES_1: Array[int] = [-32, -17, -16, 15, 16, 32]
+const ADJACENT_INDICES_2: Array[int] = [-32, -16, -15, 16, 17, 32]
 
 #endregion
 
@@ -59,6 +57,9 @@ const ADJACENT_INDICES: Array[Array] = [
 
 # character variables
 var current_stats: PlayerStats = Players.main_player.stats
+var unlockable_nodes: Array[int] = []
+var converted_nodes: Array[int] = []
+
 var character_stats: Array[PlayerStats] = set_characters()
 
 # world scene camera settings
@@ -69,6 +70,9 @@ var scene_camera_limits: Array[int] = [
 	Players.camera.limit_right,
 	Players.camera.limit_bottom
 ]
+
+var unlockables_load: Resource = \
+		load("res://user_interfaces/user_interfaces_resources/nexus_unlockables.tscn")
 
 # nodes
 @onready var ui: CanvasLayer = $HoloNexusUi
@@ -81,15 +85,17 @@ var scene_camera_limits: Array[int] = [
 #region READY
 
 func _ready() -> void:
+	print(Global.nexus_types)
 	# update camera
 	Players.camera.update_camera($NexusPlayer, Vector2(1.0, 1.0))
-	Players.camera.update_camera_limits([-679, -592, 681, 592])
+	Players.camera.update_camera_limits([-679, -592, 681, 592] as Array[int])
 
 	# TODO: temporary code
 	temp_function()
 
 	# initialize nodes and players
-	update_nexus_player(Players.main_player.stats.CHARACTER_INDEX)
+	set_nexus_nodes()
+	update_nexus_player(Players.main_player.stats)
 
 	# enable zoom inputs
 	Inputs.zoom_inputs_enabled = true
@@ -98,7 +104,28 @@ func _ready() -> void:
 
 
 func temp_function() -> void:
-	pass
+	var temp_array: Array[int] = []
+	var null_count: int = 0
+
+	for index in Global.nexus_types.size():
+		var node_type: int = Global.nexus_types[index]
+		if node_type != -1:
+			continue
+		var texture_position: Vector2 = nexus_nodes[index].texture.region.position
+
+		if texture_position in ABILITY_ATLAS_POSITIONS:
+			Global.nexus_types[index] = 9 + ABILITY_ATLAS_POSITIONS.find(texture_position)
+			temp_array.append(9 + ABILITY_ATLAS_POSITIONS.find(texture_position))
+		elif texture_position in KEY_ATLAS_POSITIONS:
+			Global.nexus_types[index] = 12 + KEY_ATLAS_POSITIONS.find(texture_position)
+			temp_array.append(12 + KEY_ATLAS_POSITIONS.find(texture_position))
+	
+	for index in Global.nexus_types.size():
+		if Global.nexus_types[index] == -1:
+			null_count += 1
+
+	print(temp_array)
+	print("Null nodes: ", null_count)
 
 # ..............................................................................
 
@@ -141,19 +168,44 @@ func set_characters() -> Array[PlayerStats]:
 	
 	# add standby character stats to temp_stats
 	for stats in Players.standby_characters:
-		temp_stats.append(stats.CHARACTER_INDEX)
+		temp_stats.append(stats)
 	
 	# return all stats
 	return temp_stats
+
+func set_nexus_nodes() -> void:
+	# set nexus nodes textures and modulate
+	for index in nexus_nodes.size():
+		var node_type: int = Global.nexus_types[index]
+		
+		# set texture
+		if node_type == -1:
+			nexus_nodes[index].texture.region.position = NULL_ATLAS_POSITION
+		elif node_type == 0:
+			nexus_nodes[index].texture.region.position = EMPTY_ATLAS_POSITION
+		elif node_type <= 8:
+			nexus_nodes[index].texture.region.position = STATS_ATLAS_POSITIONS[node_type - 1]
+		elif node_type <= 11:
+			nexus_nodes[index].texture.region.position = ABILITY_ATLAS_POSITIONS[node_type - 9]
+		else:
+			nexus_nodes[index].texture.region.position = KEY_ATLAS_POSITIONS[node_type - 12]
+
+		# set modulate
+		nexus_nodes[index].modulate = \
+				NULL_MODULATE if node_type == -1 \
+				else KEY_MODULATE if node_type >= 12 \
+				else LOCKED_MODULATE
 
 #endregion
 
 # ..............................................................................
 
+#region PLAYER UPDATE
+
 func update_nexus_player(next_stats: PlayerStats) -> void:
-	# reset unlockables overlays
-	for unlockable_overlay in $Unlockables.get_children():
-		unlockable_overlay.free()
+	# reset unlockables outlines
+	for unlockable_outline in $Unlockables.get_children():
+		unlockable_outline.free()
 
 	# for each unlocked node, reset texture and modulate
 	for index in current_stats.unlocked_nodes:
@@ -172,7 +224,10 @@ func update_nexus_player(next_stats: PlayerStats) -> void:
 			nexus_nodes[index].texture.region.position = KEY_ATLAS_POSITIONS[node_type - 12]
 
 		# reset modulate
-		nexus_nodes[index].modulate = LOCKED_MODULATE if node_type != -1 else NULL_MODULATE
+		nexus_nodes[index].modulate = \
+				NULL_MODULATE if node_type == -1 \
+				else KEY_MODULATE if node_type >= 12 \
+				else LOCKED_MODULATE
 
 	# update current stats
 	current_stats = next_stats
@@ -188,60 +243,37 @@ func update_nexus_player(next_stats: PlayerStats) -> void:
 		# update modulate
 		nexus_nodes[index].modulate = UNLOCKED_MODULATE
 
+	# reset converted nodes array
+	converted_nodes.clear()
+
 	# for each converted node, update texture
 	for converted in next_stats.converted_nodes:
+		converted_nodes.append(converted.x)
 		nexus_nodes[converted.x].texture.region.position = \
 				EMPTY_ATLAS_POSITION if converted.y == 0 else STATS_ATLAS_POSITIONS[converted.y - 1]
+
+	# reset unlockable nodes array
+	unlockable_nodes.clear()
 
 	# for each unlocked node, update unlockables
 	for index in next_stats.unlocked_nodes:
 		add_adjacent_unlockables(index)
 
-
-	# TODO: continue from here
-
-
-
-
-
-		# check and outline unlockables
-		if index_counter in unlockables[character_index]:
-			var unlockable_instance: TextureRect = load("res://user_interfaces/user_interfaces_resources/nexus_unlockables.tscn").instantiate()
-			unlockable_instance.name = str(index_counter)
-			$Unlockables.add_child(unlockable_instance)
-			unlockable_instance.position = nexus_nodes[index_counter].position
-
-	for converted_node in current_stats.converted_nodes:
-		var converted_index: int = converted_node.x
-
-		if Global[nexus_types[converted_index]] == 0:
-			continue
-
-		nexus_nodes[converted_node.x].
-	
-	# update converted nodes
-	# TODO: need to update quality
-	for converted_node in nodes_converted[character_index]:
-		nexus_nodes[converted_node[0]].texture.region.position = converted_node[1]
-	
-	# update key textures
-	for key_type in 4:
-		for temp_node_index in key_nodes[key_type]:
-			nexus_nodes[temp_node_index].modulate = Color(0.33, 0.33, 0.33, 1)
-
 	# update player position
-	$NexusPlayer.position = nexus_nodes[last_nodes[character_index]].position + Vector2(16, 16)
-	$NexusPlayer.snapping = false
-	$NexusPlayer/PlayerOutline.show()
-	$NexusPlayer/PlayerCrosshair.hide()
+	$NexusPlayer.snap_to_position(nexus_nodes[next_stats.last_node].position + Vector2(16.0, 16.0))
+
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func get_adjacents(origin_index: int) -> Array[int]:
-	var node_count: int = $NexusNodes.get_child_count()
-	
 	var temp_adjacents: Array[int] = []
+	var node_count: int = $NexusNodes.get_child_count()
 	var origin_position: Vector2 = nexus_nodes[origin_index].position
 	
-	for temp_index in ADJACENT_INDICES[0 if (origin_index % 32) < 16 else 1]:
+	for temp_index in (ADJACENT_INDICES_1 if (origin_index % 32) < 16 else ADJACENT_INDICES_2):
 		var current_index: int = origin_index + temp_index
 		
 		# check if current index is within bounds
@@ -256,53 +288,64 @@ func get_adjacents(origin_index: int) -> Array[int]:
 
 	return temp_adjacents
 
-func unlock_node():
-	# if unlockable, unlock node
-	if last_nodes[current_stats] in unlockables[current_stats]:
-		nodes_unlocked[current_stats].append(last_nodes[current_stats])
-		unlockables[current_stats].erase(last_nodes[current_stats])
-		
-		# remove unlockables outline
-		$Unlockables.remove_child($Unlockables.get_node(str(last_nodes[current_stats])))
+func add_adjacent_unlockables(index: int) -> void:
+	# for each adjacent node of index
+	for adjacent in get_adjacents(index):
+		# skip if adjacent is already unlocked, is in unlockables, or is null
+		if (
+				adjacent in current_stats.unlocked_nodes
+				or adjacent in unlockable_nodes
+				or nexus_nodes[adjacent].texture.region.position == NULL_ATLAS_POSITION
+		):
+			continue
 
-		# update node texture
-		nexus_nodes[last_nodes[current_stats]].modulate = Color(1, 1, 1, 1)
+		# for each adjacent node of adjacents
+		for second_adjacent in get_adjacents(adjacent):
+			# skip if second adjacent is not unlocked, is the original node, or adjacent is in unlockables
+			if (
+					not second_adjacent in current_stats.unlocked_nodes
+					or second_adjacent == index
+			):
+				continue
 
-		# check for adjacent unlockables
-		add_adjacent_unlockables(current_stats, last_nodes[current_stats])
+			# if adjacent has at least 2 unlocked neighbors, add adjacent to unlockables
+			unlockable_nodes.append(adjacent)
 
-func add_adjacent_unlockables(origin_index):
-	# for each adjacent node
-	for adjacent in get_adjacents(origin_index).duplicate():
-		# if node is not unlocked and node is not null
-		if adjacent not in nodes_unlocked[player] and nexus_nodes[adjacent].texture.region.position != NULL_ATLAS_POSITION:
-			# check if adjacent has at least 2 unlocked neighbors
-			for second_adjacent in get_adjacents(adjacent):
-				# if second adjacent is unlocked, is not the original node, and adjacent is not in unlockables
-				if (second_adjacent in nodes_unlocked[player]) and (second_adjacent != origin_index) and adjacent not in unlockables[player]:
-					# add adjacent node to unlockables
-					unlockables[player].append(adjacent)
+			# create unlockables outline for adjacent node
+			var unlockable_instance: TextureRect = unlockables_load.instantiate()
+			$Unlockables.add_child(unlockable_instance)
+			unlockable_instance.name = str(adjacent)
+			unlockable_instance.position = nexus_nodes[adjacent].position
+			break
 
-					# create unlockables outline for adjacent node
-					var unlockable_instance: TextureRect = load("res://user_interfaces/user_interfaces_resources/nexus_unlockables.tscn").instantiate()
-					unlockable_instance.name = str(adjacent)
-					$Unlockables.add_child(unlockable_instance)
-					unlockable_instance.position = nexus_nodes[adjacent].position
-					break
+func unlock_node() -> void:
+	var node_index: int = current_stats.last_node
+
+	current_stats.unlocked_nodes.append(node_index)
+	unlockable_nodes.erase(node_index)
+	
+	# remove unlockable outline
+	$Unlockables.remove_child($Unlockables.get_node(str(node_index)))
+
+	# update node texture
+	nexus_nodes[node_index].modulate = UNLOCKED_MODULATE
+
+	# check for adjacent unlockables
+	add_adjacent_unlockables(node_index)
+
+#endregion
+
+# ..............................................................................
+
+#region EXIT
 
 func exit_nexus():
-	# TODO: temporary
-	var party_players: Array[int] = []
-	for player in Players.get_children():
-		party_players.append(player.stats.CHARACTER_INDEX)
-
-	var standby_players: Array[int] = []
-	for character in Players.standby_node.get_children():
-		standby_players.append(character.CHARACTER_INDEX)
-
 	Players.camera.update_camera(Players.main_player, scene_camera_zoom)
 	Players.camera.update_camera_limits(scene_camera_limits)
-	Inputs.zoom_inputs_enabled = true
 
 	Global.add_global_child("HoloDeck", "res://user_interfaces/holo_deck.tscn")
 	queue_free()
+
+#endregion
+
+# ..............................................................................

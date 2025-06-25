@@ -3159,7 +3159,6 @@ offset_top = -298.0
 offset_right = -309.0
 offset_bottom = -266.0
 texture = SubResource("AtlasTexture_4xjpw")
-metadata/_edit_use_anchors_ = true
 
 [node name="N1" type="TextureRect" parent="NexusNodes"]
 layout_mode = 0

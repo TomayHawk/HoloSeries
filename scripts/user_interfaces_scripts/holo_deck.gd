@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 func _ready() -> void:
+	# TODO: sometimes doesn't update input modes when hovering characters. need fix.
 	Global.get_tree().set_pause(true)
 	Inputs.world_inputs_enabled = false
 	Inputs.action_inputs_enabled = false

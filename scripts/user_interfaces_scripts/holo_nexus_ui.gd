@@ -55,6 +55,9 @@ const key_type_description := ["Star", "Prosperity", "Love", "Nobility"]
 const ability_type_description := ["", "", "", "", "", "", "", "", "", ""]
 
 func _ready():
+	pass
+
+	'''
 	for i in 6:
 		character_selector_name_labels.append(character_selector_player_nodes[i].get_node_or_null(^"MarginContainer/HBoxContainer/HBoxContainer/CharacterName"))
 		character_selector_level_labels.append(character_selector_player_nodes[i].get_node_or_null(^"MarginContainer/HBoxContainer/HBoxContainer/Level"))
@@ -68,6 +71,7 @@ func _ready():
 	call_deferred(&"update_character_selector")
 	call_deferred(&"update_nexus_ui")
 	call_deferred(&"update_inventory_buttons")
+	'''
 
 func update_nexus_ui():
 	var node_quality_string = str(Global.nexus_qualities[nexus.last_nodes[nexus.current_stats]])
@@ -113,7 +117,8 @@ func update_character_selector():
 
 func _on_unlock_pressed():
 	if nexus_player.velocity == Vector2.ZERO:
-		nexus.unlock_node()
+		if nexus.current_stats.last_node in nexus.unlockable_nodes:
+			nexus.unlock_node()
 
 func _on_upgrade_pressed():
 	pass # Replace with function body.
@@ -161,7 +166,8 @@ func update_inventory_buttons():
 			inventory_items_nodes[i].modulate = Color(0.3, 0.3, 0.3, 1)
 
 func attempt_unlock():
-	nexus.unlock_node()
+	if nexus.current_stats.last_node in nexus.unlockable_nodes:
+		nexus.unlock_node()
 
 func teleport(type):
 	var valid = false
@@ -190,7 +196,8 @@ func convert(target_type_position):
 				break
 
 	nexus.nexus_nodes[nexus.last_nodes[nexus.current_stats]].texture.region.position = target_type_position
-	nexus.unlock_node()
+	if nexus.current_stats.last_node in nexus.unlockable_nodes:
+		nexus.unlock_node()
 
 func _on_button_mouse_entered():
 	Inputs.zoom_inputs_enabled = false
