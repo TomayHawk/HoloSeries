@@ -3106,6 +3106,8 @@ z_index = 100
 scale = Vector2(2, 2)
 script = ExtResource("1_84ul6")
 
+[node name="HoloNexusUi" parent="." instance=ExtResource("6_jufqf")]
+
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -341.0
 offset_top = -298.0
@@ -10719,5 +10721,3 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 3
 anchors_preset = 0
 metadata/_edit_use_anchors_ = true
-
-[node name="HoloNexusUi" parent="." instance=ExtResource("6_jufqf")]

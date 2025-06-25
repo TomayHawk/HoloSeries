@@ -5,8 +5,6 @@ extends CharacterBody2D
 @onready var nexus_player_outline_node := $PlayerOutline
 @onready var nexus_player_crosshair_node := $PlayerCrosshair
 
-@onready var CHARACTER_INDEX: int = Players.main_player.stats.CHARACTER_INDEX
-
 var move_direction := Vector2.ZERO
 var speed := 150
 const speed_max := 300
@@ -82,12 +80,12 @@ func snap_to_target(initial_position):
 		snap_node = null
 		snap_distance = INF
 
-	for temp_adjacent in nexus.return_adjacents(temp_near).duplicate():
+	for temp_adjacent in nexus.get_adjacents(temp_near).duplicate():
 		if initial_position.distance_to(nexus.nexus_nodes[temp_adjacent].position + Vector2(16, 16)) < snap_distance and nexus.nexus_nodes[temp_adjacent].texture.region.position != nexus.NULL_ATLAS_POSITION:
 			snap_node = nexus.nexus_nodes[temp_adjacent]
 			snap_distance = initial_position.distance_to(nexus.nexus_nodes[temp_adjacent].position + Vector2(16, 16))
 		
-		for second_temp_adjacent in nexus.return_adjacents(temp_adjacent):
+		for second_temp_adjacent in nexus.get_adjacents(temp_adjacent):
 			if initial_position.distance_to(nexus.nexus_nodes[second_temp_adjacent].position + Vector2(16, 16)) < snap_distance and nexus.nexus_nodes[second_temp_adjacent].texture.region.position != nexus.NULL_ATLAS_POSITION:
 				snap_node = nexus.nexus_nodes[second_temp_adjacent]
 				snap_distance = initial_position.distance_to(nexus.nexus_nodes[second_temp_adjacent].position + Vector2(16, 16))
