@@ -82,7 +82,7 @@ func add_items() -> void:
 		index += 1
 
 func add_standby_character(character: PlayerStats) -> void:
-	var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/character_button.tscn").instantiate()
+	var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/standby_button.tscn").instantiate()
 	%CharacterSelectorVBoxContainer.add_child(standby_button)
 
 	# set button labels

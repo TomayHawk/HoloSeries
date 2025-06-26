@@ -85,11 +85,11 @@ func recruit_player() -> void:
 	character.base_crit_chance = 0.05
 	character.base_crit_damage = 0.60
 
-	Global.nexus_last_nodes[3] = 522
-	Global.nexus_unlocked_nodes[3] = [491, 522, 523]
+	character.last_node = 522
+	character.unlocked_nodes = [491, 522, 523]
 	Global.nexus_converted_nodes[3] = []
 
-	var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/character_button.tscn").instantiate()
+	var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/standby_button.tscn").instantiate()
 	Combat.ui.get_node(^"CharacterSelector/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer").add_child(standby_button)
 	standby_button.pressed.connect(Players.switch_standby_character.bind(standby_button.get_index()))
 	standby_button.pressed.connect(Combat.ui.button_pressed)

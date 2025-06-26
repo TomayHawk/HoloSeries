@@ -17,7 +17,7 @@ func _on_world_scene_1_transit_body_entered(body: Node) -> void:
 	Global.change_scene(
 			"res://scenes/world_scene_1.tscn",
 			Vector2(0, -247),
-			[-208, -288, 224, 64],
+			[-208, -288, 224, 64] as Array[int],
 			"res://music/asmarafulldemo.mp3"
 	)
 
@@ -27,7 +27,7 @@ func _on_dungeon_scene_1_transit_body_entered(body: Node) -> void:
 	Global.change_scene(
 			"res://scenes/dungeon_scene_1.tscn",
 			Vector2(0, 53),
-			[-10000000, -10000000, 10000000, 10000000],
+			[-10000000, -10000000, 10000000, 10000000] as Array[int],
 			"res://music/shunkandemo3.mp3"
 	)
 

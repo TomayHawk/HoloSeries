@@ -56,11 +56,11 @@ const ADJACENT_INDICES_2: Array[int] = [-32, -16, -15, 16, 17, 32]
 #region VARIABLES
 
 # character variables
+var character_stats: Array[PlayerStats] = set_characters()
 var current_stats: PlayerStats = Players.main_player.stats
+var current_index: int = character_stats.find(current_stats)
 var unlockable_nodes: Array[int] = []
 var converted_nodes: Array[int] = []
-
-var character_stats: Array[PlayerStats] = set_characters()
 
 # world scene camera settings
 var scene_camera_zoom: Vector2 = Players.camera.zoom
@@ -76,6 +76,7 @@ var unlockables_load: Resource = \
 
 # nodes
 @onready var ui: CanvasLayer = $HoloNexusUi
+@onready var nexus_player: CharacterBody2D = $NexusPlayer
 @onready var nexus_nodes: Array[Node] = $NexusNodes.get_children()
 
 #endregion
@@ -85,47 +86,18 @@ var unlockables_load: Resource = \
 #region READY
 
 func _ready() -> void:
-	print(Global.nexus_types)
 	# update camera
 	Players.camera.update_camera($NexusPlayer, Vector2(1.0, 1.0))
 	Players.camera.update_camera_limits([-679, -592, 681, 592] as Array[int])
 
-	# TODO: temporary code
-	temp_function()
-
 	# initialize nodes and players
 	set_nexus_nodes()
-	update_nexus_player(Players.main_player.stats)
+	update_nexus_player(current_index)
 
 	# enable zoom inputs
 	Inputs.zoom_inputs_enabled = true
 
 #endregion
-
-
-func temp_function() -> void:
-	var temp_array: Array[int] = []
-	var null_count: int = 0
-
-	for index in Global.nexus_types.size():
-		var node_type: int = Global.nexus_types[index]
-		if node_type != -1:
-			continue
-		var texture_position: Vector2 = nexus_nodes[index].texture.region.position
-
-		if texture_position in ABILITY_ATLAS_POSITIONS:
-			Global.nexus_types[index] = 9 + ABILITY_ATLAS_POSITIONS.find(texture_position)
-			temp_array.append(9 + ABILITY_ATLAS_POSITIONS.find(texture_position))
-		elif texture_position in KEY_ATLAS_POSITIONS:
-			Global.nexus_types[index] = 12 + KEY_ATLAS_POSITIONS.find(texture_position)
-			temp_array.append(12 + KEY_ATLAS_POSITIONS.find(texture_position))
-	
-	for index in Global.nexus_types.size():
-		if Global.nexus_types[index] == -1:
-			null_count += 1
-
-	print(temp_array)
-	print("Null nodes: ", null_count)
 
 # ..............................................................................
 
@@ -143,8 +115,8 @@ func _input(event: InputEvent) -> void:
 	elif Input.is_action_just_released(&"tab"):
 		ui.character_selector_node.hide()
 	elif Input.is_action_just_pressed(&"esc"):
-		if ui.inventory_node.visible:
-			ui.inventory_node.hide()
+		if ui.inventory_ui.visible:
+			ui.inventory_ui.hide()
 			ui.update_nexus_ui()
 		else:
 			exit_nexus()
@@ -202,7 +174,9 @@ func set_nexus_nodes() -> void:
 
 #region PLAYER UPDATE
 
-func update_nexus_player(next_stats: PlayerStats) -> void:
+func update_nexus_player(next_index: int) -> void:
+	var next_stats: PlayerStats = character_stats[next_index]
+
 	# reset unlockables outlines
 	for unlockable_outline in $Unlockables.get_children():
 		unlockable_outline.free()
@@ -229,8 +203,9 @@ func update_nexus_player(next_stats: PlayerStats) -> void:
 				else KEY_MODULATE if node_type >= 12 \
 				else LOCKED_MODULATE
 
-	# update current stats
+	# update current stats and index
 	current_stats = next_stats
+	current_index = next_index
 
 	# for each unlocked node, update texture and modulate
 	for index in next_stats.unlocked_nodes:
@@ -274,17 +249,17 @@ func get_adjacents(origin_index: int) -> Array[int]:
 	var origin_position: Vector2 = nexus_nodes[origin_index].position
 	
 	for temp_index in (ADJACENT_INDICES_1 if (origin_index % 32) < 16 else ADJACENT_INDICES_2):
-		var current_index: int = origin_index + temp_index
+		var adjusted_index: int = origin_index + temp_index
 		
 		# check if current index is within bounds
-		if (current_index < 0) or (current_index >= node_count):
+		if (adjusted_index < 0) or (adjusted_index >= node_count):
 			continue
 		
 		# check if current node is actually nearby
-		if origin_position.distance_squared_to(nexus_nodes[current_index].position) > 10000:
+		if origin_position.distance_squared_to(nexus_nodes[adjusted_index].position) > 10000:
 			continue
 		
-		temp_adjacents.append(current_index)
+		temp_adjacents.append(adjusted_index)
 
 	return temp_adjacents
 

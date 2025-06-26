@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://cdk3p1euclaxu" path="res://scripts/global_scripts/inputs.gd" id="1_xgwwj"]
 
 [node name="Inputs" type="Control"]
-process_mode = 3
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_xgwwj")

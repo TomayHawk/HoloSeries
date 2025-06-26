@@ -22,6 +22,8 @@ const KEY_INVENTORY_SIZE: int = 103
 # NEW SAVE
 
 func new_save(character_index: int) -> void:
+	print("here")
+
 	var player_stats: PlayerStats = load(CHARACTER_SCRIPTS[character_index]).new()
 
 	# initialize save
@@ -287,9 +289,9 @@ func stat_nodes_randomizer(): # TODO: need to change
 		[2, 1, 1, 1, 1, 0, 0, 0]
 	]
 
-	const STATS_ATLAS_POSITIONS: Array[Vector2] = [Vector2(0, 32), Vector2(32, 32), Vector2(64, 32), Vector2(96, 32), Vector2(0, 64), Vector2(32, 64), Vector2(64, 64), Vector2(96, 64)]
-	const EMPTY_ATLAS_POSITION := Vector2(0, 0)
-	var area_texture_positions: Array[Vector2] = []
+	const STATS_TYPES: Array[int] = [1, 2, 3, 4, 5, 6, 7, 8]
+
+	var area_types: Array[int] = []
 	
 	var area_size := 0
 	var area_texture_positions_size := 0
@@ -325,67 +327,58 @@ func stat_nodes_randomizer(): # TODO: need to change
 	]
 
 	var node_qualities: Array[int] = []
+	node_qualities.resize(768)
+	node_qualities.fill(0)
 
-	var atlas_positions: Array[Vector2] = []
-
-	for j in 768:
-		atlas_positions.append(Vector2(-1, -1))
-		node_qualities.append(0)
+	var nexus_types: Array[int] = [9, 10, 0, 0, 0, 10, -1, 0, 10, 9, 0, 0, 0, 0, 9, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 13, 0, 9, -1, 0, 0, 9, 0, 0, 0, 9, 0, 0, 0, 10, -1, 0, 0, 0, 0, 11, 0, 9, 0, 0, 0, 0, 12, 0, 0, 0, 0, 10, 0, 0, 0, 0, -1, -1, 0, -1, 0, 0, -1, 14, 0, 0, 0, 0, -1, 0, 9, -1, 0, 13, 0, 0, 0, 0, 10, 12, 0, 0, 0, 0, 0, -1, 0, 0, 9, 0, 0, 0, 0, 0, 10, 10, 9, -1, 10, 0, 0, 9, 0, 9, 0, 0, 11, 9, -1, -1, 10, -1, 0, 0, -1, 0, -1, 0, 0, 14, 0, 0, -1, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 11, -1, 0, 0, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, 0, 0, 9, -1, 0, 0, 0, 13, 0, 0, 0, 0, 10, 0, 0, 9, 0, -1, 0, -1, 9, 0, -1, 13, 0, 9, 10, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 11, 0, 10, -1, 0, -1, 0, 0, 13, 0, 13, 0, 9, 0, 9, 0, 0, -1, -1, 0, 0, 0, 0, 0, 10, -1, 0, 0, 0, -1, -1, 0, 0, 11, 13, 10, 0, 0, 12, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 14, 10, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 0, 0, 11, 11, 0, 0, 14, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, -1, 10, 0, 0, 0, 0, -1, 0, 0, 0, 9, 0, 0, 0, 9, -1, 0, 0, 10, 0, 10, 0, 0, 0, 9, 0, 12, -1, 14, 0, 10, 0, 0, -1, 0, 0, 0, -1, 9, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, -1, 10, 0, 0, 9, 0, 0, 0, 0, 0, 11, 0, 10, 0, 0, -1, 15, 15, -1, -1, -1, 0, -1, 0, 0, 11, -1, 13, 0, -1, 0, 0, 9, 0, 0, 0, 0, 0, 0, -1, 9, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 11, 0, 10, 0, -1, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 10, -1, -1, 0, 0, 0, -1, 0, 0, 0, 0, 0, 13, 0, 9, 0, 15, 10, 11, 0, 9, 0, 0, 13, 9, 0, 0, 0, 9, 0, 0, -1, 10, 14, 0, 0, 0, 0, 11, 14, 0, 0, 0, 0, -1, 0, 0, 11, 9, -1, 0, 0, 0, 0, -1, 11, -1, 0, -1, 0, 0, 0, 0, 13, 13, 0, 0, 0, 0, 0, 0, 11, -1, 0, 0, 0, 0, 0, 0, -1, -1, 15, -1, 0, -1, 0, 0, 0, 11, 0, 0, 0, 0, -1, 0, 0, 0, 11, 15, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 9, 0, 0, 11, 11, 11, -1, -1, 0, -1, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, 9, 0, -1, 0, 0, 15, 11, -1, 0, 0, 0, 0, 12, -1, 9, 0, -1, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, -1, 11, 0, -1, 0, -1, 0, 0, 0, -1, 0, 0, 11, 11, 0, 0, 0, 0, 9, 0, 9, 0, -1, 0, 0, 0, 11, 0, 0, 0, 14, 0, 0, 0, -1, 0, 0, 0, 0, 11, 0, 0, -1, 0, 0, -1, -1, 0, -1, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 11, 0, 0, 11, 0, 11, 0, 14, 0, 0, 0, 0, 11, -1, 0, 0, -1, 0, 13, 12, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 14, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, 11, 0, 0, 11, 0, 0, 0, 0, 15, 11, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 15, 0, 0, 11, 11, 0, 11, 0, 0, 0, 0, 11, 9, 0, 0, 0, 9]
 
 	# for each area
 	for area_index in area_nodes.size():
 		area_size = area_nodes[area_index].size()
 
 		# randomize the number of each stat type
-		for stat_index in STATS_ATLAS_POSITIONS.size():
+		for stat_index in STATS_TYPES.size():
 			area_amount[area_index][stat_index] += round(rand_weight[area_index][stat_index] * (randf_range(-0.25, 0.25) + randf_range(-0.25, 0.25) + randf_range(-0.25, 0.25) + randf_range(-0.25, 0.25)))
 
 		# create an array of Vector2 positions for area stat nodes
-		area_texture_positions.clear()
+		area_types.clear()
 
 		for stat_type in area_amount[area_index].size():
 			for j in area_amount[area_index][stat_type]:
-				area_texture_positions.append(STATS_ATLAS_POSITIONS[stat_type])
+				area_types.append(STATS_TYPES[stat_type])
 
-		for remaining_nodes in (area_size - area_texture_positions.size() + 1):
-			area_texture_positions.append(EMPTY_ATLAS_POSITION)
+		for remaining_nodes in (area_size - area_types.size() + 1):
+			area_types.append(0)
 
 		# find satifying stat type for each node
 		area_nodes[area_index].shuffle()
-		area_texture_positions.shuffle()
+		area_types.shuffle()
 
-		area_texture_positions_size = area_texture_positions.size()
+		area_texture_positions_size = area_types.size()
 
 		for node_index in area_nodes[area_index]:
 			i = 0
 			while (area_texture_positions_size >= i):
-				atlas_positions[node_index] = area_texture_positions[area_texture_positions_size - 1 - i]
-				if has_illegal_adjacents(atlas_positions, node_index):
+				nexus_types[node_index] = area_types[area_texture_positions_size - 1 - i]
+				if has_illegal_adjacents(nexus_types, node_index):
 					i += 1
 				else:
-					area_texture_positions.pop_at(area_texture_positions_size - 1 - i)
+					area_types.pop_at(area_texture_positions_size - 1 - i)
 					area_texture_positions_size -= 1
 					break
 
 			if (i > area_texture_positions_size):
-				atlas_positions[node_index] = area_texture_positions.pop_at(randi() % (area_texture_positions_size))
+				nexus_types[node_index] = area_types.pop_at(randi() % (area_texture_positions_size))
 				area_texture_positions_size -= 1
 
 	for area_index in area_nodes.size():
 		for node_index in area_nodes[area_index]:
-			for stat_index in STATS_ATLAS_POSITIONS.size():
-				if atlas_positions[node_index] == STATS_ATLAS_POSITIONS[stat_index]:
+			for stat_index in STATS_TYPES.size():
+				if nexus_types[node_index] == STATS_TYPES[stat_index]:
 					node_qualities[node_index] = stats_qualities[stat_index][area_stats_qualities[area_index][stat_index]][randi() % stats_qualities[stat_index][area_stats_qualities[area_index][stat_index]].size()]
 
 	# TODO: TEMPORARY CODE
-	var temp_array_1: Array[int] = []
-	for atlas_position in atlas_positions:
-		if STATS_ATLAS_POSITIONS.has(atlas_position):
-			temp_array_1.append(STATS_ATLAS_POSITIONS.find(atlas_position))
-		else:
-			temp_array_1.append(-1)
-	# TODO: TEMPORARY CODE
-	Global.nexus_types = temp_array_1
+	Global.nexus_types = nexus_types
 	Global.nexus_qualities = node_qualities
 
 func has_illegal_adjacents(atlas_positions, node_index):

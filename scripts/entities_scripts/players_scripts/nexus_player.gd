@@ -1,42 +1,61 @@
 extends CharacterBody2D
 
-@onready var nexus := get_parent()
+# NEXUS PLAYER
 
-@onready var nexus_player_outline_node := $PlayerOutline
-@onready var nexus_player_crosshair_node := $PlayerCrosshair
+# ..............................................................................
 
-var move_direction := Vector2.ZERO
-var speed := 150
-const speed_max := 300
+#region CONSTANTS
 
-var on_node := false
-var snapping := false
+const BASE_SPEED: float = 150.0
+const MAX_SPEED: float = 300.0
+const SNAP_SPEED: float = 600.0
 
-var snap_node: Node = null
-const snap_speed := 600.0
-var snap_position := Vector2.ZERO
-var snap_direction := Vector2.ZERO
+#endregion
 
-const ADJACENT_INDICES: Array[Array] = [[-64, -49, -48, -33, -32, -31, -17, -16, -1, 1, 15, 16, 31, 32, 33, 47, 48, 64],
-									   [-64, -48, -47, -33, -32, -31, -16, -15, -1, 1, 16, 17, 31, 32, 33, 48, 49, 64]]
+# ..............................................................................
 
-# TODO: temporary code
+#region VARIABLES
+
+var on_node: bool = false
+var snapping: bool = false
+
+var speed: float = BASE_SPEED
+
+var move_direction: Vector2 = Vector2.ZERO
+var snap_position: Vector2 = Vector2.ZERO
+
+@onready var nexus: Node2D = get_parent()
+
+@onready var nexus_player_outline_node: Sprite2D = $PlayerOutline
+@onready var nexus_player_crosshair_node: Sprite2D = $PlayerCrosshair
+
+#endregion
+
+# ..............................................................................
+
+#region READY
+
 func _ready() -> void:
 	set_physics_process(false)
 
-func _physics_process(_delta):
+#endregion
+
+# ..............................................................................
+
+#region PHYSICS PROCESS
+
+func _physics_process(_delta: float) -> void:
 	# deccelerate towards target position while snapping
 	if snapping:
 		# deccelerate if remaining distance is larger than 1 pixel
 		var snap_distance := position.distance_to(snap_position)
 		if snap_distance > 1:
-			velocity = snap_distance * snap_speed * snap_direction / 40
+			velocity = snap_distance * SNAP_SPEED * move_direction / 40
 		# else snap and stop moving	
 		else:
 			velocity = Vector2.ZERO
 			snapping = false
 			on_node = true
-			nexus.last_nodes[nexus.current_stats] = snap_node.get_index()
 			position = snap_position
 
 			# update nexus player texture
@@ -44,26 +63,69 @@ func _physics_process(_delta):
 			nexus_player_crosshair_node.hide()
 			# update nexus ui
 			nexus.ui.update_nexus_ui()
+
+			move_direction = Input.get_vector(&"left", &"right", &"up", &"down", 0.2)
+			if move_direction == Vector2.ZERO:
+				set_physics_process(false)
 	else:
-		move_direction = Input.get_vector(&"left", &"right", &"up", &"down")
+		# acceleration
+		if speed < MAX_SPEED:
+			speed += 1.0
+
+		# update velocity
 		velocity = move_direction * speed
-		# if not on node, and not moving, set speed to default and snap to nearest node
-		if not on_node and velocity == Vector2.ZERO:
-			speed = 150
-			snap_to_target(position)
-		elif velocity != Vector2.ZERO:
-			# hide nexus ui while moving
-			nexus.ui.hide_all()
-			
-			# accelerate by 1 until max speed
-			if speed < speed_max: speed += 1
-			# update nexus player texture
-			if on_node:
-				on_node = false
-				nexus_player_outline_node.hide()
-				nexus_player_crosshair_node.show()
 
 	move_and_slide()
+
+#endregion
+
+# ..............................................................................
+
+#region INPUTS
+
+func _input(event: InputEvent) -> void:
+	# ignore all unrelated inputs
+	if not (event.is_action(&"left") or event.is_action(&"right") \
+			or event.is_action(&"up") or event.is_action(&"down")):
+		return
+	
+	Inputs.accept_event()
+	
+	if not (
+			Input.is_action_just_pressed(&"left")
+			or Input.is_action_just_pressed(&"right")
+			or Input.is_action_just_pressed(&"up")
+			or Input.is_action_just_pressed(&"down")
+			or Input.is_action_just_released(&"left")
+			or Input.is_action_just_released(&"right")
+			or Input.is_action_just_released(&"up")
+			or Input.is_action_just_released(&"down")
+	):
+		return
+	
+	if snapping:
+		return
+
+	move_direction = Input.get_vector(&"left", &"right", &"up", &"down", 0.2)
+
+	if move_direction == Vector2.ZERO:
+		if on_node:
+			set_physics_process(false)
+		else:
+			speed = BASE_SPEED
+			snap_to_nearby(position)
+	else:
+		on_node = false
+		nexus.ui.hide_all()
+		nexus_player_outline_node.hide()
+		nexus_player_crosshair_node.show()
+		set_physics_process(true)
+
+#endregion
+
+# ..............................................................................
+
+
 
 # TODO: incomplete
 func snap_to_position(target_position) -> void:
@@ -72,7 +134,7 @@ func snap_to_position(target_position) -> void:
 	$PlayerOutline.show()
 	$PlayerCrosshair.hide()
 
-func snap_to_target(initial_position):
+func snap_to_nearby(initial_position):
 	# calculates and chooses a nearby node
 	var temp_near: int = (round((initial_position.y + 298.0) / 596 * 48) * 16) + (round((initial_position.x + 341.0) / 683 * 16))
 
@@ -83,6 +145,7 @@ func snap_to_target(initial_position):
 		temp_near = clamp((temp_near - 16), 0, 767)
 	
 	var snap_distance := INF
+	var snap_node: TextureRect = null
 
 	if nexus.nexus_nodes[temp_near].texture.region.position != nexus.NULL_ATLAS_POSITION:
 		snap_node = nexus.nexus_nodes[temp_near]
@@ -102,7 +165,9 @@ func snap_to_target(initial_position):
 				snap_distance = initial_position.distance_to(nexus.nexus_nodes[second_temp_adjacent].position + Vector2(16, 16))
 
 	snap_position = snap_node.position + Vector2(16, 16)
-	snap_direction = (snap_position - initial_position).normalized()
+	move_direction = (snap_position - initial_position).normalized()
+
+	nexus.current_stats.last_node = snap_node.get_index()
 
 	snapping = true
 

@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://cow4d6dq0c31v" path="res://user_interfaces/combat_ui.tscn" id="2_wvqmb"]
 
 [node name="Combat" type="Node"]
-process_mode = 3
 script = ExtResource("1_lbcq1")
 
 [node name="CombatUi" parent="." instance=ExtResource("2_wvqmb")]

@@ -3107,6 +3107,7 @@ scale = Vector2(2, 2)
 script = ExtResource("1_84ul6")
 
 [node name="HoloNexusUi" parent="." instance=ExtResource("6_jufqf")]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -341.0
