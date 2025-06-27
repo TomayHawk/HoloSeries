@@ -22,8 +22,6 @@ const KEY_INVENTORY_SIZE: int = 103
 # NEW SAVE
 
 func new_save(character_index: int) -> void:
-	print("here")
-
 	var player_stats: PlayerStats = load(CHARACTER_SCRIPTS[character_index]).new()
 
 	# initialize save
@@ -256,7 +254,7 @@ func stat_nodes_randomizer(): # TODO: need to change
 
 	# area stat number
 	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
-	# Empty, HP, MP, DEF, WRD, ATK, INT, SPD, AGI, EMPTY
+	# Empty, HP, MP, DEF, WRD, STR, INT, SPD, AGI, EMPTY
 	var area_amount: Array[Array] = [
 		[6, 11, 2, 5, 2, 6, 2, 2],
 		[3, 4, 1, 2, 0, 2, 0, 0],
@@ -298,7 +296,7 @@ func stat_nodes_randomizer(): # TODO: need to change
 	var i := 0
 
 	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
-	# HP, MP, DEF, WRD, ATK, INT, SPD, AGI
+	# HP, MP, DEF, WRD, STR, INT, SPD, AGI
 	const area_stats_qualities := [
 		[0, 0, 0, 0, 0, 0, 0, 0],
 		[1, 2, 0, 2, 0, 2, 1, 1],
@@ -314,7 +312,7 @@ func stat_nodes_randomizer(): # TODO: need to change
 		[1, 0, 1, 1, 0, 0, 0, 0]
 	]
 
-	# HP, MP, DEF, WRD, ATK, INT, SPD, AGI, EMPTY
+	# HP, MP, DEF, WRD, STR, INT, SPD, AGI, EMPTY
 	const stats_qualities := [
 		[[200, 200, 300], [200, 200, 300, 300, 300, 400], [300, 300, 400]],
 		[[10, 10, 20], [10, 10, 20, 20, 40], [20, 20, 40]],

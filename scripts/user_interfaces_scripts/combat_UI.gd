@@ -47,8 +47,8 @@ func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed(&"display_combat_ui"):
 		if Combat.not_in_combat():
-			# TODO: currently pressable while hidden
 			%CombatControl.modulate.a = 1.0 if %CombatControl.modulate.a != 1.0 else 0.0
+			%CombatControl.visible = %CombatControl.modulate.a == 1.0
 	elif Input.is_action_just_pressed(&"tab"):
 		%CharacterSelector.show()
 	elif Input.is_action_just_released(&"tab"):
@@ -135,8 +135,14 @@ func update_standby_ui(standby_index: int, character: PlayerStats) -> void:
 # UI TWEEN
 
 func combat_ui_tween(target_visibility_value: float) -> void:
+	%CombatControl.show()
+	
 	tween = create_tween()
 	tween.tween_property(%CombatControl, "modulate:a", target_visibility_value, 0.2)
+
+	await tween.finished
+	if %CombatControl.modulate.a == 0.0:
+		%CombatControl.hide()
 
 # ..............................................................................
 

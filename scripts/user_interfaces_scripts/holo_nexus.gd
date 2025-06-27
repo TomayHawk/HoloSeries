@@ -10,7 +10,7 @@ extends Node2D
 const EMPTY_ATLAS_POSITION: Vector2 = Vector2(0.0, 0.0)
 const NULL_ATLAS_POSITION: Vector2 = Vector2(32.0, 0.0)
 
-# atlas positions for HP, MP, DEF, WRD, ATK, INT, SPD, AGI nodes
+# atlas positions for HP, MP, DEF, WRD, STR, INT, SPD, AGI nodes
 const STATS_ATLAS_POSITIONS: Array[Vector2] = [
 	Vector2(0.0, 32.0),
 	Vector2(32.0, 32.0),
@@ -42,7 +42,7 @@ const KEY_MODULATE: Color = Color(0.33, 0.33, 0.33, 1.0)
 const LOCKED_MODULATE: Color = Color(0.25, 0.25, 0.25, 1.0)
 const UNLOCKED_MODULATE: Color = Color(1.0, 1.0, 1.0, 1.0)
 
-# converted stats qualities for HP, MP, DEF, WRD, ATK, INT, SPD, AGI nodes
+# converted stats qualities for HP, MP, DEF, WRD, STR, INT, SPD, AGI nodes
 const CONVERTED_QUALITIES: Array[int] = [400, 40, 15, 15, 20, 20, 4, 4]
 
 # adjacent node indices
@@ -86,6 +86,8 @@ var unlockables_load: Resource = \
 #region READY
 
 func _ready() -> void:
+	Players.camera.position_smoothing_enabled = false
+
 	# update camera
 	Players.camera.update_camera($NexusPlayer, Vector2(1.0, 1.0))
 	Players.camera.update_camera_limits([-679, -592, 681, 592] as Array[int])
@@ -96,6 +98,8 @@ func _ready() -> void:
 
 	# enable zoom inputs
 	Inputs.zoom_inputs_enabled = true
+
+	Players.camera.set_deferred(&"position_smoothing_enabled", true)
 
 #endregion
 

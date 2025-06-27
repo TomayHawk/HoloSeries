@@ -125,15 +125,6 @@ func _input(event: InputEvent) -> void:
 
 # ..............................................................................
 
-
-
-# TODO: incomplete
-func snap_to_position(target_position) -> void:
-	position = target_position
-	snapping = false
-	$PlayerOutline.show()
-	$PlayerCrosshair.hide()
-
 func snap_to_nearby(initial_position):
 	# calculates and chooses a nearby node
 	var temp_near: int = (round((initial_position.y + 298.0) / 596 * 48) * 16) + (round((initial_position.x + 341.0) / 683 * 16))
@@ -172,3 +163,9 @@ func snap_to_nearby(initial_position):
 	snapping = true
 
 	nexus.ui.hide_all()
+
+func snap_to_position(target_position) -> void:
+	position = target_position
+	snapping = false
+	$PlayerOutline.show()
+	$PlayerCrosshair.hide()

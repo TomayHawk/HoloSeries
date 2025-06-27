@@ -18,7 +18,7 @@ signal new_scene_ready
 
 # -1: null
 # 0: empty
-# 1-8: HP, MP, DEF, WRD, ATK, INT, SPD, AGI
+# 1-8: HP, MP, DEF, WRD, STR, INT, SPD, AGI
 # 9-11: special, white magic, black magic
 # 12-15: diamond, clover, heart, spade
 var nexus_types: Array[int] = []
