@@ -10,11 +10,11 @@ var nexus_inventory: Array[int] = []
 var key_inventory: Array[int] = []
 
 var consumables: Array[Resource] = [
-	load("res://scripts/items_scripts/potion.gd"),
-	load("res://scripts/items_scripts/max_potion.gd"),
-	load("res://scripts/items_scripts/phoenix_burger.gd"),
-	load("res://scripts/items_scripts/reset_button.gd"),
-	load("res://scripts/items_scripts/temp_kill_item.gd"),
+	load("res://scripts/items_scripts/consumables_scripts/potion.gd"),
+	load("res://scripts/items_scripts/consumables_scripts/max_potion.gd"),
+	load("res://scripts/items_scripts/consumables_scripts/phoenix_burger.gd"),
+	load("res://scripts/items_scripts/consumables_scripts/reset_button.gd"),
+	load("res://scripts/items_scripts/consumables_scripts/temp_kill_item.gd"),
 ]
 var weapons: Array[Weapon] = []
 var armors: Array[Armor] = []

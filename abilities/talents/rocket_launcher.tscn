@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://chaiav1lxbn5a"]
 
-[ext_resource type="Script" uid="uid://cafv1okc7724x" path="res://scripts/abilities_scripts/special_scripts/rocket_launcher.gd" id="1_jc6dy"]
+[ext_resource type="Script" uid="uid://cafv1okc7724x" path="res://scripts/abilities_scripts/talents_scripts/rocket_launcher.gd" id="1_jc6dy"]
 [ext_resource type="Texture2D" uid="uid://cpkqlu48vt85m" path="res://art/characters/slime.png" id="2_vcny3"]
 [ext_resource type="PackedScene" uid="uid://bjs2k8uorwqda" path="res://abilities/abilities_components/homing_projectile.tscn" id="3_0st0y"]
 [ext_resource type="PackedScene" uid="uid://dl4lxtmyhiro0" path="res://abilities/abilities_components/area_of_effect.tscn" id="4_s1j43"]

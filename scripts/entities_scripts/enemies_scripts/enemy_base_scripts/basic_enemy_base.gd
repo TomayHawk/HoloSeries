@@ -47,7 +47,7 @@ func death() -> void:
 	await death_timer.timeout
 	
 	for i in 3:
-		var item: Node = load("res://entities/entities_items/lootable.tscn").instantiate()
+		var item: Node = load("res://items/world_items/lootable.tscn").instantiate()
 		item.instantiate_item(global_position, "res://art/temp_shirakami.png", 0, 0)
 	
 	queue_free()

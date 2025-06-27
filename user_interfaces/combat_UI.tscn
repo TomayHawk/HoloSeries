@@ -68,7 +68,7 @@ theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Attack"
 
-[node name="Special" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="Talents" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -78,9 +78,9 @@ theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
-text = "Special"
+text = "Talents"
 
-[node name="Skill" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="Skills" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -90,7 +90,7 @@ theme_override_styles/focus = ExtResource("5_kyyya")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
-text = "Skill"
+text = "Skills"
 
 [node name="Buff" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
@@ -199,12 +199,12 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="SpecialVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+[node name="TalentsVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="RocketLauncher" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SpecialVBoxContainer"]
+[node name="RocketLauncher" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -216,13 +216,13 @@ theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Rocket Launcher"
 
-[node name="SkillVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+[node name="SkillsVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
 visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="LifeDrain" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer"]
+[node name="LifeDrain" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -234,7 +234,7 @@ theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Life Drain"
 
-[node name="ManaDrain" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer"]
+[node name="ManaDrain" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -246,7 +246,7 @@ theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Mana Drain"
 
-[node name="Taunt" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer"]
+[node name="Taunt" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -258,7 +258,7 @@ theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
 text = "Taunt"
 
-[node name="PlayDice" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer"]
+[node name="PlayDice" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
@@ -574,16 +574,16 @@ theme_override_constants/separation = 2
 [connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer" to="." method="_on_control_mouse_exited"]
 [connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="button_pressed"]
 [connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Special" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Special" to="." method="_on_control_mouse_entered"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Special" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Special" to="." method="_on_main_combat_options_pressed" binds= [0]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skill" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skill" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skill" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skill" to="." method="_on_main_combat_options_pressed" binds= [1]]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="_on_control_mouse_entered"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="_on_main_combat_options_pressed" binds= [0]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skills" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skills" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skills" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skills" to="." method="_on_main_combat_options_pressed" binds= [1]]
 [connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="button_pressed"]
@@ -610,23 +610,23 @@ theme_override_constants/separation = 2
 [connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_main_combat_options_pressed" binds= [7]]
 [connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer" to="." method="_on_control_mouse_exited"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SpecialVBoxContainer/RocketLauncher" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SpecialVBoxContainer/RocketLauncher" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SpecialVBoxContainer/RocketLauncher" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SpecialVBoxContainer/RocketLauncher" to="." method="instantiate_ability" binds= [4]]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer/LifeDrain" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer/LifeDrain" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer/LifeDrain" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer/ManaDrain" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer/ManaDrain" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer/ManaDrain" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer/Taunt" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer/Taunt" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer/Taunt" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer/PlayDice" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer/PlayDice" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer/PlayDice" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillVBoxContainer/PlayDice" to="." method="instantiate_ability" binds= [3]]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="instantiate_ability" binds= [4]]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/LifeDrain" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/LifeDrain" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/LifeDrain" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/ManaDrain" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/ManaDrain" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/ManaDrain" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/Taunt" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/Taunt" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/Taunt" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="instantiate_ability" binds= [3]]
 [connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BuffVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BuffVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
 [connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BuffVBoxContainer/Item" to="." method="button_pressed"]

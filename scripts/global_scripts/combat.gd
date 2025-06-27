@@ -22,8 +22,8 @@ var ability_loads: Array[Resource] = [
 	load("res://abilities/black_magic/fireball.tscn"),
 	load("res://abilities/white_magic/regen.tscn"),
 	load("res://abilities/white_magic/heal.tscn"),
-	load("res://abilities/skill/play_dice.tscn"),
-	load("res://abilities/special/rocket_launcher.tscn"),
+	load("res://abilities/skills/play_dice.tscn"),
+	load("res://abilities/talents/rocket_launcher.tscn"),
 ]
 
 var enemies_in_combat: Array[EntityBase] = []

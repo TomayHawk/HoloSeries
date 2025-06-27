@@ -6,37 +6,150 @@ extends CanvasLayer
 
 #region CONSTANTS
 
-const stats_descriptions: Array[String] = ["Health", "Mana", "Defense", "Ward", "Strength", "Intelligence", "Speed", "Agility"]
-const key_descriptions: Array[String] = ["Star", "Prosperity", "Love", "Nobility"]
-const ability_descriptions: Array[String] = ["", "", "", "", "", "", "", "", "", ""]
+const STATS_DESCRIPTIONS: Array[String] = [
+	"Health",
+	"Mana",
+	"Defense",
+	"Ward",
+	"Strength",
+	"Intelligence",
+	"Speed",
+	"Agility",
+]
 
-const item_descriptions: Array[String] = [
-	"Unlocks HP, DEF and STR nodes.",				# Life Crystal
-	"Unlocks MP, WRD and INT nodes.", 				# Magic Crystal
-	"Unlocks SPD and AGI nodes.",					# Reflex Crystal
-	"Unlocks Skill nodes.",							# Talent Crystal
-	"Unlocks White Magic nodes.",					# Blessed Crystal
-	"Unlocks Black Magic nodes.",					# Abyssal Crystal
-	"Unlocks Diamond Key nodes.",					# Star Crystal
-	"Unlocks Clover Key nodes.",					# Prosperity Crystal
-	"Unlocks Heart Key nodes.",						# Love Crystal
-	"Unlocks Spade Key nodes.",						# Nobility Crystal
-	"Unlocks any Skill node.",						# Sunlight Crystal
-	"Unlocks any White Magic node.",				# Starlight Crystal
-	"Unlocks any Black Magic node.",				# Moonlight Crystal
-	"Unlocks any one node.",						# Dream Crystal
-	"Teleports player to any unlocked node.",		# Return Crystal
-	"Teleports player to any current ally node.",	# Share Crystal
-	"Teleports player to any node.",				# Instant Crystal
-	"Converts an empty node into an HP node.",		# Health Crystal
-	"Converts an empty node into an MP node.",		# Mana Crystal
-	"Converts an empty node into a DEF node.",		# Defense Crystal
-	"Converts an empty node into a WRD node.",		# Ward Crystal
-	"Converts an empty node into an STR node.",		# Strength Crystal
-	"Converts an empty node into an INT node.",		# Intelligence Crystal
-	"Converts an empty node into a SPD node.",		# Speed Crystal
-	"Converts an empty node into an AGI node.",		# Agility Crystal
-	"Converts a stats node into an empty node.",	# Clear Crystal
+const KEY_DESCRIPTIONS: Array[String] = [
+	"Star",
+	"Prosperity",
+	"Love",
+	"Nobility",
+]
+
+const ABILITY_DESCRIPTIONS: Array[String] = [
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+]
+
+const ITEM_NAMES: Array[String] = [
+	# Life, Magic and Reflex
+	"Life Crystal",
+	"Magic Crystal",
+	"Reflex Crystal",
+	# Special, Blessed, Abyssal
+	"Special Crystal",
+	"Blessed Crystal",
+	"Abyssal Crystal",
+	# Star, Prosperity, Love, Nobility
+	"Star Crystal",
+	"Prosperity Crystal",
+	"Love Crystal",
+	"Nobility Crystal",
+	# Sunlight, Starlight, Moonlight
+	"Sunlight Crystal",
+	"Starlight Crystal",
+	"Moonlight Crystal",
+	# Dream, Return, Share and Instant
+	"Dream Crystal",
+	"Return Crystal",
+	"Share Crystal",
+	"Instant Crystal",
+	# Health, Mana, Defense, Ward, Strength, Intelligence, Speed, Agility
+	"Health Crystal",
+	"Mana Crystal",
+	"Defense Crystal",
+	"Ward Crystal",
+	"Strength Crystal",
+	"Intelligence Crystal",
+	"Speed Crystal",
+	"Agility Crystal",
+	# Clear
+	"Clear Crystal",
+]
+
+const ITEM_DESCRIPTIONS: Array[String] = [
+	# Life, Magic and Reflex
+	"Unlocks HP, DEF and STR nodes.",
+	"Unlocks MP, WRD and INT nodes.",
+	"Unlocks SPD and AGI nodes.",
+	# Special, Blessed, Abyssal
+	"Unlocks Special nodes.",
+	"Unlocks White Magic nodes.",
+	"Unlocks Black Magic nodes.",
+	# Star, Prosperity, Love, Nobility
+	"Unlocks Diamond Key nodes.",
+	"Unlocks Clover Key nodes.",
+	"Unlocks Heart Key nodes.",
+	"Unlocks Spade Key nodes.",
+	# Sunlight, Starlight, Moonlight
+	"Unlocks any Special node.",
+	"Unlocks any White Magic node.",
+	"Unlocks any Black Magic node.",
+	# Dream, Return, Share and Instant
+	"Unlocks any one node.",
+	"Teleports player to any unlocked node.",
+	"Teleports player to any current ally node.",
+	"Teleports player to any node.",
+	# Health, Mana, Defense, Ward, Strength, Intelligence, Speed, Agility
+	"Converts an empty node into an HP node.",
+	"Converts an empty node into an MP node.",
+	"Converts an empty node into a DEF node.",
+	"Converts an empty node into a WRD node.",
+	"Converts an empty node into an STR node.",
+	"Converts an empty node into an INT node.",
+	"Converts an empty node into a SPD node.",
+	"Converts an empty node into an AGI node.",
+	# Clear
+	"Converts a stats node into an empty node.",
+]
+
+# -1: null
+# 0: empty
+# 1-8: HP, MP, DEF, WRD, STR, INT, SPD, AGI
+# 9-11: special, white magic, black magic
+# 12-15: diamond, clover, heart, spade
+
+
+const ITEM_COMPATIBLES : Array[int] = [
+	# Life, Magic and Reflex
+	(1 << 1) | (1 << 3) | (1 << 5),
+	(1 << 2) | (1 << 4) | (1 << 6),
+	(1 << 7) | (1 << 8),
+	# Special, Blessed, Abyssal
+	1 << 9,
+	1 << 10,
+	1 << 11,
+	# Star, Prosperity, Love, Nobility
+	1 << 12,
+	1 << 13,
+	1 << 14,
+	1 << 15,
+	# Sunlight, Starlight, Moonlight
+	1 << 9,
+	1 << 10,
+	1 << 11,
+	# Dream, Return, Share and Instant - all non-null types
+	0xFFFF,
+	0xFFFF,
+	0xFFFF,
+	0xFFFF,
+	# Health, Mana, Defense, Ward, Strength, Intelligence, Speed, Agility
+	1 << 0,
+	1 << 0,
+	1 << 0,
+	1 << 0,
+	1 << 0,
+	1 << 0,
+	1 << 0,
+	1 << 0,
+	# Clear
+	(1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8),
 ]
 
 #endregion
@@ -50,38 +163,7 @@ var inventory_quantity_labels: Array[Label] = []
 @onready var nexus: Node2D = get_parent()
 
 @onready var inventory_ui: MarginContainer = %InventoryMargin
-@onready var descriptions_ui: MarginContainer = %DescriptionsMargin
 @onready var character_selector_node: Control = %CharacterSelector
-
-# TODO: optimize this
-@onready var item_type_compatibilities : Array[Array] = [
-	[nexus.STATS_ATLAS_POSITIONS[0], nexus.STATS_ATLAS_POSITIONS[2], nexus.STATS_ATLAS_POSITIONS[4]], # HP, DEF, STR
-	[nexus.STATS_ATLAS_POSITIONS[1], nexus.STATS_ATLAS_POSITIONS[3], nexus.STATS_ATLAS_POSITIONS[5]], # MP, WRD, INT
-	[nexus.STATS_ATLAS_POSITIONS[6], nexus.STATS_ATLAS_POSITIONS[7]], # SPD, AGI
-	[nexus.ABILITY_ATLAS_POSITIONS[0]], # Skill
-	[nexus.ABILITY_ATLAS_POSITIONS[1]], # White Magic
-	[nexus.ABILITY_ATLAS_POSITIONS[2]], # Black Magic
-	[nexus.KEY_ATLAS_POSITIONS[0]], # Diamond Key
-	[nexus.KEY_ATLAS_POSITIONS[1]], # Clover Key
-	[nexus.KEY_ATLAS_POSITIONS[2]], # Heart Key
-	[nexus.KEY_ATLAS_POSITIONS[3]], # Spade Key
-	[nexus.ABILITY_ATLAS_POSITIONS[0]], # Skill
-	[nexus.ABILITY_ATLAS_POSITIONS[1]], # White Magic
-	[nexus.ABILITY_ATLAS_POSITIONS[2]], # Black Magic
-	[nexus.STATS_ATLAS_POSITIONS.duplicate() + nexus.ABILITY_ATLAS_POSITIONS.duplicate() + nexus.KEY_ATLAS_POSITIONS.duplicate() + [nexus.EMPTY_ATLAS_POSITION]],
-	[nexus.STATS_ATLAS_POSITIONS.duplicate() + nexus.ABILITY_ATLAS_POSITIONS.duplicate() + nexus.KEY_ATLAS_POSITIONS.duplicate() + [nexus.EMPTY_ATLAS_POSITION]],
-	[nexus.STATS_ATLAS_POSITIONS.duplicate() + nexus.ABILITY_ATLAS_POSITIONS.duplicate() + nexus.KEY_ATLAS_POSITIONS.duplicate() + [nexus.EMPTY_ATLAS_POSITION]],
-	[nexus.STATS_ATLAS_POSITIONS.duplicate() + nexus.ABILITY_ATLAS_POSITIONS.duplicate() + nexus.KEY_ATLAS_POSITIONS.duplicate() + [nexus.EMPTY_ATLAS_POSITION]],
-	[nexus.EMPTY_ATLAS_POSITION],
-	[nexus.EMPTY_ATLAS_POSITION],
-	[nexus.EMPTY_ATLAS_POSITION],
-	[nexus.EMPTY_ATLAS_POSITION],
-	[nexus.EMPTY_ATLAS_POSITION],
-	[nexus.EMPTY_ATLAS_POSITION],
-	[nexus.EMPTY_ATLAS_POSITION],
-	[nexus.EMPTY_ATLAS_POSITION],
-	nexus.STATS_ATLAS_POSITIONS.duplicate(),
-]
 
 #endregion
 
@@ -99,6 +181,8 @@ func _ready() -> void:
 		# instantiate character button
 		var character_button: Button = character_button_load.instantiate()
 		%CharacterSelectorVBoxContainer.add_child(character_button)
+		
+		# define button properties
 		character_button.get_node(^"CharacterName").text = stats.CHARACTER_NAME
 		character_button.get_node(^"Level").text = str(stats.level).pad_zeros(3)
 		character_button.pressed.connect(_on_character_selector_button_pressed.bind(character_button.get_index()))
@@ -110,6 +194,22 @@ func _ready() -> void:
 			character_button.hide()
 
 	character_selector_node.hide()
+
+	var inventory_button_load: PackedScene = load("res://user_interfaces/user_interfaces_resources/holo_nexus_ui/nexus_inventory_button.tscn")
+
+	for index in Inventory.nexus_inventory.size():
+		if Inventory.nexus_inventory[index] <= 0: continue
+		
+		# instantiate inventory button
+		var inventory_button: Button = inventory_button_load.instantiate()
+		%InventoryVBoxContainer.add_child(inventory_button)
+		
+		inventory_button.name = str(index)
+		inventory_button.get_node(^"ItemName").text = ITEM_NAMES[index]
+		inventory_button.get_node(^"Quantity").text = str(Inventory.nexus_inventory[index])
+		inventory_button.pressed.connect(_on_nexus_inventory_item_pressed.bind(index))
+		inventory_button.mouse_entered.connect(_on_button_mouse_entered)
+		inventory_button.mouse_exited.connect(_on_button_mouse_exited)
 
 	'''
 	for i in 26:
@@ -137,33 +237,35 @@ func update_nexus_ui() -> void:
 		elif node_atlas_position == nexus.NULL_ATLAS_POSITION:
 			%DescriptionsTextAreaLabel.text = "Null Node."
 		elif nexus.KEY_ATLAS_POSITIONS.has(node_atlas_position):
-			%DescriptionsTextAreaLabel.text = "Requires " + key_descriptions[nexus.KEY_ATLAS_POSITIONS.find(node_atlas_position)] + " Crystal to Unlock."
+			%DescriptionsTextAreaLabel.text = "Requires " + KEY_DESCRIPTIONS[nexus.KEY_ATLAS_POSITIONS.find(node_atlas_position)] + " Crystal to Unlock."
 		elif nexus.ABILITY_ATLAS_POSITIONS.has(node_atlas_position):
 			%DescriptionsTextAreaLabel.text = "Unlock " + "[Ability Name]" + "."
 	else:
-		%DescriptionsTextAreaLabel.text = "Gain " + node_quality_string + " " + stats_descriptions[nexus.STATS_ATLAS_POSITIONS.find(node_atlas_position)] + "."
+		%DescriptionsTextAreaLabel.text = "Gain " + node_quality_string + " " + STATS_DESCRIPTIONS[nexus.STATS_ATLAS_POSITIONS.find(node_atlas_position)] + "."
 
 	%Options.show()
-	descriptions_ui.show()
+	%DescriptionsMargin.show()
 
 func hide_all():
 	%Options.hide()
 	inventory_ui.hide()
-	descriptions_ui.hide()
+	%DescriptionsMargin.hide()
 
 func update_inventory_buttons() -> void:
-	for i in 26:
-		if Inventory.nexus_inventory[i] == 0:
-			%InventoryVBoxContainer.get_children()[i].hide()
-		elif nexus.nexus_nodes[nexus.current_stats.last_node].texture.region.position in item_type_compatibilities[i]:
-			if i < 14 and nexus.current_stats.last_node in nexus.current_stats.unlocked_nodes:
-				%InventoryVBoxContainer.get_children()[i].modulate = Color(0.3, 0.3, 0.3, 1)
-			elif i > 16 and nexus.current_stats.last_node not in nexus.current_stats.unlocked_nodes:
-				%InventoryVBoxContainer.get_children()[i].modulate = Color(0.3, 0.3, 0.3, 1)
+	for button in %InventoryVBoxContainer.get_children():
+		var index: int = int(button.name)
+
+		if Inventory.nexus_inventory[index] == 0:
+			button.hide()
+		elif ITEM_COMPATIBLES[index] & (1 << nexus.current_stats.last_node):
+			if index < 14 and nexus.current_stats.last_node in nexus.current_stats.unlocked_nodes:
+				button.modulate = Color(0.3, 0.3, 0.3, 1)
+			elif index > 16 and nexus.current_stats.last_node not in nexus.current_stats.unlocked_nodes:
+				button.modulate = Color(0.3, 0.3, 0.3, 1)
 			else:
-				%InventoryVBoxContainer.get_children()[i].modulate = Color(1, 1, 1, 1)
+				button.modulate = Color(1, 1, 1, 1)
 		else:
-			%InventoryVBoxContainer.get_children()[i].modulate = Color(0.3, 0.3, 0.3, 1)
+			button.modulate = Color(0.3, 0.3, 0.3, 1)
 
 func attempt_unlock() -> bool:
 	if nexus.current_stats.last_node in nexus.unlockable_nodes:
@@ -234,7 +336,7 @@ func _on_items_pressed() -> void:
 
 # nexus inventory button signals
 func _on_nexus_inventory_item_pressed(extra_arg_0) -> void:
-	%DescriptionsTextAreaLabel.text = item_descriptions[extra_arg_0]
+	%DescriptionsTextAreaLabel.text = ITEM_DESCRIPTIONS[extra_arg_0]
 	# if player is not moving and inventory is not empty
 	if nexus.nexus_player.velocity == Vector2.ZERO and Inventory.nexus_inventory[extra_arg_0] != 0 and %InventoryVBoxContainer.get_children()[extra_arg_0].modulate == Color(1, 1, 1, 1):
 		# wait for double click

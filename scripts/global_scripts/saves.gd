@@ -236,7 +236,7 @@ func save(_save_index):
 
 # randomizes all empty nodes with randomized stat types and stat qualities
 func stat_nodes_randomizer(): # TODO: need to change
-	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
+	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, special, special 2, physical, physical 2, tank
 	var area_nodes: Array[Array] = [
 		[132, 133, 134, 146, 147, 149, 163, 164, 165, 166, 179, 182, 196, 198, 199, 211, 212, 213, 214, 215, 228, 229, 231, 232, 243, 244, 245, 246, 247, 260, 261, 262, 264, 277, 278, 279, 280, 292, 294, 296, 309, 310, 311, 324, 325, 327, 328, 340],
 		[258, 274, 291, 306, 307, 322, 323, 338, 339, 354, 356, 371, 386, 387, 388, 403, 419],
@@ -253,7 +253,7 @@ func stat_nodes_randomizer(): # TODO: need to change
 	]
 
 	# area stat number
-	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
+	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, special, special 2, physical, physical 2, tank
 	# Empty, HP, MP, DEF, WRD, STR, INT, SPD, AGI, EMPTY
 	var area_amount: Array[Array] = [
 		[6, 11, 2, 5, 2, 6, 2, 2],
@@ -270,7 +270,7 @@ func stat_nodes_randomizer(): # TODO: need to change
 		[8, 2, 3, 1, 2, 1, 0, 0]
 	]
 
-	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
+	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, special, special 2, physical, physical 2, tank
 	# area stat flactuation
 	const rand_weight: Array[Array] = [
 		[2, 3, 1, 1, 1, 2, 1, 1],
@@ -295,7 +295,7 @@ func stat_nodes_randomizer(): # TODO: need to change
 	var area_texture_positions_size := 0
 	var i := 0
 
-	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, skills, skills 2, physical, physical 2, tank
+	# white magic, white magic 2, black magic, black magic 2, summon, buff, debuff, special, special 2, physical, physical 2, tank
 	# HP, MP, DEF, WRD, STR, INT, SPD, AGI
 	const area_stats_qualities := [
 		[0, 0, 0, 0, 0, 0, 0, 0],
