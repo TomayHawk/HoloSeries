@@ -8,7 +8,12 @@ extends CharacterBody2D
 
 const BASE_SPEED: float = 150.0
 const MAX_SPEED: float = 300.0
-const SNAP_SPEED: float = 600.0
+const SNAP_SPEED: float = 15.0
+
+const NEARBY_INDICES: Array[int] = [
+	-64, -49, -48, -47, -33, -32, -31, -17, -16, -15, 
+	-1, 0, 1, 15, 16, 17, 31, 32, 33, 47, 48, 49, 64,
+]
 
 #endregion
 
@@ -25,9 +30,6 @@ var move_direction: Vector2 = Vector2.ZERO
 var snap_position: Vector2 = Vector2.ZERO
 
 @onready var nexus: Node2D = get_parent()
-
-@onready var nexus_player_outline_node: Sprite2D = $PlayerOutline
-@onready var nexus_player_crosshair_node: Sprite2D = $PlayerCrosshair
 
 #endregion
 
@@ -47,30 +49,36 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	# deccelerate towards target position while snapping
 	if snapping:
+		var snap_distance: float = position.distance_to(snap_position)
+		move_direction = (snap_position - position).normalized()
+		
 		# deccelerate if remaining distance is larger than 1 pixel
-		var snap_distance := position.distance_to(snap_position)
-		if snap_distance > 1:
-			velocity = snap_distance * SNAP_SPEED * move_direction / 40
-		# else snap and stop moving	
+		if snap_distance > 1.0:
+			velocity = snap_distance * SNAP_SPEED * move_direction
+		# else snap to position
 		else:
-			velocity = Vector2.ZERO
 			snapping = false
-			on_node = true
 			position = snap_position
-
-			# update nexus player texture
-			nexus_player_outline_node.show()
-			nexus_player_crosshair_node.hide()
+			
 			# update nexus ui
 			nexus.ui.update_nexus_ui()
 
 			move_direction = Input.get_vector(&"left", &"right", &"up", &"down", 0.2)
+
 			if move_direction == Vector2.ZERO:
+				on_node = true
+
+				# update nexus player texture
+				$PlayerCrosshair.hide()
+				$PlayerOutline.show()
+
 				set_physics_process(false)
+
+			velocity = move_direction * speed
 	else:
 		# acceleration
 		if speed < MAX_SPEED:
-			speed += 1.0
+			speed += 1.5
 
 		# update velocity
 		velocity = move_direction * speed
@@ -90,7 +98,8 @@ func _input(event: InputEvent) -> void:
 		return
 	
 	Inputs.accept_event()
-	
+
+	# ignore inputs if not new input
 	if not (
 			Input.is_action_just_pressed(&"left")
 			or Input.is_action_just_pressed(&"right")
@@ -102,10 +111,8 @@ func _input(event: InputEvent) -> void:
 			or Input.is_action_just_released(&"down")
 	):
 		return
-	
-	if snapping:
-		return
 
+	# update movement
 	move_direction = Input.get_vector(&"left", &"right", &"up", &"down", 0.2)
 
 	if move_direction == Vector2.ZERO:
@@ -113,59 +120,64 @@ func _input(event: InputEvent) -> void:
 			set_physics_process(false)
 		else:
 			speed = BASE_SPEED
-			snap_to_nearby(position)
+			snap_to_nearby()
 	else:
 		on_node = false
+		snapping = false
 		nexus.ui.hide_all()
-		nexus_player_outline_node.hide()
-		nexus_player_crosshair_node.show()
+		$PlayerOutline.hide()
+		$PlayerCrosshair.show()
 		set_physics_process(true)
 
 #endregion
 
 # ..............................................................................
 
-func snap_to_nearby(initial_position):
-	# calculates and chooses a nearby node
-	var temp_near: int = (round((initial_position.y + 298.0) / 596 * 48) * 16) + (round((initial_position.x + 341.0) / 683 * 16))
+#region SNAPPING
 
-	# clamp to closest valid node
-	if temp_near < 0:
-		temp_near = clamp((temp_near + 16), 0, 767)
-	elif temp_near > 767:
-		temp_near = clamp((temp_near - 16), 0, 767)
-	
-	var snap_distance := INF
-	var snap_node: TextureRect = null
-
-	if nexus.nexus_nodes[temp_near].texture.region.position != nexus.NULL_ATLAS_POSITION:
-		snap_node = nexus.nexus_nodes[temp_near]
-		snap_distance = initial_position.distance_to(nexus.nexus_nodes[temp_near].position + Vector2(16, 16))
-	else:
-		snap_node = null
-		snap_distance = INF
-
-	for temp_adjacent in nexus.get_adjacents(temp_near).duplicate():
-		if initial_position.distance_to(nexus.nexus_nodes[temp_adjacent].position + Vector2(16, 16)) < snap_distance and nexus.nexus_nodes[temp_adjacent].texture.region.position != nexus.NULL_ATLAS_POSITION:
-			snap_node = nexus.nexus_nodes[temp_adjacent]
-			snap_distance = initial_position.distance_to(nexus.nexus_nodes[temp_adjacent].position + Vector2(16, 16))
-		
-		for second_temp_adjacent in nexus.get_adjacents(temp_adjacent):
-			if initial_position.distance_to(nexus.nexus_nodes[second_temp_adjacent].position + Vector2(16, 16)) < snap_distance and nexus.nexus_nodes[second_temp_adjacent].texture.region.position != nexus.NULL_ATLAS_POSITION:
-				snap_node = nexus.nexus_nodes[second_temp_adjacent]
-				snap_distance = initial_position.distance_to(nexus.nexus_nodes[second_temp_adjacent].position + Vector2(16, 16))
-
-	snap_position = snap_node.position + Vector2(16, 16)
-	move_direction = (snap_position - initial_position).normalized()
-
-	nexus.current_stats.last_node = snap_node.get_index()
-
-	snapping = true
-
-	nexus.ui.hide_all()
-
-func snap_to_position(target_position) -> void:
+func snap_to_position(target_position: Vector2) -> void:
 	position = target_position
 	snapping = false
 	$PlayerOutline.show()
 	$PlayerCrosshair.hide()
+
+func snap_to_nearby() -> void:
+	# calculate and choose an approximate nearby node
+	var temp_index: int = \
+			roundi((position.y + 298.0) / 596.0 * 48.0) * 16 + \
+			roundi((position.x + 341.0) / 683.0 * 16.0)
+
+	const TEXTURE_OFFSET: Vector2 = Vector2(16.0, 16.0)
+
+	var snap_node: TextureRect = null
+	var snap_distance: float = INF
+
+	# iterate through adjacent nodes to find the nearest node
+	for adjacent_index in NEARBY_INDICES:
+		var current_index: int = adjacent_index + temp_index
+		
+		# skip if current node is out of bounds or null
+		if (
+				current_index < 0
+				or current_index > 767
+				or Global.nexus_types[current_index] == -1
+		):
+			continue
+
+		var current_distance: float = position.distance_squared_to(
+				nexus.nexus_nodes[current_index].position + TEXTURE_OFFSET)
+		
+		# update snap node based on proximity
+		if current_distance < snap_distance:
+			snap_node = nexus.nexus_nodes[current_index]
+			snap_distance = current_distance
+
+	# start snapping
+	snap_position = snap_node.position + TEXTURE_OFFSET
+	move_direction = (snap_position - position).normalized()
+	nexus.current_stats.last_node = snap_node.get_index()
+	snapping = true
+
+#endregion
+
+# ..............................................................................

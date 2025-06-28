@@ -197,6 +197,7 @@ func _ready() -> void:
 
 	var inventory_button_load: PackedScene = load("res://user_interfaces/user_interfaces_resources/holo_nexus_ui/nexus_inventory_button.tscn")
 
+	# populate nexus inventory ui
 	for index in Inventory.nexus_inventory.size():
 		if Inventory.nexus_inventory[index] <= 0: continue
 		
@@ -204,6 +205,7 @@ func _ready() -> void:
 		var inventory_button: Button = inventory_button_load.instantiate()
 		%InventoryVBoxContainer.add_child(inventory_button)
 		
+		# define button properties
 		inventory_button.name = str(index)
 		inventory_button.get_node(^"ItemName").text = ITEM_NAMES[index]
 		inventory_button.get_node(^"Quantity").text = str(Inventory.nexus_inventory[index])
@@ -212,10 +214,6 @@ func _ready() -> void:
 		inventory_button.mouse_exited.connect(_on_button_mouse_exited)
 
 	'''
-	for i in 26:
-		inventory_quantity_labels.append(%InventoryVBoxContainer.get_children()[i].get_node_or_null(^"Label2"))
-		inventory_quantity_labels[i].text = str(Inventory.nexus_inventory[i])
-	
 	hide_all()
 	call_deferred(&"update_nexus_ui")
 	call_deferred(&"update_inventory_buttons")
@@ -246,7 +244,7 @@ func update_nexus_ui() -> void:
 	%Options.show()
 	%DescriptionsMargin.show()
 
-func hide_all():
+func hide_all() -> void:
 	%Options.hide()
 	inventory_ui.hide()
 	%DescriptionsMargin.hide()
@@ -313,9 +311,8 @@ func stats_convert(target_type_position) -> void:
 #region OPTIONS SIGNALS
 
 func _on_unlock_pressed() -> void:
-	if nexus.nexus_player.velocity == Vector2.ZERO:
-		if nexus.current_stats.last_node in nexus.unlockable_nodes:
-			nexus.unlock_node()
+	if nexus.current_stats.last_node in nexus.unlockable_nodes:
+		nexus.unlock_node()
 
 func _on_upgrade_pressed() -> void:
 	pass

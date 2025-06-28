@@ -259,6 +259,10 @@ func get_adjacents(origin_index: int) -> Array[int]:
 		if (adjusted_index < 0) or (adjusted_index >= node_count):
 			continue
 		
+		# check if current node is not null
+		if Global.nexus_types[adjusted_index] == -1:
+			continue
+		
 		# check if current node is actually nearby
 		if origin_position.distance_squared_to(nexus_nodes[adjusted_index].position) > 10000:
 			continue
