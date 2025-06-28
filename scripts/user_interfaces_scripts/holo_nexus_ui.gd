@@ -39,38 +39,38 @@ const ABILITY_DESCRIPTIONS: Array[String] = [
 
 const ITEM_NAMES: Array[String] = [
 	# Life, Magic and Reflex
-	"Life Crystal",
-	"Magic Crystal",
-	"Reflex Crystal",
+	"Life",
+	"Magic",
+	"Reflex",
 	# Special, Blessed, Abyssal
-	"Special Crystal",
-	"Blessed Crystal",
-	"Abyssal Crystal",
+	"Special",
+	"Blessed",
+	"Abyssal",
 	# Star, Prosperity, Love, Nobility
-	"Star Crystal",
-	"Prosperity Crystal",
-	"Love Crystal",
-	"Nobility Crystal",
+	"Star",
+	"Prosperity",
+	"Love",
+	"Nobility",
 	# Sunlight, Starlight, Moonlight
-	"Sunlight Crystal",
-	"Starlight Crystal",
-	"Moonlight Crystal",
+	"Sunlight",
+	"Starlight",
+	"Moonlight",
 	# Dream, Return, Share and Instant
-	"Dream Crystal",
-	"Return Crystal",
-	"Share Crystal",
-	"Instant Crystal",
+	"Dream",
+	"Return",
+	"Share",
+	"Instant",
 	# Health, Mana, Defense, Ward, Strength, Intelligence, Speed, Agility
-	"Health Crystal",
-	"Mana Crystal",
-	"Defense Crystal",
-	"Ward Crystal",
-	"Strength Crystal",
-	"Intelligence Crystal",
-	"Speed Crystal",
-	"Agility Crystal",
+	"Health",
+	"Mana",
+	"Defense",
+	"Ward",
+	"Strength",
+	"Intelligence",
+	"Speed",
+	"Agility",
 	# Clear
-	"Clear Crystal",
+	"Clear",
 ]
 
 const ITEM_DESCRIPTIONS: Array[String] = [
@@ -93,9 +93,9 @@ const ITEM_DESCRIPTIONS: Array[String] = [
 	"Unlocks any Black Magic node.",
 	# Dream, Return, Share and Instant
 	"Unlocks any one node.",
-	"Teleports player to any unlocked node.",
-	"Teleports player to any current ally node.",
-	"Teleports player to any node.",
+	"Teleports this character to any of their unlocked nodes.",
+	"Teleports this character to any other character.",
+	"Teleports this character to any node.",
 	# Health, Mana, Defense, Ward, Strength, Intelligence, Speed, Agility
 	"Converts an empty node into an HP node.",
 	"Converts an empty node into an MP node.",
@@ -114,7 +114,6 @@ const ITEM_DESCRIPTIONS: Array[String] = [
 # 1-8: HP, MP, DEF, WRD, STR, INT, SPD, AGI
 # 9-11: special, white magic, black magic
 # 12-15: diamond, clover, heart, spade
-
 
 const ITEM_COMPATIBLES : Array[int] = [
 	# Life, Magic and Reflex
@@ -158,10 +157,12 @@ const ITEM_COMPATIBLES : Array[int] = [
 
 #region VARIABLES
 
+var button_focused: bool = false
 var inventory_quantity_labels: Array[Label] = []
 
 @onready var nexus: Node2D = get_parent()
 
+@onready var options_ui: Control = %Options
 @onready var inventory_ui: MarginContainer = %InventoryMargin
 @onready var character_selector_node: Control = %CharacterSelector
 
@@ -172,9 +173,8 @@ var inventory_quantity_labels: Array[Label] = []
 #region READY
 
 func _ready() -> void:
-	show()
-
-	var character_button_load: PackedScene = load("res://user_interfaces/user_interfaces_resources/holo_nexus_ui/nexus_button.tscn")
+	var character_button_load: PackedScene = \
+			load("res://user_interfaces/user_interfaces_resources/holo_nexus_ui/nexus_button.tscn")
 	
 	# populate character selector
 	for stats in nexus.character_stats:
@@ -195,7 +195,8 @@ func _ready() -> void:
 
 	character_selector_node.hide()
 
-	var inventory_button_load: PackedScene = load("res://user_interfaces/user_interfaces_resources/holo_nexus_ui/nexus_inventory_button.tscn")
+	var inventory_button_load: PackedScene = \
+			load("res://user_interfaces/user_interfaces_resources/holo_nexus_ui/nexus_inventory_button.tscn")
 
 	# populate nexus inventory ui
 	for index in Inventory.nexus_inventory.size():
@@ -207,17 +208,13 @@ func _ready() -> void:
 		
 		# define button properties
 		inventory_button.name = str(index)
-		inventory_button.get_node(^"ItemName").text = ITEM_NAMES[index]
+		inventory_button.get_node(^"ItemName").text = ITEM_NAMES[index] + " Crystal"
 		inventory_button.get_node(^"Quantity").text = str(Inventory.nexus_inventory[index])
 		inventory_button.pressed.connect(_on_nexus_inventory_item_pressed.bind(index))
 		inventory_button.mouse_entered.connect(_on_button_mouse_entered)
 		inventory_button.mouse_exited.connect(_on_button_mouse_exited)
 
-	'''
-	hide_all()
-	call_deferred(&"update_nexus_ui")
-	call_deferred(&"update_inventory_buttons")
-	'''
+	update_nexus_ui.call_deferred()
 
 #endregion
 
@@ -226,44 +223,100 @@ func _ready() -> void:
 #region UI UPDATES
 
 func update_nexus_ui() -> void:
-	var node_quality_string = str(Global.nexus_qualities[nexus.current_stats.last_node])
-	var node_atlas_position = nexus.nexus_nodes[nexus.current_stats.last_node].texture.region.position
+	update_options()
+	update_inventory_buttons()
+	update_text_box()
 
-	if node_quality_string == "0":
-		if node_atlas_position == nexus.EMPTY_ATLAS_POSITION:
-			%DescriptionsTextAreaLabel.text = "Empty Node."
-		elif node_atlas_position == nexus.NULL_ATLAS_POSITION:
-			%DescriptionsTextAreaLabel.text = "Null Node."
-		elif nexus.KEY_ATLAS_POSITIONS.has(node_atlas_position):
-			%DescriptionsTextAreaLabel.text = "Requires " + KEY_DESCRIPTIONS[nexus.KEY_ATLAS_POSITIONS.find(node_atlas_position)] + " Crystal to Unlock."
-		elif nexus.ABILITY_ATLAS_POSITIONS.has(node_atlas_position):
-			%DescriptionsTextAreaLabel.text = "Unlock " + "[Ability Name]" + "."
-	else:
-		%DescriptionsTextAreaLabel.text = "Gain " + node_quality_string + " " + STATS_DESCRIPTIONS[nexus.STATS_ATLAS_POSITIONS.find(node_atlas_position)] + "."
-
-	%Options.show()
+	show()
+	options_ui.show()
 	%DescriptionsMargin.show()
-
-func hide_all() -> void:
-	%Options.hide()
 	inventory_ui.hide()
-	%DescriptionsMargin.hide()
+
+func update_options() -> void:
+	var current_type: int = Global.nexus_types[nexus.current_stats.last_node]
+	var current_type_flag: int = 1 << current_type
+	var can_unlock: bool = false
+
+	# update unlock button
+	if nexus.current_stats.last_node in nexus.unlockable_nodes:
+		if current_type == 0:
+			can_unlock = true
+		else:
+			for item_index in Inventory.nexus_inventory.size():
+				# check only basic unlocking items
+				if item_index >= 10:
+					break
+
+				# check item quantity
+				if Inventory.nexus_inventory[item_index] <= 0:
+					continue
+					
+				# check item compatibility with current type
+				if ITEM_COMPATIBLES[item_index] & current_type_flag == 0:
+					continue
+				
+				nexus.item_on_hold = item_index
+				can_unlock = true
+				break
+
+	%Unlock.disabled = not can_unlock
+	%Unlock.modulate = Color(1.0, 1.0, 1.0, 1.0) if can_unlock else Color(0.3, 0.3, 0.3, 1.0)
 
 func update_inventory_buttons() -> void:
-	for button in %InventoryVBoxContainer.get_children():
-		var index: int = int(button.name)
+	button_focused = false
 
-		if Inventory.nexus_inventory[index] == 0:
-			button.hide()
-		elif ITEM_COMPATIBLES[index] & (1 << nexus.current_stats.last_node):
-			if index < 14 and nexus.current_stats.last_node in nexus.current_stats.unlocked_nodes:
-				button.modulate = Color(0.3, 0.3, 0.3, 1)
-			elif index > 16 and nexus.current_stats.last_node not in nexus.current_stats.unlocked_nodes:
-				button.modulate = Color(0.3, 0.3, 0.3, 1)
-			else:
-				button.modulate = Color(1, 1, 1, 1)
+	for button in %InventoryVBoxContainer.get_children():
+		var node_index: int = nexus.current_stats.last_node
+		var item_index: int = int(button.name)
+		var node_unlocked: bool = node_index in nexus.current_stats.unlocked_nodes
+
+		# update and modulate each button
+		if Inventory.nexus_inventory[item_index] <= 0:
+			button.queue_free()
+		elif (
+				ITEM_COMPATIBLES[item_index] & (1 << Global.nexus_types[node_index]) == 0
+				or (item_index <= 13 and node_unlocked)
+				or (item_index >= 17 and not node_unlocked and node_index not in nexus.unlockable_nodes)
+		):
+			button.disabled = true
+			button.modulate = Color(0.3, 0.3, 0.3, 1.0)
 		else:
-			button.modulate = Color(0.3, 0.3, 0.3, 1)
+			button.disabled = false
+			button.modulate = Color(1.0, 1.0, 1.0, 1.0)
+
+func update_text_box() -> void:
+	var current_index: int = nexus.current_stats.last_node
+	var current_type: int = Global.nexus_types[current_index]
+	var current_quality_string = str(Global.nexus_qualities[current_index])
+
+	if current_index in nexus.converted_nodes:
+		for temp_node in nexus.current_stats.converted_nodes:
+			if temp_node.x == current_index:
+				current_type = temp_node.y
+				current_quality_string = \
+						"0" if current_type == 0 else str(nexus.CONVERTED_QUALITIES[current_type - 1])
+				break
+	
+	var description: String = ""
+
+	if current_type <= -1:
+		description = "Null Node."
+	elif current_type == 0:
+		description = "Empty Node."
+	elif current_type <= 8:
+		description = "Gain " + current_quality_string + " " + STATS_DESCRIPTIONS[current_type - 1] + "."
+	elif current_type <= 11:
+		description = "Unlock " + "[Ability Name]" + "."
+	elif current_type <= 15:
+		description = "Requires a " + KEY_DESCRIPTIONS[current_type - 11] + " Key to Unlock."
+
+	%DescriptionsTextAreaLabel.text = description
+
+func hide_all() -> void:
+	hide()
+	options_ui.hide()
+	inventory_ui.hide()
+	%DescriptionsMargin.hide()
 
 func attempt_unlock() -> bool:
 	if nexus.current_stats.last_node in nexus.unlockable_nodes:
@@ -271,40 +324,37 @@ func attempt_unlock() -> bool:
 		return true
 	return false
 
-func teleport(type) -> void:
+# TODO: incomplete
+func teleport(type: int) -> bool:
 	var valid = false
 
-	if type == 0:
-		if nexus.current_stats.last_node in nexus.current_stats.unlocked_nodes:
-			valid = true
-	elif type == 1:
-		for player_index in nexus.character_stats:
-			if player_index != nexus.current_stats and nexus.current_stats.last_node in nexus.current_stats.unlocked_nodes:
+	match type:
+		0: # teleport to any unlocked node
+			if nexus.current_stats.last_node in nexus.current_stats.unlocked_nodes:
 				valid = true
-	elif type == 2:
-		valid = true
-	
+		1: # teleport to any ally node
+			for stats in nexus.character_stats:
+				if stats == nexus.current_stats and nexus.current_stats.last_node in stats.unlocked_nodes:
+					valid = true
+		2: # teleport to any node
+			valid = true
+
 	if valid:
 		pass
+	
+	return valid
 
-# TODO: need to fix from Vector2 to int
-func stats_convert(target_type_position) -> void:
-	print(target_type_position)
+func stats_convert(type: int) -> bool:
+	var node_index: int = nexus.current_stats.last_node
 
-	'''
-	nexus.nodes_converted[nexus.current_stats].append([nexus.current_stats.last_node, target_type_position])
-	if nexus.nexus_nodes[nexus.current_stats.last_node].texture.region.position == nexus.EMPTY_ATLAS_POSITION:
-		nexus.nodes_converted[nexus.current_stats].back().append(0)
-	else:
-		for i in nexus.STATS_ATLAS_POSITIONS.size():
-			if nexus.nexus_nodes[nexus.current_stats.last_node].texture.region.position == nexus.STATS_ATLAS_POSITIONS[i]:
-				nexus.nodes_converted[nexus.current_stats].back().append(nexus.CONVERTED_QUALITIES[i])
-				break
+	nexus.current_stats.converted_nodes.append(Vector2i(node_index, type))
 
-	nexus.nexus_nodes[nexus.current_stats.last_node].texture.region.position = target_type_position
-	if nexus.current_stats.last_node in nexus.unlockable_nodes:
-		nexus.unlock_node()
-	'''
+	nexus.nexus_nodes[node_index].texture.region.position = \
+			nexus.EMPTY_ATLAS_POSITION if type == 0 else nexus.STATS_ATLAS_POSITIONS[type - 1]
+
+	nexus.unlock_node()
+
+	return true
 
 # ..............................................................................
 
@@ -321,9 +371,8 @@ func _on_awaken_pressed() -> void:
 	pass
 
 func _on_items_pressed() -> void:
-	update_inventory_buttons()
-	%Options.hide()
 	inventory_ui.show()
+	options_ui.hide()
 
 #endregion
 
@@ -332,21 +381,32 @@ func _on_items_pressed() -> void:
 #region INVENTORY SIGNALS
 
 # nexus inventory button signals
-func _on_nexus_inventory_item_pressed(extra_arg_0) -> void:
-	%DescriptionsTextAreaLabel.text = ITEM_DESCRIPTIONS[extra_arg_0]
-	# if player is not moving and inventory is not empty
-	if nexus.nexus_player.velocity == Vector2.ZERO and Inventory.nexus_inventory[extra_arg_0] != 0 and %InventoryVBoxContainer.get_children()[extra_arg_0].modulate == Color(1, 1, 1, 1):
-		# wait for double click
-		# call appropriate function
+func _on_nexus_inventory_item_pressed(extra_arg_0: int) -> void:
+	if not button_focused:
+		%DescriptionsTextAreaLabel.text = ITEM_DESCRIPTIONS[extra_arg_0]
+		button_focused = true
+		return
+	
+	button_focused = false
+
+	# if player has item, attempt to use it
+	if Inventory.nexus_inventory[extra_arg_0] > 0:
+		var item_used: bool = false
 
 		if extra_arg_0 < 14:
-			attempt_unlock()
+			item_used = attempt_unlock()
 		elif extra_arg_0 < 17:
-			teleport(extra_arg_0 - 14)
+			item_used = teleport(extra_arg_0 - 14)
 		elif extra_arg_0 < 25:
-			stats_convert(extra_arg_0 - 16)
+			item_used = stats_convert(extra_arg_0 - 16)
 		else:
-			stats_convert(0)
+			item_used = stats_convert(0)
+		
+		if not item_used: return
+
+		Inventory.nexus_inventory[extra_arg_0] -= 1
+		%InventoryVBoxContainer.get_node(NodePath(str(extra_arg_0) + "/Quantity")
+				).text = str(Inventory.nexus_inventory[extra_arg_0])
 
 		update_inventory_buttons()
 
@@ -355,10 +415,9 @@ func _on_nexus_inventory_item_pressed(extra_arg_0) -> void:
 #region CHARACTER SELECTOR SIGNALS
 
 func _on_character_selector_button_pressed(node_index: int) -> void:
+	nexus.update_nexus_player(node_index)	
 	%CharacterSelectorVBoxContainer.get_child(node_index).hide()
 	%CharacterSelectorVBoxContainer.get_child(nexus.current_index).show()
-
-	nexus.update_nexus_player(node_index)
 
 #endregion
 

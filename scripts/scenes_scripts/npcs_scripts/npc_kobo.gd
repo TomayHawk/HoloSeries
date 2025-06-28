@@ -1,7 +1,7 @@
 extends AnimatedSprite2D
 
 func initiate_dialogue():
-	call_deferred(&"default_dialogue")
+	default_dialogue.call_deferred()
 
 func default_dialogue():
 	TextBox.npcDialogue([

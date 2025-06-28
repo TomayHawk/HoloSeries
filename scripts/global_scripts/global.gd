@@ -48,10 +48,10 @@ func change_scene(next_scene_path: String, next_position: Vector2, camera_limits
 	await Players.camera.toggle_black_screen(true)
 
 	# reparent players and main camera to self
-	Players.call_deferred(&"reparent", self)
+	Players.reparent.call_deferred(self)
 
 	# change scene
-	get_tree().call_deferred(&"change_scene_to_file", next_scene_path)
+	get_tree().change_scene_to_file.call_deferred(next_scene_path)
 
 	# wait for scene to load
 	await new_scene_ready

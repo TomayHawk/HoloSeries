@@ -62,6 +62,8 @@ var current_index: int = character_stats.find(current_stats)
 var unlockable_nodes: Array[int] = []
 var converted_nodes: Array[int] = []
 
+var item_on_hold: int = -1
+
 # world scene camera settings
 var scene_camera_zoom: Vector2 = Players.camera.zoom
 var scene_camera_limits: Array[int] = [
@@ -120,8 +122,9 @@ func _input(event: InputEvent) -> void:
 		ui.character_selector_node.hide()
 	elif Input.is_action_just_pressed(&"esc"):
 		if ui.inventory_ui.visible:
+			ui.button_focused = false
 			ui.inventory_ui.hide()
-			ui.update_nexus_ui()
+			ui.options_ui.show()
 		else:
 			exit_nexus()
 
@@ -306,7 +309,7 @@ func unlock_node() -> void:
 
 	current_stats.unlocked_nodes.append(node_index)
 	unlockable_nodes.erase(node_index)
-	
+
 	# remove unlockable outline
 	$Unlockables.remove_child($Unlockables.get_node(str(node_index)))
 
