@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c5tre5e0fswdl"]
 
-[ext_resource type="Script" uid="uid://byjdi8vwpqgnf" path="res://scripts/items_scripts/entities_items_scripts/experience.gd" id="1_4t5qf"]
+[ext_resource type="Script" uid="uid://byjdi8vwpqgnf" path="res://scripts/entities_scripts/pick_up_items_scripts/experience.gd" id="1_4t5qf"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4t5qf"]
 

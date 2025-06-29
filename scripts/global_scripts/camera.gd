@@ -131,7 +131,7 @@ func toggle_black_screen(toggled: bool) -> void:
 	# tween color rect
 	var tween: Tween = create_tween()
 	tween.tween_property($CanvasLayer/ColorRect, "color:a",
-			1.0 if toggled else 0.0, 0.2).set_ease(Tween.EASE_OUT)
+			1.0 if toggled else 0.0, 0.2 if toggled else 0.4).set_ease(Tween.EASE_OUT)
 	
 	# wait for tween to finish
 	await tween.finished

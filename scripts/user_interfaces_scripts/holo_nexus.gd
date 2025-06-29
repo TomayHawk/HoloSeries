@@ -74,7 +74,7 @@ var scene_camera_limits: Array[int] = [
 ]
 
 var unlockables_load: Resource = \
-		load("res://user_interfaces/user_interfaces_resources/nexus_unlockables.tscn")
+		load("res://user_interfaces/user_interfaces_resources/holo_nexus_ui/nexus_unlockables.tscn")
 
 # nodes
 @onready var ui: CanvasLayer = $HoloNexusUi

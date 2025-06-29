@@ -5,7 +5,7 @@
 [ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="3_g377p"]
 [ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="4_j7lns"]
 
-[node name="LifeCrystal" type="Button"]
+[node name="NexusInventoryButton" type="Button"]
 custom_minimum_size = Vector2(202, 20)
 focus_mode = 1
 mouse_default_cursor_shape = 2

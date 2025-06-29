@@ -19,4 +19,4 @@ layer = 100
 [node name="ColorRect" type="ColorRect" parent="Camera/CanvasLayer"]
 offset_right = 640.0
 offset_bottom = 360.0
-color = Color(0.0784314, 0.0784314, 0.0784314, 0)
+color = Color(0.156863, 0.156863, 0.156863, 0)

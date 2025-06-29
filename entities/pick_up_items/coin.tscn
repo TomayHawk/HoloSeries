@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://lpaf2w7822or"]
 
-[ext_resource type="Script" uid="uid://hgo235x636kb" path="res://scripts/items_scripts/entities_items_scripts/coin.gd" id="1_6qwxl"]
+[ext_resource type="Script" uid="uid://hgo235x636kb" path="res://scripts/entities_scripts/pick_up_items_scripts/coin.gd" id="1_6qwxl"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6qwxl"]
 

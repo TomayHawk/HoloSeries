@@ -2,7 +2,7 @@ extends Resource
 
 # TODO: should use .dat
 
-const PLAYER_BASE_PATH: String = "res://entities/players/player_base.tscn"
+const PLAYER_BASE_PATH: String = "res://entities/player_base.tscn"
 
 const CHARACTER_SCRIPTS: Array[String] = [
 	"res://scripts/entities_scripts/players_scripts/character_scripts/sora.gd",

@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://cl846axs17iqn"]
 
-[ext_resource type="Script" uid="uid://due38eeed0buo" path="res://scripts/scenes_scripts/npcs_scripts/npc_akirose.gd" id="1_163lp"]
-[ext_resource type="PackedScene" uid="uid://0efkvv5xqacu" path="res://scenes/npcs/base_npc.tscn" id="2_8j3lf"]
-[ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/entities/basic_enemies/Nousagi.png" id="3_lb5bb"]
+[ext_resource type="Script" uid="uid://due38eeed0buo" path="res://scripts/entities_scripts/npcs_scripts/npc_akirose.gd" id="1_163lp"]
+[ext_resource type="PackedScene" uid="uid://0efkvv5xqacu" path="res://entities/npcs/base_npc.tscn" id="2_8j3lf"]
+[ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://visuals/entities/basic_enemies/Nousagi.png" id="3_lb5bb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y10wm"]
 atlas = ExtResource("3_lb5bb")

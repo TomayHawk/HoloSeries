@@ -55,7 +55,7 @@ func default_dialogue():
 func recruit_player() -> void:
 	var character: Node = load("res://entities/players/character/akirose.tscn").instantiate()
 	if Players.get_child_count() < 4 and Players.standby_node.get_child_count() == 0:
-		var player_node: Node = load("res://entities/players/player_base.tscn").instantiate()
+		var player_node: Node = load("res://entities/player_base.tscn").instantiate()
 		Players.add_child(player_node)
 		player_node.add_child(character)
 		player_node.stats = character

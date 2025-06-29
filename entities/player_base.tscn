@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://c5o6bi43j562b"]
 
-[ext_resource type="Script" uid="uid://cmf3b5ufhosbk" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_rapl1"]
-[ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://user_interfaces/user_interfaces_resources/progress_bar_style/shield_progress_bar_fill.tres" id="3_48rhk"]
+[ext_resource type="Script" uid="uid://cmf3b5ufhosbk" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_dib8t"]
+[ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://user_interfaces/user_interfaces_resources/progress_bar_style/shield_progress_bar_fill.tres" id="2_nogga"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_lt4ow"]
 
@@ -30,7 +30,7 @@ y_sort_enabled = true
 collision_mask = 239
 input_pickable = true
 motion_mode = 1
-script = ExtResource("1_rapl1")
+script = ExtResource("1_dib8t")
 
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
@@ -131,14 +131,13 @@ offset_right = 190.0
 offset_bottom = -17.0
 scale = Vector2(0.1, 0.1)
 theme_override_font_sizes/font_size = 8
-theme_override_styles/fill = ExtResource("3_48rhk")
+theme_override_styles/fill = ExtResource("2_nogga")
 max_value = 200.0
 value = 150.0
 show_percentage = false
 metadata/_edit_use_anchors_ = true
 
 [node name="AttackShape" type="ShapeCast2D" parent="."]
-visible = false
 position = Vector2(0, -7)
 shape = SubResource("RectangleShape2D_lt4ow")
 target_position = Vector2(20, 0)

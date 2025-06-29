@@ -1,7 +1,9 @@
 .godot
 .vscode
-art
-music
 project.godot
 scripts/.DS_Store
 .DS_Store
+music
+sound_effects
+visuals
+visual_effects

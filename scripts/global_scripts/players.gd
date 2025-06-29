@@ -22,6 +22,9 @@ func toggle_process(toggled: bool) -> void:
 	main_player.velocity = Vector2.ZERO
 	set_physics_process(toggled)
 
+	if toggled:
+		main_player.apply_input_velocity()
+
 # switch main player to ally, and switch target ally to main player
 func switch_main_player(next_main_player: PlayerBase) -> void:
 	main_player.switch_to_ally()

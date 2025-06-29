@@ -9,7 +9,7 @@ const DEFAULT_UNLOCKED: Array[int] = [139, 154, 170]
 
 func set_base_stats() -> void: # TODO: change name
 	# TODO: temporary code
-	animation = load("res://entities/players/character_animations/azki.tres")
+	animation = load("res://entities/character_animations/azki.tres")
 	if base:
 		base.get_node(^"Animation").sprite_frames = animation
 		base.get_node(^"Animation").play(&"down_idle")

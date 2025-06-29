@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bcyrkvjaiy1go"]
 
-[ext_resource type="Script" uid="uid://c61m475daj1dp" path="res://scripts/scenes_scripts/world_objects_scripts/save_point.gd" id="1_m3jwm"]
-[ext_resource type="PackedScene" uid="uid://s3lxokljwgge" path="res://scenes/world_objects/world_object_base.tscn" id="2_6hkn5"]
+[ext_resource type="Script" uid="uid://c61m475daj1dp" path="res://scripts/entities_scripts/world_objects_scripts/save_point.gd" id="1_m3jwm"]
+[ext_resource type="PackedScene" uid="uid://s3lxokljwgge" path="res://entities/world_objects/world_object_base.tscn" id="2_6hkn5"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sq65m"]
 

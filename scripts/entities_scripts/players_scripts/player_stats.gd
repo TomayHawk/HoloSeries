@@ -297,8 +297,6 @@ func basic_attack() -> void:
 	var attack_shape: ShapeCast2D = base.get_node(^"AttackShape")
 	var animation_node: AnimatedSprite2D = base.get_node(^"Animation")
 
-	base.update_animation()
-
 	if base.is_main_player:
 		base.action_vector = (Inputs.get_global_mouse_position() - base.position).normalized()
 	else:
@@ -317,6 +315,8 @@ func basic_attack() -> void:
 
 	attack_shape.force_shapecast_update()
 	
+	base.update_animation()
+
 	await animation_node.frame_changed
 	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return
 
@@ -357,8 +357,6 @@ func ultimate_attack():
 
 	var attack_shape: ShapeCast2D = base.get_node(^"AttackShape")
 	var animation_node: AnimatedSprite2D = base.get_node(^"Animation")
-
-	base.update_animation()
 	
 	update_ultimate_gauge(-100)
 
@@ -375,6 +373,8 @@ func ultimate_attack():
 	attack_shape.set_target_position(base.action_vector * 20)
 	
 	attack_shape.force_shapecast_update()
+
+	base.update_animation()
 
 	await animation_node.frame_changed
 	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return

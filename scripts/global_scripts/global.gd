@@ -37,15 +37,15 @@ func change_scene(next_scene_path: String, next_position: Vector2, camera_limits
 	Inputs.action_inputs_enabled = false
 	Inputs.world_inputs_enabled = false
 	Inputs.zoom_inputs_enabled = false
-
-	# disable players
-	Players.toggle_process(false)
 	
 	# disable camera smoothing
 	Players.camera.position_smoothing_enabled = false
 
 	# start black screen
 	await Players.camera.toggle_black_screen(true)
+
+	# disable players
+	Players.toggle_process(false)
 
 	# reparent players and main camera to self
 	Players.reparent.call_deferred(self)
@@ -83,14 +83,14 @@ func change_scene(next_scene_path: String, next_position: Vector2, camera_limits
 	await get_tree().process_frame
 	await get_tree().process_frame
 
+	# enable players
+	Players.toggle_process(true)
+
 	# end black screen
 	Players.camera.toggle_black_screen(false)
 
 	# enable camera smoothing
 	Players.camera.position_smoothing_enabled = true
-
-	# enable players
-	Players.toggle_process(true)
 
 	# enable inputs
 	Inputs.action_inputs_enabled = true

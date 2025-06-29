@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=4 uid="uid://cavwjdaqys1r6"]
 
 [ext_resource type="Script" uid="uid://cpkslmonfa5n3" path="res://scripts/scenes_scripts/dungeon_scene_1.gd" id="1_qkpt5"]
-[ext_resource type="Texture2D" uid="uid://krbcbovqyxyj" path="res://art/tile_sets/dungeon_1.png" id="2_wneuc"]
-[ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tile_sets/physics.png" id="3_cfs1g"]
+[ext_resource type="Texture2D" uid="uid://krbcbovqyxyj" path="res://visuals/tile_sets/dungeon_1.png" id="2_wneuc"]
+[ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://visuals/tile_sets/physics.png" id="3_cfs1g"]
 [ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/nousagi.tscn" id="12_hviyt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o84oa"]
