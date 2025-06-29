@@ -173,8 +173,11 @@ var inventory_quantity_labels: Array[Label] = []
 #region READY
 
 func _ready() -> void:
+	const NEXUS_RESOURCES_PATH: String = \
+			"res://user_interfaces/user_interfaces_resources/holo_nexus_ui/"
+
 	var character_button_load: PackedScene = \
-			load("res://user_interfaces/user_interfaces_resources/holo_nexus_ui/nexus_button.tscn")
+			load(NEXUS_RESOURCES_PATH + "nexus_button.tscn")
 	
 	# populate character selector
 	for stats in nexus.character_stats:
@@ -182,10 +185,13 @@ func _ready() -> void:
 		var character_button: Button = character_button_load.instantiate()
 		%CharacterSelectorVBoxContainer.add_child(character_button)
 		
-		# define button properties
+		# initialize button texts
 		character_button.get_node(^"CharacterName").text = stats.CHARACTER_NAME
 		character_button.get_node(^"Level").text = str(stats.level).pad_zeros(3)
-		character_button.pressed.connect(_on_character_selector_button_pressed.bind(character_button.get_index()))
+		
+		# initialize button signals
+		character_button.pressed.connect(
+				_on_character_selector_button_pressed.bind(character_button.get_index()))
 		character_button.mouse_entered.connect(_on_button_mouse_entered)
 		character_button.mouse_exited.connect(_on_button_mouse_exited)
 
@@ -196,7 +202,7 @@ func _ready() -> void:
 	character_selector_node.hide()
 
 	var inventory_button_load: PackedScene = \
-			load("res://user_interfaces/user_interfaces_resources/holo_nexus_ui/nexus_inventory_button.tscn")
+			load(NEXUS_RESOURCES_PATH + "nexus_inventory_button.tscn")
 
 	# populate nexus inventory ui
 	for index in Inventory.nexus_inventory.size():
@@ -206,11 +212,14 @@ func _ready() -> void:
 		var inventory_button: Button = inventory_button_load.instantiate()
 		%InventoryVBoxContainer.add_child(inventory_button)
 		
-		# define button properties
+		# initialize button name and texts
 		inventory_button.name = str(index)
 		inventory_button.get_node(^"ItemName").text = ITEM_NAMES[index] + " Crystal"
 		inventory_button.get_node(^"Quantity").text = str(Inventory.nexus_inventory[index])
-		inventory_button.pressed.connect(_on_nexus_inventory_item_pressed.bind(index))
+		
+		# initialize button signals
+		inventory_button.pressed.connect(
+				_on_nexus_inventory_item_pressed.bind(index))
 		inventory_button.mouse_entered.connect(_on_button_mouse_entered)
 		inventory_button.mouse_exited.connect(_on_button_mouse_exited)
 
@@ -224,8 +233,8 @@ func _ready() -> void:
 
 func update_nexus_ui() -> void:
 	update_options()
-	update_inventory_buttons()
-	update_text_box()
+	update_inventory_ui()
+	update_descriptions()
 
 	show()
 	options_ui.show()
@@ -237,6 +246,8 @@ func update_options() -> void:
 	var current_type_flag: int = 1 << current_type
 	var can_unlock: bool = false
 
+	nexus.item_on_hold = -1
+
 	# update unlock button
 	if nexus.current_stats.last_node in nexus.unlockable_nodes:
 		if current_type == 0:
@@ -247,55 +258,59 @@ func update_options() -> void:
 				if item_index >= 10:
 					break
 
-				# check item quantity
-				if Inventory.nexus_inventory[item_index] <= 0:
-					continue
-					
-				# check item compatibility with current type
-				if ITEM_COMPATIBLES[item_index] & current_type_flag == 0:
-					continue
-				
-				nexus.item_on_hold = item_index
-				can_unlock = true
-				break
+				# check item quantity and compatibility with current node type
+				if Inventory.nexus_inventory[item_index] > 0 and \
+						ITEM_COMPATIBLES[item_index] & current_type_flag:
+					nexus.item_on_hold = item_index
+					can_unlock = true
+					break
 
 	%Unlock.disabled = not can_unlock
 	%Unlock.modulate = Color(1.0, 1.0, 1.0, 1.0) if can_unlock else Color(0.3, 0.3, 0.3, 1.0)
 
-func update_inventory_buttons() -> void:
+func update_inventory_ui() -> void:
 	button_focused = false
 
-	for button in %InventoryVBoxContainer.get_children():
-		var node_index: int = nexus.current_stats.last_node
-		var item_index: int = int(button.name)
-		var node_unlocked: bool = node_index in nexus.current_stats.unlocked_nodes
+	var node_index: int = nexus.current_stats.last_node
+	var node_unlocked: bool = node_index in nexus.current_stats.unlocked_nodes
+	var node_unlockable: bool = node_index in nexus.unlockable_nodes
 
-		# update and modulate each button
+	for button in %InventoryVBoxContainer.get_children():
+		var item_index: int = int(button.name)
+
+		# free button if item quantity is zero
 		if Inventory.nexus_inventory[item_index] <= 0:
 			button.queue_free()
-		elif (
-				ITEM_COMPATIBLES[item_index] & (1 << Global.nexus_types[node_index]) == 0
-				or (item_index <= 13 and node_unlocked)
-				or (item_index >= 17 and not node_unlocked and node_index not in nexus.unlockable_nodes)
-		):
-			button.disabled = true
-			button.modulate = Color(0.3, 0.3, 0.3, 1.0)
-		else:
-			button.disabled = false
-			button.modulate = Color(1.0, 1.0, 1.0, 1.0)
+			continue
 
-func update_text_box() -> void:
+		# update and modulate button based on compatibility and node state
+		var button_valid: bool = (
+				ITEM_COMPATIBLES[item_index] & (1 << Global.nexus_types[node_index])
+				and ((item_index <= 13 and not node_unlocked)
+				or (item_index <= 16)
+				or (item_index >= 17 and (node_unlocked or node_unlockable)))
+		)
+
+		button.disabled = not button_valid
+		button.modulate = Color(1.0, 1.0, 1.0, 1.0) if button_valid else Color(0.3, 0.3, 0.3, 1.0)
+
+func update_descriptions() -> void:
 	var current_index: int = nexus.current_stats.last_node
 	var current_type: int = Global.nexus_types[current_index]
-	var current_quality_string = str(Global.nexus_qualities[current_index])
+	var current_quality_string: String = str(Global.nexus_qualities[current_index])
 
+	# if the node is converted, get its type and quality string
 	if current_index in nexus.converted_nodes:
 		for temp_node in nexus.current_stats.converted_nodes:
-			if temp_node.x == current_index:
-				current_type = temp_node.y
-				current_quality_string = \
-						"0" if current_type == 0 else str(nexus.CONVERTED_QUALITIES[current_type - 1])
-				break
+			# skip until the matching node is found
+			if temp_node.x != current_index: continue
+			
+			# update current type and quality string
+			current_type = temp_node.y
+			current_quality_string = \
+					"0" if current_type == 0 else str(nexus.CONVERTED_QUALITIES[current_type - 1])
+			
+			break
 	
 	var description: String = ""
 
@@ -308,7 +323,7 @@ func update_text_box() -> void:
 	elif current_type <= 11:
 		description = "Unlock " + "[Ability Name]" + "."
 	elif current_type <= 15:
-		description = "Requires a " + KEY_DESCRIPTIONS[current_type - 11] + " Key to Unlock."
+		description = "Requires a " + KEY_DESCRIPTIONS[current_type - 12] + " Key to Unlock."
 
 	%DescriptionsTextAreaLabel.text = description
 
@@ -361,8 +376,15 @@ func stats_convert(type: int) -> bool:
 #region OPTIONS SIGNALS
 
 func _on_unlock_pressed() -> void:
-	if nexus.current_stats.last_node in nexus.unlockable_nodes:
-		nexus.unlock_node()
+	var item_index: int = nexus.item_on_hold
+
+	if item_index >= 0:
+		Inventory.nexus_inventory[item_index] -= 1
+		%InventoryVBoxContainer.get_node(NodePath(str(item_index) + "/Quantity")
+				).text = str(Inventory.nexus_inventory[item_index])
+	
+	nexus.unlock_node()
+	update_options()
 
 func _on_upgrade_pressed() -> void:
 	pass
@@ -387,6 +409,8 @@ func _on_nexus_inventory_item_pressed(extra_arg_0: int) -> void:
 		button_focused = true
 		return
 	
+	# TODO: change this and confirmation buttons
+
 	button_focused = false
 
 	# if player has item, attempt to use it
@@ -408,7 +432,8 @@ func _on_nexus_inventory_item_pressed(extra_arg_0: int) -> void:
 		%InventoryVBoxContainer.get_node(NodePath(str(extra_arg_0) + "/Quantity")
 				).text = str(Inventory.nexus_inventory[extra_arg_0])
 
-		update_inventory_buttons()
+		update_options()
+		update_inventory_ui()
 
 # ..............................................................................
 

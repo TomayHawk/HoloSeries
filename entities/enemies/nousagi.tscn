@@ -1,7 +1,7 @@
 [gd_scene load_steps=29 format=3 uid="uid://du2d3fhraj8fe"]
 
 [ext_resource type="Script" uid="uid://c1jjlvfogfwsu" path="res://scripts/entities_scripts/enemies_scripts/nousagi.gd" id="1_kcgu1"]
-[ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/characters/Nousagi.png" id="2_wdkf2"]
+[ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/entities/basic_enemies/Nousagi.png" id="2_wdkf2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_spcl6"]
 atlas = ExtResource("2_wdkf2")

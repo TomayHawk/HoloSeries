@@ -1,9 +1,9 @@
 [gd_scene load_steps=18 format=4 uid="uid://dyvmrtl5c0ad3"]
 
 [ext_resource type="Script" uid="uid://ohywvrrmpnpi" path="res://scripts/scenes_scripts/world_scene_1.gd" id="1_4rgc2"]
-[ext_resource type="Texture2D" uid="uid://c5bvpekwpv6rw" path="res://art/tileSets/plains.png" id="1_7j0j2"]
-[ext_resource type="Texture2D" uid="uid://btj1vfgsejh7f" path="res://art/objects/objects.png" id="2_nnwlk"]
-[ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tileSets/physics.png" id="4_kndtx"]
+[ext_resource type="Texture2D" uid="uid://c5bvpekwpv6rw" path="res://art/temporary/plains.png" id="1_7j0j2"]
+[ext_resource type="Texture2D" uid="uid://btj1vfgsejh7f" path="res://art/temporary/objects.png" id="2_nnwlk"]
+[ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tile_sets/physics.png" id="4_kndtx"]
 [ext_resource type="PackedScene" uid="uid://dthvymrd0k1my" path="res://scenes/world_objects/chest.tscn" id="5_uih6u"]
 [ext_resource type="PackedScene" uid="uid://dlxkifgl6lq80" path="res://scenes/npcs/npc_kobo.tscn" id="6_5ivv1"]
 [ext_resource type="PackedScene" uid="uid://nsnibaboaiaa" path="res://scenes/world_objects/spawner.tscn" id="6_y50s5"]

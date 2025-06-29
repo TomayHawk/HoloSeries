@@ -1,9 +1,9 @@
 [gd_scene load_steps=15 format=4 uid="uid://bspjaws5iswx0"]
 
-[ext_resource type="Texture2D" uid="uid://bk5fn2u0o5vk6" path="res://art/tileSets/seasonal sample (spring).png" id="1_7s6yp"]
+[ext_resource type="Texture2D" uid="uid://bk5fn2u0o5vk6" path="res://art/temporary/seasonal sample (spring).png" id="1_7s6yp"]
 [ext_resource type="Script" uid="uid://dkd27d0apanx" path="res://scripts/scenes_scripts/world_scene_2.gd" id="1_t7xfg"]
-[ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tileSets/physics.png" id="2_dtv6v"]
-[ext_resource type="Texture2D" uid="uid://bmsec0w5mlnx4" path="res://art/tileSets/Plains_2.png" id="2_fnjh5"]
+[ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/tile_sets/physics.png" id="2_dtv6v"]
+[ext_resource type="Texture2D" uid="uid://bmsec0w5mlnx4" path="res://art/temporary/Plains_2.png" id="2_fnjh5"]
 [ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/nousagi.tscn" id="9_do2gu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gxpau"]
