@@ -1,18 +1,37 @@
 extends Area2D
 
-# return nodes in AOE area
-# 1 = Players
-# 2 = Enemies
-# 3 = Players and Enemies
+# ABILITIES COMPONENT: AREA OF EFFECT
+
+# collision mask values:
+# 1 = players
+# 2 = enemies
+# 3 = players and enemies
+
+# ..............................................................................
+
+#region FUNCTIONS
+
+# trigger AOE and return entities in the area
 func area_of_effect(collision_masks: int) -> Array[EntityBase]:
+	# set collision mask layers
 	collision_mask = collision_masks
-	$CollisionShape2D.set_deferred(&"disabled", false)
+	
+	# enable and update collisions
+	$CollisionShape2D.disabled = false
 	await Global.get_tree().physics_frame
-	await Global.get_tree().physics_frame
-	var entity_nodes: Array[EntityBase] = []
-	for entity_node in get_overlapping_bodies():
-		if ((entity_node is PlayerBase and entity_node.stats and entity_node.stats.alive) or
-				(entity_node is EnemyBase and entity_node.stats and entity_node.stats.alive)):
-			entity_nodes.append(entity_node)
-	$CollisionShape2D.set_deferred(&"disabled", true)
-	return entity_nodes
+	
+	# get overlapping (alive) entities
+	var entities: Array[EntityBase] = []
+	for entity in get_overlapping_bodies():
+		if entity.stats.alive:
+			entities.append(entity)
+	
+	# disable collisions
+	$CollisionShape2D.disabled = true
+	
+	# return entities
+	return entities
+
+#endregion
+
+# ..............................................................................

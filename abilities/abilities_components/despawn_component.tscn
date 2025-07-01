@@ -10,4 +10,3 @@ one_shot = true
 
 [connection signal="screen_entered" from="." to="." method="_on_screen_entered"]
 [connection signal="screen_exited" from="." to="." method="_on_screen_exited"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

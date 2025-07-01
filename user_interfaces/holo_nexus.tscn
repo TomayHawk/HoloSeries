@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://gb451ht0hms3" path="res://scripts/user_interfaces_scripts/holo_nexus.gd" id="1_84ul6"]
 [ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://visuals/tile_sets/physics.png" id="2_f56on"]
 [ext_resource type="Texture2D" uid="uid://sh1md1kmeikv" path="res://visuals/holo_nexus/holonexus.png" id="2_kb302"]
-[ext_resource type="Script" uid="uid://d2a4s8i75ha7" path="res://scripts/user_interfaces_scripts/nexus_player.gd" id="4_1sun5"]
+[ext_resource type="Script" path="res://scripts/entities_scripts/players_scripts/nexus_player.gd" id="4_1sun5"]
 [ext_resource type="Texture2D" uid="uid://dc1oxa5cly1i7" path="res://visuals/holo_nexus/holonexus_.png" id="4_dbcyv"]
 [ext_resource type="PackedScene" uid="uid://wsunon4ilt68" path="res://user_interfaces/holo_nexus_ui.tscn" id="6_jufqf"]
 

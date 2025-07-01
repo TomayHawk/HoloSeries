@@ -49,6 +49,17 @@ enum ActionType {
 	ITEM,
 }
 
+const ALL_DIRECTIONS: Array[Directions] = [
+	Directions.RIGHT,
+	Directions.DOWN,
+	Directions.LEFT,
+	Directions.UP,
+	Directions.UP_LEFT,
+	Directions.UP_RIGHT,
+	Directions.DOWN_LEFT,
+	Directions.DOWN_RIGHT,
+]
+
 #endregion
 
 # ..............................................................................
@@ -62,7 +73,9 @@ var process_interval: float = 0.0
 var move_state: MoveState = MoveState.IDLE:
 	set(next_state):
 		move_state = next_state
-		in_forced_move_state = next_state == MoveState.KNOCKBACK or next_state == MoveState.STUN
+		in_forced_move_state = \
+				next_state == MoveState.KNOCKBACK or next_state == MoveState.STUN
+
 var move_state_timer: float = 0.5
 var move_direction: Directions = Directions.DOWN
 var move_state_velocity: Vector2 = Vector2.DOWN
@@ -125,7 +138,6 @@ func death() -> void:
 	move_state_timer = 0.5
 	move_direction = Directions.DOWN
 	move_state_velocity = Vector2.DOWN
-	in_forced_move_state = false
 
 	# ACTION
 	action_state = ActionState.READY

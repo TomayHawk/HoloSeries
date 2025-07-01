@@ -12,19 +12,19 @@ var party_index: int = -1
 
 # ..............................................................................
 
-#region PHYSICS PROCESS
+#region PROCESS
 
 func _physics_process(_delta: float) -> void:
 	# no velocity if stunned
 	if move_state == MoveState.STUN:
 		return
 
-	# slowly decrease velocity if taking knockback or dashing
+	# decrease velocity if taking knockback or dashing
 	if move_state == MoveState.KNOCKBACK:
 		velocity = move_state_velocity * move_state_timer / 0.4
 	elif move_state == MoveState.DASH:
 		velocity = move_state_velocity * move_state_timer / stats.dash_time
-	
+
 	move_and_slide()
 
 #endregion
@@ -70,7 +70,7 @@ func _input(event: InputEvent) -> void:
 
 # ..............................................................................
 
-#region MOVEMENTS
+#region MOTIONS
 
 func apply_input_velocity() -> void:
 	if in_forced_move_state:
@@ -165,88 +165,20 @@ func toggle_text_box_process(toggled: bool) -> void:
 
 # ..............................................................................
 
-#region MOVE STATE
+#region MOVE STATES
 
-# DASH
-
-func attempt_dash() -> void:
-	# check dash conditions
-	if stats.fatigue or stats.stamina < stats.dash_min_stamina:
-		return
-	if not move_state in [MoveState.WALK, MoveState.SPRINT]:
-		return
-
-	# update dash timer and stamina
-	move_state_timer = stats.dash_time
-	stats.update_stamina(-stats.dash_stamina)
-
-	# update move state and velocity
-	move_state = MoveState.DASH
-	apply_velocity(velocity.normalized())
-
-# END SPRINT
-
-func end_sprint() -> void:
-	move_state = MoveState.WALK
-	apply_velocity(velocity.normalized())
-
-# KNOCKBACK
-
-func knockback(next_velocity: Vector2, duration: float) -> void:
-	# check knockback conditions
-	if in_forced_move_state:
-		return
-	
-	# update velocity and knockback timer
-	move_state_velocity = next_velocity
-	move_state_timer = duration
-	
-	# update move state and animation
-	move_state = MoveState.KNOCKBACK
-
-# STUN
-
-func stun(duration: float) -> void:
-	# check stun conditions
-	if in_forced_move_state:
-		return
-
-	# update velocity and stun timer
-	velocity = Vector2.ZERO
-	move_state_timer = duration
-
-	# update move state and animation
-	move_state = MoveState.STUN
-
-#endregion
-
-# ..............................................................................
-
-#region PLAYER MOVE STATE
-
-func _on_main_move_state_timeout() -> void:
+func _on_move_state_timeout() -> void:
 	if in_forced_move_state:
 		move_state = MoveState.IDLE
 	elif move_state == MoveState.DASH:
-		if Input.is_action_pressed(&"dash") or not Inputs.sprint_hold:
+		if is_main_player and (Input.is_action_pressed(&"dash") or not Inputs.sprint_hold):
 			move_state = MoveState.SPRINT
 		else:
 			move_state = MoveState.WALK
 	
-	apply_input_velocity()
-
-#endregion
-
-# ..............................................................................
-
-#region ALLY MOVE STATE
-
-# PlayerAlly move process
-func _on_ally_move_state_timeout() -> void:
-	if in_forced_move_state:
-		move_state = MoveState.IDLE
-	elif move_state == MoveState.DASH:
-		move_state = MoveState.WALK
+	if is_main_player:
+		apply_input_velocity()
+		return
 
 	# while in action, idle
 	if action_state == ActionState.ACTION:
@@ -258,25 +190,21 @@ func _on_ally_move_state_timeout() -> void:
 	var target_direction: Vector2 = Vector2.ZERO
 
 	# while in action range and close to main player, remain idle and face nearest enemy
-	if Combat.in_combat() and in_action_range and ally_distance < 300.0:
-		move_direction = [Directions.RIGHT, Directions.DOWN, Directions.LEFT, Directions.UP,
-				Directions.UP_LEFT, Directions.UP_RIGHT, Directions.DOWN_LEFT, Directions.DOWN_RIGHT
-				][(roundi((position - Entities.target_entity_by_distance(Combat.enemies_in_combat, position, false
-				).position).angle() / (PI / 4.0)) + 8) % 8]
-		apply_velocity(Vector2.ZERO)
-		return
-
-	# if not in action range navigate to nearest action target
 	if Combat.in_combat() and ally_distance < 300.0:
+		if in_action_range and attempt_action():
+			return
+
+		# if not in action range navigate to nearest action target
 		# TODO: should not use enemies_in_combat
 		action_target = Entities.target_entity_by_distance(Combat.enemies_in_combat, position, false)
 		$NavigationAgent2D.target_position = action_target.position
 		target_direction = to_local($NavigationAgent2D.get_next_path_position())
 		move_state_timer = randf_range(0.2, 0.4) / stats.walk_speed * 140.0
+
 	# if large ally distance, teleport to main player
 	elif ally_distance > 300.0:
 		ally_teleport()
-		_on_ally_move_state_timeout()
+		_on_move_state_timeout()
 		return
 	# if not in idle, determine idle time based on ally distance
 	elif move_state != MoveState.IDLE:
@@ -342,32 +270,98 @@ func ally_teleport(next_position: Vector2 = Players.main_player.position) -> voi
 	if not is_main_player:
 		position = next_position + (Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * 25)
 
+# DASH
+
+func attempt_dash() -> void:
+	# check dash conditions
+	if stats.fatigue or stats.stamina < stats.dash_min_stamina:
+		return
+	if not move_state in [MoveState.WALK, MoveState.SPRINT]:
+		return
+
+	# update dash timer and stamina
+	move_state_timer = stats.dash_time
+	stats.update_stamina(-stats.dash_stamina)
+
+	# update move state and velocity
+	move_state = MoveState.DASH
+	apply_velocity(velocity.normalized())
+
+# END SPRINT
+
+func end_sprint() -> void:
+	move_state = MoveState.WALK
+	apply_velocity(velocity.normalized())
+
+# KNOCKBACK
+
+func knockback(next_velocity: Vector2, duration: float) -> void:
+	# check knockback conditions
+	if in_forced_move_state:
+		return
+	
+	# update velocity and knockback timer
+	move_state_velocity = next_velocity
+	move_state_timer = duration
+	
+	# update move state and animation
+	move_state = MoveState.KNOCKBACK
+
+# STUN
+
+func stun(duration: float) -> void:
+	# check stun conditions
+	if in_forced_move_state:
+		return
+
+	# update velocity and stun timer
+	velocity = Vector2.ZERO
+	move_state_timer = duration
+
+	# update move state and animation
+	move_state = MoveState.STUN
+
 #endregion
 
 # ..............................................................................
 
-#region ACTION STATE
+#region ACTION STATES
 
 func _on_action_cooldown_timeout() -> void:
+	# main player action states
 	if is_main_player:
 		action_state = ActionState.READY
 		return
 
+	# ally action states
 	if action_state == ActionState.ACTION:
 		action_state = ActionState.COOLDOWN
 	elif action_state == ActionState.COOLDOWN:
 		action_state = ActionState.READY
-		action_cooldown = stats.last_action_cooldown if stats.last_action_cooldown > 0.0 else 0.0
+		attempt_action()
+
+func attempt_action() -> bool:
+	move_direction = [
+		Directions.RIGHT, Directions.DOWN,
+		Directions.LEFT, Directions.UP,
+		Directions.UP_LEFT, Directions.UP_RIGHT,
+		Directions.DOWN_LEFT, Directions.DOWN_RIGHT,
+	][(roundi((position - Entities.target_entity_by_distance(
+			Combat.enemies_in_combat, position, false).position).angle() / (PI / 4.0)) + 8) % 8]
+	apply_velocity(Vector2.ZERO)
+
+	return false
 
 #endregion
 
 # ..............................................................................
 
-#region PLAYER ACTION STATE
+#region PLAYER ACTION STATES
 
 # TODO: should not just be basic attack or ultimate attack
 func action_input() -> void:
-	if action_state != ActionState.READY: return
+	if action_state != ActionState.READY:
+		return
 
 	action_state = ActionState.ACTION
 
@@ -380,7 +374,7 @@ func action_input() -> void:
 
 # ..............................................................................
 
-#region ALLY ACTION STATE
+#region ALLY ACTION STATES
 
 # TODO: currently ignores any states, action_fail_count, and only attacks
 func create_next_action() -> void:
@@ -499,8 +493,6 @@ func set_variables(next_stats: PlayerStats, next_party_index: int) -> void:
 	if is_main_player:
 		Players.main_player = self
 		Players.camera.update_camera(self)
-		move_state_timeout.disconnect(_on_ally_move_state_timeout)
-		move_state_timeout.connect(_on_main_move_state_timeout)
 
 	# update party index
 	party_index = next_party_index
@@ -526,10 +518,6 @@ func switch_to_main() -> void:
 	is_main_player = true
 	Players.main_player = self
 	
-	# update signals
-	move_state_timeout.disconnect(_on_ally_move_state_timeout)
-	move_state_timeout.connect(_on_main_move_state_timeout)
-	
 	# update camera
 	Players.camera.update_camera(self)
 	
@@ -551,10 +539,6 @@ func switch_to_main() -> void:
 
 func switch_to_ally() -> void:
 	is_main_player = false
-
-	# update signals
-	move_state_timeout.disconnect(_on_main_move_state_timeout)
-	move_state_timeout.connect(_on_ally_move_state_timeout)
 
 	# reset entities request
 	Entities.end_entities_request()
@@ -777,7 +761,7 @@ func _on_action_area_body_exited(_body: Node2D) -> void:
 	in_action_range = is_in_action_range()
 	if not is_main_player and not in_action_range:
 		move_state_timer = 0.0
-		_on_ally_move_state_timeout()
+		_on_move_state_timeout()
 
 func is_in_action_range() -> bool:
 	return not $ActionArea.get_overlapping_bodies().filter(

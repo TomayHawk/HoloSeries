@@ -37,7 +37,7 @@ func entity_chosen(chosen_nodes: Array[EntityBase]) -> void:
 			speed * (1 + (caster_stats_node.intelligence / 1000) + (caster_stats_node.speed / 256)))
 	$AreaOfEffect.collision_mask |= 1 << 1
 	$AreaOfEffect/CollisionShape2D.scale = Vector2(1.5, 1.5)
-	$DespawnComponent.initiate_timers(5.0, 1.0)
+	$DespawnComponent.set_despawn_requirements(5.0, 1.0)
 
 	show()
 

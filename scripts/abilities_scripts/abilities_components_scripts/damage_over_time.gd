@@ -1,15 +1,39 @@
 extends Timer
 
-# triggers DOT every interval_wait_time until intervals == 0
-var intervals_left: int = 1
+# ABILITIES COMPONENT: DAMAGE OVER TIME
 
-func initiate_dot(intervals: int, interval_wait_time: float) -> void:
-	intervals_left = intervals
-	start(interval_wait_time)
+# ..............................................................................
+
+#region VARIABLES
+
+signal finish_dot
+
+var count: int = 1
+
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
+
+func initiate_dot(intervals: int, interval: float) -> void:
+	count = intervals
+	
+	# connect signals
+	var ability: Node = get_parent()
+	timeout.connect(ability.trigger_dot())
+	finish_dot.connect(ability.finish_dot())
+	
+	# start timer
+	start(interval)
 
 func _on_timer_timeout() -> void:
-	intervals_left -= 1
-	get_parent().trigger_dot()
-	if intervals_left == 0:
-		get_parent().finish_dot()
+	count -= 1
+
+	if count <= 0:
+		finish_dot.emit()
 		stop()
+
+#endregion
+
+# ..............................................................................
