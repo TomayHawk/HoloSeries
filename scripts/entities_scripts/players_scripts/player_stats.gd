@@ -318,7 +318,9 @@ func basic_attack() -> void:
 	base.update_animation()
 
 	await animation_node.frame_changed
-	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return
+	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]:
+		base.action_state = base.ActionState.READY
+		return
 
 	var temp_damage: float = basic_damage
 	var enemy_body = null
@@ -339,9 +341,15 @@ func basic_attack() -> void:
 				enemy_body.knockback(base.action_vector, knockback_weight)
 	
 	await animation_node.animation_finished
-	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return
+	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]:
+		base.action_state = base.ActionState.READY
+		return
 
-	base.action_state = base.ActionState.READY
+	if base.is_main_player:
+		base.action_state = base.ActionState.READY
+	else:
+		base.action_state = base.ActionState.COOLDOWN
+		base.action_cooldown = randf_range(0.4, 0.8)
 	
 	base.update_animation()
 
@@ -377,7 +385,9 @@ func ultimate_attack():
 	base.update_animation()
 
 	await animation_node.frame_changed
-	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return
+	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]:
+		base.action_state = base.ActionState.READY
+		return
 
 	var temp_damage: float = ultimate_damage
 	var enemy_body = null
@@ -397,10 +407,16 @@ func ultimate_attack():
 				enemy_body.knockback(base.action_vector, knockback_weight)
 
 	await animation_node.animation_finished
-	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]: return
+	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]:
+		base.action_state = base.ActionState.READY
+		return
 
-	base.action_cooldown = randf_range(2.0, 3.0) # TODO: don't know what this is for
-	base.action_state = base.ActionState.READY
+	if base.is_main_player:
+		base.action_state = base.ActionState.READY
+	else:
+		base.action_state = base.ActionState.COOLDOWN
+		base.action_cooldown = randf_range(0.4, 0.8)
+
 	base.update_animation()
 
 #endregion

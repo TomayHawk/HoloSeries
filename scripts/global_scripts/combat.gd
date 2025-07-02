@@ -2,6 +2,9 @@ extends Node
 
 # COMBAT MANAGER
 
+signal entering_combat
+signal left_combat
+
 # ..............................................................................
 
 #region CONSTANTS
@@ -35,12 +38,14 @@ var combat_state := CombatState.NOT_IN_COMBAT:
 		
 		match next_state:
 			CombatState.NOT_IN_COMBAT:
+				left_combat.emit()
 				ui.combat_ui_tween(0.0)
 				$LeavingCombatTimer.stop()
 				enemies_in_combat.clear()
 				unlock()
 			CombatState.IN_COMBAT:
-				if combat_state != CombatState.LEAVING_COMBAT:
+				if combat_state == CombatState.NOT_IN_COMBAT:
+					entering_combat.emit()
 					ui.combat_ui_tween(1.0)
 				else:
 					$LeavingCombatTimer.stop()

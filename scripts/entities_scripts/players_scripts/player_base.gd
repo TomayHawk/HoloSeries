@@ -8,11 +8,17 @@ extends EntityBase
 var is_main_player: bool = false
 var party_index: int = -1
 
+var action_queue: Array[Callable] = []
+
 #endregion
 
 # ..............................................................................
 
 #region PROCESS
+
+func _ready() -> void:
+	Combat.entering_combat.connect(enter_combat)
+	Combat.left_combat.connect(leave_combat)
 
 func _physics_process(_delta: float) -> void:
 	# no velocity if stunned
@@ -168,6 +174,7 @@ func toggle_text_box_process(toggled: bool) -> void:
 #region MOVE STATES
 
 func _on_move_state_timeout() -> void:
+	# update move states
 	if in_forced_move_state:
 		move_state = MoveState.IDLE
 	elif move_state == MoveState.DASH:
@@ -176,37 +183,61 @@ func _on_move_state_timeout() -> void:
 		else:
 			move_state = MoveState.WALK
 	
+	# handle main player move states
 	if is_main_player:
 		apply_input_velocity()
 		return
 
-	# while in action, idle
+	# if not main player:
+
+	# while in action, stay idle
 	if action_state == ActionState.ACTION:
-		move_state_timer = action_cooldown
+		move_state_timer = max(0.5, action_cooldown)
 		apply_velocity(Vector2.ZERO)
 		return
 
 	var ally_distance: float = position.distance_to(Players.main_player.position)
 	var target_direction: Vector2 = Vector2.ZERO
 
-	# while in action range and close to main player, remain idle and face nearest enemy
+	# if in combat and close to main player
 	if Combat.in_combat() and ally_distance < 300.0:
-		if in_action_range and attempt_action():
+		# if in action range, attempt action
+		if in_action_range:
+			attempt_action()
+			apply_velocity(Vector2.ZERO)
+			move_state_timer = max(0.5, action_cooldown)
 			return
 
-		# if not in action range navigate to nearest action target
-		# TODO: should not use enemies_in_combat
-		action_target = Entities.target_entity_by_distance(Combat.enemies_in_combat, position, false)
+		# if not in action range, navigate to the nearest candidate by quality
+		action_target = \
+		Entities.target_entity_by_distance(
+				Combat.enemies_in_combat,
+				position,
+				false
+		) if action_target_candidates.is_empty() else \
+		Entities.target_entity_by_distance(
+				action_target_candidates,
+				position,
+				action_target_get_max
+		) if action_target_stats == &"" else \
+		Entities.target_entity_by_stats(
+				action_target_candidates,
+				action_target_stats,
+				action_target_get_max
+		)
+
+		# move towards action target
 		$NavigationAgent2D.target_position = action_target.position
 		target_direction = to_local($NavigationAgent2D.get_next_path_position())
-		move_state_timer = randf_range(0.2, 0.4) / stats.walk_speed * 140.0
+		move_state_timer = randf_range(0.2, 0.4) / stats.walk_speed * stats.BASE_WALK_SPEED
 
-	# if large ally distance, teleport to main player
+	# elif large ally distance, teleport to main player
 	elif ally_distance > 300.0:
 		ally_teleport()
 		_on_move_state_timeout()
 		return
-	# if not in idle, determine idle time based on ally distance
+
+	# elif not in idle, enter idle
 	elif move_state != MoveState.IDLE:
 		move_state_timer = \
 				randf_range(2.4, 2.6) if ally_distance < 75.0 \
@@ -215,15 +246,17 @@ func _on_move_state_timeout() -> void:
 				else randf_range(1.2, 1.4)
 		apply_velocity(Vector2.ZERO)
 		return
-	# elif ally distance is larger than 75.0, navigate to main player
+	
+	# elif ally distance is larger than 75.0 (between 75.0 and 300.0), navigate to main player
 	elif ally_distance > 75.0:
 		$NavigationAgent2D.target_position = Players.main_player.position
 		target_direction = to_local($NavigationAgent2D.get_next_path_position())
-		move_state_timer = randf_range(0.5, 0.7) / stats.walk_speed * 140.0
-	# else random movement
+		move_state_timer = randf_range(0.5, 0.7) / stats.walk_speed * stats.BASE_WALK_SPEED
+	
+	# else move randomly (not in combat, and ally distance is less than 75.0)
 	else:
 		target_direction = Vector2.RIGHT.rotated(randf() * TAU)
-		move_state_timer = randf_range(0.5, 0.7) / stats.walk_speed * 140.0
+		move_state_timer = randf_range(0.5, 0.7) / stats.walk_speed * stats.BASE_WALK_SPEED
 
 	# sprint with main player with conditions
 	if (
@@ -236,8 +269,7 @@ func _on_move_state_timeout() -> void:
 	
 	# snap target direction to the nearest 8-way angle
 	const ANGLE_INCREMENT: float = PI / 4
-	var snapped_angle: float = \
-			roundi(target_direction.angle() / ANGLE_INCREMENT) * ANGLE_INCREMENT
+	var snapped_angle: float = roundi(target_direction.angle() / ANGLE_INCREMENT) * ANGLE_INCREMENT
 
 	# possible angles by proximity to the snapped angle
 	var possible_angles: Array[float] = [
@@ -266,9 +298,10 @@ func _on_move_state_timeout() -> void:
 
 	apply_velocity(target_direction)
 
+# TODO: need to limit teleportation locations using collisions
 func ally_teleport(next_position: Vector2 = Players.main_player.position) -> void:
-	if not is_main_player:
-		position = next_position + (Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * 25)
+	if is_main_player: return
+	position = next_position + (Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * 25)
 
 # DASH
 
@@ -341,6 +374,8 @@ func _on_action_cooldown_timeout() -> void:
 		attempt_action()
 
 func attempt_action() -> bool:
+	create_next_action()
+	
 	move_direction = [
 		Directions.RIGHT, Directions.DOWN,
 		Directions.LEFT, Directions.UP,
@@ -375,6 +410,14 @@ func action_input() -> void:
 # ..............................................................................
 
 #region ALLY ACTION STATES
+
+# TODO: incomplete
+func enter_combat() -> void:
+	create_next_action()
+
+# TODO: incomplete
+func leave_combat() -> void:
+	pass
 
 # TODO: currently ignores any states, action_fail_count, and only attacks
 func create_next_action() -> void:
@@ -544,7 +587,7 @@ func switch_to_ally() -> void:
 	Entities.end_entities_request()
 
 	# if not in forced move state, reset move state
-	if not in_forced_move_state and move_state_timer > 0.0:
+	if not in_forced_move_state:
 		move_state_timer = 0.0
 		move_state_timeout.emit()
 
@@ -757,7 +800,6 @@ func _on_action_area_body_entered(_body: Node2D) -> void:
 	# TODO: check if being updated with area resize
 
 func _on_action_area_body_exited(_body: Node2D) -> void:
-	await Global.get_tree().process_frame # TODO: attempt remove delay
 	in_action_range = is_in_action_range()
 	if not is_main_player and not in_action_range:
 		move_state_timer = 0.0
