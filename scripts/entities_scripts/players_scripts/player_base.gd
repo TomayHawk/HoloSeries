@@ -360,21 +360,26 @@ func stun(duration: float) -> void:
 
 #region ACTION STATES
 
-func _on_action_cooldown_timeout() -> void:
-	# main player action states
-	if is_main_player:
-		action_state = ActionState.READY
+# TODO: should not just be basic attack or ultimate attack
+func action_input() -> void:
+	# check action state
+	if action_state != ActionState.READY:
 		return
 
-	# ally action states
-	if action_state == ActionState.ACTION:
-		action_state = ActionState.COOLDOWN
-	elif action_state == ActionState.COOLDOWN:
-		action_state = ActionState.READY
-		attempt_action()
+	action_state = ActionState.ACTION
+
+	if stats.ultimate_gauge == stats.max_ultimate_gauge:
+		stats.ultimate_attack()
+	else:
+		stats.basic_attack()
 
 func attempt_action() -> bool:
-	create_next_action()
+	# TODO: very broken
+
+	if Combat.enemies_in_combat.is_empty():
+		return false
+
+	enqueue_action()
 	
 	move_direction = [
 		Directions.RIGHT, Directions.DOWN,
@@ -387,40 +392,36 @@ func attempt_action() -> bool:
 
 	return false
 
-#endregion
-
-# ..............................................................................
-
-#region PLAYER ACTION STATES
-
-# TODO: should not just be basic attack or ultimate attack
-func action_input() -> void:
-	if action_state != ActionState.READY:
-		return
-
-	action_state = ActionState.ACTION
-
-	if stats.ultimate_gauge == stats.max_ultimate_gauge:
-		stats.ultimate_attack()
-	else:
-		stats.basic_attack()
-
-#endregion
-
-# ..............................................................................
-
-#region ALLY ACTION STATES
-
 # TODO: incomplete
 func enter_combat() -> void:
-	create_next_action()
+	if is_main_player: return
+	enqueue_action()
 
-# TODO: incomplete
 func leave_combat() -> void:
-	pass
+	# if in action, resolve naturally
+	if is_main_player or action_state == ActionState.ACTION:
+		return
+	
+	# reset action variables
+	action_state = ActionState.READY
+	action_cooldown = 0.0
+	action_callable = Callable()
+	action_vector = Vector2.DOWN
+	action_fail_count = 0
+	in_action_range = false
+	
+	# reset action target variables
+	action_target = null
+	action_target_candidates.clear()
+	action_target_types = 0
+	action_target_stats = &""
+	action_target_get_max = true
+
+	# clear action queue
+	action_queue.clear()
 
 # TODO: currently ignores any states, action_fail_count, and only attacks
-func create_next_action() -> void:
+func enqueue_action() -> void:
 	action_target_types = Entities.Type.ENEMIES
 	action_target_stats = &"health"
 	action_target_get_max = false
@@ -468,6 +469,19 @@ func choose_target_entity() -> bool:
 	apply_velocity(Vector2.ZERO)
 
 	return true
+
+func _on_action_cooldown_timeout() -> void:
+	# main player action states
+	if is_main_player:
+		action_state = ActionState.READY
+		return
+
+	# ally action states
+	if action_state == ActionState.ACTION:
+		action_state = ActionState.COOLDOWN
+	elif action_state == ActionState.COOLDOWN:
+		action_state = ActionState.READY
+		attempt_action()
 
 #endregion
 
@@ -600,7 +614,7 @@ func switch_to_ally() -> void:
 	else:
 		action_state = ActionState.READY
 	
-	create_next_action()
+	enqueue_action()
 
 func switch_character(next_stats: PlayerStats) -> void:
 	stats.base = null
@@ -795,7 +809,7 @@ func _on_lootable_area_area_exited(body: Node2D) -> void:
 func _on_action_area_body_entered(_body: Node2D) -> void:
 	in_action_range = is_in_action_range()
 	if not is_main_player and in_action_range and action_state == ActionState.READY:
-		create_next_action()
+		enqueue_action()
 		action_callable.call()
 	# TODO: check if being updated with area resize
 

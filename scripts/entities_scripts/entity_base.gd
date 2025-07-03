@@ -109,7 +109,7 @@ func _process(delta: float) -> void:
 		if move_state_timer < 0.0:
 			move_state_timeout.emit()
 	
-	# decrease action state timer
+	# decrease action cooldown
 	if action_cooldown > 0.0:
 		action_cooldown -= delta
 		if action_cooldown < 0.0:
