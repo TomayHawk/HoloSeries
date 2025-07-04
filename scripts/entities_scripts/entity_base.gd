@@ -51,13 +51,13 @@ enum ActionType {
 
 const ALL_DIRECTIONS: Array[Directions] = [
 	Directions.RIGHT,
-	Directions.DOWN,
-	Directions.LEFT,
-	Directions.UP,
-	Directions.UP_LEFT,
-	Directions.UP_RIGHT,
-	Directions.DOWN_LEFT,
 	Directions.DOWN_RIGHT,
+	Directions.DOWN,
+	Directions.DOWN_LEFT,
+	Directions.LEFT, 
+	Directions.UP_LEFT,
+	Directions.UP,
+	Directions.UP_RIGHT,
 ]
 
 #endregion

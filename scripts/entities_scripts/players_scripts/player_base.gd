@@ -76,7 +76,7 @@ func _input(event: InputEvent) -> void:
 
 # ..............................................................................
 
-#region MOTIONS
+#region MOVEMENT
 
 func apply_input_velocity() -> void:
 	if in_forced_move_state:
@@ -98,9 +98,9 @@ func apply_input_velocity() -> void:
 			Vector2(0.70710678, -0.70710678)
 		][(roundi(input_velocity.angle() / (PI / 4.0)) + 8) % 8]
 
-	apply_velocity(input_velocity)
+	apply_movement(input_velocity)
 
-func apply_velocity(next_direction: Vector2) -> void:
+func apply_movement(next_direction: Vector2) -> void:
 	# if no direction, set idle state
 	if next_direction == Vector2.ZERO:
 		move_state = MoveState.IDLE
@@ -109,24 +109,15 @@ func apply_velocity(next_direction: Vector2) -> void:
 		return
 	
 	# update move direction
-	move_direction = [
-		Directions.UP,
-		Directions.DOWN,
-		Directions.LEFT,
-		Directions.RIGHT,
-		Directions.UP_LEFT,
-		Directions.UP_RIGHT,
-		Directions.DOWN_LEFT,
-		Directions.DOWN_RIGHT,
-	][[
-		Vector2(0.0, -1.0),
-		Vector2(0.0, 1.0),
-		Vector2(-1.0, 0.0),
+	move_direction = ALL_DIRECTIONS[[
 		Vector2(1.0, 0.0),
-		Vector2(-1.0, -1.0),
-		Vector2(1.0, -1.0),
-		Vector2(-1.0, 1.0),
 		Vector2(1.0, 1.0),
+		Vector2(0.0, 1.0),
+		Vector2(-1.0, 1.0),
+		Vector2(-1.0, 0.0),
+		Vector2(-1.0, -1.0),
+		Vector2(0.0, -1.0),
+		Vector2(1.0, -1.0),
 	].find(round(next_direction))]
 
 	# set velocity to direction at walk speed
@@ -161,9 +152,9 @@ func toggle_text_box_process(toggled: bool) -> void:
 		if is_main_player:
 			set_process_input(true)
 		else:
-			move_state_timeout.emit()
+			_on_move_state_timeout()
 	else:
-		apply_velocity(Vector2.ZERO)
+		apply_movement(Vector2.ZERO)
 		if is_main_player:
 			set_process_input(false)
 
@@ -174,6 +165,8 @@ func toggle_text_box_process(toggled: bool) -> void:
 #region MOVE STATES
 
 func _on_move_state_timeout() -> void:
+	move_state_timer = 0.0
+
 	# update move states
 	if in_forced_move_state:
 		move_state = MoveState.IDLE
@@ -193,7 +186,7 @@ func _on_move_state_timeout() -> void:
 	# while in action, stay idle
 	if action_state == ActionState.ACTION:
 		move_state_timer = max(0.5, action_cooldown)
-		apply_velocity(Vector2.ZERO)
+		apply_movement(Vector2.ZERO)
 		return
 
 	var ally_distance: float = position.distance_to(Players.main_player.position)
@@ -204,7 +197,7 @@ func _on_move_state_timeout() -> void:
 		# if in action range, attempt action
 		if in_action_range:
 			attempt_action()
-			apply_velocity(Vector2.ZERO)
+			apply_movement(Vector2.ZERO)
 			move_state_timer = max(0.5, action_cooldown)
 			return
 
@@ -244,7 +237,7 @@ func _on_move_state_timeout() -> void:
 				else randf_range(2.0, 2.2) if ally_distance < 100 \
 				else randf_range(1.6, 1.8) if ally_distance < 150.0 \
 				else randf_range(1.2, 1.4)
-		apply_velocity(Vector2.ZERO)
+		apply_movement(Vector2.ZERO)
 		return
 	
 	# elif ally distance is larger than 75.0 (between 75.0 and 300.0), navigate to main player
@@ -296,7 +289,7 @@ func _on_move_state_timeout() -> void:
 		if not $ObstacleCheck.is_colliding():
 			break
 
-	apply_velocity(target_direction)
+	apply_movement(target_direction)
 
 # TODO: need to limit teleportation locations using collisions
 func ally_teleport(next_position: Vector2 = Players.main_player.position) -> void:
@@ -318,18 +311,18 @@ func attempt_dash() -> void:
 
 	# update move state and velocity
 	move_state = MoveState.DASH
-	apply_velocity(velocity.normalized())
+	apply_movement(velocity.normalized())
 
 # END SPRINT
 
 func end_sprint() -> void:
 	move_state = MoveState.WALK
-	apply_velocity(velocity.normalized())
+	apply_movement(velocity.normalized())
 
 # KNOCKBACK
 
 func knockback(next_velocity: Vector2, duration: float) -> void:
-	# check knockback conditions
+	# check if move state can be changed
 	if in_forced_move_state:
 		return
 	
@@ -343,7 +336,7 @@ func knockback(next_velocity: Vector2, duration: float) -> void:
 # STUN
 
 func stun(duration: float) -> void:
-	# check stun conditions
+	# check if move state can be changed
 	if in_forced_move_state:
 		return
 
@@ -360,48 +353,26 @@ func stun(duration: float) -> void:
 
 #region ACTION STATES
 
-# TODO: should not just be basic attack or ultimate attack
 func action_input() -> void:
 	# check action state
 	if action_state != ActionState.READY:
 		return
-
-	action_state = ActionState.ACTION
-
-	if stats.ultimate_gauge == stats.max_ultimate_gauge:
-		stats.ultimate_attack()
-	else:
-		stats.basic_attack()
-
-func attempt_action() -> bool:
-	# TODO: very broken
-
-	if Combat.enemies_in_combat.is_empty():
-		return false
-
-	enqueue_action()
 	
-	move_direction = [
-		Directions.RIGHT, Directions.DOWN,
-		Directions.LEFT, Directions.UP,
-		Directions.UP_LEFT, Directions.UP_RIGHT,
-		Directions.DOWN_LEFT, Directions.DOWN_RIGHT,
-	][(roundi((position - Entities.target_entity_by_distance(
-			Combat.enemies_in_combat, position, false).position).angle() / (PI / 4.0)) + 8) % 8]
-	apply_velocity(Vector2.ZERO)
-
-	return false
+	stats.basic_attack()
 
 # TODO: incomplete
 func enter_combat() -> void:
-	if is_main_player: return
-	enqueue_action()
+	if is_main_player:
+		return
+
+	queue_action()
+	prepare_action()
 
 func leave_combat() -> void:
 	# if in action, resolve naturally
 	if is_main_player or action_state == ActionState.ACTION:
 		return
-	
+
 	# reset action variables
 	action_state = ActionState.READY
 	action_cooldown = 0.0
@@ -409,7 +380,7 @@ func leave_combat() -> void:
 	action_vector = Vector2.DOWN
 	action_fail_count = 0
 	in_action_range = false
-	
+
 	# reset action target variables
 	action_target = null
 	action_target_candidates.clear()
@@ -420,68 +391,47 @@ func leave_combat() -> void:
 	# clear action queue
 	action_queue.clear()
 
-# TODO: currently ignores any states, action_fail_count, and only attacks
-func enqueue_action() -> void:
-	action_target_types = Entities.Type.ENEMIES
-	action_target_stats = &"health"
-	action_target_get_max = false
-	$ActionArea/CollisionShape2D.shape.radius = 20.0
-	in_action_range = is_in_action_range()
+func queue_action(action: Callable = Callable()) -> void:
+	if action == Callable():
+		action = stats.basic_attack
+	
+	action_queue.append(action)
 
-	# if ultimate gauge is full, queue ultimate attack
-	if stats.ultimate_gauge == stats.max_ultimate_gauge:
-		action_callable = stats.ultimate_attack
-	else:
-		action_callable = stats.basic_attack
+func prepare_action() -> void:
+	# if action queue is empty, create a new action
+	if action_queue.is_empty():
+		queue_action()
 
-func choose_target_entity() -> bool:
-	# if is ally, is in action range, not taking action, and not in forced move state
-	if (
-			is_main_player
-			or not in_action_range
-			or action_state == ActionState.ACTION
-			or in_forced_move_state
-	):
+	# initialize next action
+	action_callable = action_queue.pop_front()
+	action_callable.call(true)
+
+func attempt_action() -> bool:
+	# TODO: very broken
+
+	if Combat.enemies_in_combat.is_empty():
 		return false
 
-	# determine candidate action targets
-	var candidate_nodes: Array[EntityBase] = Entities.type_entities_array($ActionArea.get_overlapping_bodies(
-			).filter(func(node: Node) -> bool: return node.stats.entity_types & action_target_types))
+	queue_action()
 	
-	# choose action target
-	action_target = \
-			Entities.target_entity_by_stats(candidate_nodes, action_target_stats, action_target_get_max)
+	move_direction = ALL_DIRECTIONS[(roundi(
+			(action_target.position - position).angle() / (PI / 4.0)) + 8) % 8]
 	
-	if not action_target:
-		return false
+	apply_movement(Vector2.ZERO)
 
-	# face enemy
-	action_vector = (action_target.position - position).normalized()
+	return false
 
-	move_direction = [
-		Directions.RIGHT,
-		Directions.DOWN,
-		Directions.LEFT,
-		Directions.UP,
-	][(roundi(action_vector.angle() / (PI / 2)) + 4) % 4]
-
-	# stop movement
-	apply_velocity(Vector2.ZERO)
-
-	return true
-
-func _on_action_cooldown_timeout() -> void:
-	# main player action states
-	if is_main_player:
-		action_state = ActionState.READY
+func set_action_target() -> void:
+	# if taking action or no action candidates, return
+	if action_state == ActionState.ACTION or action_target_candidates.is_empty():
 		return
 
-	# ally action states
-	if action_state == ActionState.ACTION:
-		action_state = ActionState.COOLDOWN
-	elif action_state == ActionState.COOLDOWN:
-		action_state = ActionState.READY
-		attempt_action()
+	# set action target
+	action_target = Entities.target_entity_by_stats(
+			action_target_candidates, action_target_stats, action_target_get_max)
+
+	# update action vector
+	action_vector = (action_target.position - position).normalized()
 
 #endregion
 
@@ -565,8 +515,7 @@ func set_variables(next_stats: PlayerStats, next_party_index: int) -> void:
 
 	# update movement and animation
 	if is_main_player:
-		move_state_timer = 0.0
-		apply_input_velocity()
+		_on_move_state_timeout()
 	else:
 		update_animation()
 
@@ -580,8 +529,7 @@ func switch_to_main() -> void:
 	
 	# if not in forced move state, reset move state
 	if not in_forced_move_state and move_state_timer > 0.0:
-		move_state_timer = 0.0
-		move_state_timeout.emit()
+		_on_move_state_timeout()
 	
 	# store and reset action state
 	stats.last_action_cooldown = action_cooldown if action_state == ActionState.COOLDOWN else 0.0
@@ -602,8 +550,7 @@ func switch_to_ally() -> void:
 
 	# if not in forced move state, reset move state
 	if not in_forced_move_state:
-		move_state_timer = 0.0
-		move_state_timeout.emit()
+		_on_move_state_timeout()
 
 	# update action state and cooldown
 	if action_cooldown > 0.0:
@@ -614,7 +561,7 @@ func switch_to_ally() -> void:
 	else:
 		action_state = ActionState.READY
 	
-	enqueue_action()
+	queue_action()
 
 func switch_character(next_stats: PlayerStats) -> void:
 	stats.base = null
@@ -768,6 +715,14 @@ func disable_collisions(disable: bool) -> void:
 
 #region SIGNALS
 
+# Action State Timer
+
+func _on_action_cooldown_timeout() -> void:
+	action_state = ActionState.READY
+	
+	if not is_main_player:
+		attempt_action()
+
 # CombatHitBox
 
 func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
@@ -806,17 +761,32 @@ func _on_lootable_area_area_exited(body: Node2D) -> void:
 
 # ActionArea
 
-func _on_action_area_body_entered(_body: Node2D) -> void:
-	in_action_range = is_in_action_range()
-	if not is_main_player and in_action_range and action_state == ActionState.READY:
-		enqueue_action()
-		action_callable.call()
-	# TODO: check if being updated with area resize
+func _on_action_area_body_entered(body: Node2D) -> void:
+	# if is main player, ignore
+	if is_main_player:
+		return
+	
+	# if body does not match any action target types, ignore
+	if not body.stats.entity_types & action_target_types:
+		return
+	
+	# if body is already a candidate, ignore
+	if action_target_candidates.has(body):
+		return
 
-func _on_action_area_body_exited(_body: Node2D) -> void:
-	in_action_range = is_in_action_range()
+	# update action target variables
+	action_target_candidates.append(body)
+	in_action_range = true
+
+	# take action if ready
+	if action_state == ActionState.READY:
+		action_callable.call()
+
+func _on_action_area_body_exited(body: Node2D) -> void:
+	action_target_candidates.erase(body)
+	in_action_range = action_target_candidates.size()
+	
 	if not is_main_player and not in_action_range:
-		move_state_timer = 0.0
 		_on_move_state_timeout()
 
 func is_in_action_range() -> bool:
@@ -840,3 +810,7 @@ func is_in_action_range() -> bool:
 #velocity = move_state_velocity * pow(t, 0.5)
 # Ease Out Sine
 #velocity = move_state_velocity * sin(t * PI * 0.5)
+
+# TODO: check how area resizes interacts with signals
+# TODO: should not just be basic attack or ultimate attack
+# TODO: queue_action should not just be basic attack

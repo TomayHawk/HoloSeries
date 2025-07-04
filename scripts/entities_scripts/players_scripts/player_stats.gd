@@ -284,13 +284,31 @@ var ultimate_damage: float = 100.0
 
 # ATTACKS
 
-func basic_attack() -> void:
+func basic_attack(initialization: bool = false) -> void:
 	if not base: return
 
+	if initialization:
+		# TODO: currently ignores any states, action_fail_count, and only attacks
+		# TODO: incomplete
+		base.action_target_types = Entities.Type.ENEMIES
+		base.action_target_stats = &"health"
+		base.action_target_get_max = false
+		base.get_node(^"ActionArea/CollisionShape2D").shape.radius = 20.0
+		
+		# if ultimate gauge is full, queue ultimate attack
+		if ultimate_gauge == max_ultimate_gauge:
+			base.action_callable = ultimate_attack
+		else:
+			base.action_callable = basic_attack
+		
+		return
+
 	# TODO: temporary code
-	if not base.is_main_player and not base.choose_target_entity():
+	if not base.is_main_player and not base.action_target:
 		base.action_fail_count += 1
 		return
+	
+	base.action_state = base.ActionState.ACTION
 
 	base.action_fail_count = 0
 
@@ -357,9 +375,11 @@ func ultimate_attack():
 	if not base: return
 
 	# TODO: temporary code
-	if not base.is_main_player and not base.choose_target_entity():
+	if not base.is_main_player and not base.action_target:
 		base.action_fail_count += 1
 		return
+	
+	base.action_state = base.ActionState.ACTION
 
 	base.action_fail_count = 0
 

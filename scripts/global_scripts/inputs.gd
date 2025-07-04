@@ -19,7 +19,7 @@ func _input(event: InputEvent) -> void:
 		alt_pressed = event.is_pressed()
 		accept_event()
 	elif Input.is_action_just_pressed(&"action"):
-		if attempt_action_input():
+		if action_input():
 			print("Action input ", action_inputs_enabled)
 			accept_event()
 	elif Input.is_action_just_pressed(&"full_screen"):
@@ -37,7 +37,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			Global.add_global_child("HoloDeck", "res://user_interfaces/holo_deck.tscn")
 
-func attempt_action_input() -> bool:
+func action_input() -> bool:
 	if action_inputs_enabled and not Entities.requesting_entities and Players.main_player:
 		# TODO: temporary code
 		Players.main_player.action_input()
