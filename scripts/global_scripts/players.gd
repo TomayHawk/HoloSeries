@@ -13,6 +13,8 @@ var standby_characters: Array[PlayerStats] = []
 
 #endregion
 
+# TODO: need to add a process to update stats.last_action_cooldown
+
 # ..............................................................................
 
 #region FUNCTIONS

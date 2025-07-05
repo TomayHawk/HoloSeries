@@ -79,14 +79,14 @@ var move_state: MoveState = MoveState.IDLE:
 var move_state_timer: float = 0.5
 var move_direction: Directions = Directions.DOWN
 var move_state_velocity: Vector2 = Vector2.DOWN
+
 var in_forced_move_state: bool = false
 
 # ACTION
 var action_state: ActionState = ActionState.READY
-var action_cooldown: float = 0.0
 var action_callable: Callable = Callable()
 var action_vector: Vector2 = Vector2.DOWN
-var action_fail_count: int = 0
+var action_cooldown: float = 0.0
 var in_action_range: bool = false
 
 # ACTION TARGETS
@@ -132,27 +132,9 @@ func death() -> void:
 
 	# reset variables
 	process_interval = 0.0
-
-	# MOVEMENT
-	move_state = MoveState.IDLE
-	move_state_timer = 0.5
-	move_direction = Directions.DOWN
-	move_state_velocity = Vector2.DOWN
-
-	# ACTION
-	action_state = ActionState.READY
-	action_cooldown = 0.0
-	action_callable = Callable()
-	action_vector = Vector2.DOWN
-	action_fail_count = 0
-	in_action_range = false
-
-	# ACTION TARGETS
-	action_target = null
-	action_target_candidates.clear()
-	action_target_types = 0
-	action_target_stats = &""
-	action_target_get_max = true
+	reset_movement()
+	reset_action()
+	reset_action_targets()
 
 func revive() -> void:
 	set_process(true)
@@ -161,16 +143,40 @@ func revive() -> void:
 
 # ..............................................................................
 
-#region PROCESS TOGGLES
+#region UTILITIES
+
+func reset_movement(idle_time: float = 0.5) -> void:
+	move_state = MoveState.IDLE
+	move_state_timer = idle_time
+	move_direction = Directions.DOWN
+	move_state_velocity = Vector2.DOWN
+
+func reset_action() -> void:
+	action_state = ActionState.READY
+	action_cooldown = 0.0
+	action_callable = Callable()
+	action_vector = Vector2.DOWN
+	in_action_range = false
+
+func reset_action_targets() -> void:
+	action_target = null
+	action_target_candidates.clear()
+	action_target_types = 0
+	action_target_stats = &""
+	action_target_get_max = true
 
 func toggle_process(toggled: bool) -> void:
-	if not stats.alive: return
+	# ignore if not alive
+	if not stats.alive:
+		return
 
+	# toggle animation
 	if toggled:
 		$Animation.play()
 	else:
 		$Animation.pause()
 	
+	# toggle processes
 	set_process(toggled)
 	set_physics_process(toggled)
 

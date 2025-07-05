@@ -9,6 +9,7 @@ var is_main_player: bool = false
 var party_index: int = -1
 
 var action_queue: Array[Callable] = []
+var action_fail_count: int = 0
 
 #endregion
 
@@ -30,6 +31,12 @@ func _physics_process(_delta: float) -> void:
 		velocity = move_state_velocity * move_state_timer / 0.4
 	elif move_state == MoveState.DASH:
 		velocity = move_state_velocity * move_state_timer / stats.dash_time
+	# face action target when applicable
+	elif not is_main_player and move_state == MoveState.IDLE and action_target:
+		move_direction = ALL_DIRECTIONS[(roundi(
+				(action_target.position - position).angle() / (PI / 4.0)) + 8) % 8]
+		
+		update_animation()
 
 	move_and_slide()
 
@@ -207,16 +214,6 @@ func _on_move_state_timeout() -> void:
 				Combat.enemies_in_combat,
 				position,
 				false
-		) if action_target_candidates.is_empty() else \
-		Entities.target_entity_by_distance(
-				action_target_candidates,
-				position,
-				action_target_get_max
-		) if action_target_stats == &"" else \
-		Entities.target_entity_by_stats(
-				action_target_candidates,
-				action_target_stats,
-				action_target_get_max
 		)
 
 		# move towards action target
@@ -353,6 +350,7 @@ func stun(duration: float) -> void:
 
 #region ACTION STATES
 
+# TODO: should not just be basic attack or ultimate attack
 func action_input() -> void:
 	# check action state
 	if action_state != ActionState.READY:
@@ -360,37 +358,22 @@ func action_input() -> void:
 	
 	stats.basic_attack()
 
-# TODO: incomplete
 func enter_combat() -> void:
-	if is_main_player:
-		return
-
-	queue_action()
-	prepare_action()
+	if not is_main_player:
+		prepare_action()
 
 func leave_combat() -> void:
-	# if in action, resolve naturally
+	# if is main player or in action, ignore or resolve naturally
 	if is_main_player or action_state == ActionState.ACTION:
 		return
 
 	# reset action variables
-	action_state = ActionState.READY
-	action_cooldown = 0.0
-	action_callable = Callable()
-	action_vector = Vector2.DOWN
-	action_fail_count = 0
-	in_action_range = false
-
-	# reset action target variables
-	action_target = null
-	action_target_candidates.clear()
-	action_target_types = 0
-	action_target_stats = &""
-	action_target_get_max = true
-
-	# clear action queue
+	reset_action()
+	reset_action_targets()
 	action_queue.clear()
+	action_fail_count = 0
 
+# TODO: queue_action should not just be basic attack
 func queue_action(action: Callable = Callable()) -> void:
 	if action == Callable():
 		action = stats.basic_attack
@@ -406,31 +389,32 @@ func prepare_action() -> void:
 	action_callable = action_queue.pop_front()
 	action_callable.call(true)
 
-func attempt_action() -> bool:
-	# TODO: very broken
+func attempt_action() -> void:
+	set_action_target()
+	if not action_target:
+		action_state = ActionState.COOLDOWN
+		action_cooldown = 0.5
+		action_fail_count += 1
+		return
 
-	if Combat.enemies_in_combat.is_empty():
-		return false
-
-	queue_action()
-	
 	move_direction = ALL_DIRECTIONS[(roundi(
 			(action_target.position - position).angle() / (PI / 4.0)) + 8) % 8]
 	
 	apply_movement(Vector2.ZERO)
 
-	return false
+	action_callable.call()
 
 func set_action_target() -> void:
 	# if taking action or no action candidates, return
 	if action_state == ActionState.ACTION or action_target_candidates.is_empty():
+		action_target = null
 		return
 
 	# set action target
 	action_target = Entities.target_entity_by_stats(
 			action_target_candidates, action_target_stats, action_target_get_max)
 
-	# update action vector
+	# set action vector
 	action_vector = (action_target.position - position).normalized()
 
 #endregion
@@ -789,10 +773,6 @@ func _on_action_area_body_exited(body: Node2D) -> void:
 	if not is_main_player and not in_action_range:
 		_on_move_state_timeout()
 
-func is_in_action_range() -> bool:
-	return not $ActionArea.get_overlapping_bodies().filter(
-			func(node): return node.stats.entity_types & action_target_types).is_empty()
-
 #endregion
 
 # ..............................................................................
@@ -810,7 +790,3 @@ func is_in_action_range() -> bool:
 #velocity = move_state_velocity * pow(t, 0.5)
 # Ease Out Sine
 #velocity = move_state_velocity * sin(t * PI * 0.5)
-
-# TODO: check how area resizes interacts with signals
-# TODO: should not just be basic attack or ultimate attack
-# TODO: queue_action should not just be basic attack

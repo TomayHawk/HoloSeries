@@ -39,7 +39,6 @@ func set_variables() -> void:
 	action_target_stats = &"health"
 	action_target_get_max = false
 	action_vector = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
-	action_fail_count = 0
 
 	# Set stats
 	stats.base = self
