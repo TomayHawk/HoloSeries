@@ -387,26 +387,36 @@ func prepare_action() -> void:
 
 	# initialize next action
 	action_callable = action_queue.pop_front()
-	action_callable.call(true)
+	await action_callable.call(true)
 
 func attempt_action() -> void:
+	if action_callable == Callable():
+		print("Action not found")
+		await prepare_action()
+	
+	# set action target and action vector
 	set_action_target()
+	
+	# if failed to find action target, wait 0.5 seconds to try again
 	if not action_target:
 		action_state = ActionState.COOLDOWN
 		action_cooldown = 0.5
 		action_fail_count += 1
 		return
 
-	move_direction = ALL_DIRECTIONS[(roundi(
-			(action_target.position - position).angle() / (PI / 4.0)) + 8) % 8]
-	
+	# update movement
 	apply_movement(Vector2.ZERO)
 
+	# call action
 	action_callable.call()
 
 func set_action_target() -> void:
-	# if taking action or no action candidates, return
-	if action_state == ActionState.ACTION or action_target_candidates.is_empty():
+	# if taking action, return
+	if action_state == ActionState.ACTION:
+		return
+	
+	# if no action candidates, reset action target and return
+	if action_target_candidates.is_empty():
 		action_target = null
 		return
 
@@ -762,9 +772,9 @@ func _on_action_area_body_entered(body: Node2D) -> void:
 	action_target_candidates.append(body)
 	in_action_range = true
 
-	# take action if ready
+	# attempt action if ready
 	if action_state == ActionState.READY:
-		action_callable.call()
+		attempt_action()
 
 func _on_action_area_body_exited(body: Node2D) -> void:
 	action_target_candidates.erase(body)

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://e2se6cf504r8"]
+
+[ext_resource type="Script" uid="uid://bosn3jmnffava" path="res://scripts/abilities_scripts/attack_scripts/sora_slash.gd" id="1_blgrs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e0c64"]
+
+[node name="ShapeCast2D" type="ShapeCast2D"]
+shape = SubResource("RectangleShape2D_e0c64")
+target_position = Vector2(20, 0)
+collision_mask = 2
+script = ExtResource("1_blgrs")
