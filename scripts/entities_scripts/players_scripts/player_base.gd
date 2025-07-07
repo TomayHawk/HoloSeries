@@ -8,7 +8,7 @@ extends EntityBase
 var is_main_player: bool = false
 var party_index: int = -1
 
-var action_queue: Array[Callable] = []
+var action_queue: Array[Node] = []
 var action_fail_count: int = 0
 
 #endregion
@@ -374,8 +374,8 @@ func leave_combat() -> void:
 	action_fail_count = 0
 
 # TODO: queue_action should not just be basic attack
-func queue_action(action: Callable = Callable()) -> void:
-	if action == Callable():
+func queue_action(action: Node = null) -> void:
+	if not action:
 		action = stats.basic_attack
 	
 	action_queue.append(action)
@@ -701,7 +701,7 @@ func disable_collisions(disable: bool) -> void:
 	$MovementHitBox.disabled = disable
 	$InteractionArea/CollisionShape2D.disabled = disable
 	$LootableArea/CollisionShape2D.disabled = disable
-	$ActionArea/CollisionShape2D.disabled = disable
+	$PlayerActions/ActionArea/CollisionShape2D.disabled = disable
 
 #endregion
 
@@ -787,7 +787,6 @@ func _on_action_area_body_exited(body: Node2D) -> void:
 
 # ..............................................................................
 
-# TODO: remove AttackShape node
 # TODO: switch main player while pressing alt, or pressing 1,2,3,4
 # TODO: deal with all await edge cases in project
 # TODO: should add toggle setting for release dash

@@ -84,6 +84,7 @@ var in_forced_move_state: bool = false
 
 # ACTION
 var action_state: ActionState = ActionState.READY
+var action_node: Node = null
 var action_callable: Callable = Callable()
 var action_vector: Vector2 = Vector2.DOWN
 var action_cooldown: float = 0.0
@@ -153,6 +154,7 @@ func reset_movement(idle_time: float = 0.5) -> void:
 
 func reset_action() -> void:
 	action_state = ActionState.READY
+	action_node = null
 	action_cooldown = 0.0
 	action_callable = Callable()
 	action_vector = Vector2.DOWN

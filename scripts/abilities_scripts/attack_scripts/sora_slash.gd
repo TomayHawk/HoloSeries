@@ -1,86 +1,64 @@
 extends ShapeCast2D
 
 func initialize() -> void:
-	var action_area: Area2D = base.get_node(^"ActionArea")
+	var player_base: PlayerBase = get_parent().get_parent()
+	var action_area: Area2D = get_parent().get_node(^"ActionArea")
 
+	# set action area
 	action_area.get_node(^"CollisionShape2D").shape.radius = 20.0
 
 	# update action target variables
-	base.action_target_types = Entities.Type.ENEMIES
-	base.action_target_stats = &"health"
-	base.action_target_get_max = false
+	player_base.action_target_types = Entities.Type.ENEMIES
+	player_base.action_target_stats = &"health"
+	player_base.action_target_get_max = false
 
 	# clear previous action targets to avoid edge cases
-	base.action_target_candidates.clear()
-	base.action_target = null
+	player_base.action_target_candidates.clear()
+	player_base.action_target = null
 
 	# await collision shape update
 	await Global.get_tree().physics_frame
 	await Global.get_tree().physics_frame
 
 	# update action targets
-	base.action_target_candidates = \
+	player_base.action_target_candidates = \
 			Entities.type_entities_array(action_area.get_overlapping_bodies().filter(
-			func(node): return node.stats.entity_types & base.action_target_types))
-	base.set_action_target()
+			func(node): return node.stats.entity_types & player_base.action_target_types))
+	player_base.set_action_target()
 
-	base.in_action_range = base.action_target_candidates.size()
+	player_base.in_action_range = player_base.action_target_candidates.size()
 
 	position = Vector2(0.0, -7.0)
 
 func execute() -> void:
-	pass
+	var player_base: PlayerBase = get_parent().get_parent()
 
-func resolve() -> void:
-	pass
-
-func finish() -> void:
-	pass
-
-'''
-
-var basic_damage: float = 10.0
-var ultimate_damage: float = 100.0
-
-# ATTACKS
-
-func basic_attack(initialization: bool = false) -> void:
-	# return if base doesn't exists
-	if not base:
-		return
-
-	# initialization mode: initialize base action variables and return
-	if initialization:
-		
-
-		return
-	
 	# begin action
-	base.action_state = base.ActionState.ACTION
-	base.action_fail_count = 0
+	player_base.action_state = player_base.ActionState.ACTION
+	player_base.action_fail_count = 0
 
 	# set action vector based on mouse position or action target
-	if base.is_main_player:
-		base.action_vector = (Inputs.get_global_mouse_position() - base.position).normalized()
+	if player_base.is_main_player:
+		player_base.action_vector = (Inputs.get_global_mouse_position() - player_base.position).normalized()
 
-	var attack_shape: ShapeCast2D = base.get_node(^"AttackShape")
-	var animation_node: AnimatedSprite2D = base.get_node(^"Animation")
-	var dash_attack: bool = base.move_state == base.MoveState.DASH
+	set_target_position(player_base.action_vector * 20)
 
-	attack_shape.set_target_position(base.action_vector * 20)
+	player_base.action_state = player_base.ActionState.ACTION
 
-	base.action_state = base.ActionState.ACTION
-
-	attack_shape.force_shapecast_update()
+	force_shapecast_update()
 	
-	base.update_animation()
+	player_base.update_animation()
 
-	await animation_node.frame_changed
+func resolve() -> void:
+	var player_base: PlayerBase = get_parent().get_parent()
+	var animation_node: AnimatedSprite2D = player_base.get_node(^"Animation")
+	var dash_attack: bool = player_base.move_state == player_base.MoveState.DASH
+
 	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]:
-		base.action_state = base.ActionState.READY
+		player_base.action_state = player_base.ActionState.READY
 		return
 
-	var temp_damage: float = basic_damage
+	var temp_damage: float = 10.0
 	var enemy_body = null
 	var knockback_weight = 1.0
 
@@ -89,25 +67,27 @@ func basic_attack(initialization: bool = false) -> void:
 		knockback_weight = 1.5
 		dash_attack = false
 	
-	if attack_shape.is_colliding():
+	if is_colliding():
 		await Players.camera.screen_shake(5, 1, 10, 10.0)
-		for collision_index in attack_shape.get_collision_count():
-			enemy_body = attack_shape.get_collider(collision_index).get_parent() # TODO: null instance bug need fix
+		for collision_index in get_collision_count():
+			enemy_body = get_collider(collision_index).get_parent() # TODO: null instance bug need fix
 			if Damage.combat_damage(temp_damage,
 					Damage.DamageTypes.ENEMY_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
-					self, enemy_body.stats):
-				enemy_body.knockback(base.action_vector, knockback_weight)
-	
-	await animation_node.animation_finished
+					player_base.stats, enemy_body.stats):
+				enemy_body.knockback(player_base.action_vector, knockback_weight)
+
+func finish() -> void:
+	var player_base: PlayerBase = get_parent().get_parent()
+	var animation_node: AnimatedSprite2D = player_base.get_node(^"Animation")
+
 	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]:
-		base.action_state = base.ActionState.READY
+		player_base.action_state = player_base.ActionState.READY
 		return
 
-	if base.is_main_player:
-		base.action_state = base.ActionState.READY
+	if player_base.is_main_player:
+		player_base.action_state = player_base.ActionState.READY
 	else:
-		base.action_state = base.ActionState.COOLDOWN
-		base.action_cooldown = randf_range(0.4, 0.8)
+		player_base.action_state = player_base.ActionState.COOLDOWN
+		player_base.action_cooldown = randf_range(0.4, 0.8)
 	
-	base.update_animation()
-'''
+	player_base.update_animation()
