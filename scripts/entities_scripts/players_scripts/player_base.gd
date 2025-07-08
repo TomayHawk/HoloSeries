@@ -18,8 +18,8 @@ var action_fail_count: int = 0
 #region PROCESS
 
 func _ready() -> void:
-	Combat.entering_combat.connect(enter_combat)
-	Combat.left_combat.connect(leave_combat)
+	Combat.entering_combat.connect($PlayerActions.enter_combat)
+	Combat.left_combat.connect($PlayerActions.leave_combat)
 
 func _physics_process(_delta: float) -> void:
 	# no velocity if stunned
@@ -203,7 +203,7 @@ func _on_move_state_timeout() -> void:
 	if Combat.in_combat() and ally_distance < 300.0:
 		# if in action range, attempt action
 		if in_action_range:
-			attempt_action()
+			$PlayerActions.attempt_action()
 			apply_movement(Vector2.ZERO)
 			move_state_timer = max(0.5, action_cooldown)
 			return
@@ -348,89 +348,6 @@ func stun(duration: float) -> void:
 
 # ..............................................................................
 
-#region ACTION STATES
-
-# TODO: should not just be basic attack or ultimate attack
-func action_input() -> void:
-	# check action state
-	if action_state != ActionState.READY:
-		return
-	
-	stats.basic_attack()
-
-func enter_combat() -> void:
-	if not is_main_player:
-		prepare_action()
-
-func leave_combat() -> void:
-	# if is main player or in action, ignore or resolve naturally
-	if is_main_player or action_state == ActionState.ACTION:
-		return
-
-	# reset action variables
-	reset_action()
-	reset_action_targets()
-	action_queue.clear()
-	action_fail_count = 0
-
-# TODO: queue_action should not just be basic attack
-func queue_action(action: Node = null) -> void:
-	if not action:
-		action = stats.basic_attack
-	
-	action_queue.append(action)
-
-func prepare_action() -> void:
-	# if action queue is empty, create a new action
-	if action_queue.is_empty():
-		queue_action()
-
-	# initialize next action
-	action_callable = action_queue.pop_front()
-	await action_callable.call(true)
-
-func attempt_action() -> void:
-	if action_callable == Callable():
-		print("Action not found")
-		await prepare_action()
-	
-	# set action target and action vector
-	set_action_target()
-	
-	# if failed to find action target, wait 0.5 seconds to try again
-	if not action_target:
-		action_state = ActionState.COOLDOWN
-		action_cooldown = 0.5
-		action_fail_count += 1
-		return
-
-	# update movement
-	apply_movement(Vector2.ZERO)
-
-	# call action
-	action_callable.call()
-
-func set_action_target() -> void:
-	# if taking action, return
-	if action_state == ActionState.ACTION:
-		return
-	
-	# if no action candidates, reset action target and return
-	if action_target_candidates.is_empty():
-		action_target = null
-		return
-
-	# set action target
-	action_target = Entities.target_entity_by_stats(
-			action_target_candidates, action_target_stats, action_target_get_max)
-
-	# set action vector
-	action_vector = (action_target.position - position).normalized()
-
-#endregion
-
-# ..............................................................................
-
 #region ANIMATIONS
 
 func update_animation() -> void:
@@ -555,7 +472,7 @@ func switch_to_ally() -> void:
 	else:
 		action_state = ActionState.READY
 	
-	queue_action()
+	$PlayerActions.queue_action()
 
 func switch_character(next_stats: PlayerStats) -> void:
 	stats.base = null
@@ -715,7 +632,7 @@ func _on_action_cooldown_timeout() -> void:
 	action_state = ActionState.READY
 	
 	if not is_main_player:
-		attempt_action()
+		$PlayerActions.attempt_action()
 
 # CombatHitBox
 
@@ -774,7 +691,7 @@ func _on_action_area_body_entered(body: Node2D) -> void:
 
 	# attempt action if ready
 	if action_state == ActionState.READY:
-		attempt_action()
+		$PlayerActions.attempt_action()
 
 func _on_action_area_body_exited(body: Node2D) -> void:
 	action_target_candidates.erase(body)
