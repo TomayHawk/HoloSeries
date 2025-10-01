@@ -37,7 +37,7 @@ func change_scene(next_scene_path: String, next_position: Vector2, camera_limits
 	Inputs.action_inputs_enabled = false
 	Inputs.world_inputs_enabled = false
 	Inputs.zoom_inputs_enabled = false
-	
+
 	# disable camera smoothing
 	Players.camera.position_smoothing_enabled = false
 
@@ -132,7 +132,7 @@ func start_bgm(bgm_path: String) -> void:
 		$BgmPlayer.stream = load(bgm_path)
 		$BgmPlayer.play()
 		return
-	
+
 	# turn down old bgm player
 	$BgmPlayer.name = "OldBgmPlayer"
 	var tween_1 = $OldBgmPlayer.create_tween()
@@ -148,9 +148,9 @@ func start_bgm(bgm_path: String) -> void:
 	$BgmPlayer.stream = load(bgm_path)
 	$BgmPlayer.bus = "BGM"
 	$BgmPlayer.volume_db = -80.0
-	
+
 	$BgmPlayer.play()
-	
+
 	# turn up new bgm player
 	$BgmPlayer.create_tween().tween_property($BgmPlayer, "volume_db",
 			AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"BGM")), 4.0) \

@@ -1,41 +1,27 @@
 extends ShapeCast2D
 
-func initialize() -> void:
-	var player_base: PlayerBase = get_parent().get_parent()
-	var action_area: Area2D = get_parent().get_node(^"ActionArea")
+# ..............................................................................
 
-	# set action area
-	action_area.get_node(^"CollisionShape2D").shape.radius = 20.0
+#region VARIABLES
 
-	# update action target variables
-	player_base.action_target_types = Entities.Type.ENEMIES
-	player_base.action_target_stats = &"health"
-	player_base.action_target_get_max = false
+var player_base: PlayerBase = null
+var animation_node: AnimatedSprite2D = null
 
-	# clear previous action targets to avoid edge cases
-	player_base.action_target_candidates.clear()
-	player_base.action_target = null
+#endregion
 
-	# await collision shape update
-	await Global.get_tree().physics_frame
-	await Global.get_tree().physics_frame
+# ..............................................................................
 
-	# update action targets
-	player_base.action_target_candidates = \
-			Entities.type_entities_array(action_area.get_overlapping_bodies().filter(
-			func(node): return node.stats.entity_types & player_base.action_target_types))
-	player_base.set_action_target()
+#region FUNCTIONS
 
-	player_base.in_action_range = player_base.action_target_candidates.size()
-
+func action_setup() -> void:
 	position = Vector2(0.0, -7.0)
+	player_base = get_parent()
+	animation_node = player_base.get_node("Animation")
+	player_base.set_action(20.0, Entities.Type.ENEMIES, &"health", false)
 
-func execute() -> void:
-	var player_base: PlayerBase = get_parent().get_parent()
-
+func action_start() -> void:
 	# begin action
 	player_base.action_state = player_base.ActionState.ACTION
-	player_base.action_fail_count = 0
 
 	# set action vector based on mouse position or action target
 	if player_base.is_main_player:
@@ -49,9 +35,7 @@ func execute() -> void:
 	
 	player_base.update_animation()
 
-func resolve() -> void:
-	var player_base: PlayerBase = get_parent().get_parent()
-	var animation_node: AnimatedSprite2D = player_base.get_node(^"Animation")
+func action_trigger() -> void:
 	var dash_attack: bool = player_base.move_state == player_base.MoveState.DASH
 
 	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]:
@@ -76,10 +60,7 @@ func resolve() -> void:
 					player_base.stats, enemy_body.stats):
 				enemy_body.knockback(player_base.action_vector, knockback_weight)
 
-func finish() -> void:
-	var player_base: PlayerBase = get_parent().get_parent()
-	var animation_node: AnimatedSprite2D = player_base.get_node(^"Animation")
-
+func action_cleanup() -> void:
 	if not animation_node.animation in [&"up_attack", &"down_attack", &"left_attack", &"right_attack"]:
 		player_base.action_state = player_base.ActionState.READY
 		return
@@ -91,3 +72,7 @@ func finish() -> void:
 		player_base.action_cooldown = randf_range(0.4, 0.8)
 	
 	player_base.update_animation()
+
+#endregion
+
+# ..............................................................................

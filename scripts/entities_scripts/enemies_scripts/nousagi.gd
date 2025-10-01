@@ -152,7 +152,7 @@ func _on_animation_frame_changed() -> void:
 						action_target.knockback(temp_attack_direction, 0.4)
 					$Animation.flip_h = temp_attack_direction.x < 0
 			"walk":
-				velocity = action_vector * walk_speed
+				velocity = action_vector * move_speed
 
 # ..............................................................................
 

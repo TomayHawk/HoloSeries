@@ -1,7 +1,7 @@
 class_name BasicEnemyBase
 extends EnemyBase
 
-var walk_speed: float = 45.0
+var move_speed: float = 45.0
 
 var enemy_in_combat: bool = false
 var players_in_detection_area: Array[Node] = []

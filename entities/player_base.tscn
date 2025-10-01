@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://c5o6bi43j562b"]
+[gd_scene load_steps=10 format=3 uid="uid://c5o6bi43j562b"]
 
 [ext_resource type="Script" uid="uid://cmf3b5ufhosbk" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_dib8t"]
-[ext_resource type="Script" uid="uid://c6nac607obb65" path="res://scripts/entities_scripts/player_actions.gd" id="2_h3n4j"]
 [ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://user_interfaces/user_interfaces_resources/progress_bar_style/shield_progress_bar_fill.tres" id="2_nogga"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_lt4ow"]
@@ -80,9 +79,6 @@ collision_mask = 46
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 debug_enabled = true
-
-[node name="PlayerActions" type="Node2D" parent="."]
-script = ExtResource("2_h3n4j")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 modulate = Color(0, 1, 0, 1)

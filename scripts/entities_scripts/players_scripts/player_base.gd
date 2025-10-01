@@ -8,8 +8,8 @@ extends EntityBase
 var is_main_player: bool = false
 var party_index: int = -1
 
-var action_queue: Array[Node] = []
-var action_fail_count: int = 0
+var action_queue: Array[Callable] = []
+# TODO: ADD -> var action_fail_count: int = 0
 
 #endregion
 
@@ -18,8 +18,8 @@ var action_fail_count: int = 0
 #region PROCESS
 
 func _ready() -> void:
-	Combat.entering_combat.connect($PlayerActions.enter_combat)
-	Combat.left_combat.connect($PlayerActions.leave_combat)
+	Combat.entering_combat.connect(enter_combat)
+	Combat.left_combat.connect(leave_combat)
 
 func _physics_process(_delta: float) -> void:
 	# no velocity if stunned
@@ -127,8 +127,8 @@ func apply_movement(next_direction: Vector2) -> void:
 		Vector2(1.0, -1.0),
 	].find(round(next_direction))]
 
-	# set velocity to direction at walk speed
-	velocity = next_direction * stats.walk_speed
+	# set velocity to direction at walk speed with speed multiplier
+	velocity = next_direction * stats.move_speed * stats.move_speed_modifier
 	
 	# update move state or multiply velocity accordingly
 	match move_state:
@@ -139,10 +139,6 @@ func apply_movement(next_direction: Vector2) -> void:
 		MoveState.DASH:
 			move_state_velocity = velocity * stats.dash_multiplier
 			velocity = move_state_velocity * move_state_timer / stats.dash_time
-
-	# apply movement reduction if attacking
-	if action_state == ActionState.ACTION:
-		velocity *= stats.attack_movement_reduction
 	
 	# update animation
 	update_animation()
@@ -203,7 +199,7 @@ func _on_move_state_timeout() -> void:
 	if Combat.in_combat() and ally_distance < 300.0:
 		# if in action range, attempt action
 		if in_action_range:
-			$PlayerActions.attempt_action()
+			attempt_action()
 			apply_movement(Vector2.ZERO)
 			move_state_timer = max(0.5, action_cooldown)
 			return
@@ -219,7 +215,7 @@ func _on_move_state_timeout() -> void:
 		# move towards action target
 		$NavigationAgent2D.target_position = action_target.position
 		target_direction = to_local($NavigationAgent2D.get_next_path_position())
-		move_state_timer = randf_range(0.2, 0.4) / stats.walk_speed * stats.BASE_WALK_SPEED
+		move_state_timer = randf_range(0.2, 0.4) / stats.move_speed * stats.BASE_MOVE_SPEED
 
 	# elif large ally distance, teleport to main player
 	elif ally_distance > 300.0:
@@ -241,12 +237,12 @@ func _on_move_state_timeout() -> void:
 	elif ally_distance > 75.0:
 		$NavigationAgent2D.target_position = Players.main_player.position
 		target_direction = to_local($NavigationAgent2D.get_next_path_position())
-		move_state_timer = randf_range(0.5, 0.7) / stats.walk_speed * stats.BASE_WALK_SPEED
+		move_state_timer = randf_range(0.5, 0.7) / stats.move_speed * stats.BASE_MOVE_SPEED
 	
 	# else move randomly (not in combat, and ally distance is less than 75.0)
 	else:
 		target_direction = Vector2.RIGHT.rotated(randf() * TAU)
-		move_state_timer = randf_range(0.5, 0.7) / stats.walk_speed * stats.BASE_WALK_SPEED
+		move_state_timer = randf_range(0.5, 0.7) / stats.move_speed * stats.BASE_MOVE_SPEED
 
 	# sprint with main player with conditions
 	if (
@@ -348,6 +344,131 @@ func stun(duration: float) -> void:
 
 # ..............................................................................
 
+#region ACTION STATES
+
+# TODO: should not just be basic attack
+func action_input() -> void:
+	# check action state
+	if action_state != ActionState.READY:
+		return
+
+	action_node.action_start()
+
+# TODO: should not just be basic attack
+func queue_action(action: Node = null) -> void:
+	if not action:
+		action = action_node
+		await action.action_setup()
+
+	action_queue.append(action.execute)
+
+func prepare_action() -> void:
+	# if action queue is empty, create a new action
+	if action_queue.is_empty():
+		await queue_action()
+
+	# initialize next action
+	action_callable = action_queue.pop_front()
+	await action_callable.call()
+
+func enter_combat() -> void:
+	if not is_main_player:
+		prepare_action()
+
+func leave_combat() -> void:
+	# if is main player or in action, ignore or resolve naturally
+	if is_main_player or action_state == ActionState.ACTION:
+		return
+
+	# reset action variables
+	reset_action()
+	reset_action_targets()
+	action_queue.clear()
+
+func set_action(action_radius: float, target_types: int, target_stats: StringName, target_get_max: bool) -> void:
+	# set action area
+	$ActionArea/CollisionShape2D.shape.radius = action_radius
+
+	# update action target variables
+	action_target_types = target_types
+	action_target_stats = target_stats
+	action_target_get_max = target_get_max
+
+	# clear previous action targets
+	action_target_candidates.clear()
+	action_target = null
+
+	in_action_range = false
+
+	# ACTION
+
+	var action_node: Node = null
+	var action_callable: Callable = Callable()
+	var action_vector: Vector2 = Vector2.DOWN
+	var action_cooldown: float = 0.0
+	var in_action_range: bool = false
+
+	# ACTION TARGETS
+	var action_target: EntityBase = null
+	var action_target_candidates: Array[EntityBase] = []
+	var action_target_types: int = 0
+	var action_target_stats: StringName = &""
+	var action_target_get_max: bool = true
+
+	# await collision shape update
+	await Global.get_tree().physics_frame
+	await Global.get_tree().physics_frame
+
+	# update action targets
+	action_target_candidates = \
+			Entities.type_entities_array($ActionArea.get_overlapping_bodies().filter(
+			func(node): return node.stats.entity_types & action_target_types))
+
+	set_action_target()
+
+	in_action_range = not action_target_candidates.is_empty()
+
+func attempt_action() -> void:
+	if action_callable == Callable():
+		print("Action not found")
+		await prepare_action()
+
+	# set action target and action vector
+	set_action_target()
+
+	# if failed to find action target, wait 0.5 seconds to try again
+	if not action_target:
+		action_state = ActionState.COOLDOWN
+		action_cooldown = 0.5
+		return
+
+	# update movement
+	apply_movement(Vector2.ZERO)
+
+	# call action
+	action_callable.call()
+
+func set_action_target() -> void:
+	# if taking action, return
+	if action_state == ActionState.ACTION:
+		return
+
+	# if no action candidates, reset action target and return
+	if action_target_candidates.is_empty():
+		action_target = null
+		return
+
+	# set action target
+	action_target = Entities.target_entity_by_stats(
+			action_target_candidates, action_target_stats, action_target_get_max)
+
+	# set action vector
+	action_vector = (action_target.position - position).normalized()
+
+#endregion
+
+# ..............................................................................
+
 #region ANIMATIONS
 
 func update_animation() -> void:
@@ -384,12 +505,12 @@ func update_animation() -> void:
 		][move_direction if (move_direction < 4) else move_direction % 2 + 2]
 		
 		# update animation speed based on movement speed
-		animation_speed = stats.walk_speed / 70.0
+		animation_speed = stats.move_speed / 70.0
 		if move_state == MoveState.DASH:
 			animation_speed *= 2.0
 		elif move_state == MoveState.SPRINT:
 			animation_speed *= stats.sprint_multiplier
-	
+
 	# play animation if changed
 	if next_animation != $Animation.animation:
 		$Animation.play(next_animation)
@@ -420,6 +541,15 @@ func set_variables(next_stats: PlayerStats, next_party_index: int) -> void:
 	stats.base = self
 	stats.set_stats()
 
+	# update animation
+	$Animation.sprite_frames = stats.CHARACTER_ANIMATION
+	$Animation.play(&"down_idle")
+
+	# TODO: temporary
+	action_node = stats.CHARACTER_BASIC_ATTACK.instantiate()
+	add_child(action_node)
+	action_node.action_setup()
+
 	# update stats ui and stats bars
 	Combat.ui.update_party_ui(party_index, stats)
 	set_max_values()
@@ -434,23 +564,22 @@ func switch_to_main() -> void:
 	# update main player
 	is_main_player = true
 	Players.main_player = self
-	
+
 	# update camera
 	Players.camera.update_camera(self)
-	
+
 	# if not in forced move state, reset move state
 	if not in_forced_move_state and move_state_timer > 0.0:
 		_on_move_state_timeout()
-	
+
 	# store and reset action state
 	stats.last_action_cooldown = action_cooldown if action_state == ActionState.COOLDOWN else 0.0
 	action_cooldown = 0.0
 	action_cooldown_timeout.emit()
-	
+
 	# reset action variables
 	action_callable = Callable()
 	action_vector = Vector2.DOWN
-	action_fail_count = 0
 	in_action_range = false
 
 func switch_to_ally() -> void:
@@ -471,20 +600,20 @@ func switch_to_ally() -> void:
 		action_cooldown = stats.last_action_cooldown
 	else:
 		action_state = ActionState.READY
-	
-	$PlayerActions.queue_action()
+
+	queue_action()
 
 func switch_character(next_stats: PlayerStats) -> void:
 	stats.base = null
 	stats.last_action_cooldown = action_cooldown
-	
+
 	stats = next_stats
 	stats.base = self
 	set_max_values()
 
 	$Animation.sprite_frames = stats.animation
 	apply_input_velocity()
-	
+
 	action_cooldown = stats.last_action_cooldown
 	action_state = ActionState.COOLDOWN if action_cooldown > 0.0 else ActionState.READY
 
@@ -618,7 +747,7 @@ func disable_collisions(disable: bool) -> void:
 	$MovementHitBox.disabled = disable
 	$InteractionArea/CollisionShape2D.disabled = disable
 	$LootableArea/CollisionShape2D.disabled = disable
-	$PlayerActions/ActionArea/CollisionShape2D.disabled = disable
+	$ActionArea/CollisionShape2D.disabled = disable
 
 #endregion
 
@@ -632,7 +761,7 @@ func _on_action_cooldown_timeout() -> void:
 	action_state = ActionState.READY
 	
 	if not is_main_player:
-		$PlayerActions.attempt_action()
+		attempt_action()
 
 # CombatHitBox
 
@@ -691,7 +820,7 @@ func _on_action_area_body_entered(body: Node2D) -> void:
 
 	# attempt action if ready
 	if action_state == ActionState.READY:
-		$PlayerActions.attempt_action()
+		attempt_action()
 
 func _on_action_area_body_exited(body: Node2D) -> void:
 	action_target_candidates.erase(body)

@@ -1,27 +1,39 @@
 extends PlayerStats
 
-const CHARACTER_NAME: String = "Tokino Sora"
-const CHARACTER_INDEX: int = 0
-const DEFAULT_UNLOCKED: Array[int] = [135, 167, 182]
-
 # Score: 4.55
 # Buffer - Healer
 
-func set_base_stats() -> void: # TODO: change name
-	# TODO: temporary code
-	animation = load("res://entities/character_animations/sora.tres")
-	if base:
-		base.get_node(^"Animation").sprite_frames = animation
-		base.get_node(^"Animation").play(&"down_idle")
+# ..............................................................................
 
-	base_health = 99999 # +190 (+0.95 T1)
-	base_mana = 9999 # +18 (+1.8 T1)
-	base_stamina = 500
-	base_defense = 1000
-	base_ward = 1000
-	base_strength = 1000
-	base_intelligence = 1000 # +4 (+0.8 T1)
-	base_speed = 255 # +1 (+1 T1)
-	base_agility = 255 # +1 (+1 T1)
-	base_crit_chance = 0.50
-	base_crit_damage = 1.50
+#region CONSTANTS
+
+# name, index
+const CHARACTER_NAME: String = "Tokino Sora"
+const CHARACTER_INDEX: int = 0
+
+# animation, default unlocked
+const CHARACTER_ANIMATION: SpriteFrames = preload("res://entities/character_animations/sora.tres")
+const CHARACTER_DEFAULT_UNLOCKED: Array[int] = [135, 167, 182]
+
+# health, mana, stamina (debug values)
+const CHARACTER_HEALTH: float = 99999.0 # +190 (+0.95 T1)
+const CHARACTER_MANA: float = 9999.0 # +18 (+1.8 T1)
+const CHARACTER_STAMINA: float = 500.0
+
+# basic stats (debug values)
+const CHARACTER_DEFENSE: float = 1000.0
+const CHARACTER_WARD: float = 1000.0
+const CHARACTER_STRENGTH: float = 1000.0
+const CHARACTER_INTELLIGENCE: float = 1000.0 # +4 (+0.8 T1)
+const CHARACTER_SPEED: float = 255.0 # +1 (+1 T1)
+const CHARACTER_AGILITY: float = 255.0 # +1 (+1 T1)
+const CHARACTER_CRIT_CHANCE: float = 0.50
+const CHARACTER_CRIT_DAMAGE: float = 1.50
+
+# basic attack, ultimate
+const CHARACTER_BASIC_ATTACK: PackedScene = preload("res://abilities/attack/sora_slash.tscn")
+const CHARACTER_ULTIMATE: PackedScene = preload("res://abilities/attack/sora_slash.tscn")
+
+#endregion
+
+# ..............................................................................

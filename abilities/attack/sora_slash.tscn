@@ -4,7 +4,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e0c64"]
 
-[node name="ShapeCast2D" type="ShapeCast2D"]
+[node name="SoraSlash" type="ShapeCast2D"]
 shape = SubResource("RectangleShape2D_e0c64")
 target_position = Vector2(20, 0)
 collision_mask = 2

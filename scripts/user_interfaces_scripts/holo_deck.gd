@@ -1,5 +1,9 @@
 extends CanvasLayer
 
+# ..............................................................................
+
+#region READY
+
 func _ready() -> void:
 	# TODO: sometimes doesn't update input modes when hovering characters. need fix.
 	Global.get_tree().set_pause(true)
@@ -8,6 +12,12 @@ func _ready() -> void:
 	Inputs.zoom_inputs_enabled = false
 	Combat.ui.hide()
 	TextBox.reset()
+
+#endregion
+
+# ..............................................................................
+
+#region INPUTS
 
 func _input(event: InputEvent) -> void:
 	# ignore all unrelated inputs
@@ -18,6 +28,12 @@ func _input(event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed(&"esc"):
 		_on_resume_pressed()
+
+#endregion
+
+# ..............................................................................
+
+#region BUTTONS
 
 func _on_characters_pressed() -> void:
 	Global.add_global_child("CharactersUi", "res://user_interfaces/characters_ui.tscn")
@@ -49,3 +65,7 @@ func _on_resume_pressed() -> void:
 
 func _on_exit_game_pressed() -> void:
 	pass # Replace with function body.
+
+#endregion
+
+# ..............................................................................

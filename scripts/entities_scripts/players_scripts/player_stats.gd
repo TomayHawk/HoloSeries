@@ -1,17 +1,21 @@
 class_name PlayerStats
 extends EntityStats
 
+# ..............................................................................
+
 #region CONSTANTS
 
-const BASE_WALK_SPEED: float = 140.0
+const BASE_MOVE_SPEED: float = 140.0
+
 const BASE_DASH_MULTIPLIER: float = 8.0
 const BASE_DASH_STAMINA: float = 36.0
 const BASE_DASH_MIN_STAMINA: float = 28.0
 const BASE_DASH_TIME: float = 0.2
+
 const BASE_SPRINT_MULTIPLIER: float = 1.25
 const BASE_SPRINT_STAMINA: float = 24.0 # per second
-const BASE_ATTACK_MOVEMENT_REDUCTION: float = 0.3
 
+# regeneration
 const BASE_MANA_REGEN: float = 0.25
 const BASE_STAMINA_REGEN: float = 16.0
 const BASE_FATIGUE_REGEN: float = 10.0
@@ -21,8 +25,6 @@ const BASE_FATIGUE_REGEN: float = 10.0
 # ..............................................................................
 
 #region VARIABLES
-
-var animation: SpriteFrames = null
 
 # equipment variables
 var weapon: Weapon = null
@@ -42,14 +44,17 @@ var ultimate_gauge: float = 0.0
 var max_ultimate_gauge: float = 100.0
 
 # movement variables
-var walk_speed: float = BASE_WALK_SPEED
+var move_speed: float = BASE_MOVE_SPEED
+var move_speed_modifier: float = 1.0
+
 var dash_multiplier: float = BASE_DASH_MULTIPLIER
 var dash_stamina: float = BASE_DASH_STAMINA
 var dash_min_stamina: float = BASE_DASH_MIN_STAMINA
 var dash_time: float = BASE_DASH_TIME
+
 var sprint_multiplier: float = BASE_SPRINT_MULTIPLIER
 var sprint_stamina: float = BASE_SPRINT_STAMINA # per second
-var attack_movement_reduction: float = BASE_ATTACK_MOVEMENT_REDUCTION
+
 var fatigue: bool = false
 
 # regeneration variables
@@ -155,58 +160,47 @@ func get_xp_requirement() -> int:
 func set_stats() -> void:
 	# TODO: update level and experience
 	# TODO: update entity_types
-	# set base stats
-	set_base_stats()
 
-	# update base stats from nexus nodes
-	for unlocked_node in unlocked_nodes:
-		# TODO: currently uses Vector2 atlas locations
-		var nexus_type: int = Global.nexus_types[unlocked_node]
-		match nexus_type:
-			1: # Health
-				base_health += Global.nexus_qualities[unlocked_node]
-			2: # Mana
-				base_mana += Global.nexus_qualities[unlocked_node]
-			3: # Defense
-				base_defense += Global.nexus_qualities[unlocked_node]
-			4: # Ward
-				base_ward += Global.nexus_qualities[unlocked_node]
-			5: # Strength
-				base_strength += Global.nexus_qualities[unlocked_node]
-			6: # Intelligence
-				base_intelligence += Global.nexus_qualities[unlocked_node]
-			7: # Speed
-				base_speed += Global.nexus_qualities[unlocked_node]
-			8: # Agility
-				base_agility += Global.nexus_qualities[unlocked_node]
+	# nexus health, mana, defense, ward, strength, intelligence, speed, agility
+	var nexus_stats: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 	
-	# clamp base stats
-	base_health = clamp(base_health, 1.0, 99999.0)
-	base_mana = clamp(base_mana, 1.0, 9999.0)
-	base_defense = clamp(base_defense, 0.0, 1000.0)
-	base_ward = clamp(base_ward, 0.0, 1000.0)
-	base_strength = clamp(base_strength, 0.0, 1000.0)
-	base_intelligence = clamp(base_intelligence, 0.0, 1000.0)
-	base_speed = clamp(base_speed, 0.0, 255.0)
-	base_agility = clamp(base_agility, 0.0, 255.0)
+	# accumulate all nexus stats
+	for unlocked_node in unlocked_nodes:
+		var nexus_type: int = Global.nexus_types[unlocked_node]
+		if nexus_type > 0 and nexus_type <= 8:
+			nexus_stats[nexus_type - 1] += Global.nexus_qualities[unlocked_node]
+	
+	# set base stats from character constants and apply nexus modifications with clamping
+	base_health = clamp(self.CHARACTER_HEALTH + nexus_stats[0], 1.0, 99999.0)
+	base_mana = clamp(self.CHARACTER_MANA + nexus_stats[1], 1.0, 9999.0)
+	base_defense = clamp(self.CHARACTER_DEFENSE + nexus_stats[2], 0.0, 1000.0)
+	base_ward = clamp(self.CHARACTER_WARD + nexus_stats[3], 0.0, 1000.0)
+	base_strength = clamp(self.CHARACTER_STRENGTH + nexus_stats[4], 0.0, 1000.0)
+	base_intelligence = clamp(self.CHARACTER_INTELLIGENCE + nexus_stats[5], 0.0, 1000.0)
+	base_speed = clamp(self.CHARACTER_SPEED + nexus_stats[6], 0.0, 255.0)
+	base_agility = clamp(self.CHARACTER_AGILITY + nexus_stats[7], 0.0, 255.0)
 
-	# update base stamina
-	base_stamina = BASE_STAMINA
+	# stamina
+	base_stamina = self.CHARACTER_STAMINA
 
-	# update base secondary stats
+	# crit stats
+	base_crit_chance = self.CHARACTER_CRIT_CHANCE # 5% crit chance
+	base_crit_damage = self.CHARACTER_CRIT_DAMAGE # 50% crit damage
+
+	# weight, vision
 	base_weight = 1.0
 	base_vision = 1.0
 
-	# update base crit stats
-	base_crit_chance = BASE_CRIT_CHANCE # 5% crit chance
-	base_crit_damage = BASE_CRIT_DAMAGE # 50% crit damage
-
-	# update max health, mana and stamina
+	# max health, mana, stamina
 	max_health = base_health
 	max_mana = base_mana
 	max_stamina = base_stamina
 
-	# update basic stats
+	# current stats
+	health = base_health
+	mana = base_mana
+	stamina = max_stamina
+
 	defense = base_defense
 	ward = base_ward
 	strength = base_strength
@@ -216,9 +210,10 @@ func set_stats() -> void:
 	crit_chance = base_crit_chance
 	crit_damage = base_crit_damage
 
-	# update secondary stats
 	weight = base_weight
-	vision = base_vision
+	vision = base_vision	
+
+	# TODO: to be updated
 
 	if weapon: weapon.set_stats(self)
 	if headgear: headgear.set_stats(self)
@@ -228,12 +223,7 @@ func set_stats() -> void:
 	if accessory_2: accessory_2.set_stats(self)
 	if accessory_3: accessory_3.set_stats(self)
 
-	# update health, mana and stamina
-	health = max_health
-	mana = max_mana
-	stamina = max_stamina
-
-	walk_speed = BASE_WALK_SPEED + (speed / 2.0) # max 268.0 speed
+	move_speed = BASE_MOVE_SPEED + (speed / 2.0) # max 268.0 speed
 	dash_multiplier = BASE_DASH_MULTIPLIER + (speed / 128.0) # max 10.0 multiplier
 	dash_stamina = BASE_DASH_STAMINA - (agility / 32.0) # min 28.0 stamina per dash
 	dash_min_stamina = BASE_DASH_MIN_STAMINA - (agility / 32.0) # min 20.0 stamina per dash
@@ -241,7 +231,6 @@ func set_stats() -> void:
 	dash_time = BASE_DASH_TIME - (agility / 2560.0) # min 0.1s dash time
 	sprint_multiplier = BASE_SPRINT_MULTIPLIER + (speed / 1280.0) # max 1.45 multiplier
 	sprint_stamina = BASE_SPRINT_STAMINA - (agility / 64.0) # min 20.0 stamina per second
-	attack_movement_reduction = BASE_ATTACK_MOVEMENT_REDUCTION + (agility / 512.0) # min 0.8 attack movement reduction
 
 	mana_regen = BASE_MANA_REGEN + (mana / 10000.0) # max 1.25 mana per second
 	stamina_regen = BASE_STAMINA_REGEN + (stamina / 25.0) # max 40.0 stamina per second
@@ -258,9 +247,6 @@ func set_stats() -> void:
 	# TODO: update current stats based on effects
 
 	# TODO: update max_shield based on stats
-
-func set_base_stats() -> void:
-	pass
 
 #endregion
 

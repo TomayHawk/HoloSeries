@@ -1,7 +1,9 @@
 class_name EntityStats
 extends Resource
 
-# CONSTANTS
+# ..............................................................................
+
+#region CONSTANTS
 
 const BASE_HEALTH: float = 200.0
 const BASE_MANA: float = 10.0
@@ -16,22 +18,36 @@ const BASE_AGILITY: float = 0.0
 const BASE_CRIT_CHANCE: float = 0.05
 const BASE_CRIT_DAMAGE: float = 1.50
 
+#endregion
+
 # ..............................................................................
 
-var base: EntityBase = null
+#region VARIABLES
 
-# STATS
+var base: EntityBase = null
 
 var level: int = 1
 var alive: bool = true
 var entity_types: int = 0
 
-# Health, Mana and Stamina
+# health, mana, stamina
 var health: float = BASE_HEALTH
 var mana: float = BASE_MANA
 var stamina: float = BASE_STAMINA
 
-# Basic Stats
+var base_health: float = BASE_HEALTH
+var base_mana: float = BASE_MANA
+var base_stamina: float = BASE_STAMINA
+
+var max_health: float = BASE_HEALTH
+var max_mana: float = BASE_MANA
+var max_stamina: float = BASE_STAMINA
+
+# shield
+var shield: float = 0.0
+var max_shield: float = 200.0
+
+# stats
 var defense: float = BASE_DEFENSE
 var ward: float = BASE_WARD
 var strength: float = BASE_STRENGTH
@@ -41,21 +57,6 @@ var agility: float = BASE_AGILITY
 var crit_chance: float = BASE_CRIT_CHANCE
 var crit_damage: float = BASE_CRIT_DAMAGE
 
-# Secondary Stats
-var weight: float = 1.0
-var vision: float = 1.0
-
-# Max Health, Mana and Stamina
-var max_health: float = BASE_HEALTH
-var max_mana: float = BASE_MANA
-var max_stamina: float = BASE_STAMINA
-
-# Base Health, Mana and Stamina
-var base_health: float = BASE_HEALTH
-var base_mana: float = BASE_MANA
-var base_stamina: float = BASE_STAMINA
-
-# Base Basic Stats
 var base_defense: float = BASE_DEFENSE
 var base_ward: float = BASE_WARD
 var base_strength: float = BASE_STRENGTH
@@ -65,17 +66,18 @@ var base_agility: float = BASE_AGILITY
 var base_crit_chance: float = BASE_CRIT_CHANCE
 var base_crit_damage: float = BASE_CRIT_DAMAGE
 
-# Base Secondary Stats
+# weight, vision
+var weight: float = 1.0
+var vision: float = 1.0
+
 var base_weight: float = 1.0
 var base_vision: float = 1.0
 
-# Shield
-var shield: float = 0.0
-var max_shield: float = 200.0
+#endregion
 
 # ..............................................................................
 
-# STATS UPDATES
+#region STATS UPDATES
 
 func update_health(value: float) -> void:
 	# check if alive and not invincible
@@ -105,9 +107,11 @@ func update_shield(value: float) -> void:
 	if not alive: return
 	shield = clamp(shield + value, 0.0, max_shield)
 
+#endregion
+
 # ..............................................................................
 
-# DEATH & REVIVE
+#region DEATH & REVIVE
 
 func death() -> void:
 	# decrease effects timers
@@ -124,9 +128,11 @@ func revive(value: float) -> void:
 	update_health(value)
 	if base: base.revive()
 
+#endregion
+
 # ..............................................................................
 
-# STATUS
+#region STATUS
 
 var status: int = 0
 var effects: Array[Resource] = []
@@ -155,3 +161,7 @@ func has_status(type: Entities.Status) -> bool:
 func reset_status() -> void:
 	effects.clear()
 	status = 0
+
+#endregion
+
+# ..............................................................................
